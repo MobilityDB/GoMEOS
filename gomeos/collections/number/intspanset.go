@@ -5,6 +5,7 @@ package number
 #cgo CFLAGS: -I/opt/homebrew/include
 #cgo LDFLAGS: -L/opt/homebrew/lib -lmeos -Wl,-rpath,/opt/homebrew/lib
 #include "meos.h"
+#include "meos_catalog.h"
 #include <stdio.h>
 #include <stdlib.h>
 */
@@ -154,7 +155,7 @@ MEOS Functions:
 	spanset_span_n
 */
 func (g_iss IntSpanSet) SpanN(n int) IntSpan {
-	return IntSpan{_inner: C.spanset_span_n(g_iss._inner, C.int(n))}
+	return IntSpan{_inner: C.spanset_span_n(g_iss._inner, C.int(n+1))}
 }
 
 /*
@@ -170,8 +171,8 @@ MEOS Functions:
 func (g_iss IntSpanSet) Spans() []IntSpan {
 	nums := g_iss.NumSpans()
 	spans := make([]IntSpan, nums)
-	for i := 1; i < nums+1; i++ {
-		spans[i-1] = g_iss.SpanN(i)
+	for i := 0; i < nums; i++ {
+		spans[i] = g_iss.SpanN(i)
 	}
 	return spans
 }
@@ -415,34 +416,34 @@ func (g_iss *IntSpanSet) Sub(other interface{}) (*IntSpanSet, error) {
 	return g_iss.Minus(other)
 }
 
-func (g_iss *IntSpanSet) Union(other interface{}) (*IntSpanSet, error) {
-	switch o := other.(type) {
-	case int:
-		res := C.union_spanset_int(g_iss._inner, C.int(o))
-		if res == nil {
-			return nil, nil
-		} else {
-			return &IntSpanSet{_inner: res}, nil
-		}
-	case *IntSpan:
-		res := C.union_spanset_span(g_iss._inner, o._inner)
-		if res == nil {
-			return nil, nil
-		} else {
-			return &IntSpanSet{_inner: res}, nil
-		}
-	case *IntSpanSet:
-		res := C.union_spanset_spanset(g_iss._inner, o._inner)
-		if res == nil {
-			return nil, nil
-		} else {
-			return &IntSpanSet{_inner: res}, nil
-		}
-	default:
-		return nil, fmt.Errorf("operation not supported with type %T", other)
-	}
-}
+// func (g_iss *IntSpanSet) Union(other interface{}) (*IntSpanSet, error) {
+// 	switch o := other.(type) {
+// 	case int:
+// 		res := C.union_spanset_int(g_iss._inner, C.int(o))
+// 		if res == nil {
+// 			return nil, nil
+// 		} else {
+// 			return &IntSpanSet{_inner: res}, nil
+// 		}
+// 	case *IntSpan:
+// 		res := C.union_spanset_span(g_iss._inner, o._inner)
+// 		if res == nil {
+// 			return nil, nil
+// 		} else {
+// 			return &IntSpanSet{_inner: res}, nil
+// 		}
+// 	case *IntSpanSet:
+// 		res := C.union_spanset_spanset(g_iss._inner, o._inner)
+// 		if res == nil {
+// 			return nil, nil
+// 		} else {
+// 			return &IntSpanSet{_inner: res}, nil
+// 		}
+// 	default:
+// 		return nil, fmt.Errorf("operation not supported with type %T", other)
+// 	}
+// }
 
-func (g_iss *IntSpanSet) Add(other interface{}) (*IntSpanSet, error) {
-	return g_iss.Union(other)
-}
+// func (g_iss *IntSpanSet) Add(other interface{}) (*IntSpanSet, error) {
+// 	return g_iss.Union(other)
+// }
