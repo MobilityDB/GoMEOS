@@ -1,13 +1,13 @@
 // collections/number/floatspanset.go
-package number
+package gomeos
 
 /*
-#cgo CFLAGS: -I/opt/homebrew/include
-#cgo LDFLAGS: -L/opt/homebrew/lib -lmeos -Wl,-rpath,/opt/homebrew/lib
 #include "meos.h"
-#include "meos_catalog.h"
 #include <stdio.h>
 #include <stdlib.h>
+#define gunion_spanset_float union_spanset_float
+#define gunion_spanset_span union_spanset_span
+#define gunion_spanset_spanset union_spanset_spanset
 */
 import "C"
 import (
@@ -418,34 +418,34 @@ func (g_fss *FloatSpanSet) Sub(other interface{}) (*FloatSpanSet, error) {
 	return g_fss.Minus(other)
 }
 
-// func (g_fss *FloatSpanSet) Union(other interface{}) (*FloatSpanSet, error) {
-// 	switch o := other.(type) {
-// 	case float64:
-// 		res := C.union_spanset_float(g_fss._inner, C.double(o))
-// 		if res == nil {
-// 			return nil, nil
-// 		} else {
-// 			return &FloatSpanSet{_inner: res}, nil
-// 		}
-// 	case *FloatSpan:
-// 		res := C.union_spanset_span(g_fss._inner, o._inner)
-// 		if res == nil {
-// 			return nil, nil
-// 		} else {
-// 			return &FloatSpanSet{_inner: res}, nil
-// 		}
-// 	case *FloatSpanSet:
-// 		res := C.union_spanset_spanset(g_fss._inner, o._inner)
-// 		if res == nil {
-// 			return nil, nil
-// 		} else {
-// 			return &FloatSpanSet{_inner: res}, nil
-// 		}
-// 	default:
-// 		return nil, fmt.Errorf(“operation not supported with type %T”, other)
-// 	}
-// }
+func (g_fss *FloatSpanSet) Union(other interface{}) (*FloatSpanSet, error) {
+	switch o := other.(type) {
+	case float64:
+		res := C.gunion_spanset_float(g_fss._inner, C.double(o))
+		if res == nil {
+			return nil, nil
+		} else {
+			return &FloatSpanSet{_inner: res}, nil
+		}
+	case *FloatSpan:
+		res := C.gunion_spanset_span(g_fss._inner, o._inner)
+		if res == nil {
+			return nil, nil
+		} else {
+			return &FloatSpanSet{_inner: res}, nil
+		}
+	case *FloatSpanSet:
+		res := C.gunion_spanset_spanset(g_fss._inner, o._inner)
+		if res == nil {
+			return nil, nil
+		} else {
+			return &FloatSpanSet{_inner: res}, nil
+		}
+	default:
+		return nil, fmt.Errorf("operation not supported with type %T", other)
+	}
+}
 
-// func (g_fss *FloatSpanSet) Add(other interface{}) (*FloatSpanSet, error) {
-// 	return g_fss.Union(other)
-// }
+func (g_fss *FloatSpanSet) Add(other interface{}) (*FloatSpanSet, error) {
+	return g_fss.Union(other)
+}

@@ -1,4 +1,4 @@
-package base
+package gomeos
 
 /*
 #cgo CFLAGS: -I/opt/homebrew/include
@@ -6,9 +6,7 @@ package base
 #include "meos.h"
 #include <stdio.h>
 #include <stdlib.h>
+#define gunion_set_set union_set_set
+#define gunion_set_float union_set_float
 */
 import "C"
-
-type Set struct {
-	_inner *C.Set
-}

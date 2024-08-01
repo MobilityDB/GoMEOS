@@ -1,13 +1,12 @@
 // collections/number/floatset.go
-package number
+package gomeos
 
 /*
-#cgo CFLAGS: -I/opt/homebrew/include
-#cgo LDFLAGS: -L/opt/homebrew/lib -lmeos -Wl,-rpath,/opt/homebrew/lib
 #include "meos.h"
-#include "meos_catalog.h"
 #include <stdio.h>
 #include <stdlib.h>
+#define gunion_set_set union_set_set
+#define gunion_set_float union_set_float
 */
 import "C"
 import (
@@ -203,30 +202,30 @@ func (g_fs *FloatSet) Sub(other interface{}) (*FloatSet, error) {
 	return g_fs.Minus(other)
 }
 
-// func (g_fs *FloatSet) Union(other interface{}) (*FloatSet, error) {
-// 	switch o := other.(type) {
-// 	case float64:
-// 		res := C.union_set_float(g_fs._inner, C.double(o))
-// 		if res == nil {
-// 			return nil, nil
-// 		} else {
-// 			return &FloatSet{_inner: res}, nil
-// 		}
-// 	case *FloatSet:
-// 		res := C.union_set_set(g_fs._inner, o._inner)
-// 		if res == nil {
-// 			return nil, nil
-// 		} else {
-// 			return &FloatSet{_inner: res}, nil
-// 		}
-// 	default:
-// 		return nil, fmt.Errorf("operation not supported with type %T", other)
-// 	}
-// }
+func (g_fs *FloatSet) Union(other interface{}) (*FloatSet, error) {
+	switch o := other.(type) {
+	case float64:
+		res := C.gunion_set_float(g_fs._inner, C.double(o))
+		if res == nil {
+			return nil, nil
+		} else {
+			return &FloatSet{_inner: res}, nil
+		}
+	case *FloatSet:
+		res := C.gunion_set_set(g_fs._inner, o._inner)
+		if res == nil {
+			return nil, nil
+		} else {
+			return &FloatSet{_inner: res}, nil
+		}
+	default:
+		return nil, fmt.Errorf("operation not supported with type %T", other)
+	}
+}
 
-// func (g_fs *FloatSet) Add(other interface{}) (*FloatSet, error) {
-// 	return g_fs.Union(other)
-// }
+func (g_fs *FloatSet) Add(other interface{}) (*FloatSet, error) {
+	return g_fs.Union(other)
+}
 
 // ------------------------- Distance Operations --------------------------------
 func (g_fs *FloatSet) Distance(other interface{}) (float64, error) {

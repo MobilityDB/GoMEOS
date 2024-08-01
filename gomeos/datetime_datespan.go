@@ -1,12 +1,13 @@
-package times
+package gomeos
 
 /*
-#cgo CFLAGS: -I/opt/homebrew/include
-#cgo LDFLAGS: -L/opt/homebrew/lib -lmeos -Wl,-rpath,/opt/homebrew/lib
 #include "meos.h"
 #include "meos_catalog.h"
 #include <stdio.h>
 #include <stdlib.h>
+#define gunion_span_date union_span_date
+#define gunion_span_span union_span_span
+#define gunion_span_spanset union_span_spanset
 */
 import "C"
 import (
@@ -263,11 +264,27 @@ func (g_ds *DateSpan) Minus(other interface{}) (*DateSpanSet, error) {
 		res := C.minus_span_span(g_ds._inner, o._inner)
 		return &DateSpanSet{_inner: res}, nil
 	case *DateSpanSet:
-		res := C.minus_spans_spanset(g_ds._inner, o._inner)
+		res := C.minus_span_spanset(g_ds._inner, o._inner)
 		return &DateSpanSet{_inner: res}, nil
 	default:
 		return &DateSpanSet{_inner: nil}, fmt.Errorf("operation not supported with type %T", other)
 	}
 }
 
-//func union
+func (g_ds *DateSpan) Union(other interface{}) (*DateSpanSet, error) {
+	switch o := other.(type) {
+	case time.Time:
+		res := C.gunion_span_date(g_ds._inner, DateToDateADT(o))
+		return &DateSpanSet{_inner: res}, nil
+	case *DateSet:
+		return g_ds.Union(o.ToSpanSet())
+	case *DateSpan:
+		res := C.gunion_span_span(g_ds._inner, o._inner)
+		return &DateSpanSet{_inner: res}, nil
+	case *DateSpanSet:
+		res := C.gunion_span_spanset(g_ds._inner, o._inner)
+		return &DateSpanSet{_inner: res}, nil
+	default:
+		return &DateSpanSet{_inner: nil}, fmt.Errorf("operation not supported with type %T", other)
+	}
+}

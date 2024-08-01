@@ -1,12 +1,13 @@
 // collections/number/intspan.go
-package number
+package gomeos
 
 /*
-#cgo CFLAGS: -I/opt/homebrew/include
-#cgo LDFLAGS: -L/opt/homebrew/lib -lmeos -Wl,-rpath,/opt/homebrew/lib
 #include "meos.h"
 #include <stdio.h>
 #include <stdlib.h>
+#define gunion_span_int union_span_int
+#define gunion_span_span union_span_span
+#define gunion_spanset_span union_spanset_span
 */
 import "C"
 import (
@@ -250,34 +251,34 @@ func (g_is *IntSpan) Sub(other interface{}) (*IntSpanSet, error) {
 	return g_is.Minus(other)
 }
 
-// func (g_is *IntSpan) Union(other interface{}) (*IntSpan, error) {
-// 	switch o := other.(type) {
-// 	case int:
-// 		res := C.union_span_int(g_is._inner, C.int(o))
-// 		if res == nil {
-// 			return nil, nil
-// 		} else {
-// 			return &IntSpan{_inner: res}, nil
-// 		}
-// 	case *IntSpan:
-// 		res := C.union_span_span(g_is._inner, o._inner)
-// 		if res == nil {
-// 			return nil, nil
-// 		} else {
-// 			return &IntSpan{_inner: res}, nil
-// 		}
-// 	case *IntSpanSet:
-// 		res := C.union_spanset_span(o._inner, g_is._inner)
-// 		if res == nil {
-// 			return nil, nil
-// 		} else {
-// 			return &IntSpan{_inner: res}, nil
-// 		}
-// 	default:
-// 		return nil, fmt.Errorf("operation not supported with type %T", other)
-// 	}
-// }
+func (g_is *IntSpan) Union(other interface{}) (*IntSpanSet, error) {
+	switch o := other.(type) {
+	case int:
+		res := C.gunion_span_int(g_is._inner, C.int(o))
+		if res == nil {
+			return nil, nil
+		} else {
+			return &IntSpanSet{_inner: res}, nil
+		}
+	case *IntSpan:
+		res := C.gunion_span_span(g_is._inner, o._inner)
+		if res == nil {
+			return nil, nil
+		} else {
+			return &IntSpanSet{_inner: res}, nil
+		}
+	case *IntSpanSet:
+		res := C.gunion_spanset_span(o._inner, g_is._inner)
+		if res == nil {
+			return nil, nil
+		} else {
+			return &IntSpanSet{_inner: res}, nil
+		}
+	default:
+		return nil, fmt.Errorf("operation not supported with type %T", other)
+	}
+}
 
-// func (g_is *IntSpan) Add(other interface{}) (*IntSpan, error) {
-// 	return g_is.Union(other)
-// }
+func (g_is *IntSpan) Add(other interface{}) (*IntSpanSet, error) {
+	return g_is.Union(other)
+}

@@ -3,19 +3,19 @@ package number_test
 import (
 	"testing"
 
-	"github.com/MobilityDB/GoMEOS/gomeos/collections/number"
+	"github.com/MobilityDB/GoMEOS/gomeos"
 	"github.com/alecthomas/assert/v2"
 )
 
-func createIntSpanSet() *number.IntSpanSet {
+func createIntSpanSet() *gomeos.IntSpanSet {
 	g_iss_in := "{[1,3]}"
-	g_iss := number.NewIntSpanSet(g_iss_in)
+	g_iss := gomeos.NewIntSpanSet(g_iss_in)
 	return g_iss
 }
 
-func createIntSpanSet2() *number.IntSpanSet {
+func createIntSpanSet2() *gomeos.IntSpanSet {
 	g_iss_in := "{[1,4), [9,100]}"
-	g_iss := number.NewIntSpanSet(g_iss_in)
+	g_iss := gomeos.NewIntSpanSet(g_iss_in)
 	return g_iss
 }
 
@@ -75,9 +75,9 @@ func TestISSShiftScale(t *testing.T) {
 	assert.Equal(t, g_ss.IntSpanSetOut(), "{[11, 13), [16, 82)}")
 }
 
-func createIntSpan() *number.IntSpan {
+func createIntSpan() *gomeos.IntSpan {
 	g_is_in := "[4,5]"
-	g_is := number.NewIntSpan(g_is_in)
+	g_is := gomeos.NewIntSpan(g_is_in)
 	return g_is
 }
 
@@ -117,9 +117,9 @@ func TestISSContains(t *testing.T) {
 	assert.NotEqual(t, err, nil)
 }
 
-func createIntSpan2() *number.IntSpan {
+func createIntSpan2() *gomeos.IntSpan {
 	g_is_in := "[1,3]"
-	g_is := number.NewIntSpan(g_is_in)
+	g_is := gomeos.NewIntSpan(g_is_in)
 	return g_is
 }
 func TestISSIsSame(t *testing.T) {
@@ -140,9 +140,9 @@ func TestISSIsSame(t *testing.T) {
 	assert.NotEqual(t, err, nil)
 }
 
-func createIntSpanSet3() *number.IntSpanSet {
+func createIntSpanSet3() *gomeos.IntSpanSet {
 	g_iss_in := "{[7,8]}"
-	g_iss := number.NewIntSpanSet(g_iss_in)
+	g_iss := gomeos.NewIntSpanSet(g_iss_in)
 	return g_iss
 }
 
@@ -270,20 +270,20 @@ func TestISSMinus(t *testing.T) {
 	assert.NotEqual(t, err, nil)
 }
 
-// func TestISSUnion(t *testing.T) {
-// 	g_iss := createIntSpanSet()
-// 	g_is := createIntSpan()
-// 	res, err := g_iss.Union(g_is)
-// 	assert.Equal(t, res.IntSpanSetOut(), "{[1, 4)}")
-// 	assert.Equal(t, err, nil)
-// 	res, err = g_iss.Union(2)
-// 	assert.Equal(t, res.IntSpanSetOut(), "{[1, 2), [3, 4)}")
-// 	assert.Equal(t, err, nil)
-// 	g_iss_2 := createIntSpanSet2()
-// 	res, err = g_iss.Union(g_iss_2)
-// 	assert.Equal(t, res.IntSpanSetOut(), "")
-// 	assert.Equal(t, err, nil)
-// 	res, err = g_iss.Union("aaaa")
-// 	assert.Equal(t, res, nil)
-// 	assert.NotEqual(t, err, nil)
-// }
+func TestISSUnion(t *testing.T) {
+	g_iss := createIntSpanSet()
+	g_is := createIntSpan()
+	res, err := g_iss.Union(g_is)
+	assert.Equal(t, res.IntSpanSetOut(), "{[1, 6)}")
+	assert.Equal(t, err, nil)
+	res, err = g_iss.Union(2)
+	assert.Equal(t, res.IntSpanSetOut(), "{[1, 4)}")
+	assert.Equal(t, err, nil)
+	g_iss_2 := createIntSpanSet2()
+	res, err = g_iss.Union(g_iss_2)
+	assert.Equal(t, res.IntSpanSetOut(), "{[1, 4), [9, 101)}")
+	assert.Equal(t, err, nil)
+	res, err = g_iss.Union("aaaa")
+	assert.Equal(t, res, nil)
+	assert.NotEqual(t, err, nil)
+}

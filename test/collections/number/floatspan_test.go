@@ -127,6 +127,13 @@ func TestFloatSpanIntersection(t *testing.T) {
 func TestFloatSpanMinus(t *testing.T) {
 	g_fs := createFloatSpan()
 	res, err := g_fs.Minus(2.2)
-	assert.Equal(t, res.FloatSpanSetOut(5), "{[1.1, 2.2), (2.2, 3.3]}")
+	assert.Equal(t, res.FloatSpanSetOut(5), "{[4.4, 5.5]}")
+	assert.Equal(t, err, nil)
+}
+
+func TestFloatSpanUnion(t *testing.T) {
+	g_fs := createFloatSpan()
+	res, err := g_fs.Union(2.2)
+	assert.Equal(t, res.FloatSpanSetOut(5), "{[2.2, 2.2], [4.4, 5.5]}")
 	assert.Equal(t, err, nil)
 }

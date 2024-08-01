@@ -1,12 +1,13 @@
-package times
+package gomeos
 
 /*
-#cgo CFLAGS: -I/opt/homebrew/include
-#cgo LDFLAGS: -L/opt/homebrew/lib -lmeos -Wl,-rpath,/opt/homebrew/lib
 #include "meos.h"
 #include "meos_catalog.h"
 #include <stdio.h>
 #include <stdlib.h>
+#define gunion_spanset_date union_spanset_date
+#define gunion_spanset_span union_spanset_span
+#define gunion_spanset_spanset union_spanset_spanset
 */
 import "C"
 import (
@@ -45,18 +46,18 @@ func (g_dss *DateSpanSet) DateSpanSetOut() string {
 
 // ------------------------- Conversions -----------------------------------
 func (g_dss *DateSpanSet) ToSpan() *DateSpan {
-	c_ds := C.spanset_to_span(g_dss._inner)
+	c_ds := C.spanset_span(g_dss._inner)
 	return &DateSpan{_inner: c_ds}
 }
 
 func (g_dss *DateSpanSet) ToTsTzSpanSet() *TsTzSpanSet {
-	return &TsTzSpanSet{_inner: datespanset_to_tstzspanset(g_dss._inner)}
+	return &TsTzSpanSet{_inner: C.datespanset_to_tstzspanset(g_dss._inner)}
 }
 
 // ------------------------- Accessors -------------------------------------
 
-func (g_dss *DateSpanSet) Duration() timeutil.Timedelta {
-	interval := C.datespanset_duration(g_dss._inner)
+func (g_dss *DateSpanSet) Duration(ignore_gap bool) timeutil.Timedelta {
+	interval := C.datespanset_duration(g_dss._inner, C.bool(ignore_gap))
 	microsecond := int(interval.time)
 	day := int(interval.day)
 	month := int(interval.month)
@@ -82,8 +83,15 @@ func (g_dss *DateSpanSet) EndDate() time.Time {
 }
 
 func (g_dss *DateSpanSet) DateN(n int) time.Time {
-	n_date := C.datespanset_date_n(g_dss._inner, n+1)
-	return DateADTToDate(n_date)
+	res := C.malloc(C.sizeof_int)
+	defer C.free(unsafe.Pointer(res)) // Ensure memory is freed.
+	success := C.datespanset_date_n(g_dss._inner, C.int(n+1), (*C.DateADT)(res))
+	if success {
+		result := *(*C.DateADT)(res)
+		return DateADTToDate(result)
+	} else {
+		return time.Time{}
+	}
 }
 
 func (g_dss *DateSpanSet) Dates() []time.Time {
@@ -311,22 +319,22 @@ func (g_dss *DateSpanSet) Sub(other interface{}) (*DateSpanSet, error) {
 	return g_dss.Minus(other)
 }
 
-// func (g_dss *DateSpanSet) Union(other interface{}) (*DateSpanSet, error) {
-// 	switch o := other.(type) {
-// 	case time.Time:
-// 		res := C.union_spanset_date(g_dss._inner, DateToDateADT(o))
-// 		return &DateSpanSet{_inner: res}, nil
-// 	case *DateSpan:
-// 		res := C.union_spanset_span(g_dss._inner, o._inner)
-// 		return &DateSpanSet{_inner: res}, nil
-// 	case *DateSpanSet:
-// 		res := C.union_spanset_spanset(g_dss._inner, o._inner)
-// 		return &DateSpanSet{_inner: res}, nil
-// 	default:
-// 		return &DateSpanSet{_inner: nil}, fmt.Errorf("operation not supported with type %T", other)
-// 	}
-// }
+func (g_dss *DateSpanSet) Union(other interface{}) (*DateSpanSet, error) {
+	switch o := other.(type) {
+	case time.Time:
+		res := C.gunion_spanset_date(g_dss._inner, DateToDateADT(o))
+		return &DateSpanSet{_inner: res}, nil
+	case *DateSpan:
+		res := C.gunion_spanset_span(g_dss._inner, o._inner)
+		return &DateSpanSet{_inner: res}, nil
+	case *DateSpanSet:
+		res := C.gunion_spanset_spanset(g_dss._inner, o._inner)
+		return &DateSpanSet{_inner: res}, nil
+	default:
+		return &DateSpanSet{_inner: nil}, fmt.Errorf("operation not supported with type %T", other)
+	}
+}
 
-// func (g_dss *DateSpanSet) Add(other interface{}) (*DateSpanSet, error) {
-// 	return g_dss.Union(other)
-// }
+func (g_dss *DateSpanSet) Add(other interface{}) (*DateSpanSet, error) {
+	return g_dss.Union(other)
+}

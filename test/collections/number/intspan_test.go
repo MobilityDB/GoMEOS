@@ -176,13 +176,13 @@ func TestIntSpanMinus(t *testing.T) {
 	assert.Equal(t, err, nil)
 }
 
-// func TestIntSpanUnion(t *testing.T) {
-// 	g_is := createIntSpan()
-// 	g_is2 := createIntSpan2()
-// 	res, err := g_is.Union(g_is2)
-// 	assert.Equal(t, res.IntSpanOut(), "{[1, 3), [4, 5)}")
-// 	assert.Equal(t, err, nil)
-// 	res, err = g_is.Union(6)
-// 	assert.Equal(t, res.IntSpanOut(), "{[4, 5), [6, 7)}")
-// 	assert.Equal(t, err, nil)
-// }
+func TestIntSpanUnion(t *testing.T) {
+	g_is := createIntSpan()
+	g_is2 := createIntSpan2()
+	res, err := g_is.Union(g_is2)
+	assert.Equal(t, res.IntSpanSetOut(), "{[1, 6)}")
+	assert.Equal(t, err, nil)
+	res, err = g_is.Union(6)
+	assert.Equal(t, res.IntSpanSetOut(), "{[4, 7)}")
+	assert.Equal(t, err, nil)
+}

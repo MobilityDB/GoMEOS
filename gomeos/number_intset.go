@@ -1,13 +1,12 @@
 // collections/number/intset.go
-package number
+package gomeos
 
 /*
-#cgo CFLAGS: -I/opt/homebrew/include
-#cgo LDFLAGS: -L/opt/homebrew/lib -lmeos -Wl,-rpath,/opt/homebrew/lib
 #include "meos.h"
-#include "meos_catalog.h"
 #include <stdio.h>
 #include <stdlib.h>
+#define gunion_set_set union_set_set
+#define gunion_set_int union_set_int
 */
 import "C"
 import (
@@ -203,30 +202,30 @@ func (g_is *IntSet) Sub(other interface{}) (*IntSet, error) {
 	return g_is.Minus(other)
 }
 
-// func (g_is *IntSet) Union(other interface{}) (*IntSet, error) {
-// 	switch o := other.(type) {
-// 	case int:
-// 		res := C.union_set_int(g_is._inner, C.int(o))
-// 		if res == nil {
-// 			return nil, nil
-// 		} else {
-// 			return &IntSet{_inner: res}, nil
-// 		}
-// 	case *IntSet:
-// 		res := C.union_set_set(g_is._inner, o._inner)
-// 		if res == nil {
-// 			return nil, nil
-// 		} else {
-// 			return &IntSet{_inner: res}, nil
-// 		}
-// 	default:
-// 		return nil, fmt.Errorf("operation not supported with type %T", other)
-// 	}
-// }
+func (g_is *IntSet) Union(other interface{}) (*IntSet, error) {
+	switch o := other.(type) {
+	case int:
+		res := C.gunion_set_int(g_is._inner, C.int(o))
+		if res == nil {
+			return nil, nil
+		} else {
+			return &IntSet{_inner: res}, nil
+		}
+	case *IntSet:
+		res := C.gunion_set_set(g_is._inner, o._inner)
+		if res == nil {
+			return nil, nil
+		} else {
+			return &IntSet{_inner: res}, nil
+		}
+	default:
+		return nil, fmt.Errorf("operation not supported with type %T", other)
+	}
+}
 
-// func (g_is *IntSet) Add(other interface{}) (*IntSet, error) {
-// 	return g_is.Union(other)
-// }
+func (g_is *IntSet) Add(other interface{}) (*IntSet, error) {
+	return g_is.Union(other)
+}
 
 // ------------------------- Distance Operations --------------------------------
 func (g_is *IntSet) Distance(other interface{}) (int, error) {

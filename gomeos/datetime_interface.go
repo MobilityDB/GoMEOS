@@ -1,4 +1,4 @@
-package times
+package gomeos
 
 type Dates interface {
 	Output() string

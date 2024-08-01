@@ -4,16 +4,16 @@ package number_test
 import (
 	"testing"
 
-	"github.com/MobilityDB/GoMEOS/gomeos/collections/number"
+	"github.com/MobilityDB/GoMEOS/gomeos"
 	"github.com/alecthomas/assert/v2"
 )
 
-func createFloatSet() number.FloatSet {
-	return *number.NewFloatSet("{1.23, 2.9, 3.6}")
+func createFloatSet() gomeos.FloatSet {
+	return *gomeos.NewFloatSet("{1.23, 2.9, 3.6}")
 }
 
-func createFloatSet2() number.FloatSet {
-	return *number.NewFloatSet("{2.9, 4.70, 5.97, 1.23, 3.6}")
+func createFloatSet2() gomeos.FloatSet {
+	return *gomeos.NewFloatSet("{2.9, 4.70, 5.97, 1.23, 3.6}")
 }
 
 func TestNewFloatSet(t *testing.T) {
@@ -144,15 +144,15 @@ func TestFloatSetDistance(t *testing.T) {
 	assert.Equal(t, dist, 1.4)
 }
 
-// func TestFloatSetUnion(t *testing.T) {
-// 	g_fs := createFloatSet()
-// 	g_fs2 := createFloatSet2()
-// 	union, _ := g_fs.Union(g_fs2)
-// 	assert.Equal(t, union.FloatSetOut(), "{1.0, 2.0, 3.0, 4.0, 5.0}")
-// }
+func TestFloatSetUnion(t *testing.T) {
+	g_fs := createFloatSet()
+	g_fs2 := createFloatSet2()
+	union, _ := g_fs.Union(&g_fs2)
+	assert.Equal(t, union.FloatSetOut(10), "{1.23, 2.9, 3.6, 4.7, 5.97}")
+}
 
-// func TestFloatSetAdd(t *testing.T) {
-// 	g_fs := createFloatSet()
-// 	added, _ := g_fs.Add(4.0)
-// 	assert.Equal(t, added.FloatSetOut(), "{1.0, 2.0, 3.0, 4.0}")
-// }
+func TestFloatSetAdd(t *testing.T) {
+	g_fs := createFloatSet()
+	added, _ := g_fs.Add(4.0)
+	assert.Equal(t, added.FloatSetOut(10), "{1.23, 2.9, 3.6, 4}")
+}

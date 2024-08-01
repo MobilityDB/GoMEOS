@@ -1,12 +1,13 @@
 // collections/number/floatspan.go
-package number
+package gomeos
 
 /*
-#cgo CFLAGS: -I/opt/homebrew/include
-#cgo LDFLAGS: -L/opt/homebrew/lib -lmeos -Wl,-rpath,/opt/homebrew/lib
 #include "meos.h"
 #include <stdio.h>
 #include <stdlib.h>
+#define gunion_span_float union_span_float
+#define gunion_span_span union_span_span
+#define gunion_spanset_span union_spanset_span
 */
 import "C"
 import (
@@ -249,4 +250,36 @@ func (g_fs *FloatSpan) Minus(other interface{}) (*FloatSpanSet, error) {
 
 func (g_fs *FloatSpan) Sub(other interface{}) (*FloatSpanSet, error) {
 	return g_fs.Minus(other)
+}
+
+func (g_fs *FloatSpan) Union(other interface{}) (*FloatSpanSet, error) {
+	switch o := other.(type) {
+	case float64:
+		res := C.gunion_span_float(g_fs._inner, C.double(o))
+		if res == nil {
+			return nil, nil
+		} else {
+			return &FloatSpanSet{_inner: res}, nil
+		}
+	case *FloatSpan:
+		res := C.gunion_span_span(g_fs._inner, o._inner)
+		if res == nil {
+			return nil, nil
+		} else {
+			return &FloatSpanSet{_inner: res}, nil
+		}
+	case *FloatSpanSet:
+		res := C.gunion_spanset_span(o._inner, g_fs._inner)
+		if res == nil {
+			return nil, nil
+		} else {
+			return &FloatSpanSet{_inner: res}, nil
+		}
+	default:
+		return nil, fmt.Errorf("operation not supported with type %T", other)
+	}
+}
+
+func (g_fs *FloatSpan) Add(other interface{}) (*FloatSpanSet, error) {
+	return g_fs.Union(other)
 }

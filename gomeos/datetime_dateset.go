@@ -1,12 +1,12 @@
-package times
+package gomeos
 
 /*
-#cgo CFLAGS: -I/opt/homebrew/include
-#cgo LDFLAGS: -L/opt/homebrew/lib -lmeos -Wl,-rpath,/opt/homebrew/lib
 #include "meos.h"
 #include "meos_catalog.h"
 #include <stdio.h>
 #include <stdlib.h>
+#define gunion_set_set union_set_set
+#define gunion_set_date union_set_date
 */
 import "C"
 import (
@@ -158,7 +158,7 @@ func (g_ds *DateSet) Contains(other interface{}) (bool, error) {
 func (g_ds *DateSet) Overlaps(other interface{}) (bool, error) {
 	switch o := other.(type) {
 	case time.Time:
-		return bool(C.overlaps_set_date(g_ds._inner, DateToDateADT(o))), nil
+		return bool(C.contains_set_date(g_ds._inner, DateToDateADT(o))), nil
 	case *DateSet:
 		return bool(C.overlaps_set_set(g_ds._inner, o._inner)), nil
 	case *DateSpan:
@@ -292,23 +292,23 @@ func (g_ds *DateSet) Sub(other interface{}) (Dates, error) {
 	return g_ds.Minus(other)
 }
 
-// func (g_ds *DateSet) Union(other interface{}) (Dates, error) {
-// 	switch o := other.(type) {
-// 	case time.Time:
-// 		res := C.union_set_date(g_ds._inner, DateToDateADT(o))
-// 		return &DateSet{_inner: res}, nil
-// 	case *DateSet:
-// 		res := C.union_set_set(g_ds._inner, o._inner)
-// 		return &DateSet{_inner: res}, nil
-// 	case *DateSpan:
-// 		return g_ds.ToSpanSet().Union(o)
-// 	case *DateSpanSet:
-// 		return g_ds.ToSpanSet().Union(o)
-// 	default:
-// 		return &DateSet{_inner: nil}, fmt.Errorf("operation not supported with type %T", other)
-// 	}
-// }
+func (g_ds *DateSet) Union(other interface{}) (Dates, error) {
+	switch o := other.(type) {
+	case time.Time:
+		res := C.gunion_set_date(g_ds._inner, DateToDateADT(o))
+		return &DateSet{_inner: res}, nil
+	case *DateSet:
+		res := C.gunion_set_set(g_ds._inner, o._inner)
+		return &DateSet{_inner: res}, nil
+	case *DateSpan:
+		return g_ds.ToSpanSet().Union(o)
+	case *DateSpanSet:
+		return g_ds.ToSpanSet().Union(o)
+	default:
+		return &DateSet{_inner: nil}, fmt.Errorf("operation not supported with type %T", other)
+	}
+}
 
-// func (g_ds *DateSet) Add(other interface{}) (Dates, error) {
-// 	return g_ds.Union(other)
-// }
+func (g_ds *DateSet) Add(other interface{}) (Dates, error) {
+	return g_ds.Union(other)
+}

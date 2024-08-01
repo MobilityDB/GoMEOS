@@ -1,13 +1,13 @@
 // collections/number/intspanset.go
-package number
+package gomeos
 
 /*
-#cgo CFLAGS: -I/opt/homebrew/include
-#cgo LDFLAGS: -L/opt/homebrew/lib -lmeos -Wl,-rpath,/opt/homebrew/lib
 #include "meos.h"
-#include "meos_catalog.h"
 #include <stdio.h>
 #include <stdlib.h>
+#define gunion_spanset_int union_spanset_int
+#define gunion_spanset_span union_spanset_span
+#define gunion_spanset_spanset union_spanset_spanset
 */
 import "C"
 import (
@@ -416,34 +416,34 @@ func (g_iss *IntSpanSet) Sub(other interface{}) (*IntSpanSet, error) {
 	return g_iss.Minus(other)
 }
 
-// func (g_iss *IntSpanSet) Union(other interface{}) (*IntSpanSet, error) {
-// 	switch o := other.(type) {
-// 	case int:
-// 		res := C.union_spanset_int(g_iss._inner, C.int(o))
-// 		if res == nil {
-// 			return nil, nil
-// 		} else {
-// 			return &IntSpanSet{_inner: res}, nil
-// 		}
-// 	case *IntSpan:
-// 		res := C.union_spanset_span(g_iss._inner, o._inner)
-// 		if res == nil {
-// 			return nil, nil
-// 		} else {
-// 			return &IntSpanSet{_inner: res}, nil
-// 		}
-// 	case *IntSpanSet:
-// 		res := C.union_spanset_spanset(g_iss._inner, o._inner)
-// 		if res == nil {
-// 			return nil, nil
-// 		} else {
-// 			return &IntSpanSet{_inner: res}, nil
-// 		}
-// 	default:
-// 		return nil, fmt.Errorf("operation not supported with type %T", other)
-// 	}
-// }
+func (g_iss *IntSpanSet) Union(other interface{}) (*IntSpanSet, error) {
+	switch o := other.(type) {
+	case int:
+		res := C.gunion_spanset_int(g_iss._inner, C.int(o))
+		if res == nil {
+			return nil, nil
+		} else {
+			return &IntSpanSet{_inner: res}, nil
+		}
+	case *IntSpan:
+		res := C.gunion_spanset_span(g_iss._inner, o._inner)
+		if res == nil {
+			return nil, nil
+		} else {
+			return &IntSpanSet{_inner: res}, nil
+		}
+	case *IntSpanSet:
+		res := C.gunion_spanset_spanset(g_iss._inner, o._inner)
+		if res == nil {
+			return nil, nil
+		} else {
+			return &IntSpanSet{_inner: res}, nil
+		}
+	default:
+		return nil, fmt.Errorf("operation not supported with type %T", other)
+	}
+}
 
-// func (g_iss *IntSpanSet) Add(other interface{}) (*IntSpanSet, error) {
-// 	return g_iss.Union(other)
-// }
+func (g_iss *IntSpanSet) Add(other interface{}) (*IntSpanSet, error) {
+	return g_iss.Union(other)
+}

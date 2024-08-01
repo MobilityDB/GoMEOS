@@ -3,19 +3,19 @@ package number_test
 import (
 	"testing"
 
-	"github.com/MobilityDB/GoMEOS/gomeos/collections/number"
+	"github.com/MobilityDB/GoMEOS/gomeos"
 	"github.com/alecthomas/assert/v2"
 )
 
-func createFloatSpanSet() *number.FloatSpanSet {
+func createFloatSpanSet() *gomeos.FloatSpanSet {
 	g_fss_in := "{[1.1,3.3]}"
-	g_fss := number.NewFloatSpanSet(g_fss_in)
+	g_fss := gomeos.NewFloatSpanSet(g_fss_in)
 	return g_fss
 }
 
-func createFloatSpanSet2() *number.FloatSpanSet {
+func createFloatSpanSet2() *gomeos.FloatSpanSet {
 	g_fss_in := "{[1.1,4.4), [9.9,100.0]}"
-	g_fss := number.NewFloatSpanSet(g_fss_in)
+	g_fss := gomeos.NewFloatSpanSet(g_fss_in)
 	return g_fss
 }
 
@@ -75,9 +75,9 @@ func TestFSSShiftScale(t *testing.T) {
 	assert.Equal(t, g_ss.FloatSpanSetOut(10), "{[11.1, 13.4356926188), [17.3285136502, 81.1]}")
 }
 
-func createFloatSpan() *number.FloatSpan {
+func createFloatSpan() *gomeos.FloatSpan {
 	g_fs_in := "[4.4,5.5]"
-	g_fs := number.NewFloatSpan(g_fs_in)
+	g_fs := gomeos.NewFloatSpan(g_fs_in)
 	return g_fs
 }
 
@@ -117,9 +117,9 @@ func TestFSSContains(t *testing.T) {
 	assert.NotEqual(t, err, nil)
 }
 
-func createFloatSpan2() *number.FloatSpan {
+func createFloatSpan2() *gomeos.FloatSpan {
 	g_fs_in := "[1.1,3.3]"
-	g_fs := number.NewFloatSpan(g_fs_in)
+	g_fs := gomeos.NewFloatSpan(g_fs_in)
 	return g_fs
 }
 func TestFSSIsSame(t *testing.T) {
@@ -140,9 +140,9 @@ func TestFSSIsSame(t *testing.T) {
 	assert.NotEqual(t, err, nil)
 }
 
-func createFloatSpanSet3() *number.FloatSpanSet {
+func createFloatSpanSet3() *gomeos.FloatSpanSet {
 	g_fss_in := "{[7.7,8.8]}"
-	g_fss := number.NewFloatSpanSet(g_fss_in)
+	g_fss := gomeos.NewFloatSpanSet(g_fss_in)
 	return g_fss
 }
 
@@ -248,6 +248,24 @@ func TestFSSMinus(t *testing.T) {
 	assert.Equal(t, res, nil)
 	assert.Equal(t, err, nil)
 	res, err = g_fss.Minus("hahaha")
+	assert.Equal(t, res, nil)
+	assert.NotEqual(t, err, nil)
+}
+
+func TestFSSUnion(t *testing.T) {
+	g_fss := createFloatSpanSet()
+	g_fs := createFloatSpan()
+	res, err := g_fss.Union(g_fs)
+	assert.Equal(t, res.FloatSpanSetOut(10), "{[1.1, 3.3], [4.4, 5.5]}")
+	assert.Equal(t, err, nil)
+	res, err = g_fss.Union(2.2)
+	assert.Equal(t, res.FloatSpanSetOut(10), "{[1.1, 3.3]}")
+	assert.Equal(t, err, nil)
+	g_fss_2 := createFloatSpanSet2()
+	res, err = g_fss.Union(g_fss_2)
+	assert.Equal(t, res.FloatSpanSetOut(5), "{[1.1, 4.4), [9.9, 100]}")
+	assert.Equal(t, err, nil)
+	res, err = g_fss.Union("hahaha")
 	assert.Equal(t, res, nil)
 	assert.NotEqual(t, err, nil)
 }
