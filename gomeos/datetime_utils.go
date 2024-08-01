@@ -10,6 +10,8 @@ import "C"
 import (
 	"time"
 	"unsafe"
+
+	"github.com/leekchan/timeutil"
 )
 
 func DateToDateADT(t time.Time) C.DateADT {
@@ -23,5 +25,31 @@ func DateADTToDate(d C.DateADT) time.Time {
 	dateStr := C.GoString(C.pg_date_out(d))
 	layout := "2006-01-02"
 	parsedDate, _ := time.Parse(layout, dateStr)
+	return parsedDate
+}
+
+func IntervalToTimeDelta(interval C.Interval) timeutil.Timedelta {
+	microsecond := int(interval.time)
+	day := int(interval.day)
+	month := int(interval.month)
+	dr := timeutil.Timedelta{
+		Microseconds: time.Duration(microsecond),
+		Days:         time.Duration(day) + time.Duration(month*30),
+	}
+	return dr
+}
+
+func TimeDeltaToInterval(td timeutil.Timedelta) C.Interval {
+	var interval C.Interval
+	interval.time = C.TimeOffset(td.Microseconds)
+	interval.day = C.int(td.Days)
+	interval.month = C.int(0)
+	return interval
+}
+
+func TimestamptzToDatetime(ts C.TimestampTz) time.Time {
+	timeStr := C.GoString(C.pg_timestamptz_out(ts))
+	layout := "2006-01-02 15:04:05-07"
+	parsedDate, _ := time.Parse(layout, timeStr)
 	return parsedDate
 }
