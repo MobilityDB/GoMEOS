@@ -12,8 +12,8 @@ func createTsTzSpan() *gomeos.TsTzSpan {
 }
 
 func TestNewTsTzSpan(t *testing.T) {
-	gomeos.MeosInitialize()
+	// gomeos.MeosInitialize()
 	g_dss := createTsTzSpan()
 	assert.Equal(t, g_dss.TsTzSpanOut(), "[2023-01-01 02:00:00+02, 2023-03-01 02:00:00+02]")
-	gomeos.MeosFinalize()
+	// gomeos.MeosFinalize()
 }

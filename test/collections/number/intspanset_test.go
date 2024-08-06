@@ -59,7 +59,7 @@ func TestISSSpans(t *testing.T) {
 	assert.Equal(t, e.IntSpanOut(), "[9, 101)")
 
 	n := g_iss.SpanN(1)
-	assert.Equal(t, n.IntSpanOut(), "[1, 4)")
+	assert.Equal(t, n.IntSpanOut(), "[9, 101)")
 
 	sp := g_iss.Spans()[0]
 	assert.Equal(t, sp.IntSpanOut(), "[1, 4)")

@@ -13,14 +13,14 @@ func createDateSpanSet() *gomeos.DateSpanSet {
 }
 
 func TestNewDateSpanSet(t *testing.T) {
-	gomeos.MeosInitialize()
+	// gomeos.MeosInitialize()
 	g_dss := createDateSpanSet()
 	assert.Equal(t, g_dss.DateSpanSetOut(), "{[2019-09-08, 2019-09-13)}")
-	gomeos.MeosFinalize()
+	// gomeos.MeosFinalize()
 }
 
 func TestDSSUnion(t *testing.T) {
-	gomeos.MeosInitialize()
+	// gomeos.MeosInitialize()
 	g_iss := createDateSpanSet()
 	g_is_2 := createDateSet2()
 	// Dateset
@@ -38,5 +38,5 @@ func TestDSSUnion(t *testing.T) {
 	dss := createDateSpanSet()
 	res, _ = g_iss.Union(dss)
 	assert.Equal(t, res.Output(), "{[2019-09-08, 2019-09-13)}")
-	gomeos.MeosFinalize()
+	// gomeos.MeosFinalize()
 }

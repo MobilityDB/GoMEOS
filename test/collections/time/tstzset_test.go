@@ -13,52 +13,52 @@ func createTsTzSet() *gomeos.TsTzSet {
 }
 
 func TestNewTsTzSet(t *testing.T) {
-	gomeos.MeosInitialize()
+	// gomeos.MeosInitialize()
 	g_dss := createTsTzSet()
 	assert.Equal(t, g_dss.TsTzSetOut(), "{\"2023-01-01 10:09:21+02\", \"2023-02-02 01:45:52+02\", \"2023-03-01 10:09:21+02\"}")
-	gomeos.MeosFinalize()
+	// gomeos.MeosFinalize()
 }
 
 func TestTTSDuration(t *testing.T) {
-	gomeos.MeosInitialize()
+	// gomeos.MeosInitialize()
 	g_dss := createTsTzSet()
 	assert.Equal(t, g_dss.Duration(), timeutil.Timedelta{Days: 59})
-	gomeos.MeosFinalize()
+	// gomeos.MeosFinalize()
 }
 
 func TestTSStartElement(t *testing.T) {
-	gomeos.MeosInitialize()
+	// gomeos.MeosInitialize()
 	g_is := createTsTzSet()
 	assert.Equal(t, g_is.StartElement().Format("2006-01-02 15:04:05-07"), "2023-01-01 10:09:21+02")
-	gomeos.MeosFinalize()
+	// gomeos.MeosFinalize()
 }
 
 func TestTSEndElement(t *testing.T) {
-	gomeos.MeosInitialize()
+	// gomeos.MeosInitialize()
 	g_is := createTsTzSet()
 	assert.Equal(t, g_is.EndElement().Format("2006-01-02 15:04:05-07"), "2023-03-01 10:09:21+02")
-	gomeos.MeosFinalize()
+	// gomeos.MeosFinalize()
 }
 
 func TestTSElementN(t *testing.T) {
-	gomeos.MeosInitialize()
+	// gomeos.MeosInitialize()
 	g_is := createTsTzSet()
 	assert.Equal(t, g_is.ElementN(1).Format("2006-01-02 15:04:05-07"), "2023-02-02 01:45:52+02")
-	gomeos.MeosFinalize()
+	// gomeos.MeosFinalize()
 }
 
 func TestTSSElements(t *testing.T) {
-	gomeos.MeosInitialize()
+	// gomeos.MeosInitialize()
 	g_is := createTsTzSet()
 	dates := g_is.Elements()
 	assert.Equal(t, dates[0].Format("2006-01-02 15:04:05-07"), "2023-01-01 10:09:21+02")
 	assert.Equal(t, dates[1].Format("2006-01-02 15:04:05-07"), "2023-02-02 01:45:52+02")
 	assert.Equal(t, dates[2].Format("2006-01-02 15:04:05-07"), "2023-03-01 10:09:21+02")
-	gomeos.MeosFinalize()
+	// gomeos.MeosFinalize()
 }
 
 func TestTSShiftScale(t *testing.T) {
-	gomeos.MeosInitialize()
+	// gomeos.MeosInitialize()
 	g_is := createTsTzSet()
 
 	// shift timedelta pass
@@ -75,11 +75,11 @@ func TestTSShiftScale(t *testing.T) {
 	assert.Equal(t, dates[1].Format("2006-01-02 15:04:05-07"), "2023-04-18 17:06:01+02")
 	assert.Equal(t, dates[2].Format("2006-01-02 15:04:05-07"), "2023-07-20 10:09:21+02")
 
-	gomeos.MeosFinalize()
+	// gomeos.MeosFinalize()
 }
 
 func TestTSSShiftAndScale(t *testing.T) {
-	gomeos.MeosInitialize()
+	// gomeos.MeosInitialize()
 	g_is := createTsTzSet()
 
 	// shift timedelta pass
@@ -96,5 +96,5 @@ func TestTSSShiftAndScale(t *testing.T) {
 	assert.Equal(t, dates[1].Format("2006-01-02 15:04:05-07"), "2023-04-18 17:06:01+02")
 	assert.Equal(t, dates[2].Format("2006-01-02 15:04:05-07"), "2023-07-20 10:09:21+02")
 
-	gomeos.MeosFinalize()
+	// gomeos.MeosFinalize()
 }

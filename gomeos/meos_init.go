@@ -7,9 +7,9 @@ package gomeos
 */
 import "C"
 
-func MeosInitialize() {
+func MeosInitialize(tz string) {
 	// TODO: initialize timezone and etc, implement the real meos initialize
-	C.meos_initialize(C.CString("UTC-2"), nil)
+	C.meos_initialize(C.CString(tz), nil)
 }
 
 func MeosFinalize() {

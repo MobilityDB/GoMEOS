@@ -13,53 +13,57 @@ func createDateSet() *gomeos.DateSet {
 	return gomeos.NewDateSet("{2019-09-08, 2019-09-10, 2019-12-13}")
 }
 
+func createDateSet2() *gomeos.DateSet {
+	return gomeos.NewDateSet("{2019-09-08, 2019-09-10, 2019-12-13, 2019-12-18}")
+}
+
 func TestNewDateSet(t *testing.T) {
-	gomeos.MeosInitialize()
+	gomeos.MeosInitialize("UTC")
 	g_is := createDateSet()
-	assert.Equal(t, g_is.DateSetOut(), "{2019-09-08, 2019-09-10, 2019-09-11}")
-	gomeos.MeosFinalize()
+	assert.Equal(t, g_is.DateSetOut(), "{2019-09-08, 2019-09-10, 2019-12-13}")
+	// // gomeos.MeosFinalize()
 }
 
 func TestDSDuration(t *testing.T) {
-	gomeos.MeosInitialize()
+	// // gomeos.MeosInitialize()
 	g_is := createDateSet()
 	assert.Equal(t, g_is.Duration(), timeutil.Timedelta{Microseconds: 0, Days: 97})
-	gomeos.MeosFinalize()
+	// // gomeos.MeosFinalize()
 }
 
 func TestDSStartElement(t *testing.T) {
-	gomeos.MeosInitialize()
+	// // gomeos.MeosInitialize()
 	g_is := createDateSet()
 	assert.Equal(t, g_is.StartElement().Format("2006-01-02"), "2019-09-08")
-	gomeos.MeosFinalize()
+	// // gomeos.MeosFinalize()
 }
 
 func TestDSEndElement(t *testing.T) {
-	gomeos.MeosInitialize()
+	// // gomeos.MeosInitialize()
 	g_is := createDateSet()
 	assert.Equal(t, g_is.EndElement().Format("2006-01-02"), "2019-12-13")
-	gomeos.MeosFinalize()
+	// // gomeos.MeosFinalize()
 }
 
 func TestDSElementN(t *testing.T) {
-	gomeos.MeosInitialize()
+	// // gomeos.MeosInitialize()
 	g_is := createDateSet()
 	assert.Equal(t, g_is.ElementN(1).Format("2006-01-02"), "2019-09-10")
-	gomeos.MeosFinalize()
+	// // gomeos.MeosFinalize()
 }
 
 func TestDSElements(t *testing.T) {
-	gomeos.MeosInitialize()
+	// gomeos.MeosInitialize()
 	g_is := createDateSet()
 	dates := g_is.Elements()
 	assert.Equal(t, dates[0].Format("2006-01-02"), "2019-09-08")
 	assert.Equal(t, dates[1].Format("2006-01-02"), "2019-09-10")
 	assert.Equal(t, dates[2].Format("2006-01-02"), "2019-12-13")
-	gomeos.MeosFinalize()
+	// gomeos.MeosFinalize()
 }
 
 func TestDSShiftScale(t *testing.T) {
-	gomeos.MeosInitialize()
+	// gomeos.MeosInitialize()
 	g_is := createDateSet()
 	// shift int pass
 	g_ss, _ := g_is.ShiftScale(5, nil)
@@ -89,11 +93,11 @@ func TestDSShiftScale(t *testing.T) {
 	assert.Equal(t, dates[1].Format("2006-01-02"), "2019-09-12")
 	assert.Equal(t, dates[2].Format("2006-01-02"), "2020-03-27")
 
-	gomeos.MeosFinalize()
+	// gomeos.MeosFinalize()
 }
 
 func TestDSShiftAndScale(t *testing.T) {
-	gomeos.MeosInitialize()
+	// gomeos.MeosInitialize()
 	g_is := createDateSet()
 	// shift int pass
 	g_ss, _ := g_is.Shift(5)
@@ -123,15 +127,11 @@ func TestDSShiftAndScale(t *testing.T) {
 	assert.Equal(t, dates[1].Format("2006-01-02"), "2019-09-12")
 	assert.Equal(t, dates[2].Format("2006-01-02"), "2020-03-27")
 
-	gomeos.MeosFinalize()
-}
-
-func createDateSet2() *gomeos.DateSet {
-	return gomeos.NewDateSet("{2019-09-08, 2019-09-10, 2019-12-13, 2019-12-18}")
+	// gomeos.MeosFinalize()
 }
 
 func TestDSContains(t *testing.T) {
-	gomeos.MeosInitialize()
+	// gomeos.MeosInitialize()
 	g_is := createDateSet()
 	g_is_2 := createDateSet2()
 	res, _ := g_is.Contains(g_is_2)
@@ -144,11 +144,11 @@ func TestDSContains(t *testing.T) {
 	assert.False(t, res)
 	res, _ = g_is.Contains(s2)
 	assert.True(t, res)
-	gomeos.MeosFinalize()
+	// gomeos.MeosFinalize()
 }
 
 func TestDSOverlaps(t *testing.T) {
-	gomeos.MeosInitialize()
+	// gomeos.MeosInitialize()
 	g_is := createDateSet()
 	g_is_2 := createDateSet2()
 	// Dateset
@@ -166,11 +166,11 @@ func TestDSOverlaps(t *testing.T) {
 	dss := createDateSpanSet()
 	res, _ = g_is.Overlaps(dss)
 	assert.False(t, res)
-	gomeos.MeosFinalize()
+	// gomeos.MeosFinalize()
 }
 
 func TestDSIsLeft(t *testing.T) {
-	gomeos.MeosInitialize()
+	// gomeos.MeosInitialize()
 	g_is := createDateSet()
 	g_is_2 := createDateSet2()
 	// Dateset
@@ -188,11 +188,11 @@ func TestDSIsLeft(t *testing.T) {
 	dss := createDateSpanSet()
 	res, _ = g_is.IsLeft(dss)
 	assert.False(t, res)
-	gomeos.MeosFinalize()
+	// gomeos.MeosFinalize()
 }
 
 func TestDSIsOverOrLeft(t *testing.T) {
-	gomeos.MeosInitialize()
+	// gomeos.MeosInitialize()
 	g_is := createDateSet()
 	g_is_2 := createDateSet2()
 	// Dateset
@@ -210,11 +210,11 @@ func TestDSIsOverOrLeft(t *testing.T) {
 	dss := createDateSpanSet()
 	res, _ = g_is.IsOverOrLeft(dss)
 	assert.False(t, res)
-	gomeos.MeosFinalize()
+	// gomeos.MeosFinalize()
 }
 
 func TestDSIsRight(t *testing.T) {
-	gomeos.MeosInitialize()
+	// gomeos.MeosInitialize()
 	g_is := createDateSet()
 	g_is_2 := createDateSet2()
 	// Dateset
@@ -232,11 +232,11 @@ func TestDSIsRight(t *testing.T) {
 	dss := createDateSpanSet()
 	res, _ = g_is.IsRight(dss)
 	assert.False(t, res)
-	gomeos.MeosFinalize()
+	// gomeos.MeosFinalize()
 }
 
 func TestDSIsOverOrRight(t *testing.T) {
-	gomeos.MeosInitialize()
+	// gomeos.MeosInitialize()
 	g_is := createDateSet()
 	g_is_2 := createDateSet2()
 	// Dateset
@@ -254,11 +254,11 @@ func TestDSIsOverOrRight(t *testing.T) {
 	dss := createDateSpanSet()
 	res, _ = g_is.IsOverOrRight(dss)
 	assert.True(t, res)
-	gomeos.MeosFinalize()
+	// gomeos.MeosFinalize()
 }
 
 func TestDSDistance(t *testing.T) {
-	gomeos.MeosInitialize()
+	// gomeos.MeosInitialize()
 	g_is := createDateSet()
 	g_is_2 := createDateSet2()
 	// Dateset
@@ -276,11 +276,11 @@ func TestDSDistance(t *testing.T) {
 	dss := createDateSpanSet()
 	res, _ = g_is.Distance(dss)
 	assert.Equal(t, res, timeutil.Timedelta{})
-	gomeos.MeosFinalize()
+	// gomeos.MeosFinalize()
 }
 
 func TestDSIntersection(t *testing.T) {
-	gomeos.MeosInitialize()
+	// gomeos.MeosInitialize()
 	g_is := createDateSet()
 	g_is_2 := createDateSet2()
 	// Dateset
@@ -298,11 +298,11 @@ func TestDSIntersection(t *testing.T) {
 	dss := createDateSpanSet()
 	res, _ = g_is.Intersection(dss)
 	assert.Equal(t, res.Output(), "{[2019-09-08, 2019-09-09), [2019-09-10, 2019-09-11)}")
-	gomeos.MeosFinalize()
+	// gomeos.MeosFinalize()
 }
 
 func TestDSMinus(t *testing.T) {
-	gomeos.MeosInitialize()
+	// gomeos.MeosInitialize()
 	g_is := createDateSet()
 	g_is_2 := createDateSet2()
 	// Dateset
@@ -320,11 +320,11 @@ func TestDSMinus(t *testing.T) {
 	dss := createDateSpanSet()
 	res, _ = g_is.Minus(dss)
 	assert.Equal(t, res.Output(), "{[2019-12-13, 2019-12-14)}")
-	gomeos.MeosFinalize()
+	// gomeos.MeosFinalize()
 }
 
 func TestDSUnion(t *testing.T) {
-	gomeos.MeosInitialize()
+	// gomeos.MeosInitialize()
 	g_is := createDateSet()
 	g_is_2 := createDateSet2()
 	// Dateset
@@ -342,5 +342,5 @@ func TestDSUnion(t *testing.T) {
 	dss := createDateSpanSet()
 	res, _ = g_is.Union(dss)
 	assert.Equal(t, res.Output(), "{[2019-09-08, 2019-09-13), [2019-12-13, 2019-12-14)}")
-	gomeos.MeosFinalize()
+	// gomeos.MeosFinalize()
 }

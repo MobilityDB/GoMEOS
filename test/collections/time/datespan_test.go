@@ -13,7 +13,7 @@ func createDateSpan() *gomeos.DateSpan {
 
 // Test function
 func TestNewDateSpan(t *testing.T) {
-	gomeos.MeosInitialize()
+	// gomeos.MeosInitialize()
 	g_is := gomeos.NewDateSpan("(2019-09-08, 2019-09-10)")
 	if g_is == nil {
 		t.Fatal("NewDateSpan returned null")
@@ -23,5 +23,5 @@ func TestNewDateSpan(t *testing.T) {
 	output := g_is.DateSpanOut()
 	t.Logf("DateSpanOut returned: %s", output)
 	assert.Equal(t, output, "[2019-09-09, 2019-09-10)")
-	gomeos.MeosFinalize()
+	// gomeos.MeosFinalize()
 }
