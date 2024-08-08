@@ -53,3 +53,16 @@ func TimestamptzToDatetime(ts C.TimestampTz) time.Time {
 	parsedDate, _ := time.Parse(layout, timeStr)
 	return parsedDate
 }
+
+func DatetimeToTimestamptz(t time.Time) C.TimestampTz {
+	timeStr := t.Format("2006-01-02 15:04:05")
+	CtimeStr := C.CString(timeStr)
+	defer C.free(unsafe.Pointer(CtimeStr))
+	tstz := C.pg_timestamptz_in(CtimeStr, C.int(-1))
+	return tstz
+}
+
+func TimestamptzOut(ts C.TimestampTz) string {
+	timeStr := C.GoString(C.pg_timestamptz_out(ts))
+	return timeStr
+}

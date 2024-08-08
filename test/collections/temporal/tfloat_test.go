@@ -7,7 +7,7 @@ import (
 	"github.com/alecthomas/assert/v2"
 )
 
-func createTFloat() *gomeos.TFloatInst {
+func createTFloat() gomeos.TFloatInst {
 	return gomeos.NewTFloatInst("0.12344@2000-01-01")
 }
 

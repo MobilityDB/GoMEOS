@@ -10,3 +10,10 @@ package gomeos
 #define gunion_set_float union_set_float
 */
 import "C"
+
+var interpTypeMap = map[string]C.interpType{
+	"INTERP_NONE": C.INTERP_NONE,
+	"DISCRETE":    C.DISCRETE,
+	"STEP":        C.STEP,
+	"LINEAR":      C.LINEAR,
+}

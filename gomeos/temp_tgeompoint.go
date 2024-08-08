@@ -13,11 +13,11 @@ type TGeomPointInst struct {
 	_inner *C.Temporal
 }
 
-func NewTGeomPointInst(tgmpi_in string) *TGeomPointInst {
+func NewTGeomPointInst(tgmpi_in string) TGeomPointInst {
 	c_tgmpi_in := C.CString(tgmpi_in)
 	defer C.free(unsafe.Pointer(c_tgmpi_in))
 	c_tgmpi := C.tgeompoint_in(c_tgmpi_in)
-	g_tgmpi := &TGeomPointInst{_inner: c_tgmpi}
+	g_tgmpi := TGeomPointInst{_inner: c_tgmpi}
 	return g_tgmpi
 }
 

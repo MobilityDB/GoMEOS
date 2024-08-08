@@ -13,11 +13,11 @@ type TFloatInst struct {
 	_inner *C.Temporal
 }
 
-func NewTFloatInst(tf_in string) *TFloatInst {
+func NewTFloatInst(tf_in string) TFloatInst {
 	c_tf_in := C.CString(tf_in)
 	defer C.free(unsafe.Pointer(c_tf_in))
 	c_tf := C.tfloat_in(c_tf_in)
-	g_tf := &TFloatInst{_inner: c_tf}
+	g_tf := TFloatInst{_inner: c_tf}
 	return g_tf
 }
 
@@ -46,6 +46,19 @@ func (tf *TFloatSeq) TPointOut(maxdd int) string {
 	defer C.free(unsafe.Pointer(c_tf_out))
 	tf_out := C.GoString(c_tf_out)
 	return tf_out
+}
+
+func (tf TFloatSeq) Inner() *C.Temporal {
+	return tf._inner
+}
+
+type Temporal interface {
+	Inner() *C.Temporal
+}
+
+func TnumberTwavg[T Temporal](temp T) float64 {
+	res := C.tnumber_twavg(temp.Inner())
+	return float64(res)
 }
 
 // ------------------------- TFloatSeqSet ---------------------------

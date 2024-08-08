@@ -19,11 +19,11 @@ type IntSet struct {
 }
 
 // ------------------------- Input ----------------------------------------
-func NewIntSet(g_is_in string) *IntSet {
+func NewIntSet(g_is_in string) IntSet {
 	c_is_in := C.CString(g_is_in)
 	defer C.free(unsafe.Pointer(c_is_in))
 	c_is := C.intset_in(c_is_in)
-	g_is := &IntSet{_inner: c_is}
+	g_is := IntSet{_inner: c_is}
 	return g_is
 }
 

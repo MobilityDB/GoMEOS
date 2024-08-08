@@ -7,7 +7,7 @@ import (
 	"github.com/alecthomas/assert/v2"
 )
 
-func createTGeomPointInst() *gomeos.TGeomPointInst {
+func createTGeomPointInst() gomeos.TGeomPointInst {
 	return gomeos.NewTGeomPointInst("POINT(1 1)@2000-01-01")
 }
 

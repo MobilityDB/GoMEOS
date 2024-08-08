@@ -250,7 +250,7 @@ func (g_ds *DateSet) Distance(other interface{}) (timeutil.Timedelta, error) {
 }
 
 // ------------------------- Set Operations --------------------------------
-func (g_ds *DateSet) Intersection(other interface{}) (Dates, error) {
+func (g_ds *DateSet) intersection(other interface{}) (Dates, error) {
 	switch o := other.(type) {
 	case time.Time:
 		res := C.intersection_set_date(g_ds._inner, DateToDateADT(o))
@@ -267,9 +267,69 @@ func (g_ds *DateSet) Intersection(other interface{}) (Dates, error) {
 	}
 }
 
-func (g_ds *DateSet) Mul(other interface{}) (Dates, error) {
-	return g_ds.Intersection(other)
+func (g_ds *DateSet) Intersection(other interface{}) (interface{}, error) {
+	switch o := other.(type) {
+	case time.Time:
+		res := C.intersection_set_date(g_ds._inner, DateToDateADT(o))
+		return &DateSet{_inner: res}, nil
+	case *DateSet:
+		res := C.intersection_set_set(g_ds._inner, o._inner)
+		return &DateSet{_inner: res}, nil
+	case *DateSpan:
+		return g_ds.ToSpanSet().Intersection(o)
+	case *DateSpanSet:
+		return g_ds.ToSpanSet().Intersection(o)
+	default:
+		return &DateSet{_inner: nil}, fmt.Errorf("operation not supported with type %T", other)
+	}
 }
+
+// type DatesGenerics interface {
+// 	*DateSet | *DateSpan | *DateSpanSet
+// }
+
+// // IntersectionAndUnwrap combines the Intersection method and type assertion into one function.
+// func Intersection[T DatesGenerics](g_ds *DateSet, other interface{}) (T, error) {
+// 	var output T
+
+// 	// Perform the intersection based on the type of `other`
+// 	var dates Dates
+// 	switch o := other.(type) {
+// 	case time.Time:
+// 		res := C.intersection_set_date(g_ds._inner, DateToDateADT(o))
+// 		dates = &DateSet{_inner: res}
+// 	case *DateSet:
+// 		res := C.intersection_set_set(g_ds._inner, o._inner)
+// 		dates = &DateSet{_inner: res}
+// 	case *DateSpan:
+// 		// Perform the intersection with DateSpan and DateSet
+// 		spanSet, err := g_ds.ToSpanSet().Intersection(o)
+// 		if err != nil {
+// 			return output, err
+// 		}
+// 		dates = spanSet
+// 	case *DateSpanSet:
+// 		// Perform the intersection with DateSpanSet
+// 		spanSet, err := g_ds.ToSpanSet().Intersection(o)
+// 		if err != nil {
+// 			return output, err
+// 		}
+// 		dates = spanSet
+// 	default:
+// 		return output, fmt.Errorf("operation not supported with type %T", other)
+// 	}
+
+// 	// Assert the type to the requested concrete type
+// 	if result, ok := dates.(T); ok {
+// 		return result, nil
+// 	}
+
+// 	return output, fmt.Errorf("unexpected type: %T", dates)
+// }
+
+// func (g_ds *DateSet) Mul(other interface{}) (Dates, error) {
+// 	return g_ds.Intersection(other)
+// }
 
 func (g_ds *DateSet) Minus(other interface{}) (Dates, error) {
 	switch o := other.(type) {

@@ -19,11 +19,11 @@ type FloatSet struct {
 }
 
 // ------------------------- Input ----------------------------------------
-func NewFloatSet(g_fs_in string) *FloatSet {
+func NewFloatSet(g_fs_in string) FloatSet {
 	c_fs_in := C.CString(g_fs_in)
 	defer C.free(unsafe.Pointer(c_fs_in))
 	c_fs := C.floatset_in(c_fs_in)
-	g_fs := &FloatSet{_inner: c_fs}
+	g_fs := FloatSet{_inner: c_fs}
 	return g_fs
 }
 
