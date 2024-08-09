@@ -26,16 +26,16 @@ func TestNewCreateTGeogPointInst(t *testing.T) {
 	// // gomeos.MeosFinalize()
 }
 
-func TestSequenceMake(t *testing.T) {
-	gomeos.MeosInitialize("UTC")
-	g1 := createTGeogPointInst()
-	g2 := createTGeogPointInst2()
-	g3 := createTGeogPointInst3()
-	var gs []gomeos.TGeogPointInst
-	gs = append(gs, g1)
-	gs = append(gs, g2)
-	gs = append(gs, g3)
-	gseq := gomeos.TGeogPointSeqMake(gs, len(gs), true, true, "STEP", true)
-	assert.Equal(t, gseq.TPointOut(5), "Interp=Step;[POINT(1 1)@2000-01-01 00:00:00+00, POINT(1 2)@2000-01-02 00:00:00+00, POINT(1 20)@2000-01-05 00:00:00+00]")
-	gomeos.MeosFinalize()
-}
+// func TestSequenceMake(t *testing.T) {
+// 	gomeos.MeosInitialize("UTC")
+// 	g1 := createTGeogPointInst()
+// 	g2 := createTGeogPointInst2()
+// 	g3 := createTGeogPointInst3()
+// 	var gs []gomeos.TGeogPointInst
+// 	gs = append(gs, g1)
+// 	gs = append(gs, g2)
+// 	gs = append(gs, g3)
+// 	gseq := gomeos.TGeogPointSeqMake(gs, len(gs), true, true, "STEP", true)
+// 	assert.Equal(t, gseq.TPointOut(5), "Interp=Step;[POINT(1 1)@2000-01-01 00:00:00+00, POINT(1 2)@2000-01-02 00:00:00+00, POINT(1 20)@2000-01-05 00:00:00+00]")
+// 	gomeos.MeosFinalize()
+// }

@@ -52,15 +52,6 @@ func (tf TFloatSeq) Inner() *C.Temporal {
 	return tf._inner
 }
 
-type Temporal interface {
-	Inner() *C.Temporal
-}
-
-func TnumberTwavg[T Temporal](temp T) float64 {
-	res := C.tnumber_twavg(temp.Inner())
-	return float64(res)
-}
-
 // ------------------------- TFloatSeqSet ---------------------------
 type TFloatSeqSet struct {
 	_inner *C.Temporal

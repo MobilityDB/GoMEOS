@@ -1,5 +1,6 @@
 package main
 
+//MEOS example: meos/examples/01_hello_world.c
 import (
 	"fmt"
 

@@ -21,7 +21,19 @@ func NewTGeomPointInst(tgmpi_in string) TGeomPointInst {
 	return g_tgmpi
 }
 
+func NewEmptyTGeomPointInst() TGeomPointInst {
+	g_tgmpi := TGeomPointInst{_inner: nil}
+	return g_tgmpi
+}
+
 func (tgmpi *TGeomPointInst) TPointOut(maxdd int) string {
+	c_tgmpi_out := C.tpoint_as_text(tgmpi._inner, C.int(maxdd))
+	defer C.free(unsafe.Pointer(c_tgmpi_out))
+	tgmpi_out := C.GoString(c_tgmpi_out)
+	return tgmpi_out
+}
+
+func (tgmpi *TGeomPointInst) TInstantOut(maxdd int) string {
 	c_tgmpi_out := C.tpoint_as_text(tgmpi._inner, C.int(maxdd))
 	defer C.free(unsafe.Pointer(c_tgmpi_out))
 	tgmpi_out := C.GoString(c_tgmpi_out)
@@ -40,6 +52,19 @@ func NewTGeomPointSeq(tgmpi_in string) *TGeomPointSeq {
 	g_tgmpi := &TGeomPointSeq{_inner: c_tgmpi}
 	return g_tgmpi
 }
+
+func NewTGeomPointSeqFromWKB(tgmpi_in string) *TGeomPointSeq {
+	c_tgmpi_in := C.CString(tgmpi_in)
+	defer C.free(unsafe.Pointer(c_tgmpi_in))
+	c_tgmpi := C.temporal_from_hexwkb(c_tgmpi_in)
+	g_tgmpi := &TGeomPointSeq{_inner: c_tgmpi}
+	return g_tgmpi
+}
+
+// func NewTGeomPointSeqInner(p C.Temporal) TGeomPointSeq {
+// 	g_tgmpi := TGeomPointSeq{_inner: &p}
+// 	return g_tgmpi
+// }
 
 func (tgmpi *TGeomPointSeq) TPointOut(maxdd int) string {
 	c_tgmpi_out := C.tpoint_as_text(tgmpi._inner, C.int(maxdd))

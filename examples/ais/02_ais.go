@@ -1,5 +1,7 @@
 package main
 
+//MEOS example: meos/examples/02_ais_read.c
+//MEOS example: meos/examples/03_ais_assemble.c
 import (
 	"encoding/csv"
 	"fmt"
