@@ -4,13 +4,24 @@ package gomeos
 #include "meos.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include "cast.h"
 */
 import "C"
 import "unsafe"
 
+// func TGeomPointIn[T TGeomPoint](input string, output T) T {
+// 	c_temp := C.tgeompoint_in(C.CString(input))
+// 	output.Init(c_temp)
+// 	return output
+// }
+
 // ------------------------- TGeomPointInst ---------------------------
 type TGeomPointInst struct {
 	_inner *C.Temporal
+}
+
+func NewTGeomPointInstInner(inner *C.Temporal) *TGeomPointInst {
+	return &TGeomPointInst{_inner: inner}
 }
 
 func NewTGeomPointInst(tgmpi_in string) TGeomPointInst {
@@ -38,6 +49,34 @@ func (tgmpi *TGeomPointInst) TInstantOut(maxdd int) string {
 	defer C.free(unsafe.Pointer(c_tgmpi_out))
 	tgmpi_out := C.GoString(c_tgmpi_out)
 	return tgmpi_out
+}
+
+func (tgmpi *TGeomPointInst) IsTInstant() bool {
+	return true
+}
+
+func (tb *TGeomPointInst) Init(c_temp *C.Temporal) {
+	tb._inner = c_temp
+}
+
+func (tb *TGeomPointInst) Inner() *C.Temporal {
+	return tb._inner
+}
+
+func (tb *TGeomPointInst) IsTGeomPoint() bool {
+	return true
+}
+
+func (tgmpi *TGeomPointInst) IsTPoint() bool {
+	return true
+}
+
+func (tgmpi *TGeomPointInst) String() string {
+	return tgmpi.TPointOut(5)
+}
+
+func (tgmpi *TGeomPointInst) Type() string {
+	return "TGeomPointInst"
 }
 
 // ------------------------- TGeomPointSeq ---------------------------
@@ -73,6 +112,38 @@ func (tgmpi *TGeomPointSeq) TPointOut(maxdd int) string {
 	return tgmpi_out
 }
 
+func (tgmpi *TGeomPointSeq) Inner() *C.Temporal {
+	return tgmpi._inner
+}
+
+func (tgmpi *TGeomPointSeq) Init(c_temp *C.Temporal) {
+	tgmpi._inner = c_temp
+}
+
+func (tgmpi *TGeomPointSeq) NewInit(c_temp *C.Temporal) *TGeomPointSeq {
+	return &TGeomPointSeq{_inner: c_temp}
+}
+
+func (tgmpi *TGeomPointSeq) IsTGeomPoint() bool {
+	return true
+}
+
+func (tgmpi *TGeomPointSeq) IsTPoint() bool {
+	return true
+}
+
+func (tgmpi *TGeomPointSeq) String() string {
+	return tgmpi.TPointOut(10)
+}
+
+func (tgmpi *TGeomPointSeq) Type() string {
+	return "TGeomPointSeq"
+}
+
+func (tgmpi *TGeomPointSeq) IsTSequence() bool {
+	return true
+}
+
 // ------------------------- TGeomPointSeqSet ---------------------------
 type TGeomPointSeqSet struct {
 	_inner *C.Temporal
@@ -91,4 +162,45 @@ func (tgmpi *TGeomPointSeqSet) TPointOut(maxdd int) string {
 	defer C.free(unsafe.Pointer(c_tgmpi_out))
 	tgmpi_out := C.GoString(c_tgmpi_out)
 	return tgmpi_out
+}
+
+func (tb *TGeomPointSeqSet) Init(c_temp *C.Temporal) {
+	tb._inner = c_temp
+}
+
+func (tb *TGeomPointSeqSet) Inner() *C.Temporal {
+	return tb._inner
+}
+
+func (tb *TGeomPointSeqSet) IsTGeomPoint() bool {
+	return true
+}
+
+func (tgmpi *TGeomPointSeqSet) IsTPoint() bool {
+	return true
+}
+
+func (tgmpi *TGeomPointSeqSet) String() string {
+	return tgmpi.TPointOut(10)
+}
+
+func (tgmpi *TGeomPointSeqSet) Type() string {
+	return "TGeomPointSeqSet"
+}
+
+// ------------------------- TGeomPoint ---------------------------
+func TGeomPointIn[TG TGeomPoint](input string, output TG) TG {
+	c_str := C.CString(input)
+	defer C.free(unsafe.Pointer(c_str))
+	c_geompoint := C.tgeompoint_in(c_str)
+	output.Init(c_geompoint)
+	return output
+}
+
+func TGeomPointFromMFJSON[TG TGeomPoint](input string, output TG) TG {
+	c_str := C.CString(input)
+	defer C.free(unsafe.Pointer(c_str))
+	c_geompoint := C.tgeompoint_from_mfjson(c_str)
+	output.Init(c_geompoint)
+	return output
 }

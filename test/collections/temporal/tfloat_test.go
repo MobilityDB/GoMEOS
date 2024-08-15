@@ -7,7 +7,7 @@ import (
 	"github.com/alecthomas/assert/v2"
 )
 
-func createTFloat() gomeos.TFloatInst {
+func createTFloat() *gomeos.TFloatInst {
 	return gomeos.NewTFloatInst("0.12344@2000-01-01")
 }
 
@@ -17,3 +17,9 @@ func TestNewCreateTFloat(t *testing.T) {
 	assert.Equal(t, g_is.TPointOut(5), "0.12344@2000-01-01 00:00:00+00")
 	// // gomeos.MeosFinalize()
 }
+
+// func TestTFloatInOut(t *testing.T) {
+// 	gomeos.MeosInitialize("UTC")
+// 	tf := gomeos.TFloatIn("{1.5@2022-10-01 00:00:00+00, 2.5@2022-10-02 00:00:00+00}", &gomeos.TFloatSeq{})
+// 	assert.Equal(t, gomeos.TFloatOut(tf, 2), "{1.5@2022-10-01 00:00:00+00, 2.5@2022-10-02 00:00:00+00}")
+// }

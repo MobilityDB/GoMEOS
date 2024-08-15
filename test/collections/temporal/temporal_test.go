@@ -1,7 +1,9 @@
 package temporal_test
 
 import (
+	"fmt"
 	"testing"
+	"time"
 
 	"github.com/MobilityDB/GoMEOS/gomeos"
 	"github.com/alecthomas/assert/v2"
@@ -21,11 +23,85 @@ func TestNewCreateTGeomPointSeqInner(t *testing.T) {
 	// // gomeos.MeosFinalize()
 }
 
-func TestGeoAsEWKT(t *testing.T) {
+// func TestGeoAsEWKT(t *testing.T) {
+// 	gomeos.MeosInitialize("UTC")
+// 	g_is := createTGeomPointSeqInner()
+// 	empty_TGeomPointInst := gomeos.NewEmptyTGeomPointInst()
+// 	temp_n := gomeos.TemporalInstantN(g_is, &empty_TGeomPointInst, 1)
+// 	assert.Equal(t, gomeos.GeoAsEWKT(temp_n, 6), "SRID=3857;POINT(496102.813654 6595154.145012)")
+// 	// // gomeos.MeosFinalize()
+// }
+
+func TestSimplify(t *testing.T) {
 	gomeos.MeosInitialize("UTC")
 	g_is := createTGeomPointSeqInner()
-	empty_TGeomPointInst := gomeos.NewEmptyTGeomPointInst()
-	temp_n := gomeos.TemporalInstantN(g_is, &empty_TGeomPointInst, 1)
-	assert.Equal(t, gomeos.GeoAsEWKT(temp_n, 6), "SRID=3857;POINT(496102.813654 6595154.145012)")
+	simplified := gomeos.TemporalSimplifyDP(g_is, &gomeos.TGeomPointSeq{}, 2, false)
+	assert.Equal(t, simplified.TPointOut(5), "POINT(496102.81365 6595154.14501)@2020-06-03 07:21:38.834+00")
 	// // gomeos.MeosFinalize()
+}
+
+// func TestTPointSpeed(t *testing.T) {
+// 	gomeos.MeosInitialize("UTC")
+// 	g_is := createTGeomPointSeqInner()
+// 	speed := gomeos.TPointSpeed(g_is, &gomeos.TFloatSeq{})
+// 	assert.Equal(t, speed.TPointOut(5), "POINT(496102.81365 6595154.14501)@2020-06-03 07:21:38.834+00")
+// 	// // gomeos.MeosFinalize()
+// }
+
+func TestTemporalNumInstants(t *testing.T) {
+	gomeos.MeosInitialize("UTC")
+	g_is := createTGeomPointSeqInner()
+	nums := gomeos.TemporalNumInstants(g_is)
+	instants := make([]*gomeos.TGeomPointInst, nums)
+	for i := 0; i < nums; i++ {
+		instants[i] = gomeos.NewTGeomPointInstInner(nil)
+	}
+	insts := gomeos.TemporalInstants(g_is, instants)
+	o1 := gomeos.TPointAsEWKT(insts[0], 5)
+	o2 := gomeos.TPointAsEWKT(insts[1], 5)
+	o3 := gomeos.TPointAsEWKT(insts[2], 5)
+	assert.Equal(t, o1, "SRID=3857;POINT(496102.81365 6595154.14501)@2020-06-03 07:21:38.834+00")
+	assert.Equal(t, o2, "SRID=3857;POINT(496105.47466 6595158.3781)@2020-06-03 07:21:40.334+00")
+	assert.Equal(t, o3, "SRID=3857;POINT(496107.99001 6595162.37946)@2020-06-03 07:21:41.184733+00")
+	// // gomeos.MeosFinalize()
+}
+
+func TestTemporalDuration(t *testing.T) {
+	gomeos.MeosInitialize("UTC")
+	g_is := createTGeomPointSeqInner()
+	delta := gomeos.TemporalDuration(g_is, false)
+	assert.Equal(t, delta.String(), "1h1m33.791475s")
+	// // gomeos.MeosFinalize()
+}
+
+func TestTemporalStartTimestamptz(t *testing.T) {
+	gomeos.MeosInitialize("UTC")
+	g_is := createTGeomPointSeqInner()
+	ts := gomeos.TemporalStartTimestamptz(g_is)
+	assert.Equal(t, ts.String(), "2020-06-03 07:21:38.834 +0000 +0000")
+}
+
+func TestTemporalStartTimestamps(t *testing.T) {
+	gomeos.MeosInitialize("UTC")
+	g_is := createTGeomPointSeqInner()
+	times := gomeos.TemporalTimestamps(g_is)
+	assert.Equal(t, times[0].String(), "2020-06-03 07:21:38.834 +0000 +0000")
+	assert.Equal(t, times[1].String(), "2020-06-03 07:21:40.334 +0000 +0000")
+}
+
+func TestCreateTemporal(t *testing.T) {
+	gomeos.MeosInitialize("UTC")
+	g_is := createTGeomPointSeqInner()
+	created := gomeos.CreateTemporal(g_is.Inner())
+	assert.Equal(t, gomeos.TemporalAsMFJSON(created, true, 3, 6, "EPSG:4326"), "")
+}
+
+func TestTemporalAtTimestamptz(t *testing.T) {
+	gomeos.MeosInitialize("UTC")
+	g_is := createTGeomPointSeqInner()
+	ts, _ := time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2020-06-03 07:21:38.834 +0000 +0000")
+	res := gomeos.TemporalAtTimestamptz(g_is, ts)
+	concrete, _ := gomeos.TemporalToGeomPointInst(res)
+	fmt.Println(concrete.Type())
+	assert.Equal(t, res.String(), "POINT(496102.81365 6595154.14501)@2020-06-03 07:21:38.834+00")
 }

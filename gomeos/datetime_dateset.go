@@ -5,8 +5,8 @@ package gomeos
 #include "meos_catalog.h"
 #include <stdio.h>
 #include <stdlib.h>
-#define gunion_set_set union_set_set
-#define gunion_set_date union_set_date
+#include "cast.h"
+
 */
 import "C"
 import (

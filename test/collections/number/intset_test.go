@@ -7,11 +7,11 @@ import (
 	"github.com/alecthomas/assert/v2"
 )
 
-func createIntSet() *gomeos.IntSet {
+func createIntSet() gomeos.IntSet {
 	return gomeos.NewIntSet("{1, 2, 3}")
 }
 
-func createIntSet2() *gomeos.IntSet {
+func createIntSet2() gomeos.IntSet {
 	return gomeos.NewIntSet("{3, 4, 5}")
 }
 
@@ -113,14 +113,14 @@ func TestIntSetIsOverOrRight(t *testing.T) {
 func TestIntSetIntersection(t *testing.T) {
 	g_is := createIntSet()
 	g_is2 := createIntSet2()
-	inter, _ := g_is.Intersection(g_is2)
+	inter, _ := g_is.Intersection(&g_is2)
 	assert.Equal(t, inter.IntSetOut(), "{3}")
 }
 
 func TestIntSetMinus(t *testing.T) {
 	g_is := createIntSet()
 	g_is2 := createIntSet2()
-	min, _ := g_is.Minus(g_is2)
+	min, _ := g_is.Minus(&g_is2)
 	assert.Equal(t, min.IntSetOut(), "{1, 2}")
 }
 
@@ -139,14 +139,14 @@ func TestIntSetSub(t *testing.T) {
 func TestIntSetMul(t *testing.T) {
 	g_is := createIntSet()
 	g_is2 := createIntSet2()
-	mul, _ := g_is.Mul(g_is2)
+	mul, _ := g_is.Mul(&g_is2)
 	assert.Equal(t, mul.IntSetOut(), "{3}")
 }
 
 func TestIntSetUnion(t *testing.T) {
 	g_is := createIntSet()
 	g_is2 := createIntSet2()
-	union, _ := g_is.Union(g_is2)
+	union, _ := g_is.Union(&g_is2)
 	assert.Equal(t, union.IntSetOut(), "{1, 2, 3, 4, 5}")
 }
 

@@ -5,6 +5,7 @@ package gomeos
 #include "meos_catalog.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include "cast.h"
 */
 import "C"
 import (

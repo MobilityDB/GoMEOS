@@ -28,3 +28,9 @@ func TestNewCreateTBoolSeq(t *testing.T) {
 	assert.Equal(t, g_is.TBoolOut(), "{t@2022-10-01 00:00:00+00, t@2022-10-02 00:00:00+00}")
 	// // gomeos.MeosFinalize()
 }
+
+// func TestTBoolInOut(t *testing.T) {
+// 	gomeos.MeosInitialize("UTC")
+// 	tb := gomeos.TBoolIn("{t@2022-10-01 00:00:00+00, t@2022-10-02 00:00:00+00}", &gomeos.TBoolSeq{})
+// 	assert.Equal(t, gomeos.TBoolOut(tb), "{t@2022-10-01 00:00:00+00, t@2022-10-02 00:00:00+00}")
+// }

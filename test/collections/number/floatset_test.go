@@ -9,11 +9,11 @@ import (
 )
 
 func createFloatSet() gomeos.FloatSet {
-	return *gomeos.NewFloatSet("{1.23, 2.9, 3.6}")
+	return gomeos.NewFloatSet("{1.23, 2.9, 3.6}")
 }
 
 func createFloatSet2() gomeos.FloatSet {
-	return *gomeos.NewFloatSet("{2.9, 4.70, 5.97, 1.23, 3.6}")
+	return gomeos.NewFloatSet("{2.9, 4.70, 5.97, 1.23, 3.6}")
 }
 
 func TestNewFloatSet(t *testing.T) {

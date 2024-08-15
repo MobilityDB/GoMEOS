@@ -5,8 +5,7 @@ package gomeos
 #include "meos.h"
 #include <stdio.h>
 #include <stdlib.h>
-#define gunion_set_set union_set_set
-#define gunion_set_float union_set_float
+#include "cast.h"
 */
 import "C"
 import (

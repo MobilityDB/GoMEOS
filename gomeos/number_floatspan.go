@@ -5,9 +5,8 @@ package gomeos
 #include "meos.h"
 #include <stdio.h>
 #include <stdlib.h>
-#define gunion_span_float union_span_float
-#define gunion_span_span union_span_span
-#define gunion_spanset_span union_spanset_span
+#include "cast.h"
+
 */
 import "C"
 import (

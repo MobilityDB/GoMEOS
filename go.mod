@@ -12,6 +12,7 @@ require (
 require (
 	github.com/alecthomas/repr v0.4.0 // indirect
 	github.com/apache/thrift v0.0.0-20181112125854-24918abba929 // indirect
+	github.com/barkimedes/go-deepcopy v0.0.0-20220514131651-17c30cfc62df // indirect
 	github.com/goccy/go-json v0.7.6 // indirect
 	github.com/golang/snappy v0.0.0-20180518054509-2e65f85255db // indirect
 	github.com/google/go-cmp v0.6.0 // indirect

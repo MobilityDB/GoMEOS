@@ -5,9 +5,8 @@ package gomeos
 #include "meos.h"
 #include <stdio.h>
 #include <stdlib.h>
-#define gunion_spanset_float union_spanset_float
-#define gunion_spanset_span union_spanset_span
-#define gunion_spanset_spanset union_spanset_spanset
+#include "cast.h"
+
 */
 import "C"
 import (
@@ -17,6 +16,19 @@ import (
 
 type FloatSpanSet struct {
 	_inner *C.SpanSet
+}
+
+// ------------------------- Interface ----------------------------------------
+func (fss *FloatSpanSet) IsSpanSet() bool {
+	return true
+}
+
+func (fss *FloatSpanSet) Inner() *C.SpanSet {
+	return fss._inner
+}
+
+func (fss *FloatSpanSet) Init(ss *C.SpanSet) {
+	fss._inner = ss
 }
 
 // ------------------------- Input ----------------------------------------
