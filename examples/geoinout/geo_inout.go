@@ -68,9 +68,9 @@ func main() {
 	polygonHexEWKB := gomeos.GeoAsHexEwkb(polygon, "XDR")
 
 	// Revert generated HexEWKB strings into geometries
-	point3 := gomeos.GeoFromHexEwkb(pointHexEWKB)
-	linestring3 := gomeos.GeoFromHexEwkb(linestringHexEWKB)
-	polygon3 := gomeos.GeoFromHexEwkb(polygonHexEWKB)
+	point3 := gomeos.GeometryFromHexEwkb(pointHexEWKB)
+	linestring3 := gomeos.GeometryFromHexEwkb(linestringHexEWKB)
+	polygon3 := gomeos.GeometryFromHexEwkb(polygonHexEWKB)
 
 	// Ensure that the reverted types are equal to the original ones
 	if !gomeos.GeoSame(point, point3) {

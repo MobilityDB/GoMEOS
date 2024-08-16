@@ -19,3 +19,11 @@ func TestTPointToSTBox(t *testing.T) {
 	stbox := gomeos.TPointToSTBox(tg)
 	assert.Equal(t, gomeos.STBoxOut(stbox, 10), "STBOX XT(((1,1),(2,2)),[2022-10-01 00:00:00+00, 2022-10-02 00:00:00+00])")
 }
+
+func TestTPointGeoAsWKT(t *testing.T) {
+	gomeos.MeosInitialize("UTC")
+	tg := gomeos.TGeomPointIn("POINT(1 1)@2022-10-01 00:00:00+00", &gomeos.TGeomPointSeq{})
+	geom := gomeos.TPointTrajectory(tg)
+	res := gomeos.GeoAsEWKT(geom, 10)
+	assert.Equal(t, res, "POINT(1 1)")
+}

@@ -68,7 +68,7 @@ type TGeogPoint interface {
 }
 
 type Geo interface {
-	Inner() *C.Temporal
+	Inner() *C.GSERIALIZED
 	IsGeo() bool
 }
 

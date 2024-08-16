@@ -14,13 +14,6 @@ import (
 	"github.com/MobilityDB/GoMEOS/gomeos"
 )
 
-const (
-	MaxLengthTrip   = 170001
-	MaxLengthHeader = 1024
-	MaxLengthDate   = 12
-	MaxNoTrips      = 64
-)
-
 type TripRecord struct {
 	TripID int
 	VehID  int
@@ -31,8 +24,7 @@ type TripRecord struct {
 
 func main() {
 	// Arrays to compute the results
-	var trips [MaxNoTrips]TripRecord
-	var currInst [MaxNoTrips]int
+	var trips []TripRecord
 
 	// Get start time
 	startTime := time.Now()
@@ -83,14 +75,14 @@ func main() {
 		trip := gomeos.NewTGeomPointSeqFromWKB(tripBuffer)
 
 		// Save the trip record
-		trips[i] = TripRecord{
+		new_trip := TripRecord{
 			TripID: tripID,
 			VehID:  vehID,
 			Day:    day,
 			Seq:    seq,
 			Trip:   trip,
 		}
-
+		trips = append(trips, new_trip)
 		i++
 	}
 
@@ -111,60 +103,35 @@ func main() {
 	fmt.Println("start writing csv")
 	writer.Write([]string{"tripid", "vehid", "day", "seqno", "geom", "t"})
 
-	// Initialize the current instant for each trip to the first one
-	for i := 0; i < MaxNoTrips; i++ {
-		currInst[i] = 1
-	}
-
-	// Loop until all trips have been processed
+	var nums int
 	recordsOut := 0
-	for {
-		// Find the minimum instant
-		first := 0
-		for first < recordsIn && currInst[first] < 0 {
-			first++
+	sum_nums := 0
+	for i := 0; i < len(trips)-1; i++ {
+		sum_nums += gomeos.TemporalNumInstants(trips[i].Trip)
+	}
+	fmt.Println(sum_nums)
+	for i := 0; i < len(trips); i++ {
+		nums = gomeos.TemporalNumInstants(trips[i].Trip)
+		instants := make([]*gomeos.TGeomPointInst, nums)
+		for i := 0; i < nums; i++ {
+			instants[i] = gomeos.NewTGeomPointInstInner(nil)
 		}
-		if first == recordsIn {
-			// All trips have been processed
-			break
-		}
-
-		minInst := gomeos.TemporalInstantN(trips[first].Trip, &gomeos.TGeomPointInst{}, currInst[first])
-		minTrip := first
-		// Loop for the minimum instant among all remaining trips
-		for i := first + 1; i < recordsIn; i++ {
-			if currInst[i] < 0 {
-				continue
-			}
-			inst := gomeos.TemporalInstantN(trips[i].Trip, &gomeos.TGeomPointInst{}, currInst[i])
-			if minInst.Timestamptz().After(inst.Timestamptz()) {
-				minInst = inst
-				minTrip = i
-			}
-		}
-
-		// Write line in the CSV file
-		dateStr := trips[minTrip].Day.Format("2006-01-02")
-		geomStr := gomeos.GeoAsEWKT(minInst, 6)
-		timeStr := minInst.TimestampOut()
-		writer.Write([]string{
-			strconv.Itoa(trips[minTrip].VehID),
-			strconv.Itoa(trips[minTrip].VehID),
-			dateStr,
-			strconv.Itoa(trips[minTrip].Seq),
-			geomStr,
-			timeStr,
-		})
-
-		recordsOut++
-
-		// Advance the current instant of the trip
-		currInst[minTrip]++
-		if currInst[minTrip] > gomeos.TemporalNumInstants(trips[minTrip].Trip) {
-			currInst[minTrip] = -1
+		insts := gomeos.TemporalInstants(trips[i].Trip, instants)
+		for _, inst := range insts {
+			dateStr := trips[i].Day.Format("2006-01-02")
+			geomStr := gomeos.GeoAsEWKT(gomeos.TPointTrajectory(inst), 6)
+			timeStr := inst.TimestampOut()
+			writer.Write([]string{
+				strconv.Itoa(trips[i].VehID),
+				strconv.Itoa(trips[i].VehID),
+				dateStr,
+				strconv.Itoa(trips[i].Seq),
+				geomStr,
+				timeStr,
+			})
+			recordsOut++
 		}
 	}
-
 	fmt.Printf("%d trip records read from file 'berlimod_trips.csv'.\n", recordsIn)
 	fmt.Printf("%d observation records written in file 'berlimod_instants.csv'.\n", recordsOut)
 

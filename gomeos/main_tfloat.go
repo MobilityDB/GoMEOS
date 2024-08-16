@@ -49,6 +49,10 @@ func (tf *TFloatInst) Type() string {
 	return "TFloatInst"
 }
 
+func (tf *TFloatInst) IsTInstant() bool {
+	return true
+}
+
 // ------------------------- TFloatSeq ---------------------------
 type TFloatSeq struct {
 	_inner *C.Temporal

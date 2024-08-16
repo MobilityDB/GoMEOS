@@ -29,6 +29,13 @@ func TPointAsEWKT[T TPoint](temp T, maxdd int) string {
 	return C.GoString(C.tpoint_as_ewkt(temp.Inner(), C.int(maxdd)))
 }
 
+func TPointGeoAsEWKT[T TPoint](temp T, maxdd int) string {
+	c_inst := C.cast_temporal_to_tinstant(temp.Inner())
+	c_value := c_inst.value
+	c_geo := (*C.GSERIALIZED)(unsafe.Pointer(&c_value))
+	return C.GoString(C.geo_as_ewkt(c_geo, C.int(maxdd)))
+}
+
 // ------------------------- Accessors -------------------------------------
 
 func TPointToSTBox[TP TPoint](tp TP) *STBox {
@@ -40,4 +47,9 @@ func TPointTransform[T TPoint](temp T, output T, srid_to int) T {
 	c_temp := C.tpoint_transform(temp.Inner(), C.int(srid_to))
 	output.Init(c_temp)
 	return output
+}
+
+func TPointTrajectory[TP TPoint](tp TP) *Geom {
+	trajectory := C.tpoint_trajectory(tp.Inner())
+	return &Geom{_inner: trajectory}
 }

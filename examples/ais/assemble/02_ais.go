@@ -26,10 +26,10 @@ type AISRecord struct {
 type TripRecord struct {
 	MMSI int64
 	// numinstants   int
-	trip_instants []gomeos.TGeogPointInst
-	SOG_instants  []gomeos.TFloatInst
-	trip          gomeos.TGeogPointSeq
-	SOG           gomeos.TFloatSeq
+	trip_instants []*gomeos.TGeogPointInst
+	SOG_instants  []*gomeos.TFloatInst
+	trip          *gomeos.TGeogPointSeq
+	SOG           *gomeos.TFloatSeq
 }
 
 const (
@@ -182,10 +182,10 @@ func main() {
 		}
 	}
 	for i := 0; i < numships; i++ {
-		trips[i].trip = gomeos.TGeogPointSeqMake(trips[i].trip_instants, len(trips[i].trip_instants), true, true, "LINEAR", true)
-		fmt.Printf("  Trip -> Number of instants: %d, Distance travelled %f\n", gomeos.TemporalNumInstants[gomeos.TGeogPointSeq](trips[i].trip), gomeos.TPointLength(trips[i].trip))
-		trips[i].SOG = gomeos.TFloatSeqMake(trips[i].SOG_instants, len(trips[i].SOG_instants), true, true, "LINEAR", true)
-		fmt.Printf("  Trip -> Number of instants: %d, Time-weighted average %f\n", gomeos.TemporalNumInstants[gomeos.TFloatSeq](trips[i].SOG), gomeos.TnumberTwavg(trips[i].SOG))
+		trips[i].trip = gomeos.TSequenceMake(trips[i].trip_instants, len(trips[i].trip_instants), true, true, gomeos.LINEAR, true, &gomeos.TGeogPointSeq{})
+		fmt.Printf("  Trip -> Number of instants: %d, Distance travelled %f\n", gomeos.TemporalNumInstants(trips[i].trip), gomeos.TPointLength(trips[i].trip))
+		trips[i].SOG = gomeos.TSequenceMake(trips[i].SOG_instants, len(trips[i].SOG_instants), true, true, gomeos.LINEAR, true, &gomeos.TFloatSeq{})
+		fmt.Printf("  SOG -> Number of instants: %d, Time-weighted average %f\n", gomeos.TemporalNumInstants(trips[i].SOG), gomeos.TnumberTwavg(trips[i].SOG))
 	}
 
 	// Write the output to a new CSV file
@@ -194,19 +194,16 @@ func main() {
 		log.Fatalf("Error creating output file: %v", err2)
 	}
 	defer outputFile2.Close()
-	fmt.Println("create file!")
 	writer2 := csv.NewWriter(outputFile2)
 	defer writer2.Flush()
 
 	// Write the header
 	writer2.Write([]string{"mmsi", "trip", "sog"})
-	fmt.Println("header finish!!")
 	for i := 0; i < numships; i++ {
 		writer2.Write([]string{
 			strconv.FormatInt(trips[i].MMSI, 6),
 			trips[i].trip.TPointOut(6),
 			trips[i].SOG.TPointOut(6),
 		})
-		fmt.Println("one line written!")
 	}
 }

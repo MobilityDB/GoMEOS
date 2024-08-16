@@ -17,12 +17,12 @@ type TGeogPointInst struct {
 	_inner *C.Temporal
 }
 
-func NewTGeogPointInst(tgmpi_in string) TGeogPointInst {
+func NewTGeogPointInst(tgmpi_in string) *TGeogPointInst {
 	c_tgmpi_in := C.CString(tgmpi_in)
 	defer C.free(unsafe.Pointer(c_tgmpi_in))
 	c_tgmpi := C.tgeogpoint_in(c_tgmpi_in)
 	g_tgmpi := TGeogPointInst{_inner: c_tgmpi}
-	return g_tgmpi
+	return &g_tgmpi
 }
 
 func (tgmpi *TGeogPointInst) TPointOut(maxdd int) string {
@@ -54,6 +54,10 @@ func (tgmpi *TGeogPointInst) String() string {
 
 func (tgmpi *TGeogPointInst) Type() string {
 	return "TGeogPointInst"
+}
+
+func (tgmpi *TGeogPointInst) IsTInstant() bool {
+	return true
 }
 
 func (tgmpi *TGeomPointInst) Timestamptz() time.Time {

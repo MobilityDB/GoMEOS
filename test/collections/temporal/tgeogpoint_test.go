@@ -7,15 +7,15 @@ import (
 	"github.com/alecthomas/assert/v2"
 )
 
-func createTGeogPointInst() gomeos.TGeogPointInst {
+func createTGeogPointInst() *gomeos.TGeogPointInst {
 	return gomeos.NewTGeogPointInst("POINT(1 1)@2000-01-01")
 }
 
-func createTGeogPointInst2() gomeos.TGeogPointInst {
+func createTGeogPointInst2() *gomeos.TGeogPointInst {
 	return gomeos.NewTGeogPointInst("POINT(1 2)@2000-01-02")
 }
 
-func createTGeogPointInst3() gomeos.TGeogPointInst {
+func createTGeogPointInst3() *gomeos.TGeogPointInst {
 	return gomeos.NewTGeogPointInst("POINT(1 20)@2000-01-05")
 }
 
