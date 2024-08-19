@@ -38,5 +38,5 @@ func main() {
 	fmt.Println(ss_linear.TPointOut(5))
 	fmt.Println("--------------------Temporal Sequence Set with Step Interpolation--------------------")
 	fmt.Println(ss_step.TPointOut(5))
-
+	gomeos.MeosFinalize()
 }
