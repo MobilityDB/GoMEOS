@@ -49,6 +49,10 @@ func (tb *TIntInst) Type() string {
 	return "TIntInst"
 }
 
+func (tb *TIntInst) IsTNumber() bool {
+	return true
+}
+
 // ------------------------- TIntSeq ---------------------------
 type TIntSeq struct {
 	_inner *C.Temporal
@@ -93,6 +97,10 @@ func (tb *TIntSeq) IsTSequence() bool {
 	return true
 }
 
+func (tb *TIntSeq) IsTNumber() bool {
+	return true
+}
+
 // ------------------------- TIntSeqSet ---------------------------
 type TIntSeqSet struct {
 	_inner *C.Temporal
@@ -131,6 +139,10 @@ func (tb *TIntSeqSet) String() string {
 
 func (tb *TIntSeqSet) Type() string {
 	return "TIntSeqSet"
+}
+
+func (tb *TIntSeqSet) IsTNumber() bool {
+	return true
 }
 
 // ------------------------- TInt ---------------------------

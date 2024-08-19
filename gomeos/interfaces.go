@@ -37,13 +37,18 @@ type TBool interface {
 	IsTBool() bool
 }
 
-type TInt interface {
+type TNumber interface {
 	Temporal
+	IsTNumber() bool
+}
+
+type TInt interface {
+	TNumber
 	IsTInt() bool
 }
 
 type TFloat interface {
-	Temporal
+	TNumber
 	IsTFloat() bool
 }
 

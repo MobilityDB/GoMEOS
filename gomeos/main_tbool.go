@@ -7,7 +7,11 @@ package gomeos
 #include "cast.h"
 */
 import "C"
-import "unsafe"
+import (
+	"fmt"
+	"time"
+	"unsafe"
+)
 
 // ------------------------- TBoolInst ---------------------------
 type TBoolInst struct {
@@ -134,6 +138,7 @@ func (tb *TBoolSeqSet) Type() string {
 }
 
 // ------------------------- TBool ---------------------------
+// ------------------------- Constructors ----------------------------------
 func TBoolIn[TB TBool](input string, output TB) TB {
 	c_str := C.CString(input)
 	defer C.free(unsafe.Pointer(c_str))
@@ -150,9 +155,62 @@ func TBoolFromMFJSON[TB TBool](input string, output TB) TB {
 	return output
 }
 
+// ------------------------- Output ----------------------------------------
 func TBoolOut[TB TBool](tb TB) string {
 	c_bool := C.tbool_out(tb.Inner())
 	defer C.free(unsafe.Pointer(c_bool))
 	bool_out := C.GoString(c_bool)
 	return bool_out
 }
+
+// ------------------------- Accessors -------------------------------------
+// TBoolValues wraps the tbool_values C function to return a Go slice of bool.
+func TBoolValueSet[TB TBool](tb TB) ([]bool, error) {
+	var count C.int
+
+	// Call the C function
+	cValues := C.tbool_values(tb.Inner(), &count)
+	if cValues == nil {
+		return nil, fmt.Errorf("failed to retrieve bool values")
+	}
+
+	// Convert the C bool array to a Go slice
+	length := int(count)
+	values := unsafe.Slice((*C.bool)(cValues), length)
+	// Convert the C bool values to Go bool values
+	goValues := make([]bool, length)
+	for i := 0; i < length; i++ {
+		goValues[i] = bool(values[i])
+	}
+	return goValues, nil
+}
+
+func TBoolStartValue[TB TBool](tb TB) bool {
+	cValue := C.tbool_start_value(tb.Inner())
+	return bool(cValue)
+}
+
+func TBoolEndValue[TB TBool](tb TB) bool {
+	cValue := C.tbool_end_value(tb.Inner())
+	return bool(cValue)
+}
+
+func TBoolValueAtTimestamp[TB TBool](tb TB, ts time.Time) bool {
+	tboolinst, _ := TemporalToTBoolInst(TemporalAtTimestamptz(tb, ts))
+	return TBoolStartValue(tboolinst)
+}
+
+// ------------------------- TODO:Ever and Always Comparisons -------------------
+// ------------------------- TODO:Temporal Comparisons --------------------------
+// ------------------------- Restrictions ----------------------------------
+func TBoolAtValue[TB TBool](tb TB, value bool) Temporal {
+	c_tbools := C.tbool_at_value(tb.Inner(), C.bool(value))
+	return CreateTemporal(c_tbools)
+}
+
+func TBoolMinusValue[TB TBool](tb TB, value bool) Temporal {
+	c_tbools := C.tbool_minus_value(tb.Inner(), C.bool(value))
+	return CreateTemporal(c_tbools)
+}
+
+// ------------------------- TODO:Boolean Operations ----------------------------

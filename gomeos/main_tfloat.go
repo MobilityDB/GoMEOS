@@ -7,7 +7,10 @@ package gomeos
 #include "cast.h"
 */
 import "C"
-import "unsafe"
+import (
+	"fmt"
+	"unsafe"
+)
 
 // ------------------------- TFloatInst ---------------------------
 type TFloatInst struct {
@@ -50,6 +53,10 @@ func (tf *TFloatInst) Type() string {
 }
 
 func (tf *TFloatInst) IsTInstant() bool {
+	return true
+}
+
+func (tf *TFloatInst) IsTNumber() bool {
 	return true
 }
 
@@ -97,6 +104,10 @@ func (tf *TFloatSeq) IsTSequence() bool {
 	return true
 }
 
+func (tf *TFloatSeq) IsTNumber() bool {
+	return true
+}
+
 // ------------------------- TFloatSeqSet ---------------------------
 type TFloatSeqSet struct {
 	_inner *C.Temporal
@@ -137,7 +148,13 @@ func (tf *TFloatSeqSet) Type() string {
 	return "TFloatSeqSet"
 }
 
+func (tf *TFloatSeqSet) IsTNumber() bool {
+	return true
+}
+
 // ------------------------- TFloat ---------------------------
+
+// ------------------------- Constructors ----------------------------------
 func TFloatIn[TF TFloat](input string, output TF) TF {
 	c_str := C.CString(input)
 	defer C.free(unsafe.Pointer(c_str))
@@ -154,9 +171,19 @@ func TFloatFromMFJSON[TF TFloat](input string, output TF) TF {
 	return output
 }
 
+// ------------------------- Output ----------------------------------------
 func TFloatOut[TF TFloat](tf TF, maxdd int) string {
 	c_float := C.tfloat_out(tf.Inner(), C.int(maxdd))
 	defer C.free(unsafe.Pointer(c_float))
 	float_out := C.GoString(c_float)
 	return float_out
+}
+
+// ------------------------- Conversions ----------------------------------
+func TFloatToTInt[TF TFloat](tf TF) (Temporal, error) {
+	interp := TemporalInterpolation(tf)
+	if interp == "LINEAR" {
+		return nil, fmt.Errorf("cannot convert a temporal float with linear interpolation to a temporal integer")
+	}
+	return CreateTemporal(C.tfloat_to_tint(tf.Inner())), nil
 }

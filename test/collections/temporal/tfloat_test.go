@@ -23,3 +23,11 @@ func TestNewCreateTFloat(t *testing.T) {
 // 	tf := gomeos.TFloatIn("{1.5@2022-10-01 00:00:00+00, 2.5@2022-10-02 00:00:00+00}", &gomeos.TFloatSeq{})
 // 	assert.Equal(t, gomeos.TFloatOut(tf, 2), "{1.5@2022-10-01 00:00:00+00, 2.5@2022-10-02 00:00:00+00}")
 // }
+
+func TestTFloatToTInt(t *testing.T) {
+	gomeos.MeosInitialize("UTC")
+	g_is := createTFloat()
+	res, _ := gomeos.TFloatToTInt(g_is)
+	assert.Equal(t, res.String(), "0@2000-01-01 00:00:00+00")
+	// // gomeos.MeosFinalize()
+}

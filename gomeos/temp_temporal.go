@@ -192,6 +192,12 @@ func TemporalAtMin[T Temporal](temp T) Temporal {
 	return res
 }
 
+func TemporalAtValues[T Temporal, S Set](temp T, set S) Temporal {
+	c_temp := C.temporal_at_values(temp.Inner(), set.Inner())
+	res := CreateTemporal(c_temp)
+	return res
+}
+
 func TemporalMinusTimestamptz[T Temporal](temp T, ts time.Time) Temporal {
 	c_temp := C.temporal_minus_timestamptz(temp.Inner(), DatetimeToTimestamptz(ts))
 	res := CreateTemporal(c_temp)
@@ -244,11 +250,6 @@ func TemporalHausdorffDistance[T Temporal](temp1 T, temp2 T) float64 {
 }
 
 // ------------------------- TODO:Split Operations ------------------------------
-
-func TnumberTwavg[T Temporal](temp T) float64 {
-	res := C.tnumber_twavg(temp.Inner())
-	return float64(res)
-}
 
 // func TemporalDuration[T Temporal](temp T, boundspan bool) timeutil.Timedelta {
 // 	return IntervalToTimeDelta(*C.temporal_duration(temp.Inner(), C.bool(boundspan)))
