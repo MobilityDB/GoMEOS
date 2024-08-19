@@ -3,11 +3,11 @@ package temporal_test
 import (
 	"testing"
 
-	"github.com/MobilityDB/GoMEOS/gomeos"
+	gomeos "github.com/MobilityDB/GoMEOS"
 	"github.com/alecthomas/assert/v2"
 )
 
-func createTInt() *gomeos.TIntInst {
+func createTInt2() *gomeos.TIntInst {
 	return gomeos.NewTIntInst("1@2000-01-01")
 }
 

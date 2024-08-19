@@ -9,7 +9,7 @@ package main
 // 	"strconv"
 // 	"time"
 
-// 	"github.com/MobilityDB/GoMEOS/gomeos"
+// 	gomeos "github.com/MobilityDB/GoMEOS"
 // 	"github.com/leekchan/timeutil"
 // )
 

@@ -10,7 +10,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/MobilityDB/GoMEOS/gomeos"
+	gomeos "github.com/MobilityDB/GoMEOS"
 )
 
 // Constants

@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/MobilityDB/GoMEOS/gomeos"
+	gomeos "github.com/MobilityDB/GoMEOS"
 	"github.com/alecthomas/assert/v2"
 )
 

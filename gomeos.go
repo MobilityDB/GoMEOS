@@ -17,6 +17,8 @@ import "C"
 //		"STEP":        C.STEP,
 //		"LINEAR":      C.LINEAR,
 //	}
+
+// try godoc
 type Interpolation C.int
 
 const (

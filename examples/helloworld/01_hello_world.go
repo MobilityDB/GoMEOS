@@ -4,7 +4,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/MobilityDB/GoMEOS/gomeos"
+	gomeos "github.com/MobilityDB/GoMEOS"
 )
 
 func main() {

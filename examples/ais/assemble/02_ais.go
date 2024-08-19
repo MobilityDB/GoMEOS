@@ -10,7 +10,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/MobilityDB/GoMEOS/gomeos"
+	gomeos "github.com/MobilityDB/GoMEOS"
 )
 
 // Define the AISRecord struct
