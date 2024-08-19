@@ -22,6 +22,13 @@ func DateToDateADT(t time.Time) C.DateADT {
 	return c_date
 }
 
+// Return a temporal integer restricted to the complement of an integer.
+//
+// Parameters:
+//   - temp: Temporal value
+//   - i: Value
+//
+// See also: Temporal_minus_value()
 func DateADTToDate(d C.DateADT) time.Time {
 	dateStr := C.GoString(C.pg_date_out(d))
 	layout := "2006-01-02"

@@ -38,9 +38,12 @@ const (
 )
 
 func main() {
+	// Get start time
+	startTime := time.Now()
 	gomeos.MeosInitialize("UTC")
 	// Open the CSV file
-	file, err := os.Open("data/ais_instants.csv")
+
+	file, err := os.Open("/Users/wanglinhan/Desktop/BDMA/summer/GoMEOS/data/ais_instants.csv")
 	if err != nil {
 		log.Fatalf("Error opening input file: %v", err)
 		gomeos.MeosFinalize()
@@ -158,7 +161,7 @@ func main() {
 	}
 
 	// Write the output to a new CSV file
-	outputFile, err := os.Create("data/ais_trips_instants.csv")
+	outputFile, err := os.Create("/Users/wanglinhan/Desktop/BDMA/summer/GoMEOS/data/ais_trips_instants.csv")
 	if err != nil {
 		log.Fatalf("Error creating output file: %v", err)
 	}
@@ -189,7 +192,7 @@ func main() {
 	}
 
 	// Write the output to a new CSV file
-	outputFile2, err2 := os.Create("data/ais_trips_seq.csv")
+	outputFile2, err2 := os.Create("/Users/wanglinhan/Desktop/BDMA/summer/GoMEOS/data/ais_trips_seq.csv")
 	if err2 != nil {
 		log.Fatalf("Error creating output file: %v", err2)
 	}
@@ -206,4 +209,7 @@ func main() {
 			trips[i].SOG.TPointOut(6),
 		})
 	}
+	// Calculate the elapsed time
+	elapsedTime := time.Since(startTime)
+	fmt.Printf("The program took %f seconds to execute\n", elapsedTime.Seconds())
 }

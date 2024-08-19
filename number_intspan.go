@@ -1,4 +1,3 @@
-// collections/number/intspan.go
 package gomeos
 
 /*

@@ -1,4 +1,3 @@
-// collections/number/floatspanset.go
 package gomeos
 
 /*
