@@ -1,7 +1,7 @@
 package temporal_test
 
 import (
-	"github.com/MobilityDB/GoMEOS/gomeos"
+	gomeos "github.com/MobilityDB/GoMEOS"
 )
 
 func createGeom() gomeos.Geom {
