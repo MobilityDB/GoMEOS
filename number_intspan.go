@@ -17,6 +17,14 @@ type IntSpan struct {
 	_inner *C.Span
 }
 
+func (g_fs *IntSpan) Inner() *C.Span {
+	return g_fs._inner
+}
+
+func (g_fs *IntSpan) Init(c_span *C.Span) {
+	g_fs._inner = c_span
+}
+
 // ------------------------- Input ----------------------------------------
 func NewIntSpan(g_is_in string) *IntSpan {
 	c_is_in := C.CString(g_is_in)

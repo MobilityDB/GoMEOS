@@ -22,6 +22,11 @@ Temporal *cast_tsequence_to_temporal(TSequence *tseq) {
     return temp;
 }
 
+Temporal *cast_tsequenceset_to_temporal(TSequenceSet *tseqset) {
+    Temporal *temp = (Temporal *) tseqset;
+    return temp;
+}
+
 GSERIALIZED *cast_pointer_to_geo(Datum *p) {
     GSERIALIZED *gs = (GSERIALIZED *) p;
     return gs;

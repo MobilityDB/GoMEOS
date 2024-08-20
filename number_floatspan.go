@@ -17,7 +17,6 @@ type FloatSpan struct {
 	_inner *C.Span
 }
 
-// ------------------------- Input ----------------------------------------
 func NewFloatSpan(g_fs_in string) *FloatSpan {
 	c_fs_in := C.CString(g_fs_in)
 	defer C.free(unsafe.Pointer(c_fs_in))
@@ -26,7 +25,14 @@ func NewFloatSpan(g_fs_in string) *FloatSpan {
 	return g_fs
 }
 
-// ------------------------- Output ----------------------------------------
+func (g_fs *FloatSpan) Inner() *C.Span {
+	return g_fs._inner
+}
+
+func (g_fs *FloatSpan) Init(c_span *C.Span) {
+	g_fs._inner = c_span
+}
+
 func (g_fs FloatSpan) FloatSpanOut(max_decimal int) string {
 	c_fs_out := C.floatspan_out(g_fs._inner, C.int(max_decimal))
 	defer C.free(unsafe.Pointer(c_fs_out))
@@ -34,7 +40,6 @@ func (g_fs FloatSpan) FloatSpanOut(max_decimal int) string {
 	return g_fs_out
 }
 
-// ------------------------- Conversions -----------------------------------
 func (g_fs FloatSpan) ToSpanSet() FloatSpanSet {
 	return FloatSpanSet{_inner: C.span_to_spanset(g_fs._inner)}
 }
@@ -43,7 +48,6 @@ func (g_fs FloatSpan) ToIntSpan() IntSpan {
 	return IntSpan{_inner: C.floatspan_to_intspan(g_fs._inner)}
 }
 
-// ------------------------- Accessors -------------------------------------
 func (g_fs FloatSpan) Lower() float64 {
 	return float64(C.floatspan_lower(g_fs._inner))
 }
@@ -56,7 +60,6 @@ func (g_fs FloatSpan) Width() float32 {
 	return float32(C.floatspan_width(g_fs._inner))
 }
 
-// ------------------------- Transformations -------------------------------
 func (g_fs FloatSpan) ShiftScale(d float64, w float64) FloatSpan {
 	modified := C.floatspan_shift_scale(g_fs._inner, C.double(d), C.double(w), C._Bool(d != 0), C._Bool(w != 0))
 	return FloatSpan{_inner: modified}
@@ -70,7 +73,6 @@ func (g_fs FloatSpan) Scale(width float64) FloatSpan {
 	return g_fs.ShiftScale(0.0, width)
 }
 
-// ------------------------- Topological Operations --------------------------------
 func (g_fs *FloatSpan) IsAdjacent(other interface{}) (bool, error) {
 	switch o := other.(type) {
 	case float64:
@@ -110,7 +112,6 @@ func (g_fs *FloatSpan) IsSame(other interface{}) (bool, error) {
 	}
 }
 
-// ------------------------- Position Operations ---------------------------
 func (g_fs *FloatSpan) IsLeft(other interface{}) (bool, error) {
 	switch o := other.(type) {
 	case float64:
@@ -163,8 +164,6 @@ func (g_fs *FloatSpan) IsOverOrRight(other interface{}) (bool, error) {
 	}
 }
 
-// ------------------------- Distance Operations ---------------------------
-
 func (g_fs *FloatSpan) Distance(other interface{}) (float64, error) {
 	switch o := other.(type) {
 	case int:
@@ -182,7 +181,6 @@ func (g_fs *FloatSpan) Distance(other interface{}) (float64, error) {
 	}
 }
 
-// ------------------------- Set Operations --------------------------------
 func (g_fs *FloatSpan) Intersection(other interface{}) (*FloatSpan, error) {
 	switch o := other.(type) {
 	case float64:

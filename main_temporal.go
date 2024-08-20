@@ -192,30 +192,35 @@ func TemporalAtMin[T Temporal](temp T) Temporal {
 	return res
 }
 
+// TemporalAtValues Return a temporal value restricted to a set of values
 func TemporalAtValues[T Temporal, S Set](temp T, set S) Temporal {
 	c_temp := C.temporal_at_values(temp.Inner(), set.Inner())
 	res := CreateTemporal(c_temp)
 	return res
 }
 
+// TemporalMinusTimestamptz Return a temporal value restricted to the complement of a timestamptz
 func TemporalMinusTimestamptz[T Temporal](temp T, ts time.Time) Temporal {
 	c_temp := C.temporal_minus_timestamptz(temp.Inner(), DatetimeToTimestamptz(ts))
 	res := CreateTemporal(c_temp)
 	return res
 }
 
+// TemporalMinusTsTzSet Return a temporal value restricted to the complement of a timestamptz set
 func TemporalMinusTsTzSet[T Temporal](temp T, tstzset TsTzSet) Temporal {
 	c_temp := C.temporal_minus_tstzset(temp.Inner(), tstzset._inner)
 	res := CreateTemporal(c_temp)
 	return res
 }
 
+// TemporalMinusTsTzSpan Return a temporal value restricted to the complement of a timestamptz span
 func TemporalMinusTsTzSpan[T Temporal](temp T, tstzspan TsTzSpan) Temporal {
 	c_temp := C.temporal_minus_tstzspan(temp.Inner(), tstzspan._inner)
 	res := CreateTemporal(c_temp)
 	return res
 }
 
+// TemporalMinusTsTzSpanSet Return a temporal value restricted to the complement of a timestamptz span set
 func TemporalMinusTsTzSpanSet[T Temporal](temp T, tstzspanset TsTzSpanSet) Temporal {
 	c_temp := C.temporal_minus_tstzspanset(temp.Inner(), tstzspanset._inner)
 	res := CreateTemporal(c_temp)
@@ -234,9 +239,6 @@ func TemporalMinusMin[T Temporal](temp T) Temporal {
 	return res
 }
 
-// ------------------------- TODO:Topological Operations ------------------------
-// ------------------------- TODO:Position Operations ---------------------------
-// ------------------------- Similarity Operations -------------------------
 func TemporalFrechetDistance[T Temporal](temp1 T, temp2 T) float64 {
 	return float64(C.temporal_frechet_distance(temp1.Inner(), temp2.Inner()))
 }
@@ -283,11 +285,6 @@ func TemporalSimplifyDP[T Temporal](temp T, new_temp T, dist float64, syncdist b
 	return new_temp
 }
 
-// func CreateTemporalFunc(*C.Temporal) func() {
-
-// }
-
-// ------------------------- Accessors -------------------------------------
 func TNumberToTBox[TN TNumber](tn TN) *TBox {
 	tbox := C.tnumber_to_tbox(tn.Inner())
 	return &TBox{_inner: tbox}
@@ -306,38 +303,74 @@ func TnumberTwavg[TN TNumber](temp TN) float64 {
 
 // ------------------------- Restrictions ----------------------------------
 
-func TnumberAtSpan[TN TNumber, S Span](tn TN, span S) Temporal {
-	c_temp := C.tnumber_at_span(tn.Inner(), span.Inner())
+// AlwaysEqTemporalTemporal Return true if two temporal values are always equal
+func AlwaysEqTemporalTemporal[T1 Temporal, T2 Temporal](temp1 T1, temp2 T2) bool {
+	return int(C.always_eq_temporal_temporal(temp1.Inner(), temp2.Inner())) > 0
+}
+
+// EverEqTemporalTemporal Return true if two temporal values are ever equal
+func EverEqTemporalTemporal[T1 Temporal, T2 Temporal](temp1 T1, temp2 T2) bool {
+	return int(C.ever_eq_temporal_temporal(temp1.Inner(), temp2.Inner())) > 0
+}
+
+// TEqTemporalTemporal Return the temporal equality of two temporal values
+func TEqTemporalTemporal[T1 Temporal, T2 Temporal](temp1 T1, temp2 T2) Temporal {
+	c_temp := C.teq_temporal_temporal(temp1.Inner(), temp2.Inner())
 	return CreateTemporal(c_temp)
 }
 
-func TnumberAtSpanSet[TN TNumber, SS SpanSet](tn TN, spanset SS) Temporal {
-	c_temp := C.tnumber_at_spanset(tn.Inner(), spanset.Inner())
+// TNEqTemporalTemporal Return the temporal equality of two temporal values
+func TNEqTemporalTemporal[T1 Temporal, T2 Temporal](temp1 T1, temp2 T2) Temporal {
+	c_temp := C.tne_temporal_temporal(temp1.Inner(), temp2.Inner())
 	return CreateTemporal(c_temp)
 }
 
-func TnumberAtTBox[TN TNumber](tn TN, tbox *TBox) Temporal {
-	c_temp := C.tnumber_at_tbox(tn.Inner(), tbox._inner)
-	return CreateTemporal(c_temp)
+// AlwaysLtTemporalTemporal returns true if one temporal value is always less than another temporal value
+func AlwaysLtTemporalTemporal[T Temporal](t1, t2 T) bool {
+	return int(C.always_lt_temporal_temporal(t1.Inner(), t2.Inner())) > 0
 }
 
-func TnumberMinusSpan[TN TNumber, S Span](tn TN, span S) Temporal {
-	c_temp := C.tnumber_minus_span(tn.Inner(), span.Inner())
-	return CreateTemporal(c_temp)
+// AlwaysLeTemporalTemporal returns true if one temporal value is always less than or equal to another temporal value
+func AlwaysLeTemporalTemporal[T Temporal](t1, t2 T) bool {
+	return int(C.always_le_temporal_temporal(t1.Inner(), t2.Inner())) > 0
 }
 
-func TnumberMinusSpanSet[TN TNumber, SS SpanSet](tn TN, spanset SS) Temporal {
-	c_temp := C.tnumber_minus_spanset(tn.Inner(), spanset.Inner())
-	return CreateTemporal(c_temp)
+// AlwaysNeTemporalTemporal returns true if one temporal value is always not equal to another temporal value
+func AlwaysNeTemporalTemporal[T Temporal](t1, t2 T) bool {
+	return int(C.always_ne_temporal_temporal(t1.Inner(), t2.Inner())) > 0
 }
 
-func TnumberMinusTBox[TN TNumber](tn TN, tbox *TBox) Temporal {
-	c_temp := C.tnumber_minus_tbox(tn.Inner(), tbox._inner)
-	return CreateTemporal(c_temp)
+// AlwaysGeTemporalTemporal returns true if one temporal value is always greater than or equal to another temporal value
+func AlwaysGeTemporalTemporal[T Temporal](t1, t2 T) bool {
+	return int(C.always_ge_temporal_temporal(t1.Inner(), t2.Inner())) > 0
 }
 
-// ------------------------- TODO:Position Operations ---------------------------
+// AlwaysGtTemporalTemporal returns true if one temporal value is always greater than another temporal value
+func AlwaysGtTemporalTemporal[T Temporal](t1, t2 T) bool {
+	return int(C.always_gt_temporal_temporal(t1.Inner(), t2.Inner())) > 0
+}
 
-// ------------------------- TODO:Mathematical Operations -------------------------
+// EverLtTemporalTemporal returns true if one temporal value is ever less than another temporal value
+func EverLtTemporalTemporal[T Temporal](t1, t2 T) bool {
+	return int(C.ever_lt_temporal_temporal(t1.Inner(), t2.Inner())) > 0
+}
 
-// ------------------------- TODO:Distance Operations --------------------------
+// EverLeTemporalTemporal returns true if one temporal value is ever less than or equal to another temporal value
+func EverLeTemporalTemporal[T Temporal](t1, t2 T) bool {
+	return int(C.ever_le_temporal_temporal(t1.Inner(), t2.Inner())) > 0
+}
+
+// EverNeTemporalTemporal returns true if one temporal value is ever not equal to another temporal value
+func EverNeTemporalTemporal[T Temporal](t1, t2 T) bool {
+	return int(C.ever_ne_temporal_temporal(t1.Inner(), t2.Inner())) > 0
+}
+
+// EverGeTemporalTemporal returns true if one temporal value is ever greater than or equal to another temporal value
+func EverGeTemporalTemporal[T Temporal](t1, t2 T) bool {
+	return int(C.ever_ge_temporal_temporal(t1.Inner(), t2.Inner())) > 0
+}
+
+// EverGtTemporalTemporal returns true if one temporal value is ever greater than another temporal value
+func EverGtTemporalTemporal[T Temporal](t1, t2 T) bool {
+	return int(C.ever_gt_temporal_temporal(t1.Inner(), t2.Inner())) > 0
+}

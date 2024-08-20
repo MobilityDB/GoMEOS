@@ -25,6 +25,7 @@ TInstant *cast_temporal_to_tinstant(Temporal *temp);
 TSequence *cast_temporal_to_tsequence(Temporal *temp);
 Temporal *cast_tinstant_to_temporal(TInstant *tinst);
 Temporal *cast_tsequence_to_temporal(TSequence *tseq);
+Temporal *cast_tsequenceset_to_temporal(TSequenceSet *tseqset);
 GSERIALIZED *cast_pointer_to_geo(Datum *p);
 
 #endif // CAST_H
