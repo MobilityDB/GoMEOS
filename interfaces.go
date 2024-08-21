@@ -92,7 +92,11 @@ type SpanSet interface {
 	Init(*C.SpanSet)
 }
 
-// ------------------------- Factory ----------------------------------
+type NumSpan interface {
+	Span
+	IsNumSpan() bool
+}
+
 func CreateTemporal(inner *C.Temporal) Temporal {
 	meosType := inner.temptype
 	subtype := inner.subtype

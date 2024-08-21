@@ -92,8 +92,8 @@ func GeoAsText(g *Geom, precision int) string {
 	return C.GoString(C.geo_as_text(g._inner, C.int(precision)))
 }
 
-func GeoAsGeojson(g *Geom, option int, precision int) string {
-	return C.GoString(C.geo_as_geojson(g._inner, C.int(option), C.int(precision), nil))
+func GeoAsGeojson(g *Geom, option int, precision int, srs string) string {
+	return C.GoString(C.geo_as_geojson(g._inner, C.int(option), C.int(precision), C.CString(srs)))
 }
 
 func GeoAsEWKT(g *Geom, precision int) string {

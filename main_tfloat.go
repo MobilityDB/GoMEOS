@@ -393,3 +393,90 @@ func TFloatToRadians[TF TFloat](tf TF) Temporal {
 func TFloatRound[TF TFloat](tf TF, max_decimals int) Temporal {
 	return CreateTemporal(C.tfloat_round(tf.Inner(), C.int(max_decimals)))
 }
+
+// TFloatShiftValue Return a temporal integer whose value dimension is shifted by a value
+func TFloatShiftValue[TF TFloat](ti TF, delta int, output TF) TF {
+	c_temp := C.tfloat_shift_value(ti.Inner(), C.double(delta))
+	output.Init(c_temp)
+	return output
+}
+
+// TFloatScaleValue Return a temporal number whose value dimension is scaled by a value
+func TFloatScaleValue[TF TFloat](ti TF, width int, output TF) TF {
+	c_temp := C.tfloat_scale_value(ti.Inner(), C.double(width))
+	output.Init(c_temp)
+	return output
+}
+
+// TFloatShitScaleValue Return a temporal number whose value dimension is scaled by a value
+func TFloatShitScaleValue[TF TFloat](ti TF, shift int, width int, output TF) TF {
+	c_temp := C.tfloat_shift_scale_value(ti.Inner(), C.double(shift), C.double(width))
+	output.Init(c_temp)
+	return output
+}
+
+// AddTFloatFloat returns the temporal addition of a temporal float and a constant float.
+func AddTFloatFloat[TF TFloat](tf TF, value float64) Temporal {
+	c_temp := C.add_tfloat_float(tf.Inner(), C.double(value))
+	return CreateTemporal(c_temp)
+}
+
+// AddFloatTFloat returns the temporal addition of a constant float and a temporal float.
+func AddFloatTFloat[TF TFloat](value float64, tf TF) Temporal {
+	c_temp := C.add_float_tfloat(C.double(value), tf.Inner())
+	return CreateTemporal(c_temp)
+}
+
+// SubTFloatFloat returns the temporal subtraction of a temporal float and a constant float.
+func SubTFloatFloat[TF TFloat](tf TF, value float64) Temporal {
+	c_temp := C.sub_tfloat_float(tf.Inner(), C.double(value))
+	return CreateTemporal(c_temp)
+}
+
+// SubFloatTFloat returns the temporal subtraction of a constant float from a temporal float.
+func SubFloatTFloat[TF TFloat](value float64, tf TF) Temporal {
+	c_temp := C.sub_float_tfloat(C.double(value), tf.Inner())
+	return CreateTemporal(c_temp)
+}
+
+// MultTFloatFloat returns the temporal multiplication of a temporal float and a constant float.
+func MultTFloatFloat[TF TFloat](tf TF, value float64) Temporal {
+	c_temp := C.mult_tfloat_float(tf.Inner(), C.double(value))
+	return CreateTemporal(c_temp)
+}
+
+// MultFloatTFloat returns the temporal multiplication of a constant float and a temporal float.
+func MultFloatTFloat[TF TFloat](value float64, tf TF) Temporal {
+	c_temp := C.mult_float_tfloat(C.double(value), tf.Inner())
+	return CreateTemporal(c_temp)
+}
+
+// DivTFloatFloat returns the temporal division of a temporal float by a constant float.
+func DivTFloatFloat[TF TFloat](tf TF, value float64) Temporal {
+	c_temp := C.div_tfloat_float(tf.Inner(), C.double(value))
+	return CreateTemporal(c_temp)
+}
+
+// DivFloatTFloat returns the temporal division of a constant float by a temporal float.
+func DivFloatTFloat[TF TFloat](value float64, tf TF) Temporal {
+	c_temp := C.div_float_tfloat(C.double(value), tf.Inner())
+	return CreateTemporal(c_temp)
+}
+
+// DistanceTFloatFloat returns the temporal distance between a temporal float and a constant float.
+func DistanceTFloatFloat[TF TFloat](tf TF, value float64) Temporal {
+	c_temp := C.distance_tfloat_float(tf.Inner(), C.double(value))
+	return CreateTemporal(c_temp)
+}
+
+// NADTFloatFloat returns the nearest approach distance between a temporal float and a constant float.
+func NADTFloatFloat[TF TFloat](tf TF, value float64) float64 {
+	c_temp := C.nad_tfloat_float(tf.Inner(), C.double(value))
+	return float64(c_temp)
+}
+
+// NADTFloatTFloat returns the nearest approach distance between two temporal floats.
+func NADTFloatTFloat[TF1 TFloat, TF2 TFloat](tf1 TF1, tf2 TF2) float64 {
+	c_temp := C.nad_tfloat_tfloat(tf1.Inner(), tf2.Inner())
+	return float64(c_temp)
+}

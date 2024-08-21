@@ -257,46 +257,10 @@ func TemporalHausdorffDistance[T Temporal](temp1 T, temp2 T) float64 {
 // 	return IntervalToTimeDelta(*C.temporal_duration(temp.Inner(), C.bool(boundspan)))
 // }
 
-func TPointLength[T Temporal](temp T) float64 {
-	return float64(C.tpoint_length(temp.Inner()))
-}
-
-func TPointSpeed[T Temporal, F TFloat](temp T, new_temp F) F {
-	c_temp := C.tpoint_speed(temp.Inner())
-	new_temp.Init(c_temp)
-	return new_temp
-}
-
-func TpointAtGeomTime[T Temporal](temp T, new_temp T, geom *Geom) T {
-	c_temp := C.tpoint_at_geom_time(temp.Inner(), geom._inner, nil, nil)
-	new_temp.Init(c_temp)
-	return new_temp
-}
-
-func TpointMinusGeomTime[T Temporal](temp T, new_temp T, geom *Geom) T {
-	c_temp := C.tpoint_minus_geom_time(temp.Inner(), geom._inner, nil, nil)
-	new_temp.Init(c_temp)
-	return new_temp
-}
-
 func TemporalSimplifyDP[T Temporal](temp T, new_temp T, dist float64, syncdist bool) T {
 	c_temp := C.temporal_simplify_dp(temp.Inner(), C.double(dist), C.bool(syncdist))
 	new_temp.Init(c_temp)
 	return new_temp
-}
-
-func TNumberToTBox[TN TNumber](tn TN) *TBox {
-	tbox := C.tnumber_to_tbox(tn.Inner())
-	return &TBox{_inner: tbox}
-}
-
-func TNumberIntegral[TN TNumber](tn TN) float64 {
-	return float64(C.tnumber_integral(tn.Inner()))
-}
-
-func TnumberTwavg[TN TNumber](temp TN) float64 {
-	res := C.tnumber_twavg(temp.Inner())
-	return float64(res)
 }
 
 // ------------------------- TODO:Transformations -------------------------------

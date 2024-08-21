@@ -24,6 +24,7 @@ func (g_fs *IntSpan) Inner() *C.Span {
 func (g_fs *IntSpan) Init(c_span *C.Span) {
 	g_fs._inner = c_span
 }
+func (g_fs *IntSpan) IsNumSpan() bool { return true }
 
 // ------------------------- Input ----------------------------------------
 func NewIntSpan(g_is_in string) *IntSpan {

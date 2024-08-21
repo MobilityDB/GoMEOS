@@ -375,3 +375,72 @@ func NadTIntInt[TI TInt](tf TI, value int) float64 {
 func NadTIntTInt[TI1 TInt, TI2 TInt](tf1 TI1, tf2 TI2) float64 {
 	return float64(C.nad_tint_tint(tf1.Inner(), tf2.Inner()))
 }
+
+// TIntShiftValue Return a temporal integer whose value dimension is shifted by a value
+func TIntShiftValue[TI TInt](ti TI, delta int, output TI) TI {
+	c_temp := C.tint_shift_value(ti.Inner(), C.int(delta))
+	output.Init(c_temp)
+	return output
+}
+
+// TIntScaleValue Return a temporal number whose value dimension is scaled by a value
+func TIntScaleValue[TI TInt](ti TI, width int, output TI) TI {
+	c_temp := C.tint_scale_value(ti.Inner(), C.int(width))
+	output.Init(c_temp)
+	return output
+}
+
+// TIntShitScaleValue Return a temporal number whose value dimension is scaled by a value
+func TIntShitScaleValue[TI TInt](ti TI, shift int, width int, output TI) TI {
+	c_temp := C.tint_shift_scale_value(ti.Inner(), C.int(shift), C.int(width))
+	output.Init(c_temp)
+	return output
+}
+
+// AddTIntInt returns the temporal addition of a temporal integer and a constant integer.
+func AddTIntInt[TI TInt](ti TI, value int) Temporal {
+	c_temp := C.add_tint_int(ti.Inner(), C.int(value))
+	return CreateTemporal(c_temp)
+}
+
+// AddIntTInt returns the temporal addition of a constant integer and a temporal integer.
+func AddIntTInt[TI TInt](value int, ti TI) Temporal {
+	c_temp := C.add_int_tint(C.int(value), ti.Inner())
+	return CreateTemporal(c_temp)
+}
+
+// SubTIntInt returns the temporal subtraction of a temporal integer and a constant integer.
+func SubTIntInt[TI TInt](ti TI, value int) Temporal {
+	c_temp := C.sub_tint_int(ti.Inner(), C.int(value))
+	return CreateTemporal(c_temp)
+}
+
+// SubIntTInt returns the temporal subtraction of a constant integer from a temporal integer.
+func SubIntTInt[TI TInt](value int, ti TI) Temporal {
+	c_temp := C.sub_int_tint(C.int(value), ti.Inner())
+	return CreateTemporal(c_temp)
+}
+
+// MultTIntInt returns the temporal multiplication of a temporal integer and a constant integer.
+func MultTIntInt[TI TInt](ti TI, value int) Temporal {
+	c_temp := C.mult_tint_int(ti.Inner(), C.int(value))
+	return CreateTemporal(c_temp)
+}
+
+// MultIntTInt returns the temporal multiplication of a constant integer and a temporal integer.
+func MultIntTInt[TI TInt](value int, ti TI) Temporal {
+	c_temp := C.mult_int_tint(C.int(value), ti.Inner())
+	return CreateTemporal(c_temp)
+}
+
+// DivTIntInt returns the temporal division of a temporal integer by a constant integer.
+func DivTIntInt[TI TInt](ti TI, value int) Temporal {
+	c_temp := C.div_tint_int(ti.Inner(), C.int(value))
+	return CreateTemporal(c_temp)
+}
+
+// DivIntTInt returns the temporal division of a constant integer by a temporal integer.
+func DivIntTInt[TI TInt](value int, ti TI) Temporal {
+	c_temp := C.div_int_tint(C.int(value), ti.Inner())
+	return CreateTemporal(c_temp)
+}
