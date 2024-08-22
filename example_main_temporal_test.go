@@ -32,11 +32,19 @@ func ExampleTNEqTemporalTemporal() {
 	// t@2022-10-01 00:00:00+00
 }
 
-//func ExampleTNumberToSpan() {
-//	MeosInitialize("UTC")
-//	tf_seq := TFloatIn("{1.2@2022-10-01, 2.3@2022-10-02,3.4@2022-10-03}", &TFloatSeq{})
-//	fs := TNumberToSpan(tf_seq, &FloatSpan{})
-//	fmt.Println(fs.FloatSpanOut(10))
-//	// Output
-//	// 1
-//}
+func ExampleTemporalAsWKB() {
+	tb1 := NewTBoolSeq("{FALSE@2022-10-01, FALSE@2022-10-02,FALSE@2022-10-03}")
+	wkb, _ := TemporalAsWKB(tb1)
+	res := TemporalFromWKB(wkb)
+	fmt.Println(res.String())
+	// Output:
+	// {f@2022-10-01 00:00:00+00, f@2022-10-02 00:00:00+00, f@2022-10-03 00:00:00+00}
+}
+
+func ExampleTemporalAsHexWKB() {
+	tb1 := NewTBoolSeq("{FALSE@2022-10-01, FALSE@2022-10-02,FALSE@2022-10-03}")
+	wkb, _ := TemporalAsHexWKB(tb1)
+	fmt.Println(wkb)
+	// Output:
+	// 011A000603000000030000E06E8FEC8C020000004046AD008D02000000A01DCB148D0200
+}

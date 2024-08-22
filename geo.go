@@ -104,7 +104,12 @@ func GeoAsHexEwkb(g *Geom, endian string) string {
 	return C.GoString(C.geo_as_hexewkb(g._inner, C.CString(endian)))
 }
 
-// ------------------------- Operation ---------------------------
 func GeoSame(g1 *Geom, g2 *Geom) bool {
 	return bool(C.geo_same(g1._inner, g2._inner))
+}
+
+// BearingPointPoint Return the temporal bearing between two geometry/geography points
+func BearingPointPoint(g1 *Geom, g2 *Geom) bool {
+	var res *C.double
+	return bool(C.bearing_point_point(g1._inner, g2._inner, res))
 }
