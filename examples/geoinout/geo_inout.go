@@ -42,9 +42,9 @@ func main() {
 	}
 
 	// Convert geometries to GeoJSON
-	pointGeoJSON := gomeos.GeoAsGeojson(point, 1, 6)
-	linestringGeoJSON := gomeos.GeoAsGeojson(linestring, 1, 6)
-	polygonGeoJSON := gomeos.GeoAsGeojson(polygon, 1, 6)
+	pointGeoJSON := gomeos.GeoAsGeojson(point, 1, 6, "EPSG:4326")
+	linestringGeoJSON := gomeos.GeoAsGeojson(linestring, 1, 6, "EPSG:4326")
+	polygonGeoJSON := gomeos.GeoAsGeojson(polygon, 1, 6, "EPSG:4326")
 
 	// Revert generated GeoJSON strings into geometries
 	point2 := gomeos.GeoFromGeojson(pointGeoJSON)

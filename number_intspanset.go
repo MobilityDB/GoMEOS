@@ -17,7 +17,6 @@ type IntSpanSet struct {
 	_inner *C.SpanSet
 }
 
-// ------------------------- Input ----------------------------------------
 func NewIntSpanSet(g_iss_in string) *IntSpanSet {
 	c_iss_in := C.CString(g_iss_in)
 	defer C.free(unsafe.Pointer(c_iss_in))
@@ -26,14 +25,15 @@ func NewIntSpanSet(g_iss_in string) *IntSpanSet {
 	return g_iss
 }
 
-// ------------------------- Output ----------------------------------------
 /*
 Return the string representation of the content of IntSpanSet.
 
 Returns:
+
 	String
 
 MEOS Functions:
+
 	intspanset_out
 */
 func (g_iss *IntSpanSet) IntSpanSetOut() string {
@@ -43,14 +43,15 @@ func (g_iss *IntSpanSet) IntSpanSetOut() string {
 	return g_iss_out
 }
 
-// ------------------------- Conversions -----------------------------------
 /*
 Returns a span that encompasses _inner.
 
 Returns:
+
 	A new struct `IntSpan` instance
 
 MEOS Functions:
+
 	spanset_span
 */
 func (g_iss IntSpanSet) ToSpan() IntSpan {
@@ -72,16 +73,14 @@ func (g_iss IntSpanSet) ToFloatSpanSet() FloatSpanSet {
 	return FloatSpanSet{_inner: C.intspanset_to_floatspanset(g_iss._inner)}
 }
 
-// ignore gap:no default parameter in Go
-// float32?or others?
-
-// ------------------------- Accessors -------------------------------------
 /*
 Returns the number of spans in IntSpanSet.
 Returns:
+
 	An int
 
 MEOS Functions:
+
 	spanset_num_spans
 */
 func (g_iss IntSpanSet) NumSpans() int {
@@ -175,8 +174,6 @@ func (g_iss IntSpanSet) Spans() []IntSpan {
 	return spans
 }
 
-// ------------------------- Transformations -------------------------------
-
 /*
 Return a new “IntSpanSet“ with the lower and upper bounds shifted by
 “delta“.
@@ -239,7 +236,6 @@ func (g_iss IntSpanSet) Scale(width int) IntSpanSet {
 	return g_iss.ShiftScale(0, width)
 }
 
-// ------------------------- Topological Operations --------------------------------
 func (g_iss *IntSpanSet) IsAdjacent(other interface{}) (bool, error) {
 	switch o := other.(type) {
 	case int:
@@ -278,8 +274,6 @@ func (g_iss *IntSpanSet) IsSame(other interface{}) (bool, error) {
 		return false, fmt.Errorf("operation not supported with type %T", other)
 	}
 }
-
-// ------------------------- Position Operations ---------------------------
 
 func (g_iss *IntSpanSet) IsLeft(other interface{}) (bool, error) {
 	switch o := other.(type) {
@@ -333,7 +327,6 @@ func (g_iss *IntSpanSet) IsOverOrRight(other interface{}) (bool, error) {
 	}
 }
 
-// ------------------------- Distance Operations ---------------------------
 func (g_iss *IntSpanSet) Distance(other interface{}) (int, error) {
 	switch o := other.(type) {
 	case int:
@@ -349,7 +342,6 @@ func (g_iss *IntSpanSet) Distance(other interface{}) (int, error) {
 	}
 }
 
-// ------------------------- Set Operations --------------------------------
 func (g_iss *IntSpanSet) Intersection(other interface{}) (*IntSpanSet, error) {
 	switch o := other.(type) {
 	case int:

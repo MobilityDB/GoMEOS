@@ -43,7 +43,7 @@ func main() {
 	gomeos.MeosInitialize("UTC")
 	// Open the CSV file
 
-	file, err := os.Open("/Users/wanglinhan/Desktop/BDMA/summer/GoMEOS/data/ais_instants.csv")
+	file, err := os.Open("data/ais_instants.csv")
 	if err != nil {
 		log.Fatalf("Error opening input file: %v", err)
 		gomeos.MeosFinalize()
@@ -161,7 +161,7 @@ func main() {
 	}
 
 	// Write the output to a new CSV file
-	outputFile, err := os.Create("/Users/wanglinhan/Desktop/BDMA/summer/GoMEOS/data/ais_trips_instants.csv")
+	outputFile, err := os.Create("data/ais_trips_instants.csv")
 	if err != nil {
 		log.Fatalf("Error creating output file: %v", err)
 	}
@@ -188,11 +188,11 @@ func main() {
 		trips[i].trip = gomeos.TSequenceMake(trips[i].trip_instants, len(trips[i].trip_instants), true, true, gomeos.LINEAR, true, &gomeos.TGeogPointSeq{})
 		fmt.Printf("  Trip -> Number of instants: %d, Distance travelled %f\n", gomeos.TemporalNumInstants(trips[i].trip), gomeos.TPointLength(trips[i].trip))
 		trips[i].SOG = gomeos.TSequenceMake(trips[i].SOG_instants, len(trips[i].SOG_instants), true, true, gomeos.LINEAR, true, &gomeos.TFloatSeq{})
-		fmt.Printf("  SOG -> Number of instants: %d, Time-weighted average %f\n", gomeos.TemporalNumInstants(trips[i].SOG), gomeos.TnumberTwavg(trips[i].SOG))
+		fmt.Printf("  SOG -> Number of instants: %d, Time-weighted average %f\n", gomeos.TemporalNumInstants(trips[i].SOG), gomeos.TNumberTwavg(trips[i].SOG))
 	}
 
 	// Write the output to a new CSV file
-	outputFile2, err2 := os.Create("/Users/wanglinhan/Desktop/BDMA/summer/GoMEOS/data/ais_trips_seq.csv")
+	outputFile2, err2 := os.Create("data/ais_trips_seq.csv")
 	if err2 != nil {
 		log.Fatalf("Error creating output file: %v", err2)
 	}

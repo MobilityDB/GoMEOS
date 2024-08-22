@@ -26,7 +26,6 @@ func (g_fs *IntSpan) Init(c_span *C.Span) {
 }
 func (g_fs *IntSpan) IsNumSpan() bool { return true }
 
-// ------------------------- Input ----------------------------------------
 func NewIntSpan(g_is_in string) *IntSpan {
 	c_is_in := C.CString(g_is_in)
 	defer C.free(unsafe.Pointer(c_is_in))
@@ -35,7 +34,6 @@ func NewIntSpan(g_is_in string) *IntSpan {
 	return g_is
 }
 
-// ------------------------- Output ----------------------------------------
 func (g_is IntSpan) IntSpanOut() string {
 	c_is_out := C.intspan_out(g_is._inner)
 	defer C.free(unsafe.Pointer(c_is_out))
@@ -43,7 +41,6 @@ func (g_is IntSpan) IntSpanOut() string {
 	return g_is_out
 }
 
-// ------------------------- Conversions -----------------------------------
 func (g_is IntSpan) ToSpanSet() IntSpanSet {
 	return IntSpanSet{_inner: C.span_to_spanset(g_is._inner)}
 }
@@ -52,7 +49,6 @@ func (g_is IntSpan) ToFloatSpan() FloatSpan {
 	return FloatSpan{_inner: C.intspan_to_floatspan(g_is._inner)}
 }
 
-// ------------------------- Accessors -------------------------------------
 func (g_is IntSpan) Lower() int {
 	return int(C.intspan_lower(g_is._inner))
 }
@@ -65,7 +61,6 @@ func (g_is IntSpan) Width() float32 {
 	return float32(C.intspan_width(g_is._inner))
 }
 
-// ------------------------- Transformations -------------------------------
 func (g_is IntSpan) ShiftScale(d int, w int) IntSpan {
 	modified := C.intspan_shift_scale(g_is._inner, C.int(d), C.int(w), C._Bool(d != 0), C._Bool(w != 0))
 	return IntSpan{_inner: modified}
@@ -80,7 +75,6 @@ func (g_is IntSpan) Scale(width int) IntSpan {
 	return g_is.ShiftScale(0, width)
 }
 
-// ------------------------- Topological Operations --------------------------------
 func (g_is *IntSpan) IsAdjacent(other interface{}) (bool, error) {
 	switch o := other.(type) {
 	case int:
@@ -120,7 +114,6 @@ func (g_is *IntSpan) IsSame(other interface{}) (bool, error) {
 	}
 }
 
-// ------------------------- Position Operations ---------------------------
 func (g_is *IntSpan) IsLeft(other interface{}) (bool, error) {
 	switch o := other.(type) {
 	case int:
@@ -173,8 +166,6 @@ func (g_is *IntSpan) IsOverOrRight(other interface{}) (bool, error) {
 	}
 }
 
-// ------------------------- Distance Operations ---------------------------
-
 func (g_is *IntSpan) Distance(other interface{}) (int, error) {
 	switch o := other.(type) {
 	case int:
@@ -190,7 +181,6 @@ func (g_is *IntSpan) Distance(other interface{}) (int, error) {
 	}
 }
 
-// ------------------------- Set Operations --------------------------------
 func (g_is *IntSpan) Intersection(other interface{}) (*IntSpan, error) {
 	switch o := other.(type) {
 	case int:

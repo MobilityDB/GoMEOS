@@ -22,7 +22,6 @@ type DateSpan struct {
 	_inner *C.Span
 }
 
-// ------------------------- Input ----------------------------------------
 func NewDateSpan(g_ds_in string) *DateSpan {
 	c_ds_in := C.CString(g_ds_in)
 	defer C.free(unsafe.Pointer(c_ds_in))
@@ -31,7 +30,6 @@ func NewDateSpan(g_ds_in string) *DateSpan {
 	return g_ds
 }
 
-// ------------------------- Output ----------------------------------------
 func (g_ds *DateSpan) DateSpanOut() string {
 	if g_ds._inner == nil {
 		return "Nil"
@@ -44,8 +42,6 @@ func (g_ds *DateSpan) DateSpanOut() string {
 
 }
 
-// ------------------------- Conversions -----------------------------------
-
 func (g_ds *DateSpan) ToSpanSet() *DateSpanSet {
 	c_ds := C.span_to_spanset(g_ds._inner)
 	return &DateSpanSet{_inner: c_ds}
@@ -56,7 +52,6 @@ func (g_ds *DateSpan) ToTstzspan() *TsTzSpan {
 	return &TsTzSpan{_inner: c_ds}
 }
 
-// ------------------------- Accessors -------------------------------------
 func (g_ds *DateSpan) Lower() time.Time {
 	return DateADTToDate(C.datespan_lower(g_ds._inner))
 }
@@ -77,7 +72,6 @@ func (g_ds *DateSpan) Duration() timeutil.Timedelta {
 	return dr
 }
 
-// ------------------------- Transformations -------------------------------
 func (g_ds *DateSpan) ShiftScale(shift interface{}, duration interface{}) (*DateSpan, error) {
 	if shift == nil && duration == nil {
 		return nil, fmt.Errorf("shift and duration must not be both nil")
@@ -117,7 +111,6 @@ func (g_ds *DateSpan) Scale(duration interface{}) (*DateSpan, error) {
 	return g_ds.ShiftScale(0, duration)
 }
 
-// ------------------------- Topological Operations ------------------------
 func (g_ds *DateSpan) IsAdjacent(other interface{}) (bool, error) {
 	switch o := other.(type) {
 	case time.Time:
@@ -161,7 +154,6 @@ func (g_ds *DateSpan) Overlaps(other interface{}) (bool, error) {
 	}
 }
 
-// ------------------------- Position Operations ---------------------------
 func (g_ds *DateSpan) IsLeft(other interface{}) (bool, error) {
 	switch o := other.(type) {
 	case time.Time:
@@ -214,7 +206,6 @@ func (g_ds *DateSpan) IsOverOrRight(other interface{}) (bool, error) {
 	}
 }
 
-// ------------------------- Distance Operations ---------------------------
 func (g_ds *DateSpan) Distance(other interface{}) (timeutil.Timedelta, error) {
 	switch o := other.(type) {
 	case time.Time:
@@ -233,7 +224,6 @@ func (g_ds *DateSpan) Distance(other interface{}) (timeutil.Timedelta, error) {
 	}
 }
 
-// ------------------------- Set Operations --------------------------------
 func (g_ds *DateSpan) Intersection(other interface{}) (Dates, error) {
 	switch o := other.(type) {
 	case time.Time:

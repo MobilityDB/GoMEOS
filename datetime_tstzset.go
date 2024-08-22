@@ -20,7 +20,6 @@ type TsTzSet struct {
 	_inner *C.Set
 }
 
-// ------------------------- Input ----------------------------------------
 func NewTsTzSet(g_tts_in string) *TsTzSet {
 	c_tts_in := C.CString(g_tts_in)
 	defer C.free(unsafe.Pointer(c_tts_in))
@@ -29,16 +28,12 @@ func NewTsTzSet(g_tts_in string) *TsTzSet {
 	return g_tts
 }
 
-// ------------------------- Output ----------------------------------------
 func (g_tts *TsTzSet) TsTzSetOut() string {
 	c_tts_out := C.tstzset_out(g_tts._inner)
 	defer C.free(unsafe.Pointer(c_tts_out))
 	g_tts_out := C.GoString(c_tts_out)
 	return g_tts_out
 }
-
-// ------------------------- Conversions -----------------------------------
-// ------------------------- Accessors -------------------------------------
 
 func (g_tts *TsTzSet) Duration() timeutil.Timedelta {
 	span := C.set_to_span(g_tts._inner)

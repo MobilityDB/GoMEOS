@@ -17,7 +17,6 @@ type IntSet struct {
 	_inner *C.Set
 }
 
-// ------------------------- Input ----------------------------------------
 func NewIntSet(g_is_in string) IntSet {
 	c_is_in := C.CString(g_is_in)
 	defer C.free(unsafe.Pointer(c_is_in))
@@ -26,7 +25,6 @@ func NewIntSet(g_is_in string) IntSet {
 	return g_is
 }
 
-// ------------------------- Output ----------------------------------------
 func (g_is *IntSet) IntSetOut() string {
 	c_is_out := C.intset_out(g_is._inner)
 	defer C.free(unsafe.Pointer(c_is_out))
@@ -34,7 +32,6 @@ func (g_is *IntSet) IntSetOut() string {
 	return g_is_out
 }
 
-// ------------------------- Conversions -----------------------------------
 func (g_is IntSet) ToFloatSet() FloatSet {
 	return FloatSet{_inner: C.intset_to_floatset(g_is._inner)}
 }
@@ -43,7 +40,6 @@ func (g_is IntSet) ToSpanSet() IntSpanSet {
 	return IntSpanSet{_inner: C.set_to_spanset(g_is._inner)}
 }
 
-// ------------------------- Accessors -------------------------------------
 func (g_is IntSet) StartElement() int {
 	return int(C.intset_start_value(g_is._inner))
 }
@@ -76,8 +72,6 @@ func (g_is IntSet) Elements() []int {
 	return ints
 }
 
-// ------------------------- Transformations -------------------------------
-
 func (g_is IntSet) ShiftScale(d int, w int) IntSet {
 	modified := C.intset_shift_scale(g_is._inner, C.int(d), C.int(w), C._Bool(d != 0), C._Bool(w != 0))
 	return IntSet{_inner: modified}
@@ -92,8 +86,6 @@ func (g_is IntSet) Scale(width int) IntSet {
 	return g_is.ShiftScale(0, width)
 }
 
-// ------------------------- Topological Operations --------------------------------
-
 func (g_is *IntSet) Contains(other interface{}) (bool, error) {
 	switch o := other.(type) {
 	case int:
@@ -105,7 +97,6 @@ func (g_is *IntSet) Contains(other interface{}) (bool, error) {
 	}
 }
 
-// ------------------------- Position Operations ---------------------------
 func (g_is *IntSet) IsLeft(other interface{}) (bool, error) {
 	switch o := other.(type) {
 	case int:
@@ -150,7 +141,6 @@ func (g_is *IntSet) IsOverOrRight(other interface{}) (bool, error) {
 	}
 }
 
-// ------------------------- Set Operations --------------------------------
 func (g_is *IntSet) Intersection(other interface{}) (*IntSet, error) {
 	switch o := other.(type) {
 	case int:
@@ -226,7 +216,6 @@ func (g_is *IntSet) Add(other interface{}) (*IntSet, error) {
 	return g_is.Union(other)
 }
 
-// ------------------------- Distance Operations --------------------------------
 func (g_is *IntSet) Distance(other interface{}) (int, error) {
 	switch o := other.(type) {
 	case int:

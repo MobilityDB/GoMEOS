@@ -9,7 +9,6 @@ package gomeos
 */
 import "C"
 
-// ------------------------- Constructor ----------------------------------
 func TSequenceMake[TI TInstant, TS TSequence](instants []TI, count int, lower_inc bool, upper_inc bool, interp Interpolation, normalize bool, output TS) TS {
 	var c_instants []*C.TInstant
 	// Fill the C array
@@ -24,7 +23,6 @@ func TSequenceMake[TI TInstant, TS TSequence](instants []TI, count int, lower_in
 	return output
 }
 
-// ------------------------- Accessors ----------------------------------
 func TSequenceLowerInclude[TS TSequence](temp TS) bool {
 	inner := C.cast_temporal_to_tsequence(temp.Inner())
 	return bool(inner.period.lower_inc)

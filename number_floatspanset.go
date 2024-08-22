@@ -17,7 +17,6 @@ type FloatSpanSet struct {
 	_inner *C.SpanSet
 }
 
-// ------------------------- Interface ----------------------------------------
 func (fss *FloatSpanSet) IsSpanSet() bool {
 	return true
 }
@@ -30,7 +29,6 @@ func (fss *FloatSpanSet) Init(ss *C.SpanSet) {
 	fss._inner = ss
 }
 
-// ------------------------- Input ----------------------------------------
 func NewFloatSpanSet(g_fss_in string) *FloatSpanSet {
 	c_fss_in := C.CString(g_fss_in)
 	defer C.free(unsafe.Pointer(c_fss_in))
@@ -39,14 +37,15 @@ func NewFloatSpanSet(g_fss_in string) *FloatSpanSet {
 	return g_fss
 }
 
-// ------------------------- Output ----------------------------------------
 /*
 Return the string representation of the content of FloatSpanSet.
 
 Returns:
+
 	String
 
 MEOS Functions:
+
 	floatspanset_out
 */
 func (g_fss *FloatSpanSet) FloatSpanSetOut(max_decimal int) string {
@@ -56,14 +55,15 @@ func (g_fss *FloatSpanSet) FloatSpanSetOut(max_decimal int) string {
 	return g_fss_out
 }
 
-// ------------------------- Conversions -----------------------------------
 /*
 Returns a span that encompasses _inner.
 
 Returns:
+
 	A new struct `FloatSpan` instance
 
 MEOS Functions:
+
 	spanset_span
 */
 func (g_fss FloatSpanSet) ToSpan() FloatSpan {
@@ -85,13 +85,14 @@ func (g_fss FloatSpanSet) ToIntSpanSet() IntSpanSet {
 	return IntSpanSet{_inner: C.floatspanset_to_intspanset(g_fss._inner)}
 }
 
-// ------------------------- Accessors -------------------------------------
 /*
 Returns the number of spans in FloatSpanSet.
 Returns:
+
 	An int
 
 MEOS Functions:
+
 	spanset_num_spans
 */
 func (g_fss FloatSpanSet) NumSpans() int {
@@ -185,8 +186,6 @@ func (g_fss FloatSpanSet) Spans() []FloatSpan {
 	return spans
 }
 
-// ------------------------- Transformations -------------------------------
-
 /*
 Return a new “FloatSpanSet“ with the lower and upper bounds shifted by
 “delta“.
@@ -248,7 +247,6 @@ func (g_fss FloatSpanSet) Scale(width float64) FloatSpanSet {
 	return g_fss.ShiftScale(0, width)
 }
 
-// ------------------------- Topological Operations --------------------------------
 func (g_fss *FloatSpanSet) IsAdjacent(other interface{}) (bool, error) {
 	switch o := other.(type) {
 	case int:
@@ -289,8 +287,6 @@ func (g_fss *FloatSpanSet) IsSame(other interface{}) (bool, error) {
 		return false, fmt.Errorf("operation not supported with type %T", other)
 	}
 }
-
-// ------------------------- Position Operations ---------------------------
 
 func (g_fss *FloatSpanSet) IsLeft(other interface{}) (bool, error) {
 	switch o := other.(type) {
@@ -344,7 +340,6 @@ func (g_fss *FloatSpanSet) IsOverOrRight(other interface{}) (bool, error) {
 	}
 }
 
-// ———————–– Distance Operations —————————
 func (g_fss *FloatSpanSet) Distance(other interface{}) (float32, error) {
 	switch o := other.(type) {
 	case int:
@@ -364,7 +359,6 @@ func (g_fss *FloatSpanSet) Distance(other interface{}) (float32, error) {
 	}
 }
 
-// ———————–– Set Operations ––––––––––––––––
 func (g_fss *FloatSpanSet) Intersection(other interface{}) (*FloatSpanSet, error) {
 	switch o := other.(type) {
 	case float64:

@@ -37,19 +37,3 @@ const (
 	T_TGEOMPOINT                 = C.T_TGEOMPOINT   /**< temporal geometry point type */
 	T_TGEOGPOINT                 = C.T_TGEOGPOINT   /**< temporal geography point type */
 )
-
-// func CreateTemporal(meosType MeosType, subtype MeosTemporalSubtype) func(string) *TBoolInst {
-// 	switch meosType {
-// 	case T_TBOOL:
-// 		switch subtype {
-// 		case TINSTANT:
-// 			return NewTBoolInst
-// 		case TSEQUENCE:
-// 			return NewTBoolSeq
-// 		case TSEQUENCESET:
-// 			return NewTBoolSeqSet
-// 		}
-// 		return nil // or handle error
-// 	}
-// 	return nil
-// }

@@ -16,7 +16,6 @@ type FloatSet struct {
 	_inner *C.Set
 }
 
-// ------------------------- Input ----------------------------------------
 func NewFloatSet(g_fs_in string) FloatSet {
 	c_fs_in := C.CString(g_fs_in)
 	defer C.free(unsafe.Pointer(c_fs_in))
@@ -25,7 +24,6 @@ func NewFloatSet(g_fs_in string) FloatSet {
 	return g_fs
 }
 
-// ------------------------- Output ----------------------------------------
 func (g_fs *FloatSet) FloatSetOut(max_decimal int) string {
 	c_fs_out := C.floatset_out(g_fs._inner, C.int(max_decimal))
 	defer C.free(unsafe.Pointer(c_fs_out))
@@ -33,7 +31,6 @@ func (g_fs *FloatSet) FloatSetOut(max_decimal int) string {
 	return g_fs_out
 }
 
-// ------------------------- Conversions -----------------------------------
 func (g_fs FloatSet) ToIntSet() IntSet {
 	return IntSet{_inner: C.floatset_to_intset(g_fs._inner)}
 }
@@ -42,7 +39,6 @@ func (g_fs FloatSet) ToSpanSet() FloatSpanSet {
 	return FloatSpanSet{_inner: C.set_to_spanset(g_fs._inner)}
 }
 
-// ------------------------- Accessors -------------------------------------
 func (g_fs FloatSet) StartElement() float64 {
 	return float64(C.floatset_start_value(g_fs._inner))
 }
@@ -75,8 +71,6 @@ func (g_fs FloatSet) Elements() []float64 {
 	return floats
 }
 
-// ------------------------- Transformations -------------------------------
-
 func (g_fs FloatSet) ShiftScale(d float64, w float64) FloatSet {
 	modified := C.floatset_shift_scale(g_fs._inner, C.double(d), C.double(w), C._Bool(d != 0), C._Bool(w != 0))
 	return FloatSet{_inner: modified}
@@ -91,8 +85,6 @@ func (g_fs FloatSet) Scale(width float64) FloatSet {
 	return g_fs.ShiftScale(0, width)
 }
 
-// ------------------------- Topological Operations --------------------------------
-
 func (g_fs *FloatSet) Contains(other interface{}) (bool, error) {
 	switch o := other.(type) {
 	case float64:
@@ -104,7 +96,6 @@ func (g_fs *FloatSet) Contains(other interface{}) (bool, error) {
 	}
 }
 
-// ------------------------- Position Operations ---------------------------
 func (g_fs *FloatSet) IsLeft(other interface{}) (bool, error) {
 	switch o := other.(type) {
 	case float64:
@@ -149,7 +140,6 @@ func (g_fs *FloatSet) IsOverOrRight(other interface{}) (bool, error) {
 	}
 }
 
-// ------------------------- Set Operations --------------------------------
 func (g_fs *FloatSet) Intersection(other interface{}) (*FloatSet, error) {
 	switch o := other.(type) {
 	case float64:
@@ -225,7 +215,6 @@ func (g_fs *FloatSet) Add(other interface{}) (*FloatSet, error) {
 	return g_fs.Union(other)
 }
 
-// ------------------------- Distance Operations --------------------------------
 func (g_fs *FloatSet) Distance(other interface{}) (float64, error) {
 	switch o := other.(type) {
 	case float64:

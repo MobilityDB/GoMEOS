@@ -101,5 +101,7 @@ Interp=Step;[POINT(1 1)@2000-01-01 00:00:00+00, POINT(2 2)@2000-01-02 00:00:00+0
 Interp=Step;{[POINT(1 1)@2000-01-01 00:00:00+00, POINT(2 2)@2000-01-02 00:00:00+00], [POINT(3 3)@2000-01-03 00:00:00+00, POINT(3 3)@2000-01-04 00:00:00+00]}
 ```
 
+For more examples, you can see the [examples](https://github.com/MobilityDB/GoMEOS/tree/main/examples).
+
 # Documentation
 Visit [pkg.go.dev](https://pkg.go.dev/github.com/MobilityDB/GoMEOS) for a more complete and detailed documentation.

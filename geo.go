@@ -10,12 +10,10 @@ package gomeos
 import "C"
 import "unsafe"
 
-// ------------------------- Geom ---------------------------
 type Geom struct {
 	_inner *C.GSERIALIZED
 }
 
-// ------------------------- Input ---------------------------
 func NewGeom(geom_str string, typemod int) Geom {
 	c_geom_str := C.CString(geom_str)
 	defer C.free(unsafe.Pointer(c_geom_str))
@@ -80,7 +78,6 @@ func GeoFromGeojson(input string) *Geom {
 	return g
 }
 
-// ------------------------- Output ---------------------------
 func (geom *Geom) GeoOut() string {
 	c_tgmpi_out := C.geo_out(geom._inner)
 	defer C.free(unsafe.Pointer(c_tgmpi_out))

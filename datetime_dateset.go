@@ -21,7 +21,6 @@ type DateSet struct {
 	_inner *C.Set
 }
 
-// ------------------------- Input ----------------------------------------
 func NewDateSet(g_ds_in string) *DateSet {
 	c_ds_in := C.CString(g_ds_in)
 	defer C.free(unsafe.Pointer(c_ds_in))
@@ -38,7 +37,6 @@ func FalseDateSet() *DateSet {
 	return g_ds
 }
 
-// ------------------------- Output ----------------------------------------
 func (g_ds *DateSet) DateSetOut() string {
 	if g_ds._inner == nil {
 		return "Nil"
@@ -50,8 +48,6 @@ func (g_ds *DateSet) DateSetOut() string {
 	}
 }
 
-// TODO: remove library duplicate(fix the warnings)
-// ------------------------- Conversions -----------------------------------
 func (g_ds *DateSet) ToSpan() *DateSpan {
 	c_ds := C.set_to_span(g_ds._inner)
 	return &DateSpan{_inner: c_ds}
@@ -61,8 +57,6 @@ func (g_ds *DateSet) ToSpanSet() *DateSpanSet {
 	c_ds := C.set_to_spanset(g_ds._inner)
 	return &DateSpanSet{_inner: c_ds}
 }
-
-// ------------------------- Accessors -------------------------------------
 
 func (g_ds *DateSet) Duration() timeutil.Timedelta {
 	return g_ds.ToSpan().Duration()
@@ -103,7 +97,6 @@ func (g_ds *DateSet) Elements() []time.Time {
 	return dates
 }
 
-// ------------------------- Transformations -------------------------------
 func (g_ds *DateSet) ShiftScale(shift interface{}, duration interface{}) (*DateSet, error) {
 	if shift == nil && duration == nil {
 		return nil, fmt.Errorf("shift and duration must not be both nil")
@@ -143,7 +136,6 @@ func (g_ds *DateSet) Scale(duration interface{}) (*DateSet, error) {
 	return g_ds.ShiftScale(0, duration)
 }
 
-// ------------------------- Topological Operations ------------------------
 func (g_ds *DateSet) Contains(other interface{}) (bool, error) {
 	switch o := other.(type) {
 	case time.Time:
@@ -170,7 +162,6 @@ func (g_ds *DateSet) Overlaps(other interface{}) (bool, error) {
 	}
 }
 
-// ------------------------- Position Operations ---------------------------
 func (g_ds *DateSet) IsLeft(other interface{}) (bool, error) {
 	switch o := other.(type) {
 	case time.Time:
@@ -231,7 +222,6 @@ func (g_ds *DateSet) IsOverOrRight(other interface{}) (bool, error) {
 	}
 }
 
-// ------------------------- Distance Operations ---------------------------
 func (g_ds *DateSet) Distance(other interface{}) (timeutil.Timedelta, error) {
 	switch o := other.(type) {
 	case time.Time:
@@ -249,7 +239,6 @@ func (g_ds *DateSet) Distance(other interface{}) (timeutil.Timedelta, error) {
 	}
 }
 
-// ------------------------- Set Operations --------------------------------
 func (g_ds *DateSet) intersection(other interface{}) (Dates, error) {
 	switch o := other.(type) {
 	case time.Time:
@@ -283,53 +272,6 @@ func (g_ds *DateSet) Intersection(other interface{}) (interface{}, error) {
 		return &DateSet{_inner: nil}, fmt.Errorf("operation not supported with type %T", other)
 	}
 }
-
-// type DatesGenerics interface {
-// 	*DateSet | *DateSpan | *DateSpanSet
-// }
-
-// // IntersectionAndUnwrap combines the Intersection method and type assertion into one function.
-// func Intersection[T DatesGenerics](g_ds *DateSet, other interface{}) (T, error) {
-// 	var output T
-
-// 	// Perform the intersection based on the type of `other`
-// 	var dates Dates
-// 	switch o := other.(type) {
-// 	case time.Time:
-// 		res := C.intersection_set_date(g_ds._inner, DateToDateADT(o))
-// 		dates = &DateSet{_inner: res}
-// 	case *DateSet:
-// 		res := C.intersection_set_set(g_ds._inner, o._inner)
-// 		dates = &DateSet{_inner: res}
-// 	case *DateSpan:
-// 		// Perform the intersection with DateSpan and DateSet
-// 		spanSet, err := g_ds.ToSpanSet().Intersection(o)
-// 		if err != nil {
-// 			return output, err
-// 		}
-// 		dates = spanSet
-// 	case *DateSpanSet:
-// 		// Perform the intersection with DateSpanSet
-// 		spanSet, err := g_ds.ToSpanSet().Intersection(o)
-// 		if err != nil {
-// 			return output, err
-// 		}
-// 		dates = spanSet
-// 	default:
-// 		return output, fmt.Errorf("operation not supported with type %T", other)
-// 	}
-
-// 	// Assert the type to the requested concrete type
-// 	if result, ok := dates.(T); ok {
-// 		return result, nil
-// 	}
-
-// 	return output, fmt.Errorf("unexpected type: %T", dates)
-// }
-
-// func (g_ds *DateSet) Mul(other interface{}) (Dates, error) {
-// 	return g_ds.Intersection(other)
-// }
 
 func (g_ds *DateSet) Minus(other interface{}) (Dates, error) {
 	switch o := other.(type) {

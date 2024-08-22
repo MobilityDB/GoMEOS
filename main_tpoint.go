@@ -216,9 +216,10 @@ func TPointAtValue[TP TPoint](tp TP, value *Geom) Temporal {
 }
 
 // TPointAtGeomTime Return a temporal point restricted to a geometry
-func TPointAtGeomTime[TP TPoint, S1 Span, S2 Span](tp TP, g *Geom, zspan S1, period S2) Temporal {
-	c_temp := C.tpoint_at_geom_time(tp.Inner(), g._inner, zspan.Inner(), period.Inner())
-	return CreateTemporal(c_temp)
+func TpointAtGeomTime[T Temporal](temp T, new_temp T, geom *Geom) T {
+	c_temp := C.tpoint_at_geom_time(temp.Inner(), geom._inner, nil, nil)
+	new_temp.Init(c_temp)
+	return new_temp
 }
 
 // TPointAtStbox Return a temporal point restricted to a spatiotemporal box
@@ -234,9 +235,10 @@ func TPointMinusValue[TP TPoint](tp TP, value *Geom) Temporal {
 }
 
 // TPointMinusGeomTime Return a temporal point minus a geometry
-func TPointMinusGeomTime[TP TPoint, S1 Span, S2 Span](tp TP, g *Geom, zspan S1, period S2) Temporal {
-	c_temp := C.tpoint_minus_geom_time(tp.Inner(), g._inner, zspan.Inner(), period.Inner())
-	return CreateTemporal(c_temp)
+func TpointMinusGeomTime[T Temporal](temp T, new_temp T, geom *Geom) T {
+	c_temp := C.tpoint_minus_geom_time(temp.Inner(), geom._inner, nil, nil)
+	new_temp.Init(c_temp)
+	return new_temp
 }
 
 // TPointMinusStbox Return a temporal point minus a spatiotemporal box

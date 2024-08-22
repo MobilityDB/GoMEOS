@@ -20,7 +20,6 @@ type TsTzSpanSet struct {
 	_inner *C.SpanSet
 }
 
-// ------------------------- Input ----------------------------------------
 func NewTsTzSpanSet(g_tts_in string) *TsTzSpanSet {
 	c_tts_in := C.CString(g_tts_in)
 	defer C.free(unsafe.Pointer(c_tts_in))
@@ -29,7 +28,6 @@ func NewTsTzSpanSet(g_tts_in string) *TsTzSpanSet {
 	return g_tts
 }
 
-// ------------------------- Output ----------------------------------------
 func (g_tts *TsTzSpanSet) TsTzSpanSetOut() string {
 	c_tts_out := C.tstzspanset_out(g_tts._inner)
 	defer C.free(unsafe.Pointer(c_tts_out))
@@ -37,7 +35,6 @@ func (g_tts *TsTzSpanSet) TsTzSpanSetOut() string {
 	return g_tts_out
 }
 
-// ------------------------- Conversions -----------------------------------
 func (g_tts *TsTzSpanSet) ToSpan() *TsTzSpan {
 	c_ds := C.spanset_span(g_tts._inner)
 	return &TsTzSpan{_inner: c_ds}
@@ -47,7 +44,6 @@ func (g_tts *TsTzSpanSet) ToTsTzSpan() *TsTzSpan {
 	return g_tts.ToSpan()
 }
 
-// ------------------------- Accessors -------------------------------------
 func (g_tts *TsTzSpanSet) Duration(ignore_gap bool) timeutil.Timedelta {
 	interval := C.tstzspanset_duration(g_tts._inner, C.bool(ignore_gap))
 	delta := IntervalToTimeDelta(*interval)
@@ -114,7 +110,6 @@ func (g_tts *TsTzSpanSet) Spans() []TsTzSpan {
 	return spans
 }
 
-// ------------------------- Transformations -------------------------------
 func (g_tts *TsTzSpanSet) ShiftScale(shift interface{}, duration interface{}) (*TsTzSpanSet, error) {
 	if shift == nil && duration == nil {
 		return nil, fmt.Errorf("shift and duration must not be both nil")

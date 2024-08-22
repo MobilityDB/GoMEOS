@@ -22,13 +22,6 @@ func DateToDateADT(t time.Time) C.DateADT {
 	return c_date
 }
 
-// Return a temporal integer restricted to the complement of an integer.
-//
-// Parameters:
-//   - temp: Temporal value
-//   - i: Value
-//
-// See also: Temporal_minus_value()
 func DateADTToDate(d C.DateADT) time.Time {
 	dateStr := C.GoString(C.pg_date_out(d))
 	layout := "2006-01-02"
@@ -54,21 +47,6 @@ func TimeDeltaToInterval(td timeutil.Timedelta) C.Interval {
 	interval.month = C.int(0)
 	return interval
 }
-
-// func TimestamptzToDatetime(ts C.TimestampTz) time.Time {
-// 	timeStr := C.GoString(C.pg_timestamptz_out(ts))
-// 	layout := "2006-01-02 15:04:05-07"
-// 	parsedDate, _ := time.Parse(layout, timeStr)
-// 	return parsedDate
-// }
-
-// func DatetimeToTimestamptz(t time.Time) C.TimestampTz {
-// 	timeStr := t.Format("2006-01-02 15:04:05-07")
-// 	CtimeStr := C.CString(timeStr)
-// 	defer C.free(unsafe.Pointer(CtimeStr))
-// 	tstz := C.pg_timestamptz_in(CtimeStr, C.int(-1))
-// 	return tstz
-// }
 
 func TimestamptzIn(timeStr string) C.TimestampTz {
 	CtimeStr := C.CString(timeStr)
