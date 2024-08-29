@@ -34,44 +34,44 @@ func NewIntSpan(g_is_in string) *IntSpan {
 	return g_is
 }
 
-func (g_is IntSpan) IntSpanOut() string {
+func (g_is *IntSpan) IntSpanOut() string {
 	c_is_out := C.intspan_out(g_is._inner)
 	defer C.free(unsafe.Pointer(c_is_out))
 	g_is_out := C.GoString(c_is_out)
 	return g_is_out
 }
 
-func (g_is IntSpan) ToSpanSet() IntSpanSet {
+func (g_is *IntSpan) ToSpanSet() IntSpanSet {
 	return IntSpanSet{_inner: C.span_to_spanset(g_is._inner)}
 }
 
-func (g_is IntSpan) ToFloatSpan() FloatSpan {
+func (g_is *IntSpan) ToFloatSpan() FloatSpan {
 	return FloatSpan{_inner: C.intspan_to_floatspan(g_is._inner)}
 }
 
-func (g_is IntSpan) Lower() int {
+func (g_is *IntSpan) Lower() int {
 	return int(C.intspan_lower(g_is._inner))
 }
 
-func (g_is IntSpan) Upper() int {
+func (g_is *IntSpan) Upper() int {
 	return int(C.intspan_upper(g_is._inner))
 }
 
-func (g_is IntSpan) Width() float32 {
+func (g_is *IntSpan) Width() float32 {
 	return float32(C.intspan_width(g_is._inner))
 }
 
-func (g_is IntSpan) ShiftScale(d int, w int) IntSpan {
+func (g_is *IntSpan) ShiftScale(d int, w int) IntSpan {
 	modified := C.intspan_shift_scale(g_is._inner, C.int(d), C.int(w), C._Bool(d != 0), C._Bool(w != 0))
 	return IntSpan{_inner: modified}
 }
 
-func (g_is IntSpan) Shift(delta int) IntSpan {
+func (g_is *IntSpan) Shift(delta int) IntSpan {
 	return g_is.ShiftScale(delta, 0)
 
 }
 
-func (g_is IntSpan) Scale(width int) IntSpan {
+func (g_is *IntSpan) Scale(width int) IntSpan {
 	return g_is.ShiftScale(0, width)
 }
 

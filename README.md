@@ -10,10 +10,8 @@ GoMEOS exposes the functionality of MEOS and is meant to be used directly by the
 # Usage
 
 ## Installation
-```shell
-go get github.com/MobilityDB/GoMEOS
-```
-You also need to install the MEOS library by compling MobilityDB.
+
+You'll need to install the MEOS library by compling MobilityDB.
 ```shell
 git clone git@github.com:MobilityDB/MobilityDB.git
 cd MobilityDB
@@ -25,19 +23,22 @@ sudo make install
 ```
 GoMEOS requires [CGO](https://pkg.go.dev/cmd/cgo) (CGO_ENABLED=1) in order to be built.
 
+Then install GoMEOS by `go get` command.
+```shell
+go get github.com/MobilityDB/GoMEOS
+```
+
 ## Path Configuration
-To give CGO the access to MEOS library, flags(which is paths to both the dynamic library and header files) need to be configured in `gomeos.go`.
+To link CGO with MEOS library, flags need to be configured in environment variable.
 
 In MacOS, the flag setting can be:
 ```shell
-#cgo CFLAGS: -I/opt/homebrew/include
-#cgo LDFLAGS: -L/opt/homebrew/lib -lmeos -Wl,-rpath,/opt/homebrew/lib
+export CGO_LDFLAGS="-L/opt/homebrew/lib -lmeos"
 ```
 
 In Linux, the flag setting can be:
 ```shell
-#cgo CFLAGS: -I/usr/local/include/
-#cgo LDFLAGS: -L/usr/local/lib -lmeos -Wl,-rpath,/usr/local/lib
+export CGO_LDFLAGS="-L/usr/local/lib -lmeos"
 ```
 Note that the directory may be different after compling and installing on different systems. So it is highly recommended to check the directory for both dynamic library and header files.
 
@@ -45,6 +46,9 @@ Note that the directory may be different after compling and installing on differ
 > **IMPORTANT** Before using any GoMEOS function, always call `MeosInitialize()`. Otherwise, the library will crash with a `Segmentation Fault` error. You should also always call `MeosFinalize()` at the end of your code.
 
 ```go
+// main.go
+package main
+
 import (
 	"fmt"
 
@@ -84,7 +88,15 @@ func main() {
 	fmt.Println(ss_step.TPointOut(5))
 	gomeos.MeosFinalize()
 }
+
 ```
+To run this file:
+
+```shell
+go build main.go
+./main
+```
+
 ```
 output:
 --------------------Temporal Instant--------------------
@@ -102,6 +114,13 @@ Interp=Step;{[POINT(1 1)@2000-01-01 00:00:00+00, POINT(2 2)@2000-01-02 00:00:00+
 ```
 
 For more examples, you can see the [examples](https://github.com/MobilityDB/GoMEOS/tree/main/examples).
+
+```shell
+// Run ais.go example
+git clone git@github.com:MobilityDB/GoMEOS.git
+cd GoMEOS
+go run examples/ais/assemble/ais.go
+```
 
 # Documentation
 Visit [pkg.go.dev](https://pkg.go.dev/github.com/MobilityDB/GoMEOS) for a more complete and detailed documentation.

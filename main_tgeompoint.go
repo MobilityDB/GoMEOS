@@ -9,13 +9,6 @@ package gomeos
 import "C"
 import "unsafe"
 
-// func TGeomPointIn[T TGeomPoint](input string, output T) T {
-// 	c_temp := C.tgeompoint_in(C.CString(input))
-// 	output.Init(c_temp)
-// 	return output
-// }
-
-// ------------------------- TGeomPointInst ---------------------------
 type TGeomPointInst struct {
 	_inner *C.Temporal
 }
@@ -79,7 +72,6 @@ func (tgmpi *TGeomPointInst) Type() string {
 	return "TGeomPointInst"
 }
 
-// ------------------------- TGeomPointSeq ---------------------------
 type TGeomPointSeq struct {
 	_inner *C.Temporal
 }
@@ -99,11 +91,6 @@ func NewTGeomPointSeqFromWKB(tgmpi_in string) *TGeomPointSeq {
 	g_tgmpi := &TGeomPointSeq{_inner: c_tgmpi}
 	return g_tgmpi
 }
-
-// func NewTGeomPointSeqInner(p C.Temporal) TGeomPointSeq {
-// 	g_tgmpi := TGeomPointSeq{_inner: &p}
-// 	return g_tgmpi
-// }
 
 func (tgmpi *TGeomPointSeq) TPointOut(maxdd int) string {
 	c_tgmpi_out := C.tpoint_as_text(tgmpi._inner, C.int(maxdd))
@@ -144,7 +131,6 @@ func (tgmpi *TGeomPointSeq) IsTSequence() bool {
 	return true
 }
 
-// ------------------------- TGeomPointSeqSet ---------------------------
 type TGeomPointSeqSet struct {
 	_inner *C.Temporal
 }
@@ -188,7 +174,6 @@ func (tgmpi *TGeomPointSeqSet) Type() string {
 	return "TGeomPointSeqSet"
 }
 
-// ------------------------- TGeomPoint ---------------------------
 func TGeomPointIn[TG TGeomPoint](input string, output TG) TG {
 	c_str := C.CString(input)
 	defer C.free(unsafe.Pointer(c_str))

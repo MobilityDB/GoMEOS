@@ -8,6 +8,7 @@ package gomeos
 */
 import "C"
 
+// TSequenceMake Return a temporal sequence from an array of temporal instants
 func TSequenceMake[TI TInstant, TS TSequence](instants []TI, count int, lower_inc bool, upper_inc bool, interp Interpolation, normalize bool, output TS) TS {
 	var c_instants []*C.TInstant
 	// Fill the C array

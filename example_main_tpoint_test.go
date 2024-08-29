@@ -32,3 +32,11 @@ func ExampleTPointSTBoxes() {
 	// STBOX XT(((1,1),(1,1)),[2022-10-01 00:00:00+00, 2022-10-01 00:00:00+00])
 	// STBOX XT(((2,2),(2,2)),[2022-10-02 00:00:00+00, 2022-10-02 00:00:00+00])
 }
+
+func ExampleTPointToSTBox() {
+	tg := TGeomPointIn("{POINT(1 1)@2022-10-01 00:00:00+00, POINT(2 2)@2022-10-02 00:00:00+00}", &TGeomPointSeq{})
+	stbox := TPointToSTBox(tg)
+	fmt.Println(STBoxOut(stbox, 10))
+	// Output:
+	// STBOX XT(((1,1),(2,2)),[2022-10-01 00:00:00+00, 2022-10-02 00:00:00+00])
+}
