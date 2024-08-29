@@ -111,7 +111,7 @@ func STBoxToGeo(stbox *STBox) *Geom {
 }
 
 func STBoxToTsTzSpan(stbox *STBox) *TsTzSpan {
-	return &TsTzSpan{_inner: C.stbox_to_ts_tzspan(stbox._inner)}
+	return &TsTzSpan{_inner: C.stbox_to_tstzspan(stbox._inner)}
 }
 
 func STBoxHasX(stbox *STBox) bool {
