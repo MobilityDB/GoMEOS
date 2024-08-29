@@ -6,18 +6,10 @@ package main
 import (
 	"log"
 	"os"
-	"os/exec"
 	"runtime"
 )
 
 func main() {
-	cmd := exec.Command("/bin/bash", "install.sh")
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
-	if err := cmd.Run(); err != nil {
-		log.Fatalf("Failed to install the C library: %v", err)
-	}
-
 	// Determine the CFLAGS and LDFLAGS based on the OS
 	var cflags, ldflags string
 	switch runtime.GOOS {
@@ -48,7 +40,7 @@ package gomeos
 */
 import "C"
 `
-	if err := os.WriteFile("cgo_config.go", []byte(configContent), 0644); err != nil {
-		log.Fatalf("Failed to write cgo_config.go: %v", err)
+	if err := os.WriteFile("cgo_flag_config.go", []byte(configContent), 0644); err != nil {
+		log.Fatalf("Failed to write cgo_flag_config.go: %v", err)
 	}
 }
