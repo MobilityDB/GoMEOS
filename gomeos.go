@@ -1,5 +1,7 @@
 package gomeos
 
+//go:generate go run generate.go
+
 /*
 #cgo CFLAGS: -I/opt/homebrew/include
 #cgo LDFLAGS: -L/opt/homebrew/lib -lmeos -Wl,-rpath,/opt/homebrew/lib
