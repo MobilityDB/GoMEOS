@@ -39,6 +39,24 @@ package gomeos
 #include "cast.h"
 */
 import "C"
+type Interpolation C.int
+
+const (
+	INTERP_NONE    Interpolation = C.INTERP_NONE
+	DISCRETE       Interpolation = C.DISCRETE
+	STEP           Interpolation = C.STEP
+	LINEAR                       = C.LINEAR
+	ANYTEMPSUBTYPE               = C.ANYTEMPSUBTYPE /**< Any temporal subtype */
+	TINSTANT                     = C.TINSTANT       /**< Temporal instant subtype */
+	TSEQUENCE                    = C.TSEQUENCE      /**< Temporal sequence subtype */
+	TSEQUENCESET                 = C.TSEQUENCESET   /**< Temporal sequence set subtype */
+	T_TBOOL                      = C.T_TBOOL        /**< temporal boolean type */
+	T_TFLOAT                     = C.T_TFLOAT       /**< temporal float type */
+	T_TINT                       = C.T_TINT         /**< temporal integer type */
+	T_TTEXT                      = C.T_TTEXT        /**< temporal text type */
+	T_TGEOMPOINT                 = C.T_TGEOMPOINT   /**< temporal geometry point type */
+	T_TGEOGPOINT                 = C.T_TGEOGPOINT   /**< temporal geography point type */
+)
 `
 	if err := os.WriteFile("cgo_flag_config.go", []byte(configContent), 0644); err != nil {
 		log.Fatalf("Failed to write cgo_flag_config.go: %v", err)
