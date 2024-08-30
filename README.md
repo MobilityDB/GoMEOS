@@ -28,20 +28,6 @@ Then install GoMEOS by `go get` command.
 go get github.com/MobilityDB/GoMEOS
 ```
 
-## Path Configuration
-To link CGO with MEOS library, flags need to be configured in environment variable.
-
-In MacOS, the flag setting can be:
-```shell
-export CGO_LDFLAGS="-L/opt/homebrew/lib -lmeos"
-```
-
-In Linux, the flag setting can be:
-```shell
-export CGO_LDFLAGS="-L/usr/local/lib -lmeos"
-```
-Note that the directory may be different after compling and installing on different systems. So it is highly recommended to check the directory for both dynamic library and header files.
-
 # Quick Start
 > **IMPORTANT** Before using any GoMEOS function, always call `MeosInitialize()`. Otherwise, the library will crash with a `Segmentation Fault` error. You should also always call `MeosFinalize()` at the end of your code.
 

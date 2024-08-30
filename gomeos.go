@@ -13,7 +13,6 @@ package gomeos
 #include "cast.h"
 */
 import "C"
-import "fmt"
 
 type Interpolation C.int
 
@@ -35,6 +34,4 @@ const (
 )
 
 func init() {
-	fmt.Println("gomeos package initialized")
-	// Other initialization code or just keep it empty to ensure the package is linked.
 }
