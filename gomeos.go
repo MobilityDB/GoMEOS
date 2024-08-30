@@ -1,8 +1,11 @@
 package gomeos
 
-//go:generate go run generate.go
-
 /*
+#cgo darwin CFLAGS: -I/opt/homebrew/include
+#cgo darwin LDFLAGS: -L/opt/homebrew/lib -lmeos -Wl,-rpath,/opt/homebrew/lib
+
+#cgo linux CFLAGS: -I/usr/local/include/
+#cgo linux LDFLAGS: -L/usr/local/lib -lmeos -Wl,-rpath,/usr/local/lib
 #include "meos.h"
 #include "meos_catalog.h"
 #include <stdio.h>
@@ -10,6 +13,7 @@ package gomeos
 #include "cast.h"
 */
 import "C"
+import "fmt"
 
 type Interpolation C.int
 
@@ -29,3 +33,8 @@ const (
 	T_TGEOMPOINT                 = C.T_TGEOMPOINT   /**< temporal geometry point type */
 	T_TGEOGPOINT                 = C.T_TGEOGPOINT   /**< temporal geography point type */
 )
+
+func init() {
+	fmt.Println("gomeos package initialized")
+	// Other initialization code or just keep it empty to ensure the package is linked.
+}
