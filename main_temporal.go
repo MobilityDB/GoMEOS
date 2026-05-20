@@ -242,7 +242,18 @@ func TemporalTPrecision[T Temporal](temp T, duration timeutil.Timedelta, start t
 // TemporalAppendTInstant Append an instant to a temporal value
 func TemporalAppendTInstant[T Temporal, TI TInstant](temp T, inst TI, max_dist float64, max_time timeutil.Timedelta, expand bool) Temporal {
 	m := TimeDeltaToInterval(max_time)
-	res := C.temporal_append_tinstant(temp.Inner(), C.cast_temporal_to_tinstant(inst.Inner()), C.interpType(C.INTERP_NONE), C.double(max_dist), &m, C.bool(expand))
+	// MEOS 1.4 added an explicit `interp` argument to
+	// temporal_append_tinstant; it is consulted only when `temp` is a
+	// TInstant being promoted to a TSequence (ignored otherwise). It
+	// must carry the base type's natural interpolation -- LINEAR for
+	// continuous types, STEP for the step-only ones (int/bool/text),
+	// for which MEOS rejects LINEAR -- exactly what MEOS 1.3 inferred
+	// internally from the temporal type before the argument existed.
+	var interp C.interpType = C.STEP
+	if bool(C.gomeos_temporal_continuous(temp.Inner())) {
+		interp = C.LINEAR
+	}
+	res := C.temporal_append_tinstant(temp.Inner(), C.cast_temporal_to_tinstant(inst.Inner()), interp, C.double(max_dist), &m, C.bool(expand))
 	return CreateTemporal(res)
 }
 

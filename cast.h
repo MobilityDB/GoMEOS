@@ -20,6 +20,7 @@
 #include <stddef.h>
 #include "meos.h"
 #include "meos_geo.h"
+#include "meos_catalog.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -29,5 +30,20 @@ Temporal *cast_tinstant_to_temporal(TInstant *tinst);
 Temporal *cast_tsequence_to_temporal(TSequence *tseq);
 Temporal *cast_tsequenceset_to_temporal(TSequenceSet *tseqset);
 GSERIALIZED *cast_pointer_to_geo(Datum *p);
+
+/* Thin wrapper around the MEOS "temptype supports linear interp" query:
+ * cgo cannot expose the underlying function directly because its second
+ * parameter is named `type`, a Go reserved word (the codegen flags it
+ * as an unsupported-MeosType-param case in tools/_preview). Taking a
+ * Temporal* and reading its temptype keeps the MeosType-typed parameter
+ * inside C.
+ *
+ * MEOS renamed temptype_continuous -> temptype_supports_linear in
+ * MobilityDB#1005; forward-declare it here so the wrapper compiles
+ * regardless of which name the vendored meos_catalog.h carries. */
+extern bool temptype_supports_linear(MeosType type);
+static inline bool gomeos_temporal_continuous(const Temporal *t) {
+  return temptype_supports_linear(t->temptype);
+}
 
 #endif // CAST_H
