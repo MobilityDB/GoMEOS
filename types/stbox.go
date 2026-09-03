@@ -95,6 +95,24 @@ func STBoxMake(hasx bool, hasz bool, geodetic bool, srid int32, xmin float64, xm
 	return STBoxFromPointer(_r0.Pointer()), nil
 }
 
+// ToBox3d is MEOS stbox_to_box3d.
+func (x *STBox) ToBox3d() (*functions.Box3D, error) {
+	_r0, _err := functions.STBOXToBox3d(functions.STBoxFromPointer(x.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
+// ToGbox is MEOS stbox_to_gbox.
+func (x *STBox) ToGbox() (*functions.GBox, error) {
+	_r0, _err := functions.STBOXToGbox(functions.STBoxFromPointer(x.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
 // ToGeo is MEOS stbox_to_geo.
 func (x *STBox) ToGeo() (*TRGeometrySeqSet, error) {
 	_r0, _err := functions.STBOXToGeo(functions.STBoxFromPointer(x.Pointer()))
@@ -323,6 +341,15 @@ func (x *STBox) ExpandSpace(d float64) (*STBox, error) {
 	return STBoxFromPointer(_r0.Pointer()), nil
 }
 
+// ExpandTime is MEOS stbox_expand_time.
+func (x *STBox) ExpandTime(interv *functions.Interval) (*STBox, error) {
+	_r0, _err := functions.STBOXExpandTime(functions.STBoxFromPointer(x.Pointer()), interv)
+	if _err != nil {
+		return nil, _err
+	}
+	return STBoxFromPointer(_r0.Pointer()), nil
+}
+
 // GetSpace is MEOS stbox_get_space.
 func (x *STBox) GetSpace() (*STBox, error) {
 	_r0, _err := functions.STBOXGetSpace(functions.STBoxFromPointer(x.Pointer()))
@@ -344,6 +371,15 @@ func (x *STBox) QuadSplit(count unsafe.Pointer) (*STBox, error) {
 // Round is MEOS stbox_round.
 func (x *STBox) Round(maxdd int) (*STBox, error) {
 	_r0, _err := functions.STBOXRound(functions.STBoxFromPointer(x.Pointer()), maxdd)
+	if _err != nil {
+		return nil, _err
+	}
+	return STBoxFromPointer(_r0.Pointer()), nil
+}
+
+// ShiftScaleTime is MEOS stbox_shift_scale_time.
+func (x *STBox) ShiftScaleTime(shift *functions.Interval, duration *functions.Interval) (*STBox, error) {
+	_r0, _err := functions.STBOXShiftScaleTime(functions.STBoxFromPointer(x.Pointer()), shift, duration)
 	if _err != nil {
 		return nil, _err
 	}
@@ -467,9 +503,45 @@ func STBoxGetSpaceTile(point *TRGeometrySeqSet, xsize float64, ysize float64, zs
 	return STBoxFromPointer(_r0.Pointer()), nil
 }
 
+// STBoxGetSpaceTimeTile is MEOS stbox_get_space_time_tile.
+func STBoxGetSpaceTimeTile(point *TRGeometrySeqSet, t int64, xsize float64, ysize float64, zsize float64, duration *functions.Interval, sorigin *TRGeometrySeqSet, torigin int64) (*STBox, error) {
+	_r0, _err := functions.STBOXGetSpaceTimeTile(functions.GeomFromPointer(point.Pointer()), t, xsize, ysize, zsize, duration, functions.GeomFromPointer(sorigin.Pointer()), torigin)
+	if _err != nil {
+		return nil, _err
+	}
+	return STBoxFromPointer(_r0.Pointer()), nil
+}
+
+// STBoxGetTimeTile is MEOS stbox_get_time_tile.
+func STBoxGetTimeTile(t int64, duration *functions.Interval, torigin int64) (*STBox, error) {
+	_r0, _err := functions.STBOXGetTimeTile(t, duration, torigin)
+	if _err != nil {
+		return nil, _err
+	}
+	return STBoxFromPointer(_r0.Pointer()), nil
+}
+
 // SpaceTiles is MEOS stbox_space_tiles.
 func (x *STBox) SpaceTiles(xsize float64, ysize float64, zsize float64, sorigin *TRGeometrySeqSet, border_inc bool, count unsafe.Pointer) (*STBox, error) {
 	_r0, _err := functions.STBOXSpaceTiles(functions.STBoxFromPointer(x.Pointer()), xsize, ysize, zsize, functions.GeomFromPointer(sorigin.Pointer()), border_inc, count)
+	if _err != nil {
+		return nil, _err
+	}
+	return STBoxFromPointer(_r0.Pointer()), nil
+}
+
+// SpaceTimeTiles is MEOS stbox_space_time_tiles.
+func (x *STBox) SpaceTimeTiles(xsize float64, ysize float64, zsize float64, duration *functions.Interval, sorigin *TRGeometrySeqSet, torigin int64, border_inc bool, count unsafe.Pointer) (*STBox, error) {
+	_r0, _err := functions.STBOXSpaceTimeTiles(functions.STBoxFromPointer(x.Pointer()), xsize, ysize, zsize, duration, functions.GeomFromPointer(sorigin.Pointer()), torigin, border_inc, count)
+	if _err != nil {
+		return nil, _err
+	}
+	return STBoxFromPointer(_r0.Pointer()), nil
+}
+
+// TimeTiles is MEOS stbox_time_tiles.
+func (x *STBox) TimeTiles(duration *functions.Interval, torigin int64, border_inc bool, count unsafe.Pointer) (*STBox, error) {
+	_r0, _err := functions.STBOXTimeTiles(functions.STBoxFromPointer(x.Pointer()), duration, torigin, border_inc, count)
 	if _err != nil {
 		return nil, _err
 	}

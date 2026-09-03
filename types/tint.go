@@ -191,6 +191,15 @@ func (x *TInt) MinusValue(i int) (*Temporal, error) {
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
+// TimeBoxes is MEOS tint_time_boxes.
+func (x *TInt) TimeBoxes(duration *functions.Interval, torigin int64, count unsafe.Pointer) (*TBox, error) {
+	_r0, _err := functions.TintTimeBoxes(functions.TemporalFromPointer(x.Pointer()), duration, torigin, count)
+	if _err != nil {
+		return nil, _err
+	}
+	return TBoxFromPointer(_r0.Pointer()), nil
+}
+
 // ValueBins is MEOS tint_value_bins.
 func (x *TInt) ValueBins(vsize int, vorigin int, count unsafe.Pointer) (*Span, error) {
 	_r0, _err := functions.TintValueBins(functions.TemporalFromPointer(x.Pointer()), vsize, vorigin, count)
@@ -212,6 +221,24 @@ func (x *TInt) ValueBoxes(vsize int, vorigin int, count unsafe.Pointer) (*TBox, 
 // ValueSplit is MEOS tint_value_split.
 func (x *TInt) ValueSplit(vsize int, vorigin int, bins unsafe.Pointer, count unsafe.Pointer) (unsafe.Pointer, error) {
 	_r0, _err := functions.TintValueSplit(functions.TemporalFromPointer(x.Pointer()), vsize, vorigin, bins, count)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
+// ValueTimeBoxes is MEOS tint_value_time_boxes.
+func (x *TInt) ValueTimeBoxes(vsize int, duration *functions.Interval, vorigin int, torigin int64, count unsafe.Pointer) (*TBox, error) {
+	_r0, _err := functions.TintValueTimeBoxes(functions.TemporalFromPointer(x.Pointer()), vsize, duration, vorigin, torigin, count)
+	if _err != nil {
+		return nil, _err
+	}
+	return TBoxFromPointer(_r0.Pointer()), nil
+}
+
+// ValueTimeSplit is MEOS tint_value_time_split.
+func (x *TInt) ValueTimeSplit(size int, duration *functions.Interval, vorigin int, torigin int64, value_bins unsafe.Pointer, time_bins unsafe.Pointer, count unsafe.Pointer) (unsafe.Pointer, error) {
+	_r0, _err := functions.TintValueTimeSplit(functions.TemporalFromPointer(x.Pointer()), size, duration, vorigin, torigin, value_bins, time_bins, count)
 	if _err != nil {
 		return nil, _err
 	}

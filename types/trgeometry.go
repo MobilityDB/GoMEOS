@@ -296,6 +296,15 @@ func (x *TRGeometry) SpaceBoxes(xsize float64, ysize float64, zsize float64, sor
 	return STBoxFromPointer(_r0.Pointer()), nil
 }
 
+// SpaceTimeBoxes is MEOS trgeometry_space_time_boxes.
+func (x *TRGeometry) SpaceTimeBoxes(xsize float64, ysize float64, zsize float64, duration *functions.Interval, sorigin *TRGeometrySeqSet, torigin int64, bitmatrix bool, border_inc bool, count unsafe.Pointer) (*STBox, error) {
+	_r0, _err := functions.TrgeometrySpaceTimeBoxes(functions.TemporalFromPointer(x.Pointer()), xsize, ysize, zsize, duration, functions.GeomFromPointer(sorigin.Pointer()), torigin, bitmatrix, border_inc, count)
+	if _err != nil {
+		return nil, _err
+	}
+	return STBoxFromPointer(_r0.Pointer()), nil
+}
+
 // Stboxes is MEOS trgeometry_stboxes.
 func (x *TRGeometry) Stboxes(count unsafe.Pointer) (*STBox, error) {
 	_r0, _err := functions.TrgeometryStboxes(functions.TemporalFromPointer(x.Pointer()), count)
@@ -350,6 +359,24 @@ func (x *TRGeometry) DyntimewarpDistance(temp2 *Temporal) (float64, error) {
 	return _r0, nil
 }
 
+// FrechetPath is MEOS trgeometry_frechet_path.
+func (x *TRGeometry) FrechetPath(temp2 *Temporal, count unsafe.Pointer) (*functions.Match, error) {
+	_r0, _err := functions.TrgeometryFrechetPath(functions.TemporalFromPointer(x.Pointer()), functions.TemporalFromPointer(temp2.Pointer()), count)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
+// DyntimewarpPath is MEOS trgeometry_dyntimewarp_path.
+func (x *TRGeometry) DyntimewarpPath(temp2 *Temporal, count unsafe.Pointer) (*functions.Match, error) {
+	_r0, _err := functions.TrgeometryDyntimewarpPath(functions.TemporalFromPointer(x.Pointer()), functions.TemporalFromPointer(temp2.Pointer()), count)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
 // Length is MEOS trgeometry_length.
 func (x *TRGeometry) Length() (float64, error) {
 	_r0, _err := functions.TrgeometryLength(functions.TemporalFromPointer(x.Pointer()))
@@ -393,6 +420,15 @@ func (x *TRGeometry) Twcentroid() (*TRGeometrySeqSet, error) {
 		return nil, _err
 	}
 	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+}
+
+// AppendTinstant is MEOS trgeometry_append_tinstant.
+func (x *TRGeometry) AppendTinstant(inst *Temporal, interp functions.Interpolation, maxdist float64, maxt *functions.Interval, expand bool) (*Temporal, error) {
+	_r0, _err := functions.TrgeometryAppendTinstant(functions.TemporalFromPointer(x.Pointer()), functions.TInstantFromPointer(inst.Pointer()), interp, maxdist, maxt, expand)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
 // AppendTsequence is MEOS trgeometry_append_tsequence.

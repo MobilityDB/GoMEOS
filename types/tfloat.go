@@ -281,6 +281,15 @@ func (x *TFloat) Tan() (*Temporal, error) {
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
+// TimeBoxes is MEOS tfloat_time_boxes.
+func (x *TFloat) TimeBoxes(duration *functions.Interval, torigin int64, count unsafe.Pointer) (*TBox, error) {
+	_r0, _err := functions.TfloatTimeBoxes(functions.TemporalFromPointer(x.Pointer()), duration, torigin, count)
+	if _err != nil {
+		return nil, _err
+	}
+	return TBoxFromPointer(_r0.Pointer()), nil
+}
+
 // ValueBins is MEOS tfloat_value_bins.
 func (x *TFloat) ValueBins(vsize float64, vorigin float64, count unsafe.Pointer) (*Span, error) {
 	_r0, _err := functions.TfloatValueBins(functions.TemporalFromPointer(x.Pointer()), vsize, vorigin, count)
@@ -302,6 +311,24 @@ func (x *TFloat) ValueBoxes(vsize float64, vorigin float64, count unsafe.Pointer
 // ValueSplit is MEOS tfloat_value_split.
 func (x *TFloat) ValueSplit(size float64, origin float64, bins unsafe.Pointer, count unsafe.Pointer) (unsafe.Pointer, error) {
 	_r0, _err := functions.TfloatValueSplit(functions.TemporalFromPointer(x.Pointer()), size, origin, bins, count)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
+// ValueTimeBoxes is MEOS tfloat_value_time_boxes.
+func (x *TFloat) ValueTimeBoxes(vsize float64, duration *functions.Interval, vorigin float64, torigin int64, count unsafe.Pointer) (*TBox, error) {
+	_r0, _err := functions.TfloatValueTimeBoxes(functions.TemporalFromPointer(x.Pointer()), vsize, duration, vorigin, torigin, count)
+	if _err != nil {
+		return nil, _err
+	}
+	return TBoxFromPointer(_r0.Pointer()), nil
+}
+
+// ValueTimeSplit is MEOS tfloat_value_time_split.
+func (x *TFloat) ValueTimeSplit(vsize float64, duration *functions.Interval, vorigin float64, torigin int64, value_bins unsafe.Pointer, time_bins unsafe.Pointer, count unsafe.Pointer) (unsafe.Pointer, error) {
+	_r0, _err := functions.TfloatValueTimeSplit(functions.TemporalFromPointer(x.Pointer()), vsize, duration, vorigin, torigin, value_bins, time_bins, count)
 	if _err != nil {
 		return nil, _err
 	}

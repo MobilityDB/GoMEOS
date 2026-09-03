@@ -50,6 +50,15 @@ func (x *TsTzSpanSet) ToDatespanset() (*SpanSet, error) {
 	return SpanSetFromPointer(_r0.Pointer()), nil
 }
 
+// Duration is MEOS tstzspanset_duration.
+func (x *TsTzSpanSet) Duration(boundspan bool) (*functions.Interval, error) {
+	_r0, _err := functions.TstzspansetDuration(functions.SpanSetFromPointer(x.Pointer()), boundspan)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
 // EndTimestamptz is MEOS tstzspanset_end_timestamptz.
 func (x *TsTzSpanSet) EndTimestamptz() (int64, error) {
 	_r0, _err := functions.TstzspansetEndTimestamptz(functions.SpanSetFromPointer(x.Pointer()))
@@ -114,6 +123,33 @@ func (x *TsTzSpanSet) Upper() (int64, error) {
 		return 0, _err
 	}
 	return _r0, nil
+}
+
+// ShiftScale is MEOS tstzspanset_shift_scale.
+func (x *TsTzSpanSet) ShiftScale(shift *functions.Interval, duration *functions.Interval) (*SpanSet, error) {
+	_r0, _err := functions.TstzspansetShiftScale(functions.SpanSetFromPointer(x.Pointer()), shift, duration)
+	if _err != nil {
+		return nil, _err
+	}
+	return SpanSetFromPointer(_r0.Pointer()), nil
+}
+
+// Tprecision is MEOS tstzspanset_tprecision.
+func (x *TsTzSpanSet) Tprecision(duration *functions.Interval, torigin int64) (*SpanSet, error) {
+	_r0, _err := functions.TstzspansetTprecision(functions.SpanSetFromPointer(x.Pointer()), duration, torigin)
+	if _err != nil {
+		return nil, _err
+	}
+	return SpanSetFromPointer(_r0.Pointer()), nil
+}
+
+// Bins is MEOS tstzspanset_bins.
+func (x *TsTzSpanSet) Bins(duration *functions.Interval, torigin int64, count unsafe.Pointer) (*Span, error) {
+	_r0, _err := functions.TstzspansetBins(functions.SpanSetFromPointer(x.Pointer()), duration, torigin, count)
+	if _err != nil {
+		return nil, _err
+	}
+	return SpanFromPointer(_r0.Pointer()), nil
 }
 
 // ToStbox is MEOS tstzspanset_to_stbox.

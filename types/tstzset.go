@@ -98,6 +98,24 @@ func (x *TsTzSet) Values(count unsafe.Pointer) (unsafe.Pointer, error) {
 	return _r0, nil
 }
 
+// ShiftScale is MEOS tstzset_shift_scale.
+func (x *TsTzSet) ShiftScale(shift *functions.Interval, duration *functions.Interval) (*Set, error) {
+	_r0, _err := functions.TstzsetShiftScale(functions.SetFromPointer(x.Pointer()), shift, duration)
+	if _err != nil {
+		return nil, _err
+	}
+	return SetFromPointer(_r0.Pointer()), nil
+}
+
+// Tprecision is MEOS tstzset_tprecision.
+func (x *TsTzSet) Tprecision(duration *functions.Interval, torigin int64) (*Set, error) {
+	_r0, _err := functions.TstzsetTprecision(functions.SetFromPointer(x.Pointer()), duration, torigin)
+	if _err != nil {
+		return nil, _err
+	}
+	return SetFromPointer(_r0.Pointer()), nil
+}
+
 // ToStbox is MEOS tstzset_to_stbox.
 func (x *TsTzSet) ToStbox() (*STBox, error) {
 	_r0, _err := functions.TstzsetToSTBOX(functions.SetFromPointer(x.Pointer()))

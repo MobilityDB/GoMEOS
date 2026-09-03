@@ -112,6 +112,15 @@ func (x *TGeo) Values(count unsafe.Pointer) (unsafe.Pointer, error) {
 	return _r0, nil
 }
 
+// Affine is MEOS tgeo_affine.
+func (x *TGeo) Affine(a *functions.AFFINE) (*Temporal, error) {
+	_r0, _err := functions.TgeoAffine(functions.TemporalFromPointer(x.Pointer()), a)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
 // Scale is MEOS tgeo_scale.
 func (x *TGeo) Scale(scale *TRGeometrySeqSet, sorigin *TRGeometrySeqSet) (*Temporal, error) {
 	_r0, _err := functions.TgeoScale(functions.TemporalFromPointer(x.Pointer()), functions.GeomFromPointer(scale.Pointer()), functions.GeomFromPointer(sorigin.Pointer()))
@@ -187,6 +196,15 @@ func (x *TGeo) Stboxes(count unsafe.Pointer) (*STBox, error) {
 // SpaceBoxes is MEOS tgeo_space_boxes.
 func (x *TGeo) SpaceBoxes(xsize float64, ysize float64, zsize float64, sorigin *TRGeometrySeqSet, bitmatrix bool, border_inc bool, count unsafe.Pointer) (*STBox, error) {
 	_r0, _err := functions.TgeoSpaceBoxes(functions.TemporalFromPointer(x.Pointer()), xsize, ysize, zsize, functions.GeomFromPointer(sorigin.Pointer()), bitmatrix, border_inc, count)
+	if _err != nil {
+		return nil, _err
+	}
+	return STBoxFromPointer(_r0.Pointer()), nil
+}
+
+// SpaceTimeBoxes is MEOS tgeo_space_time_boxes.
+func (x *TGeo) SpaceTimeBoxes(xsize float64, ysize float64, zsize float64, duration *functions.Interval, sorigin *TRGeometrySeqSet, torigin int64, bitmatrix bool, border_inc bool, count unsafe.Pointer) (*STBox, error) {
+	_r0, _err := functions.TgeoSpaceTimeBoxes(functions.TemporalFromPointer(x.Pointer()), xsize, ysize, zsize, duration, functions.GeomFromPointer(sorigin.Pointer()), torigin, bitmatrix, border_inc, count)
 	if _err != nil {
 		return nil, _err
 	}

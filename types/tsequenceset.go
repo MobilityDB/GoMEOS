@@ -31,3 +31,12 @@ func TSequenceSetMake(sequences unsafe.Pointer, count int, normalize bool) (*Tem
 	}
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
+
+// TSequenceSetMakeGaps is MEOS tsequenceset_make_gaps.
+func TSequenceSetMakeGaps(instants unsafe.Pointer, count int, interp functions.Interpolation, maxt *functions.Interval, maxdist float64) (*Temporal, error) {
+	_r0, _err := functions.TsequencesetMakeGaps(instants, count, interp, maxt, maxdist)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}

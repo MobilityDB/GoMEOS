@@ -88,6 +88,15 @@ func (x *Temporal) ToTstzspan() (*Span, error) {
 	return SpanFromPointer(_r0.Pointer()), nil
 }
 
+// Duration is MEOS temporal_duration.
+func (x *Temporal) Duration(boundspan bool) (*functions.Interval, error) {
+	_r0, _err := functions.TemporalDuration(functions.TemporalFromPointer(x.Pointer()), boundspan)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
 // EndInstant is MEOS temporal_end_instant.
 func (x *Temporal) EndInstant() (*Temporal, error) {
 	_r0, _err := functions.TemporalEndInstant(functions.TemporalFromPointer(x.Pointer()))
@@ -214,6 +223,15 @@ func (x *Temporal) NumTimestamps() (int, error) {
 	return _r0, nil
 }
 
+// SegmDuration is MEOS temporal_segm_duration.
+func (x *Temporal) SegmDuration(duration *functions.Interval, atleast bool, strict bool) (*Temporal, error) {
+	_r0, _err := functions.TemporalSegmDuration(functions.TemporalFromPointer(x.Pointer()), duration, atleast, strict)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
 // Segments is MEOS temporal_segments.
 func (x *Temporal) Segments(count unsafe.Pointer) (unsafe.Pointer, error) {
 	_r0, _err := functions.TemporalSegments(functions.TemporalFromPointer(x.Pointer()), count)
@@ -266,6 +284,15 @@ func (x *Temporal) StartTimestamptz() (int64, error) {
 		return 0, _err
 	}
 	return _r0, nil
+}
+
+// Stops is MEOS temporal_stops.
+func (x *Temporal) Stops(maxdist float64, minduration *functions.Interval) (*Temporal, error) {
+	_r0, _err := functions.TemporalStops(functions.TemporalFromPointer(x.Pointer()), maxdist, minduration)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
 // Subtype is MEOS temporal_subtype.
@@ -334,9 +361,36 @@ func (x *Temporal) Round(maxdd int) (*Temporal, error) {
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
+// ScaleTime is MEOS temporal_scale_time.
+func (x *Temporal) ScaleTime(duration *functions.Interval) (*Temporal, error) {
+	_r0, _err := functions.TemporalScaleTime(functions.TemporalFromPointer(x.Pointer()), duration)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
 // SetInterp is MEOS temporal_set_interp.
 func (x *Temporal) SetInterp(interp functions.Interpolation) (*Temporal, error) {
 	_r0, _err := functions.TemporalSetInterp(functions.TemporalFromPointer(x.Pointer()), interp)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// ShiftScaleTime is MEOS temporal_shift_scale_time.
+func (x *Temporal) ShiftScaleTime(shift *functions.Interval, duration *functions.Interval) (*Temporal, error) {
+	_r0, _err := functions.TemporalShiftScaleTime(functions.TemporalFromPointer(x.Pointer()), shift, duration)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// ShiftTime is MEOS temporal_shift_time.
+func (x *Temporal) ShiftTime(shift *functions.Interval) (*Temporal, error) {
+	_r0, _err := functions.TemporalShiftTime(functions.TemporalFromPointer(x.Pointer()), shift)
 	if _err != nil {
 		return nil, _err
 	}
@@ -364,6 +418,15 @@ func (x *Temporal) AsTsequence(interp functions.Interpolation) (*Temporal, error
 // AsTsequenceset is MEOS temporal_as_tsequenceset.
 func (x *Temporal) AsTsequenceset(interp functions.Interpolation) (*Temporal, error) {
 	_r0, _err := functions.TemporalAsTsequenceset(functions.TemporalFromPointer(x.Pointer()), interp)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// AppendTinstant is MEOS temporal_append_tinstant.
+func (x *Temporal) AppendTinstant(inst *Temporal, interp functions.Interpolation, maxdist float64, maxt *functions.Interval, expand bool) (*Temporal, error) {
+	_r0, _err := functions.TemporalAppendTinstant(functions.TemporalFromPointer(x.Pointer()), functions.TInstantFromPointer(inst.Pointer()), interp, maxdist, maxt, expand)
 	if _err != nil {
 		return nil, _err
 	}
@@ -721,6 +784,33 @@ func (x *Temporal) SimplifyMinDist(dist float64) (*Temporal, error) {
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
+// SimplifyMinTdelta is MEOS temporal_simplify_min_tdelta.
+func (x *Temporal) SimplifyMinTdelta(mint *functions.Interval) (*Temporal, error) {
+	_r0, _err := functions.TemporalSimplifyMinTdelta(functions.TemporalFromPointer(x.Pointer()), mint)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// Tprecision is MEOS temporal_tprecision.
+func (x *Temporal) Tprecision(duration *functions.Interval, origin int64) (*Temporal, error) {
+	_r0, _err := functions.TemporalTprecision(functions.TemporalFromPointer(x.Pointer()), duration, origin)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// Tsample is MEOS temporal_tsample.
+func (x *Temporal) Tsample(duration *functions.Interval, origin int64, interp functions.Interpolation) (*Temporal, error) {
+	_r0, _err := functions.TemporalTsample(functions.TemporalFromPointer(x.Pointer()), duration, origin, interp)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
 // DyntimewarpDistance is MEOS temporal_dyntimewarp_distance.
 func (x *Temporal) DyntimewarpDistance(temp2 *Temporal) (float64, error) {
 	_r0, _err := functions.TemporalDyntimewarpDistance(functions.TemporalFromPointer(x.Pointer()), functions.TemporalFromPointer(temp2.Pointer()))
@@ -730,11 +820,29 @@ func (x *Temporal) DyntimewarpDistance(temp2 *Temporal) (float64, error) {
 	return _r0, nil
 }
 
+// DyntimewarpPath is MEOS temporal_dyntimewarp_path.
+func (x *Temporal) DyntimewarpPath(temp2 *Temporal, count unsafe.Pointer) (*functions.Match, error) {
+	_r0, _err := functions.TemporalDyntimewarpPath(functions.TemporalFromPointer(x.Pointer()), functions.TemporalFromPointer(temp2.Pointer()), count)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
 // FrechetDistance is MEOS temporal_frechet_distance.
 func (x *Temporal) FrechetDistance(temp2 *Temporal) (float64, error) {
 	_r0, _err := functions.TemporalFrechetDistance(functions.TemporalFromPointer(x.Pointer()), functions.TemporalFromPointer(temp2.Pointer()))
 	if _err != nil {
 		return 0, _err
+	}
+	return _r0, nil
+}
+
+// FrechetPath is MEOS temporal_frechet_path.
+func (x *Temporal) FrechetPath(temp2 *Temporal, count unsafe.Pointer) (*functions.Match, error) {
+	_r0, _err := functions.TemporalFrechetPath(functions.TemporalFromPointer(x.Pointer()), functions.TemporalFromPointer(temp2.Pointer()), count)
+	if _err != nil {
+		return nil, _err
 	}
 	return _r0, nil
 }
@@ -773,4 +881,22 @@ func (x *Temporal) ExtKalmanFilter(gate float64, q float64, variance float64, to
 		return nil, _err
 	}
 	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// TimeBins is MEOS temporal_time_bins.
+func (x *Temporal) TimeBins(duration *functions.Interval, origin int64, count unsafe.Pointer) (*Span, error) {
+	_r0, _err := functions.TemporalTimeBins(functions.TemporalFromPointer(x.Pointer()), duration, origin, count)
+	if _err != nil {
+		return nil, _err
+	}
+	return SpanFromPointer(_r0.Pointer()), nil
+}
+
+// TimeSplit is MEOS temporal_time_split.
+func (x *Temporal) TimeSplit(duration *functions.Interval, torigin int64, bins unsafe.Pointer, count unsafe.Pointer) (unsafe.Pointer, error) {
+	_r0, _err := functions.TemporalTimeSplit(functions.TemporalFromPointer(x.Pointer()), duration, torigin, bins, count)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
 }

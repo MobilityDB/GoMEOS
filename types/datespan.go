@@ -59,6 +59,15 @@ func (x *DateSpan) ToTstzspan() (*Span, error) {
 	return SpanFromPointer(_r0.Pointer()), nil
 }
 
+// Duration is MEOS datespan_duration.
+func (x *DateSpan) Duration() (*functions.Interval, error) {
+	_r0, _err := functions.DatespanDuration(functions.SpanFromPointer(x.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
 // Lower is MEOS datespan_lower.
 func (x *DateSpan) Lower() (int32, error) {
 	_r0, _err := functions.DatespanLower(functions.SpanFromPointer(x.Pointer()))
@@ -80,6 +89,15 @@ func (x *DateSpan) Upper() (int32, error) {
 // ShiftScale is MEOS datespan_shift_scale.
 func (x *DateSpan) ShiftScale(shift int, width int, hasshift bool, haswidth bool) (*Span, error) {
 	_r0, _err := functions.DatespanShiftScale(functions.SpanFromPointer(x.Pointer()), shift, width, hasshift, haswidth)
+	if _err != nil {
+		return nil, _err
+	}
+	return SpanFromPointer(_r0.Pointer()), nil
+}
+
+// Bins is MEOS datespan_bins.
+func (x *DateSpan) Bins(duration *functions.Interval, torigin int32, count unsafe.Pointer) (*Span, error) {
+	_r0, _err := functions.DatespanBins(functions.SpanFromPointer(x.Pointer()), duration, torigin, count)
 	if _err != nil {
 		return nil, _err
 	}

@@ -71,6 +71,15 @@ func (x *DateSpanSet) Dates() (*Set, error) {
 	return SetFromPointer(_r0.Pointer()), nil
 }
 
+// Duration is MEOS datespanset_duration.
+func (x *DateSpanSet) Duration(boundspan bool) (*functions.Interval, error) {
+	_r0, _err := functions.DatespansetDuration(functions.SpanSetFromPointer(x.Pointer()), boundspan)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
 // EndDate is MEOS datespanset_end_date.
 func (x *DateSpanSet) EndDate() (int32, error) {
 	_r0, _err := functions.DatespansetEndDate(functions.SpanSetFromPointer(x.Pointer()))
@@ -123,4 +132,13 @@ func (x *DateSpanSet) ShiftScale(shift int, width int, hasshift bool, haswidth b
 		return nil, _err
 	}
 	return SpanSetFromPointer(_r0.Pointer()), nil
+}
+
+// Bins is MEOS datespanset_bins.
+func (x *DateSpanSet) Bins(duration *functions.Interval, torigin int32, count unsafe.Pointer) (*Span, error) {
+	_r0, _err := functions.DatespansetBins(functions.SpanSetFromPointer(x.Pointer()), duration, torigin, count)
+	if _err != nil {
+		return nil, _err
+	}
+	return SpanFromPointer(_r0.Pointer()), nil
 }

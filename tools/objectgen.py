@@ -205,7 +205,21 @@ class Generator:
         return self.m.class_for_ctype(struct) if struct else None
 
     def passthrough(self, go_type: str) -> bool:
-        return go_type in self.scalars or go_type in ("string", "bool", "unsafe.Pointer")
+        """Whether this layer hands the wrapper's own type straight through.
+
+        A MEOS struct the model gives no class is one of these. `Interval` is
+        PostgreSQL's and absent from the MeosType enum, `SkipList`, `PJ_CONTEXT` and
+        `gsl_rng` are runtime handles MEOS registers in no enum, and `AFFINE`, `BOX3D`,
+        `GBOX` and `Match` state their whole layout in scalars -- so no class stands for
+        any of them and none should. The flat handle IS the type, and its semantics are
+        already the ones MEOS.NET states for a by-value struct: the call hands MEOS an
+        address and the memory stays MEOS's. Spelling a value struct here instead is not
+        available anyway -- this package imports no cgo, so it cannot materialise a C
+        struct, and only the `functions` package can.
+        """
+        return (go_type in self.scalars
+                or go_type in ("string", "bool", "unsafe.Pointer")
+                or go_type in self.struct_of)
 
     def qualify(self, go_type: str) -> str:
         """A passthrough type as this package must spell it.

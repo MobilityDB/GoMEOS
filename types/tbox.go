@@ -263,9 +263,27 @@ func (x *TBox) XminInc() (bool, bool, error) {
 	return _value, true, nil
 }
 
+// ExpandTime is MEOS tbox_expand_time.
+func (x *TBox) ExpandTime(interv *functions.Interval) (*TBox, error) {
+	_r0, _err := functions.TBOXExpandTime(functions.TBoxFromPointer(x.Pointer()), interv)
+	if _err != nil {
+		return nil, _err
+	}
+	return TBoxFromPointer(_r0.Pointer()), nil
+}
+
 // Round is MEOS tbox_round.
 func (x *TBox) Round(maxdd int) (*TBox, error) {
 	_r0, _err := functions.TBOXRound(functions.TBoxFromPointer(x.Pointer()), maxdd)
+	if _err != nil {
+		return nil, _err
+	}
+	return TBoxFromPointer(_r0.Pointer()), nil
+}
+
+// ShiftScaleTime is MEOS tbox_shift_scale_time.
+func (x *TBox) ShiftScaleTime(shift *functions.Interval, duration *functions.Interval) (*TBox, error) {
+	_r0, _err := functions.TBOXShiftScaleTime(functions.TBoxFromPointer(x.Pointer()), shift, duration)
 	if _err != nil {
 		return nil, _err
 	}
