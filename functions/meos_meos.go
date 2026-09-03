@@ -649,20 +649,52 @@ func RtreeInsertTemporalSplit(rtree *RTree, temp *Temporal, id int64, maxboxes i
 }
 
 
-// TODO rtree_search: unsupported param IndexSearchOp
-// func RtreeSearch(...) { /* not yet handled by codegen */ }
+// RtreeSearch wraps MEOS C function rtree_search.
+func RtreeSearch(rtree *RTree, op IndexSearchOp, query unsafe.Pointer) (_r0 int, _r1 *MeosArray, _err error) {
+	var _out_result C.MeosArray
+	C.meos_errno_reset()
+	_cret := C.rtree_search(rtree._inner, C.IndexSearchOp(op), unsafe.Pointer(query), &_out_result)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), &MeosArray{_inner: &_out_result}, nil
+}
 
 
-// TODO rtree_join: unsupported param IndexSearchOp
-// func RtreeJoin(...) { /* not yet handled by codegen */ }
+// RtreeJoin wraps MEOS C function rtree_join.
+func RtreeJoin(rtree1 *RTree, rtree2 *RTree, op IndexSearchOp) (_r0 int, _r1 *MeosArray, _err error) {
+	var _out_result C.MeosArray
+	C.meos_errno_reset()
+	_cret := C.rtree_join(rtree1._inner, rtree2._inner, C.IndexSearchOp(op), &_out_result)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), &MeosArray{_inner: &_out_result}, nil
+}
 
 
-// TODO rtree_search_temporal: unsupported param IndexSearchOp
-// func RtreeSearchTemporal(...) { /* not yet handled by codegen */ }
+// RtreeSearchTemporal wraps MEOS C function rtree_search_temporal.
+func RtreeSearchTemporal(rtree *RTree, op IndexSearchOp, temp *Temporal) (_r0 int, _r1 *MeosArray, _err error) {
+	var _out_result C.MeosArray
+	C.meos_errno_reset()
+	_cret := C.rtree_search_temporal(rtree._inner, C.IndexSearchOp(op), temp._inner, &_out_result)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), &MeosArray{_inner: &_out_result}, nil
+}
 
 
-// TODO rtree_search_temporal_dedup: unsupported param IndexSearchOp
-// func RtreeSearchTemporalDedup(...) { /* not yet handled by codegen */ }
+// RtreeSearchTemporalDedup wraps MEOS C function rtree_search_temporal_dedup.
+func RtreeSearchTemporalDedup(rtree *RTree, op IndexSearchOp, temp *Temporal, maxboxes int) (_r0 int, _r1 *MeosArray, _err error) {
+	var _out_result C.MeosArray
+	C.meos_errno_reset()
+	_cret := C.rtree_search_temporal_dedup(rtree._inner, C.IndexSearchOp(op), temp._inner, C.int(maxboxes), &_out_result)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), &MeosArray{_inner: &_out_result}, nil
+}
 
 
 // RtreeNnCursorOpen wraps MEOS C function rtree_nn_cursor_open.
@@ -698,36 +730,92 @@ func RtreeNnCursorClose(cursor unsafe.Pointer) (_err error) {
 }
 
 
-// TODO sptree_create_intspan: unsupported param SPTreeKind
-// func SptreeCreateIntspan(...) { /* not yet handled by codegen */ }
+// SptreeCreateIntspan wraps MEOS C function sptree_create_intspan.
+func SptreeCreateIntspan(kind SPTreeKind) (_r0 unsafe.Pointer, _err error) {
+	C.meos_errno_reset()
+	_cret := C.sptree_create_intspan(C.SPTreeKind(kind))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
+}
 
 
-// TODO sptree_create_bigintspan: unsupported param SPTreeKind
-// func SptreeCreateBigintspan(...) { /* not yet handled by codegen */ }
+// SptreeCreateBigintspan wraps MEOS C function sptree_create_bigintspan.
+func SptreeCreateBigintspan(kind SPTreeKind) (_r0 unsafe.Pointer, _err error) {
+	C.meos_errno_reset()
+	_cret := C.sptree_create_bigintspan(C.SPTreeKind(kind))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
+}
 
 
-// TODO sptree_create_floatspan: unsupported param SPTreeKind
-// func SptreeCreateFloatspan(...) { /* not yet handled by codegen */ }
+// SptreeCreateFloatspan wraps MEOS C function sptree_create_floatspan.
+func SptreeCreateFloatspan(kind SPTreeKind) (_r0 unsafe.Pointer, _err error) {
+	C.meos_errno_reset()
+	_cret := C.sptree_create_floatspan(C.SPTreeKind(kind))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
+}
 
 
-// TODO sptree_create_datespan: unsupported param SPTreeKind
-// func SptreeCreateDatespan(...) { /* not yet handled by codegen */ }
+// SptreeCreateDatespan wraps MEOS C function sptree_create_datespan.
+func SptreeCreateDatespan(kind SPTreeKind) (_r0 unsafe.Pointer, _err error) {
+	C.meos_errno_reset()
+	_cret := C.sptree_create_datespan(C.SPTreeKind(kind))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
+}
 
 
-// TODO sptree_create_tstzspan: unsupported param SPTreeKind
-// func SptreeCreateTstzspan(...) { /* not yet handled by codegen */ }
+// SptreeCreateTstzspan wraps MEOS C function sptree_create_tstzspan.
+func SptreeCreateTstzspan(kind SPTreeKind) (_r0 unsafe.Pointer, _err error) {
+	C.meos_errno_reset()
+	_cret := C.sptree_create_tstzspan(C.SPTreeKind(kind))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
+}
 
 
-// TODO sptree_create_tbox: unsupported param SPTreeKind
-// func SptreeCreateTBOX(...) { /* not yet handled by codegen */ }
+// SptreeCreateTBOX wraps MEOS C function sptree_create_tbox.
+func SptreeCreateTBOX(kind SPTreeKind) (_r0 unsafe.Pointer, _err error) {
+	C.meos_errno_reset()
+	_cret := C.sptree_create_tbox(C.SPTreeKind(kind))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
+}
 
 
-// TODO sptree_create_stbox: unsupported param SPTreeKind
-// func SptreeCreateSTBOX(...) { /* not yet handled by codegen */ }
+// SptreeCreateSTBOX wraps MEOS C function sptree_create_stbox.
+func SptreeCreateSTBOX(kind SPTreeKind) (_r0 unsafe.Pointer, _err error) {
+	C.meos_errno_reset()
+	_cret := C.sptree_create_stbox(C.SPTreeKind(kind))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
+}
 
 
-// TODO sptree_create_tpcbox: unsupported param SPTreeKind
-// func SptreeCreateTpcbox(...) { /* not yet handled by codegen */ }
+// SptreeCreateTpcbox wraps MEOS C function sptree_create_tpcbox.
+func SptreeCreateTpcbox(kind SPTreeKind) (_r0 unsafe.Pointer, _err error) {
+	C.meos_errno_reset()
+	_cret := C.sptree_create_tpcbox(C.SPTreeKind(kind))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
+}
 
 
 // SptreeFree wraps MEOS C function sptree_free.
@@ -818,20 +906,52 @@ func SptreeInsertTemporalSplit(sptree unsafe.Pointer, temp *Temporal, id int64, 
 }
 
 
-// TODO sptree_search: unsupported param IndexSearchOp
-// func SptreeSearch(...) { /* not yet handled by codegen */ }
+// SptreeSearch wraps MEOS C function sptree_search.
+func SptreeSearch(sptree unsafe.Pointer, op IndexSearchOp, query unsafe.Pointer) (_r0 int, _r1 *MeosArray, _err error) {
+	var _out_result C.MeosArray
+	C.meos_errno_reset()
+	_cret := C.sptree_search((*C.SPTree)(unsafe.Pointer(sptree)), C.IndexSearchOp(op), unsafe.Pointer(query), &_out_result)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), &MeosArray{_inner: &_out_result}, nil
+}
 
 
-// TODO sptree_join: unsupported param IndexSearchOp
-// func SptreeJoin(...) { /* not yet handled by codegen */ }
+// SptreeJoin wraps MEOS C function sptree_join.
+func SptreeJoin(sptree1 unsafe.Pointer, sptree2 unsafe.Pointer, op IndexSearchOp) (_r0 int, _r1 *MeosArray, _err error) {
+	var _out_result C.MeosArray
+	C.meos_errno_reset()
+	_cret := C.sptree_join((*C.SPTree)(unsafe.Pointer(sptree1)), (*C.SPTree)(unsafe.Pointer(sptree2)), C.IndexSearchOp(op), &_out_result)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), &MeosArray{_inner: &_out_result}, nil
+}
 
 
-// TODO sptree_search_temporal: unsupported param IndexSearchOp
-// func SptreeSearchTemporal(...) { /* not yet handled by codegen */ }
+// SptreeSearchTemporal wraps MEOS C function sptree_search_temporal.
+func SptreeSearchTemporal(sptree unsafe.Pointer, op IndexSearchOp, temp *Temporal) (_r0 int, _r1 *MeosArray, _err error) {
+	var _out_result C.MeosArray
+	C.meos_errno_reset()
+	_cret := C.sptree_search_temporal((*C.SPTree)(unsafe.Pointer(sptree)), C.IndexSearchOp(op), temp._inner, &_out_result)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), &MeosArray{_inner: &_out_result}, nil
+}
 
 
-// TODO sptree_search_temporal_dedup: unsupported param IndexSearchOp
-// func SptreeSearchTemporalDedup(...) { /* not yet handled by codegen */ }
+// SptreeSearchTemporalDedup wraps MEOS C function sptree_search_temporal_dedup.
+func SptreeSearchTemporalDedup(sptree unsafe.Pointer, op IndexSearchOp, temp *Temporal, maxboxes int) (_r0 int, _r1 *MeosArray, _err error) {
+	var _out_result C.MeosArray
+	C.meos_errno_reset()
+	_cret := C.sptree_search_temporal_dedup((*C.SPTree)(unsafe.Pointer(sptree)), C.IndexSearchOp(op), temp._inner, C.int(maxboxes), &_out_result)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), &MeosArray{_inner: &_out_result}, nil
+}
 
 
 // SptreeNnCursorOpen wraps MEOS C function sptree_nn_cursor_open.

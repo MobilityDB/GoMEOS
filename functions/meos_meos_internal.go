@@ -574,8 +574,15 @@ func EnsureSameIndexBboxtype(bboxtype1 MeosType, bboxtype2 MeosType) (_r0 bool, 
 }
 
 
-// TODO ensure_index_join_op: unsupported param IndexSearchOp
-// func EnsureIndexJoinOp(...) { /* not yet handled by codegen */ }
+// EnsureIndexJoinOp wraps MEOS C function ensure_index_join_op.
+func EnsureIndexJoinOp(op IndexSearchOp) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.ensure_index_join_op(C.IndexSearchOp(op))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
 
 
 // BboxTemporalSplitBoxes wraps MEOS C function bbox_temporal_split_boxes.

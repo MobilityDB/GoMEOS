@@ -162,3 +162,30 @@ func (x *RTree) InsertTemporalSplit(temp *Temporal, id int64, maxboxes int) (boo
 	}
 	return _r0, nil
 }
+
+// Search is MEOS rtree_search.
+func (x *RTree) Search(op functions.IndexSearchOp, query unsafe.Pointer) (int, *MeosArray, error) {
+	_r0, _r1, _err := functions.RtreeSearch(functions.RTreeFromPointer(x.Pointer()), op, query)
+	if _err != nil {
+		return 0, nil, _err
+	}
+	return _r0, MeosArrayFromPointer(_r1.Pointer()), nil
+}
+
+// Join is MEOS rtree_join.
+func (x *RTree) Join(rtree2 *RTree, op functions.IndexSearchOp) (int, *MeosArray, error) {
+	_r0, _r1, _err := functions.RtreeJoin(functions.RTreeFromPointer(x.Pointer()), functions.RTreeFromPointer(rtree2.Pointer()), op)
+	if _err != nil {
+		return 0, nil, _err
+	}
+	return _r0, MeosArrayFromPointer(_r1.Pointer()), nil
+}
+
+// SearchTemporal is MEOS rtree_search_temporal.
+func (x *RTree) SearchTemporal(op functions.IndexSearchOp, temp *Temporal) (int, *MeosArray, error) {
+	_r0, _r1, _err := functions.RtreeSearchTemporal(functions.RTreeFromPointer(x.Pointer()), op, functions.TemporalFromPointer(temp.Pointer()))
+	if _err != nil {
+		return 0, nil, _err
+	}
+	return _r0, MeosArrayFromPointer(_r1.Pointer()), nil
+}

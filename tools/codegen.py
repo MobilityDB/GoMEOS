@@ -210,14 +210,8 @@ TYPE_MAP: dict[str, TypeMapping] = {
     "error_handler_fn":        TypeMapping("unsafe.Pointer", "(*[0]byte)({})",       "{}"),
     "int (*)(void *, void *)": TypeMapping("unsafe.Pointer", "(*[0]byte)({})",       "{}"),
     "void *(*)(void *, void *)": TypeMapping("unsafe.Pointer", "(*[0]byte)({})",     "{}"),
-    "interpType":        TypeMapping("Interpolation", "C.interpType({})",             "Interpolation({})"),
-    "MeosType":          TypeMapping("MeosType", "C.MeosType({})",                    "MeosType({})"),
-    "MeosOper":          TypeMapping("MeosOper", "C.MeosOper({})",                    "MeosOper({})"),
-    "RTreeSearchOp":     TypeMapping("RTreeSearchOp", "C.RTreeSearchOp({})",          "RTreeSearchOp({})"),
-    "nullHandleType":    TypeMapping("NullHandleType", "C.nullHandleType({})",        "NullHandleType({})"),
-    "tempSubtype":       TypeMapping("TempSubtype", "C.tempSubtype({})",              "TempSubtype({})"),
-    "errorLevel":        TypeMapping("ErrorLevel", "C.errorLevel({})",                "ErrorLevel({})"),
-    "SkipListType":      TypeMapping("SkipListType", "C.SkipListType({})",            "SkipListType({})"),
+    # NO ENUM ROW IS WRITTEN HERE: ``configure()`` derives one per catalog enum, so an
+    # enum MEOS adds is mapped the day it lands and one it retires stops being mapped.
     "char *":            TypeMapping("string",   "C.CString({})",                     "C.GoString({})"),
     "const char *":      TypeMapping("string",   "C.CString({})",                     "C.GoString({})"),
     # PostgreSQL ``text`` is a varlena envelope around a Go string.  The
@@ -283,20 +277,49 @@ WRAPPER_TYPES: dict[str, tuple[str, str]] = {
 
 
 # CODEGEN-REGULAR-EXCEPTION: ENUM_GO_NAME is a NAME MAP, not an exclusion.
-# emit_types() below iterates EVERY catalog enum and emits a Go type for each;
-# this dict only overrides the Go spelling for the seven enums the wrapper
-# TYPE_MAP already references (so the names line up), and every other enum
-# falls back to PascalCase via `.get(c_name, _go_name(c_name))`. Zero enums are
-# dropped or left unclassified.
+# emit_types() iterates EVERY catalog enum and emits a Go type for each, and
+# configure() maps every one of them for parameters and results; this dict only
+# fixes the Go SPELLING where PascalCase would not produce the name the package
+# already publishes -- `interpType` reaches Go as `Interpolation`, which no
+# mechanical rule yields and which is a published name
+# ([[never-change-api-surface-autonomously]]). Every other enum falls back to
+# `_go_name(c_name)`. Zero enums are dropped or left unclassified.
 ENUM_GO_NAME: dict[str, str] = {
     "interpType": "Interpolation",
     "MeosType": "MeosType",
     "MeosOper": "MeosOper",
-    "RTreeSearchOp": "RTreeSearchOp",
     "nullHandleType": "NullHandleType",
     "tempSubtype": "TempSubtype",
     "SkipListType": "SkipListType",
 }
+
+# The catalog's enums, filled in by ``configure``. An enum crosses cgo as its own
+# Go type, and taking the SET from the catalog is what keeps an enum MEOS adds
+# from arriving unmapped the way a hand list leaves it -- the shape MEOS.NET's
+# tools/codegen.py states at its own ENUM_TYPES.
+ENUM_TYPES: set[str] = set()
+
+
+def configure(idl: dict) -> None:
+    """Take from the catalog the type facts the mapping above reads.
+
+    A HAND LIST GOES SHORT AND ALSO GOES STALE, in both directions at once: the
+    rows this replaces named 6 of the 14 enums the catalog declares -- leaving
+    `IndexSearchOp` (9 functions), `SPTreeKind` (8) and `MeosPixType` (4)
+    unmapped, so 21 wrappers emitted a TODO stub reading `unsupported param` --
+    and carried 2 more, `RTreeSearchOp` and `errorLevel`, for enums the catalog
+    no longer declares at all and no function names.
+
+    The Go spelling comes from ENUM_GO_NAME where the published name is not what
+    PascalCase yields, so this and ``emit_types`` cannot disagree about a name:
+    both read the same helper.
+    """
+    ENUM_TYPES.clear()
+    ENUM_TYPES.update(e["name"] for e in idl.get("enums", []) if e.get("name"))
+    for c_name in ENUM_TYPES:
+        go_name = ENUM_GO_NAME.get(c_name, _go_name(c_name))
+        TYPE_MAP[c_name] = TypeMapping(
+            go_name, f"C.{c_name}({{}})", f"{go_name}({{}})")
 
 
 def emit_types(idl: dict, corpus: str) -> str:
@@ -1171,6 +1194,7 @@ var _ = unsafe.Pointer(nil)
 
 def generate(idl_path: Path, out_dir: Path) -> dict:
     idl = json.loads(idl_path.read_text())
+    configure(idl)
     out_dir.mkdir(parents=True, exist_ok=True)
 
     entries_by_file: dict[str, list[dict]] = {h: [] for h in HEADER_FILES}
