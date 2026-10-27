@@ -103,3 +103,21 @@ func (x *TGeogPoint) QuadbinSplit(resolution int32, border_inc bool, cells unsaf
 	}
 	return _r0, nil
 }
+
+// ToTs2cell is MEOS tgeogpoint_to_ts2cell.
+func (x *TGeogPoint) ToTs2cell(level int32, border_inc bool) (*Temporal, error) {
+	_r0, _err := functions.TgeogpointToTs2cell(functions.TemporalFromPointer(x.Pointer()), level, border_inc)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// S2cellSplit is MEOS tgeogpoint_s2cell_split.
+func (x *TGeogPoint) S2cellSplit(level int32, border_inc bool, cells unsafe.Pointer, count unsafe.Pointer) (unsafe.Pointer, error) {
+	_r0, _err := functions.TgeogpointS2cellSplit(functions.TemporalFromPointer(x.Pointer()), level, border_inc, cells, count)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}

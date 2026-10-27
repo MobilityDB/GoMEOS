@@ -4,6 +4,8 @@ package types
 
 import (
 	"unsafe"
+
+	"github.com/MobilityDB/GoMEOS/functions"
 )
 
 type Raster struct {
@@ -19,4 +21,475 @@ func RasterFromPointer(p unsafe.Pointer) *Raster {
 	v := &Raster{}
 	v.ptr = p
 	return v
+}
+
+// RasterFromWKB is MEOS raster_from_wkb.
+func RasterFromWKB(wkb unsafe.Pointer, size uint) (unsafe.Pointer, error) {
+	_r0, _err := functions.RasterFromWKB(wkb, size)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
+// RasterFromHEXWKB is MEOS raster_from_hexwkb.
+func RasterFromHEXWKB(hexwkb string) (unsafe.Pointer, error) {
+	_r0, _err := functions.RasterFromHexwkb(hexwkb)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
+// RasterAsWKB is MEOS raster_as_wkb.
+func RasterAsWKB(rast unsafe.Pointer, variant uint8, size_out unsafe.Pointer) (unsafe.Pointer, error) {
+	_r0, _err := functions.RasterAsWKB(rast, variant, size_out)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
+// RasterAsHEXWKB is MEOS raster_as_hexwkb.
+func RasterAsHEXWKB(rast unsafe.Pointer, variant uint8, size_out unsafe.Pointer) (string, error) {
+	_r0, _err := functions.RasterAsHexwkb(rast, variant, size_out)
+	if _err != nil {
+		return "", _err
+	}
+	return _r0, nil
+}
+
+// RasterCopy is MEOS raster_copy.
+func RasterCopy(rast unsafe.Pointer) (unsafe.Pointer, error) {
+	_r0, _err := functions.RasterCopy(rast)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
+// RasterMake is MEOS raster_make.
+func RasterMake(width int, height int, upperleftx float64, upperlefty float64, scalex float64, scaley float64, skewx float64, skewy float64, srid int32, pixeltype string, nodataval float64, has_nodata bool, pixels unsafe.Pointer, size uint) (unsafe.Pointer, error) {
+	_r0, _err := functions.RasterMake(width, height, upperleftx, upperlefty, scalex, scaley, skewx, skewy, srid, pixeltype, nodataval, has_nodata, pixels, size)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
+// RasterMakeEmpty is MEOS raster_make_empty.
+func RasterMakeEmpty(width int, height int, upperleftx float64, upperlefty float64, scalex float64, scaley float64, skewx float64, skewy float64, srid int32) (unsafe.Pointer, error) {
+	_r0, _err := functions.RasterMakeEmpty(width, height, upperleftx, upperlefty, scalex, scaley, skewx, skewy, srid)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
+// RasterAddBand is MEOS raster_add_band.
+func RasterAddBand(rast unsafe.Pointer, index int, pixeltype string, initialvalue float64, nodataval float64, has_nodata bool) (unsafe.Pointer, error) {
+	_r0, _err := functions.RasterAddBand(rast, index, pixeltype, initialvalue, nodataval, has_nodata)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
+// RasterAddBandRaster is MEOS raster_add_band_raster.
+func RasterAddBandRaster(torast unsafe.Pointer, fromrast unsafe.Pointer, fromband int, toindex int) (unsafe.Pointer, error) {
+	_r0, _err := functions.RasterAddBandRaster(torast, fromrast, fromband, toindex)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
+// RasterMemSize is MEOS raster_mem_size.
+func RasterMemSize(rast unsafe.Pointer) (int, error) {
+	_r0, _err := functions.RasterMemSize(rast)
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// RasterNumBands is MEOS raster_num_bands.
+func RasterNumBands(rast unsafe.Pointer) (int, error) {
+	_r0, _err := functions.RasterNumBands(rast)
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// RasterWidth is MEOS raster_width.
+func RasterWidth(rast unsafe.Pointer) (int, error) {
+	_r0, _err := functions.RasterWidth(rast)
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// RasterHeight is MEOS raster_height.
+func RasterHeight(rast unsafe.Pointer) (int, error) {
+	_r0, _err := functions.RasterHeight(rast)
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// RasterSRID is MEOS raster_srid.
+func RasterSRID(rast unsafe.Pointer) (int32, error) {
+	_r0, _err := functions.RasterSRID(rast)
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// RasterUpperLeftX is MEOS raster_upper_left_x.
+func RasterUpperLeftX(rast unsafe.Pointer) (float64, error) {
+	_r0, _err := functions.RasterUpperLeftX(rast)
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// RasterUpperLeftY is MEOS raster_upper_left_y.
+func RasterUpperLeftY(rast unsafe.Pointer) (float64, error) {
+	_r0, _err := functions.RasterUpperLeftY(rast)
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// RasterScaleX is MEOS raster_scale_x.
+func RasterScaleX(rast unsafe.Pointer) (float64, error) {
+	_r0, _err := functions.RasterScaleX(rast)
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// RasterScaleY is MEOS raster_scale_y.
+func RasterScaleY(rast unsafe.Pointer) (float64, error) {
+	_r0, _err := functions.RasterScaleY(rast)
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// RasterSkewX is MEOS raster_skew_x.
+func RasterSkewX(rast unsafe.Pointer) (float64, error) {
+	_r0, _err := functions.RasterSkewX(rast)
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// RasterSkewY is MEOS raster_skew_y.
+func RasterSkewY(rast unsafe.Pointer) (float64, error) {
+	_r0, _err := functions.RasterSkewY(rast)
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// RasterBandPixelType is MEOS raster_band_pixel_type.
+func RasterBandPixelType(rast unsafe.Pointer, band int) (string, error) {
+	_r0, _err := functions.RasterBandPixelType(rast, band)
+	if _err != nil {
+		return "", _err
+	}
+	return _r0, nil
+}
+
+// RasterBandHasNodataValue is MEOS raster_band_has_nodata_value.
+func RasterBandHasNodataValue(rast unsafe.Pointer, band int) (bool, error) {
+	_r0, _err := functions.RasterBandHasNodataValue(rast, band)
+	if _err != nil {
+		return false, _err
+	}
+	return _r0, nil
+}
+
+// RasterBandNodataValue is MEOS raster_band_nodata_value.
+func RasterBandNodataValue(rast unsafe.Pointer, band int) (float64, bool, error) {
+	_found, _value, _err := functions.RasterBandNodataValue(rast, band)
+	if _err != nil {
+		return 0, false, _err
+	}
+	if !_found {
+		return 0, false, nil
+	}
+	return _value, true, nil
+}
+
+// RasterBandPixels is MEOS raster_band_pixels.
+func RasterBandPixels(rast unsafe.Pointer, band int, size_out unsafe.Pointer) (unsafe.Pointer, error) {
+	_r0, _err := functions.RasterBandPixels(rast, band, size_out)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
+// RasterClip is MEOS raster_clip.
+func RasterClip(rast unsafe.Pointer, bands unsafe.Pointer, nbands int, gs *TRGeometrySeqSet, nodata unsafe.Pointer, nnodata int, crop bool, touched bool) (unsafe.Pointer, error) {
+	_r0, _err := functions.RasterClip(rast, bands, nbands, functions.GeomFromPointer(gs.Pointer()), nodata, nnodata, crop, touched)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
+// RasterTransform is MEOS raster_transform.
+func RasterTransform(rast unsafe.Pointer, srid int32, algorithm *string, max_err float64, scale_x float64, scale_y float64) (unsafe.Pointer, error) {
+	_r0, _err := functions.RasterTransform(rast, srid, algorithm, max_err, scale_x, scale_y)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
+// RasterTransformPipeline is MEOS raster_transform_pipeline.
+func RasterTransformPipeline(rast unsafe.Pointer, pipelinestr string, srid int32, is_forward bool, algorithm *string, max_err float64, scale_x float64, scale_y float64) (unsafe.Pointer, error) {
+	_r0, _err := functions.RasterTransformPipeline(rast, pipelinestr, srid, is_forward, algorithm, max_err, scale_x, scale_y)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
+// RasterTransformRaster is MEOS raster_transform_raster.
+func RasterTransformRaster(rast unsafe.Pointer, alignto unsafe.Pointer, algorithm *string, max_err float64) (unsafe.Pointer, error) {
+	_r0, _err := functions.RasterTransformRaster(rast, alignto, algorithm, max_err)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
+// RasterRescale is MEOS raster_rescale.
+func RasterRescale(rast unsafe.Pointer, scale_x float64, scale_y float64, algorithm *string, max_err float64) (unsafe.Pointer, error) {
+	_r0, _err := functions.RasterRescale(rast, scale_x, scale_y, algorithm, max_err)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
+// RasterDumpAsPolygons is MEOS raster_dump_as_polygons.
+func RasterDumpAsPolygons(rast unsafe.Pointer, band int, exclude_nodata bool, count unsafe.Pointer) (unsafe.Pointer, error) {
+	_r0, _err := functions.RasterDumpAsPolygons(rast, band, exclude_nodata, count)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
+// RasterDumpValues is MEOS raster_dump_values.
+func RasterDumpValues(rast unsafe.Pointer, band int, exclude_nodata bool, nodata unsafe.Pointer, count unsafe.Pointer) (unsafe.Pointer, error) {
+	_r0, _err := functions.RasterDumpValues(rast, band, exclude_nodata, nodata, count)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
+// RasterPixelAsPoints is MEOS raster_pixel_as_points.
+func RasterPixelAsPoints(rast unsafe.Pointer, band int, exclude_nodata bool, count unsafe.Pointer) (unsafe.Pointer, error) {
+	_r0, _err := functions.RasterPixelAsPoints(rast, band, exclude_nodata, count)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
+// RasterSummaryStats is MEOS raster_summary_stats.
+func RasterSummaryStats(rast unsafe.Pointer, band int, exclude_nodata bool) (unsafe.Pointer, error) {
+	_r0, _err := functions.RasterSummaryStats(rast, band, exclude_nodata)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
+// RasterValueCount is MEOS raster_value_count.
+func RasterValueCount(rast unsafe.Pointer, band int, exclude_nodata bool, searchvalues unsafe.Pointer, nsearch int, roundto float64, count unsafe.Pointer) (unsafe.Pointer, error) {
+	_r0, _err := functions.RasterValueCount(rast, band, exclude_nodata, searchvalues, nsearch, roundto, count)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
+// RasterSetValues is MEOS raster_set_values.
+func RasterSetValues(rast unsafe.Pointer, band int, x int, y int, width int, height int, values unsafe.Pointer, nodata unsafe.Pointer, noset unsafe.Pointer, count int, keepnodata bool) (unsafe.Pointer, error) {
+	_r0, _err := functions.RasterSetValues(rast, band, x, y, width, height, values, nodata, noset, count, keepnodata)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
+// RasterReclass is MEOS raster_reclass.
+func RasterReclass(rast unsafe.Pointer, band int, expr string, pixeltype string, has_nodata bool, nodataval float64) (unsafe.Pointer, error) {
+	_r0, _err := functions.RasterReclass(rast, band, expr, pixeltype, has_nodata, nodataval)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
+// RasterSlope is MEOS raster_slope.
+func RasterSlope(rast unsafe.Pointer, band int, customextent unsafe.Pointer, pixeltype string, units string, scale float64, interpolate_nodata bool) (unsafe.Pointer, error) {
+	_r0, _err := functions.RasterSlope(rast, band, customextent, pixeltype, units, scale, interpolate_nodata)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
+// RasterTpi is MEOS raster_tpi.
+func RasterTpi(rast unsafe.Pointer, band int, customextent unsafe.Pointer, pixeltype string, interpolate_nodata bool) (unsafe.Pointer, error) {
+	_r0, _err := functions.RasterTpi(rast, band, customextent, pixeltype, interpolate_nodata)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
+// RasterTri is MEOS raster_tri.
+func RasterTri(rast unsafe.Pointer, band int, customextent unsafe.Pointer, pixeltype string, interpolate_nodata bool) (unsafe.Pointer, error) {
+	_r0, _err := functions.RasterTri(rast, band, customextent, pixeltype, interpolate_nodata)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
+// RasterMapAlgebra is MEOS raster_map_algebra.
+func RasterMapAlgebra(rast unsafe.Pointer, band int, stat string, pixeltype *string, extenttype *string, customextent unsafe.Pointer, distancex int32, distancey int32) (unsafe.Pointer, error) {
+	_r0, _err := functions.RasterMapAlgebra(rast, band, stat, pixeltype, extenttype, customextent, distancex, distancey)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
+// RasterSameAlignment is MEOS raster_same_alignment.
+func RasterSameAlignment(rast1 unsafe.Pointer, rast2 unsafe.Pointer) (bool, error) {
+	_r0, _err := functions.RasterSameAlignment(rast1, rast2)
+	if _err != nil {
+		return false, _err
+	}
+	return _r0, nil
+}
+
+// RasterNotSameAlignmentReason is MEOS raster_not_same_alignment_reason.
+func RasterNotSameAlignmentReason(rast1 unsafe.Pointer, rast2 unsafe.Pointer) (string, error) {
+	_r0, _err := functions.RasterNotSameAlignmentReason(rast1, rast2)
+	if _err != nil {
+		return "", _err
+	}
+	return _r0, nil
+}
+
+// RasterToStbox is MEOS raster_to_stbox.
+func RasterToStbox(rast unsafe.Pointer) (*STBox, error) {
+	_r0, _err := functions.RasterToSTBOX(rast)
+	if _err != nil {
+		return nil, _err
+	}
+	return STBoxFromPointer(_r0.Pointer()), nil
+}
+
+// RasterValue is MEOS raster_value.
+func RasterValue(traj *Temporal, rast unsafe.Pointer, band int, exclude_nodata bool, resample *string) (*Temporal, error) {
+	_r0, _err := functions.RasterValue(functions.TemporalFromPointer(traj.Pointer()), rast, band, exclude_nodata, resample)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// RasterAtValue is MEOS raster_at_value.
+func RasterAtValue(traj *Temporal, rast unsafe.Pointer, band int, vspan *Span) (*Temporal, error) {
+	_r0, _err := functions.RasterAtValue(functions.TemporalFromPointer(traj.Pointer()), rast, band, functions.SpanFromPointer(vspan.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// RasterMinusValue is MEOS raster_minus_value.
+func RasterMinusValue(traj *Temporal, rast unsafe.Pointer, band int, vspan *Span) (*Temporal, error) {
+	_r0, _err := functions.RasterMinusValue(functions.TemporalFromPointer(traj.Pointer()), rast, band, functions.SpanFromPointer(vspan.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// RasterValueGdal is MEOS raster_value_gdal.
+func RasterValueGdal(traj *Temporal, path string, band int) (*Temporal, error) {
+	_r0, _err := functions.RasterValueGdal(functions.TemporalFromPointer(traj.Pointer()), path, band)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// RasterAtValueGdal is MEOS raster_at_value_gdal.
+func RasterAtValueGdal(traj *Temporal, path string, band int, vspan *Span) (*Temporal, error) {
+	_r0, _err := functions.RasterAtValueGdal(functions.TemporalFromPointer(traj.Pointer()), path, band, functions.SpanFromPointer(vspan.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// RasterMinusValueGdal is MEOS raster_minus_value_gdal.
+func RasterMinusValueGdal(traj *Temporal, path string, band int, vspan *Span) (*Temporal, error) {
+	_r0, _err := functions.RasterMinusValueGdal(functions.TemporalFromPointer(traj.Pointer()), path, band, functions.SpanFromPointer(vspan.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// RasterTileValueQuadbin is MEOS raster_tile_value_quadbin.
+func RasterTileValueQuadbin(traj *Temporal, pixels unsafe.Pointer, pixels_size uint, width int32, height int32, quadbin uint64, pixtype functions.MeosPixType, nodata float64, has_nodata bool) (*Temporal, error) {
+	_r0, _err := functions.RasterTileValueQuadbin(functions.TemporalFromPointer(traj.Pointer()), pixels, pixels_size, width, height, quadbin, pixtype, nodata, has_nodata)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// RasterTileValue is MEOS raster_tile_value.
+func RasterTileValue(traj *Temporal, rq unsafe.Pointer) (*Temporal, error) {
+	_r0, _err := functions.RasterTileValue(functions.TemporalFromPointer(traj.Pointer()), rq)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// RasterTileValueArray is MEOS raster_tile_value_array.
+func RasterTileValueArray(traj *Temporal, rqarr unsafe.Pointer, count int) (*Temporal, error) {
+	_r0, _err := functions.RasterTileValueArray(functions.TemporalFromPointer(traj.Pointer()), rqarr, count)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
 }

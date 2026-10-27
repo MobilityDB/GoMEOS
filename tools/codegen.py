@@ -20,26 +20,66 @@ Run from the repo root:
 from __future__ import annotations
 
 import json
+import os
 import re
+import subprocess
 import sys
 from dataclasses import dataclass
 from pathlib import Path
 
-HEADER_FILES = [
-    "meos.h",
-    "meos_catalog.h",
-    "meos_geo.h",
-    "meos_internal.h",
-    "meos_internal_geo.h",
-    "meos_npoint.h",
-    "meos_cbuffer.h",
-    "meos_pose.h",
-    "meos_rgeo.h",
-    "meos_h3.h",
-    "meos_quadbin.h",
-    "meos_json.h",
-    "meos_pointcloud.h",
-]
+
+def _family_enabled(entry: dict) -> bool:
+    """Whether the family of a catalog entry is bound, as #familyEnabled of JMEOS
+    ``FunctionsGenerator.java`` decides it: every family is, unless the environment
+    names it OFF (``H3=OFF``), and the core always is."""
+    family = entry.get("family")
+    return not family or family == "CORE" or \
+        os.environ.get(family, "").upper() not in ("OFF", "0", "FALSE")
+
+
+def _installed_headers() -> set[str] | None:
+    """The names of the headers the libmeos prefix installs at the top of its include
+    directory, as #get_installed_headers of PyMEOS-CFFI ``builder/build_header.py``
+    lists them: names only, no header is read. The directory is the one
+    ``pkg-config --variable=includedir meos`` names, which ``MEOS_INCLUDEDIR``
+    overrides; None when no prefix is at hand."""
+    include_dir = os.environ.get("MEOS_INCLUDEDIR")
+    if not include_dir:
+        try:
+            include_dir = subprocess.check_output(
+                ["pkg-config", "--variable=includedir", "meos"], text=True).strip()
+        except (OSError, subprocess.CalledProcessError):
+            return None
+    path = Path(include_dir)
+    if not path.is_dir():
+        return None
+    return {f.name for f in path.iterdir() if f.suffix == ".h"}
+
+
+def _meos_first(header: str) -> tuple[bool, str]:
+    """The order of the headers, meos.h first as the others build on its types, the
+    key #header_files of PyMEOS-CFFI ``builder/build_pymeos.py`` sorts by."""
+    return header != "meos.h", header
+
+
+def header_plan(idl: dict) -> tuple[list[str], list[str], list[str]]:
+    """``(groups, includes, uninstalled)``: the headers declaring a non-vendored
+    catalog function of a bound family that the prefix installs, one Go file each;
+    the headers the preamble includes, those of the non-vendored functions,
+    structures and enumerations that the prefix installs; and the headers declaring
+    such a function that the prefix does not install, whose functions the flat
+    layer does not bind and the report names. No sibling routine builds the lists;
+    #generate reads them."""
+    declaring = {f["file"] for f in idl["functions"]
+                 if not f.get("vendored") and _family_enabled(f)}
+    wanted = declaring | {e["file"] for kind in ("structs", "enums")
+                          for e in idl.get(kind, []) if not e.get("vendored")}
+    installed = _installed_headers()
+    includes = wanted if installed is None else wanted & installed
+    groups = declaring & set(includes)
+    return (sorted(groups, key=_meos_first), sorted(includes, key=_meos_first),
+            sorted(declaring - groups, key=_meos_first))
+
 
 # Forward-declared opaque types we never wrap (mirrors the cdef skip list
 # the PyMEOS-CFFI builder applies).
@@ -321,8 +361,9 @@ def configure(idl: dict) -> None:
             go_name, f"C.{c_name}({{}})", f"{go_name}({{}})")
 
 
-def emit_types(idl: dict, corpus: str) -> str:
-    """Emit the type layer the flat wrappers depend on: one opaque handle
+def emit_types(idl: dict, corpus: str, include_block: str) -> str:
+    """Emit the type layer the flat wrappers depend on, under the preamble whose
+    ``include_block`` #generate builds from #header_plan: one opaque handle
     struct per MEOS wrapper type and one Go type + const block per catalog
     enum.  This is the meos-rs / JMEOS opaque-handle pattern (no OO interface,
     no runtime subtype dispatch) expressed in Go: every MEOS struct is a
@@ -384,7 +425,8 @@ def emit_types(idl: dict, corpus: str) -> str:
                 out.append(f"\t{go_name}_{v['name']} {go_name} = {int(v['value'])}")
             out.append(")")
 
-    header = _PER_HEADER_PREAMBLE + "\n".join(out) + "\n"
+    header = (_PER_HEADER_PREAMBLE.replace("@INCLUDES@", include_block)
+              + "\n".join(out) + "\n")
     return header
 
 
@@ -1124,19 +1166,7 @@ _CGO_FILE = """package functions
 #cgo linux CFLAGS: -I/usr/include/h3
 
 #include <stddef.h>
-#include "meos.h"
-#include "meos_catalog.h"
-#include "meos_geo.h"
-#include "meos_internal.h"
-#include "meos_internal_geo.h"
-#include "meos_npoint.h"
-#include "meos_cbuffer.h"
-#include "meos_pose.h"
-#include "meos_rgeo.h"
-#include "meos_h3.h"
-#include "meos_quadbin.h"
-#include "meos_json.h"
-#include "meos_pointcloud.h"
+@INCLUDES@
 */
 import "C"
 
@@ -1178,19 +1208,7 @@ _PER_HEADER_PREAMBLE = """package functions
 
 /*
 #include <stddef.h>
-#include "meos.h"
-#include "meos_catalog.h"
-#include "meos_geo.h"
-#include "meos_internal.h"
-#include "meos_internal_geo.h"
-#include "meos_npoint.h"
-#include "meos_cbuffer.h"
-#include "meos_pose.h"
-#include "meos_rgeo.h"
-#include "meos_h3.h"
-#include "meos_quadbin.h"
-#include "meos_json.h"
-#include "meos_pointcloud.h"
+@INCLUDES@
 */
 import "C"
 import (
@@ -1207,17 +1225,27 @@ def generate(idl_path: Path, out_dir: Path) -> dict:
     configure(idl)
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    entries_by_file: dict[str, list[dict]] = {h: [] for h in HEADER_FILES}
-    for entry in idl["functions"]:
+    groups, includes, uninstalled = header_plan(idl)
+    # One file per header the plan names, so the files of a header it no longer names
+    # leave with the run that drops it
+    for stale in out_dir.glob("meos_*.go"):
+        stale.unlink()
+    include_block = "\n".join(f'#include "{h}"' for h in includes)
+    bound = [e for e in idl["functions"]
+             if not e.get("vendored") and _family_enabled(e)]
+    entries_by_file: dict[str, list[dict]] = {h: [] for h in groups}
+    for entry in bound:
         if entry["file"] in entries_by_file:
             entries_by_file[entry["file"]].append(entry)
 
-    stats = {"emitted": 0, "skipped": 0, "explicit_skip": 0, "datum": 0, "by_header": {}}
+    stats = {"emitted": 0, "skipped": 0, "explicit_skip": 0, "datum": 0, "by_header": {},
+             "uninstalled": {h: sum(e["file"] == h for e in bound) for h in uninstalled}}
     corpus_parts: list[str] = []
     # The shared per-file cgo preamble, with the union-operator aliases spliced
     # into the C block so every file that calls a ``C.gunion_*`` resolves it.
-    preamble = _PER_HEADER_PREAMBLE.replace("*/", _union_alias_block(idl) + "\n*/", 1)
-    for header in HEADER_FILES:
+    preamble = _PER_HEADER_PREAMBLE.replace("@INCLUDES@", include_block)
+    preamble = preamble.replace("*/", _union_alias_block(idl) + "\n*/", 1)
+    for header in groups:
         emitted_funcs = []
         local_emit = local_skip = local_explicit = local_datum = 0
         for entry in entries_by_file[header]:
@@ -1254,11 +1282,12 @@ def generate(idl_path: Path, out_dir: Path) -> dict:
 
     # The single cgo preamble file with all #includes lives next to the
     # generated wrappers; Go's cgo machinery merges directives across files.
-    (out_dir / "cgo.go").write_text(_CGO_FILE)
+    (out_dir / "cgo.go").write_text(_CGO_FILE.replace("@INCLUDES@", include_block))
 
     # The type layer (opaque handle structs + enums) the wrappers depend on,
     # restricted to the types the emitted wrappers actually reference.
-    (out_dir / "types.go").write_text(emit_types(idl, "\n".join(corpus_parts)))
+    (out_dir / "types.go").write_text(
+        emit_types(idl, "\n".join(corpus_parts), include_block))
     return stats
 
 
@@ -1273,5 +1302,7 @@ if __name__ == "__main__":
     print(f"Skipped {stats['skipped']} as TODO (unresolved signature shape)")
     print(f"Excluded {stats['explicit_skip']} via meta/meos-meta.json shape.skip declarations")
     print(f"Excluded {stats['datum']} as Datum-bearing internal helpers")
+    for h, n in stats["uninstalled"].items():
+        print(f"Not bound: {n} functions of {h}, a header the prefix does not install")
     for h, (e, s, sk, d) in stats["by_header"].items():
         print(f"  {h}: {e} emitted, {s} TODO, {sk} explicit-skip, {d} Datum")

@@ -4,17 +4,29 @@ package functions
 #include <stddef.h>
 #include "meos.h"
 #include "meos_catalog.h"
+#include "meos_cbuffer.h"
+#include "meos_cellindex.h"
 #include "meos_geo.h"
+#include "meos_h3.h"
 #include "meos_internal.h"
 #include "meos_internal_geo.h"
-#include "meos_npoint.h"
-#include "meos_cbuffer.h"
-#include "meos_pose.h"
-#include "meos_rgeo.h"
-#include "meos_h3.h"
-#include "meos_quadbin.h"
 #include "meos_json.h"
+#include "meos_npoint.h"
 #include "meos_pointcloud.h"
+#include "meos_pose.h"
+#include "meos_quadbin.h"
+#include "meos_raster.h"
+#include "meos_rgeo.h"
+#include "meos_s2cell.h"
+#include "pg_basetypes.h"
+#include "pg_bool.h"
+#include "pg_date.h"
+#include "pg_float.h"
+#include "pg_int.h"
+#include "pg_interval.h"
+#include "pg_text.h"
+#include "pg_time.h"
+#include "pg_timestamp.h"
 */
 import "C"
 import (
@@ -333,4 +345,18 @@ const (
 	NullHandleType_NULL_JSON_NULL NullHandleType = 2
 	NullHandleType_NULL_DELETE NullHandleType = 3
 	NullHandleType_NULL_RETURN NullHandleType = 4
+)
+type MeosPixType C.MeosPixType
+const (
+	MeosPixType_MEOS_PT_UINT8 MeosPixType = 0
+	MeosPixType_MEOS_PT_INT16 MeosPixType = 1
+	MeosPixType_MEOS_PT_INT32 MeosPixType = 2
+	MeosPixType_MEOS_PT_FLOAT32 MeosPixType = 3
+	MeosPixType_MEOS_PT_FLOAT64 MeosPixType = 4
+	MeosPixType_MEOS_PT_INT8 MeosPixType = 5
+	MeosPixType_MEOS_PT_UINT16 MeosPixType = 6
+	MeosPixType_MEOS_PT_UINT32 MeosPixType = 7
+	MeosPixType_MEOS_PT_INT64 MeosPixType = 8
+	MeosPixType_MEOS_PT_UINT64 MeosPixType = 9
+	MeosPixType_MEOS_PT_FLOAT16 MeosPixType = 10
 )
