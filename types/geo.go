@@ -24,7 +24,7 @@ func GeoFromPointer(p unsafe.Pointer) *Geo {
 }
 
 // GeoAsEWKB is MEOS geo_as_ewkb.
-func GeoAsEWKB(gs *TRGeometrySeqSet, endian string, size unsafe.Pointer) (unsafe.Pointer, error) {
+func GeoAsEWKB(gs *TRGeometrySeqSet, endian *string, size unsafe.Pointer) (unsafe.Pointer, error) {
 	_r0, _err := functions.GeoAsEWKB(functions.GeomFromPointer(gs.Pointer()), endian, size)
 	if _err != nil {
 		return nil, _err
@@ -42,7 +42,7 @@ func GeoAsEWKT(gs *TRGeometrySeqSet, precision int) (string, error) {
 }
 
 // GeoAsGEOJSON is MEOS geo_as_geojson.
-func GeoAsGEOJSON(gs *TRGeometrySeqSet, option int, precision int, srs string) (string, error) {
+func GeoAsGEOJSON(gs *TRGeometrySeqSet, option int, precision int, srs *string) (string, error) {
 	_r0, _err := functions.GeoAsGeojson(functions.GeomFromPointer(gs.Pointer()), option, precision, srs)
 	if _err != nil {
 		return "", _err
@@ -51,7 +51,7 @@ func GeoAsGEOJSON(gs *TRGeometrySeqSet, option int, precision int, srs string) (
 }
 
 // GeoAsHEXEWKB is MEOS geo_as_hexewkb.
-func GeoAsHEXEWKB(gs *TRGeometrySeqSet, endian string) (string, error) {
+func GeoAsHEXEWKB(gs *TRGeometrySeqSet, endian *string) (string, error) {
 	_r0, _err := functions.GeoAsHexewkb(functions.GeomFromPointer(gs.Pointer()), endian)
 	if _err != nil {
 		return "", _err

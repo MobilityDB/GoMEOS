@@ -35,7 +35,7 @@ func (x *Temporal) AsHEXWKB(variant uint8, size_out unsafe.Pointer) (string, err
 }
 
 // AsMFJSON is MEOS temporal_as_mfjson.
-func (x *Temporal) AsMFJSON(option int, flags int, precision int, srs string) (string, error) {
+func (x *Temporal) AsMFJSON(option int, flags int, precision int, srs *string) (string, error) {
 	_r0, _err := functions.TemporalAsMFJSON(functions.TemporalFromPointer(x.Pointer()), option, flags, precision, srs)
 	if _err != nil {
 		return "", _err

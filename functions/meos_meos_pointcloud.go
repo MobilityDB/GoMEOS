@@ -383,9 +383,12 @@ func MeosPcSchemaNdims(pcid uint32) (_r0 int32, _err error) {
 
 
 // MeosSetPointcloudSchemasXml wraps MEOS C function meos_set_pointcloud_schemas_xml.
-func MeosSetPointcloudSchemasXml(path string) (_err error) {
-	_c_path := C.CString(path)
-	defer C.free(unsafe.Pointer(_c_path))
+func MeosSetPointcloudSchemasXml(path *string) (_err error) {
+	var _c_path *C.char
+	if path != nil {
+		_c_path = C.CString(*path)
+		defer C.free(unsafe.Pointer(_c_path))
+	}
 	C.meos_errno_reset()
 	C.meos_set_pointcloud_schemas_xml(_c_path)
 	if _err = meosError(); _err != nil {

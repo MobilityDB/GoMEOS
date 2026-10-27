@@ -679,6 +679,7 @@ def emit_function(entry: dict) -> EmittedFunc:
     # not the canonical ``result`` / ``value``.  Carry the set down to
     # ``_classify_param`` via a closure-friendly local override.
     named_outputs = set(shape.get("namedOutputs", []))
+    nullable = set(shape.get("nullable", []))
 
     # ``shape.arrayInputGroup`` describes N parallel input arrays that share
     # one count.  We hand-roll a separate emission path for these because
@@ -932,6 +933,17 @@ def emit_function(entry: dict) -> EmittedFunc:
         go_args.append(f"{pname} {go_t}")
         if c_cast is None:
             inner_args.append(pname)
+        elif go_t == "string" and p["name"] in nullable:
+            # A string MEOS accepts as NULL (``shape.nullable``) is a *string, and nil
+            # passes NULL.
+            go_args[-1] = f"{pname} *string"
+            local = f"_c_{pname}"
+            deferred.append(f"var {local} *C.{base}")
+            deferred.append(f"if {pname} != nil {{")
+            deferred.append(f"\t{local} = {c_cast.replace('$x', '*' + pname)}")
+            deferred.append(f"\tdefer C.free(unsafe.Pointer({local}))")
+            deferred.append("}")
+            inner_args.append(local)
         else:
             cast_expr = c_cast.replace("$x", pname)
             if go_t == "string":

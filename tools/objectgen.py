@@ -205,7 +205,10 @@ class Generator:
         return self.m.class_for_ctype(struct) if struct else None
 
     def passthrough(self, go_type: str) -> bool:
-        return go_type in self.scalars or go_type in ("string", "bool", "unsafe.Pointer")
+        # A string the flat wrapper takes as *string is one MEOS accepts as NULL, and
+        # its nil reaches the wrapper unchanged; #qualify spells it as it stands
+        return go_type in self.scalars or go_type in ("string", "*string", "bool",
+                                                       "unsafe.Pointer")
 
     def qualify(self, go_type: str) -> str:
         """A passthrough type as this package must spell it.

@@ -531,7 +531,7 @@ func (x *TRGeometry) AsTinstant() (*Temporal, error) {
 }
 
 // AsTsequence is MEOS trgeometry_as_tsequence.
-func (x *TRGeometry) AsTsequence(interp_str string) (*Temporal, error) {
+func (x *TRGeometry) AsTsequence(interp_str *string) (*Temporal, error) {
 	_r0, _err := functions.TrgeometryAsTsequence(functions.TemporalFromPointer(x.Pointer()), interp_str)
 	if _err != nil {
 		return nil, _err
@@ -540,7 +540,7 @@ func (x *TRGeometry) AsTsequence(interp_str string) (*Temporal, error) {
 }
 
 // AsTsequenceset is MEOS trgeometry_as_tsequenceset.
-func (x *TRGeometry) AsTsequenceset(interp_str string) (*Temporal, error) {
+func (x *TRGeometry) AsTsequenceset(interp_str *string) (*Temporal, error) {
 	_r0, _err := functions.TrgeometryAsTsequenceset(functions.TemporalFromPointer(x.Pointer()), interp_str)
 	if _err != nil {
 		return nil, _err
