@@ -23,6 +23,78 @@ func SPTreeFromPointer(p unsafe.Pointer) *SPTree {
 	return v
 }
 
+// SPTreeCreateIntspan is MEOS sptree_create_intspan.
+func SPTreeCreateIntspan(kind functions.SPTreeKind) (unsafe.Pointer, error) {
+	_r0, _err := functions.SptreeCreateIntspan(kind)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
+// SPTreeCreateBigintspan is MEOS sptree_create_bigintspan.
+func SPTreeCreateBigintspan(kind functions.SPTreeKind) (unsafe.Pointer, error) {
+	_r0, _err := functions.SptreeCreateBigintspan(kind)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
+// SPTreeCreateFloatspan is MEOS sptree_create_floatspan.
+func SPTreeCreateFloatspan(kind functions.SPTreeKind) (unsafe.Pointer, error) {
+	_r0, _err := functions.SptreeCreateFloatspan(kind)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
+// SPTreeCreateDatespan is MEOS sptree_create_datespan.
+func SPTreeCreateDatespan(kind functions.SPTreeKind) (unsafe.Pointer, error) {
+	_r0, _err := functions.SptreeCreateDatespan(kind)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
+// SPTreeCreateTstzspan is MEOS sptree_create_tstzspan.
+func SPTreeCreateTstzspan(kind functions.SPTreeKind) (unsafe.Pointer, error) {
+	_r0, _err := functions.SptreeCreateTstzspan(kind)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
+// SPTreeCreateTbox is MEOS sptree_create_tbox.
+func SPTreeCreateTbox(kind functions.SPTreeKind) (unsafe.Pointer, error) {
+	_r0, _err := functions.SptreeCreateTBOX(kind)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
+// SPTreeCreateStbox is MEOS sptree_create_stbox.
+func SPTreeCreateStbox(kind functions.SPTreeKind) (unsafe.Pointer, error) {
+	_r0, _err := functions.SptreeCreateSTBOX(kind)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
+// SPTreeCreateTpcbox is MEOS sptree_create_tpcbox.
+func SPTreeCreateTpcbox(kind functions.SPTreeKind) (unsafe.Pointer, error) {
+	_r0, _err := functions.SptreeCreateTpcbox(kind)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
 // SPTreeFree is MEOS sptree_free.
 func SPTreeFree(sptree unsafe.Pointer) error {
 	return functions.SptreeFree(sptree)
@@ -89,4 +161,31 @@ func SPTreeInsertTemporalSplit(sptree unsafe.Pointer, temp *Temporal, id int64, 
 		return false, _err
 	}
 	return _r0, nil
+}
+
+// SPTreeSearch is MEOS sptree_search.
+func SPTreeSearch(sptree unsafe.Pointer, op functions.IndexSearchOp, query unsafe.Pointer) (int, *MeosArray, error) {
+	_r0, _r1, _err := functions.SptreeSearch(sptree, op, query)
+	if _err != nil {
+		return 0, nil, _err
+	}
+	return _r0, MeosArrayFromPointer(_r1.Pointer()), nil
+}
+
+// SPTreeJoin is MEOS sptree_join.
+func SPTreeJoin(sptree1 unsafe.Pointer, sptree2 unsafe.Pointer, op functions.IndexSearchOp) (int, *MeosArray, error) {
+	_r0, _r1, _err := functions.SptreeJoin(sptree1, sptree2, op)
+	if _err != nil {
+		return 0, nil, _err
+	}
+	return _r0, MeosArrayFromPointer(_r1.Pointer()), nil
+}
+
+// SPTreeSearchTemporal is MEOS sptree_search_temporal.
+func SPTreeSearchTemporal(sptree unsafe.Pointer, op functions.IndexSearchOp, temp *Temporal) (int, *MeosArray, error) {
+	_r0, _r1, _err := functions.SptreeSearchTemporal(sptree, op, functions.TemporalFromPointer(temp.Pointer()))
+	if _err != nil {
+		return 0, nil, _err
+	}
+	return _r0, MeosArrayFromPointer(_r1.Pointer()), nil
 }
