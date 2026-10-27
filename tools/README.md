@@ -15,11 +15,16 @@ python3 tools/codegen.py
 
 ## Coverage today
 
-2369 candidate functions across the six public headers.  2199 emit
-cleanly; 170 are excluded as `Datum`-bearing internal helpers (the
-hand-written surface exposes those through typed overloads which the
-codegen cannot synthesise from the IDL).  Zero unresolved TODOs and
-zero explicit skips remain.  The skiplist primitives that take
+The generator binds every non-vendored catalog function of a bound family
+(the catalog's `family`, all on, `<FAMILY>=OFF` in the environment to drop
+one) whose header the libmeos prefix installs, one Go file per header, the
+headers taken from the catalog's `file` field (`header_plan`).  Against
+MobilityDB master it emits 4612 wrappers; 144 shapes stay unresolved, 191
+are excluded as `Datum`-bearing internal helpers (the hand-written surface
+exposes those through typed overloads which the codegen cannot synthesise
+from the IDL), and the 227 internal functions of `pgtypes.h` and
+`pgsql_compat.h`, headers the prefix does not install, are named in its
+report and not bound.  The skiplist primitives that take
 function-pointer arguments (`comp_fn`, `merge_fn`, `datum_func2`) or
 operate on `void **` element arrays surface as `unsafe.Pointer`,
 matching how PyMEOS-CFFI exposes them as `_ffi.CData` and MEOS.NET as

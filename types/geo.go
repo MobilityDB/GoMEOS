@@ -571,3 +571,21 @@ func GeoToQuadbinSet(gs *TRGeometrySeqSet, resolution int32) (*Set, error) {
 	}
 	return SetFromPointer(_r0.Pointer()), nil
 }
+
+// GeoToS2cellCell is MEOS geo_to_s2cell_cell.
+func GeoToS2cellCell(point *TRGeometrySeqSet, level int32) (uint64, error) {
+	_r0, _err := functions.GeoToS2cellCell(functions.GeomFromPointer(point.Pointer()), level)
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// GeoToS2cellSet is MEOS geo_to_s2cell_set.
+func GeoToS2cellSet(gs *TRGeometrySeqSet, level int32) (*Set, error) {
+	_r0, _err := functions.GeoToS2cellSet(functions.GeomFromPointer(gs.Pointer()), level)
+	if _err != nil {
+		return nil, _err
+	}
+	return SetFromPointer(_r0.Pointer()), nil
+}

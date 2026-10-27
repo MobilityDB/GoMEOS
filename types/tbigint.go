@@ -253,3 +253,12 @@ func (x *TBigint) ToTquadbin() (*Temporal, error) {
 	}
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
+
+// ToTs2cell is MEOS tbigint_to_ts2cell.
+func (x *TBigint) ToTs2cell() (*Temporal, error) {
+	_r0, _err := functions.TbigintToTs2cell(functions.TemporalFromPointer(x.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
