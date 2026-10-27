@@ -272,7 +272,6 @@ WRAPPER_TYPES: dict[str, tuple[str, str]] = {
     "GBOX":              ("*GBox",             "&GBox{_inner: $res}"),
     "AFFINE":            ("*AFFINE",           "&AFFINE{_inner: $res}"),
     "PJ_CONTEXT":        ("*PJContext",        "&PJContext{_inner: $res}"),
-    "gsl_rng":           ("*GslRng",           "&GslRng{_inner: $res}"),
 }
 
 

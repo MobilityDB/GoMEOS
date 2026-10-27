@@ -30,7 +30,7 @@ The covered shapes are: scalar inputs, wrapped opaque pointers
 (`Temporal`, `STBox`, `TBox`, `Span`, `SpanSet`, `Set`, `GSERIALIZED`,
 `TInstant`, `TSequence`, `TSequenceSet`, `Npoint`, `Nsegment`,
 `SkipList`, `RTree`, `Match`, `BOX3D`, `GBOX`, `AFFINE`, `PJ_CONTEXT`,
-`gsl_rng`, `Interval`), C and PostgreSQL text strings, output
+`Interval`), C and PostgreSQL text strings, output
 parameters named `result` / `value` (scalar and wrapped-pointer
 out-params surfaced as additional Go return values), counted-array
 inputs (`T **` / `const T *` paired with `int count` or `size_t size`)
