@@ -43,7 +43,7 @@ HEADER_FILES = [
 
 # Forward-declared opaque types we never wrap (mirrors the cdef skip list
 # the PyMEOS-CFFI builder applies).
-OPAQUE_TYPES = ("json_object", "GEOSContextHandle_t")
+OPAQUE_TYPES = ("json_object",)
 
 # C-name skip list: functions handled by hand or intentionally hidden.
 # CODEGEN-REGULAR-EXCEPTION: this is the documented audit bucket for the
@@ -1120,8 +1120,7 @@ _CGO_FILE = """package functions
 
 // H3 ships no pkg-config file, so the one dependency whose header the public
 // MEOS headers expose (meos_h3.h includes <h3api.h>) names its include dir
-// here. GEOS and GSL, the other exposed dependencies, resolve from the default
-// include path.
+// here.
 #cgo darwin CFLAGS: -I/opt/homebrew/include/h3
 #cgo linux CFLAGS: -I/usr/include/h3
 
