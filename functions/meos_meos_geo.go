@@ -166,9 +166,12 @@ func GboxOut(box *GBox, maxdd int) (_r0 string, _err error) {
 
 
 // GeoAsEWKB wraps MEOS C function geo_as_ewkb.
-func GeoAsEWKB(gs *Geom, endian string, size unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
-	_c_endian := C.CString(endian)
-	defer C.free(unsafe.Pointer(_c_endian))
+func GeoAsEWKB(gs *Geom, endian *string, size unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
+	var _c_endian *C.char
+	if endian != nil {
+		_c_endian = C.CString(*endian)
+		defer C.free(unsafe.Pointer(_c_endian))
+	}
 	C.meos_errno_reset()
 	_cret := C.geo_as_ewkb(gs._inner, _c_endian, (*C.size_t)(unsafe.Pointer(size)))
 	if _err = meosError(); _err != nil {
@@ -191,9 +194,12 @@ func GeoAsEWKT(gs *Geom, precision int) (_r0 string, _err error) {
 
 
 // GeoAsGeojson wraps MEOS C function geo_as_geojson.
-func GeoAsGeojson(gs *Geom, option int, precision int, srs string) (_r0 string, _err error) {
-	_c_srs := C.CString(srs)
-	defer C.free(unsafe.Pointer(_c_srs))
+func GeoAsGeojson(gs *Geom, option int, precision int, srs *string) (_r0 string, _err error) {
+	var _c_srs *C.char
+	if srs != nil {
+		_c_srs = C.CString(*srs)
+		defer C.free(unsafe.Pointer(_c_srs))
+	}
 	C.meos_errno_reset()
 	_cret := C.geo_as_geojson(gs._inner, C.int(option), C.int(precision), _c_srs)
 	if _err = meosError(); _err != nil {
@@ -205,9 +211,12 @@ func GeoAsGeojson(gs *Geom, option int, precision int, srs string) (_r0 string, 
 
 
 // GeoAsHexewkb wraps MEOS C function geo_as_hexewkb.
-func GeoAsHexewkb(gs *Geom, endian string) (_r0 string, _err error) {
-	_c_endian := C.CString(endian)
-	defer C.free(unsafe.Pointer(_c_endian))
+func GeoAsHexewkb(gs *Geom, endian *string) (_r0 string, _err error) {
+	var _c_endian *C.char
+	if endian != nil {
+		_c_endian = C.CString(*endian)
+		defer C.free(unsafe.Pointer(_c_endian))
+	}
 	C.meos_errno_reset()
 	_cret := C.geo_as_hexewkb(gs._inner, _c_endian)
 	if _err = meosError(); _err != nil {

@@ -806,9 +806,12 @@ func TrgeometryAsTinstant(temp *Temporal) (_r0 *TInstant, _err error) {
 
 
 // TrgeometryAsTsequence wraps MEOS C function trgeometry_as_tsequence.
-func TrgeometryAsTsequence(temp *Temporal, interp_str string) (_r0 *TSequence, _err error) {
-	_c_interp_str := C.CString(interp_str)
-	defer C.free(unsafe.Pointer(_c_interp_str))
+func TrgeometryAsTsequence(temp *Temporal, interp_str *string) (_r0 *TSequence, _err error) {
+	var _c_interp_str *C.char
+	if interp_str != nil {
+		_c_interp_str = C.CString(*interp_str)
+		defer C.free(unsafe.Pointer(_c_interp_str))
+	}
 	C.meos_errno_reset()
 	_cret := C.trgeometry_as_tsequence(temp._inner, _c_interp_str)
 	if _err = meosError(); _err != nil {
@@ -819,9 +822,12 @@ func TrgeometryAsTsequence(temp *Temporal, interp_str string) (_r0 *TSequence, _
 
 
 // TrgeometryAsTsequenceset wraps MEOS C function trgeometry_as_tsequenceset.
-func TrgeometryAsTsequenceset(temp *Temporal, interp_str string) (_r0 *TSequenceSet, _err error) {
-	_c_interp_str := C.CString(interp_str)
-	defer C.free(unsafe.Pointer(_c_interp_str))
+func TrgeometryAsTsequenceset(temp *Temporal, interp_str *string) (_r0 *TSequenceSet, _err error) {
+	var _c_interp_str *C.char
+	if interp_str != nil {
+		_c_interp_str = C.CString(*interp_str)
+		defer C.free(unsafe.Pointer(_c_interp_str))
+	}
 	C.meos_errno_reset()
 	_cret := C.trgeometry_as_tsequenceset(temp._inner, _c_interp_str)
 	if _err = meosError(); _err != nil {

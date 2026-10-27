@@ -9532,9 +9532,12 @@ func TemporalAsHexwkb(temp *Temporal, variant uint8, size_out unsafe.Pointer) (_
 
 
 // TemporalAsMFJSON wraps MEOS C function temporal_as_mfjson.
-func TemporalAsMFJSON(temp *Temporal, option int, flags int, precision int, srs string) (_r0 string, _err error) {
-	_c_srs := C.CString(srs)
-	defer C.free(unsafe.Pointer(_c_srs))
+func TemporalAsMFJSON(temp *Temporal, option int, flags int, precision int, srs *string) (_r0 string, _err error) {
+	var _c_srs *C.char
+	if srs != nil {
+		_c_srs = C.CString(*srs)
+		defer C.free(unsafe.Pointer(_c_srs))
+	}
 	C.meos_errno_reset()
 	_cret := C.temporal_as_mfjson(temp._inner, C.int(option), C.int(flags), C.int(precision), _c_srs)
 	if _err = meosError(); _err != nil {
@@ -9557,9 +9560,12 @@ func TemporalAsWKB(temp *Temporal, variant uint8, size_out unsafe.Pointer) (_r0 
 
 
 // WKBVariantFromEndian wraps MEOS C function wkb_variant_from_endian.
-func WKBVariantFromEndian(endian string) (_r0 uint8, _err error) {
-	_c_endian := C.CString(endian)
-	defer C.free(unsafe.Pointer(_c_endian))
+func WKBVariantFromEndian(endian *string) (_r0 uint8, _err error) {
+	var _c_endian *C.char
+	if endian != nil {
+		_c_endian = C.CString(*endian)
+		defer C.free(unsafe.Pointer(_c_endian))
+	}
 	C.meos_errno_reset()
 	_cret := C.wkb_variant_from_endian(_c_endian)
 	if _err = meosError(); _err != nil {
