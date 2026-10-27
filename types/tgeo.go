@@ -35,8 +35,8 @@ func TGeoFromBaseTemp(gs *TRGeometrySeqSet, temp *Temporal) (*Temporal, error) {
 }
 
 // Centroid is MEOS tgeo_centroid.
-func (x *TGeo) Centroid() (*Temporal, error) {
-	_r0, _err := functions.TgeoCentroid(functions.TemporalFromPointer(x.Pointer()))
+func (x *TGeo) Centroid(spheroid bool) (*Temporal, error) {
+	_r0, _err := functions.TgeoCentroid(functions.TemporalFromPointer(x.Pointer()), spheroid)
 	if _err != nil {
 		return nil, _err
 	}
@@ -79,6 +79,15 @@ func (x *TGeo) TraversedArea(unary_union bool) (*TRGeometrySeqSet, error) {
 	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
 }
 
+// Value is MEOS tgeo_value.
+func (x *TGeo) Value() (*TRGeometrySeqSet, error) {
+	_r0, _err := functions.TgeoValue(functions.TemporalFromPointer(x.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+}
+
 // ValueAtTimestamptz is MEOS tgeo_value_at_timestamptz.
 func (x *TGeo) ValueAtTimestamptz(t int64, strict bool) (*TRGeometrySeqSet, bool, error) {
 	_found, _value, _err := functions.TgeoValueAtTimestamptz(functions.TemporalFromPointer(x.Pointer()), t, strict)
@@ -112,9 +121,99 @@ func (x *TGeo) Values(count unsafe.Pointer) (unsafe.Pointer, error) {
 	return _r0, nil
 }
 
+// Unnest is MEOS tgeo_unnest.
+func (x *TGeo) Unnest(values unsafe.Pointer, count unsafe.Pointer) (unsafe.Pointer, error) {
+	_r0, _err := functions.TgeoUnnest(functions.TemporalFromPointer(x.Pointer()), values, count)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
+// Affine is MEOS tgeo_affine.
+func (x *TGeo) Affine(a float64, b float64, c float64, d float64, e float64, f float64, g float64, h float64, i float64, xoff float64, yoff float64, zoff float64) (*Temporal, error) {
+	_r0, _err := functions.TgeoAffine(functions.TemporalFromPointer(x.Pointer()), a, b, c, d, e, f, g, h, i, xoff, yoff, zoff)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// Rotate is MEOS tgeo_rotate.
+func (x *TGeo) Rotate(angle float64, x0 float64, y0 float64) (*Temporal, error) {
+	_r0, _err := functions.TgeoRotate(functions.TemporalFromPointer(x.Pointer()), angle, x0, y0)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// RotateGeo is MEOS tgeo_rotate_geo.
+func (x *TGeo) RotateGeo(angle float64, origin *TRGeometrySeqSet) (*Temporal, error) {
+	_r0, _err := functions.TgeoRotateGeo(functions.TemporalFromPointer(x.Pointer()), angle, functions.GeomFromPointer(origin.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// RotateX is MEOS tgeo_rotate_x.
+func (x *TGeo) RotateX(angle float64) (*Temporal, error) {
+	_r0, _err := functions.TgeoRotateX(functions.TemporalFromPointer(x.Pointer()), angle)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// RotateY is MEOS tgeo_rotate_y.
+func (x *TGeo) RotateY(angle float64) (*Temporal, error) {
+	_r0, _err := functions.TgeoRotateY(functions.TemporalFromPointer(x.Pointer()), angle)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// RotateZ is MEOS tgeo_rotate_z.
+func (x *TGeo) RotateZ(angle float64) (*Temporal, error) {
+	_r0, _err := functions.TgeoRotateZ(functions.TemporalFromPointer(x.Pointer()), angle)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
 // Scale is MEOS tgeo_scale.
-func (x *TGeo) Scale(scale *TRGeometrySeqSet, sorigin *TRGeometrySeqSet) (*Temporal, error) {
-	_r0, _err := functions.TgeoScale(functions.TemporalFromPointer(x.Pointer()), functions.GeomFromPointer(scale.Pointer()), functions.GeomFromPointer(sorigin.Pointer()))
+func (x *TGeo) Scale(xfactor float64, yfactor float64, zfactor float64) (*Temporal, error) {
+	_r0, _err := functions.TgeoScale(functions.TemporalFromPointer(x.Pointer()), xfactor, yfactor, zfactor)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// ScaleGeo is MEOS tgeo_scale_geo.
+func (x *TGeo) ScaleGeo(scale *TRGeometrySeqSet, sorigin *TRGeometrySeqSet) (*Temporal, error) {
+	_r0, _err := functions.TgeoScaleGeo(functions.TemporalFromPointer(x.Pointer()), functions.GeomFromPointer(scale.Pointer()), functions.GeomFromPointer(sorigin.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// Translate is MEOS tgeo_translate.
+func (x *TGeo) Translate(deltax float64, deltay float64, deltaz float64) (*Temporal, error) {
+	_r0, _err := functions.TgeoTranslate(functions.TemporalFromPointer(x.Pointer()), deltax, deltay, deltaz)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// Transscale is MEOS tgeo_transscale.
+func (x *TGeo) Transscale(deltax float64, deltay float64, xfactor float64, yfactor float64) (*Temporal, error) {
+	_r0, _err := functions.TgeoTransscale(functions.TemporalFromPointer(x.Pointer()), deltax, deltay, xfactor, yfactor)
 	if _err != nil {
 		return nil, _err
 	}
@@ -209,4 +308,13 @@ func (x *TGeo) SplitNStboxes(box_count int, count unsafe.Pointer) (*STBox, error
 		return nil, _err
 	}
 	return STBoxFromPointer(_r0.Pointer()), nil
+}
+
+// SpaceSplit is MEOS tgeo_space_split.
+func (x *TGeo) SpaceSplit(xsize float64, ysize float64, zsize float64, sorigin *TRGeometrySeqSet, bitmatrix bool, border_inc bool, space_bins unsafe.Pointer, count unsafe.Pointer) (unsafe.Pointer, error) {
+	_r0, _err := functions.TgeoSpaceSplit(functions.TemporalFromPointer(x.Pointer()), xsize, ysize, zsize, functions.GeomFromPointer(sorigin.Pointer()), bitmatrix, border_inc, space_bins, count)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
 }

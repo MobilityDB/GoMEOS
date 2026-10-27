@@ -185,6 +185,15 @@ func (x *Jsonb) Contained(jb2 *Jsonb) (bool, error) {
 	return _r0, nil
 }
 
+// Contains is MEOS jsonb_contains.
+func (x *Jsonb) Contains(jb2 *Jsonb) (bool, error) {
+	_r0, _err := functions.JsonbContains(functions.JsonbFromPointer(x.Pointer()), functions.JsonbFromPointer(jb2.Pointer()))
+	if _err != nil {
+		return false, _err
+	}
+	return _r0, nil
+}
+
 // Each is MEOS jsonb_each.
 func (x *Jsonb) Each(values unsafe.Pointer, count unsafe.Pointer) (unsafe.Pointer, error) {
 	_r0, _err := functions.JsonbEach(functions.JsonbFromPointer(x.Pointer()), values, count)
@@ -251,6 +260,15 @@ func (x *Jsonb) Hash() (uint32, error) {
 // HashExtended is MEOS jsonb_hash_extended.
 func (x *Jsonb) HashExtended(seed uint64) (uint64, error) {
 	_r0, _err := functions.JsonbHashExtended(functions.JsonbFromPointer(x.Pointer()), seed)
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// MemSize is MEOS jsonb_mem_size.
+func (x *Jsonb) MemSize() (int, error) {
+	_r0, _err := functions.JsonbMemSize(functions.JsonbFromPointer(x.Pointer()))
 	if _err != nil {
 		return 0, _err
 	}
@@ -372,6 +390,69 @@ func (x *Jsonb) StripNulls(strip_in_arrays bool) (*Jsonb, error) {
 		return nil, _err
 	}
 	return JsonbFromPointer(_r0.Pointer()), nil
+}
+
+// Cmp is MEOS jsonb_cmp.
+func (x *Jsonb) Cmp(jb2 *Jsonb) (int, error) {
+	_r0, _err := functions.JsonbCmp(functions.JsonbFromPointer(x.Pointer()), functions.JsonbFromPointer(jb2.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// Eq is MEOS jsonb_eq.
+func (x *Jsonb) Eq(jb2 *Jsonb) (bool, error) {
+	_r0, _err := functions.JsonbEq(functions.JsonbFromPointer(x.Pointer()), functions.JsonbFromPointer(jb2.Pointer()))
+	if _err != nil {
+		return false, _err
+	}
+	return _r0, nil
+}
+
+// Ge is MEOS jsonb_ge.
+func (x *Jsonb) Ge(jb2 *Jsonb) (bool, error) {
+	_r0, _err := functions.JsonbGe(functions.JsonbFromPointer(x.Pointer()), functions.JsonbFromPointer(jb2.Pointer()))
+	if _err != nil {
+		return false, _err
+	}
+	return _r0, nil
+}
+
+// Gt is MEOS jsonb_gt.
+func (x *Jsonb) Gt(jb2 *Jsonb) (bool, error) {
+	_r0, _err := functions.JsonbGt(functions.JsonbFromPointer(x.Pointer()), functions.JsonbFromPointer(jb2.Pointer()))
+	if _err != nil {
+		return false, _err
+	}
+	return _r0, nil
+}
+
+// Le is MEOS jsonb_le.
+func (x *Jsonb) Le(jb2 *Jsonb) (bool, error) {
+	_r0, _err := functions.JsonbLe(functions.JsonbFromPointer(x.Pointer()), functions.JsonbFromPointer(jb2.Pointer()))
+	if _err != nil {
+		return false, _err
+	}
+	return _r0, nil
+}
+
+// Lt is MEOS jsonb_lt.
+func (x *Jsonb) Lt(jb2 *Jsonb) (bool, error) {
+	_r0, _err := functions.JsonbLt(functions.JsonbFromPointer(x.Pointer()), functions.JsonbFromPointer(jb2.Pointer()))
+	if _err != nil {
+		return false, _err
+	}
+	return _r0, nil
+}
+
+// Ne is MEOS jsonb_ne.
+func (x *Jsonb) Ne(jb2 *Jsonb) (bool, error) {
+	_r0, _err := functions.JsonbNe(functions.JsonbFromPointer(x.Pointer()), functions.JsonbFromPointer(jb2.Pointer()))
+	if _err != nil {
+		return false, _err
+	}
+	return _r0, nil
 }
 
 // PathExists is MEOS jsonb_path_exists.

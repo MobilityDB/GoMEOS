@@ -28,6 +28,7 @@ package functions
 #define gunion_float_span union_float_span
 #define gunion_float_spanset union_float_spanset
 #define gunion_geo_set union_geo_set
+#define gunion_h3index_set union_h3index_set
 #define gunion_int_set union_int_set
 #define gunion_int_span union_int_span
 #define gunion_int_spanset union_int_spanset
@@ -37,11 +38,14 @@ package functions
 #define gunion_pcpoint_set union_pcpoint_set
 #define gunion_pose_set union_pose_set
 #define gunion_posechain_set union_posechain_set
+#define gunion_quadbin_set union_quadbin_set
+#define gunion_s2cell_set union_s2cell_set
 #define gunion_set_bigint union_set_bigint
 #define gunion_set_cbuffer union_set_cbuffer
 #define gunion_set_date union_set_date
 #define gunion_set_float union_set_float
 #define gunion_set_geo union_set_geo
+#define gunion_set_h3index union_set_h3index
 #define gunion_set_int union_set_int
 #define gunion_set_jsonb union_set_jsonb
 #define gunion_set_npoint union_set_npoint
@@ -49,6 +53,8 @@ package functions
 #define gunion_set_pcpoint union_set_pcpoint
 #define gunion_set_pose union_set_pose
 #define gunion_set_posechain union_set_posechain
+#define gunion_set_quadbin union_set_quadbin
+#define gunion_set_s2cell union_set_s2cell
 #define gunion_set_set union_set_set
 #define gunion_set_text union_set_text
 #define gunion_set_timestamptz union_set_timestamptz
@@ -473,6 +479,29 @@ func MeosArrayDestroyFree(array *MeosArray) (_err error) {
 }
 
 
+// IndexResultCreate wraps MEOS C function index_result_create.
+func IndexResultCreate() (_r0 *MeosArray, _err error) {
+	C.meos_errno_reset()
+	_cret := C.index_result_create()
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &MeosArray{_inner: _cret}, nil
+}
+
+
+// IndexResultID wraps MEOS C function index_result_id.
+func IndexResultID(n int, id unsafe.Pointer) (_r0 bool, _r1 *MeosArray, _err error) {
+	var _out_result C.MeosArray
+	C.meos_errno_reset()
+	_cret := C.index_result_id(&_out_result, C.int(n), (*C.int64_t)(unsafe.Pointer(id)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), &MeosArray{_inner: &_out_result}, nil
+}
+
+
 // RtreeCreateIntspan wraps MEOS C function rtree_create_intspan.
 func RtreeCreateIntspan() (_r0 *RTree, _err error) {
 	C.meos_errno_reset()
@@ -543,17 +572,6 @@ func RtreeCreateTBOX() (_r0 *RTree, _err error) {
 func RtreeCreateSTBOX() (_r0 *RTree, _err error) {
 	C.meos_errno_reset()
 	_cret := C.rtree_create_stbox()
-	if _err = meosError(); _err != nil {
-		return
-	}
-	return &RTree{_inner: _cret}, nil
-}
-
-
-// RtreeCreateTpcbox wraps MEOS C function rtree_create_tpcbox.
-func RtreeCreateTpcbox() (_r0 *RTree, _err error) {
-	C.meos_errno_reset()
-	_cret := C.rtree_create_tpcbox()
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -807,17 +825,6 @@ func SptreeCreateSTBOX(kind SPTreeKind) (_r0 unsafe.Pointer, _err error) {
 }
 
 
-// SptreeCreateTpcbox wraps MEOS C function sptree_create_tpcbox.
-func SptreeCreateTpcbox(kind SPTreeKind) (_r0 unsafe.Pointer, _err error) {
-	C.meos_errno_reset()
-	_cret := C.sptree_create_tpcbox(C.SPTreeKind(kind))
-	if _err = meosError(); _err != nil {
-		return
-	}
-	return unsafe.Pointer(_cret), nil
-}
-
-
 // SptreeFree wraps MEOS C function sptree_free.
 func SptreeFree(sptree unsafe.Pointer) (_err error) {
 	C.meos_errno_reset()
@@ -987,6 +994,10 @@ func SptreeNnCursorClose(cursor unsafe.Pointer) (_err error) {
 }
 
 
+// TODO meos_initialize_interrupt_handler: unsupported param interrupt_handler_fn
+// func MeosInitializeInterruptHandler(...) { /* not yet handled by codegen */ }
+
+
 // TODO meos_initialize_allocator: unsupported param meos_malloc_fn
 // func MeosInitializeAllocator(...) { /* not yet handled by codegen */ }
 
@@ -1059,10 +1070,10 @@ func MeosFinalizeProjsrs() (_err error) {
 }
 
 
-// MeosFinalizeWays wraps MEOS C function meos_finalize_ways.
-func MeosFinalizeWays() (_err error) {
+// MeosFinalizeRelate wraps MEOS C function meos_finalize_relate.
+func MeosFinalizeRelate() (_err error) {
 	C.meos_errno_reset()
-	C.meos_finalize_ways()
+	C.meos_finalize_relate()
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1070,10 +1081,10 @@ func MeosFinalizeWays() (_err error) {
 }
 
 
-// MeosInitializePointcloud wraps MEOS C function meos_initialize_pointcloud.
-func MeosInitializePointcloud() (_err error) {
+// MeosFinalizeWays wraps MEOS C function meos_finalize_ways.
+func MeosFinalizeWays() (_err error) {
 	C.meos_errno_reset()
-	C.meos_initialize_pointcloud()
+	C.meos_finalize_ways()
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1978,9 +1989,9 @@ func BigintToSet(i int64) (_r0 *Set, _err error) {
 
 
 // BigintToSpan wraps MEOS C function bigint_to_span.
-func BigintToSpan(i int) (_r0 *Span, _err error) {
+func BigintToSpan(i int64) (_r0 *Span, _err error) {
 	C.meos_errno_reset()
-	_cret := C.bigint_to_span(C.int(i))
+	_cret := C.bigint_to_span(C.int64_t(i))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1989,9 +2000,9 @@ func BigintToSpan(i int) (_r0 *Span, _err error) {
 
 
 // BigintToSpanset wraps MEOS C function bigint_to_spanset.
-func BigintToSpanset(i int) (_r0 *SpanSet, _err error) {
+func BigintToSpanset(i int64) (_r0 *SpanSet, _err error) {
 	C.meos_errno_reset()
-	_cret := C.bigint_to_spanset(C.int(i))
+	_cret := C.bigint_to_spanset(C.int64_t(i))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -2875,6 +2886,17 @@ func SetHashExtended(s *Set, seed uint64) (_r0 uint64, _err error) {
 }
 
 
+// SetMemSize wraps MEOS C function set_mem_size.
+func SetMemSize(s *Set) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.set_mem_size(s._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
 // SetNumValues wraps MEOS C function set_num_values.
 func SetNumValues(s *Set) (_r0 int, _err error) {
 	C.meos_errno_reset()
@@ -2971,6 +2993,17 @@ func SpansetLowerInc(ss *SpanSet) (_r0 bool, _err error) {
 		return
 	}
 	return bool(_cret), nil
+}
+
+
+// SpansetMemSize wraps MEOS C function spanset_mem_size.
+func SpansetMemSize(ss *SpanSet) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.spanset_mem_size(ss._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
 }
 
 
@@ -3773,6 +3806,17 @@ func SetNe(s1 *Set, s2 *Set) (_r0 bool, _err error) {
 }
 
 
+// SetSortkey wraps MEOS C function set_sortkey.
+func SetSortkey(s *Set, size unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
+	C.meos_errno_reset()
+	_cret := C.set_sortkey(s._inner, (*C.size_t)(unsafe.Pointer(size)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
+}
+
+
 // SpanCmp wraps MEOS C function span_cmp.
 func SpanCmp(s1 *Span, s2 *Span) (_r0 int, _err error) {
 	C.meos_errno_reset()
@@ -3850,6 +3894,17 @@ func SpanNe(s1 *Span, s2 *Span) (_r0 bool, _err error) {
 }
 
 
+// SpanSortkey wraps MEOS C function span_sortkey.
+func SpanSortkey(s *Span, size unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
+	C.meos_errno_reset()
+	_cret := C.span_sortkey(s._inner, (*C.size_t)(unsafe.Pointer(size)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
+}
+
+
 // SpansetCmp wraps MEOS C function spanset_cmp.
 func SpansetCmp(ss1 *SpanSet, ss2 *SpanSet) (_r0 int, _err error) {
 	C.meos_errno_reset()
@@ -3924,6 +3979,17 @@ func SpansetNe(ss1 *SpanSet, ss2 *SpanSet) (_r0 bool, _err error) {
 		return
 	}
 	return bool(_cret), nil
+}
+
+
+// SpansetSortkey wraps MEOS C function spanset_sortkey.
+func SpansetSortkey(ss *SpanSet, size unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
+	C.meos_errno_reset()
+	_cret := C.spanset_sortkey(ss._inner, (*C.size_t)(unsafe.Pointer(size)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
 }
 
 
@@ -4081,10 +4147,32 @@ func AdjacentBigintSpan(i int64, s *Span) (_r0 bool, _err error) {
 }
 
 
+// AdjacentBigintSpanset wraps MEOS C function adjacent_bigint_spanset.
+func AdjacentBigintSpanset(i int64, ss *SpanSet) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.adjacent_bigint_spanset(C.int64_t(i), ss._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
 // AdjacentDateSpan wraps MEOS C function adjacent_date_span.
 func AdjacentDateSpan(d int32, s *Span) (_r0 bool, _err error) {
 	C.meos_errno_reset()
 	_cret := C.adjacent_date_span(C.DateADT(d), s._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// AdjacentDateSpanset wraps MEOS C function adjacent_date_spanset.
+func AdjacentDateSpanset(d int32, ss *SpanSet) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.adjacent_date_spanset(C.DateADT(d), ss._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -4103,6 +4191,17 @@ func AdjacentFloatSpan(d float64, s *Span) (_r0 bool, _err error) {
 }
 
 
+// AdjacentFloatSpanset wraps MEOS C function adjacent_float_spanset.
+func AdjacentFloatSpanset(d float64, ss *SpanSet) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.adjacent_float_spanset(C.double(d), ss._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
 // AdjacentIntSpan wraps MEOS C function adjacent_int_span.
 func AdjacentIntSpan(i int, s *Span) (_r0 bool, _err error) {
 	C.meos_errno_reset()
@@ -4114,10 +4213,32 @@ func AdjacentIntSpan(i int, s *Span) (_r0 bool, _err error) {
 }
 
 
+// AdjacentIntSpanset wraps MEOS C function adjacent_int_spanset.
+func AdjacentIntSpanset(i int, ss *SpanSet) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.adjacent_int_spanset(C.int(i), ss._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
 // AdjacentTimestamptzSpan wraps MEOS C function adjacent_timestamptz_span.
 func AdjacentTimestamptzSpan(t int64, s *Span) (_r0 bool, _err error) {
 	C.meos_errno_reset()
 	_cret := C.adjacent_timestamptz_span(C.TimestampTz(t), s._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// AdjacentTimestamptzSpanset wraps MEOS C function adjacent_timestamptz_spanset.
+func AdjacentTimestamptzSpanset(t int64, ss *SpanSet) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.adjacent_timestamptz_spanset(C.TimestampTz(t), ss._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -6389,6 +6510,28 @@ func IntersectionBigintSet(i int64, s *Set) (_r0 *Set, _err error) {
 }
 
 
+// IntersectionBigintSpan wraps MEOS C function intersection_bigint_span.
+func IntersectionBigintSpan(i int64, s *Span) (_r0 *Span, _err error) {
+	C.meos_errno_reset()
+	_cret := C.intersection_bigint_span(C.int64_t(i), s._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Span{_inner: _cret}, nil
+}
+
+
+// IntersectionBigintSpanset wraps MEOS C function intersection_bigint_spanset.
+func IntersectionBigintSpanset(i int64, ss *SpanSet) (_r0 *SpanSet, _err error) {
+	C.meos_errno_reset()
+	_cret := C.intersection_bigint_spanset(C.int64_t(i), ss._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &SpanSet{_inner: _cret}, nil
+}
+
+
 // IntersectionDateSet wraps MEOS C function intersection_date_set.
 func IntersectionDateSet(d int32, s *Set) (_r0 *Set, _err error) {
 	C.meos_errno_reset()
@@ -6397,6 +6540,28 @@ func IntersectionDateSet(d int32, s *Set) (_r0 *Set, _err error) {
 		return
 	}
 	return &Set{_inner: _cret}, nil
+}
+
+
+// IntersectionDateSpan wraps MEOS C function intersection_date_span.
+func IntersectionDateSpan(d int32, s *Span) (_r0 *Span, _err error) {
+	C.meos_errno_reset()
+	_cret := C.intersection_date_span(C.DateADT(d), s._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Span{_inner: _cret}, nil
+}
+
+
+// IntersectionDateSpanset wraps MEOS C function intersection_date_spanset.
+func IntersectionDateSpanset(d int32, ss *SpanSet) (_r0 *SpanSet, _err error) {
+	C.meos_errno_reset()
+	_cret := C.intersection_date_spanset(C.DateADT(d), ss._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &SpanSet{_inner: _cret}, nil
 }
 
 
@@ -6411,6 +6576,28 @@ func IntersectionFloatSet(d float64, s *Set) (_r0 *Set, _err error) {
 }
 
 
+// IntersectionFloatSpan wraps MEOS C function intersection_float_span.
+func IntersectionFloatSpan(d float64, s *Span) (_r0 *Span, _err error) {
+	C.meos_errno_reset()
+	_cret := C.intersection_float_span(C.double(d), s._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Span{_inner: _cret}, nil
+}
+
+
+// IntersectionFloatSpanset wraps MEOS C function intersection_float_spanset.
+func IntersectionFloatSpanset(d float64, ss *SpanSet) (_r0 *SpanSet, _err error) {
+	C.meos_errno_reset()
+	_cret := C.intersection_float_spanset(C.double(d), ss._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &SpanSet{_inner: _cret}, nil
+}
+
+
 // IntersectionIntSet wraps MEOS C function intersection_int_set.
 func IntersectionIntSet(i int, s *Set) (_r0 *Set, _err error) {
 	C.meos_errno_reset()
@@ -6419,6 +6606,28 @@ func IntersectionIntSet(i int, s *Set) (_r0 *Set, _err error) {
 		return
 	}
 	return &Set{_inner: _cret}, nil
+}
+
+
+// IntersectionIntSpan wraps MEOS C function intersection_int_span.
+func IntersectionIntSpan(i int, s *Span) (_r0 *Span, _err error) {
+	C.meos_errno_reset()
+	_cret := C.intersection_int_span(C.int(i), s._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Span{_inner: _cret}, nil
+}
+
+
+// IntersectionIntSpanset wraps MEOS C function intersection_int_spanset.
+func IntersectionIntSpanset(i int, ss *SpanSet) (_r0 *SpanSet, _err error) {
+	C.meos_errno_reset()
+	_cret := C.intersection_int_spanset(C.int(i), ss._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &SpanSet{_inner: _cret}, nil
 }
 
 
@@ -6676,6 +6885,28 @@ func IntersectionTimestamptzSet(t int64, s *Set) (_r0 *Set, _err error) {
 		return
 	}
 	return &Set{_inner: _cret}, nil
+}
+
+
+// IntersectionTimestamptzSpan wraps MEOS C function intersection_timestamptz_span.
+func IntersectionTimestamptzSpan(t int64, s *Span) (_r0 *Span, _err error) {
+	C.meos_errno_reset()
+	_cret := C.intersection_timestamptz_span(C.TimestampTz(t), s._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Span{_inner: _cret}, nil
+}
+
+
+// IntersectionTimestamptzSpanset wraps MEOS C function intersection_timestamptz_spanset.
+func IntersectionTimestamptzSpanset(t int64, ss *SpanSet) (_r0 *SpanSet, _err error) {
+	C.meos_errno_reset()
+	_cret := C.intersection_timestamptz_spanset(C.TimestampTz(t), ss._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &SpanSet{_inner: _cret}, nil
 }
 
 
@@ -7722,13 +7953,13 @@ func DistanceSetInt(s *Set, i int) (_r0 int, _err error) {
 
 
 // DistanceSetTimestamptz wraps MEOS C function distance_set_timestamptz.
-func DistanceSetTimestamptz(s *Set, t int64) (_r0 float64, _err error) {
+func DistanceSetTimestamptz(s *Set, t int64) (_r0 *Interval, _err error) {
 	C.meos_errno_reset()
 	_cret := C.distance_set_timestamptz(s._inner, C.TimestampTz(t))
 	if _err = meosError(); _err != nil {
 		return
 	}
-	return float64(_cret), nil
+	return &Interval{_inner: _cret}, nil
 }
 
 
@@ -7777,13 +8008,13 @@ func DistanceSpanInt(s *Span, i int) (_r0 int, _err error) {
 
 
 // DistanceSpanTimestamptz wraps MEOS C function distance_span_timestamptz.
-func DistanceSpanTimestamptz(s *Span, t int64) (_r0 float64, _err error) {
+func DistanceSpanTimestamptz(s *Span, t int64) (_r0 *Interval, _err error) {
 	C.meos_errno_reset()
 	_cret := C.distance_span_timestamptz(s._inner, C.TimestampTz(t))
 	if _err = meosError(); _err != nil {
 		return
 	}
-	return float64(_cret), nil
+	return &Interval{_inner: _cret}, nil
 }
 
 
@@ -7832,57 +8063,57 @@ func DistanceSpansetInt(ss *SpanSet, i int) (_r0 int, _err error) {
 
 
 // DistanceSpansetTimestamptz wraps MEOS C function distance_spanset_timestamptz.
-func DistanceSpansetTimestamptz(ss *SpanSet, t int64) (_r0 float64, _err error) {
+func DistanceSpansetTimestamptz(ss *SpanSet, t int64) (_r0 *Interval, _err error) {
 	C.meos_errno_reset()
 	_cret := C.distance_spanset_timestamptz(ss._inner, C.TimestampTz(t))
 	if _err = meosError(); _err != nil {
 		return
 	}
-	return float64(_cret), nil
+	return &Interval{_inner: _cret}, nil
 }
 
 
 // DistanceTstzsetTstzset wraps MEOS C function distance_tstzset_tstzset.
-func DistanceTstzsetTstzset(s1 *Set, s2 *Set) (_r0 float64, _err error) {
+func DistanceTstzsetTstzset(s1 *Set, s2 *Set) (_r0 *Interval, _err error) {
 	C.meos_errno_reset()
 	_cret := C.distance_tstzset_tstzset(s1._inner, s2._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
-	return float64(_cret), nil
+	return &Interval{_inner: _cret}, nil
 }
 
 
 // DistanceTstzspanTstzspan wraps MEOS C function distance_tstzspan_tstzspan.
-func DistanceTstzspanTstzspan(s1 *Span, s2 *Span) (_r0 float64, _err error) {
+func DistanceTstzspanTstzspan(s1 *Span, s2 *Span) (_r0 *Interval, _err error) {
 	C.meos_errno_reset()
 	_cret := C.distance_tstzspan_tstzspan(s1._inner, s2._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
-	return float64(_cret), nil
+	return &Interval{_inner: _cret}, nil
 }
 
 
 // DistanceTstzspansetTstzspan wraps MEOS C function distance_tstzspanset_tstzspan.
-func DistanceTstzspansetTstzspan(ss *SpanSet, s *Span) (_r0 float64, _err error) {
+func DistanceTstzspansetTstzspan(ss *SpanSet, s *Span) (_r0 *Interval, _err error) {
 	C.meos_errno_reset()
 	_cret := C.distance_tstzspanset_tstzspan(ss._inner, s._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
-	return float64(_cret), nil
+	return &Interval{_inner: _cret}, nil
 }
 
 
 // DistanceTstzspansetTstzspanset wraps MEOS C function distance_tstzspanset_tstzspanset.
-func DistanceTstzspansetTstzspanset(ss1 *SpanSet, ss2 *SpanSet) (_r0 float64, _err error) {
+func DistanceTstzspansetTstzspanset(ss1 *SpanSet, ss2 *SpanSet) (_r0 *Interval, _err error) {
 	C.meos_errno_reset()
 	_cret := C.distance_tstzspanset_tstzspanset(ss1._inner, ss2._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
-	return float64(_cret), nil
+	return &Interval{_inner: _cret}, nil
 }
 
 
@@ -7985,6 +8216,17 @@ func SetExtentTransfn(state *Span, s *Set) (_r0 *Span, _err error) {
 }
 
 
+// SetUnionCombinefn wraps MEOS C function set_union_combinefn.
+func SetUnionCombinefn(state1 *Set, state2 *Set) (_r0 *Set, _err error) {
+	C.meos_errno_reset()
+	_cret := C.set_union_combinefn(state1._inner, state2._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Set{_inner: _cret}, nil
+}
+
+
 // SetUnionFinalfn wraps MEOS C function set_union_finalfn.
 func SetUnionFinalfn(state *Set) (_r0 *Set, _err error) {
 	C.meos_errno_reset()
@@ -8004,6 +8246,28 @@ func SetUnionTransfn(state *Set, s *Set) (_r0 *Set, _err error) {
 		return
 	}
 	return &Set{_inner: _cret}, nil
+}
+
+
+// SetstateDeserialize wraps MEOS C function setstate_deserialize.
+func SetstateDeserialize(bytes unsafe.Pointer, size uint) (_r0 *Set, _err error) {
+	C.meos_errno_reset()
+	_cret := C.setstate_deserialize((*C.uint8_t)(unsafe.Pointer(bytes)), C.size_t(size))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Set{_inner: _cret}, nil
+}
+
+
+// SetstateSerialize wraps MEOS C function setstate_serialize.
+func SetstateSerialize(state *Set, size_out unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
+	C.meos_errno_reset()
+	_cret := C.setstate_serialize(state._inner, (*C.size_t)(unsafe.Pointer(size_out)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
 }
 
 
@@ -8040,6 +8304,17 @@ func SpansetExtentTransfn(state *Span, ss *SpanSet) (_r0 *Span, _err error) {
 }
 
 
+// SpansetUnionCombinefn wraps MEOS C function spanset_union_combinefn.
+func SpansetUnionCombinefn(state1 *SpanSet, state2 *SpanSet) (_r0 *SpanSet, _err error) {
+	C.meos_errno_reset()
+	_cret := C.spanset_union_combinefn(state1._inner, state2._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &SpanSet{_inner: _cret}, nil
+}
+
+
 // SpansetUnionFinalfn wraps MEOS C function spanset_union_finalfn.
 func SpansetUnionFinalfn(state *SpanSet) (_r0 *SpanSet, _err error) {
 	C.meos_errno_reset()
@@ -8059,6 +8334,28 @@ func SpansetUnionTransfn(state *SpanSet, ss *SpanSet) (_r0 *SpanSet, _err error)
 		return
 	}
 	return &SpanSet{_inner: _cret}, nil
+}
+
+
+// SpansetstateDeserialize wraps MEOS C function spansetstate_deserialize.
+func SpansetstateDeserialize(bytes unsafe.Pointer, size uint) (_r0 *SpanSet, _err error) {
+	C.meos_errno_reset()
+	_cret := C.spansetstate_deserialize((*C.uint8_t)(unsafe.Pointer(bytes)), C.size_t(size))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &SpanSet{_inner: _cret}, nil
+}
+
+
+// SpansetstateSerialize wraps MEOS C function spansetstate_serialize.
+func SpansetstateSerialize(state *SpanSet, size_out unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
+	C.meos_errno_reset()
+	_cret := C.spansetstate_serialize(state._inner, (*C.size_t)(unsafe.Pointer(size_out)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
 }
 
 
@@ -8109,9 +8406,20 @@ func BigintGetBin(value int64, vsize int64, vorigin int64) (_r0 int64, _err erro
 
 
 // BigintspanBins wraps MEOS C function bigintspan_bins.
-func BigintspanBins(s *Span, vsize int64, vorigin int64, count unsafe.Pointer) (_r0 *Span, _err error) {
+func BigintspanBins(s *Span, vsize int64, vorigin int64, border_inc bool, count unsafe.Pointer) (_r0 *Span, _err error) {
 	C.meos_errno_reset()
-	_cret := C.bigintspan_bins(s._inner, C.int64_t(vsize), C.int64_t(vorigin), (*C.int)(unsafe.Pointer(count)))
+	_cret := C.bigintspan_bins(s._inner, C.int64_t(vsize), C.int64_t(vorigin), C.bool(border_inc), (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Span{_inner: _cret}, nil
+}
+
+
+// BigintspanGetBin wraps MEOS C function bigintspan_get_bin.
+func BigintspanGetBin(value int64, vsize int64, vorigin int64) (_r0 *Span, _err error) {
+	C.meos_errno_reset()
+	_cret := C.bigintspan_get_bin(C.int64_t(value), C.int64_t(vsize), C.int64_t(vorigin))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -8120,9 +8428,9 @@ func BigintspanBins(s *Span, vsize int64, vorigin int64, count unsafe.Pointer) (
 
 
 // BigintspansetBins wraps MEOS C function bigintspanset_bins.
-func BigintspansetBins(ss *SpanSet, vsize int64, vorigin int64, count unsafe.Pointer) (_r0 *Span, _err error) {
+func BigintspansetBins(ss *SpanSet, vsize int64, vorigin int64, border_inc bool, count unsafe.Pointer) (_r0 *Span, _err error) {
 	C.meos_errno_reset()
-	_cret := C.bigintspanset_bins(ss._inner, C.int64_t(vsize), C.int64_t(vorigin), (*C.int)(unsafe.Pointer(count)))
+	_cret := C.bigintspanset_bins(ss._inner, C.int64_t(vsize), C.int64_t(vorigin), C.bool(border_inc), (*C.int)(unsafe.Pointer(count)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -8142,9 +8450,20 @@ func DateGetBin(d int32, duration *Interval, torigin int32) (_r0 int32, _err err
 
 
 // DatespanBins wraps MEOS C function datespan_bins.
-func DatespanBins(s *Span, duration *Interval, torigin int32, count unsafe.Pointer) (_r0 *Span, _err error) {
+func DatespanBins(s *Span, duration *Interval, torigin int32, border_inc bool, count unsafe.Pointer) (_r0 *Span, _err error) {
 	C.meos_errno_reset()
-	_cret := C.datespan_bins(s._inner, duration._inner, C.DateADT(torigin), (*C.int)(unsafe.Pointer(count)))
+	_cret := C.datespan_bins(s._inner, duration._inner, C.DateADT(torigin), C.bool(border_inc), (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Span{_inner: _cret}, nil
+}
+
+
+// DatespanGetBin wraps MEOS C function datespan_get_bin.
+func DatespanGetBin(d int32, duration *Interval, torigin int32) (_r0 *Span, _err error) {
+	C.meos_errno_reset()
+	_cret := C.datespan_get_bin(C.DateADT(d), duration._inner, C.DateADT(torigin))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -8153,9 +8472,9 @@ func DatespanBins(s *Span, duration *Interval, torigin int32, count unsafe.Point
 
 
 // DatespansetBins wraps MEOS C function datespanset_bins.
-func DatespansetBins(ss *SpanSet, duration *Interval, torigin int32, count unsafe.Pointer) (_r0 *Span, _err error) {
+func DatespansetBins(ss *SpanSet, duration *Interval, torigin int32, border_inc bool, count unsafe.Pointer) (_r0 *Span, _err error) {
 	C.meos_errno_reset()
-	_cret := C.datespanset_bins(ss._inner, duration._inner, C.DateADT(torigin), (*C.int)(unsafe.Pointer(count)))
+	_cret := C.datespanset_bins(ss._inner, duration._inner, C.DateADT(torigin), C.bool(border_inc), (*C.int)(unsafe.Pointer(count)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -8175,9 +8494,20 @@ func FloatGetBin(value float64, vsize float64, vorigin float64) (_r0 float64, _e
 
 
 // FloatspanBins wraps MEOS C function floatspan_bins.
-func FloatspanBins(s *Span, vsize float64, vorigin float64, count unsafe.Pointer) (_r0 *Span, _err error) {
+func FloatspanBins(s *Span, vsize float64, vorigin float64, border_inc bool, count unsafe.Pointer) (_r0 *Span, _err error) {
 	C.meos_errno_reset()
-	_cret := C.floatspan_bins(s._inner, C.double(vsize), C.double(vorigin), (*C.int)(unsafe.Pointer(count)))
+	_cret := C.floatspan_bins(s._inner, C.double(vsize), C.double(vorigin), C.bool(border_inc), (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Span{_inner: _cret}, nil
+}
+
+
+// FloatspanGetBin wraps MEOS C function floatspan_get_bin.
+func FloatspanGetBin(value float64, vsize float64, vorigin float64) (_r0 *Span, _err error) {
+	C.meos_errno_reset()
+	_cret := C.floatspan_get_bin(C.double(value), C.double(vsize), C.double(vorigin))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -8186,9 +8516,9 @@ func FloatspanBins(s *Span, vsize float64, vorigin float64, count unsafe.Pointer
 
 
 // FloatspansetBins wraps MEOS C function floatspanset_bins.
-func FloatspansetBins(ss *SpanSet, vsize float64, vorigin float64, count unsafe.Pointer) (_r0 *Span, _err error) {
+func FloatspansetBins(ss *SpanSet, vsize float64, vorigin float64, border_inc bool, count unsafe.Pointer) (_r0 *Span, _err error) {
 	C.meos_errno_reset()
-	_cret := C.floatspanset_bins(ss._inner, C.double(vsize), C.double(vorigin), (*C.int)(unsafe.Pointer(count)))
+	_cret := C.floatspanset_bins(ss._inner, C.double(vsize), C.double(vorigin), C.bool(border_inc), (*C.int)(unsafe.Pointer(count)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -8208,9 +8538,20 @@ func IntGetBin(value int, vsize int, vorigin int) (_r0 int, _err error) {
 
 
 // IntspanBins wraps MEOS C function intspan_bins.
-func IntspanBins(s *Span, vsize int, vorigin int, count unsafe.Pointer) (_r0 *Span, _err error) {
+func IntspanBins(s *Span, vsize int, vorigin int, border_inc bool, count unsafe.Pointer) (_r0 *Span, _err error) {
 	C.meos_errno_reset()
-	_cret := C.intspan_bins(s._inner, C.int(vsize), C.int(vorigin), (*C.int)(unsafe.Pointer(count)))
+	_cret := C.intspan_bins(s._inner, C.int(vsize), C.int(vorigin), C.bool(border_inc), (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Span{_inner: _cret}, nil
+}
+
+
+// IntspanGetBin wraps MEOS C function intspan_get_bin.
+func IntspanGetBin(value int, vsize int, vorigin int) (_r0 *Span, _err error) {
+	C.meos_errno_reset()
+	_cret := C.intspan_get_bin(C.int(value), C.int(vsize), C.int(vorigin))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -8219,9 +8560,9 @@ func IntspanBins(s *Span, vsize int, vorigin int, count unsafe.Pointer) (_r0 *Sp
 
 
 // IntspansetBins wraps MEOS C function intspanset_bins.
-func IntspansetBins(ss *SpanSet, vsize int, vorigin int, count unsafe.Pointer) (_r0 *Span, _err error) {
+func IntspansetBins(ss *SpanSet, vsize int, vorigin int, border_inc bool, count unsafe.Pointer) (_r0 *Span, _err error) {
 	C.meos_errno_reset()
-	_cret := C.intspanset_bins(ss._inner, C.int(vsize), C.int(vorigin), (*C.int)(unsafe.Pointer(count)))
+	_cret := C.intspanset_bins(ss._inner, C.int(vsize), C.int(vorigin), C.bool(border_inc), (*C.int)(unsafe.Pointer(count)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -8241,9 +8582,20 @@ func TimestamptzGetBin(t int64, duration *Interval, torigin int64) (_r0 int64, _
 
 
 // TstzspanBins wraps MEOS C function tstzspan_bins.
-func TstzspanBins(s *Span, duration *Interval, origin int64, count unsafe.Pointer) (_r0 *Span, _err error) {
+func TstzspanBins(s *Span, duration *Interval, torigin int64, border_inc bool, count unsafe.Pointer) (_r0 *Span, _err error) {
 	C.meos_errno_reset()
-	_cret := C.tstzspan_bins(s._inner, duration._inner, C.TimestampTz(origin), (*C.int)(unsafe.Pointer(count)))
+	_cret := C.tstzspan_bins(s._inner, duration._inner, C.TimestampTz(torigin), C.bool(border_inc), (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Span{_inner: _cret}, nil
+}
+
+
+// TstzspanGetBin wraps MEOS C function tstzspan_get_bin.
+func TstzspanGetBin(t int64, duration *Interval, torigin int64) (_r0 *Span, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tstzspan_get_bin(C.TimestampTz(t), duration._inner, C.TimestampTz(torigin))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -8252,9 +8604,9 @@ func TstzspanBins(s *Span, duration *Interval, origin int64, count unsafe.Pointe
 
 
 // TstzspansetBins wraps MEOS C function tstzspanset_bins.
-func TstzspansetBins(ss *SpanSet, duration *Interval, torigin int64, count unsafe.Pointer) (_r0 *Span, _err error) {
+func TstzspansetBins(ss *SpanSet, duration *Interval, torigin int64, border_inc bool, count unsafe.Pointer) (_r0 *Span, _err error) {
 	C.meos_errno_reset()
-	_cret := C.tstzspanset_bins(ss._inner, duration._inner, C.TimestampTz(torigin), (*C.int)(unsafe.Pointer(count)))
+	_cret := C.tstzspanset_bins(ss._inner, duration._inner, C.TimestampTz(torigin), C.bool(border_inc), (*C.int)(unsafe.Pointer(count)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -9118,6 +9470,17 @@ func TBOXNe(box1 *TBox, box2 *TBox) (_r0 bool, _err error) {
 }
 
 
+// TBOXSortkey wraps MEOS C function tbox_sortkey.
+func TBOXSortkey(box *TBox, size unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tbox_sortkey(box._inner, (*C.size_t)(unsafe.Pointer(size)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
+}
+
+
 // TboolFromMFJSON wraps MEOS C function tbool_from_mfjson.
 func TboolFromMFJSON(str string) (_r0 *Temporal, _err error) {
 	_c_str := C.CString(str)
@@ -9169,11 +9532,11 @@ func TemporalAsHexwkb(temp *Temporal, variant uint8, size_out unsafe.Pointer) (_
 
 
 // TemporalAsMFJSON wraps MEOS C function temporal_as_mfjson.
-func TemporalAsMFJSON(temp *Temporal, with_bbox bool, flags int, precision int, srs string) (_r0 string, _err error) {
+func TemporalAsMFJSON(temp *Temporal, option int, flags int, precision int, srs string) (_r0 string, _err error) {
 	_c_srs := C.CString(srs)
 	defer C.free(unsafe.Pointer(_c_srs))
 	C.meos_errno_reset()
-	_cret := C.temporal_as_mfjson(temp._inner, C.bool(with_bbox), C.int(flags), C.int(precision), _c_srs)
+	_cret := C.temporal_as_mfjson(temp._inner, C.int(option), C.int(flags), C.int(precision), _c_srs)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -9203,6 +9566,19 @@ func WKBVariantFromEndian(endian string) (_r0 uint8, _err error) {
 		return
 	}
 	return uint8(_cret), nil
+}
+
+
+// InterptypeFromString wraps MEOS C function interptype_from_string.
+func InterptypeFromString(str string) (_r0 Interpolation, _err error) {
+	_c_str := C.CString(str)
+	defer C.free(unsafe.Pointer(_c_str))
+	C.meos_errno_reset()
+	_cret := C.interptype_from_string(_c_str)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return Interpolation(_cret), nil
 }
 
 
@@ -9843,6 +10219,17 @@ func TboolStartValue(temp *Temporal) (_r0 bool, _err error) {
 }
 
 
+// TboolValue wraps MEOS C function tbool_value.
+func TboolValue(temp *Temporal) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tbool_value(temp._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
 // TboolValueAtTimestamptz wraps MEOS C function tbool_value_at_timestamptz.
 func TboolValueAtTimestamptz(temp *Temporal, t int64, strict bool) (_r0 bool, _r1 bool, _err error) {
 	var _out_value C.bool
@@ -9871,6 +10258,17 @@ func TboolValueN(temp *Temporal, n int) (_r0 bool, _r1 bool, _err error) {
 func TboolValues(temp *Temporal, count unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
 	C.meos_errno_reset()
 	_cret := C.tbool_values(temp._inner, (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
+}
+
+
+// TboolUnnest wraps MEOS C function tbool_unnest.
+func TboolUnnest(temp *Temporal, values unsafe.Pointer, count unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tbool_unnest(temp._inner, (**C.bool)(unsafe.Pointer(values)), (*C.int)(unsafe.Pointer(count)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -9996,6 +10394,17 @@ func TemporalMaxInstant(temp *Temporal) (_r0 *TInstant, _err error) {
 		return
 	}
 	return &TInstant{_inner: _cret}, nil
+}
+
+
+// TemporalMemSize wraps MEOS C function temporal_mem_size.
+func TemporalMemSize(temp *Temporal) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.temporal_mem_size(temp._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
 }
 
 
@@ -10198,6 +10607,17 @@ func TemporalUpperInc(temp *Temporal) (_r0 bool, _err error) {
 }
 
 
+// TemporalValueset wraps MEOS C function temporal_valueset.
+func TemporalValueset(temp *Temporal) (_r0 *Set, _err error) {
+	C.meos_errno_reset()
+	_cret := C.temporal_valueset(temp._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Set{_inner: _cret}, nil
+}
+
+
 // TfloatEndValue wraps MEOS C function tfloat_end_value.
 func TfloatEndValue(temp *Temporal) (_r0 float64, _err error) {
 	C.meos_errno_reset()
@@ -10242,6 +10662,17 @@ func TfloatStartValue(temp *Temporal) (_r0 float64, _err error) {
 }
 
 
+// TfloatValue wraps MEOS C function tfloat_value.
+func TfloatValue(temp *Temporal) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tfloat_value(temp._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
 // TfloatValueAtTimestamptz wraps MEOS C function tfloat_value_at_timestamptz.
 func TfloatValueAtTimestamptz(temp *Temporal, t int64, strict bool) (_r0 bool, _r1 float64, _err error) {
 	var _out_value C.double
@@ -10274,6 +10705,28 @@ func TfloatValues(temp *Temporal, count unsafe.Pointer) (_r0 unsafe.Pointer, _er
 		return
 	}
 	return unsafe.Pointer(_cret), nil
+}
+
+
+// TfloatUnnest wraps MEOS C function tfloat_unnest.
+func TfloatUnnest(temp *Temporal, values unsafe.Pointer, count unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tfloat_unnest(temp._inner, (**C.double)(unsafe.Pointer(values)), (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
+}
+
+
+// TinstantTimestamptz wraps MEOS C function tinstant_timestamptz.
+func TinstantTimestamptz(inst *TInstant) (_r0 int64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tinstant_timestamptz(inst._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int64(_cret), nil
 }
 
 
@@ -10365,6 +10818,28 @@ func TbigintStartValue(temp *Temporal) (_r0 int64, _err error) {
 }
 
 
+// TintValue wraps MEOS C function tint_value.
+func TintValue(temp *Temporal) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tint_value(temp._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
+// TbigintValue wraps MEOS C function tbigint_value.
+func TbigintValue(temp *Temporal) (_r0 int64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tbigint_value(temp._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int64(_cret), nil
+}
+
+
 // TbigintValueAtTimestamptz wraps MEOS C function tbigint_value_at_timestamptz.
 func TbigintValueAtTimestamptz(temp *Temporal, t int64, strict bool) (_r0 bool, _r1 int64, _err error) {
 	var _out_value C.int64_t
@@ -10424,10 +10899,32 @@ func TintValues(temp *Temporal, count unsafe.Pointer) (_r0 unsafe.Pointer, _err 
 }
 
 
+// TintUnnest wraps MEOS C function tint_unnest.
+func TintUnnest(temp *Temporal, values unsafe.Pointer, count unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tint_unnest(temp._inner, (**C.int)(unsafe.Pointer(values)), (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
+}
+
+
 // TbigintValues wraps MEOS C function tbigint_values.
 func TbigintValues(temp *Temporal, count unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
 	C.meos_errno_reset()
 	_cret := C.tbigint_values(temp._inner, (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
+}
+
+
+// TbigintUnnest wraps MEOS C function tbigint_unnest.
+func TbigintUnnest(temp *Temporal, values unsafe.Pointer, count unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tbigint_unnest(temp._inner, (**C.int64_t)(unsafe.Pointer(values)), (*C.int)(unsafe.Pointer(count)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -10523,6 +11020,17 @@ func TtextStartValue(temp *Temporal) (_r0 string, _err error) {
 }
 
 
+// TtextValue wraps MEOS C function ttext_value.
+func TtextValue(temp *Temporal) (_r0 string, _err error) {
+	C.meos_errno_reset()
+	_cret := C.ttext_value(temp._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return C.GoString(C.text_to_cstring(_cret)), nil
+}
+
+
 // TtextValueAtTimestamptz wraps MEOS C function ttext_value_at_timestamptz.
 func TtextValueAtTimestamptz(temp *Temporal, t int64, strict bool) (_r0 bool, _r1 string, _err error) {
 	var _out_value *C.text
@@ -10558,6 +11066,17 @@ func TtextValues(temp *Temporal, count unsafe.Pointer) (_r0 unsafe.Pointer, _err
 }
 
 
+// TtextUnnest wraps MEOS C function ttext_unnest.
+func TtextUnnest(temp *Temporal, values unsafe.Pointer, count unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
+	C.meos_errno_reset()
+	_cret := C.ttext_unnest(temp._inner, (***C.text)(unsafe.Pointer(values)), (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
+}
+
+
 // FloatDegrees wraps MEOS C function float_degrees.
 func FloatDegrees(value float64, normalize bool) (_r0 float64, _err error) {
 	C.meos_errno_reset()
@@ -10569,10 +11088,21 @@ func FloatDegrees(value float64, normalize bool) (_r0 float64, _err error) {
 }
 
 
-// TemparrRound wraps MEOS C function temparr_round.
-func TemparrRound(temp unsafe.Pointer, count int, maxdd int) (_r0 unsafe.Pointer, _err error) {
+// FloatRound wraps MEOS C function float_round.
+func FloatRound(d float64, maxdd int) (_r0 float64, _err error) {
 	C.meos_errno_reset()
-	_cret := C.temparr_round((**C.Temporal)(unsafe.Pointer(temp)), C.int(count), C.int(maxdd))
+	_cret := C.float_round(C.double(d), C.int(maxdd))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// TemparrRound wraps MEOS C function temparr_round.
+func TemparrRound(temparr unsafe.Pointer, count int, maxdd int) (_r0 unsafe.Pointer, _err error) {
+	C.meos_errno_reset()
+	_cret := C.temparr_round((**C.Temporal)(unsafe.Pointer(temparr)), C.int(count), C.int(maxdd))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -10914,6 +11444,28 @@ func TemporalMergeArray(temparr unsafe.Pointer, count int) (_r0 *Temporal, _err 
 func TemporalUpdate(temp1 *Temporal, temp2 *Temporal, connect bool) (_r0 *Temporal, _err error) {
 	C.meos_errno_reset()
 	_cret := C.temporal_update(temp1._inner, temp2._inner, C.bool(connect))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// TbigintAtValue wraps MEOS C function tbigint_at_value.
+func TbigintAtValue(temp *Temporal, i int64) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tbigint_at_value(temp._inner, C.int64_t(i))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// TbigintMinusValue wraps MEOS C function tbigint_minus_value.
+func TbigintMinusValue(temp *Temporal, i int64) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tbigint_minus_value(temp._inner, C.int64_t(i))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -11329,6 +11881,17 @@ func TemporalNe(temp1 *Temporal, temp2 *Temporal) (_r0 bool, _err error) {
 		return
 	}
 	return bool(_cret), nil
+}
+
+
+// TemporalSortkey wraps MEOS C function temporal_sortkey.
+func TemporalSortkey(temp *Temporal, size unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
+	C.meos_errno_reset()
+	_cret := C.temporal_sortkey(temp._inner, (*C.size_t)(unsafe.Pointer(size)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
 }
 
 
@@ -15082,10 +15645,10 @@ func NadTintTint(temp1 *Temporal, temp2 *Temporal) (_r0 int, _err error) {
 }
 
 
-// TbigintTmaxTransfn wraps MEOS C function tbigint_tmax_transfn.
-func TbigintTmaxTransfn(state *SkipList, temp *Temporal) (_r0 *SkipList, _err error) {
+// TaggstateDeserialize wraps MEOS C function taggstate_deserialize.
+func TaggstateDeserialize(bytes unsafe.Pointer, size uint) (_r0 *SkipList, _err error) {
 	C.meos_errno_reset()
-	_cret := C.tbigint_tmax_transfn(state._inner, temp._inner)
+	_cret := C.taggstate_deserialize((*C.uint8_t)(unsafe.Pointer(bytes)), C.size_t(size))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -15093,10 +15656,21 @@ func TbigintTmaxTransfn(state *SkipList, temp *Temporal) (_r0 *SkipList, _err er
 }
 
 
-// TbigintTmaxCombinefn wraps MEOS C function tbigint_tmax_combinefn.
-func TbigintTmaxCombinefn(state1 *SkipList, state2 *SkipList) (_r0 *SkipList, _err error) {
+// TaggstateSerialize wraps MEOS C function taggstate_serialize.
+func TaggstateSerialize(state *SkipList, size_out unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
 	C.meos_errno_reset()
-	_cret := C.tbigint_tmax_combinefn(state1._inner, state2._inner)
+	_cret := C.taggstate_serialize(state._inner, (*C.size_t)(unsafe.Pointer(size_out)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
+}
+
+
+// TbigintTmaxTransfn wraps MEOS C function tbigint_tmax_transfn.
+func TbigintTmaxTransfn(state *SkipList, temp *Temporal) (_r0 *SkipList, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tbigint_tmax_transfn(state._inner, temp._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -15115,32 +15689,10 @@ func TbigintTminTransfn(state *SkipList, temp *Temporal) (_r0 *SkipList, _err er
 }
 
 
-// TbigintTminCombinefn wraps MEOS C function tbigint_tmin_combinefn.
-func TbigintTminCombinefn(state1 *SkipList, state2 *SkipList) (_r0 *SkipList, _err error) {
-	C.meos_errno_reset()
-	_cret := C.tbigint_tmin_combinefn(state1._inner, state2._inner)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	return &SkipList{_inner: _cret}, nil
-}
-
-
 // TbigintTsumTransfn wraps MEOS C function tbigint_tsum_transfn.
 func TbigintTsumTransfn(state *SkipList, temp *Temporal) (_r0 *SkipList, _err error) {
 	C.meos_errno_reset()
 	_cret := C.tbigint_tsum_transfn(state._inner, temp._inner)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	return &SkipList{_inner: _cret}, nil
-}
-
-
-// TbigintTsumCombinefn wraps MEOS C function tbigint_tsum_combinefn.
-func TbigintTsumCombinefn(state1 *SkipList, state2 *SkipList) (_r0 *SkipList, _err error) {
-	C.meos_errno_reset()
-	_cret := C.tbigint_tsum_combinefn(state1._inner, state2._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -15225,10 +15777,43 @@ func TboolTorCombinefn(state1 *SkipList, state2 *SkipList) (_r0 *SkipList, _err 
 }
 
 
-// TemporalExtentTransfn wraps MEOS C function temporal_extent_transfn.
-func TemporalExtentTransfn(s *Span, temp *Temporal) (_r0 *Span, _err error) {
+// TemporalAppTinstTransfn wraps MEOS C function temporal_app_tinst_transfn.
+func TemporalAppTinstTransfn(state *Temporal, inst *TInstant, interp Interpolation, maxdist float64, maxt *Interval) (_r0 *Temporal, _err error) {
 	C.meos_errno_reset()
-	_cret := C.temporal_extent_transfn(s._inner, temp._inner)
+	_cret := C.temporal_app_tinst_transfn(state._inner, inst._inner, C.interpType(interp), C.double(maxdist), maxt._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// TemporalAppTseqTransfn wraps MEOS C function temporal_app_tseq_transfn.
+func TemporalAppTseqTransfn(state *Temporal, seq *TSequence) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.temporal_app_tseq_transfn(state._inner, seq._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// TemporalAppendFinalfn wraps MEOS C function temporal_append_finalfn.
+func TemporalAppendFinalfn(state *Temporal) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.temporal_append_finalfn(state._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// TemporalExtentTransfn wraps MEOS C function temporal_extent_transfn.
+func TemporalExtentTransfn(state *Span, temp *Temporal) (_r0 *Span, _err error) {
+	C.meos_errno_reset()
+	_cret := C.temporal_extent_transfn(state._inner, temp._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -15269,10 +15854,10 @@ func TemporalTcountCombinefn(state1 *SkipList, state2 *SkipList) (_r0 *SkipList,
 }
 
 
-// TfloatTmaxTransfn wraps MEOS C function tfloat_tmax_transfn.
-func TfloatTmaxTransfn(state *SkipList, temp *Temporal) (_r0 *SkipList, _err error) {
+// TemporalTmaxCombinefn wraps MEOS C function temporal_tmax_combinefn.
+func TemporalTmaxCombinefn(state1 *SkipList, state2 *SkipList) (_r0 *SkipList, _err error) {
 	C.meos_errno_reset()
-	_cret := C.tfloat_tmax_transfn(state._inner, temp._inner)
+	_cret := C.temporal_tmax_combinefn(state1._inner, state2._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -15280,10 +15865,43 @@ func TfloatTmaxTransfn(state *SkipList, temp *Temporal) (_r0 *SkipList, _err err
 }
 
 
-// TfloatTmaxCombinefn wraps MEOS C function tfloat_tmax_combinefn.
-func TfloatTmaxCombinefn(state1 *SkipList, state2 *SkipList) (_r0 *SkipList, _err error) {
+// TemporalTminCombinefn wraps MEOS C function temporal_tmin_combinefn.
+func TemporalTminCombinefn(state1 *SkipList, state2 *SkipList) (_r0 *SkipList, _err error) {
 	C.meos_errno_reset()
-	_cret := C.tfloat_tmax_combinefn(state1._inner, state2._inner)
+	_cret := C.temporal_tmin_combinefn(state1._inner, state2._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &SkipList{_inner: _cret}, nil
+}
+
+
+// TemporalWcountTransfn wraps MEOS C function temporal_wcount_transfn.
+func TemporalWcountTransfn(state *SkipList, temp *Temporal, interv *Interval) (_r0 *SkipList, _err error) {
+	C.meos_errno_reset()
+	_cret := C.temporal_wcount_transfn(state._inner, temp._inner, interv._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &SkipList{_inner: _cret}, nil
+}
+
+
+// TemporalToTaggstate wraps MEOS C function temporal_to_taggstate.
+func TemporalToTaggstate(temp *Temporal) (_r0 *SkipList, _err error) {
+	C.meos_errno_reset()
+	_cret := C.temporal_to_taggstate(temp._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &SkipList{_inner: _cret}, nil
+}
+
+
+// TfloatTmaxTransfn wraps MEOS C function tfloat_tmax_transfn.
+func TfloatTmaxTransfn(state *SkipList, temp *Temporal) (_r0 *SkipList, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tfloat_tmax_transfn(state._inner, temp._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -15302,32 +15920,10 @@ func TfloatTminTransfn(state *SkipList, temp *Temporal) (_r0 *SkipList, _err err
 }
 
 
-// TfloatTminCombinefn wraps MEOS C function tfloat_tmin_combinefn.
-func TfloatTminCombinefn(state1 *SkipList, state2 *SkipList) (_r0 *SkipList, _err error) {
-	C.meos_errno_reset()
-	_cret := C.tfloat_tmin_combinefn(state1._inner, state2._inner)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	return &SkipList{_inner: _cret}, nil
-}
-
-
 // TfloatTsumTransfn wraps MEOS C function tfloat_tsum_transfn.
 func TfloatTsumTransfn(state *SkipList, temp *Temporal) (_r0 *SkipList, _err error) {
 	C.meos_errno_reset()
 	_cret := C.tfloat_tsum_transfn(state._inner, temp._inner)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	return &SkipList{_inner: _cret}, nil
-}
-
-
-// TfloatTsumCombinefn wraps MEOS C function tfloat_tsum_combinefn.
-func TfloatTsumCombinefn(state1 *SkipList, state2 *SkipList) (_r0 *SkipList, _err error) {
-	C.meos_errno_reset()
-	_cret := C.tfloat_tsum_combinefn(state1._inner, state2._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -15390,17 +15986,6 @@ func TintTmaxTransfn(state *SkipList, temp *Temporal) (_r0 *SkipList, _err error
 }
 
 
-// TintTmaxCombinefn wraps MEOS C function tint_tmax_combinefn.
-func TintTmaxCombinefn(state1 *SkipList, state2 *SkipList) (_r0 *SkipList, _err error) {
-	C.meos_errno_reset()
-	_cret := C.tint_tmax_combinefn(state1._inner, state2._inner)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	return &SkipList{_inner: _cret}, nil
-}
-
-
 // TintTminTransfn wraps MEOS C function tint_tmin_transfn.
 func TintTminTransfn(state *SkipList, temp *Temporal) (_r0 *SkipList, _err error) {
 	C.meos_errno_reset()
@@ -15412,32 +15997,10 @@ func TintTminTransfn(state *SkipList, temp *Temporal) (_r0 *SkipList, _err error
 }
 
 
-// TintTminCombinefn wraps MEOS C function tint_tmin_combinefn.
-func TintTminCombinefn(state1 *SkipList, state2 *SkipList) (_r0 *SkipList, _err error) {
-	C.meos_errno_reset()
-	_cret := C.tint_tmin_combinefn(state1._inner, state2._inner)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	return &SkipList{_inner: _cret}, nil
-}
-
-
 // TintTsumTransfn wraps MEOS C function tint_tsum_transfn.
 func TintTsumTransfn(state *SkipList, temp *Temporal) (_r0 *SkipList, _err error) {
 	C.meos_errno_reset()
 	_cret := C.tint_tsum_transfn(state._inner, temp._inner)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	return &SkipList{_inner: _cret}, nil
-}
-
-
-// TintTsumCombinefn wraps MEOS C function tint_tsum_combinefn.
-func TintTsumCombinefn(state1 *SkipList, state2 *SkipList) (_r0 *SkipList, _err error) {
-	C.meos_errno_reset()
-	_cret := C.tint_tsum_combinefn(state1._inner, state2._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -15478,10 +16041,21 @@ func TintWsumTransfn(state *SkipList, temp *Temporal, interv *Interval) (_r0 *Sk
 }
 
 
-// TnumberExtentTransfn wraps MEOS C function tnumber_extent_transfn.
-func TnumberExtentTransfn(box *TBox, temp *Temporal) (_r0 *TBox, _err error) {
+// TBOXExtentTransfn wraps MEOS C function tbox_extent_transfn.
+func TBOXExtentTransfn(state *TBox, box *TBox) (_r0 *TBox, _err error) {
 	C.meos_errno_reset()
-	_cret := C.tnumber_extent_transfn(box._inner, temp._inner)
+	_cret := C.tbox_extent_transfn(state._inner, box._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &TBox{_inner: _cret}, nil
+}
+
+
+// TnumberExtentTransfn wraps MEOS C function tnumber_extent_transfn.
+func TnumberExtentTransfn(state *TBox, temp *Temporal) (_r0 *TBox, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tnumber_extent_transfn(state._inner, temp._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -15515,6 +16089,17 @@ func TnumberTavgTransfn(state *SkipList, temp *Temporal) (_r0 *SkipList, _err er
 func TnumberTavgCombinefn(state1 *SkipList, state2 *SkipList) (_r0 *SkipList, _err error) {
 	C.meos_errno_reset()
 	_cret := C.tnumber_tavg_combinefn(state1._inner, state2._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &SkipList{_inner: _cret}, nil
+}
+
+
+// TnumberTsumCombinefn wraps MEOS C function tnumber_tsum_combinefn.
+func TnumberTsumCombinefn(state1 *SkipList, state2 *SkipList) (_r0 *SkipList, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tnumber_tsum_combinefn(state1._inner, state2._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -15599,32 +16184,10 @@ func TtextTmaxTransfn(state *SkipList, temp *Temporal) (_r0 *SkipList, _err erro
 }
 
 
-// TtextTmaxCombinefn wraps MEOS C function ttext_tmax_combinefn.
-func TtextTmaxCombinefn(state1 *SkipList, state2 *SkipList) (_r0 *SkipList, _err error) {
-	C.meos_errno_reset()
-	_cret := C.ttext_tmax_combinefn(state1._inner, state2._inner)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	return &SkipList{_inner: _cret}, nil
-}
-
-
 // TtextTminTransfn wraps MEOS C function ttext_tmin_transfn.
 func TtextTminTransfn(state *SkipList, temp *Temporal) (_r0 *SkipList, _err error) {
 	C.meos_errno_reset()
 	_cret := C.ttext_tmin_transfn(state._inner, temp._inner)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	return &SkipList{_inner: _cret}, nil
-}
-
-
-// TtextTminCombinefn wraps MEOS C function ttext_tmin_combinefn.
-func TtextTminCombinefn(state1 *SkipList, state2 *SkipList) (_r0 *SkipList, _err error) {
-	C.meos_errno_reset()
-	_cret := C.ttext_tmin_combinefn(state1._inner, state2._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -15677,9 +16240,9 @@ func TemporalSimplifyMinTdelta(temp *Temporal, mint *Interval) (_r0 *Temporal, _
 
 
 // TemporalTprecision wraps MEOS C function temporal_tprecision.
-func TemporalTprecision(temp *Temporal, duration *Interval, origin int64) (_r0 *Temporal, _err error) {
+func TemporalTprecision(temp *Temporal, duration *Interval, torigin int64) (_r0 *Temporal, _err error) {
 	C.meos_errno_reset()
-	_cret := C.temporal_tprecision(temp._inner, duration._inner, C.TimestampTz(origin))
+	_cret := C.temporal_tprecision(temp._inner, duration._inner, C.TimestampTz(torigin))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -15688,9 +16251,9 @@ func TemporalTprecision(temp *Temporal, duration *Interval, origin int64) (_r0 *
 
 
 // TemporalTsample wraps MEOS C function temporal_tsample.
-func TemporalTsample(temp *Temporal, duration *Interval, origin int64, interp Interpolation) (_r0 *Temporal, _err error) {
+func TemporalTsample(temp *Temporal, duration *Interval, torigin int64, interp Interpolation) (_r0 *Temporal, _err error) {
 	C.meos_errno_reset()
-	_cret := C.temporal_tsample(temp._inner, duration._inner, C.TimestampTz(origin), C.interpType(interp))
+	_cret := C.temporal_tsample(temp._inner, duration._inner, C.TimestampTz(torigin), C.interpType(interp))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -15699,9 +16262,9 @@ func TemporalTsample(temp *Temporal, duration *Interval, origin int64, interp In
 
 
 // TemporalDyntimewarpDistance wraps MEOS C function temporal_dyntimewarp_distance.
-func TemporalDyntimewarpDistance(temp1 *Temporal, temp2 *Temporal) (_r0 float64, _err error) {
+func TemporalDyntimewarpDistance(temp1 *Temporal, temp2 *Temporal, spheroid bool) (_r0 float64, _err error) {
 	C.meos_errno_reset()
-	_cret := C.temporal_dyntimewarp_distance(temp1._inner, temp2._inner)
+	_cret := C.temporal_dyntimewarp_distance(temp1._inner, temp2._inner, C.bool(spheroid))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -15710,9 +16273,9 @@ func TemporalDyntimewarpDistance(temp1 *Temporal, temp2 *Temporal) (_r0 float64,
 
 
 // TemporalDyntimewarpPath wraps MEOS C function temporal_dyntimewarp_path.
-func TemporalDyntimewarpPath(temp1 *Temporal, temp2 *Temporal, count unsafe.Pointer) (_r0 *Match, _err error) {
+func TemporalDyntimewarpPath(temp1 *Temporal, temp2 *Temporal, spheroid bool, count unsafe.Pointer) (_r0 *Match, _err error) {
 	C.meos_errno_reset()
-	_cret := C.temporal_dyntimewarp_path(temp1._inner, temp2._inner, (*C.int)(unsafe.Pointer(count)))
+	_cret := C.temporal_dyntimewarp_path(temp1._inner, temp2._inner, C.bool(spheroid), (*C.int)(unsafe.Pointer(count)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -15721,9 +16284,9 @@ func TemporalDyntimewarpPath(temp1 *Temporal, temp2 *Temporal, count unsafe.Poin
 
 
 // TemporalFrechetDistance wraps MEOS C function temporal_frechet_distance.
-func TemporalFrechetDistance(temp1 *Temporal, temp2 *Temporal) (_r0 float64, _err error) {
+func TemporalFrechetDistance(temp1 *Temporal, temp2 *Temporal, spheroid bool) (_r0 float64, _err error) {
 	C.meos_errno_reset()
-	_cret := C.temporal_frechet_distance(temp1._inner, temp2._inner)
+	_cret := C.temporal_frechet_distance(temp1._inner, temp2._inner, C.bool(spheroid))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -15732,9 +16295,9 @@ func TemporalFrechetDistance(temp1 *Temporal, temp2 *Temporal) (_r0 float64, _er
 
 
 // TemporalFrechetPath wraps MEOS C function temporal_frechet_path.
-func TemporalFrechetPath(temp1 *Temporal, temp2 *Temporal, count unsafe.Pointer) (_r0 *Match, _err error) {
+func TemporalFrechetPath(temp1 *Temporal, temp2 *Temporal, spheroid bool, count unsafe.Pointer) (_r0 *Match, _err error) {
 	C.meos_errno_reset()
-	_cret := C.temporal_frechet_path(temp1._inner, temp2._inner, (*C.int)(unsafe.Pointer(count)))
+	_cret := C.temporal_frechet_path(temp1._inner, temp2._inner, C.bool(spheroid), (*C.int)(unsafe.Pointer(count)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -15743,9 +16306,9 @@ func TemporalFrechetPath(temp1 *Temporal, temp2 *Temporal, count unsafe.Pointer)
 
 
 // TemporalHausdorffDistance wraps MEOS C function temporal_hausdorff_distance.
-func TemporalHausdorffDistance(temp1 *Temporal, temp2 *Temporal) (_r0 float64, _err error) {
+func TemporalHausdorffDistance(temp1 *Temporal, temp2 *Temporal, spheroid bool) (_r0 float64, _err error) {
 	C.meos_errno_reset()
-	_cret := C.temporal_hausdorff_distance(temp1._inner, temp2._inner)
+	_cret := C.temporal_hausdorff_distance(temp1._inner, temp2._inner, C.bool(spheroid))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -15754,9 +16317,9 @@ func TemporalHausdorffDistance(temp1 *Temporal, temp2 *Temporal) (_r0 float64, _
 
 
 // TemporalAverageHausdorffDistance wraps MEOS C function temporal_average_hausdorff_distance.
-func TemporalAverageHausdorffDistance(temp1 *Temporal, temp2 *Temporal) (_r0 float64, _err error) {
+func TemporalAverageHausdorffDistance(temp1 *Temporal, temp2 *Temporal, spheroid bool) (_r0 float64, _err error) {
 	C.meos_errno_reset()
-	_cret := C.temporal_average_hausdorff_distance(temp1._inner, temp2._inner)
+	_cret := C.temporal_average_hausdorff_distance(temp1._inner, temp2._inner, C.bool(spheroid))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -15765,9 +16328,9 @@ func TemporalAverageHausdorffDistance(temp1 *Temporal, temp2 *Temporal) (_r0 flo
 
 
 // TemporalLcssDistance wraps MEOS C function temporal_lcss_distance.
-func TemporalLcssDistance(temp1 *Temporal, temp2 *Temporal, epsilon float64) (_r0 float64, _err error) {
+func TemporalLcssDistance(temp1 *Temporal, temp2 *Temporal, epsilon float64, spheroid bool) (_r0 float64, _err error) {
 	C.meos_errno_reset()
-	_cret := C.temporal_lcss_distance(temp1._inner, temp2._inner, C.double(epsilon))
+	_cret := C.temporal_lcss_distance(temp1._inner, temp2._inner, C.double(epsilon), C.bool(spheroid))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -15787,9 +16350,9 @@ func TemporalExtKalmanFilter(temp *Temporal, gate float64, q float64, variance f
 
 
 // TemporalTimeBins wraps MEOS C function temporal_time_bins.
-func TemporalTimeBins(temp *Temporal, duration *Interval, origin int64, count unsafe.Pointer) (_r0 *Span, _err error) {
+func TemporalTimeBins(temp *Temporal, duration *Interval, torigin int64, border_inc bool, count unsafe.Pointer) (_r0 *Span, _err error) {
 	C.meos_errno_reset()
-	_cret := C.temporal_time_bins(temp._inner, duration._inner, C.TimestampTz(origin), (*C.int)(unsafe.Pointer(count)))
+	_cret := C.temporal_time_bins(temp._inner, duration._inner, C.TimestampTz(torigin), C.bool(border_inc), (*C.int)(unsafe.Pointer(count)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -15798,9 +16361,9 @@ func TemporalTimeBins(temp *Temporal, duration *Interval, origin int64, count un
 
 
 // TemporalTimeSplit wraps MEOS C function temporal_time_split.
-func TemporalTimeSplit(temp *Temporal, duration *Interval, torigin int64, bins unsafe.Pointer, count unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
+func TemporalTimeSplit(temp *Temporal, duration *Interval, torigin int64, border_inc bool, bins unsafe.Pointer, count unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
 	C.meos_errno_reset()
-	_cret := C.temporal_time_split(temp._inner, duration._inner, C.TimestampTz(torigin), (**C.TimestampTz)(unsafe.Pointer(bins)), (*C.int)(unsafe.Pointer(count)))
+	_cret := C.temporal_time_split(temp._inner, duration._inner, C.TimestampTz(torigin), C.bool(border_inc), (**C.TimestampTz)(unsafe.Pointer(bins)), (*C.int)(unsafe.Pointer(count)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -15808,10 +16371,153 @@ func TemporalTimeSplit(temp *Temporal, duration *Interval, torigin int64, bins u
 }
 
 
-// TfloatTimeBoxes wraps MEOS C function tfloat_time_boxes.
-func TfloatTimeBoxes(temp *Temporal, duration *Interval, torigin int64, count unsafe.Pointer) (_r0 *TBox, _err error) {
+// TbigintTimeBoxes wraps MEOS C function tbigint_time_boxes.
+func TbigintTimeBoxes(temp *Temporal, duration *Interval, torigin int64, border_inc bool, count unsafe.Pointer) (_r0 *TBox, _err error) {
 	C.meos_errno_reset()
-	_cret := C.tfloat_time_boxes(temp._inner, duration._inner, C.TimestampTz(torigin), (*C.int)(unsafe.Pointer(count)))
+	_cret := C.tbigint_time_boxes(temp._inner, duration._inner, C.TimestampTz(torigin), C.bool(border_inc), (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &TBox{_inner: _cret}, nil
+}
+
+
+// TbigintValueBins wraps MEOS C function tbigint_value_bins.
+func TbigintValueBins(temp *Temporal, vsize int64, vorigin int64, border_inc bool, count unsafe.Pointer) (_r0 *Span, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tbigint_value_bins(temp._inner, C.int64_t(vsize), C.int64_t(vorigin), C.bool(border_inc), (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Span{_inner: _cret}, nil
+}
+
+
+// TbigintValueBoxes wraps MEOS C function tbigint_value_boxes.
+func TbigintValueBoxes(temp *Temporal, vsize int64, vorigin int64, border_inc bool, count unsafe.Pointer) (_r0 *TBox, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tbigint_value_boxes(temp._inner, C.int64_t(vsize), C.int64_t(vorigin), C.bool(border_inc), (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &TBox{_inner: _cret}, nil
+}
+
+
+// TbigintValueSplit wraps MEOS C function tbigint_value_split.
+func TbigintValueSplit(temp *Temporal, vsize int64, vorigin int64, border_inc bool, bins unsafe.Pointer, count unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tbigint_value_split(temp._inner, C.int64_t(vsize), C.int64_t(vorigin), C.bool(border_inc), (**C.int64_t)(unsafe.Pointer(bins)), (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
+}
+
+
+// TbigintValueTimeBoxes wraps MEOS C function tbigint_value_time_boxes.
+func TbigintValueTimeBoxes(temp *Temporal, vsize int64, duration *Interval, vorigin int64, torigin int64, border_inc bool, count unsafe.Pointer) (_r0 *TBox, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tbigint_value_time_boxes(temp._inner, C.int64_t(vsize), duration._inner, C.int64_t(vorigin), C.TimestampTz(torigin), C.bool(border_inc), (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &TBox{_inner: _cret}, nil
+}
+
+
+// TbigintValueTimeSplit wraps MEOS C function tbigint_value_time_split.
+func TbigintValueTimeSplit(temp *Temporal, vsize int64, duration *Interval, vorigin int64, torigin int64, border_inc bool, value_bins unsafe.Pointer, time_bins unsafe.Pointer, count unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tbigint_value_time_split(temp._inner, C.int64_t(vsize), duration._inner, C.int64_t(vorigin), C.TimestampTz(torigin), C.bool(border_inc), (**C.int64_t)(unsafe.Pointer(value_bins)), (**C.TimestampTz)(unsafe.Pointer(time_bins)), (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
+}
+
+
+// TbigintboxTimeTiles wraps MEOS C function tbigintbox_time_tiles.
+func TbigintboxTimeTiles(box *TBox, duration *Interval, torigin int64, border_inc bool, count unsafe.Pointer) (_r0 *TBox, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tbigintbox_time_tiles(box._inner, duration._inner, C.TimestampTz(torigin), C.bool(border_inc), (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &TBox{_inner: _cret}, nil
+}
+
+
+// TbigintboxValueTiles wraps MEOS C function tbigintbox_value_tiles.
+func TbigintboxValueTiles(box *TBox, vsize int64, vorigin int64, border_inc bool, count unsafe.Pointer) (_r0 *TBox, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tbigintbox_value_tiles(box._inner, C.int64_t(vsize), C.int64_t(vorigin), C.bool(border_inc), (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &TBox{_inner: _cret}, nil
+}
+
+
+// TbigintboxValueTimeTiles wraps MEOS C function tbigintbox_value_time_tiles.
+func TbigintboxValueTimeTiles(box *TBox, vsize int64, duration *Interval, vorigin int64, torigin int64, border_inc bool, count unsafe.Pointer) (_r0 *TBox, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tbigintbox_value_time_tiles(box._inner, C.int64_t(vsize), duration._inner, C.int64_t(vorigin), C.TimestampTz(torigin), C.bool(border_inc), (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &TBox{_inner: _cret}, nil
+}
+
+
+// TBOXGetTimeTile wraps MEOS C function tbox_get_time_tile.
+func TBOXGetTimeTile(t int64, duration *Interval, torigin int64) (_r0 *TBox, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tbox_get_time_tile(C.TimestampTz(t), duration._inner, C.TimestampTz(torigin))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &TBox{_inner: _cret}, nil
+}
+
+
+// TBOXGetValueTile wraps MEOS C function tbox_get_value_tile.
+func TBOXGetValueTile(value float64, vsize float64, vorigin float64) (_r0 *TBox, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tbox_get_value_tile(C.double(value), C.double(vsize), C.double(vorigin))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &TBox{_inner: _cret}, nil
+}
+
+
+// TBOXGetValueTimeTile wraps MEOS C function tbox_get_value_time_tile.
+func TBOXGetValueTimeTile(value float64, t int64, vsize float64, duration *Interval, vorigin float64, torigin int64) (_r0 *TBox, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tbox_get_value_time_tile(C.double(value), C.TimestampTz(t), C.double(vsize), duration._inner, C.double(vorigin), C.TimestampTz(torigin))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &TBox{_inner: _cret}, nil
+}
+
+
+// TBOXTimeTiles wraps MEOS C function tbox_time_tiles.
+func TBOXTimeTiles(box *TBox, duration *Interval, torigin int64, border_inc bool, count unsafe.Pointer) (_r0 *TBox, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tbox_time_tiles(box._inner, duration._inner, C.TimestampTz(torigin), C.bool(border_inc), (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &TBox{_inner: _cret}, nil
+}
+
+
+// TfloatTimeBoxes wraps MEOS C function tfloat_time_boxes.
+func TfloatTimeBoxes(temp *Temporal, duration *Interval, torigin int64, border_inc bool, count unsafe.Pointer) (_r0 *TBox, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tfloat_time_boxes(temp._inner, duration._inner, C.TimestampTz(torigin), C.bool(border_inc), (*C.int)(unsafe.Pointer(count)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -15820,9 +16526,9 @@ func TfloatTimeBoxes(temp *Temporal, duration *Interval, torigin int64, count un
 
 
 // TfloatValueBins wraps MEOS C function tfloat_value_bins.
-func TfloatValueBins(temp *Temporal, vsize float64, vorigin float64, count unsafe.Pointer) (_r0 *Span, _err error) {
+func TfloatValueBins(temp *Temporal, vsize float64, vorigin float64, border_inc bool, count unsafe.Pointer) (_r0 *Span, _err error) {
 	C.meos_errno_reset()
-	_cret := C.tfloat_value_bins(temp._inner, C.double(vsize), C.double(vorigin), (*C.int)(unsafe.Pointer(count)))
+	_cret := C.tfloat_value_bins(temp._inner, C.double(vsize), C.double(vorigin), C.bool(border_inc), (*C.int)(unsafe.Pointer(count)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -15831,9 +16537,9 @@ func TfloatValueBins(temp *Temporal, vsize float64, vorigin float64, count unsaf
 
 
 // TfloatValueBoxes wraps MEOS C function tfloat_value_boxes.
-func TfloatValueBoxes(temp *Temporal, vsize float64, vorigin float64, count unsafe.Pointer) (_r0 *TBox, _err error) {
+func TfloatValueBoxes(temp *Temporal, vsize float64, vorigin float64, border_inc bool, count unsafe.Pointer) (_r0 *TBox, _err error) {
 	C.meos_errno_reset()
-	_cret := C.tfloat_value_boxes(temp._inner, C.double(vsize), C.double(vorigin), (*C.int)(unsafe.Pointer(count)))
+	_cret := C.tfloat_value_boxes(temp._inner, C.double(vsize), C.double(vorigin), C.bool(border_inc), (*C.int)(unsafe.Pointer(count)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -15842,9 +16548,9 @@ func TfloatValueBoxes(temp *Temporal, vsize float64, vorigin float64, count unsa
 
 
 // TfloatValueSplit wraps MEOS C function tfloat_value_split.
-func TfloatValueSplit(temp *Temporal, size float64, origin float64, bins unsafe.Pointer, count unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
+func TfloatValueSplit(temp *Temporal, vsize float64, vorigin float64, border_inc bool, bins unsafe.Pointer, count unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
 	C.meos_errno_reset()
-	_cret := C.tfloat_value_split(temp._inner, C.double(size), C.double(origin), (**C.double)(unsafe.Pointer(bins)), (*C.int)(unsafe.Pointer(count)))
+	_cret := C.tfloat_value_split(temp._inner, C.double(vsize), C.double(vorigin), C.bool(border_inc), (**C.double)(unsafe.Pointer(bins)), (*C.int)(unsafe.Pointer(count)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -15853,9 +16559,9 @@ func TfloatValueSplit(temp *Temporal, size float64, origin float64, bins unsafe.
 
 
 // TfloatValueTimeBoxes wraps MEOS C function tfloat_value_time_boxes.
-func TfloatValueTimeBoxes(temp *Temporal, vsize float64, duration *Interval, vorigin float64, torigin int64, count unsafe.Pointer) (_r0 *TBox, _err error) {
+func TfloatValueTimeBoxes(temp *Temporal, vsize float64, duration *Interval, vorigin float64, torigin int64, border_inc bool, count unsafe.Pointer) (_r0 *TBox, _err error) {
 	C.meos_errno_reset()
-	_cret := C.tfloat_value_time_boxes(temp._inner, C.double(vsize), duration._inner, C.double(vorigin), C.TimestampTz(torigin), (*C.int)(unsafe.Pointer(count)))
+	_cret := C.tfloat_value_time_boxes(temp._inner, C.double(vsize), duration._inner, C.double(vorigin), C.TimestampTz(torigin), C.bool(border_inc), (*C.int)(unsafe.Pointer(count)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -15864,9 +16570,9 @@ func TfloatValueTimeBoxes(temp *Temporal, vsize float64, duration *Interval, vor
 
 
 // TfloatValueTimeSplit wraps MEOS C function tfloat_value_time_split.
-func TfloatValueTimeSplit(temp *Temporal, vsize float64, duration *Interval, vorigin float64, torigin int64, value_bins unsafe.Pointer, time_bins unsafe.Pointer, count unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
+func TfloatValueTimeSplit(temp *Temporal, vsize float64, duration *Interval, vorigin float64, torigin int64, border_inc bool, value_bins unsafe.Pointer, time_bins unsafe.Pointer, count unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
 	C.meos_errno_reset()
-	_cret := C.tfloat_value_time_split(temp._inner, C.double(vsize), duration._inner, C.double(vorigin), C.TimestampTz(torigin), (**C.double)(unsafe.Pointer(value_bins)), (**C.TimestampTz)(unsafe.Pointer(time_bins)), (*C.int)(unsafe.Pointer(count)))
+	_cret := C.tfloat_value_time_split(temp._inner, C.double(vsize), duration._inner, C.double(vorigin), C.TimestampTz(torigin), C.bool(border_inc), (**C.double)(unsafe.Pointer(value_bins)), (**C.TimestampTz)(unsafe.Pointer(time_bins)), (*C.int)(unsafe.Pointer(count)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -15875,9 +16581,9 @@ func TfloatValueTimeSplit(temp *Temporal, vsize float64, duration *Interval, vor
 
 
 // TfloatboxTimeTiles wraps MEOS C function tfloatbox_time_tiles.
-func TfloatboxTimeTiles(box *TBox, duration *Interval, torigin int64, count unsafe.Pointer) (_r0 *TBox, _err error) {
+func TfloatboxTimeTiles(box *TBox, duration *Interval, torigin int64, border_inc bool, count unsafe.Pointer) (_r0 *TBox, _err error) {
 	C.meos_errno_reset()
-	_cret := C.tfloatbox_time_tiles(box._inner, duration._inner, C.TimestampTz(torigin), (*C.int)(unsafe.Pointer(count)))
+	_cret := C.tfloatbox_time_tiles(box._inner, duration._inner, C.TimestampTz(torigin), C.bool(border_inc), (*C.int)(unsafe.Pointer(count)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -15886,9 +16592,9 @@ func TfloatboxTimeTiles(box *TBox, duration *Interval, torigin int64, count unsa
 
 
 // TfloatboxValueTiles wraps MEOS C function tfloatbox_value_tiles.
-func TfloatboxValueTiles(box *TBox, vsize float64, vorigin float64, count unsafe.Pointer) (_r0 *TBox, _err error) {
+func TfloatboxValueTiles(box *TBox, vsize float64, vorigin float64, border_inc bool, count unsafe.Pointer) (_r0 *TBox, _err error) {
 	C.meos_errno_reset()
-	_cret := C.tfloatbox_value_tiles(box._inner, C.double(vsize), C.double(vorigin), (*C.int)(unsafe.Pointer(count)))
+	_cret := C.tfloatbox_value_tiles(box._inner, C.double(vsize), C.double(vorigin), C.bool(border_inc), (*C.int)(unsafe.Pointer(count)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -15897,9 +16603,9 @@ func TfloatboxValueTiles(box *TBox, vsize float64, vorigin float64, count unsafe
 
 
 // TfloatboxValueTimeTiles wraps MEOS C function tfloatbox_value_time_tiles.
-func TfloatboxValueTimeTiles(box *TBox, vsize float64, duration *Interval, vorigin float64, torigin int64, count unsafe.Pointer) (_r0 *TBox, _err error) {
+func TfloatboxValueTimeTiles(box *TBox, vsize float64, duration *Interval, vorigin float64, torigin int64, border_inc bool, count unsafe.Pointer) (_r0 *TBox, _err error) {
 	C.meos_errno_reset()
-	_cret := C.tfloatbox_value_time_tiles(box._inner, C.double(vsize), duration._inner, C.double(vorigin), C.TimestampTz(torigin), (*C.int)(unsafe.Pointer(count)))
+	_cret := C.tfloatbox_value_time_tiles(box._inner, C.double(vsize), duration._inner, C.double(vorigin), C.TimestampTz(torigin), C.bool(border_inc), (*C.int)(unsafe.Pointer(count)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -15908,9 +16614,9 @@ func TfloatboxValueTimeTiles(box *TBox, vsize float64, duration *Interval, vorig
 
 
 // TintTimeBoxes wraps MEOS C function tint_time_boxes.
-func TintTimeBoxes(temp *Temporal, duration *Interval, torigin int64, count unsafe.Pointer) (_r0 *TBox, _err error) {
+func TintTimeBoxes(temp *Temporal, duration *Interval, torigin int64, border_inc bool, count unsafe.Pointer) (_r0 *TBox, _err error) {
 	C.meos_errno_reset()
-	_cret := C.tint_time_boxes(temp._inner, duration._inner, C.TimestampTz(torigin), (*C.int)(unsafe.Pointer(count)))
+	_cret := C.tint_time_boxes(temp._inner, duration._inner, C.TimestampTz(torigin), C.bool(border_inc), (*C.int)(unsafe.Pointer(count)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -15919,9 +16625,9 @@ func TintTimeBoxes(temp *Temporal, duration *Interval, torigin int64, count unsa
 
 
 // TintValueBins wraps MEOS C function tint_value_bins.
-func TintValueBins(temp *Temporal, vsize int, vorigin int, count unsafe.Pointer) (_r0 *Span, _err error) {
+func TintValueBins(temp *Temporal, vsize int, vorigin int, border_inc bool, count unsafe.Pointer) (_r0 *Span, _err error) {
 	C.meos_errno_reset()
-	_cret := C.tint_value_bins(temp._inner, C.int(vsize), C.int(vorigin), (*C.int)(unsafe.Pointer(count)))
+	_cret := C.tint_value_bins(temp._inner, C.int(vsize), C.int(vorigin), C.bool(border_inc), (*C.int)(unsafe.Pointer(count)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -15930,9 +16636,9 @@ func TintValueBins(temp *Temporal, vsize int, vorigin int, count unsafe.Pointer)
 
 
 // TintValueBoxes wraps MEOS C function tint_value_boxes.
-func TintValueBoxes(temp *Temporal, vsize int, vorigin int, count unsafe.Pointer) (_r0 *TBox, _err error) {
+func TintValueBoxes(temp *Temporal, vsize int, vorigin int, border_inc bool, count unsafe.Pointer) (_r0 *TBox, _err error) {
 	C.meos_errno_reset()
-	_cret := C.tint_value_boxes(temp._inner, C.int(vsize), C.int(vorigin), (*C.int)(unsafe.Pointer(count)))
+	_cret := C.tint_value_boxes(temp._inner, C.int(vsize), C.int(vorigin), C.bool(border_inc), (*C.int)(unsafe.Pointer(count)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -15941,9 +16647,9 @@ func TintValueBoxes(temp *Temporal, vsize int, vorigin int, count unsafe.Pointer
 
 
 // TintValueSplit wraps MEOS C function tint_value_split.
-func TintValueSplit(temp *Temporal, vsize int, vorigin int, bins unsafe.Pointer, count unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
+func TintValueSplit(temp *Temporal, vsize int, vorigin int, border_inc bool, bins unsafe.Pointer, count unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
 	C.meos_errno_reset()
-	_cret := C.tint_value_split(temp._inner, C.int(vsize), C.int(vorigin), (**C.int)(unsafe.Pointer(bins)), (*C.int)(unsafe.Pointer(count)))
+	_cret := C.tint_value_split(temp._inner, C.int(vsize), C.int(vorigin), C.bool(border_inc), (**C.int)(unsafe.Pointer(bins)), (*C.int)(unsafe.Pointer(count)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -15952,9 +16658,9 @@ func TintValueSplit(temp *Temporal, vsize int, vorigin int, bins unsafe.Pointer,
 
 
 // TintValueTimeBoxes wraps MEOS C function tint_value_time_boxes.
-func TintValueTimeBoxes(temp *Temporal, vsize int, duration *Interval, vorigin int, torigin int64, count unsafe.Pointer) (_r0 *TBox, _err error) {
+func TintValueTimeBoxes(temp *Temporal, vsize int, duration *Interval, vorigin int, torigin int64, border_inc bool, count unsafe.Pointer) (_r0 *TBox, _err error) {
 	C.meos_errno_reset()
-	_cret := C.tint_value_time_boxes(temp._inner, C.int(vsize), duration._inner, C.int(vorigin), C.TimestampTz(torigin), (*C.int)(unsafe.Pointer(count)))
+	_cret := C.tint_value_time_boxes(temp._inner, C.int(vsize), duration._inner, C.int(vorigin), C.TimestampTz(torigin), C.bool(border_inc), (*C.int)(unsafe.Pointer(count)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -15963,9 +16669,9 @@ func TintValueTimeBoxes(temp *Temporal, vsize int, duration *Interval, vorigin i
 
 
 // TintValueTimeSplit wraps MEOS C function tint_value_time_split.
-func TintValueTimeSplit(temp *Temporal, size int, duration *Interval, vorigin int, torigin int64, value_bins unsafe.Pointer, time_bins unsafe.Pointer, count unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
+func TintValueTimeSplit(temp *Temporal, vsize int, duration *Interval, vorigin int, torigin int64, border_inc bool, value_bins unsafe.Pointer, time_bins unsafe.Pointer, count unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
 	C.meos_errno_reset()
-	_cret := C.tint_value_time_split(temp._inner, C.int(size), duration._inner, C.int(vorigin), C.TimestampTz(torigin), (**C.int)(unsafe.Pointer(value_bins)), (**C.TimestampTz)(unsafe.Pointer(time_bins)), (*C.int)(unsafe.Pointer(count)))
+	_cret := C.tint_value_time_split(temp._inner, C.int(vsize), duration._inner, C.int(vorigin), C.TimestampTz(torigin), C.bool(border_inc), (**C.int)(unsafe.Pointer(value_bins)), (**C.TimestampTz)(unsafe.Pointer(time_bins)), (*C.int)(unsafe.Pointer(count)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -15974,9 +16680,9 @@ func TintValueTimeSplit(temp *Temporal, size int, duration *Interval, vorigin in
 
 
 // TintboxTimeTiles wraps MEOS C function tintbox_time_tiles.
-func TintboxTimeTiles(box *TBox, duration *Interval, torigin int64, count unsafe.Pointer) (_r0 *TBox, _err error) {
+func TintboxTimeTiles(box *TBox, duration *Interval, torigin int64, border_inc bool, count unsafe.Pointer) (_r0 *TBox, _err error) {
 	C.meos_errno_reset()
-	_cret := C.tintbox_time_tiles(box._inner, duration._inner, C.TimestampTz(torigin), (*C.int)(unsafe.Pointer(count)))
+	_cret := C.tintbox_time_tiles(box._inner, duration._inner, C.TimestampTz(torigin), C.bool(border_inc), (*C.int)(unsafe.Pointer(count)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -15985,9 +16691,9 @@ func TintboxTimeTiles(box *TBox, duration *Interval, torigin int64, count unsafe
 
 
 // TintboxValueTiles wraps MEOS C function tintbox_value_tiles.
-func TintboxValueTiles(box *TBox, xsize int, xorigin int, count unsafe.Pointer) (_r0 *TBox, _err error) {
+func TintboxValueTiles(box *TBox, vsize int, vorigin int, border_inc bool, count unsafe.Pointer) (_r0 *TBox, _err error) {
 	C.meos_errno_reset()
-	_cret := C.tintbox_value_tiles(box._inner, C.int(xsize), C.int(xorigin), (*C.int)(unsafe.Pointer(count)))
+	_cret := C.tintbox_value_tiles(box._inner, C.int(vsize), C.int(vorigin), C.bool(border_inc), (*C.int)(unsafe.Pointer(count)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -15996,9 +16702,9 @@ func TintboxValueTiles(box *TBox, xsize int, xorigin int, count unsafe.Pointer) 
 
 
 // TintboxValueTimeTiles wraps MEOS C function tintbox_value_time_tiles.
-func TintboxValueTimeTiles(box *TBox, xsize int, duration *Interval, xorigin int, torigin int64, count unsafe.Pointer) (_r0 *TBox, _err error) {
+func TintboxValueTimeTiles(box *TBox, vsize int, duration *Interval, vorigin int, torigin int64, border_inc bool, count unsafe.Pointer) (_r0 *TBox, _err error) {
 	C.meos_errno_reset()
-	_cret := C.tintbox_value_time_tiles(box._inner, C.int(xsize), duration._inner, C.int(xorigin), C.TimestampTz(torigin), (*C.int)(unsafe.Pointer(count)))
+	_cret := C.tintbox_value_time_tiles(box._inner, C.int(vsize), duration._inner, C.int(vorigin), C.TimestampTz(torigin), C.bool(border_inc), (*C.int)(unsafe.Pointer(count)))
 	if _err = meosError(); _err != nil {
 		return
 	}

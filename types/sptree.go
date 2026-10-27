@@ -86,15 +86,6 @@ func SPTreeCreateStbox(kind functions.SPTreeKind) (unsafe.Pointer, error) {
 	return _r0, nil
 }
 
-// SPTreeCreateTpcbox is MEOS sptree_create_tpcbox.
-func SPTreeCreateTpcbox(kind functions.SPTreeKind) (unsafe.Pointer, error) {
-	_r0, _err := functions.SptreeCreateTpcbox(kind)
-	if _err != nil {
-		return nil, _err
-	}
-	return _r0, nil
-}
-
 // SPTreeFree is MEOS sptree_free.
 func SPTreeFree(sptree unsafe.Pointer) error {
 	return functions.SptreeFree(sptree)
@@ -188,4 +179,22 @@ func SPTreeSearchTemporal(sptree unsafe.Pointer, op functions.IndexSearchOp, tem
 		return 0, nil, _err
 	}
 	return _r0, MeosArrayFromPointer(_r1.Pointer()), nil
+}
+
+// SPTreeSearchTemporalDedup is MEOS sptree_search_temporal_dedup.
+func SPTreeSearchTemporalDedup(sptree unsafe.Pointer, op functions.IndexSearchOp, temp *Temporal, maxboxes int) (int, *MeosArray, error) {
+	_r0, _r1, _err := functions.SptreeSearchTemporalDedup(sptree, op, functions.TemporalFromPointer(temp.Pointer()), maxboxes)
+	if _err != nil {
+		return 0, nil, _err
+	}
+	return _r0, MeosArrayFromPointer(_r1.Pointer()), nil
+}
+
+// SPTreeCreateTpcbox is MEOS sptree_create_tpcbox.
+func SPTreeCreateTpcbox(kind functions.SPTreeKind) (unsafe.Pointer, error) {
+	_r0, _err := functions.SptreeCreateTpcbox(kind)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
 }

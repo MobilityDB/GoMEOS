@@ -113,6 +113,15 @@ func (x *TBigint) StartValue() (int64, error) {
 	return _r0, nil
 }
 
+// Value is MEOS tbigint_value.
+func (x *TBigint) Value() (int64, error) {
+	_r0, _err := functions.TbigintValue(functions.TemporalFromPointer(x.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
 // ValueAtTimestamptz is MEOS tbigint_value_at_timestamptz.
 func (x *TBigint) ValueAtTimestamptz(t int64, strict bool) (int64, bool, error) {
 	_found, _value, _err := functions.TbigintValueAtTimestamptz(functions.TemporalFromPointer(x.Pointer()), t, strict)
@@ -146,6 +155,15 @@ func (x *TBigint) Values(count unsafe.Pointer) (unsafe.Pointer, error) {
 	return _r0, nil
 }
 
+// Unnest is MEOS tbigint_unnest.
+func (x *TBigint) Unnest(values unsafe.Pointer, count unsafe.Pointer) (unsafe.Pointer, error) {
+	_r0, _err := functions.TbigintUnnest(functions.TemporalFromPointer(x.Pointer()), values, count)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
 // ScaleValue is MEOS tbigint_scale_value.
 func (x *TBigint) ScaleValue(width int64) (*Temporal, error) {
 	_r0, _err := functions.TbigintScaleValue(functions.TemporalFromPointer(x.Pointer()), width)
@@ -171,6 +189,51 @@ func (x *TBigint) ShiftValue(shift int64) (*Temporal, error) {
 		return nil, _err
 	}
 	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// AtValue is MEOS tbigint_at_value.
+func (x *TBigint) AtValue(i int64) (*Temporal, error) {
+	_r0, _err := functions.TbigintAtValue(functions.TemporalFromPointer(x.Pointer()), i)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// MinusValue is MEOS tbigint_minus_value.
+func (x *TBigint) MinusValue(i int64) (*Temporal, error) {
+	_r0, _err := functions.TbigintMinusValue(functions.TemporalFromPointer(x.Pointer()), i)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// ValueBins is MEOS tbigint_value_bins.
+func (x *TBigint) ValueBins(vsize int64, vorigin int64, border_inc bool, count unsafe.Pointer) (*Span, error) {
+	_r0, _err := functions.TbigintValueBins(functions.TemporalFromPointer(x.Pointer()), vsize, vorigin, border_inc, count)
+	if _err != nil {
+		return nil, _err
+	}
+	return SpanFromPointer(_r0.Pointer()), nil
+}
+
+// ValueBoxes is MEOS tbigint_value_boxes.
+func (x *TBigint) ValueBoxes(vsize int64, vorigin int64, border_inc bool, count unsafe.Pointer) (*TBox, error) {
+	_r0, _err := functions.TbigintValueBoxes(functions.TemporalFromPointer(x.Pointer()), vsize, vorigin, border_inc, count)
+	if _err != nil {
+		return nil, _err
+	}
+	return TBoxFromPointer(_r0.Pointer()), nil
+}
+
+// ValueSplit is MEOS tbigint_value_split.
+func (x *TBigint) ValueSplit(vsize int64, vorigin int64, border_inc bool, bins unsafe.Pointer, count unsafe.Pointer) (unsafe.Pointer, error) {
+	_r0, _err := functions.TbigintValueSplit(functions.TemporalFromPointer(x.Pointer()), vsize, vorigin, border_inc, bins, count)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
 }
 
 // ToTh3index is MEOS tbigint_to_th3index.

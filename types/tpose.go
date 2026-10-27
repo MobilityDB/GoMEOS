@@ -41,6 +41,15 @@ func (x *TPose) AsGeopose(conformance int, precision int) (string, error) {
 	return _r0, nil
 }
 
+// AsGeoposeStreamHeader is MEOS tpose_as_geopose_stream_header.
+func (x *TPose) AsGeoposeStreamHeader(precision int) (string, error) {
+	_r0, _err := functions.TposeAsGeoposeStreamHeader(functions.TemporalFromPointer(x.Pointer()), precision)
+	if _err != nil {
+		return "", _err
+	}
+	return _r0, nil
+}
+
 // AsGeoposeStreamElement is MEOS tpose_as_geopose_stream_element.
 func (x *TPose) AsGeoposeStreamElement(inst *Temporal, precision int) (string, error) {
 	_r0, _err := functions.TposeAsGeoposeStreamElement(functions.TemporalFromPointer(x.Pointer()), functions.TInstantFromPointer(inst.Pointer()), precision)
@@ -89,6 +98,51 @@ func (x *TPose) ComposeTpose(frame *Temporal) (*Temporal, error) {
 // Inverse is MEOS tpose_inverse.
 func (x *TPose) Inverse() (*Temporal, error) {
 	_r0, _err := functions.TposeInverse(functions.TemporalFromPointer(x.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// Rotate is MEOS tpose_rotate.
+func (x *TPose) Rotate(angle float64, x0 float64, y0 float64) (*Temporal, error) {
+	_r0, _err := functions.TposeRotate(functions.TemporalFromPointer(x.Pointer()), angle, x0, y0)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// RotateX is MEOS tpose_rotate_x.
+func (x *TPose) RotateX(angle float64) (*Temporal, error) {
+	_r0, _err := functions.TposeRotateX(functions.TemporalFromPointer(x.Pointer()), angle)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// RotateY is MEOS tpose_rotate_y.
+func (x *TPose) RotateY(angle float64) (*Temporal, error) {
+	_r0, _err := functions.TposeRotateY(functions.TemporalFromPointer(x.Pointer()), angle)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// RotateZ is MEOS tpose_rotate_z.
+func (x *TPose) RotateZ(angle float64) (*Temporal, error) {
+	_r0, _err := functions.TposeRotateZ(functions.TemporalFromPointer(x.Pointer()), angle)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// Translate is MEOS tpose_translate.
+func (x *TPose) Translate(deltax float64, deltay float64, deltaz float64) (*Temporal, error) {
+	_r0, _err := functions.TposeTranslate(functions.TemporalFromPointer(x.Pointer()), deltax, deltay, deltaz)
 	if _err != nil {
 		return nil, _err
 	}
@@ -221,6 +275,15 @@ func (x *TPose) Trajectory() (*TRGeometrySeqSet, error) {
 	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
 }
 
+// Value is MEOS tpose_value.
+func (x *TPose) Value() (*Pose, error) {
+	_r0, _err := functions.TposeValue(functions.TemporalFromPointer(x.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return PoseFromPointer(_r0.Pointer()), nil
+}
+
 // ValueAtTimestamptz is MEOS tpose_value_at_timestamptz.
 func (x *TPose) ValueAtTimestamptz(t int64, strict bool) (*Pose, bool, error) {
 	_found, _value, _err := functions.TposeValueAtTimestamptz(functions.TemporalFromPointer(x.Pointer()), t, strict)
@@ -248,6 +311,15 @@ func (x *TPose) ValueN(n int) (*Pose, bool, error) {
 // Values is MEOS tpose_values.
 func (x *TPose) Values(count unsafe.Pointer) (unsafe.Pointer, error) {
 	_r0, _err := functions.TposeValues(functions.TemporalFromPointer(x.Pointer()), count)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
+// Unnest is MEOS tpose_unnest.
+func (x *TPose) Unnest(values unsafe.Pointer, count unsafe.Pointer) (unsafe.Pointer, error) {
+	_r0, _err := functions.TposeUnnest(functions.TemporalFromPointer(x.Pointer()), values, count)
 	if _err != nil {
 		return nil, _err
 	}

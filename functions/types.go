@@ -132,10 +132,6 @@ type GBox struct { _inner *C.GBOX }
 func (x *GBox) Inner() *C.GBOX { if x == nil { return nil }; return x._inner }
 func (x *GBox) Pointer() unsafe.Pointer { if x == nil { return nil }; return unsafe.Pointer(x._inner) }
 func GBoxFromPointer(p unsafe.Pointer) *GBox { if p == nil { return nil }; return &GBox{_inner: (*C.GBOX)(p)} }
-type AFFINE struct { _inner *C.AFFINE }
-func (x *AFFINE) Inner() *C.AFFINE { if x == nil { return nil }; return x._inner }
-func (x *AFFINE) Pointer() unsafe.Pointer { if x == nil { return nil }; return unsafe.Pointer(x._inner) }
-func AFFINEFromPointer(p unsafe.Pointer) *AFFINE { if p == nil { return nil }; return &AFFINE{_inner: (*C.AFFINE)(p)} }
 type PJContext struct { _inner *C.PJ_CONTEXT }
 func (x *PJContext) Inner() *C.PJ_CONTEXT { if x == nil { return nil }; return x._inner }
 func (x *PJContext) Pointer() unsafe.Pointer { if x == nil { return nil }; return unsafe.Pointer(x._inner) }

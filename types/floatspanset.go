@@ -132,8 +132,8 @@ func (x *FloatSpanSet) ShiftScale(shift float64, width float64, hasshift bool, h
 }
 
 // Bins is MEOS floatspanset_bins.
-func (x *FloatSpanSet) Bins(vsize float64, vorigin float64, count unsafe.Pointer) (*Span, error) {
-	_r0, _err := functions.FloatspansetBins(functions.SpanSetFromPointer(x.Pointer()), vsize, vorigin, count)
+func (x *FloatSpanSet) Bins(vsize float64, vorigin float64, border_inc bool, count unsafe.Pointer) (*Span, error) {
+	_r0, _err := functions.FloatspansetBins(functions.SpanSetFromPointer(x.Pointer()), vsize, vorigin, border_inc, count)
 	if _err != nil {
 		return nil, _err
 	}

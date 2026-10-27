@@ -28,6 +28,7 @@ package functions
 #define gunion_float_span union_float_span
 #define gunion_float_spanset union_float_spanset
 #define gunion_geo_set union_geo_set
+#define gunion_h3index_set union_h3index_set
 #define gunion_int_set union_int_set
 #define gunion_int_span union_int_span
 #define gunion_int_spanset union_int_spanset
@@ -37,11 +38,14 @@ package functions
 #define gunion_pcpoint_set union_pcpoint_set
 #define gunion_pose_set union_pose_set
 #define gunion_posechain_set union_posechain_set
+#define gunion_quadbin_set union_quadbin_set
+#define gunion_s2cell_set union_s2cell_set
 #define gunion_set_bigint union_set_bigint
 #define gunion_set_cbuffer union_set_cbuffer
 #define gunion_set_date union_set_date
 #define gunion_set_float union_set_float
 #define gunion_set_geo union_set_geo
+#define gunion_set_h3index union_set_h3index
 #define gunion_set_int union_set_int
 #define gunion_set_jsonb union_set_jsonb
 #define gunion_set_npoint union_set_npoint
@@ -49,6 +53,8 @@ package functions
 #define gunion_set_pcpoint union_set_pcpoint
 #define gunion_set_pose union_set_pose
 #define gunion_set_posechain union_set_posechain
+#define gunion_set_quadbin union_set_quadbin
+#define gunion_set_s2cell union_set_s2cell
 #define gunion_set_set union_set_set
 #define gunion_set_text union_set_text
 #define gunion_set_timestamptz union_set_timestamptz
@@ -356,7 +362,7 @@ func JSONEach(js string, values unsafe.Pointer, count unsafe.Pointer) (_r0 unsaf
 	_c_js := C.cstring_to_text(C.CString(js))
 	defer C.free(unsafe.Pointer(_c_js))
 	C.meos_errno_reset()
-	_cret := C.json_each(_c_js, (**C.text)(unsafe.Pointer(values)), (*C.int)(unsafe.Pointer(count)))
+	_cret := C.json_each(_c_js, (***C.text)(unsafe.Pointer(values)), (*C.int)(unsafe.Pointer(count)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -369,7 +375,7 @@ func JSONEachText(js string, values unsafe.Pointer, count unsafe.Pointer) (_r0 u
 	_c_js := C.cstring_to_text(C.CString(js))
 	defer C.free(unsafe.Pointer(_c_js))
 	C.meos_errno_reset()
-	_cret := C.json_each_text(_c_js, (**C.text)(unsafe.Pointer(values)), (*C.int)(unsafe.Pointer(count)))
+	_cret := C.json_each_text(_c_js, (***C.text)(unsafe.Pointer(values)), (*C.int)(unsafe.Pointer(count)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -539,7 +545,7 @@ func JsonbContains(jb1 *Jsonb, jb2 *Jsonb) (_r0 bool, _err error) {
 // JsonbEach wraps MEOS C function jsonb_each.
 func JsonbEach(jb *Jsonb, values unsafe.Pointer, count unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
 	C.meos_errno_reset()
-	_cret := C.jsonb_each(jb._inner, (**C.Jsonb)(unsafe.Pointer(values)), (*C.int)(unsafe.Pointer(count)))
+	_cret := C.jsonb_each(jb._inner, (***C.Jsonb)(unsafe.Pointer(values)), (*C.int)(unsafe.Pointer(count)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -550,7 +556,7 @@ func JsonbEach(jb *Jsonb, values unsafe.Pointer, count unsafe.Pointer) (_r0 unsa
 // JsonbEachText wraps MEOS C function jsonb_each_text.
 func JsonbEachText(jb *Jsonb, values unsafe.Pointer, count unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
 	C.meos_errno_reset()
-	_cret := C.jsonb_each_text(jb._inner, (**C.text)(unsafe.Pointer(values)), (*C.int)(unsafe.Pointer(count)))
+	_cret := C.jsonb_each_text(jb._inner, (***C.text)(unsafe.Pointer(values)), (*C.int)(unsafe.Pointer(count)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -623,6 +629,17 @@ func JsonbHashExtended(jb *Jsonb, seed uint64) (_r0 uint64, _err error) {
 		return
 	}
 	return uint64(_cret), nil
+}
+
+
+// JsonbMemSize wraps MEOS C function jsonb_mem_size.
+func JsonbMemSize(jb *Jsonb) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.jsonb_mem_size(jb._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
 }
 
 
@@ -946,6 +963,17 @@ func JsonpathCopy(jp *JsonPath) (_r0 *JsonPath, _err error) {
 }
 
 
+// JsonpathMemSize wraps MEOS C function jsonpath_mem_size.
+func JsonpathMemSize(jp *JsonPath) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.jsonpath_mem_size(jp._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
 // JsonpathOut wraps MEOS C function jsonpath_out.
 func JsonpathOut(jp *JsonPath) (_r0 string, _err error) {
 	C.meos_errno_reset()
@@ -972,9 +1000,9 @@ func JsonbsetIn(str string) (_r0 *Set, _err error) {
 
 
 // JsonbsetOut wraps MEOS C function jsonbset_out.
-func JsonbsetOut(s *Set, maxdd int) (_r0 string, _err error) {
+func JsonbsetOut(s *Set) (_r0 string, _err error) {
 	C.meos_errno_reset()
-	_cret := C.jsonbset_out(s._inner, C.int(maxdd))
+	_cret := C.jsonbset_out(s._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -998,6 +1026,28 @@ func JsonbsetMake(values unsafe.Pointer, count int) (_r0 *Set, _err error) {
 func JsonbToSet(jb *Jsonb) (_r0 *Set, _err error) {
 	C.meos_errno_reset()
 	_cret := C.jsonb_to_set(jb._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Set{_inner: _cret}, nil
+}
+
+
+// JsonbsetToTextset wraps MEOS C function jsonbset_to_textset.
+func JsonbsetToTextset(s *Set) (_r0 *Set, _err error) {
+	C.meos_errno_reset()
+	_cret := C.jsonbset_to_textset(s._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Set{_inner: _cret}, nil
+}
+
+
+// TextsetToJsonbset wraps MEOS C function textset_to_jsonbset.
+func TextsetToJsonbset(s *Set) (_r0 *Set, _err error) {
+	C.meos_errno_reset()
+	_cret := C.textset_to_jsonbset(s._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1073,11 +1123,24 @@ func JsonbsetArrayLength(set *Set) (_r0 *Set, _err error) {
 
 
 // JsonbsetObjectField wraps MEOS C function jsonbset_object_field.
-func JsonbsetObjectField(set *Set, key string, astext bool, null_handle NullHandleType) (_r0 *Set, _err error) {
+func JsonbsetObjectField(set *Set, key string, null_handle NullHandleType) (_r0 *Set, _err error) {
 	_c_key := C.cstring_to_text(C.CString(key))
 	defer C.free(unsafe.Pointer(_c_key))
 	C.meos_errno_reset()
-	_cret := C.jsonbset_object_field(set._inner, _c_key, C.bool(astext), C.nullHandleType(null_handle))
+	_cret := C.jsonbset_object_field(set._inner, _c_key, C.nullHandleType(null_handle))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Set{_inner: _cret}, nil
+}
+
+
+// JsonbsetObjectFieldText wraps MEOS C function jsonbset_object_field_text.
+func JsonbsetObjectFieldText(set *Set, key string, null_handle NullHandleType) (_r0 *Set, _err error) {
+	_c_key := C.cstring_to_text(C.CString(key))
+	defer C.free(unsafe.Pointer(_c_key))
+	C.meos_errno_reset()
+	_cret := C.jsonbset_object_field_text(set._inner, _c_key, C.nullHandleType(null_handle))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1086,9 +1149,20 @@ func JsonbsetObjectField(set *Set, key string, astext bool, null_handle NullHand
 
 
 // JsonbsetArrayElement wraps MEOS C function jsonbset_array_element.
-func JsonbsetArrayElement(set *Set, idx int, astext bool, null_handle NullHandleType) (_r0 *Set, _err error) {
+func JsonbsetArrayElement(set *Set, idx int, null_handle NullHandleType) (_r0 *Set, _err error) {
 	C.meos_errno_reset()
-	_cret := C.jsonbset_array_element(set._inner, C.int(idx), C.bool(astext), C.nullHandleType(null_handle))
+	_cret := C.jsonbset_array_element(set._inner, C.int(idx), C.nullHandleType(null_handle))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Set{_inner: _cret}, nil
+}
+
+
+// JsonbsetArrayElementText wraps MEOS C function jsonbset_array_element_text.
+func JsonbsetArrayElementText(set *Set, idx int, null_handle NullHandleType) (_r0 *Set, _err error) {
+	C.meos_errno_reset()
+	_cret := C.jsonbset_array_element_text(set._inner, C.int(idx), C.nullHandleType(null_handle))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1267,9 +1341,20 @@ func JsonbsetDeletePath(set *Set, path_elems unsafe.Pointer, path_len int) (_r0 
 
 
 // JsonbsetExtractPath wraps MEOS C function jsonbset_extract_path.
-func JsonbsetExtractPath(set *Set, path_elems unsafe.Pointer, path_len int, astext bool, null_handle NullHandleType) (_r0 *Set, _err error) {
+func JsonbsetExtractPath(set *Set, path_elems unsafe.Pointer, path_len int, null_handle NullHandleType) (_r0 *Set, _err error) {
 	C.meos_errno_reset()
-	_cret := C.jsonbset_extract_path(set._inner, (**C.text)(unsafe.Pointer(path_elems)), C.int(path_len), C.bool(astext), C.nullHandleType(null_handle))
+	_cret := C.jsonbset_extract_path(set._inner, (**C.text)(unsafe.Pointer(path_elems)), C.int(path_len), C.nullHandleType(null_handle))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Set{_inner: _cret}, nil
+}
+
+
+// JsonbsetExtractPathText wraps MEOS C function jsonbset_extract_path_text.
+func JsonbsetExtractPathText(set *Set, path_elems unsafe.Pointer, path_len int, null_handle NullHandleType) (_r0 *Set, _err error) {
+	C.meos_errno_reset()
+	_cret := C.jsonbset_extract_path_text(set._inner, (**C.text)(unsafe.Pointer(path_elems)), C.int(path_len), C.nullHandleType(null_handle))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1325,6 +1410,41 @@ func JsonbsetPathQueryArray(set *Set, jp *JsonPath, vars *Jsonb, silent bool, tz
 func JsonbsetPathQueryFirst(set *Set, jp *JsonPath, vars *Jsonb, silent bool, tz bool) (_r0 *Set, _err error) {
 	C.meos_errno_reset()
 	_cret := C.jsonbset_path_query_first(set._inner, jp._inner, vars._inner, C.bool(silent), C.bool(tz))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Set{_inner: _cret}, nil
+}
+
+
+// JsonbsetArrayElementCommon wraps MEOS C function jsonbset_array_element_common.
+func JsonbsetArrayElementCommon(set *Set, idx int, astext bool, null_handle NullHandleType) (_r0 *Set, _err error) {
+	C.meos_errno_reset()
+	_cret := C.jsonbset_array_element_common(set._inner, C.int(idx), C.bool(astext), C.nullHandleType(null_handle))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Set{_inner: _cret}, nil
+}
+
+
+// JsonbsetExtractPathCommon wraps MEOS C function jsonbset_extract_path_common.
+func JsonbsetExtractPathCommon(set *Set, path_elems unsafe.Pointer, path_len int, astext bool, null_handle NullHandleType) (_r0 *Set, _err error) {
+	C.meos_errno_reset()
+	_cret := C.jsonbset_extract_path_common(set._inner, (**C.text)(unsafe.Pointer(path_elems)), C.int(path_len), C.bool(astext), C.nullHandleType(null_handle))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Set{_inner: _cret}, nil
+}
+
+
+// JsonbsetObjectFieldCommon wraps MEOS C function jsonbset_object_field_common.
+func JsonbsetObjectFieldCommon(set *Set, key string, astext bool, null_handle NullHandleType) (_r0 *Set, _err error) {
+	_c_key := C.cstring_to_text(C.CString(key))
+	defer C.free(unsafe.Pointer(_c_key))
+	C.meos_errno_reset()
+	_cret := C.jsonbset_object_field_common(set._inner, _c_key, C.bool(astext), C.nullHandleType(null_handle))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1607,6 +1727,17 @@ func TjsonbStartValue(temp *Temporal) (_r0 *Jsonb, _err error) {
 }
 
 
+// TjsonbValue wraps MEOS C function tjsonb_value.
+func TjsonbValue(temp *Temporal) (_r0 *Jsonb, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tjsonb_value(temp._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Jsonb{_inner: _cret}, nil
+}
+
+
 // TjsonbValueAtTimestamptz wraps MEOS C function tjsonb_value_at_timestamptz.
 func TjsonbValueAtTimestamptz(temp *Temporal, t int64, strict bool) (_r0 bool, _r1 *Jsonb, _err error) {
 	var _out_value *C.Jsonb
@@ -1635,6 +1766,17 @@ func TjsonbValueN(temp *Temporal, n int) (_r0 bool, _r1 *Jsonb, _err error) {
 func TjsonbValues(temp *Temporal, count unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
 	C.meos_errno_reset()
 	_cret := C.tjsonb_values(temp._inner, (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
+}
+
+
+// TjsonbUnnest wraps MEOS C function tjsonb_unnest.
+func TjsonbUnnest(temp *Temporal, values unsafe.Pointer, count unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tjsonb_unnest(temp._inner, (***C.Jsonb)(unsafe.Pointer(values)), (*C.int)(unsafe.Pointer(count)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1733,11 +1875,11 @@ func TjsonExtractPath(temp *Temporal, path_elems unsafe.Pointer, path_len int, n
 
 
 // TjsonObjectField wraps MEOS C function tjson_object_field.
-func TjsonObjectField(temp *Temporal, key string, astext bool, null_handle NullHandleType) (_r0 *Temporal, _err error) {
+func TjsonObjectField(temp *Temporal, key string, null_handle NullHandleType) (_r0 *Temporal, _err error) {
 	_c_key := C.cstring_to_text(C.CString(key))
 	defer C.free(unsafe.Pointer(_c_key))
 	C.meos_errno_reset()
-	_cret := C.tjson_object_field(temp._inner, _c_key, C.bool(astext), C.nullHandleType(null_handle))
+	_cret := C.tjson_object_field(temp._inner, _c_key, C.nullHandleType(null_handle))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1757,9 +1899,20 @@ func TjsonStripNulls(temp *Temporal, strip_in_arrays bool) (_r0 *Temporal, _err 
 
 
 // TjsonbArrayElement wraps MEOS C function tjsonb_array_element.
-func TjsonbArrayElement(temp *Temporal, idx int, astext bool, null_handle NullHandleType) (_r0 *Temporal, _err error) {
+func TjsonbArrayElement(temp *Temporal, idx int, null_handle NullHandleType) (_r0 *Temporal, _err error) {
 	C.meos_errno_reset()
-	_cret := C.tjsonb_array_element(temp._inner, C.int(idx), C.bool(astext), C.nullHandleType(null_handle))
+	_cret := C.tjsonb_array_element(temp._inner, C.int(idx), C.nullHandleType(null_handle))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// TjsonbArrayElementText wraps MEOS C function tjsonb_array_element_text.
+func TjsonbArrayElementText(temp *Temporal, idx int, null_handle NullHandleType) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tjsonb_array_element_text(temp._inner, C.int(idx), C.nullHandleType(null_handle))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1871,9 +2024,20 @@ func TjsonbExistsArray(temp *Temporal, keys unsafe.Pointer, count int, any bool)
 
 
 // TjsonbExtractPath wraps MEOS C function tjsonb_extract_path.
-func TjsonbExtractPath(temp *Temporal, path_elems unsafe.Pointer, path_len int, astext bool, null_handle NullHandleType) (_r0 *Temporal, _err error) {
+func TjsonbExtractPath(temp *Temporal, path_elems unsafe.Pointer, path_len int, null_handle NullHandleType) (_r0 *Temporal, _err error) {
 	C.meos_errno_reset()
-	_cret := C.tjsonb_extract_path(temp._inner, (**C.text)(unsafe.Pointer(path_elems)), C.int(path_len), C.bool(astext), C.nullHandleType(null_handle))
+	_cret := C.tjsonb_extract_path(temp._inner, (**C.text)(unsafe.Pointer(path_elems)), C.int(path_len), C.nullHandleType(null_handle))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// TjsonbExtractPathText wraps MEOS C function tjsonb_extract_path_text.
+func TjsonbExtractPathText(temp *Temporal, path_elems unsafe.Pointer, path_len int, null_handle NullHandleType) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tjsonb_extract_path_text(temp._inner, (**C.text)(unsafe.Pointer(path_elems)), C.int(path_len), C.nullHandleType(null_handle))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1893,11 +2057,24 @@ func TjsonbInsert(temp *Temporal, keys unsafe.Pointer, count int, newjb *Jsonb, 
 
 
 // TjsonbObjectField wraps MEOS C function tjsonb_object_field.
-func TjsonbObjectField(temp *Temporal, key string, astext bool, null_handle NullHandleType) (_r0 *Temporal, _err error) {
+func TjsonbObjectField(temp *Temporal, key string, null_handle NullHandleType) (_r0 *Temporal, _err error) {
 	_c_key := C.cstring_to_text(C.CString(key))
 	defer C.free(unsafe.Pointer(_c_key))
 	C.meos_errno_reset()
-	_cret := C.tjsonb_object_field(temp._inner, _c_key, C.bool(astext), C.nullHandleType(null_handle))
+	_cret := C.tjsonb_object_field(temp._inner, _c_key, C.nullHandleType(null_handle))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// TjsonbObjectFieldText wraps MEOS C function tjsonb_object_field_text.
+func TjsonbObjectFieldText(temp *Temporal, key string, null_handle NullHandleType) (_r0 *Temporal, _err error) {
+	_c_key := C.cstring_to_text(C.CString(key))
+	defer C.free(unsafe.Pointer(_c_key))
+	C.meos_errno_reset()
+	_cret := C.tjsonb_object_field_text(temp._inner, _c_key, C.nullHandleType(null_handle))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1984,6 +2161,19 @@ func TjsonbStripNulls(temp *Temporal, strip_in_arrays bool) (_r0 *Temporal, _err
 }
 
 
+// TjsonbToTbigint wraps MEOS C function tjsonb_to_tbigint.
+func TjsonbToTbigint(temp *Temporal, key string, null_handle NullHandleType) (_r0 *Temporal, _err error) {
+	_c_key := C.CString(key)
+	defer C.free(unsafe.Pointer(_c_key))
+	C.meos_errno_reset()
+	_cret := C.tjsonb_to_tbigint(temp._inner, _c_key, C.nullHandleType(null_handle))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
 // TjsonbToTbool wraps MEOS C function tjsonb_to_tbool.
 func TjsonbToTbool(temp *Temporal, key string, null_handle NullHandleType) (_r0 *Temporal, _err error) {
 	_c_key := C.CString(key)
@@ -2010,6 +2200,58 @@ func TjsonbToTfloat(temp *Temporal, key string, interp Interpolation, null_handl
 }
 
 
+// TjsonbToTgeogpoint wraps MEOS C function tjsonb_to_tgeogpoint.
+func TjsonbToTgeogpoint(temp *Temporal, key string, interp Interpolation, null_handle NullHandleType) (_r0 *Temporal, _err error) {
+	_c_key := C.CString(key)
+	defer C.free(unsafe.Pointer(_c_key))
+	C.meos_errno_reset()
+	_cret := C.tjsonb_to_tgeogpoint(temp._inner, _c_key, C.interpType(interp), C.nullHandleType(null_handle))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// TjsonbToTgeography wraps MEOS C function tjsonb_to_tgeography.
+func TjsonbToTgeography(temp *Temporal, key string, null_handle NullHandleType) (_r0 *Temporal, _err error) {
+	_c_key := C.CString(key)
+	defer C.free(unsafe.Pointer(_c_key))
+	C.meos_errno_reset()
+	_cret := C.tjsonb_to_tgeography(temp._inner, _c_key, C.nullHandleType(null_handle))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// TjsonbToTgeometry wraps MEOS C function tjsonb_to_tgeometry.
+func TjsonbToTgeometry(temp *Temporal, key string, null_handle NullHandleType) (_r0 *Temporal, _err error) {
+	_c_key := C.CString(key)
+	defer C.free(unsafe.Pointer(_c_key))
+	C.meos_errno_reset()
+	_cret := C.tjsonb_to_tgeometry(temp._inner, _c_key, C.nullHandleType(null_handle))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// TjsonbToTgeompoint wraps MEOS C function tjsonb_to_tgeompoint.
+func TjsonbToTgeompoint(temp *Temporal, key string, interp Interpolation, null_handle NullHandleType) (_r0 *Temporal, _err error) {
+	_c_key := C.CString(key)
+	defer C.free(unsafe.Pointer(_c_key))
+	C.meos_errno_reset()
+	_cret := C.tjsonb_to_tgeompoint(temp._inner, _c_key, C.interpType(interp), C.nullHandleType(null_handle))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
 // TjsonbToTint wraps MEOS C function tjsonb_to_tint.
 func TjsonbToTint(temp *Temporal, key string, null_handle NullHandleType) (_r0 *Temporal, _err error) {
 	_c_key := C.CString(key)
@@ -2029,6 +2271,54 @@ func TjsonbToTtextKey(temp *Temporal, key string, null_handle NullHandleType) (_
 	defer C.free(unsafe.Pointer(_c_key))
 	C.meos_errno_reset()
 	_cret := C.tjsonb_to_ttext_key(temp._inner, _c_key, C.nullHandleType(null_handle))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// TjsonObjectFieldCommon wraps MEOS C function tjson_object_field_common.
+func TjsonObjectFieldCommon(temp *Temporal, key string, astext bool, null_handle NullHandleType) (_r0 *Temporal, _err error) {
+	_c_key := C.cstring_to_text(C.CString(key))
+	defer C.free(unsafe.Pointer(_c_key))
+	C.meos_errno_reset()
+	_cret := C.tjson_object_field_common(temp._inner, _c_key, C.bool(astext), C.nullHandleType(null_handle))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// TjsonbArrayElementCommon wraps MEOS C function tjsonb_array_element_common.
+func TjsonbArrayElementCommon(temp *Temporal, idx int, astext bool, null_handle NullHandleType) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tjsonb_array_element_common(temp._inner, C.int(idx), C.bool(astext), C.nullHandleType(null_handle))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// TjsonbExtractPathCommon wraps MEOS C function tjsonb_extract_path_common.
+func TjsonbExtractPathCommon(temp *Temporal, path_elems unsafe.Pointer, path_len int, astext bool, null_handle NullHandleType) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tjsonb_extract_path_common(temp._inner, (**C.text)(unsafe.Pointer(path_elems)), C.int(path_len), C.bool(astext), C.nullHandleType(null_handle))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// TjsonbObjectFieldCommon wraps MEOS C function tjsonb_object_field_common.
+func TjsonbObjectFieldCommon(temp *Temporal, key string, astext bool, null_handle NullHandleType) (_r0 *Temporal, _err error) {
+	_c_key := C.cstring_to_text(C.CString(key))
+	defer C.free(unsafe.Pointer(_c_key))
+	C.meos_errno_reset()
+	_cret := C.tjsonb_object_field_common(temp._inner, _c_key, C.bool(astext), C.nullHandleType(null_handle))
 	if _err = meosError(); _err != nil {
 		return
 	}

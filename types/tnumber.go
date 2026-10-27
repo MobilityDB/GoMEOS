@@ -43,6 +43,15 @@ func (x *TNumber) ToTbox() (*TBox, error) {
 	return TBoxFromPointer(_r0.Pointer()), nil
 }
 
+// AvgValue is MEOS tnumber_avg_value.
+func (x *TNumber) AvgValue() (float64, error) {
+	_r0, _err := functions.TnumberAvgValue(functions.TemporalFromPointer(x.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
 // Integral is MEOS tnumber_integral.
 func (x *TNumber) Integral() (float64, error) {
 	_r0, _err := functions.TnumberIntegral(functions.TemporalFromPointer(x.Pointer()))

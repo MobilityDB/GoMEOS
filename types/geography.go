@@ -24,8 +24,8 @@ func GeographyFromPointer(p unsafe.Pointer) *Geography {
 }
 
 // GeographyFromHEXEWKB is MEOS geog_from_hexewkb.
-func GeographyFromHEXEWKB(wkt string) (*TRGeometrySeqSet, error) {
-	_r0, _err := functions.GeogFromHexewkb(wkt)
+func GeographyFromHEXEWKB(hexwkb string) (*TRGeometrySeqSet, error) {
+	_r0, _err := functions.GeogFromHexewkb(hexwkb)
 	if _err != nil {
 		return nil, _err
 	}
@@ -104,11 +104,38 @@ func GeographyDwithin(g1 *TRGeometrySeqSet, g2 *TRGeometrySeqSet, tolerance floa
 	return _r0, nil
 }
 
+// GeographyDisjoint is MEOS geog_disjoint.
+func GeographyDisjoint(gs1 *TRGeometrySeqSet, gs2 *TRGeometrySeqSet, use_spheroid bool) (bool, error) {
+	_r0, _err := functions.GeogDisjoint(functions.GeomFromPointer(gs1.Pointer()), functions.GeomFromPointer(gs2.Pointer()), use_spheroid)
+	if _err != nil {
+		return false, _err
+	}
+	return _r0, nil
+}
+
+// GeographyIntersects is MEOS geog_intersects.
+func GeographyIntersects(gs1 *TRGeometrySeqSet, gs2 *TRGeometrySeqSet, use_spheroid bool) (bool, error) {
+	_r0, _err := functions.GeogIntersects(functions.GeomFromPointer(gs1.Pointer()), functions.GeomFromPointer(gs2.Pointer()), use_spheroid)
+	if _err != nil {
+		return false, _err
+	}
+	return _r0, nil
+}
+
 // GeographyDistance is MEOS geog_distance.
-func GeographyDistance(g1 *TRGeometrySeqSet, g2 *TRGeometrySeqSet) (float64, error) {
-	_r0, _err := functions.GeogDistance(functions.GeomFromPointer(g1.Pointer()), functions.GeomFromPointer(g2.Pointer()))
+func GeographyDistance(g1 *TRGeometrySeqSet, g2 *TRGeometrySeqSet, use_spheroid bool) (float64, error) {
+	_r0, _err := functions.GeogDistance(functions.GeomFromPointer(g1.Pointer()), functions.GeomFromPointer(g2.Pointer()), use_spheroid)
 	if _err != nil {
 		return 0, _err
 	}
 	return _r0, nil
+}
+
+// GeographyShortestline is MEOS geog_shortestline.
+func GeographyShortestline(gs1 *TRGeometrySeqSet, gs2 *TRGeometrySeqSet, use_spheroid bool) (*TRGeometrySeqSet, error) {
+	_r0, _err := functions.GeogShortestline(functions.GeomFromPointer(gs1.Pointer()), functions.GeomFromPointer(gs2.Pointer()), use_spheroid)
+	if _err != nil {
+		return nil, _err
+	}
+	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
 }

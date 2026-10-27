@@ -159,8 +159,17 @@ func (x *FloatSpan) ShiftScale(shift float64, width float64, hasshift bool, hasw
 }
 
 // Bins is MEOS floatspan_bins.
-func (x *FloatSpan) Bins(vsize float64, vorigin float64, count unsafe.Pointer) (*Span, error) {
-	_r0, _err := functions.FloatspanBins(functions.SpanFromPointer(x.Pointer()), vsize, vorigin, count)
+func (x *FloatSpan) Bins(vsize float64, vorigin float64, border_inc bool, count unsafe.Pointer) (*Span, error) {
+	_r0, _err := functions.FloatspanBins(functions.SpanFromPointer(x.Pointer()), vsize, vorigin, border_inc, count)
+	if _err != nil {
+		return nil, _err
+	}
+	return SpanFromPointer(_r0.Pointer()), nil
+}
+
+// FloatSpanGetBin is MEOS floatspan_get_bin.
+func FloatSpanGetBin(value float64, vsize float64, vorigin float64) (*Span, error) {
+	_r0, _err := functions.FloatspanGetBin(value, vsize, vorigin)
 	if _err != nil {
 		return nil, _err
 	}

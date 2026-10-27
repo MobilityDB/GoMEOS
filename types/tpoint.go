@@ -34,6 +34,15 @@ func TPointFromBaseTemp(gs *TRGeometrySeqSet, temp *Temporal) (*Temporal, error)
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
+// AsMvtgeom is MEOS tpoint_as_mvtgeom.
+func (x *TPoint) AsMvtgeom(bounds *STBox, extent int32, buffer int32, clip_geom bool, gsarr unsafe.Pointer, timesarr unsafe.Pointer, count unsafe.Pointer) (bool, error) {
+	_r0, _err := functions.TpointAsMvtgeom(functions.TemporalFromPointer(x.Pointer()), functions.STBoxFromPointer(bounds.Pointer()), extent, buffer, clip_geom, gsarr, timesarr, count)
+	if _err != nil {
+		return false, _err
+	}
+	return _r0, nil
+}
+
 // TfloatToGeomeas is MEOS tpoint_tfloat_to_geomeas.
 func (x *TPoint) TfloatToGeomeas(measure *Temporal, segmentize bool) (*TRGeometrySeqSet, bool, error) {
 	_found, _value, _err := functions.TpointTfloatToGeomeas(functions.TemporalFromPointer(x.Pointer()), functions.TemporalFromPointer(measure.Pointer()), segmentize)
@@ -65,8 +74,8 @@ func (x *TPoint) Azimuth() (*Temporal, error) {
 }
 
 // CumulativeLength is MEOS tpoint_cumulative_length.
-func (x *TPoint) CumulativeLength() (*Temporal, error) {
-	_r0, _err := functions.TpointCumulativeLength(functions.TemporalFromPointer(x.Pointer()))
+func (x *TPoint) CumulativeLength(spheroid bool) (*Temporal, error) {
+	_r0, _err := functions.TpointCumulativeLength(functions.TemporalFromPointer(x.Pointer()), spheroid)
 	if _err != nil {
 		return nil, _err
 	}
@@ -122,8 +131,8 @@ func (x *TPoint) IsSimple() (bool, error) {
 }
 
 // Length is MEOS tpoint_length.
-func (x *TPoint) Length() (float64, error) {
-	_r0, _err := functions.TpointLength(functions.TemporalFromPointer(x.Pointer()))
+func (x *TPoint) Length(spheroid bool) (float64, error) {
+	_r0, _err := functions.TpointLength(functions.TemporalFromPointer(x.Pointer()), spheroid)
 	if _err != nil {
 		return 0, _err
 	}
@@ -131,8 +140,8 @@ func (x *TPoint) Length() (float64, error) {
 }
 
 // Speed is MEOS tpoint_speed.
-func (x *TPoint) Speed() (*Temporal, error) {
-	_r0, _err := functions.TpointSpeed(functions.TemporalFromPointer(x.Pointer()))
+func (x *TPoint) Speed(spheroid bool) (*Temporal, error) {
+	_r0, _err := functions.TpointSpeed(functions.TemporalFromPointer(x.Pointer()), spheroid)
 	if _err != nil {
 		return nil, _err
 	}

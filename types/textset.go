@@ -115,3 +115,12 @@ func (x *TextSet) Upper() (*Set, error) {
 	}
 	return SetFromPointer(_r0.Pointer()), nil
 }
+
+// ToJsonbset is MEOS textset_to_jsonbset.
+func (x *TextSet) ToJsonbset() (*Set, error) {
+	_r0, _err := functions.TextsetToJsonbset(functions.SetFromPointer(x.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return SetFromPointer(_r0.Pointer()), nil
+}

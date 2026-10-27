@@ -113,6 +113,15 @@ func (x *SpanSet) LowerInc() (bool, error) {
 	return _r0, nil
 }
 
+// MemSize is MEOS spanset_mem_size.
+func (x *SpanSet) MemSize() (int, error) {
+	_r0, _err := functions.SpansetMemSize(functions.SpanSetFromPointer(x.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
 // NumSpans is MEOS spanset_num_spans.
 func (x *SpanSet) NumSpans() (int, error) {
 	_r0, _err := functions.SpansetNumSpans(functions.SpanSetFromPointer(x.Pointer()))
@@ -226,6 +235,15 @@ func (x *SpanSet) Ne(ss2 *SpanSet) (bool, error) {
 	_r0, _err := functions.SpansetNe(functions.SpanSetFromPointer(x.Pointer()), functions.SpanSetFromPointer(ss2.Pointer()))
 	if _err != nil {
 		return false, _err
+	}
+	return _r0, nil
+}
+
+// Sortkey is MEOS spanset_sortkey.
+func (x *SpanSet) Sortkey(size unsafe.Pointer) (unsafe.Pointer, error) {
+	_r0, _err := functions.SpansetSortkey(functions.SpanSetFromPointer(x.Pointer()), size)
+	if _err != nil {
+		return nil, _err
 	}
 	return _r0, nil
 }

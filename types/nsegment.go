@@ -23,6 +23,51 @@ func NsegmentFromPointer(p unsafe.Pointer) *Nsegment {
 	return v
 }
 
+// AsHEXEWKB is MEOS nsegment_as_hexewkb.
+func (x *Nsegment) AsHEXEWKB(variant uint8, size_out unsafe.Pointer) (string, error) {
+	_r0, _err := functions.NsegmentAsHexewkb(functions.NsegmentFromPointer(x.Pointer()), variant, size_out)
+	if _err != nil {
+		return "", _err
+	}
+	return _r0, nil
+}
+
+// AsHEXWKB is MEOS nsegment_as_hexwkb.
+func (x *Nsegment) AsHEXWKB(variant uint8, size_out unsafe.Pointer) (string, error) {
+	_r0, _err := functions.NsegmentAsHexwkb(functions.NsegmentFromPointer(x.Pointer()), variant, size_out)
+	if _err != nil {
+		return "", _err
+	}
+	return _r0, nil
+}
+
+// AsWKB is MEOS nsegment_as_wkb.
+func (x *Nsegment) AsWKB(variant uint8, size_out unsafe.Pointer) (unsafe.Pointer, error) {
+	_r0, _err := functions.NsegmentAsWKB(functions.NsegmentFromPointer(x.Pointer()), variant, size_out)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
+// NsegmentFromHEXWKB is MEOS nsegment_from_hexwkb.
+func NsegmentFromHEXWKB(hexwkb string) (*Nsegment, error) {
+	_r0, _err := functions.NsegmentFromHexwkb(hexwkb)
+	if _err != nil {
+		return nil, _err
+	}
+	return NsegmentFromPointer(_r0.Pointer()), nil
+}
+
+// NsegmentFromWKB is MEOS nsegment_from_wkb.
+func NsegmentFromWKB(wkb unsafe.Pointer, size uint) (*Nsegment, error) {
+	_r0, _err := functions.NsegmentFromWKB(wkb, size)
+	if _err != nil {
+		return nil, _err
+	}
+	return NsegmentFromPointer(_r0.Pointer()), nil
+}
+
 // NsegmentIn is MEOS nsegment_in.
 func NsegmentIn(str string) (*Nsegment, error) {
 	_r0, _err := functions.NsegmentIn(str)
@@ -39,6 +84,42 @@ func (x *Nsegment) Out(maxdd int) (string, error) {
 		return "", _err
 	}
 	return _r0, nil
+}
+
+// AsEWKB is MEOS nsegment_as_ewkb.
+func (x *Nsegment) AsEWKB(variant uint8, size_out unsafe.Pointer) (unsafe.Pointer, error) {
+	_r0, _err := functions.NsegmentAsEWKB(functions.NsegmentFromPointer(x.Pointer()), variant, size_out)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
+// AsEWKT is MEOS nsegment_as_ewkt.
+func (x *Nsegment) AsEWKT(maxdd int) (string, error) {
+	_r0, _err := functions.NsegmentAsEWKT(functions.NsegmentFromPointer(x.Pointer()), maxdd)
+	if _err != nil {
+		return "", _err
+	}
+	return _r0, nil
+}
+
+// AsText is MEOS nsegment_as_text.
+func (x *Nsegment) AsText(maxdd int) (string, error) {
+	_r0, _err := functions.NsegmentAsText(functions.NsegmentFromPointer(x.Pointer()), maxdd)
+	if _err != nil {
+		return "", _err
+	}
+	return _r0, nil
+}
+
+// Copy is MEOS nsegment_copy.
+func (x *Nsegment) Copy() (*Nsegment, error) {
+	_r0, _err := functions.NsegmentCopy(functions.NsegmentFromPointer(x.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return NsegmentFromPointer(_r0.Pointer()), nil
 }
 
 // NsegmentMake is MEOS nsegment_make.

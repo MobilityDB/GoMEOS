@@ -149,6 +149,15 @@ func (x *TNpoint) Trajectory() (*TRGeometrySeqSet, error) {
 	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
 }
 
+// Value is MEOS tnpoint_value.
+func (x *TNpoint) Value() (*Npoint, error) {
+	_r0, _err := functions.TnpointValue(functions.TemporalFromPointer(x.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return NpointFromPointer(_r0.Pointer()), nil
+}
+
 // ValueAtTimestamptz is MEOS tnpoint_value_at_timestamptz.
 func (x *TNpoint) ValueAtTimestamptz(t int64, strict bool) (*Npoint, bool, error) {
 	_found, _value, _err := functions.TnpointValueAtTimestamptz(functions.TemporalFromPointer(x.Pointer()), t, strict)
@@ -176,6 +185,15 @@ func (x *TNpoint) ValueN(n int) (*Npoint, bool, error) {
 // Values is MEOS tnpoint_values.
 func (x *TNpoint) Values(count unsafe.Pointer) (unsafe.Pointer, error) {
 	_r0, _err := functions.TnpointValues(functions.TemporalFromPointer(x.Pointer()), count)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
+// Unnest is MEOS tnpoint_unnest.
+func (x *TNpoint) Unnest(values unsafe.Pointer, count unsafe.Pointer) (unsafe.Pointer, error) {
+	_r0, _err := functions.TnpointUnnest(functions.TemporalFromPointer(x.Pointer()), values, count)
 	if _err != nil {
 		return nil, _err
 	}

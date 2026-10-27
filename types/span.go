@@ -176,6 +176,15 @@ func (x *Span) Ne(s2 *Span) (bool, error) {
 	return _r0, nil
 }
 
+// Sortkey is MEOS span_sortkey.
+func (x *Span) Sortkey(size unsafe.Pointer) (unsafe.Pointer, error) {
+	_r0, _err := functions.SpanSortkey(functions.SpanFromPointer(x.Pointer()), size)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
 // ToTbox is MEOS span_to_tbox.
 func (x *Span) ToTbox() (*TBox, error) {
 	_r0, _err := functions.SpanToTBOX(functions.SpanFromPointer(x.Pointer()))

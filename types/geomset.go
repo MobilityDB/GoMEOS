@@ -41,6 +41,15 @@ func GeomSetMake(values unsafe.Pointer, count int) (*Set, error) {
 	return SetFromPointer(_r0.Pointer()), nil
 }
 
+// ToGeo is MEOS geoset_to_geo.
+func (x *GeomSet) ToGeo() (*TRGeometrySeqSet, error) {
+	_r0, _err := functions.GeosetToGeo(functions.SetFromPointer(x.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+}
+
 // EndValue is MEOS geoset_end_value.
 func (x *GeomSet) EndValue() (*TRGeometrySeqSet, error) {
 	_r0, _err := functions.GeosetEndValue(functions.SetFromPointer(x.Pointer()))

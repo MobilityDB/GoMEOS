@@ -86,6 +86,15 @@ func (x *TBool) StartValue() (bool, error) {
 	return _r0, nil
 }
 
+// Value is MEOS tbool_value.
+func (x *TBool) Value() (bool, error) {
+	_r0, _err := functions.TboolValue(functions.TemporalFromPointer(x.Pointer()))
+	if _err != nil {
+		return false, _err
+	}
+	return _r0, nil
+}
+
 // ValueAtTimestamptz is MEOS tbool_value_at_timestamptz.
 func (x *TBool) ValueAtTimestamptz(t int64, strict bool) (bool, bool, error) {
 	_found, _value, _err := functions.TboolValueAtTimestamptz(functions.TemporalFromPointer(x.Pointer()), t, strict)
@@ -113,6 +122,15 @@ func (x *TBool) ValueN(n int) (bool, bool, error) {
 // Values is MEOS tbool_values.
 func (x *TBool) Values(count unsafe.Pointer) (unsafe.Pointer, error) {
 	_r0, _err := functions.TboolValues(functions.TemporalFromPointer(x.Pointer()), count)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
+// Unnest is MEOS tbool_unnest.
+func (x *TBool) Unnest(values unsafe.Pointer, count unsafe.Pointer) (unsafe.Pointer, error) {
+	_r0, _err := functions.TboolUnnest(functions.TemporalFromPointer(x.Pointer()), values, count)
 	if _err != nil {
 		return nil, _err
 	}

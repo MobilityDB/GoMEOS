@@ -113,6 +113,15 @@ func (x *TFloat) StartValue() (float64, error) {
 	return _r0, nil
 }
 
+// Value is MEOS tfloat_value.
+func (x *TFloat) Value() (float64, error) {
+	_r0, _err := functions.TfloatValue(functions.TemporalFromPointer(x.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
 // ValueAtTimestamptz is MEOS tfloat_value_at_timestamptz.
 func (x *TFloat) ValueAtTimestamptz(t int64, strict bool) (float64, bool, error) {
 	_found, _value, _err := functions.TfloatValueAtTimestamptz(functions.TemporalFromPointer(x.Pointer()), t, strict)
@@ -140,6 +149,15 @@ func (x *TFloat) ValueN(n int) (float64, bool, error) {
 // Values is MEOS tfloat_values.
 func (x *TFloat) Values(count unsafe.Pointer) (unsafe.Pointer, error) {
 	_r0, _err := functions.TfloatValues(functions.TemporalFromPointer(x.Pointer()), count)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
+// Unnest is MEOS tfloat_unnest.
+func (x *TFloat) Unnest(values unsafe.Pointer, count unsafe.Pointer) (unsafe.Pointer, error) {
+	_r0, _err := functions.TfloatUnnest(functions.TemporalFromPointer(x.Pointer()), values, count)
 	if _err != nil {
 		return nil, _err
 	}
@@ -282,8 +300,8 @@ func (x *TFloat) Tan() (*Temporal, error) {
 }
 
 // ValueBins is MEOS tfloat_value_bins.
-func (x *TFloat) ValueBins(vsize float64, vorigin float64, count unsafe.Pointer) (*Span, error) {
-	_r0, _err := functions.TfloatValueBins(functions.TemporalFromPointer(x.Pointer()), vsize, vorigin, count)
+func (x *TFloat) ValueBins(vsize float64, vorigin float64, border_inc bool, count unsafe.Pointer) (*Span, error) {
+	_r0, _err := functions.TfloatValueBins(functions.TemporalFromPointer(x.Pointer()), vsize, vorigin, border_inc, count)
 	if _err != nil {
 		return nil, _err
 	}
@@ -291,8 +309,8 @@ func (x *TFloat) ValueBins(vsize float64, vorigin float64, count unsafe.Pointer)
 }
 
 // ValueBoxes is MEOS tfloat_value_boxes.
-func (x *TFloat) ValueBoxes(vsize float64, vorigin float64, count unsafe.Pointer) (*TBox, error) {
-	_r0, _err := functions.TfloatValueBoxes(functions.TemporalFromPointer(x.Pointer()), vsize, vorigin, count)
+func (x *TFloat) ValueBoxes(vsize float64, vorigin float64, border_inc bool, count unsafe.Pointer) (*TBox, error) {
+	_r0, _err := functions.TfloatValueBoxes(functions.TemporalFromPointer(x.Pointer()), vsize, vorigin, border_inc, count)
 	if _err != nil {
 		return nil, _err
 	}
@@ -300,8 +318,8 @@ func (x *TFloat) ValueBoxes(vsize float64, vorigin float64, count unsafe.Pointer
 }
 
 // ValueSplit is MEOS tfloat_value_split.
-func (x *TFloat) ValueSplit(size float64, origin float64, bins unsafe.Pointer, count unsafe.Pointer) (unsafe.Pointer, error) {
-	_r0, _err := functions.TfloatValueSplit(functions.TemporalFromPointer(x.Pointer()), size, origin, bins, count)
+func (x *TFloat) ValueSplit(vsize float64, vorigin float64, border_inc bool, bins unsafe.Pointer, count unsafe.Pointer) (unsafe.Pointer, error) {
+	_r0, _err := functions.TfloatValueSplit(functions.TemporalFromPointer(x.Pointer()), vsize, vorigin, border_inc, bins, count)
 	if _err != nil {
 		return nil, _err
 	}

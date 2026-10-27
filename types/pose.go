@@ -23,9 +23,27 @@ func PoseFromPointer(p unsafe.Pointer) *Pose {
 	return v
 }
 
+// AsEWKB is MEOS pose_as_ewkb.
+func (x *Pose) AsEWKB(variant uint8, size_out unsafe.Pointer) (unsafe.Pointer, error) {
+	_r0, _err := functions.PoseAsEWKB(functions.PoseFromPointer(x.Pointer()), variant, size_out)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
 // AsEWKT is MEOS pose_as_ewkt.
 func (x *Pose) AsEWKT(maxdd int) (string, error) {
 	_r0, _err := functions.PoseAsEWKT(functions.PoseFromPointer(x.Pointer()), maxdd)
+	if _err != nil {
+		return "", _err
+	}
+	return _r0, nil
+}
+
+// AsHEXEWKB is MEOS pose_as_hexewkb.
+func (x *Pose) AsHEXEWKB(variant uint8, size_out unsafe.Pointer) (string, error) {
+	_r0, _err := functions.PoseAsHexewkb(functions.PoseFromPointer(x.Pointer()), variant, size_out)
 	if _err != nil {
 		return "", _err
 	}
@@ -71,6 +89,15 @@ func PoseFromWKB(wkb unsafe.Pointer, size uint) (*Pose, error) {
 // PoseFromHEXWKB is MEOS pose_from_hexwkb.
 func PoseFromHEXWKB(hexwkb string) (*Pose, error) {
 	_r0, _err := functions.PoseFromHexwkb(hexwkb)
+	if _err != nil {
+		return nil, _err
+	}
+	return PoseFromPointer(_r0.Pointer()), nil
+}
+
+// PoseFromText is MEOS pose_from_text.
+func PoseFromText(str string) (*Pose, error) {
+	_r0, _err := functions.PoseFromText(str)
 	if _err != nil {
 		return nil, _err
 	}
@@ -215,6 +242,15 @@ func (x *Pose) Hash() (uint32, error) {
 // HashExtended is MEOS pose_hash_extended.
 func (x *Pose) HashExtended(seed uint64) (uint64, error) {
 	_r0, _err := functions.PoseHashExtended(functions.PoseFromPointer(x.Pointer()), seed)
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// MemSize is MEOS pose_mem_size.
+func (x *Pose) MemSize() (int, error) {
+	_r0, _err := functions.PoseMemSize(functions.PoseFromPointer(x.Pointer()))
 	if _err != nil {
 		return 0, _err
 	}
@@ -422,24 +458,6 @@ func (x *Pose) Lt(pose2 *Pose) (bool, error) {
 // Ne is MEOS pose_ne.
 func (x *Pose) Ne(pose2 *Pose) (bool, error) {
 	_r0, _err := functions.PoseNe(functions.PoseFromPointer(x.Pointer()), functions.PoseFromPointer(pose2.Pointer()))
-	if _err != nil {
-		return false, _err
-	}
-	return _r0, nil
-}
-
-// Nsame is MEOS pose_nsame.
-func (x *Pose) Nsame(pose2 *Pose) (bool, error) {
-	_r0, _err := functions.PoseNsame(functions.PoseFromPointer(x.Pointer()), functions.PoseFromPointer(pose2.Pointer()))
-	if _err != nil {
-		return false, _err
-	}
-	return _r0, nil
-}
-
-// Same is MEOS pose_same.
-func (x *Pose) Same(pose2 *Pose) (bool, error) {
-	_r0, _err := functions.PoseSame(functions.PoseFromPointer(x.Pointer()), functions.PoseFromPointer(pose2.Pointer()))
 	if _err != nil {
 		return false, _err
 	}

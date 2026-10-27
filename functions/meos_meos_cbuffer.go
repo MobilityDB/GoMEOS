@@ -28,6 +28,7 @@ package functions
 #define gunion_float_span union_float_span
 #define gunion_float_spanset union_float_spanset
 #define gunion_geo_set union_geo_set
+#define gunion_h3index_set union_h3index_set
 #define gunion_int_set union_int_set
 #define gunion_int_span union_int_span
 #define gunion_int_spanset union_int_spanset
@@ -37,11 +38,14 @@ package functions
 #define gunion_pcpoint_set union_pcpoint_set
 #define gunion_pose_set union_pose_set
 #define gunion_posechain_set union_posechain_set
+#define gunion_quadbin_set union_quadbin_set
+#define gunion_s2cell_set union_s2cell_set
 #define gunion_set_bigint union_set_bigint
 #define gunion_set_cbuffer union_set_cbuffer
 #define gunion_set_date union_set_date
 #define gunion_set_float union_set_float
 #define gunion_set_geo union_set_geo
+#define gunion_set_h3index union_set_h3index
 #define gunion_set_int union_set_int
 #define gunion_set_jsonb union_set_jsonb
 #define gunion_set_npoint union_set_npoint
@@ -49,6 +53,8 @@ package functions
 #define gunion_set_pcpoint union_set_pcpoint
 #define gunion_set_pose union_set_pose
 #define gunion_set_posechain union_set_posechain
+#define gunion_set_quadbin union_set_quadbin
+#define gunion_set_s2cell union_set_s2cell
 #define gunion_set_set union_set_set
 #define gunion_set_text union_set_text
 #define gunion_set_timestamptz union_set_timestamptz
@@ -87,10 +93,33 @@ import (
 
 var _ = unsafe.Pointer(nil)
 
+// CbufferAsEWKB wraps MEOS C function cbuffer_as_ewkb.
+func CbufferAsEWKB(cb *Cbuffer, variant uint8, size_out unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
+	C.meos_errno_reset()
+	_cret := C.cbuffer_as_ewkb(cb._inner, C.uint8_t(variant), (*C.size_t)(unsafe.Pointer(size_out)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
+}
+
+
 // CbufferAsEWKT wraps MEOS C function cbuffer_as_ewkt.
 func CbufferAsEWKT(cb *Cbuffer, maxdd int) (_r0 string, _err error) {
 	C.meos_errno_reset()
 	_cret := C.cbuffer_as_ewkt(cb._inner, C.int(maxdd))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	defer C.free(unsafe.Pointer(_cret))
+	return C.GoString(_cret), nil
+}
+
+
+// CbufferAsHexewkb wraps MEOS C function cbuffer_as_hexewkb.
+func CbufferAsHexewkb(cb *Cbuffer, variant uint8, size_out unsafe.Pointer) (_r0 string, _err error) {
+	C.meos_errno_reset()
+	_cret := C.cbuffer_as_hexewkb(cb._inner, C.uint8_t(variant), (*C.size_t)(unsafe.Pointer(size_out)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -268,6 +297,17 @@ func CbufferHashExtended(cb *Cbuffer, seed uint64) (_r0 uint64, _err error) {
 		return
 	}
 	return uint64(_cret), nil
+}
+
+
+// CbufferMemSize wraps MEOS C function cbuffer_mem_size.
+func CbufferMemSize(cb *Cbuffer) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.cbuffer_mem_size(cb._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
 }
 
 
@@ -570,28 +610,6 @@ func CbufferNe(cb1 *Cbuffer, cb2 *Cbuffer) (_r0 bool, _err error) {
 }
 
 
-// CbufferNsame wraps MEOS C function cbuffer_nsame.
-func CbufferNsame(cb1 *Cbuffer, cb2 *Cbuffer) (_r0 bool, _err error) {
-	C.meos_errno_reset()
-	_cret := C.cbuffer_nsame(cb1._inner, cb2._inner)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	return bool(_cret), nil
-}
-
-
-// CbufferSame wraps MEOS C function cbuffer_same.
-func CbufferSame(cb1 *Cbuffer, cb2 *Cbuffer) (_r0 bool, _err error) {
-	C.meos_errno_reset()
-	_cret := C.cbuffer_same(cb1._inner, cb2._inner)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	return bool(_cret), nil
-}
-
-
 // CbuffersetIn wraps MEOS C function cbufferset_in.
 func CbuffersetIn(str string) (_r0 *Set, _err error) {
 	_c_str := C.CString(str)
@@ -618,9 +636,9 @@ func CbuffersetOut(s *Set, maxdd int) (_r0 string, _err error) {
 
 
 // CbuffersetMake wraps MEOS C function cbufferset_make.
-func CbuffersetMake(values unsafe.Pointer, count int) (_r0 *Set, _err error) {
+func CbuffersetMake(values *Cbuffer, count int) (_r0 *Set, _err error) {
 	C.meos_errno_reset()
-	_cret := C.cbufferset_make((**C.Cbuffer)(unsafe.Pointer(values)), C.int(count))
+	_cret := C.cbufferset_make(values._inner, C.int(count))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -941,6 +959,17 @@ func TcbufferStartValue(temp *Temporal) (_r0 *Cbuffer, _err error) {
 }
 
 
+// TcbufferValue wraps MEOS C function tcbuffer_value.
+func TcbufferValue(temp *Temporal) (_r0 *Cbuffer, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tcbuffer_value(temp._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Cbuffer{_inner: _cret}, nil
+}
+
+
 // TcbufferValueAtTimestamptz wraps MEOS C function tcbuffer_value_at_timestamptz.
 func TcbufferValueAtTimestamptz(temp *Temporal, t int64, strict bool) (_r0 bool, _r1 *Cbuffer, _err error) {
 	var _out_value *C.Cbuffer
@@ -969,6 +998,17 @@ func TcbufferValueN(temp *Temporal, n int) (_r0 bool, _r1 *Cbuffer, _err error) 
 func TcbufferValues(temp *Temporal, count unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
 	C.meos_errno_reset()
 	_cret := C.tcbuffer_values(temp._inner, (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
+}
+
+
+// TcbufferUnnest wraps MEOS C function tcbuffer_unnest.
+func TcbufferUnnest(temp *Temporal, values unsafe.Pointer, count unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tcbuffer_unnest(temp._inner, (***C.Cbuffer)(unsafe.Pointer(values)), (*C.int)(unsafe.Pointer(count)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1013,6 +1053,39 @@ func TgeometryToTcbuffer(temp *Temporal) (_r0 *Temporal, _err error) {
 func TcbufferExpand(temp *Temporal, dist float64) (_r0 *Temporal, _err error) {
 	C.meos_errno_reset()
 	_cret := C.tcbuffer_expand(temp._inner, C.double(dist))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// TcbufferRotate wraps MEOS C function tcbuffer_rotate.
+func TcbufferRotate(temp *Temporal, angle float64, x0 float64, y0 float64) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tcbuffer_rotate(temp._inner, C.double(angle), C.double(x0), C.double(y0))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// TcbufferRotateZ wraps MEOS C function tcbuffer_rotate_z.
+func TcbufferRotateZ(temp *Temporal, angle float64) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tcbuffer_rotate_z(temp._inner, C.double(angle))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// TcbufferTranslate wraps MEOS C function tcbuffer_translate.
+func TcbufferTranslate(temp *Temporal, deltax float64, deltay float64) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tcbuffer_translate(temp._inner, C.double(deltax), C.double(deltay))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1167,6 +1240,17 @@ func NadTcbufferTcbuffer(temp1 *Temporal, temp2 *Temporal) (_r0 float64, _err er
 func MindistanceTcbufferTcbuffer(temp1 *Temporal, temp2 *Temporal, threshold float64) (_r0 float64, _err error) {
 	C.meos_errno_reset()
 	_cret := C.mindistance_tcbuffer_tcbuffer(temp1._inner, temp2._inner, C.double(threshold))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// MindistanceTcbufferarrTcbufferarr wraps MEOS C function mindistance_tcbufferarr_tcbufferarr.
+func MindistanceTcbufferarrTcbufferarr(arr1 unsafe.Pointer, count1 int, arr2 unsafe.Pointer, count2 int) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.mindistance_tcbufferarr_tcbufferarr((**C.Temporal)(unsafe.Pointer(arr1)), C.int(count1), (**C.Temporal)(unsafe.Pointer(arr2)), C.int(count2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1526,6 +1610,28 @@ func AcoversTcbufferTcbuffer(temp1 *Temporal, temp2 *Temporal) (_r0 int, _err er
 }
 
 
+// AdisjointCbufferTcbuffer wraps MEOS C function adisjoint_cbuffer_tcbuffer.
+func AdisjointCbufferTcbuffer(cb *Cbuffer, temp *Temporal) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.adisjoint_cbuffer_tcbuffer(cb._inner, temp._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
+// AdisjointGeoTcbuffer wraps MEOS C function adisjoint_geo_tcbuffer.
+func AdisjointGeoTcbuffer(gs *Geom, temp *Temporal) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.adisjoint_geo_tcbuffer(gs._inner, temp._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
 // AdisjointTcbufferGeo wraps MEOS C function adisjoint_tcbuffer_geo.
 func AdisjointTcbufferGeo(temp *Temporal, gs *Geom) (_r0 int, _err error) {
 	C.meos_errno_reset()
@@ -1552,6 +1658,28 @@ func AdisjointTcbufferCbuffer(temp *Temporal, cb *Cbuffer) (_r0 int, _err error)
 func AdisjointTcbufferTcbuffer(temp1 *Temporal, temp2 *Temporal) (_r0 int, _err error) {
 	C.meos_errno_reset()
 	_cret := C.adisjoint_tcbuffer_tcbuffer(temp1._inner, temp2._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
+// AdwithinCbufferTcbuffer wraps MEOS C function adwithin_cbuffer_tcbuffer.
+func AdwithinCbufferTcbuffer(cb *Cbuffer, temp *Temporal, dist float64) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.adwithin_cbuffer_tcbuffer(cb._inner, temp._inner, C.double(dist))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
+// AdwithinGeoTcbuffer wraps MEOS C function adwithin_geo_tcbuffer.
+func AdwithinGeoTcbuffer(gs *Geom, temp *Temporal, dist float64) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.adwithin_geo_tcbuffer(gs._inner, temp._inner, C.double(dist))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1592,6 +1720,28 @@ func AdwithinTcbufferTcbuffer(temp1 *Temporal, temp2 *Temporal, dist float64) (_
 }
 
 
+// AintersectsCbufferTcbuffer wraps MEOS C function aintersects_cbuffer_tcbuffer.
+func AintersectsCbufferTcbuffer(cb *Cbuffer, temp *Temporal) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.aintersects_cbuffer_tcbuffer(cb._inner, temp._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
+// AintersectsGeoTcbuffer wraps MEOS C function aintersects_geo_tcbuffer.
+func AintersectsGeoTcbuffer(gs *Geom, temp *Temporal) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.aintersects_geo_tcbuffer(gs._inner, temp._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
 // AintersectsTcbufferGeo wraps MEOS C function aintersects_tcbuffer_geo.
 func AintersectsTcbufferGeo(temp *Temporal, gs *Geom) (_r0 int, _err error) {
 	C.meos_errno_reset()
@@ -1618,6 +1768,28 @@ func AintersectsTcbufferCbuffer(temp *Temporal, cb *Cbuffer) (_r0 int, _err erro
 func AintersectsTcbufferTcbuffer(temp1 *Temporal, temp2 *Temporal) (_r0 int, _err error) {
 	C.meos_errno_reset()
 	_cret := C.aintersects_tcbuffer_tcbuffer(temp1._inner, temp2._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
+// AtouchesCbufferTcbuffer wraps MEOS C function atouches_cbuffer_tcbuffer.
+func AtouchesCbufferTcbuffer(cb *Cbuffer, temp *Temporal) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.atouches_cbuffer_tcbuffer(cb._inner, temp._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
+// AtouchesGeoTcbuffer wraps MEOS C function atouches_geo_tcbuffer.
+func AtouchesGeoTcbuffer(gs *Geom, temp *Temporal) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.atouches_geo_tcbuffer(gs._inner, temp._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1662,6 +1834,17 @@ func AtouchesTcbufferTcbuffer(temp1 *Temporal, temp2 *Temporal) (_r0 int, _err e
 func EcontainsCbufferTcbuffer(cb *Cbuffer, temp *Temporal) (_r0 int, _err error) {
 	C.meos_errno_reset()
 	_cret := C.econtains_cbuffer_tcbuffer(cb._inner, temp._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
+// EcontainsGeoTcbuffer wraps MEOS C function econtains_geo_tcbuffer.
+func EcontainsGeoTcbuffer(gs *Geom, temp *Temporal) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.econtains_geo_tcbuffer(gs._inner, temp._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1757,6 +1940,28 @@ func EcoversTcbufferTcbuffer(temp1 *Temporal, temp2 *Temporal) (_r0 int, _err er
 }
 
 
+// EdisjointCbufferTcbuffer wraps MEOS C function edisjoint_cbuffer_tcbuffer.
+func EdisjointCbufferTcbuffer(cb *Cbuffer, temp *Temporal) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.edisjoint_cbuffer_tcbuffer(cb._inner, temp._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
+// EdisjointGeoTcbuffer wraps MEOS C function edisjoint_geo_tcbuffer.
+func EdisjointGeoTcbuffer(gs *Geom, temp *Temporal) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.edisjoint_geo_tcbuffer(gs._inner, temp._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
 // EdisjointTcbufferGeo wraps MEOS C function edisjoint_tcbuffer_geo.
 func EdisjointTcbufferGeo(temp *Temporal, gs *Geom) (_r0 int, _err error) {
 	C.meos_errno_reset()
@@ -1772,6 +1977,39 @@ func EdisjointTcbufferGeo(temp *Temporal, gs *Geom) (_r0 int, _err error) {
 func EdisjointTcbufferCbuffer(temp *Temporal, cb *Cbuffer) (_r0 int, _err error) {
 	C.meos_errno_reset()
 	_cret := C.edisjoint_tcbuffer_cbuffer(temp._inner, cb._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
+// EdisjointTcbufferTcbuffer wraps MEOS C function edisjoint_tcbuffer_tcbuffer.
+func EdisjointTcbufferTcbuffer(temp1 *Temporal, temp2 *Temporal) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.edisjoint_tcbuffer_tcbuffer(temp1._inner, temp2._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
+// EdwithinCbufferTcbuffer wraps MEOS C function edwithin_cbuffer_tcbuffer.
+func EdwithinCbufferTcbuffer(cb *Cbuffer, temp *Temporal, dist float64) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.edwithin_cbuffer_tcbuffer(cb._inner, temp._inner, C.double(dist))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
+// EdwithinGeoTcbuffer wraps MEOS C function edwithin_geo_tcbuffer.
+func EdwithinGeoTcbuffer(gs *Geom, temp *Temporal, dist float64) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.edwithin_geo_tcbuffer(gs._inner, temp._inner, C.double(dist))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1812,6 +2050,28 @@ func EdwithinTcbufferTcbuffer(temp1 *Temporal, temp2 *Temporal, dist float64) (_
 }
 
 
+// EintersectsCbufferTcbuffer wraps MEOS C function eintersects_cbuffer_tcbuffer.
+func EintersectsCbufferTcbuffer(cb *Cbuffer, temp *Temporal) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.eintersects_cbuffer_tcbuffer(cb._inner, temp._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
+// EintersectsGeoTcbuffer wraps MEOS C function eintersects_geo_tcbuffer.
+func EintersectsGeoTcbuffer(gs *Geom, temp *Temporal) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.eintersects_geo_tcbuffer(gs._inner, temp._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
 // EintersectsTcbufferGeo wraps MEOS C function eintersects_tcbuffer_geo.
 func EintersectsTcbufferGeo(temp *Temporal, gs *Geom) (_r0 int, _err error) {
 	C.meos_errno_reset()
@@ -1838,6 +2098,28 @@ func EintersectsTcbufferCbuffer(temp *Temporal, cb *Cbuffer) (_r0 int, _err erro
 func EintersectsTcbufferTcbuffer(temp1 *Temporal, temp2 *Temporal) (_r0 int, _err error) {
 	C.meos_errno_reset()
 	_cret := C.eintersects_tcbuffer_tcbuffer(temp1._inner, temp2._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
+// EtouchesCbufferTcbuffer wraps MEOS C function etouches_cbuffer_tcbuffer.
+func EtouchesCbufferTcbuffer(cb *Cbuffer, temp *Temporal) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.etouches_cbuffer_tcbuffer(cb._inner, temp._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
+// EtouchesGeoTcbuffer wraps MEOS C function etouches_geo_tcbuffer.
+func EtouchesGeoTcbuffer(gs *Geom, temp *Temporal) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.etouches_geo_tcbuffer(gs._inner, temp._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1981,6 +2263,17 @@ func TcoversTcbufferCbuffer(temp *Temporal, cb *Cbuffer) (_r0 *Temporal, _err er
 func TcoversTcbufferTcbuffer(temp1 *Temporal, temp2 *Temporal) (_r0 *Temporal, _err error) {
 	C.meos_errno_reset()
 	_cret := C.tcovers_tcbuffer_tcbuffer(temp1._inner, temp2._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// TdwithinCbufferTcbuffer wraps MEOS C function tdwithin_cbuffer_tcbuffer.
+func TdwithinCbufferTcbuffer(cb *Cbuffer, temp *Temporal, dist float64) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tdwithin_cbuffer_tcbuffer(cb._inner, temp._inner, C.double(dist))
 	if _err = meosError(); _err != nil {
 		return
 	}

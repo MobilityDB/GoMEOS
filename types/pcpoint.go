@@ -104,9 +104,18 @@ func (x *Pcpoint) HashExtended(seed uint64) (uint64, error) {
 	return _r0, nil
 }
 
+// MemSize is MEOS pcpoint_mem_size.
+func (x *Pcpoint) MemSize() (int, error) {
+	_r0, _err := functions.PcpointMemSize(functions.PcpointFromPointer(x.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
 // GetX is MEOS pcpoint_get_x.
-func (x *Pcpoint) GetX(schema *Pcschema, out unsafe.Pointer) (bool, error) {
-	_r0, _err := functions.PcpointGetX(functions.PcpointFromPointer(x.Pointer()), functions.PCSchemaFromPointer(schema.Pointer()), out)
+func (x *Pcpoint) GetX(out unsafe.Pointer) (bool, error) {
+	_r0, _err := functions.PcpointGetX(functions.PcpointFromPointer(x.Pointer()), out)
 	if _err != nil {
 		return false, _err
 	}
@@ -114,8 +123,8 @@ func (x *Pcpoint) GetX(schema *Pcschema, out unsafe.Pointer) (bool, error) {
 }
 
 // GetY is MEOS pcpoint_get_y.
-func (x *Pcpoint) GetY(schema *Pcschema, out unsafe.Pointer) (bool, error) {
-	_r0, _err := functions.PcpointGetY(functions.PcpointFromPointer(x.Pointer()), functions.PCSchemaFromPointer(schema.Pointer()), out)
+func (x *Pcpoint) GetY(out unsafe.Pointer) (bool, error) {
+	_r0, _err := functions.PcpointGetY(functions.PcpointFromPointer(x.Pointer()), out)
 	if _err != nil {
 		return false, _err
 	}
@@ -123,8 +132,8 @@ func (x *Pcpoint) GetY(schema *Pcschema, out unsafe.Pointer) (bool, error) {
 }
 
 // GetZ is MEOS pcpoint_get_z.
-func (x *Pcpoint) GetZ(schema *Pcschema, out unsafe.Pointer) (bool, error) {
-	_r0, _err := functions.PcpointGetZ(functions.PcpointFromPointer(x.Pointer()), functions.PCSchemaFromPointer(schema.Pointer()), out)
+func (x *Pcpoint) GetZ(out unsafe.Pointer) (bool, error) {
+	_r0, _err := functions.PcpointGetZ(functions.PcpointFromPointer(x.Pointer()), out)
 	if _err != nil {
 		return false, _err
 	}
@@ -132,8 +141,8 @@ func (x *Pcpoint) GetZ(schema *Pcschema, out unsafe.Pointer) (bool, error) {
 }
 
 // GetDim is MEOS pcpoint_get_dim.
-func (x *Pcpoint) GetDim(schema *Pcschema, name string, out unsafe.Pointer) (bool, error) {
-	_r0, _err := functions.PcpointGetDim(functions.PcpointFromPointer(x.Pointer()), functions.PCSchemaFromPointer(schema.Pointer()), name, out)
+func (x *Pcpoint) GetDim(name string, out unsafe.Pointer) (bool, error) {
+	_r0, _err := functions.PcpointGetDim(functions.PcpointFromPointer(x.Pointer()), name, out)
 	if _err != nil {
 		return false, _err
 	}
@@ -141,8 +150,8 @@ func (x *Pcpoint) GetDim(schema *Pcschema, name string, out unsafe.Pointer) (boo
 }
 
 // ToTpcbox is MEOS pcpoint_to_tpcbox.
-func (x *Pcpoint) ToTpcbox(schema *Pcschema) (*TPCBox, error) {
-	_r0, _err := functions.PcpointToTpcbox(functions.PcpointFromPointer(x.Pointer()), functions.PCSchemaFromPointer(schema.Pointer()))
+func (x *Pcpoint) ToTpcbox() (*TPCBox, error) {
+	_r0, _err := functions.PcpointToTpcbox(functions.PcpointFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
@@ -154,6 +163,60 @@ func (x *Pcpoint) Cmp(pt2 *Pcpoint) (int, error) {
 	_r0, _err := functions.PcpointCmp(functions.PcpointFromPointer(x.Pointer()), functions.PcpointFromPointer(pt2.Pointer()))
 	if _err != nil {
 		return 0, _err
+	}
+	return _r0, nil
+}
+
+// Eq is MEOS pcpoint_eq.
+func (x *Pcpoint) Eq(pt2 *Pcpoint) (bool, error) {
+	_r0, _err := functions.PcpointEq(functions.PcpointFromPointer(x.Pointer()), functions.PcpointFromPointer(pt2.Pointer()))
+	if _err != nil {
+		return false, _err
+	}
+	return _r0, nil
+}
+
+// Ne is MEOS pcpoint_ne.
+func (x *Pcpoint) Ne(pt2 *Pcpoint) (bool, error) {
+	_r0, _err := functions.PcpointNe(functions.PcpointFromPointer(x.Pointer()), functions.PcpointFromPointer(pt2.Pointer()))
+	if _err != nil {
+		return false, _err
+	}
+	return _r0, nil
+}
+
+// Lt is MEOS pcpoint_lt.
+func (x *Pcpoint) Lt(pt2 *Pcpoint) (bool, error) {
+	_r0, _err := functions.PcpointLt(functions.PcpointFromPointer(x.Pointer()), functions.PcpointFromPointer(pt2.Pointer()))
+	if _err != nil {
+		return false, _err
+	}
+	return _r0, nil
+}
+
+// Le is MEOS pcpoint_le.
+func (x *Pcpoint) Le(pt2 *Pcpoint) (bool, error) {
+	_r0, _err := functions.PcpointLe(functions.PcpointFromPointer(x.Pointer()), functions.PcpointFromPointer(pt2.Pointer()))
+	if _err != nil {
+		return false, _err
+	}
+	return _r0, nil
+}
+
+// Gt is MEOS pcpoint_gt.
+func (x *Pcpoint) Gt(pt2 *Pcpoint) (bool, error) {
+	_r0, _err := functions.PcpointGt(functions.PcpointFromPointer(x.Pointer()), functions.PcpointFromPointer(pt2.Pointer()))
+	if _err != nil {
+		return false, _err
+	}
+	return _r0, nil
+}
+
+// Ge is MEOS pcpoint_ge.
+func (x *Pcpoint) Ge(pt2 *Pcpoint) (bool, error) {
+	_r0, _err := functions.PcpointGe(functions.PcpointFromPointer(x.Pointer()), functions.PcpointFromPointer(pt2.Pointer()))
+	if _err != nil {
+		return false, _err
 	}
 	return _r0, nil
 }

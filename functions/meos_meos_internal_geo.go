@@ -28,6 +28,7 @@ package functions
 #define gunion_float_span union_float_span
 #define gunion_float_spanset union_float_spanset
 #define gunion_geo_set union_geo_set
+#define gunion_h3index_set union_h3index_set
 #define gunion_int_set union_int_set
 #define gunion_int_span union_int_span
 #define gunion_int_spanset union_int_spanset
@@ -37,11 +38,14 @@ package functions
 #define gunion_pcpoint_set union_pcpoint_set
 #define gunion_pose_set union_pose_set
 #define gunion_posechain_set union_posechain_set
+#define gunion_quadbin_set union_quadbin_set
+#define gunion_s2cell_set union_s2cell_set
 #define gunion_set_bigint union_set_bigint
 #define gunion_set_cbuffer union_set_cbuffer
 #define gunion_set_date union_set_date
 #define gunion_set_float union_set_float
 #define gunion_set_geo union_set_geo
+#define gunion_set_h3index union_set_h3index
 #define gunion_set_int union_set_int
 #define gunion_set_jsonb union_set_jsonb
 #define gunion_set_npoint union_set_npoint
@@ -49,6 +53,8 @@ package functions
 #define gunion_set_pcpoint union_set_pcpoint
 #define gunion_set_pose union_set_pose
 #define gunion_set_posechain union_set_posechain
+#define gunion_set_quadbin union_set_quadbin
+#define gunion_set_s2cell union_set_s2cell
 #define gunion_set_set union_set_set
 #define gunion_set_text union_set_text
 #define gunion_set_timestamptz union_set_timestamptz
@@ -506,6 +512,17 @@ func STBOXGeo(box *STBox) (_r0 *Geom, _err error) {
 }
 
 
+// STBOXSortkeyIntl wraps MEOS C function stbox_sortkey_intl.
+func STBOXSortkeyIntl(box *STBox, size unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
+	C.meos_errno_reset()
+	_cret := C.stbox_sortkey_intl(box._inner, (*C.size_t)(unsafe.Pointer(size)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
+}
+
+
 // TgeogpointinstIn wraps MEOS C function tgeogpointinst_in.
 func TgeogpointinstIn(str string) (_r0 *TInstant, _err error) {
 	_c_str := C.CString(str)
@@ -718,6 +735,17 @@ func TgeoRestrictElevation(temp *Temporal, s *Span, atfunc bool) (_r0 *Temporal,
 }
 
 
+// TgeoRestrictElevationIntl wraps MEOS C function tgeo_restrict_elevation_intl.
+func TgeoRestrictElevationIntl(temp *Temporal, s *Span, atfunc bool) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tgeo_restrict_elevation_intl(temp._inner, s._inner, C.bool(atfunc))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
 // TgeoRestrictGeom wraps MEOS C function tgeo_restrict_geom.
 func TgeoRestrictGeom(temp *Temporal, gs *Geom, atfunc bool) (_r0 *Temporal, _err error) {
 	C.meos_errno_reset()
@@ -839,6 +867,28 @@ func GeoClipSubject(gs *Geom) (_r0 bool, _err error) {
 }
 
 
+// GeoIsPlanarAreal wraps MEOS C function geo_is_planar_areal.
+func GeoIsPlanarAreal(gs *Geom) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.geo_is_planar_areal(gs._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// GeoEveryPartBoundsArea wraps MEOS C function geo_every_part_bounds_area.
+func GeoEveryPartBoundsArea(gs *Geom) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.geo_every_part_bounds_area(gs._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
 // GeoIsPointSet wraps MEOS C function geo_is_point_set.
 func GeoIsPointSet(gs *Geom) (_r0 bool, _err error) {
 	C.meos_errno_reset()
@@ -850,14 +900,14 @@ func GeoIsPointSet(gs *Geom) (_r0 bool, _err error) {
 }
 
 
-// GeoMeosSupported wraps MEOS C function geo_meos_supported.
-func GeoMeosSupported(gs *Geom) (_r0 bool, _err error) {
+// GeoMeosCoverage wraps MEOS C function geo_meos_coverage.
+func GeoMeosCoverage(gs *Geom) (_r0 int, _err error) {
 	C.meos_errno_reset()
-	_cret := C.geo_meos_supported(gs._inner)
+	_cret := C.geo_meos_coverage(gs._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
-	return bool(_cret), nil
+	return int(_cret), nil
 }
 
 
@@ -993,14 +1043,25 @@ func TpointLinearRestrictGeom(temp *Temporal, gs *Geom, atfunc bool) (_r0 *Tempo
 }
 
 
-// GeomMeosSupported wraps MEOS C function geom_meos_supported.
-func GeomMeosSupported(geom unsafe.Pointer) (_r0 bool, _err error) {
+// GeomMeosCoverage wraps MEOS C function geom_meos_coverage.
+func GeomMeosCoverage(geom unsafe.Pointer) (_r0 int, _err error) {
 	C.meos_errno_reset()
-	_cret := C.geom_meos_supported((*C.LWGEOM)(unsafe.Pointer(geom)))
+	_cret := C.geom_meos_coverage((*C.LWGEOM)(unsafe.Pointer(geom)))
 	if _err = meosError(); _err != nil {
 		return
 	}
-	return bool(_cret), nil
+	return int(_cret), nil
+}
+
+
+// STBOXNad wraps MEOS C function stbox_nad.
+func STBOXNad(box1 *STBox, box2 *STBox, spheroid bool) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.stbox_nad(box1._inner, box2._inner, C.bool(spheroid))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
 }
 
 
@@ -1027,9 +1088,9 @@ func TpointseqAzimuth(seq *TSequence) (_r0 *TSequenceSet, _err error) {
 
 
 // TpointseqCumulativeLength wraps MEOS C function tpointseq_cumulative_length.
-func TpointseqCumulativeLength(seq *TSequence, prevlength float64) (_r0 *TSequence, _err error) {
+func TpointseqCumulativeLength(seq *TSequence, prevlength float64, spheroid bool) (_r0 *TSequence, _err error) {
 	C.meos_errno_reset()
-	_cret := C.tpointseq_cumulative_length(seq._inner, C.double(prevlength))
+	_cret := C.tpointseq_cumulative_length(seq._inner, C.double(prevlength), C.bool(spheroid))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1049,9 +1110,9 @@ func TpointseqIsSimple(seq *TSequence) (_r0 bool, _err error) {
 
 
 // TpointseqLength wraps MEOS C function tpointseq_length.
-func TpointseqLength(seq *TSequence) (_r0 float64, _err error) {
+func TpointseqLength(seq *TSequence, spheroid bool) (_r0 float64, _err error) {
 	C.meos_errno_reset()
-	_cret := C.tpointseq_length(seq._inner)
+	_cret := C.tpointseq_length(seq._inner, C.bool(spheroid))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1104,9 +1165,9 @@ func TpointseqsetAzimuth(ss *TSequenceSet) (_r0 *TSequenceSet, _err error) {
 
 
 // TpointseqsetCumulativeLength wraps MEOS C function tpointseqset_cumulative_length.
-func TpointseqsetCumulativeLength(ss *TSequenceSet) (_r0 *TSequenceSet, _err error) {
+func TpointseqsetCumulativeLength(ss *TSequenceSet, spheroid bool) (_r0 *TSequenceSet, _err error) {
 	C.meos_errno_reset()
-	_cret := C.tpointseqset_cumulative_length(ss._inner)
+	_cret := C.tpointseqset_cumulative_length(ss._inner, C.bool(spheroid))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1126,9 +1187,9 @@ func TpointseqsetIsSimple(ss *TSequenceSet) (_r0 bool, _err error) {
 
 
 // TpointseqsetLength wraps MEOS C function tpointseqset_length.
-func TpointseqsetLength(ss *TSequenceSet) (_r0 float64, _err error) {
+func TpointseqsetLength(ss *TSequenceSet, spheroid bool) (_r0 float64, _err error) {
 	C.meos_errno_reset()
-	_cret := C.tpointseqset_length(ss._inner)
+	_cret := C.tpointseqset_length(ss._inner, C.bool(spheroid))
 	if _err = meosError(); _err != nil {
 		return
 	}

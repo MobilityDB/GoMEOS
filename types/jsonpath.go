@@ -41,6 +41,15 @@ func (x *JsonPath) Copy() (*JsonPath, error) {
 	return JsonPathFromPointer(_r0.Pointer()), nil
 }
 
+// MemSize is MEOS jsonpath_mem_size.
+func (x *JsonPath) MemSize() (int, error) {
+	_r0, _err := functions.JsonpathMemSize(functions.JsonPathFromPointer(x.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
 // Out is MEOS jsonpath_out.
 func (x *JsonPath) Out() (string, error) {
 	_r0, _err := functions.JsonpathOut(functions.JsonPathFromPointer(x.Pointer()))

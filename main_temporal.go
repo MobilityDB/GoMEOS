@@ -41,7 +41,12 @@ func TemporalFromHexWKB[T Temporal](s string, output T) T {
 func TemporalAsMFJSON[T Temporal](temp T, with_bbox bool, flags int, precision int, srs string) string {
 	c_srs := C.CString(srs)
 	defer C.free(unsafe.Pointer(c_srs))
-	c_mfjson := C.temporal_as_mfjson(temp.Inner(), C.bool(with_bbox), C.int(flags), C.int(precision), C.CString(srs))
+	// Bit 1 of the option of temporal_as_mfjson writes the bounding box
+	option := 0
+	if with_bbox {
+		option = 1
+	}
+	c_mfjson := C.temporal_as_mfjson(temp.Inner(), C.int(option), C.int(flags), C.int(precision), c_srs)
 	defer C.free(unsafe.Pointer(c_mfjson))
 	mfjson_out := C.GoString(c_mfjson)
 	return mfjson_out
@@ -471,17 +476,17 @@ func OverBeforeTemporalTemporal[T1, T2 Temporal](temp1 T1, temp2 T2) bool {
 
 // TemporalFrechetDistance Return the Frechet distance between two temporal values
 func TemporalFrechetDistance[T Temporal](temp1 T, temp2 T) float64 {
-	return float64(C.temporal_frechet_distance(temp1.Inner(), temp2.Inner()))
+	return float64(C.temporal_frechet_distance(temp1.Inner(), temp2.Inner(), C.bool(true)))
 }
 
 // TemporalDyntimewarpDistance Return the Dynamic Time Warp distance between two temporal values
 func TemporalDyntimewarpDistance[T Temporal](temp1 T, temp2 T) float64 {
-	return float64(C.temporal_dyntimewarp_distance(temp1.Inner(), temp2.Inner()))
+	return float64(C.temporal_dyntimewarp_distance(temp1.Inner(), temp2.Inner(), C.bool(true)))
 }
 
 // TemporalHausdorffDistance Return the Hausdorf distance between two temporal values
 func TemporalHausdorffDistance[T Temporal](temp1 T, temp2 T) float64 {
-	return float64(C.temporal_hausdorff_distance(temp1.Inner(), temp2.Inner()))
+	return float64(C.temporal_hausdorff_distance(temp1.Inner(), temp2.Inner(), C.bool(true)))
 }
 
 // TemporalSimplifyDP Return a temporal float/point simplified using the Douglas-Peucker line simplification algorithm

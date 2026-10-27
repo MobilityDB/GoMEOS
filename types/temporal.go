@@ -35,8 +35,8 @@ func (x *Temporal) AsHEXWKB(variant uint8, size_out unsafe.Pointer) (string, err
 }
 
 // AsMFJSON is MEOS temporal_as_mfjson.
-func (x *Temporal) AsMFJSON(with_bbox bool, flags int, precision int, srs string) (string, error) {
-	_r0, _err := functions.TemporalAsMFJSON(functions.TemporalFromPointer(x.Pointer()), with_bbox, flags, precision, srs)
+func (x *Temporal) AsMFJSON(option int, flags int, precision int, srs string) (string, error) {
+	_r0, _err := functions.TemporalAsMFJSON(functions.TemporalFromPointer(x.Pointer()), option, flags, precision, srs)
 	if _err != nil {
 		return "", _err
 	}
@@ -176,6 +176,15 @@ func (x *Temporal) MaxInstant() (*Temporal, error) {
 		return nil, _err
 	}
 	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// MemSize is MEOS temporal_mem_size.
+func (x *Temporal) MemSize() (int, error) {
+	_r0, _err := functions.TemporalMemSize(functions.TemporalFromPointer(x.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
 }
 
 // MinInstant is MEOS temporal_min_instant.
@@ -323,6 +332,15 @@ func (x *Temporal) UpperInc() (bool, error) {
 		return false, _err
 	}
 	return _r0, nil
+}
+
+// Valueset is MEOS temporal_valueset.
+func (x *Temporal) Valueset() (*Set, error) {
+	_r0, _err := functions.TemporalValueset(functions.TemporalFromPointer(x.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return SetFromPointer(_r0.Pointer()), nil
 }
 
 // Round is MEOS temporal_round.
@@ -658,6 +676,15 @@ func (x *Temporal) Ne(temp2 *Temporal) (bool, error) {
 	return _r0, nil
 }
 
+// Sortkey is MEOS temporal_sortkey.
+func (x *Temporal) Sortkey(size unsafe.Pointer) (unsafe.Pointer, error) {
+	_r0, _err := functions.TemporalSortkey(functions.TemporalFromPointer(x.Pointer()), size)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
 // Spans is MEOS temporal_spans.
 func (x *Temporal) Spans(count unsafe.Pointer) (*Span, error) {
 	_r0, _err := functions.TemporalSpans(functions.TemporalFromPointer(x.Pointer()), count)
@@ -722,8 +749,8 @@ func (x *Temporal) SimplifyMinDist(dist float64) (*Temporal, error) {
 }
 
 // DyntimewarpDistance is MEOS temporal_dyntimewarp_distance.
-func (x *Temporal) DyntimewarpDistance(temp2 *Temporal) (float64, error) {
-	_r0, _err := functions.TemporalDyntimewarpDistance(functions.TemporalFromPointer(x.Pointer()), functions.TemporalFromPointer(temp2.Pointer()))
+func (x *Temporal) DyntimewarpDistance(temp2 *Temporal, spheroid bool) (float64, error) {
+	_r0, _err := functions.TemporalDyntimewarpDistance(functions.TemporalFromPointer(x.Pointer()), functions.TemporalFromPointer(temp2.Pointer()), spheroid)
 	if _err != nil {
 		return 0, _err
 	}
@@ -731,8 +758,8 @@ func (x *Temporal) DyntimewarpDistance(temp2 *Temporal) (float64, error) {
 }
 
 // FrechetDistance is MEOS temporal_frechet_distance.
-func (x *Temporal) FrechetDistance(temp2 *Temporal) (float64, error) {
-	_r0, _err := functions.TemporalFrechetDistance(functions.TemporalFromPointer(x.Pointer()), functions.TemporalFromPointer(temp2.Pointer()))
+func (x *Temporal) FrechetDistance(temp2 *Temporal, spheroid bool) (float64, error) {
+	_r0, _err := functions.TemporalFrechetDistance(functions.TemporalFromPointer(x.Pointer()), functions.TemporalFromPointer(temp2.Pointer()), spheroid)
 	if _err != nil {
 		return 0, _err
 	}
@@ -740,8 +767,8 @@ func (x *Temporal) FrechetDistance(temp2 *Temporal) (float64, error) {
 }
 
 // HausdorffDistance is MEOS temporal_hausdorff_distance.
-func (x *Temporal) HausdorffDistance(temp2 *Temporal) (float64, error) {
-	_r0, _err := functions.TemporalHausdorffDistance(functions.TemporalFromPointer(x.Pointer()), functions.TemporalFromPointer(temp2.Pointer()))
+func (x *Temporal) HausdorffDistance(temp2 *Temporal, spheroid bool) (float64, error) {
+	_r0, _err := functions.TemporalHausdorffDistance(functions.TemporalFromPointer(x.Pointer()), functions.TemporalFromPointer(temp2.Pointer()), spheroid)
 	if _err != nil {
 		return 0, _err
 	}
@@ -749,8 +776,8 @@ func (x *Temporal) HausdorffDistance(temp2 *Temporal) (float64, error) {
 }
 
 // AverageHausdorffDistance is MEOS temporal_average_hausdorff_distance.
-func (x *Temporal) AverageHausdorffDistance(temp2 *Temporal) (float64, error) {
-	_r0, _err := functions.TemporalAverageHausdorffDistance(functions.TemporalFromPointer(x.Pointer()), functions.TemporalFromPointer(temp2.Pointer()))
+func (x *Temporal) AverageHausdorffDistance(temp2 *Temporal, spheroid bool) (float64, error) {
+	_r0, _err := functions.TemporalAverageHausdorffDistance(functions.TemporalFromPointer(x.Pointer()), functions.TemporalFromPointer(temp2.Pointer()), spheroid)
 	if _err != nil {
 		return 0, _err
 	}
@@ -758,8 +785,8 @@ func (x *Temporal) AverageHausdorffDistance(temp2 *Temporal) (float64, error) {
 }
 
 // LcssDistance is MEOS temporal_lcss_distance.
-func (x *Temporal) LcssDistance(temp2 *Temporal, epsilon float64) (float64, error) {
-	_r0, _err := functions.TemporalLcssDistance(functions.TemporalFromPointer(x.Pointer()), functions.TemporalFromPointer(temp2.Pointer()), epsilon)
+func (x *Temporal) LcssDistance(temp2 *Temporal, epsilon float64, spheroid bool) (float64, error) {
+	_r0, _err := functions.TemporalLcssDistance(functions.TemporalFromPointer(x.Pointer()), functions.TemporalFromPointer(temp2.Pointer()), epsilon, spheroid)
 	if _err != nil {
 		return 0, _err
 	}

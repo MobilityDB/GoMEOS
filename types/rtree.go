@@ -86,15 +86,6 @@ func RTreeCreateStbox() (*RTree, error) {
 	return RTreeFromPointer(_r0.Pointer()), nil
 }
 
-// RTreeCreateTpcbox is MEOS rtree_create_tpcbox.
-func RTreeCreateTpcbox() (*RTree, error) {
-	_r0, _err := functions.RtreeCreateTpcbox()
-	if _err != nil {
-		return nil, _err
-	}
-	return RTreeFromPointer(_r0.Pointer()), nil
-}
-
 // Free is MEOS rtree_free.
 func (x *RTree) Free() error {
 	return functions.RtreeFree(functions.RTreeFromPointer(x.Pointer()))
@@ -188,4 +179,22 @@ func (x *RTree) SearchTemporal(op functions.IndexSearchOp, temp *Temporal) (int,
 		return 0, nil, _err
 	}
 	return _r0, MeosArrayFromPointer(_r1.Pointer()), nil
+}
+
+// SearchTemporalDedup is MEOS rtree_search_temporal_dedup.
+func (x *RTree) SearchTemporalDedup(op functions.IndexSearchOp, temp *Temporal, maxboxes int) (int, *MeosArray, error) {
+	_r0, _r1, _err := functions.RtreeSearchTemporalDedup(functions.RTreeFromPointer(x.Pointer()), op, functions.TemporalFromPointer(temp.Pointer()), maxboxes)
+	if _err != nil {
+		return 0, nil, _err
+	}
+	return _r0, MeosArrayFromPointer(_r1.Pointer()), nil
+}
+
+// RTreeCreateTpcbox is MEOS rtree_create_tpcbox.
+func RTreeCreateTpcbox() (*RTree, error) {
+	_r0, _err := functions.RtreeCreateTpcbox()
+	if _err != nil {
+		return nil, _err
+	}
+	return RTreeFromPointer(_r0.Pointer()), nil
 }
