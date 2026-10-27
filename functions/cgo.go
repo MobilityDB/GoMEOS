@@ -17,8 +17,7 @@ package functions
 
 // H3 ships no pkg-config file, so the one dependency whose header the public
 // MEOS headers expose (meos_h3.h includes <h3api.h>) names its include dir
-// here. GEOS and GSL, the other exposed dependencies, resolve from the default
-// include path.
+// here.
 #cgo darwin CFLAGS: -I/opt/homebrew/include/h3
 #cgo linux CFLAGS: -I/usr/include/h3
 
