@@ -114,8 +114,17 @@ func (x *BigIntSpan) ShiftScale(shift int64, width int64, hasshift bool, haswidt
 }
 
 // Bins is MEOS bigintspan_bins.
-func (x *BigIntSpan) Bins(vsize int64, vorigin int64, count unsafe.Pointer) (*Span, error) {
-	_r0, _err := functions.BigintspanBins(functions.SpanFromPointer(x.Pointer()), vsize, vorigin, count)
+func (x *BigIntSpan) Bins(vsize int64, vorigin int64, border_inc bool, count unsafe.Pointer) (*Span, error) {
+	_r0, _err := functions.BigintspanBins(functions.SpanFromPointer(x.Pointer()), vsize, vorigin, border_inc, count)
+	if _err != nil {
+		return nil, _err
+	}
+	return SpanFromPointer(_r0.Pointer()), nil
+}
+
+// BigIntSpanGetBin is MEOS bigintspan_get_bin.
+func BigIntSpanGetBin(value int64, vsize int64, vorigin int64) (*Span, error) {
+	_r0, _err := functions.BigintspanGetBin(value, vsize, vorigin)
 	if _err != nil {
 		return nil, _err
 	}

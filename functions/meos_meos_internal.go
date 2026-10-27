@@ -28,6 +28,7 @@ package functions
 #define gunion_float_span union_float_span
 #define gunion_float_spanset union_float_spanset
 #define gunion_geo_set union_geo_set
+#define gunion_h3index_set union_h3index_set
 #define gunion_int_set union_int_set
 #define gunion_int_span union_int_span
 #define gunion_int_spanset union_int_spanset
@@ -37,11 +38,14 @@ package functions
 #define gunion_pcpoint_set union_pcpoint_set
 #define gunion_pose_set union_pose_set
 #define gunion_posechain_set union_posechain_set
+#define gunion_quadbin_set union_quadbin_set
+#define gunion_s2cell_set union_s2cell_set
 #define gunion_set_bigint union_set_bigint
 #define gunion_set_cbuffer union_set_cbuffer
 #define gunion_set_date union_set_date
 #define gunion_set_float union_set_float
 #define gunion_set_geo union_set_geo
+#define gunion_set_h3index union_set_h3index
 #define gunion_set_int union_set_int
 #define gunion_set_jsonb union_set_jsonb
 #define gunion_set_npoint union_set_npoint
@@ -49,6 +53,8 @@ package functions
 #define gunion_set_pcpoint union_set_pcpoint
 #define gunion_set_pose union_set_pose
 #define gunion_set_posechain union_set_posechain
+#define gunion_set_quadbin union_set_quadbin
+#define gunion_set_s2cell union_set_s2cell
 #define gunion_set_set union_set_set
 #define gunion_set_text union_set_text
 #define gunion_set_timestamptz union_set_timestamptz
@@ -86,6 +92,17 @@ import (
 )
 
 var _ = unsafe.Pointer(nil)
+
+// MeosArrayGetIntl wraps MEOS C function meos_array_get_intl.
+func MeosArrayGetIntl(array *MeosArray, n int) (_r0 unsafe.Pointer, _err error) {
+	C.meos_errno_reset()
+	_cret := C.meos_array_get_intl(array._inner, C.int(n))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
+}
+
 
 // PrngGetGenerationRng wraps MEOS C function prng_get_generation_rng.
 func PrngGetGenerationRng() (_r0 unsafe.Pointer, _err error) {
@@ -155,11 +172,11 @@ func FloatspanRoundSet(s *Span, maxdd int) (_r0 *Span, _err error) {
 
 
 // SetIn wraps MEOS C function set_in.
-func SetIn(str string, basetype MeosType) (_r0 *Set, _err error) {
+func SetIn(str string, settype MeosType) (_r0 *Set, _err error) {
 	_c_str := C.CString(str)
 	defer C.free(unsafe.Pointer(_c_str))
 	C.meos_errno_reset()
-	_cret := C.set_in(_c_str, C.MeosType(basetype))
+	_cret := C.set_in(_c_str, C.MeosType(settype))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -251,6 +268,39 @@ func SpansetMakeFree(spans *Span, count int, normalize bool, order bool) (_r0 *S
 }
 
 
+// SetSortkeyIntl wraps MEOS C function set_sortkey_intl.
+func SetSortkeyIntl(s *Set, size unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
+	C.meos_errno_reset()
+	_cret := C.set_sortkey_intl(s._inner, (*C.size_t)(unsafe.Pointer(size)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
+}
+
+
+// SpanSortkeyIntl wraps MEOS C function span_sortkey_intl.
+func SpanSortkeyIntl(s *Span, size unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
+	C.meos_errno_reset()
+	_cret := C.span_sortkey_intl(s._inner, (*C.size_t)(unsafe.Pointer(size)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
+}
+
+
+// SpansetSortkeyIntl wraps MEOS C function spanset_sortkey_intl.
+func SpansetSortkeyIntl(ss *SpanSet, size unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
+	C.meos_errno_reset()
+	_cret := C.spanset_sortkey_intl(ss._inner, (*C.size_t)(unsafe.Pointer(size)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
+}
+
+
 // SetSpan wraps MEOS C function set_span.
 func SetSpan(s *Set) (_r0 *Span, _err error) {
 	C.meos_errno_reset()
@@ -270,17 +320,6 @@ func SetSpanset(s *Set) (_r0 *SpanSet, _err error) {
 		return
 	}
 	return &SpanSet{_inner: _cret}, nil
-}
-
-
-// SetMemSize wraps MEOS C function set_mem_size.
-func SetMemSize(s *Set) (_r0 int, _err error) {
-	C.meos_errno_reset()
-	_cret := C.set_mem_size(s._inner)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	return int(_cret), nil
 }
 
 
@@ -305,17 +344,6 @@ func SetSetSpan(s *Set) (_r0 *Span, _err error) {
 		return
 	}
 	return &Span{_inner: &_out_result}, nil
-}
-
-
-// SpansetMemSize wraps MEOS C function spanset_mem_size.
-func SpansetMemSize(ss *SpanSet) (_r0 int, _err error) {
-	C.meos_errno_reset()
-	_cret := C.spanset_mem_size(ss._inner)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	return int(_cret), nil
 }
 
 
@@ -582,6 +610,64 @@ func EnsureIndexJoinOp(op IndexSearchOp) (_r0 bool, _err error) {
 		return
 	}
 	return bool(_cret), nil
+}
+
+
+// EnsureIndexResult wraps MEOS C function ensure_index_result.
+func EnsureIndexResult() (_r0 bool, _r1 *MeosArray, _err error) {
+	var _out_result C.MeosArray
+	C.meos_errno_reset()
+	_cret := C.ensure_index_result(&_out_result)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), &MeosArray{_inner: &_out_result}, nil
+}
+
+
+// RtreeCreate wraps MEOS C function rtree_create.
+func RtreeCreate(bboxtype MeosType) (_r0 *RTree, _err error) {
+	C.meos_errno_reset()
+	_cret := C.rtree_create(C.MeosType(bboxtype))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &RTree{_inner: _cret}, nil
+}
+
+
+// SptreeCreate wraps MEOS C function sptree_create.
+func SptreeCreate(bboxtype MeosType, kind SPTreeKind) (_r0 unsafe.Pointer, _err error) {
+	C.meos_errno_reset()
+	_cret := C.sptree_create(C.MeosType(bboxtype), C.SPTreeKind(kind))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
+}
+
+
+// RtreeSearchIntl wraps MEOS C function rtree_search_intl.
+func RtreeSearchIntl(rtree *RTree, op IndexSearchOp, query unsafe.Pointer) (_r0 int, _r1 *MeosArray, _err error) {
+	var _out_result C.MeosArray
+	C.meos_errno_reset()
+	_cret := C.rtree_search_intl(rtree._inner, C.IndexSearchOp(op), unsafe.Pointer(query), &_out_result)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), &MeosArray{_inner: &_out_result}, nil
+}
+
+
+// SptreeSearchIntl wraps MEOS C function sptree_search_intl.
+func SptreeSearchIntl(sptree unsafe.Pointer, op IndexSearchOp, query unsafe.Pointer) (_r0 int, _r1 *MeosArray, _err error) {
+	var _out_result C.MeosArray
+	C.meos_errno_reset()
+	_cret := C.sptree_search_intl((*C.SPTree)(unsafe.Pointer(sptree)), C.IndexSearchOp(op), unsafe.Pointer(query), &_out_result)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), &MeosArray{_inner: &_out_result}, nil
 }
 
 
@@ -985,6 +1071,17 @@ func InterTBOXTBOX(box1 *TBox, box2 *TBox) (_r0 bool, _r1 *TBox, _err error) {
 }
 
 
+// TBOXSortkeyIntl wraps MEOS C function tbox_sortkey_intl.
+func TBOXSortkeyIntl(box *TBox, size unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tbox_sortkey_intl(box._inner, (*C.size_t)(unsafe.Pointer(size)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
+}
+
+
 // TboolinstIn wraps MEOS C function tboolinst_in.
 func TboolinstIn(str string) (_r0 *TInstant, _err error) {
 	_c_str := C.CString(str)
@@ -1134,6 +1231,19 @@ func TbigintinstIn(str string) (_r0 *TInstant, _err error) {
 		return
 	}
 	return &TInstant{_inner: _cret}, nil
+}
+
+
+// TbigintseqIn wraps MEOS C function tbigintseq_in.
+func TbigintseqIn(str string, interp Interpolation) (_r0 *TSequence, _err error) {
+	_c_str := C.CString(str)
+	defer C.free(unsafe.Pointer(_c_str))
+	C.meos_errno_reset()
+	_cret := C.tbigintseq_in(_c_str, C.interpType(interp))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &TSequence{_inner: _cret}, nil
 }
 
 
@@ -1313,6 +1423,17 @@ func TsequenceCopy(seq *TSequence) (_r0 *TSequence, _err error) {
 }
 
 
+// TsequenceDerivative wraps MEOS C function tsequence_derivative.
+func TsequenceDerivative(seq *TSequence, spheroid bool) (_r0 *TSequence, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tsequence_derivative(seq._inner, C.bool(spheroid))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &TSequence{_inner: _cret}, nil
+}
+
+
 // TsequenceMakeExp wraps MEOS C function tsequence_make_exp.
 func TsequenceMakeExp(instants unsafe.Pointer, count int, maxcount int, lower_inc bool, upper_inc bool, interp Interpolation, normalize bool) (_r0 *TSequence, _err error) {
 	C.meos_errno_reset()
@@ -1339,6 +1460,17 @@ func TsequenceMakeFree(instants unsafe.Pointer, count int, lower_inc bool, upper
 func TsequencesetCopy(ss *TSequenceSet) (_r0 *TSequenceSet, _err error) {
 	C.meos_errno_reset()
 	_cret := C.tsequenceset_copy(ss._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &TSequenceSet{_inner: _cret}, nil
+}
+
+
+// TsequencesetDerivative wraps MEOS C function tsequenceset_derivative.
+func TsequencesetDerivative(ss *TSequenceSet, spheroid bool) (_r0 *TSequenceSet, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tsequenceset_derivative(ss._inner, C.bool(spheroid))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1508,17 +1640,6 @@ func TemporalMaxInstP(temp *Temporal) (_r0 *TInstant, _err error) {
 		return
 	}
 	return &TInstant{_inner: _cret}, nil
-}
-
-
-// TemporalMemSize wraps MEOS C function temporal_mem_size.
-func TemporalMemSize(temp *Temporal) (_r0 uint, _err error) {
-	C.meos_errno_reset()
-	_cret := C.temporal_mem_size(temp._inner)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	return uint(_cret), nil
 }
 
 
@@ -2942,6 +3063,17 @@ func TinstantCmp(inst1 *TInstant, inst2 *TInstant) (_r0 int, _err error) {
 }
 
 
+// TemporalSortkeyIntl wraps MEOS C function temporal_sortkey_intl.
+func TemporalSortkeyIntl(temp *Temporal, size unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
+	C.meos_errno_reset()
+	_cret := C.temporal_sortkey_intl(temp._inner, (*C.size_t)(unsafe.Pointer(size)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
+}
+
+
 // TinstantEq wraps MEOS C function tinstant_eq.
 func TinstantEq(inst1 *TInstant, inst2 *TInstant) (_r0 bool, _err error) {
 	C.meos_errno_reset()
@@ -3247,27 +3379,5 @@ func SkiplistKeysValues(list *SkipList, values unsafe.Pointer) (_r0 unsafe.Point
 		return
 	}
 	return unsafe.Pointer(_cret), nil
-}
-
-
-// TemporalAppTinstTransfn wraps MEOS C function temporal_app_tinst_transfn.
-func TemporalAppTinstTransfn(state *Temporal, inst *TInstant, interp Interpolation, maxdist float64, maxt *Interval) (_r0 *Temporal, _err error) {
-	C.meos_errno_reset()
-	_cret := C.temporal_app_tinst_transfn(state._inner, inst._inner, C.interpType(interp), C.double(maxdist), maxt._inner)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	return &Temporal{_inner: _cret}, nil
-}
-
-
-// TemporalAppTseqTransfn wraps MEOS C function temporal_app_tseq_transfn.
-func TemporalAppTseqTransfn(state *Temporal, seq *TSequence) (_r0 *Temporal, _err error) {
-	C.meos_errno_reset()
-	_cret := C.temporal_app_tseq_transfn(state._inner, seq._inner)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	return &Temporal{_inner: _cret}, nil
 }
 

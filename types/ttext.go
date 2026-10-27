@@ -95,6 +95,15 @@ func (x *TText) StartValue() (string, error) {
 	return _r0, nil
 }
 
+// Value is MEOS ttext_value.
+func (x *TText) Value() (string, error) {
+	_r0, _err := functions.TtextValue(functions.TemporalFromPointer(x.Pointer()))
+	if _err != nil {
+		return "", _err
+	}
+	return _r0, nil
+}
+
 // ValueAtTimestamptz is MEOS ttext_value_at_timestamptz.
 func (x *TText) ValueAtTimestamptz(t int64, strict bool) (string, bool, error) {
 	_found, _value, _err := functions.TtextValueAtTimestamptz(functions.TemporalFromPointer(x.Pointer()), t, strict)
@@ -122,6 +131,15 @@ func (x *TText) ValueN(n int) (string, bool, error) {
 // Values is MEOS ttext_values.
 func (x *TText) Values(count unsafe.Pointer) (unsafe.Pointer, error) {
 	_r0, _err := functions.TtextValues(functions.TemporalFromPointer(x.Pointer()), count)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
+// Unnest is MEOS ttext_unnest.
+func (x *TText) Unnest(values unsafe.Pointer, count unsafe.Pointer) (unsafe.Pointer, error) {
+	_r0, _err := functions.TtextUnnest(functions.TemporalFromPointer(x.Pointer()), values, count)
 	if _err != nil {
 		return nil, _err
 	}

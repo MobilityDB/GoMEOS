@@ -23,6 +23,60 @@ func TPCBoxFromPointer(p unsafe.Pointer) *TPCBox {
 	return v
 }
 
+// AsEWKB is MEOS tpcbox_as_ewkb.
+func (x *TPCBox) AsEWKB(variant uint8, size_out unsafe.Pointer) (unsafe.Pointer, error) {
+	_r0, _err := functions.TpcboxAsEWKB(functions.TPCBoxFromPointer(x.Pointer()), variant, size_out)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
+// AsHEXEWKB is MEOS tpcbox_as_hexewkb.
+func (x *TPCBox) AsHEXEWKB(variant uint8, size_out unsafe.Pointer) (string, error) {
+	_r0, _err := functions.TpcboxAsHexewkb(functions.TPCBoxFromPointer(x.Pointer()), variant, size_out)
+	if _err != nil {
+		return "", _err
+	}
+	return _r0, nil
+}
+
+// AsHEXWKB is MEOS tpcbox_as_hexwkb.
+func (x *TPCBox) AsHEXWKB(variant uint8, size_out unsafe.Pointer) (string, error) {
+	_r0, _err := functions.TpcboxAsHexwkb(functions.TPCBoxFromPointer(x.Pointer()), variant, size_out)
+	if _err != nil {
+		return "", _err
+	}
+	return _r0, nil
+}
+
+// AsWKB is MEOS tpcbox_as_wkb.
+func (x *TPCBox) AsWKB(variant uint8, size_out unsafe.Pointer) (unsafe.Pointer, error) {
+	_r0, _err := functions.TpcboxAsWKB(functions.TPCBoxFromPointer(x.Pointer()), variant, size_out)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
+// TPCBoxFromHEXWKB is MEOS tpcbox_from_hexwkb.
+func TPCBoxFromHEXWKB(hexwkb string) (*TPCBox, error) {
+	_r0, _err := functions.TpcboxFromHexwkb(hexwkb)
+	if _err != nil {
+		return nil, _err
+	}
+	return TPCBoxFromPointer(_r0.Pointer()), nil
+}
+
+// TPCBoxFromWKB is MEOS tpcbox_from_wkb.
+func TPCBoxFromWKB(wkb unsafe.Pointer, size uint) (*TPCBox, error) {
+	_r0, _err := functions.TpcboxFromWKB(wkb, size)
+	if _err != nil {
+		return nil, _err
+	}
+	return TPCBoxFromPointer(_r0.Pointer()), nil
+}
+
 // TPCBoxIn is MEOS tpcbox_in.
 func TPCBoxIn(str string) (*TPCBox, error) {
 	_r0, _err := functions.TpcboxIn(str)
@@ -42,8 +96,8 @@ func (x *TPCBox) Out(maxdd int) (string, error) {
 }
 
 // TPCBoxMake is MEOS tpcbox_make.
-func TPCBoxMake(hasx bool, hasz bool, hast bool, geodetic bool, srid int32, pcid uint32, xmin float64, xmax float64, ymin float64, ymax float64, zmin float64, zmax float64, period *Span) (*TPCBox, error) {
-	_r0, _err := functions.TpcboxMake(hasx, hasz, hast, geodetic, srid, pcid, xmin, xmax, ymin, ymax, zmin, zmax, functions.SpanFromPointer(period.Pointer()))
+func TPCBoxMake(hasx bool, hasz bool, hast bool, geodetic bool, pcid uint32, xmin float64, xmax float64, ymin float64, ymax float64, zmin float64, zmax float64, period *Span) (*TPCBox, error) {
+	_r0, _err := functions.TpcboxMake(hasx, hasz, hast, geodetic, pcid, xmin, xmax, ymin, ymax, zmin, zmax, functions.SpanFromPointer(period.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
@@ -283,6 +337,15 @@ func (x *TPCBox) Ne(box2 *TPCBox) (bool, error) {
 	_r0, _err := functions.TpcboxNe(functions.TPCBoxFromPointer(x.Pointer()), functions.TPCBoxFromPointer(box2.Pointer()))
 	if _err != nil {
 		return false, _err
+	}
+	return _r0, nil
+}
+
+// Sortkey is MEOS tpcbox_sortkey.
+func (x *TPCBox) Sortkey(size unsafe.Pointer) (unsafe.Pointer, error) {
+	_r0, _err := functions.TpcboxSortkey(functions.TPCBoxFromPointer(x.Pointer()), size)
+	if _err != nil {
+		return nil, _err
 	}
 	return _r0, nil
 }

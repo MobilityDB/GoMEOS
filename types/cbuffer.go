@@ -23,9 +23,27 @@ func CbufferFromPointer(p unsafe.Pointer) *Cbuffer {
 	return v
 }
 
+// AsEWKB is MEOS cbuffer_as_ewkb.
+func (x *Cbuffer) AsEWKB(variant uint8, size_out unsafe.Pointer) (unsafe.Pointer, error) {
+	_r0, _err := functions.CbufferAsEWKB(functions.CbufferFromPointer(x.Pointer()), variant, size_out)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
 // AsEWKT is MEOS cbuffer_as_ewkt.
 func (x *Cbuffer) AsEWKT(maxdd int) (string, error) {
 	_r0, _err := functions.CbufferAsEWKT(functions.CbufferFromPointer(x.Pointer()), maxdd)
+	if _err != nil {
+		return "", _err
+	}
+	return _r0, nil
+}
+
+// AsHEXEWKB is MEOS cbuffer_as_hexewkb.
+func (x *Cbuffer) AsHEXEWKB(variant uint8, size_out unsafe.Pointer) (string, error) {
+	_r0, _err := functions.CbufferAsHexewkb(functions.CbufferFromPointer(x.Pointer()), variant, size_out)
 	if _err != nil {
 		return "", _err
 	}
@@ -143,6 +161,15 @@ func (x *Cbuffer) Hash() (uint32, error) {
 // HashExtended is MEOS cbuffer_hash_extended.
 func (x *Cbuffer) HashExtended(seed uint64) (uint64, error) {
 	_r0, _err := functions.CbufferHashExtended(functions.CbufferFromPointer(x.Pointer()), seed)
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// MemSize is MEOS cbuffer_mem_size.
+func (x *Cbuffer) MemSize() (int, error) {
+	_r0, _err := functions.CbufferMemSize(functions.CbufferFromPointer(x.Pointer()))
 	if _err != nil {
 		return 0, _err
 	}
@@ -287,24 +314,6 @@ func (x *Cbuffer) Lt(cb2 *Cbuffer) (bool, error) {
 // Ne is MEOS cbuffer_ne.
 func (x *Cbuffer) Ne(cb2 *Cbuffer) (bool, error) {
 	_r0, _err := functions.CbufferNe(functions.CbufferFromPointer(x.Pointer()), functions.CbufferFromPointer(cb2.Pointer()))
-	if _err != nil {
-		return false, _err
-	}
-	return _r0, nil
-}
-
-// Nsame is MEOS cbuffer_nsame.
-func (x *Cbuffer) Nsame(cb2 *Cbuffer) (bool, error) {
-	_r0, _err := functions.CbufferNsame(functions.CbufferFromPointer(x.Pointer()), functions.CbufferFromPointer(cb2.Pointer()))
-	if _err != nil {
-		return false, _err
-	}
-	return _r0, nil
-}
-
-// Same is MEOS cbuffer_same.
-func (x *Cbuffer) Same(cb2 *Cbuffer) (bool, error) {
-	_r0, _err := functions.CbufferSame(functions.CbufferFromPointer(x.Pointer()), functions.CbufferFromPointer(cb2.Pointer()))
 	if _err != nil {
 		return false, _err
 	}

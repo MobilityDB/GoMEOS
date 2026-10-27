@@ -140,6 +140,15 @@ func (x *Pcpatch) HashExtended(seed uint64) (uint64, error) {
 	return _r0, nil
 }
 
+// MemSize is MEOS pcpatch_mem_size.
+func (x *Pcpatch) MemSize() (int, error) {
+	_r0, _err := functions.PcpatchMemSize(functions.PcpatchFromPointer(x.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
 // ToGeom is MEOS pcpatch_to_geom.
 func (x *Pcpatch) ToGeom() (*TRGeometrySeqSet, error) {
 	_r0, _err := functions.PcpatchToGeom(functions.PcpatchFromPointer(x.Pointer()))
@@ -158,6 +167,60 @@ func (x *Pcpatch) Cmp(pa2 *Pcpatch) (int, error) {
 	return _r0, nil
 }
 
+// Eq is MEOS pcpatch_eq.
+func (x *Pcpatch) Eq(pa2 *Pcpatch) (bool, error) {
+	_r0, _err := functions.PcpatchEq(functions.PcpatchFromPointer(x.Pointer()), functions.PcpatchFromPointer(pa2.Pointer()))
+	if _err != nil {
+		return false, _err
+	}
+	return _r0, nil
+}
+
+// Ne is MEOS pcpatch_ne.
+func (x *Pcpatch) Ne(pa2 *Pcpatch) (bool, error) {
+	_r0, _err := functions.PcpatchNe(functions.PcpatchFromPointer(x.Pointer()), functions.PcpatchFromPointer(pa2.Pointer()))
+	if _err != nil {
+		return false, _err
+	}
+	return _r0, nil
+}
+
+// Lt is MEOS pcpatch_lt.
+func (x *Pcpatch) Lt(pa2 *Pcpatch) (bool, error) {
+	_r0, _err := functions.PcpatchLt(functions.PcpatchFromPointer(x.Pointer()), functions.PcpatchFromPointer(pa2.Pointer()))
+	if _err != nil {
+		return false, _err
+	}
+	return _r0, nil
+}
+
+// Le is MEOS pcpatch_le.
+func (x *Pcpatch) Le(pa2 *Pcpatch) (bool, error) {
+	_r0, _err := functions.PcpatchLe(functions.PcpatchFromPointer(x.Pointer()), functions.PcpatchFromPointer(pa2.Pointer()))
+	if _err != nil {
+		return false, _err
+	}
+	return _r0, nil
+}
+
+// Gt is MEOS pcpatch_gt.
+func (x *Pcpatch) Gt(pa2 *Pcpatch) (bool, error) {
+	_r0, _err := functions.PcpatchGt(functions.PcpatchFromPointer(x.Pointer()), functions.PcpatchFromPointer(pa2.Pointer()))
+	if _err != nil {
+		return false, _err
+	}
+	return _r0, nil
+}
+
+// Ge is MEOS pcpatch_ge.
+func (x *Pcpatch) Ge(pa2 *Pcpatch) (bool, error) {
+	_r0, _err := functions.PcpatchGe(functions.PcpatchFromPointer(x.Pointer()), functions.PcpatchFromPointer(pa2.Pointer()))
+	if _err != nil {
+		return false, _err
+	}
+	return _r0, nil
+}
+
 // ToSet is MEOS pcpatch_to_set.
 func (x *Pcpatch) ToSet() (*Set, error) {
 	_r0, _err := functions.PcpatchToSet(functions.PcpatchFromPointer(x.Pointer()))
@@ -168,8 +231,8 @@ func (x *Pcpatch) ToSet() (*Set, error) {
 }
 
 // ToTpcbox is MEOS pcpatch_to_tpcbox.
-func (x *Pcpatch) ToTpcbox(srid int32) (*TPCBox, error) {
-	_r0, _err := functions.PcpatchToTpcbox(functions.PcpatchFromPointer(x.Pointer()), srid)
+func (x *Pcpatch) ToTpcbox() (*TPCBox, error) {
+	_r0, _err := functions.PcpatchToTpcbox(functions.PcpatchFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}

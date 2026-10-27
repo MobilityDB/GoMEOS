@@ -23,6 +23,24 @@ func STBoxFromPointer(p unsafe.Pointer) *STBox {
 	return v
 }
 
+// AsEWKB is MEOS stbox_as_ewkb.
+func (x *STBox) AsEWKB(variant uint8, size_out unsafe.Pointer) (unsafe.Pointer, error) {
+	_r0, _err := functions.STBOXAsEWKB(functions.STBoxFromPointer(x.Pointer()), variant, size_out)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
+// AsHEXEWKB is MEOS stbox_as_hexewkb.
+func (x *STBox) AsHEXEWKB(variant uint8, size_out unsafe.Pointer) (string, error) {
+	_r0, _err := functions.STBOXAsHexewkb(functions.STBoxFromPointer(x.Pointer()), variant, size_out)
+	if _err != nil {
+		return "", _err
+	}
+	return _r0, nil
+}
+
 // AsHEXWKB is MEOS stbox_as_hexwkb.
 func (x *STBox) AsHEXWKB(variant uint8, size_out unsafe.Pointer) (string, error) {
 	_r0, _err := functions.STBOXAsHexwkb(functions.STBoxFromPointer(x.Pointer()), variant, size_out)
@@ -445,6 +463,15 @@ func (x *STBox) Ne(box2 *STBox) (bool, error) {
 	_r0, _err := functions.STBOXNe(functions.STBoxFromPointer(x.Pointer()), functions.STBoxFromPointer(box2.Pointer()))
 	if _err != nil {
 		return false, _err
+	}
+	return _r0, nil
+}
+
+// Sortkey is MEOS stbox_sortkey.
+func (x *STBox) Sortkey(size unsafe.Pointer) (unsafe.Pointer, error) {
+	_r0, _err := functions.STBOXSortkey(functions.STBoxFromPointer(x.Pointer()), size)
+	if _err != nil {
+		return nil, _err
 	}
 	return _r0, nil
 }

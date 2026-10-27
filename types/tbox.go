@@ -334,3 +334,21 @@ func (x *TBox) Ne(box2 *TBox) (bool, error) {
 	}
 	return _r0, nil
 }
+
+// Sortkey is MEOS tbox_sortkey.
+func (x *TBox) Sortkey(size unsafe.Pointer) (unsafe.Pointer, error) {
+	_r0, _err := functions.TBOXSortkey(functions.TBoxFromPointer(x.Pointer()), size)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
+// TBoxGetValueTile is MEOS tbox_get_value_tile.
+func TBoxGetValueTile(value float64, vsize float64, vorigin float64) (*TBox, error) {
+	_r0, _err := functions.TBOXGetValueTile(value, vsize, vorigin)
+	if _err != nil {
+		return nil, _err
+	}
+	return TBoxFromPointer(_r0.Pointer()), nil
+}

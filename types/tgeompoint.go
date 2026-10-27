@@ -41,6 +41,15 @@ func TGeomPointIn(str string) (*Temporal, error) {
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
+// ToTgeogpoint is MEOS tgeompoint_to_tgeogpoint.
+func (x *TGeomPoint) ToTgeogpoint() (*Temporal, error) {
+	_r0, _err := functions.TgeompointToTgeogpoint(functions.TemporalFromPointer(x.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
 // ToTgeometry is MEOS tgeompoint_to_tgeometry.
 func (x *TGeomPoint) ToTgeometry() (*Temporal, error) {
 	_r0, _err := functions.TgeompointToTgeometry(functions.TemporalFromPointer(x.Pointer()))
@@ -51,12 +60,21 @@ func (x *TGeomPoint) ToTgeometry() (*Temporal, error) {
 }
 
 // ToTh3index is MEOS tgeompoint_to_th3index.
-func (x *TGeomPoint) ToTh3index(resolution int32) (*Temporal, error) {
-	_r0, _err := functions.TgeompointToTh3index(functions.TemporalFromPointer(x.Pointer()), resolution)
+func (x *TGeomPoint) ToTh3index(resolution int32, border_inc bool) (*Temporal, error) {
+	_r0, _err := functions.TgeompointToTh3index(functions.TemporalFromPointer(x.Pointer()), resolution, border_inc)
 	if _err != nil {
 		return nil, _err
 	}
 	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// H3indexSplit is MEOS tgeompoint_h3index_split.
+func (x *TGeomPoint) H3indexSplit(resolution int32, border_inc bool, cells unsafe.Pointer, count unsafe.Pointer) (unsafe.Pointer, error) {
+	_r0, _err := functions.TgeompointH3indexSplit(functions.TemporalFromPointer(x.Pointer()), resolution, border_inc, cells, count)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
 }
 
 // ToTnpoint is MEOS tgeompoint_to_tnpoint.
@@ -66,4 +84,22 @@ func (x *TGeomPoint) ToTnpoint() (*Temporal, error) {
 		return nil, _err
 	}
 	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// ToTquadbin is MEOS tgeompoint_to_tquadbin.
+func (x *TGeomPoint) ToTquadbin(resolution int32, border_inc bool) (*Temporal, error) {
+	_r0, _err := functions.TgeompointToTquadbin(functions.TemporalFromPointer(x.Pointer()), resolution, border_inc)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// QuadbinSplit is MEOS tgeompoint_quadbin_split.
+func (x *TGeomPoint) QuadbinSplit(resolution int32, border_inc bool, cells unsafe.Pointer, count unsafe.Pointer) (unsafe.Pointer, error) {
+	_r0, _err := functions.TgeompointQuadbinSplit(functions.TemporalFromPointer(x.Pointer()), resolution, border_inc, cells, count)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
 }

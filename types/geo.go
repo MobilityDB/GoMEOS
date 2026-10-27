@@ -131,6 +131,51 @@ func GeoIsUnitary(gs *TRGeometrySeqSet) (bool, error) {
 	return _r0, nil
 }
 
+// GeoMemSize is MEOS geo_mem_size.
+func GeoMemSize(gs *TRGeometrySeqSet) (int, error) {
+	_r0, _err := functions.GeoMemSize(functions.GeomFromPointer(gs.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// GeoArea is MEOS geo_area.
+func GeoArea(gs *TRGeometrySeqSet, spheroid bool) (float64, error) {
+	_r0, _err := functions.GeoArea(functions.GeomFromPointer(gs.Pointer()), spheroid)
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// GeoCentroid is MEOS geo_centroid.
+func GeoCentroid(gs *TRGeometrySeqSet, spheroid bool) (*TRGeometrySeqSet, error) {
+	_r0, _err := functions.GeoCentroid(functions.GeomFromPointer(gs.Pointer()), spheroid)
+	if _err != nil {
+		return nil, _err
+	}
+	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+}
+
+// GeoLength is MEOS geo_length.
+func GeoLength(gs *TRGeometrySeqSet, spheroid bool) (float64, error) {
+	_r0, _err := functions.GeoLength(functions.GeomFromPointer(gs.Pointer()), spheroid)
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// GeoPerimeter is MEOS geo_perimeter.
+func GeoPerimeter(gs *TRGeometrySeqSet, spheroid bool) (float64, error) {
+	_r0, _err := functions.GeoPerimeter(functions.GeomFromPointer(gs.Pointer()), spheroid)
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
 // GeoTypename is MEOS geo_typename.
 func GeoTypename(type_ int) (string, error) {
 	_r0, _err := functions.GeoTypename(type_)
@@ -138,6 +183,15 @@ func GeoTypename(type_ int) (string, error) {
 		return "", _err
 	}
 	return _r0, nil
+}
+
+// GeoAffine is MEOS geo_affine.
+func GeoAffine(gs *TRGeometrySeqSet, a float64, b float64, c float64, d float64, e float64, f float64, g float64, h float64, i float64, xoff float64, yoff float64, zoff float64) (*TRGeometrySeqSet, error) {
+	_r0, _err := functions.GeoAffine(functions.GeomFromPointer(gs.Pointer()), a, b, c, d, e, f, g, h, i, xoff, yoff, zoff)
+	if _err != nil {
+		return nil, _err
+	}
+	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
 }
 
 // GeoReverse is MEOS geo_reverse.
@@ -149,9 +203,99 @@ func GeoReverse(gs *TRGeometrySeqSet) (*TRGeometrySeqSet, error) {
 	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
 }
 
+// GeoRotate is MEOS geo_rotate.
+func GeoRotate(gs *TRGeometrySeqSet, angle float64, x0 float64, y0 float64) (*TRGeometrySeqSet, error) {
+	_r0, _err := functions.GeoRotate(functions.GeomFromPointer(gs.Pointer()), angle, x0, y0)
+	if _err != nil {
+		return nil, _err
+	}
+	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+}
+
+// GeoRotateGeo is MEOS geo_rotate_geo.
+func GeoRotateGeo(gs *TRGeometrySeqSet, angle float64, origin *TRGeometrySeqSet) (*TRGeometrySeqSet, error) {
+	_r0, _err := functions.GeoRotateGeo(functions.GeomFromPointer(gs.Pointer()), angle, functions.GeomFromPointer(origin.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+}
+
+// GeoRotateX is MEOS geo_rotate_x.
+func GeoRotateX(gs *TRGeometrySeqSet, angle float64) (*TRGeometrySeqSet, error) {
+	_r0, _err := functions.GeoRotateX(functions.GeomFromPointer(gs.Pointer()), angle)
+	if _err != nil {
+		return nil, _err
+	}
+	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+}
+
+// GeoRotateY is MEOS geo_rotate_y.
+func GeoRotateY(gs *TRGeometrySeqSet, angle float64) (*TRGeometrySeqSet, error) {
+	_r0, _err := functions.GeoRotateY(functions.GeomFromPointer(gs.Pointer()), angle)
+	if _err != nil {
+		return nil, _err
+	}
+	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+}
+
+// GeoRotateZ is MEOS geo_rotate_z.
+func GeoRotateZ(gs *TRGeometrySeqSet, angle float64) (*TRGeometrySeqSet, error) {
+	_r0, _err := functions.GeoRotateZ(functions.GeomFromPointer(gs.Pointer()), angle)
+	if _err != nil {
+		return nil, _err
+	}
+	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+}
+
 // GeoRound is MEOS geo_round.
 func GeoRound(gs *TRGeometrySeqSet, maxdd int) (*TRGeometrySeqSet, error) {
 	_r0, _err := functions.GeoRound(functions.GeomFromPointer(gs.Pointer()), maxdd)
+	if _err != nil {
+		return nil, _err
+	}
+	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+}
+
+// GeoScale is MEOS geo_scale.
+func GeoScale(gs *TRGeometrySeqSet, xfactor float64, yfactor float64, zfactor float64) (*TRGeometrySeqSet, error) {
+	_r0, _err := functions.GeoScale(functions.GeomFromPointer(gs.Pointer()), xfactor, yfactor, zfactor)
+	if _err != nil {
+		return nil, _err
+	}
+	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+}
+
+// GeoScaleGeo is MEOS geo_scale_geo.
+func GeoScaleGeo(gs *TRGeometrySeqSet, scale *TRGeometrySeqSet, sorigin *TRGeometrySeqSet) (*TRGeometrySeqSet, error) {
+	_r0, _err := functions.GeoScaleGeo(functions.GeomFromPointer(gs.Pointer()), functions.GeomFromPointer(scale.Pointer()), functions.GeomFromPointer(sorigin.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+}
+
+// GeoSegmentize is MEOS geo_segmentize.
+func GeoSegmentize(gs *TRGeometrySeqSet, max_seg_length float64) (*TRGeometrySeqSet, error) {
+	_r0, _err := functions.GeoSegmentize(functions.GeomFromPointer(gs.Pointer()), max_seg_length)
+	if _err != nil {
+		return nil, _err
+	}
+	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+}
+
+// GeoTranslate is MEOS geo_translate.
+func GeoTranslate(gs *TRGeometrySeqSet, deltax float64, deltay float64, deltaz float64) (*TRGeometrySeqSet, error) {
+	_r0, _err := functions.GeoTranslate(functions.GeomFromPointer(gs.Pointer()), deltax, deltay, deltaz)
+	if _err != nil {
+		return nil, _err
+	}
+	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+}
+
+// GeoTransscale is MEOS geo_transscale.
+func GeoTransscale(gs *TRGeometrySeqSet, deltax float64, deltay float64, xfactor float64, yfactor float64) (*TRGeometrySeqSet, error) {
+	_r0, _err := functions.GeoTransscale(functions.GeomFromPointer(gs.Pointer()), deltax, deltay, xfactor, yfactor)
 	if _err != nil {
 		return nil, _err
 	}
@@ -186,8 +330,8 @@ func GeoTransform(geom *TRGeometrySeqSet, srid_to int32) (*TRGeometrySeqSet, err
 }
 
 // GeoTransformPipeline is MEOS geo_transform_pipeline.
-func GeoTransformPipeline(gs *TRGeometrySeqSet, pipeline string, srid_to int32, is_forward bool) (*TRGeometrySeqSet, error) {
-	_r0, _err := functions.GeoTransformPipeline(functions.GeomFromPointer(gs.Pointer()), pipeline, srid_to, is_forward)
+func GeoTransformPipeline(gs *TRGeometrySeqSet, pipelinestr string, srid int32, is_forward bool) (*TRGeometrySeqSet, error) {
+	_r0, _err := functions.GeoTransformPipeline(functions.GeomFromPointer(gs.Pointer()), pipelinestr, srid, is_forward)
 	if _err != nil {
 		return nil, _err
 	}
@@ -282,6 +426,24 @@ func GeoSplitNStboxes(gs *TRGeometrySeqSet, box_count int, count unsafe.Pointer)
 		return nil, _err
 	}
 	return STBoxFromPointer(_r0.Pointer()), nil
+}
+
+// GeoDistance is MEOS geo_distance.
+func GeoDistance(gs1 *TRGeometrySeqSet, gs2 *TRGeometrySeqSet, spheroid bool) (float64, error) {
+	_r0, _err := functions.GeoDistance(functions.GeomFromPointer(gs1.Pointer()), functions.GeomFromPointer(gs2.Pointer()), spheroid)
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// GeoShortestline is MEOS geo_shortestline.
+func GeoShortestline(gs1 *TRGeometrySeqSet, gs2 *TRGeometrySeqSet, spheroid bool) (*TRGeometrySeqSet, error) {
+	_r0, _err := functions.GeoShortestline(functions.GeomFromPointer(gs1.Pointer()), functions.GeomFromPointer(gs2.Pointer()), spheroid)
+	if _err != nil {
+		return nil, _err
+	}
+	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
 }
 
 // GeoEquals is MEOS geo_equals.
@@ -399,4 +561,13 @@ func GeoToQuadbinCell(point *TRGeometrySeqSet, resolution int32) (uint64, error)
 		return 0, _err
 	}
 	return _r0, nil
+}
+
+// GeoToQuadbinSet is MEOS geo_to_quadbin_set.
+func GeoToQuadbinSet(gs *TRGeometrySeqSet, resolution int32) (*Set, error) {
+	_r0, _err := functions.GeoToQuadbinSet(functions.GeomFromPointer(gs.Pointer()), resolution)
+	if _err != nil {
+		return nil, _err
+	}
+	return SetFromPointer(_r0.Pointer()), nil
 }

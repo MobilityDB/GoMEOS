@@ -28,6 +28,7 @@ package functions
 #define gunion_float_span union_float_span
 #define gunion_float_spanset union_float_spanset
 #define gunion_geo_set union_geo_set
+#define gunion_h3index_set union_h3index_set
 #define gunion_int_set union_int_set
 #define gunion_int_span union_int_span
 #define gunion_int_spanset union_int_spanset
@@ -37,11 +38,14 @@ package functions
 #define gunion_pcpoint_set union_pcpoint_set
 #define gunion_pose_set union_pose_set
 #define gunion_posechain_set union_posechain_set
+#define gunion_quadbin_set union_quadbin_set
+#define gunion_s2cell_set union_s2cell_set
 #define gunion_set_bigint union_set_bigint
 #define gunion_set_cbuffer union_set_cbuffer
 #define gunion_set_date union_set_date
 #define gunion_set_float union_set_float
 #define gunion_set_geo union_set_geo
+#define gunion_set_h3index union_set_h3index
 #define gunion_set_int union_set_int
 #define gunion_set_jsonb union_set_jsonb
 #define gunion_set_npoint union_set_npoint
@@ -49,6 +53,8 @@ package functions
 #define gunion_set_pcpoint union_set_pcpoint
 #define gunion_set_pose union_set_pose
 #define gunion_set_posechain union_set_posechain
+#define gunion_set_quadbin union_set_quadbin
+#define gunion_set_s2cell union_set_s2cell
 #define gunion_set_set union_set_set
 #define gunion_set_text union_set_text
 #define gunion_set_timestamptz union_set_timestamptz
@@ -413,6 +419,39 @@ func TrgeometryStartValue(temp *Temporal) (_r0 *Geom, _err error) {
 }
 
 
+// TrgeometryValue wraps MEOS C function trgeometry_value.
+func TrgeometryValue(temp *Temporal) (_r0 *Pose, _err error) {
+	C.meos_errno_reset()
+	_cret := C.trgeometry_value(temp._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Pose{_inner: _cret}, nil
+}
+
+
+// TrgeometryValues wraps MEOS C function trgeometry_values.
+func TrgeometryValues(temp *Temporal, count unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
+	C.meos_errno_reset()
+	_cret := C.trgeometry_values(temp._inner, (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
+}
+
+
+// TrgeometryUnnest wraps MEOS C function trgeometry_unnest.
+func TrgeometryUnnest(temp *Temporal, values unsafe.Pointer, count unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
+	C.meos_errno_reset()
+	_cret := C.trgeometry_unnest(temp._inner, (***C.GSERIALIZED)(unsafe.Pointer(values)), (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
+}
+
+
 // TrgeometryValueN wraps MEOS C function trgeometry_value_n.
 func TrgeometryValueN(temp *Temporal, n int) (_r0 bool, _r1 *Geom, _err error) {
 	var _out_result *C.GSERIALIZED
@@ -480,6 +519,17 @@ func TrgeometrySpaceBoxes(temp *Temporal, xsize float64, ysize float64, zsize fl
 }
 
 
+// TrgeometryTimeBoxes wraps MEOS C function trgeometry_time_boxes.
+func TrgeometryTimeBoxes(temp *Temporal, duration *Interval, torigin int64, bitmatrix bool, border_inc bool, count unsafe.Pointer) (_r0 *STBox, _err error) {
+	C.meos_errno_reset()
+	_cret := C.trgeometry_time_boxes(temp._inner, duration._inner, C.TimestampTz(torigin), C.bool(bitmatrix), C.bool(border_inc), (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &STBox{_inner: _cret}, nil
+}
+
+
 // TrgeometrySpaceTimeBoxes wraps MEOS C function trgeometry_space_time_boxes.
 func TrgeometrySpaceTimeBoxes(temp *Temporal, xsize float64, ysize float64, zsize float64, duration *Interval, sorigin *Geom, torigin int64, bitmatrix bool, border_inc bool, count unsafe.Pointer) (_r0 *STBox, _err error) {
 	C.meos_errno_reset()
@@ -521,61 +571,6 @@ func TrgeometrySplitEachNStboxes(temp *Temporal, elem_count int, count unsafe.Po
 		return
 	}
 	return &STBox{_inner: _cret}, nil
-}
-
-
-// TrgeometryHausdorffDistance wraps MEOS C function trgeometry_hausdorff_distance.
-func TrgeometryHausdorffDistance(temp1 *Temporal, temp2 *Temporal) (_r0 float64, _err error) {
-	C.meos_errno_reset()
-	_cret := C.trgeometry_hausdorff_distance(temp1._inner, temp2._inner)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	return float64(_cret), nil
-}
-
-
-// TrgeometryFrechetDistance wraps MEOS C function trgeometry_frechet_distance.
-func TrgeometryFrechetDistance(temp1 *Temporal, temp2 *Temporal) (_r0 float64, _err error) {
-	C.meos_errno_reset()
-	_cret := C.trgeometry_frechet_distance(temp1._inner, temp2._inner)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	return float64(_cret), nil
-}
-
-
-// TrgeometryDyntimewarpDistance wraps MEOS C function trgeometry_dyntimewarp_distance.
-func TrgeometryDyntimewarpDistance(temp1 *Temporal, temp2 *Temporal) (_r0 float64, _err error) {
-	C.meos_errno_reset()
-	_cret := C.trgeometry_dyntimewarp_distance(temp1._inner, temp2._inner)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	return float64(_cret), nil
-}
-
-
-// TrgeometryFrechetPath wraps MEOS C function trgeometry_frechet_path.
-func TrgeometryFrechetPath(temp1 *Temporal, temp2 *Temporal, count unsafe.Pointer) (_r0 *Match, _err error) {
-	C.meos_errno_reset()
-	_cret := C.trgeometry_frechet_path(temp1._inner, temp2._inner, (*C.int)(unsafe.Pointer(count)))
-	if _err = meosError(); _err != nil {
-		return
-	}
-	return &Match{_inner: _cret}, nil
-}
-
-
-// TrgeometryDyntimewarpPath wraps MEOS C function trgeometry_dyntimewarp_path.
-func TrgeometryDyntimewarpPath(temp1 *Temporal, temp2 *Temporal, count unsafe.Pointer) (_r0 *Match, _err error) {
-	C.meos_errno_reset()
-	_cret := C.trgeometry_dyntimewarp_path(temp1._inner, temp2._inner, (*C.int)(unsafe.Pointer(count)))
-	if _err = meosError(); _err != nil {
-		return
-	}
-	return &Match{_inner: _cret}, nil
 }
 
 
@@ -733,10 +728,65 @@ func TrgeometryRound(temp *Temporal, maxdd int) (_r0 *Temporal, _err error) {
 }
 
 
+// TrgeometryRotate wraps MEOS C function trgeometry_rotate.
+func TrgeometryRotate(temp *Temporal, angle float64, x0 float64, y0 float64) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.trgeometry_rotate(temp._inner, C.double(angle), C.double(x0), C.double(y0))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// TrgeometryRotateX wraps MEOS C function trgeometry_rotate_x.
+func TrgeometryRotateX(temp *Temporal, angle float64) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.trgeometry_rotate_x(temp._inner, C.double(angle))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// TrgeometryRotateY wraps MEOS C function trgeometry_rotate_y.
+func TrgeometryRotateY(temp *Temporal, angle float64) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.trgeometry_rotate_y(temp._inner, C.double(angle))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// TrgeometryRotateZ wraps MEOS C function trgeometry_rotate_z.
+func TrgeometryRotateZ(temp *Temporal, angle float64) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.trgeometry_rotate_z(temp._inner, C.double(angle))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
 // TrgeometrySetInterp wraps MEOS C function trgeometry_set_interp.
 func TrgeometrySetInterp(temp *Temporal, interp Interpolation) (_r0 *Temporal, _err error) {
 	C.meos_errno_reset()
 	_cret := C.trgeometry_set_interp(temp._inner, C.interpType(interp))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// TrgeometryTranslate wraps MEOS C function trgeometry_translate.
+func TrgeometryTranslate(temp *Temporal, deltax float64, deltay float64, deltaz float64) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.trgeometry_translate(temp._inner, C.double(deltax), C.double(deltay), C.double(deltaz))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1034,28 +1084,6 @@ func TrgeometryMinusTstzspanset(temp *Temporal, ss *SpanSet) (_r0 *Temporal, _er
 }
 
 
-// TrgeometryAtElevation wraps MEOS C function trgeometry_at_elevation.
-func TrgeometryAtElevation(temp *Temporal, s *Span) (_r0 *Temporal, _err error) {
-	C.meos_errno_reset()
-	_cret := C.trgeometry_at_elevation(temp._inner, s._inner)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	return &Temporal{_inner: _cret}, nil
-}
-
-
-// TrgeometryMinusElevation wraps MEOS C function trgeometry_minus_elevation.
-func TrgeometryMinusElevation(temp *Temporal, s *Span) (_r0 *Temporal, _err error) {
-	C.meos_errno_reset()
-	_cret := C.trgeometry_minus_elevation(temp._inner, s._inner)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	return &Temporal{_inner: _cret}, nil
-}
-
-
 // TdistanceTrgeometryGeo wraps MEOS C function tdistance_trgeometry_geo.
 func TdistanceTrgeometryGeo(temp *Temporal, gs *Geom) (_r0 *Temporal, _err error) {
 	C.meos_errno_reset()
@@ -1207,6 +1235,39 @@ func ShortestlineTrgeometryTrgeometry(temp1 *Temporal, temp2 *Temporal) (_r0 *Ge
 		return
 	}
 	return &Geom{_inner: _cret}, nil
+}
+
+
+// TdwithinGeoTrgeometry wraps MEOS C function tdwithin_geo_trgeometry.
+func TdwithinGeoTrgeometry(gs *Geom, temp *Temporal, dist float64) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tdwithin_geo_trgeometry(gs._inner, temp._inner, C.double(dist))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// TdwithinTrgeometryGeo wraps MEOS C function tdwithin_trgeometry_geo.
+func TdwithinTrgeometryGeo(temp *Temporal, gs *Geom, dist float64) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tdwithin_trgeometry_geo(temp._inner, gs._inner, C.double(dist))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// TdwithinTrgeometryTrgeometry wraps MEOS C function tdwithin_trgeometry_trgeometry.
+func TdwithinTrgeometryTrgeometry(temp1 *Temporal, temp2 *Temporal, dist float64) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tdwithin_trgeometry_trgeometry(temp1._inner, temp2._inner, C.double(dist))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
 }
 
 

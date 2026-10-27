@@ -50,6 +50,15 @@ func PoseChainAsText(pc unsafe.Pointer, maxdd int) (string, error) {
 	return _r0, nil
 }
 
+// PoseChainAsEWKB is MEOS posechain_as_ewkb.
+func PoseChainAsEWKB(pc unsafe.Pointer, variant uint8, size_out unsafe.Pointer) (unsafe.Pointer, error) {
+	_r0, _err := functions.PosechainAsEWKB(pc, variant, size_out)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
 // PoseChainAsEWKT is MEOS posechain_as_ewkt.
 func PoseChainAsEWKT(pc unsafe.Pointer, maxdd int) (string, error) {
 	_r0, _err := functions.PosechainAsEWKT(pc, maxdd)
@@ -64,6 +73,15 @@ func PoseChainAsWKB(pc unsafe.Pointer, variant uint8, size_out unsafe.Pointer) (
 	_r0, _err := functions.PosechainAsWKB(pc, variant, size_out)
 	if _err != nil {
 		return nil, _err
+	}
+	return _r0, nil
+}
+
+// PoseChainAsHEXEWKB is MEOS posechain_as_hexewkb.
+func PoseChainAsHEXEWKB(pc unsafe.Pointer, variant uint8, size_out unsafe.Pointer) (string, error) {
+	_r0, _err := functions.PosechainAsHexewkb(pc, variant, size_out)
+	if _err != nil {
+		return "", _err
 	}
 	return _r0, nil
 }
@@ -239,6 +257,15 @@ func PoseChainHashExtended(pc unsafe.Pointer, seed uint64) (uint64, error) {
 	return _r0, nil
 }
 
+// PoseChainMemSize is MEOS posechain_mem_size.
+func PoseChainMemSize(pc unsafe.Pointer) (int, error) {
+	_r0, _err := functions.PosechainMemSize(pc)
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
 // PoseChainRound is MEOS posechain_round.
 func PoseChainRound(pc unsafe.Pointer, maxdd int) (unsafe.Pointer, error) {
 	_r0, _err := functions.PosechainRound(pc, maxdd)
@@ -276,8 +303,8 @@ func PoseChainTransform(pc unsafe.Pointer, srid_to int32) (unsafe.Pointer, error
 }
 
 // PoseChainTransformPipeline is MEOS posechain_transform_pipeline.
-func PoseChainTransformPipeline(pc unsafe.Pointer, pipeline string, srid_to int32, is_forward bool) (unsafe.Pointer, error) {
-	_r0, _err := functions.PosechainTransformPipeline(pc, pipeline, srid_to, is_forward)
+func PoseChainTransformPipeline(pc unsafe.Pointer, pipelinestr string, srid int32, is_forward bool) (unsafe.Pointer, error) {
+	_r0, _err := functions.PosechainTransformPipeline(pc, pipelinestr, srid, is_forward)
 	if _err != nil {
 		return nil, _err
 	}
@@ -296,24 +323,6 @@ func PoseChainEq(pc1 unsafe.Pointer, pc2 unsafe.Pointer) (bool, error) {
 // PoseChainNe is MEOS posechain_ne.
 func PoseChainNe(pc1 unsafe.Pointer, pc2 unsafe.Pointer) (bool, error) {
 	_r0, _err := functions.PosechainNe(pc1, pc2)
-	if _err != nil {
-		return false, _err
-	}
-	return _r0, nil
-}
-
-// PoseChainSame is MEOS posechain_same.
-func PoseChainSame(pc1 unsafe.Pointer, pc2 unsafe.Pointer) (bool, error) {
-	_r0, _err := functions.PosechainSame(pc1, pc2)
-	if _err != nil {
-		return false, _err
-	}
-	return _r0, nil
-}
-
-// PoseChainNsame is MEOS posechain_nsame.
-func PoseChainNsame(pc1 unsafe.Pointer, pc2 unsafe.Pointer) (bool, error) {
-	_r0, _err := functions.PosechainNsame(pc1, pc2)
 	if _err != nil {
 		return false, _err
 	}

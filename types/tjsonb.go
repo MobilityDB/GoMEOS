@@ -86,6 +86,15 @@ func (x *TJsonb) StartValue() (*Jsonb, error) {
 	return JsonbFromPointer(_r0.Pointer()), nil
 }
 
+// Value is MEOS tjsonb_value.
+func (x *TJsonb) Value() (*Jsonb, error) {
+	_r0, _err := functions.TjsonbValue(functions.TemporalFromPointer(x.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return JsonbFromPointer(_r0.Pointer()), nil
+}
+
 // ValueAtTimestamptz is MEOS tjsonb_value_at_timestamptz.
 func (x *TJsonb) ValueAtTimestamptz(t int64, strict bool) (*Jsonb, bool, error) {
 	_found, _value, _err := functions.TjsonbValueAtTimestamptz(functions.TemporalFromPointer(x.Pointer()), t, strict)
@@ -119,9 +128,27 @@ func (x *TJsonb) Values(count unsafe.Pointer) (unsafe.Pointer, error) {
 	return _r0, nil
 }
 
+// Unnest is MEOS tjsonb_unnest.
+func (x *TJsonb) Unnest(values unsafe.Pointer, count unsafe.Pointer) (unsafe.Pointer, error) {
+	_r0, _err := functions.TjsonbUnnest(functions.TemporalFromPointer(x.Pointer()), values, count)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
 // ArrayElement is MEOS tjsonb_array_element.
-func (x *TJsonb) ArrayElement(idx int, astext bool, null_handle functions.NullHandleType) (*Temporal, error) {
-	_r0, _err := functions.TjsonbArrayElement(functions.TemporalFromPointer(x.Pointer()), idx, astext, null_handle)
+func (x *TJsonb) ArrayElement(idx int, null_handle functions.NullHandleType) (*Temporal, error) {
+	_r0, _err := functions.TjsonbArrayElement(functions.TemporalFromPointer(x.Pointer()), idx, null_handle)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// ArrayElementText is MEOS tjsonb_array_element_text.
+func (x *TJsonb) ArrayElementText(idx int, null_handle functions.NullHandleType) (*Temporal, error) {
+	_r0, _err := functions.TjsonbArrayElementText(functions.TemporalFromPointer(x.Pointer()), idx, null_handle)
 	if _err != nil {
 		return nil, _err
 	}
@@ -210,8 +237,17 @@ func (x *TJsonb) ExistsArray(keys unsafe.Pointer, count int, any bool) (*Tempora
 }
 
 // ExtractPath is MEOS tjsonb_extract_path.
-func (x *TJsonb) ExtractPath(path_elems unsafe.Pointer, path_len int, astext bool, null_handle functions.NullHandleType) (*Temporal, error) {
-	_r0, _err := functions.TjsonbExtractPath(functions.TemporalFromPointer(x.Pointer()), path_elems, path_len, astext, null_handle)
+func (x *TJsonb) ExtractPath(path_elems unsafe.Pointer, path_len int, null_handle functions.NullHandleType) (*Temporal, error) {
+	_r0, _err := functions.TjsonbExtractPath(functions.TemporalFromPointer(x.Pointer()), path_elems, path_len, null_handle)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// ExtractPathText is MEOS tjsonb_extract_path_text.
+func (x *TJsonb) ExtractPathText(path_elems unsafe.Pointer, path_len int, null_handle functions.NullHandleType) (*Temporal, error) {
+	_r0, _err := functions.TjsonbExtractPathText(functions.TemporalFromPointer(x.Pointer()), path_elems, path_len, null_handle)
 	if _err != nil {
 		return nil, _err
 	}
@@ -228,8 +264,17 @@ func (x *TJsonb) Insert(keys unsafe.Pointer, count int, newjb *Jsonb, after bool
 }
 
 // ObjectField is MEOS tjsonb_object_field.
-func (x *TJsonb) ObjectField(key string, astext bool, null_handle functions.NullHandleType) (*Temporal, error) {
-	_r0, _err := functions.TjsonbObjectField(functions.TemporalFromPointer(x.Pointer()), key, astext, null_handle)
+func (x *TJsonb) ObjectField(key string, null_handle functions.NullHandleType) (*Temporal, error) {
+	_r0, _err := functions.TjsonbObjectField(functions.TemporalFromPointer(x.Pointer()), key, null_handle)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// ObjectFieldText is MEOS tjsonb_object_field_text.
+func (x *TJsonb) ObjectFieldText(key string, null_handle functions.NullHandleType) (*Temporal, error) {
+	_r0, _err := functions.TjsonbObjectFieldText(functions.TemporalFromPointer(x.Pointer()), key, null_handle)
 	if _err != nil {
 		return nil, _err
 	}
@@ -299,6 +344,15 @@ func (x *TJsonb) StripNulls(strip_in_arrays bool) (*Temporal, error) {
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
+// ToTbigint is MEOS tjsonb_to_tbigint.
+func (x *TJsonb) ToTbigint(key string, null_handle functions.NullHandleType) (*Temporal, error) {
+	_r0, _err := functions.TjsonbToTbigint(functions.TemporalFromPointer(x.Pointer()), key, null_handle)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
 // ToTbool is MEOS tjsonb_to_tbool.
 func (x *TJsonb) ToTbool(key string, null_handle functions.NullHandleType) (*Temporal, error) {
 	_r0, _err := functions.TjsonbToTbool(functions.TemporalFromPointer(x.Pointer()), key, null_handle)
@@ -311,6 +365,42 @@ func (x *TJsonb) ToTbool(key string, null_handle functions.NullHandleType) (*Tem
 // ToTfloat is MEOS tjsonb_to_tfloat.
 func (x *TJsonb) ToTfloat(key string, interp functions.Interpolation, null_handle functions.NullHandleType) (*Temporal, error) {
 	_r0, _err := functions.TjsonbToTfloat(functions.TemporalFromPointer(x.Pointer()), key, interp, null_handle)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// ToTgeogpoint is MEOS tjsonb_to_tgeogpoint.
+func (x *TJsonb) ToTgeogpoint(key string, interp functions.Interpolation, null_handle functions.NullHandleType) (*Temporal, error) {
+	_r0, _err := functions.TjsonbToTgeogpoint(functions.TemporalFromPointer(x.Pointer()), key, interp, null_handle)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// ToTgeography is MEOS tjsonb_to_tgeography.
+func (x *TJsonb) ToTgeography(key string, null_handle functions.NullHandleType) (*Temporal, error) {
+	_r0, _err := functions.TjsonbToTgeography(functions.TemporalFromPointer(x.Pointer()), key, null_handle)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// ToTgeometry is MEOS tjsonb_to_tgeometry.
+func (x *TJsonb) ToTgeometry(key string, null_handle functions.NullHandleType) (*Temporal, error) {
+	_r0, _err := functions.TjsonbToTgeometry(functions.TemporalFromPointer(x.Pointer()), key, null_handle)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// ToTgeompoint is MEOS tjsonb_to_tgeompoint.
+func (x *TJsonb) ToTgeompoint(key string, interp functions.Interpolation, null_handle functions.NullHandleType) (*Temporal, error) {
+	_r0, _err := functions.TjsonbToTgeompoint(functions.TemporalFromPointer(x.Pointer()), key, interp, null_handle)
 	if _err != nil {
 		return nil, _err
 	}

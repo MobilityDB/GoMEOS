@@ -104,6 +104,15 @@ func (x *Set) HashExtended(seed uint64) (uint64, error) {
 	return _r0, nil
 }
 
+// MemSize is MEOS set_mem_size.
+func (x *Set) MemSize() (int, error) {
+	_r0, _err := functions.SetMemSize(functions.SetFromPointer(x.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
 // NumValues is MEOS set_num_values.
 func (x *Set) NumValues() (int, error) {
 	_r0, _err := functions.SetNumValues(functions.SetFromPointer(x.Pointer()))
@@ -181,6 +190,15 @@ func (x *Set) Ne(s2 *Set) (bool, error) {
 	_r0, _err := functions.SetNe(functions.SetFromPointer(x.Pointer()), functions.SetFromPointer(s2.Pointer()))
 	if _err != nil {
 		return false, _err
+	}
+	return _r0, nil
+}
+
+// Sortkey is MEOS set_sortkey.
+func (x *Set) Sortkey(size unsafe.Pointer) (unsafe.Pointer, error) {
+	_r0, _err := functions.SetSortkey(functions.SetFromPointer(x.Pointer()), size)
+	if _err != nil {
+		return nil, _err
 	}
 	return _r0, nil
 }

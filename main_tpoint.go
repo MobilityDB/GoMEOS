@@ -107,18 +107,18 @@ func TPointValueSet[TP TPoint](tp TP) ([]*Geom, error) {
 
 // TPointLength Returns the length of the trajectory.
 func TPointLength[TP TPoint](tp TP) float64 {
-	return float64(C.tpoint_length(tp.Inner()))
+	return float64(C.tpoint_length(tp.Inner(), C.bool(true)))
 }
 
 // CumulativeLength Returns the cumulative length of the trajectory.
 func CumulativeLength[TP TPoint](tp TP) Temporal {
-	res := C.tpoint_cumulative_length(tp.Inner())
+	res := C.tpoint_cumulative_length(tp.Inner(), C.bool(true))
 	return CreateTemporal(res)
 }
 
 // TPointSpeed Returns the speed of the temporal point.
 func TPointSpeed[TP TPoint](tp TP) Temporal {
-	res := C.tpoint_speed(tp.Inner())
+	res := C.tpoint_speed(tp.Inner(), C.bool(true))
 	return CreateTemporal(res)
 }
 
@@ -398,12 +398,12 @@ func AlwaysDisjointTPointTPoint(temp1, temp2 Temporal) bool {
 
 // AlwaysDWithinTPointGeo returns true if the temporal point is within the specified distance of the geometry.
 func AlwaysDWithinTPointGeo(temp Temporal, gs *Geom, dist float64) bool {
-	return int(C.adwithin_tgeo_geo(temp.Inner(), gs._inner, C.double(dist))) > 0
+	return int(C.adwithin_tgeo_geo(temp.Inner(), gs._inner, C.double(dist), C.bool(true))) > 0
 }
 
 // AlwaysDWithinTPointTPoint returns true if the two temporal points are within the specified distance.
 func AlwaysDWithinTPointTPoint(temp1, temp2 Temporal, dist float64) bool {
-	return int(C.adwithin_tgeo_tgeo(temp1.Inner(), temp2.Inner(), C.double(dist))) > 0
+	return int(C.adwithin_tgeo_tgeo(temp1.Inner(), temp2.Inner(), C.double(dist), C.bool(true))) > 0
 }
 
 // AlwaysIntersectsTPointGeo returns true if the temporal point intersects the geometry.
@@ -434,11 +434,11 @@ func EverDisjointTPointTPoint(temp1, temp2 Temporal) bool {
 }
 
 func EverDWithinTPointGeo(temp Temporal, gs *Geom, dist float64) bool {
-	return int(C.edwithin_tgeo_geo(temp.Inner(), gs._inner, C.double(dist))) > 0
+	return int(C.edwithin_tgeo_geo(temp.Inner(), gs._inner, C.double(dist), C.bool(true))) > 0
 }
 
 func EverDWithinTPointTPoint(temp1, temp2 Temporal, dist float64) bool {
-	return int(C.edwithin_tgeo_tgeo(temp1.Inner(), temp2.Inner(), C.double(dist))) > 0
+	return int(C.edwithin_tgeo_tgeo(temp1.Inner(), temp2.Inner(), C.double(dist), C.bool(true))) > 0
 }
 
 func EverIntersectsTPointGeo(temp Temporal, gs *Geom) bool {
@@ -485,12 +485,12 @@ func TDisjointTPointTPoint[TP1 TPoint, TP2 TPoint](temp1 TP1, temp2 TP2) Tempora
 }
 
 func TDWithinTPointGeo[TP TPoint](temp TP, gs *Geom, dist float64) Temporal {
-	res := C.tdwithin_tgeo_geo(temp.Inner(), gs._inner, C.double(dist))
+	res := C.tdwithin_tgeo_geo(temp.Inner(), gs._inner, C.double(dist), C.bool(true))
 	return CreateTemporal(res)
 }
 
 func TDWithinTPointTPoint[TP1 TPoint, TP2 TPoint](temp1 TP1, temp2 TP2, dist float64) Temporal {
-	res := C.tdwithin_tgeo_tgeo(temp1.Inner(), temp2.Inner(), C.double(dist))
+	res := C.tdwithin_tgeo_tgeo(temp1.Inner(), temp2.Inner(), C.double(dist), C.bool(true))
 	return CreateTemporal(res)
 }
 
@@ -510,12 +510,12 @@ func TTouchesTPointGeo[TP TPoint](temp TP, gs *Geom) Temporal {
 }
 
 func DistanceTPointPoint[TP TPoint](temp TP, gs *Geom) Temporal {
-	res := C.tdistance_tgeo_geo(temp.Inner(), gs._inner)
+	res := C.tdistance_tgeo_geo(temp.Inner(), gs._inner, C.bool(true))
 	return CreateTemporal(res)
 }
 
 func DistanceTPointTPoint[TP1 TPoint, TP2 TPoint](temp1 TP1, temp2 TP2) Temporal {
-	res := C.tdistance_tgeo_tgeo(temp1.Inner(), temp2.Inner())
+	res := C.tdistance_tgeo_tgeo(temp1.Inner(), temp2.Inner(), C.bool(true))
 	return CreateTemporal(res)
 }
 

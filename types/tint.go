@@ -113,6 +113,15 @@ func (x *TInt) StartValue() (int, error) {
 	return _r0, nil
 }
 
+// Value is MEOS tint_value.
+func (x *TInt) Value() (int, error) {
+	_r0, _err := functions.TintValue(functions.TemporalFromPointer(x.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
 // ValueAtTimestamptz is MEOS tint_value_at_timestamptz.
 func (x *TInt) ValueAtTimestamptz(t int64, strict bool) (int, bool, error) {
 	_found, _value, _err := functions.TintValueAtTimestamptz(functions.TemporalFromPointer(x.Pointer()), t, strict)
@@ -140,6 +149,15 @@ func (x *TInt) ValueN(n int) (int, bool, error) {
 // Values is MEOS tint_values.
 func (x *TInt) Values(count unsafe.Pointer) (unsafe.Pointer, error) {
 	_r0, _err := functions.TintValues(functions.TemporalFromPointer(x.Pointer()), count)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
+// Unnest is MEOS tint_unnest.
+func (x *TInt) Unnest(values unsafe.Pointer, count unsafe.Pointer) (unsafe.Pointer, error) {
+	_r0, _err := functions.TintUnnest(functions.TemporalFromPointer(x.Pointer()), values, count)
 	if _err != nil {
 		return nil, _err
 	}
@@ -192,8 +210,8 @@ func (x *TInt) MinusValue(i int) (*Temporal, error) {
 }
 
 // ValueBins is MEOS tint_value_bins.
-func (x *TInt) ValueBins(vsize int, vorigin int, count unsafe.Pointer) (*Span, error) {
-	_r0, _err := functions.TintValueBins(functions.TemporalFromPointer(x.Pointer()), vsize, vorigin, count)
+func (x *TInt) ValueBins(vsize int, vorigin int, border_inc bool, count unsafe.Pointer) (*Span, error) {
+	_r0, _err := functions.TintValueBins(functions.TemporalFromPointer(x.Pointer()), vsize, vorigin, border_inc, count)
 	if _err != nil {
 		return nil, _err
 	}
@@ -201,8 +219,8 @@ func (x *TInt) ValueBins(vsize int, vorigin int, count unsafe.Pointer) (*Span, e
 }
 
 // ValueBoxes is MEOS tint_value_boxes.
-func (x *TInt) ValueBoxes(vsize int, vorigin int, count unsafe.Pointer) (*TBox, error) {
-	_r0, _err := functions.TintValueBoxes(functions.TemporalFromPointer(x.Pointer()), vsize, vorigin, count)
+func (x *TInt) ValueBoxes(vsize int, vorigin int, border_inc bool, count unsafe.Pointer) (*TBox, error) {
+	_r0, _err := functions.TintValueBoxes(functions.TemporalFromPointer(x.Pointer()), vsize, vorigin, border_inc, count)
 	if _err != nil {
 		return nil, _err
 	}
@@ -210,8 +228,8 @@ func (x *TInt) ValueBoxes(vsize int, vorigin int, count unsafe.Pointer) (*TBox, 
 }
 
 // ValueSplit is MEOS tint_value_split.
-func (x *TInt) ValueSplit(vsize int, vorigin int, bins unsafe.Pointer, count unsafe.Pointer) (unsafe.Pointer, error) {
-	_r0, _err := functions.TintValueSplit(functions.TemporalFromPointer(x.Pointer()), vsize, vorigin, bins, count)
+func (x *TInt) ValueSplit(vsize int, vorigin int, border_inc bool, bins unsafe.Pointer, count unsafe.Pointer) (unsafe.Pointer, error) {
+	_r0, _err := functions.TintValueSplit(functions.TemporalFromPointer(x.Pointer()), vsize, vorigin, border_inc, bins, count)
 	if _err != nil {
 		return nil, _err
 	}

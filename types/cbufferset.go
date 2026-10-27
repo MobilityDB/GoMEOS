@@ -42,8 +42,8 @@ func (x *CbufferSet) Out(maxdd int) (string, error) {
 }
 
 // CbufferSetMake is MEOS cbufferset_make.
-func CbufferSetMake(values unsafe.Pointer, count int) (*Set, error) {
-	_r0, _err := functions.CbuffersetMake(values, count)
+func CbufferSetMake(values *Cbuffer, count int) (*Set, error) {
+	_r0, _err := functions.CbuffersetMake(functions.CbufferFromPointer(values.Pointer()), count)
 	if _err != nil {
 		return nil, _err
 	}

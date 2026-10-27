@@ -28,6 +28,7 @@ package functions
 #define gunion_float_span union_float_span
 #define gunion_float_spanset union_float_spanset
 #define gunion_geo_set union_geo_set
+#define gunion_h3index_set union_h3index_set
 #define gunion_int_set union_int_set
 #define gunion_int_span union_int_span
 #define gunion_int_spanset union_int_spanset
@@ -37,11 +38,14 @@ package functions
 #define gunion_pcpoint_set union_pcpoint_set
 #define gunion_pose_set union_pose_set
 #define gunion_posechain_set union_posechain_set
+#define gunion_quadbin_set union_quadbin_set
+#define gunion_s2cell_set union_s2cell_set
 #define gunion_set_bigint union_set_bigint
 #define gunion_set_cbuffer union_set_cbuffer
 #define gunion_set_date union_set_date
 #define gunion_set_float union_set_float
 #define gunion_set_geo union_set_geo
+#define gunion_set_h3index union_set_h3index
 #define gunion_set_int union_set_int
 #define gunion_set_jsonb union_set_jsonb
 #define gunion_set_npoint union_set_npoint
@@ -49,6 +53,8 @@ package functions
 #define gunion_set_pcpoint union_set_pcpoint
 #define gunion_set_pose union_set_pose
 #define gunion_set_posechain union_set_posechain
+#define gunion_set_quadbin union_set_quadbin
+#define gunion_set_s2cell union_set_s2cell
 #define gunion_set_set union_set_set
 #define gunion_set_text union_set_text
 #define gunion_set_timestamptz union_set_timestamptz
@@ -168,19 +174,6 @@ func InterptypeName(interp Interpolation) (_r0 string, _err error) {
 }
 
 
-// InterptypeFromString wraps MEOS C function interptype_from_string.
-func InterptypeFromString(interp_str string) (_r0 Interpolation, _err error) {
-	_c_interp_str := C.CString(interp_str)
-	defer C.free(unsafe.Pointer(_c_interp_str))
-	C.meos_errno_reset()
-	_cret := C.interptype_from_string(_c_interp_str)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	return Interpolation(_cret), nil
-}
-
-
 // MeosTypeofHexwkb wraps MEOS C function meos_typeof_hexwkb.
 func MeosTypeofHexwkb(hexwkb string) (_r0 MeosType, _err error) {
 	_c_hexwkb := C.CString(hexwkb)
@@ -202,6 +195,19 @@ func MeostypeName(type_ MeosType) (_r0 string, _err error) {
 		return
 	}
 	return C.GoString(_cret), nil
+}
+
+
+// MeostypeFromString wraps MEOS C function meostype_from_string.
+func MeostypeFromString(name string) (_r0 MeosType, _err error) {
+	_c_name := C.CString(name)
+	defer C.free(unsafe.Pointer(_c_name))
+	C.meos_errno_reset()
+	_cret := C.meostype_from_string(_c_name)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return MeosType(_cret), nil
 }
 
 
@@ -319,6 +325,17 @@ func MeosBasetype(type_ MeosType) (_r0 bool, _err error) {
 func AlphanumBasetype(type_ MeosType) (_r0 bool, _err error) {
 	C.meos_errno_reset()
 	_cret := C.alphanum_basetype(C.MeosType(type_))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// EnsureAlphanumBasetype wraps MEOS C function ensure_alphanum_basetype.
+func EnsureAlphanumBasetype(type_ MeosType) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.ensure_alphanum_basetype(C.MeosType(type_))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -660,6 +677,28 @@ func TimespanType(type_ MeosType) (_r0 bool, _err error) {
 func SpansetType(type_ MeosType) (_r0 bool, _err error) {
 	C.meos_errno_reset()
 	_cret := C.spanset_type(C.MeosType(type_))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// NumspansetType wraps MEOS C function numspanset_type.
+func NumspansetType(type_ MeosType) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.numspanset_type(C.MeosType(type_))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// EnsureNumspansetType wraps MEOS C function ensure_numspanset_type.
+func EnsureNumspansetType(type_ MeosType) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.ensure_numspanset_type(C.MeosType(type_))
 	if _err = meosError(); _err != nil {
 		return
 	}

@@ -42,8 +42,8 @@ func (x *NpointSet) Out(maxdd int) (string, error) {
 }
 
 // NpointSetMake is MEOS npointset_make.
-func NpointSetMake(values unsafe.Pointer, count int) (*Set, error) {
-	_r0, _err := functions.NpointsetMake(values, count)
+func NpointSetMake(values *Npoint, count int) (*Set, error) {
+	_r0, _err := functions.NpointsetMake(functions.NpointFromPointer(values.Pointer()), count)
 	if _err != nil {
 		return nil, _err
 	}

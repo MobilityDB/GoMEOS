@@ -113,6 +113,15 @@ func (x *TCbuffer) StartValue() (*Cbuffer, error) {
 	return CbufferFromPointer(_r0.Pointer()), nil
 }
 
+// Value is MEOS tcbuffer_value.
+func (x *TCbuffer) Value() (*Cbuffer, error) {
+	_r0, _err := functions.TcbufferValue(functions.TemporalFromPointer(x.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return CbufferFromPointer(_r0.Pointer()), nil
+}
+
 // ValueAtTimestamptz is MEOS tcbuffer_value_at_timestamptz.
 func (x *TCbuffer) ValueAtTimestamptz(t int64, strict bool) (*Cbuffer, bool, error) {
 	_found, _value, _err := functions.TcbufferValueAtTimestamptz(functions.TemporalFromPointer(x.Pointer()), t, strict)
@@ -146,6 +155,15 @@ func (x *TCbuffer) Values(count unsafe.Pointer) (unsafe.Pointer, error) {
 	return _r0, nil
 }
 
+// Unnest is MEOS tcbuffer_unnest.
+func (x *TCbuffer) Unnest(values unsafe.Pointer, count unsafe.Pointer) (unsafe.Pointer, error) {
+	_r0, _err := functions.TcbufferUnnest(functions.TemporalFromPointer(x.Pointer()), values, count)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
 // ToTfloat is MEOS tcbuffer_to_tfloat.
 func (x *TCbuffer) ToTfloat() (*Temporal, error) {
 	_r0, _err := functions.TcbufferToTfloat(functions.TemporalFromPointer(x.Pointer()))
@@ -167,6 +185,33 @@ func (x *TCbuffer) ToTgeompoint() (*Temporal, error) {
 // Expand is MEOS tcbuffer_expand.
 func (x *TCbuffer) Expand(dist float64) (*Temporal, error) {
 	_r0, _err := functions.TcbufferExpand(functions.TemporalFromPointer(x.Pointer()), dist)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// Rotate is MEOS tcbuffer_rotate.
+func (x *TCbuffer) Rotate(angle float64, x0 float64, y0 float64) (*Temporal, error) {
+	_r0, _err := functions.TcbufferRotate(functions.TemporalFromPointer(x.Pointer()), angle, x0, y0)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// RotateZ is MEOS tcbuffer_rotate_z.
+func (x *TCbuffer) RotateZ(angle float64) (*Temporal, error) {
+	_r0, _err := functions.TcbufferRotateZ(functions.TemporalFromPointer(x.Pointer()), angle)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// Translate is MEOS tcbuffer_translate.
+func (x *TCbuffer) Translate(deltax float64, deltay float64) (*Temporal, error) {
+	_r0, _err := functions.TcbufferTranslate(functions.TemporalFromPointer(x.Pointer()), deltax, deltay)
 	if _err != nil {
 		return nil, _err
 	}

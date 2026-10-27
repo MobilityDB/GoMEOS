@@ -4,6 +4,8 @@ package types
 
 import (
 	"unsafe"
+
+	"github.com/MobilityDB/GoMEOS/functions"
 )
 
 type TInstant struct {
@@ -19,4 +21,13 @@ func TInstantFromPointer(p unsafe.Pointer) *TInstant {
 	v := &TInstant{}
 	v.ptr = p
 	return v
+}
+
+// Timestamptz is MEOS tinstant_timestamptz.
+func (x *TInstant) Timestamptz() (int64, error) {
+	_r0, _err := functions.TinstantTimestamptz(functions.TInstantFromPointer(x.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
 }

@@ -23,9 +23,27 @@ func NpointFromPointer(p unsafe.Pointer) *Npoint {
 	return v
 }
 
+// AsEWKB is MEOS npoint_as_ewkb.
+func (x *Npoint) AsEWKB(variant uint8, size_out unsafe.Pointer) (unsafe.Pointer, error) {
+	_r0, _err := functions.NpointAsEWKB(functions.NpointFromPointer(x.Pointer()), variant, size_out)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
 // AsEWKT is MEOS npoint_as_ewkt.
 func (x *Npoint) AsEWKT(maxdd int) (string, error) {
 	_r0, _err := functions.NpointAsEWKT(functions.NpointFromPointer(x.Pointer()), maxdd)
+	if _err != nil {
+		return "", _err
+	}
+	return _r0, nil
+}
+
+// AsHEXEWKB is MEOS npoint_as_hexewkb.
+func (x *Npoint) AsHEXEWKB(variant uint8, size_out unsafe.Pointer) (string, error) {
+	_r0, _err := functions.NpointAsHexewkb(functions.NpointFromPointer(x.Pointer()), variant, size_out)
 	if _err != nil {
 		return "", _err
 	}
@@ -93,6 +111,15 @@ func (x *Npoint) Out(maxdd int) (string, error) {
 		return "", _err
 	}
 	return _r0, nil
+}
+
+// Copy is MEOS npoint_copy.
+func (x *Npoint) Copy() (*Npoint, error) {
+	_r0, _err := functions.NpointCopy(functions.NpointFromPointer(x.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return NpointFromPointer(_r0.Pointer()), nil
 }
 
 // NpointMake is MEOS npoint_make.
@@ -260,15 +287,6 @@ func (x *Npoint) Lt(np2 *Npoint) (bool, error) {
 // Ne is MEOS npoint_ne.
 func (x *Npoint) Ne(np2 *Npoint) (bool, error) {
 	_r0, _err := functions.NpointNe(functions.NpointFromPointer(x.Pointer()), functions.NpointFromPointer(np2.Pointer()))
-	if _err != nil {
-		return false, _err
-	}
-	return _r0, nil
-}
-
-// Same is MEOS npoint_same.
-func (x *Npoint) Same(np2 *Npoint) (bool, error) {
-	_r0, _err := functions.NpointSame(functions.NpointFromPointer(x.Pointer()), functions.NpointFromPointer(np2.Pointer()))
 	if _err != nil {
 		return false, _err
 	}
