@@ -141,12 +141,12 @@ func (x *TNpoint) StartValue() (*Npoint, error) {
 }
 
 // Trajectory is MEOS tnpoint_trajectory.
-func (x *TNpoint) Trajectory() (*TRGeometrySeqSet, error) {
+func (x *TNpoint) Trajectory() (*Geo, error) {
 	_r0, _err := functions.TnpointTrajectory(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+	return GeoFromPointer(_r0.Pointer()), nil
 }
 
 // Value is MEOS tnpoint_value.
@@ -201,16 +201,16 @@ func (x *TNpoint) Unnest(values unsafe.Pointer, count unsafe.Pointer) (unsafe.Po
 }
 
 // Twcentroid is MEOS tnpoint_twcentroid.
-func (x *TNpoint) Twcentroid() (*TRGeometrySeqSet, error) {
+func (x *TNpoint) Twcentroid() (*Geo, error) {
 	_r0, _err := functions.TnpointTwcentroid(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+	return GeoFromPointer(_r0.Pointer()), nil
 }
 
 // AtGeom is MEOS tnpoint_at_geom.
-func (x *TNpoint) AtGeom(gs *TRGeometrySeqSet) (*Temporal, error) {
+func (x *TNpoint) AtGeom(gs *Geo) (*Temporal, error) {
 	_r0, _err := functions.TnpointAtGeom(functions.TemporalFromPointer(x.Pointer()), functions.GeomFromPointer(gs.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -246,7 +246,7 @@ func (x *TNpoint) AtStbox(box *STBox, border_inc bool) (*Temporal, error) {
 }
 
 // MinusGeom is MEOS tnpoint_minus_geom.
-func (x *TNpoint) MinusGeom(gs *TRGeometrySeqSet) (*Temporal, error) {
+func (x *TNpoint) MinusGeom(gs *Geo) (*Temporal, error) {
 	_r0, _err := functions.TnpointMinusGeom(functions.TemporalFromPointer(x.Pointer()), functions.GeomFromPointer(gs.Pointer()))
 	if _err != nil {
 		return nil, _err

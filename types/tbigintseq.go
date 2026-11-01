@@ -9,7 +9,7 @@ import (
 )
 
 type TBigintSeq struct {
-	handle
+	TBigint
 }
 
 // TBigintSeqFromPointer wraps a MEOS pointer, answering nil for nil so an

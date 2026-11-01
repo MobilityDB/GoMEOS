@@ -167,12 +167,12 @@ func PoseChainPrefixPose(pc unsafe.Pointer, n int) (*Pose, error) {
 }
 
 // PoseChainToPoint is MEOS posechain_to_point.
-func PoseChainToPoint(pc unsafe.Pointer) (*TRGeometrySeqSet, error) {
+func PoseChainToPoint(pc unsafe.Pointer) (*Geo, error) {
 	_r0, _err := functions.PosechainToPoint(pc)
 	if _err != nil {
 		return nil, _err
 	}
-	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+	return GeoFromPointer(_r0.Pointer()), nil
 }
 
 // PoseChainToStbox is MEOS posechain_to_stbox.

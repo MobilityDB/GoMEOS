@@ -114,21 +114,21 @@ func (x *TRGeometry) EndSequence() (*Temporal, error) {
 }
 
 // EndValue is MEOS trgeometry_end_value.
-func (x *TRGeometry) EndValue() (*TRGeometrySeqSet, error) {
+func (x *TRGeometry) EndValue() (*Geo, error) {
 	_r0, _err := functions.TrgeometryEndValue(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+	return GeoFromPointer(_r0.Pointer()), nil
 }
 
 // Geom is MEOS trgeometry_geom.
-func (x *TRGeometry) Geom() (*TRGeometrySeqSet, error) {
+func (x *TRGeometry) Geom() (*Geo, error) {
 	_r0, _err := functions.TrgeometryGeom(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+	return GeoFromPointer(_r0.Pointer()), nil
 }
 
 // InstantN is MEOS trgeometry_instant_n.
@@ -231,12 +231,12 @@ func (x *TRGeometry) StartSequence() (*Temporal, error) {
 }
 
 // StartValue is MEOS trgeometry_start_value.
-func (x *TRGeometry) StartValue() (*TRGeometrySeqSet, error) {
+func (x *TRGeometry) StartValue() (*Geo, error) {
 	_r0, _err := functions.TrgeometryStartValue(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+	return GeoFromPointer(_r0.Pointer()), nil
 }
 
 // Value is MEOS trgeometry_value.
@@ -267,7 +267,7 @@ func (x *TRGeometry) Unnest(values unsafe.Pointer, count unsafe.Pointer) (unsafe
 }
 
 // ValueN is MEOS trgeometry_value_n.
-func (x *TRGeometry) ValueN(n int) (*TRGeometrySeqSet, bool, error) {
+func (x *TRGeometry) ValueN(n int) (*Geo, bool, error) {
 	_found, _value, _err := functions.TrgeometryValueN(functions.TemporalFromPointer(x.Pointer()), n)
 	if _err != nil {
 		return nil, false, _err
@@ -275,11 +275,11 @@ func (x *TRGeometry) ValueN(n int) (*TRGeometrySeqSet, bool, error) {
 	if !_found {
 		return nil, false, nil
 	}
-	return TRGeometrySeqSetFromPointer(_value.Pointer()), true, nil
+	return GeoFromPointer(_value.Pointer()), true, nil
 }
 
 // ValueAtTimestamptz is MEOS trgeometry_value_at_timestamptz.
-func (x *TRGeometry) ValueAtTimestamptz(t int64, strict bool) (*TRGeometrySeqSet, bool, error) {
+func (x *TRGeometry) ValueAtTimestamptz(t int64, strict bool) (*Geo, bool, error) {
 	_found, _value, _err := functions.TrgeometryValueAtTimestamptz(functions.TemporalFromPointer(x.Pointer()), t, strict)
 	if _err != nil {
 		return nil, false, _err
@@ -287,16 +287,16 @@ func (x *TRGeometry) ValueAtTimestamptz(t int64, strict bool) (*TRGeometrySeqSet
 	if !_found {
 		return nil, false, nil
 	}
-	return TRGeometrySeqSetFromPointer(_value.Pointer()), true, nil
+	return GeoFromPointer(_value.Pointer()), true, nil
 }
 
 // TraversedArea is MEOS trgeometry_traversed_area.
-func (x *TRGeometry) TraversedArea(unary_union bool) (*TRGeometrySeqSet, error) {
+func (x *TRGeometry) TraversedArea(unary_union bool) (*Geo, error) {
 	_r0, _err := functions.TrgeometryTraversedArea(functions.TemporalFromPointer(x.Pointer()), unary_union)
 	if _err != nil {
 		return nil, _err
 	}
-	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+	return GeoFromPointer(_r0.Pointer()), nil
 }
 
 // Centroid is MEOS trgeometry_centroid.
@@ -309,16 +309,16 @@ func (x *TRGeometry) Centroid() (*Temporal, error) {
 }
 
 // ConvexHull is MEOS trgeometry_convex_hull.
-func (x *TRGeometry) ConvexHull() (*TRGeometrySeqSet, error) {
+func (x *TRGeometry) ConvexHull() (*Geo, error) {
 	_r0, _err := functions.TrgeometryConvexHull(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+	return GeoFromPointer(_r0.Pointer()), nil
 }
 
 // BodyPointTrajectory is MEOS trgeometry_body_point_trajectory.
-func (x *TRGeometry) BodyPointTrajectory(gs *TRGeometrySeqSet) (*Temporal, error) {
+func (x *TRGeometry) BodyPointTrajectory(gs *Geo) (*Temporal, error) {
 	_r0, _err := functions.TrgeometryBodyPointTrajectory(functions.TemporalFromPointer(x.Pointer()), functions.GeomFromPointer(gs.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -327,7 +327,7 @@ func (x *TRGeometry) BodyPointTrajectory(gs *TRGeometrySeqSet) (*Temporal, error
 }
 
 // SpaceBoxes is MEOS trgeometry_space_boxes.
-func (x *TRGeometry) SpaceBoxes(xsize float64, ysize float64, zsize float64, sorigin *TRGeometrySeqSet, bitmatrix bool, border_inc bool, count unsafe.Pointer) (*STBox, error) {
+func (x *TRGeometry) SpaceBoxes(xsize float64, ysize float64, zsize float64, sorigin *Geo, bitmatrix bool, border_inc bool, count unsafe.Pointer) (*STBox, error) {
 	_r0, _err := functions.TrgeometrySpaceBoxes(functions.TemporalFromPointer(x.Pointer()), xsize, ysize, zsize, functions.GeomFromPointer(sorigin.Pointer()), bitmatrix, border_inc, count)
 	if _err != nil {
 		return nil, _err
@@ -399,12 +399,12 @@ func (x *TRGeometry) Speed() (*Temporal, error) {
 }
 
 // Twcentroid is MEOS trgeometry_twcentroid.
-func (x *TRGeometry) Twcentroid() (*TRGeometrySeqSet, error) {
+func (x *TRGeometry) Twcentroid() (*Geo, error) {
 	_r0, _err := functions.TrgeometryTwcentroid(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+	return GeoFromPointer(_r0.Pointer()), nil
 }
 
 // AppendTsequence is MEOS trgeometry_append_tsequence.
@@ -579,7 +579,7 @@ func (x *TRGeometry) BeforeTimestamptz(t int64, strict bool) (*Temporal, error) 
 }
 
 // AtGeom is MEOS trgeometry_at_geom.
-func (x *TRGeometry) AtGeom(gs *TRGeometrySeqSet) (*Temporal, error) {
+func (x *TRGeometry) AtGeom(gs *Geo) (*Temporal, error) {
 	_r0, _err := functions.TrgeometryAtGeom(functions.TemporalFromPointer(x.Pointer()), functions.GeomFromPointer(gs.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -588,7 +588,7 @@ func (x *TRGeometry) AtGeom(gs *TRGeometrySeqSet) (*Temporal, error) {
 }
 
 // MinusGeom is MEOS trgeometry_minus_geom.
-func (x *TRGeometry) MinusGeom(gs *TRGeometrySeqSet) (*Temporal, error) {
+func (x *TRGeometry) MinusGeom(gs *Geo) (*Temporal, error) {
 	_r0, _err := functions.TrgeometryMinusGeom(functions.TemporalFromPointer(x.Pointer()), functions.GeomFromPointer(gs.Pointer()))
 	if _err != nil {
 		return nil, _err

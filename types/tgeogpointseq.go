@@ -7,7 +7,7 @@ import (
 )
 
 type TGeogPointSeq struct {
-	handle
+	TGeogPoint
 }
 
 // TGeogPointSeqFromPointer wraps a MEOS pointer, answering nil for nil so an

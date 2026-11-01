@@ -9,7 +9,7 @@ import (
 )
 
 type TPcpointSeqSet struct {
-	handle
+	TPcpoint
 }
 
 // TPcpointSeqSetFromPointer wraps a MEOS pointer, answering nil for nil so an

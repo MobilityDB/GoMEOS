@@ -24,62 +24,62 @@ func GeographyFromPointer(p unsafe.Pointer) *Geography {
 }
 
 // GeographyFromHexEWKB is MEOS geog_from_hexewkb.
-func GeographyFromHexEWKB(hexwkb string) (*TRGeometrySeqSet, error) {
+func GeographyFromHexEWKB(hexwkb string) (*Geo, error) {
 	_r0, _err := functions.GeogFromHexewkb(hexwkb)
 	if _err != nil {
 		return nil, _err
 	}
-	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+	return GeoFromPointer(_r0.Pointer()), nil
 }
 
 // GeographyIn is MEOS geog_in.
-func GeographyIn(str string, typmod int32) (*TRGeometrySeqSet, error) {
+func GeographyIn(str string, typmod int32) (*Geo, error) {
 	_r0, _err := functions.GeogIn(str, typmod)
 	if _err != nil {
 		return nil, _err
 	}
-	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+	return GeoFromPointer(_r0.Pointer()), nil
 }
 
-// GeographyToGeom is MEOS geog_to_geom.
-func GeographyToGeom(geog *TRGeometrySeqSet) (*TRGeometrySeqSet, error) {
-	_r0, _err := functions.GeogToGeom(functions.GeomFromPointer(geog.Pointer()))
+// ToGeom is MEOS geog_to_geom.
+func (x *Geography) ToGeom() (*Geo, error) {
+	_r0, _err := functions.GeogToGeom(functions.GeomFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+	return GeoFromPointer(_r0.Pointer()), nil
 }
 
-// GeographyArea is MEOS geog_area.
-func GeographyArea(gs *TRGeometrySeqSet, use_spheroid bool) (float64, error) {
-	_r0, _err := functions.GeogArea(functions.GeomFromPointer(gs.Pointer()), use_spheroid)
+// Area is MEOS geog_area.
+func (x *Geography) Area(use_spheroid bool) (float64, error) {
+	_r0, _err := functions.GeogArea(functions.GeomFromPointer(x.Pointer()), use_spheroid)
 	if _err != nil {
 		return 0, _err
 	}
 	return _r0, nil
 }
 
-// GeographyCentroid is MEOS geog_centroid.
-func GeographyCentroid(gs *TRGeometrySeqSet, use_spheroid bool) (*TRGeometrySeqSet, error) {
-	_r0, _err := functions.GeogCentroid(functions.GeomFromPointer(gs.Pointer()), use_spheroid)
+// Centroid is MEOS geog_centroid.
+func (x *Geography) Centroid(use_spheroid bool) (*Geo, error) {
+	_r0, _err := functions.GeogCentroid(functions.GeomFromPointer(x.Pointer()), use_spheroid)
 	if _err != nil {
 		return nil, _err
 	}
-	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+	return GeoFromPointer(_r0.Pointer()), nil
 }
 
-// GeographyLength is MEOS geog_length.
-func GeographyLength(gs *TRGeometrySeqSet, use_spheroid bool) (float64, error) {
-	_r0, _err := functions.GeogLength(functions.GeomFromPointer(gs.Pointer()), use_spheroid)
+// Length is MEOS geog_length.
+func (x *Geography) Length(use_spheroid bool) (float64, error) {
+	_r0, _err := functions.GeogLength(functions.GeomFromPointer(x.Pointer()), use_spheroid)
 	if _err != nil {
 		return 0, _err
 	}
 	return _r0, nil
 }
 
-// GeographyPerimeter is MEOS geog_perimeter.
-func GeographyPerimeter(gs *TRGeometrySeqSet, use_spheroid bool) (float64, error) {
-	_r0, _err := functions.GeogPerimeter(functions.GeomFromPointer(gs.Pointer()), use_spheroid)
+// Perimeter is MEOS geog_perimeter.
+func (x *Geography) Perimeter(use_spheroid bool) (float64, error) {
+	_r0, _err := functions.GeogPerimeter(functions.GeomFromPointer(x.Pointer()), use_spheroid)
 	if _err != nil {
 		return 0, _err
 	}
@@ -87,70 +87,87 @@ func GeographyPerimeter(gs *TRGeometrySeqSet, use_spheroid bool) (float64, error
 }
 
 // GeographyArrayUnion is MEOS geog_array_union.
-func GeographyArrayUnion(gsarr unsafe.Pointer, count int) (*TRGeometrySeqSet, error) {
+func GeographyArrayUnion(gsarr unsafe.Pointer, count int) (*Geo, error) {
 	_r0, _err := functions.GeogArrayUnion(gsarr, count)
 	if _err != nil {
 		return nil, _err
 	}
-	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+	return GeoFromPointer(_r0.Pointer()), nil
 }
 
-// GeographyDwithin is MEOS geog_dwithin.
-func GeographyDwithin(g1 *TRGeometrySeqSet, g2 *TRGeometrySeqSet, tolerance float64, use_spheroid bool) (bool, error) {
-	_r0, _err := functions.GeogDwithin(functions.GeomFromPointer(g1.Pointer()), functions.GeomFromPointer(g2.Pointer()), tolerance, use_spheroid)
+// Dwithin is MEOS geog_dwithin.
+func (x *Geography) Dwithin(g2 *Geo, tolerance float64, use_spheroid bool) (bool, error) {
+	_r0, _err := functions.GeogDwithin(functions.GeomFromPointer(x.Pointer()), functions.GeomFromPointer(g2.Pointer()), tolerance, use_spheroid)
 	if _err != nil {
 		return false, _err
 	}
 	return _r0, nil
 }
 
-// GeographyDisjoint is MEOS geog_disjoint.
-func GeographyDisjoint(gs1 *TRGeometrySeqSet, gs2 *TRGeometrySeqSet, use_spheroid bool) (bool, error) {
-	_r0, _err := functions.GeogDisjoint(functions.GeomFromPointer(gs1.Pointer()), functions.GeomFromPointer(gs2.Pointer()), use_spheroid)
+// Disjoint is MEOS geog_disjoint.
+func (x *Geography) Disjoint(gs2 *Geo, use_spheroid bool) (bool, error) {
+	_r0, _err := functions.GeogDisjoint(functions.GeomFromPointer(x.Pointer()), functions.GeomFromPointer(gs2.Pointer()), use_spheroid)
 	if _err != nil {
 		return false, _err
 	}
 	return _r0, nil
 }
 
-// GeographyIntersects is MEOS geog_intersects.
-func GeographyIntersects(gs1 *TRGeometrySeqSet, gs2 *TRGeometrySeqSet, use_spheroid bool) (bool, error) {
-	_r0, _err := functions.GeogIntersects(functions.GeomFromPointer(gs1.Pointer()), functions.GeomFromPointer(gs2.Pointer()), use_spheroid)
+// Intersects is MEOS geog_intersects.
+func (x *Geography) Intersects(gs2 *Geo, use_spheroid bool) (bool, error) {
+	_r0, _err := functions.GeogIntersects(functions.GeomFromPointer(x.Pointer()), functions.GeomFromPointer(gs2.Pointer()), use_spheroid)
 	if _err != nil {
 		return false, _err
 	}
 	return _r0, nil
 }
 
-// GeographyDistance is MEOS geog_distance.
-func GeographyDistance(g1 *TRGeometrySeqSet, g2 *TRGeometrySeqSet, use_spheroid bool) (float64, error) {
-	_r0, _err := functions.GeogDistance(functions.GeomFromPointer(g1.Pointer()), functions.GeomFromPointer(g2.Pointer()), use_spheroid)
+// Distance is MEOS geog_distance.
+func (x *Geography) Distance(g2 *Geo, use_spheroid bool) (float64, error) {
+	_r0, _err := functions.GeogDistance(functions.GeomFromPointer(x.Pointer()), functions.GeomFromPointer(g2.Pointer()), use_spheroid)
 	if _err != nil {
 		return 0, _err
 	}
 	return _r0, nil
 }
 
-// GeographyShortestline is MEOS geog_shortestline.
-func GeographyShortestline(gs1 *TRGeometrySeqSet, gs2 *TRGeometrySeqSet, use_spheroid bool) (*TRGeometrySeqSet, error) {
-	_r0, _err := functions.GeogShortestline(functions.GeomFromPointer(gs1.Pointer()), functions.GeomFromPointer(gs2.Pointer()), use_spheroid)
+// Shortestline is MEOS geog_shortestline.
+func (x *Geography) Shortestline(gs2 *Geo, use_spheroid bool) (*Geo, error) {
+	_r0, _err := functions.GeogShortestline(functions.GeomFromPointer(x.Pointer()), functions.GeomFromPointer(gs2.Pointer()), use_spheroid)
 	if _err != nil {
 		return nil, _err
 	}
-	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+	return GeoFromPointer(_r0.Pointer()), nil
 }
 
 // GeographyFromEWKB is the portable fromEWKB of MEOS geo_from_ewkb.
-func GeographyFromEWKB(wkb []byte, srid int32) (*TRGeometrySeqSet, error) {
-	return GeoFromEWKB(wkb, srid)
+func GeographyFromEWKB(wkb []byte, srid int32) (*Geography, error) {
+	r, err := GeoFromEWKB(wkb, srid)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return GeographyFromPointer(r.Pointer()), nil
+}
+
+// AsMFJSON is the portable asMFJSON of MEOS geo_as_geojson.
+func (x *Geography) AsMFJSON(option int, precision int, srs *string) (string, error) {
+	return x.AsGeoJSON(option, precision, srs)
 }
 
 // GeographyFromMFJSON is the portable fromMFJSON of MEOS geo_from_geojson.
-func GeographyFromMFJSON(geojson string) (*TRGeometrySeqSet, error) {
-	return GeoFromGeoJSON(geojson)
+func GeographyFromMFJSON(geojson string) (*Geography, error) {
+	r, err := GeoFromGeoJSON(geojson)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return GeographyFromPointer(r.Pointer()), nil
 }
 
 // GeographyFromText is the portable fromText of MEOS geo_from_text.
-func GeographyFromText(wkt string, srid int32) (*TRGeometrySeqSet, error) {
-	return GeoFromText(wkt, srid)
+func GeographyFromText(wkt string, srid int32) (*Geography, error) {
+	r, err := GeoFromText(wkt, srid)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return GeographyFromPointer(r.Pointer()), nil
 }

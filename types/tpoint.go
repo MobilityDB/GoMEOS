@@ -26,7 +26,7 @@ func TPointFromPointer(p unsafe.Pointer) *TPoint {
 }
 
 // TPointFromBaseTemp is MEOS tpoint_from_base_temp.
-func TPointFromBaseTemp(gs *TRGeometrySeqSet, temp *Temporal) (*Temporal, error) {
+func TPointFromBaseTemp(gs *Geo, temp *Temporal) (*Temporal, error) {
 	_r0, _err := functions.TpointFromBaseTemp(functions.GeomFromPointer(gs.Pointer()), functions.TemporalFromPointer(temp.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -44,7 +44,7 @@ func (x *TPoint) AsMvtgeom(bounds *STBox, extent int32, buffer int32, clip_geom 
 }
 
 // TfloatToGeomeas is MEOS tpoint_tfloat_to_geomeas.
-func (x *TPoint) TfloatToGeomeas(measure *Temporal, segmentize bool) (*TRGeometrySeqSet, bool, error) {
+func (x *TPoint) TfloatToGeomeas(measure *Temporal, segmentize bool) (*Geo, bool, error) {
 	_found, _value, _err := functions.TpointTfloatToGeomeas(functions.TemporalFromPointer(x.Pointer()), functions.TemporalFromPointer(measure.Pointer()), segmentize)
 	if _err != nil {
 		return nil, false, _err
@@ -52,7 +52,7 @@ func (x *TPoint) TfloatToGeomeas(measure *Temporal, segmentize bool) (*TRGeometr
 	if !_found {
 		return nil, false, nil
 	}
-	return TRGeometrySeqSetFromPointer(_value.Pointer()), true, nil
+	return GeoFromPointer(_value.Pointer()), true, nil
 }
 
 // AngularDifference is MEOS tpoint_angular_difference.
@@ -149,21 +149,21 @@ func (x *TPoint) Speed(spheroid bool) (*Temporal, error) {
 }
 
 // Trajectory is MEOS tpoint_trajectory.
-func (x *TPoint) Trajectory(unary_union bool) (*TRGeometrySeqSet, error) {
+func (x *TPoint) Trajectory(unary_union bool) (*Geo, error) {
 	_r0, _err := functions.TpointTrajectory(functions.TemporalFromPointer(x.Pointer()), unary_union)
 	if _err != nil {
 		return nil, _err
 	}
-	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+	return GeoFromPointer(_r0.Pointer()), nil
 }
 
 // Twcentroid is MEOS tpoint_twcentroid.
-func (x *TPoint) Twcentroid() (*TRGeometrySeqSet, error) {
+func (x *TPoint) Twcentroid() (*Geo, error) {
 	_r0, _err := functions.TpointTwcentroid(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+	return GeoFromPointer(_r0.Pointer()), nil
 }
 
 // MakeSimple is MEOS tpoint_make_simple.
@@ -185,7 +185,7 @@ func (x *TPoint) AtElevation(s *Span) (*Temporal, error) {
 }
 
 // AtGeom is MEOS tpoint_at_geom.
-func (x *TPoint) AtGeom(gs *TRGeometrySeqSet) (*Temporal, error) {
+func (x *TPoint) AtGeom(gs *Geo) (*Temporal, error) {
 	_r0, _err := functions.TpointAtGeom(functions.TemporalFromPointer(x.Pointer()), functions.GeomFromPointer(gs.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -194,7 +194,7 @@ func (x *TPoint) AtGeom(gs *TRGeometrySeqSet) (*Temporal, error) {
 }
 
 // AtValue is MEOS tpoint_at_value.
-func (x *TPoint) AtValue(gs *TRGeometrySeqSet) (*Temporal, error) {
+func (x *TPoint) AtValue(gs *Geo) (*Temporal, error) {
 	_r0, _err := functions.TpointAtValue(functions.TemporalFromPointer(x.Pointer()), functions.GeomFromPointer(gs.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -212,7 +212,7 @@ func (x *TPoint) MinusElevation(s *Span) (*Temporal, error) {
 }
 
 // MinusGeom is MEOS tpoint_minus_geom.
-func (x *TPoint) MinusGeom(gs *TRGeometrySeqSet) (*Temporal, error) {
+func (x *TPoint) MinusGeom(gs *Geo) (*Temporal, error) {
 	_r0, _err := functions.TpointMinusGeom(functions.TemporalFromPointer(x.Pointer()), functions.GeomFromPointer(gs.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -221,7 +221,7 @@ func (x *TPoint) MinusGeom(gs *TRGeometrySeqSet) (*Temporal, error) {
 }
 
 // MinusValue is MEOS tpoint_minus_value.
-func (x *TPoint) MinusValue(gs *TRGeometrySeqSet) (*Temporal, error) {
+func (x *TPoint) MinusValue(gs *Geo) (*Temporal, error) {
 	_r0, _err := functions.TpointMinusValue(functions.TemporalFromPointer(x.Pointer()), functions.GeomFromPointer(gs.Pointer()))
 	if _err != nil {
 		return nil, _err

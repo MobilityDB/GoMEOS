@@ -140,12 +140,12 @@ func NpointMake(rid int64, pos float64) (*Npoint, error) {
 }
 
 // ToGeompoint is MEOS npoint_to_geompoint.
-func (x *Npoint) ToGeompoint() (*TRGeometrySeqSet, error) {
+func (x *Npoint) ToGeompoint() (*Geo, error) {
 	_r0, _err := functions.NpointToGeompoint(functions.NpointFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+	return GeoFromPointer(_r0.Pointer()), nil
 }
 
 // ToNsegment is MEOS npoint_to_nsegment.

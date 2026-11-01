@@ -9,7 +9,7 @@ import (
 )
 
 type TJsonbSeq struct {
-	handle
+	TJsonb
 }
 
 // TJsonbSeqFromPointer wraps a MEOS pointer, answering nil for nil so an

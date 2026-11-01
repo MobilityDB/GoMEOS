@@ -9,7 +9,7 @@ import (
 )
 
 type TH3IndexInst struct {
-	handle
+	TH3Index
 }
 
 // TH3IndexInstFromPointer wraps a MEOS pointer, answering nil for nil so an

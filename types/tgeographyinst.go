@@ -7,7 +7,7 @@ import (
 )
 
 type TGeographyInst struct {
-	handle
+	TGeography
 }
 
 // TGeographyInstFromPointer wraps a MEOS pointer, answering nil for nil so an

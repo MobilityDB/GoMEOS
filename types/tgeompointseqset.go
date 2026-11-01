@@ -7,7 +7,7 @@ import (
 )
 
 type TGeomPointSeqSet struct {
-	handle
+	TGeomPoint
 }
 
 // TGeomPointSeqSetFromPointer wraps a MEOS pointer, answering nil for nil so an

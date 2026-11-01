@@ -9,7 +9,7 @@ import (
 )
 
 type TFloatInst struct {
-	handle
+	TFloat
 }
 
 // TFloatInstFromPointer wraps a MEOS pointer, answering nil for nil so an

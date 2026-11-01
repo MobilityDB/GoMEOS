@@ -9,7 +9,7 @@ import (
 )
 
 type TTextInst struct {
-	handle
+	TText
 }
 
 // TTextInstFromPointer wraps a MEOS pointer, answering nil for nil so an

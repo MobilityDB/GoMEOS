@@ -9,7 +9,7 @@ import (
 )
 
 type TPoseInst struct {
-	handle
+	TPose
 }
 
 // TPoseInstFromPointer wraps a MEOS pointer, answering nil for nil so an

@@ -7,7 +7,7 @@ import (
 )
 
 type TGeometrySeq struct {
-	handle
+	TGeometry
 }
 
 // TGeometrySeqFromPointer wraps a MEOS pointer, answering nil for nil so an

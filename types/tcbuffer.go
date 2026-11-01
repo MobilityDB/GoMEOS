@@ -87,21 +87,21 @@ func (x *TCbuffer) Radius() (*Set, error) {
 }
 
 // TraversedArea is MEOS tcbuffer_traversed_area.
-func (x *TCbuffer) TraversedArea(unary_union bool) (*TRGeometrySeqSet, error) {
+func (x *TCbuffer) TraversedArea(unary_union bool) (*Geo, error) {
 	_r0, _err := functions.TcbufferTraversedArea(functions.TemporalFromPointer(x.Pointer()), unary_union)
 	if _err != nil {
 		return nil, _err
 	}
-	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+	return GeoFromPointer(_r0.Pointer()), nil
 }
 
 // ConvexHull is MEOS tcbuffer_convex_hull.
-func (x *TCbuffer) ConvexHull() (*TRGeometrySeqSet, error) {
+func (x *TCbuffer) ConvexHull() (*Geo, error) {
 	_r0, _err := functions.TcbufferConvexHull(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+	return GeoFromPointer(_r0.Pointer()), nil
 }
 
 // StartValue is MEOS tcbuffer_start_value.
@@ -228,7 +228,7 @@ func (x *TCbuffer) AtCbuffer(cb *Cbuffer) (*Temporal, error) {
 }
 
 // AtGeom is MEOS tcbuffer_at_geom.
-func (x *TCbuffer) AtGeom(gs *TRGeometrySeqSet) (*Temporal, error) {
+func (x *TCbuffer) AtGeom(gs *Geo) (*Temporal, error) {
 	_r0, _err := functions.TcbufferAtGeom(functions.TemporalFromPointer(x.Pointer()), functions.GeomFromPointer(gs.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -255,7 +255,7 @@ func (x *TCbuffer) MinusCbuffer(cb *Cbuffer) (*Temporal, error) {
 }
 
 // MinusGeom is MEOS tcbuffer_minus_geom.
-func (x *TCbuffer) MinusGeom(gs *TRGeometrySeqSet) (*Temporal, error) {
+func (x *TCbuffer) MinusGeom(gs *Geo) (*Temporal, error) {
 	_r0, _err := functions.TcbufferMinusGeom(functions.TemporalFromPointer(x.Pointer()), functions.GeomFromPointer(gs.Pointer()))
 	if _err != nil {
 		return nil, _err

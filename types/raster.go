@@ -254,7 +254,7 @@ func RasterBandPixels(rast unsafe.Pointer, band int) ([]byte, error) {
 }
 
 // RasterClip is MEOS raster_clip.
-func RasterClip(rast unsafe.Pointer, bands unsafe.Pointer, nbands int, gs *TRGeometrySeqSet, nodata unsafe.Pointer, nnodata int, crop bool, touched bool) (unsafe.Pointer, error) {
+func RasterClip(rast unsafe.Pointer, bands unsafe.Pointer, nbands int, gs *Geo, nodata unsafe.Pointer, nnodata int, crop bool, touched bool) (unsafe.Pointer, error) {
 	_r0, _err := functions.RasterClip(rast, bands, nbands, functions.GeomFromPointer(gs.Pointer()), nodata, nnodata, crop, touched)
 	if _err != nil {
 		return nil, _err

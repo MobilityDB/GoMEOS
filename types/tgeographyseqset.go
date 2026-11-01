@@ -7,7 +7,7 @@ import (
 )
 
 type TGeographySeqSet struct {
-	handle
+	TGeography
 }
 
 // TGeographySeqSetFromPointer wraps a MEOS pointer, answering nil for nil so an

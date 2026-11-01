@@ -26,7 +26,7 @@ func TGeoFromPointer(p unsafe.Pointer) *TGeo {
 }
 
 // TGeoFromBaseTemp is MEOS tgeo_from_base_temp.
-func TGeoFromBaseTemp(gs *TRGeometrySeqSet, temp *Temporal) (*Temporal, error) {
+func TGeoFromBaseTemp(gs *Geo, temp *Temporal) (*Temporal, error) {
 	_r0, _err := functions.TgeoFromBaseTemp(functions.GeomFromPointer(gs.Pointer()), functions.TemporalFromPointer(temp.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -44,52 +44,52 @@ func (x *TGeo) Centroid(spheroid bool) (*Temporal, error) {
 }
 
 // ConvexHull is MEOS tgeo_convex_hull.
-func (x *TGeo) ConvexHull() (*TRGeometrySeqSet, error) {
+func (x *TGeo) ConvexHull() (*Geo, error) {
 	_r0, _err := functions.TgeoConvexHull(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+	return GeoFromPointer(_r0.Pointer()), nil
 }
 
 // EndValue is MEOS tgeo_end_value.
-func (x *TGeo) EndValue() (*TRGeometrySeqSet, error) {
+func (x *TGeo) EndValue() (*Geo, error) {
 	_r0, _err := functions.TgeoEndValue(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+	return GeoFromPointer(_r0.Pointer()), nil
 }
 
 // StartValue is MEOS tgeo_start_value.
-func (x *TGeo) StartValue() (*TRGeometrySeqSet, error) {
+func (x *TGeo) StartValue() (*Geo, error) {
 	_r0, _err := functions.TgeoStartValue(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+	return GeoFromPointer(_r0.Pointer()), nil
 }
 
 // TraversedArea is MEOS tgeo_traversed_area.
-func (x *TGeo) TraversedArea(unary_union bool) (*TRGeometrySeqSet, error) {
+func (x *TGeo) TraversedArea(unary_union bool) (*Geo, error) {
 	_r0, _err := functions.TgeoTraversedArea(functions.TemporalFromPointer(x.Pointer()), unary_union)
 	if _err != nil {
 		return nil, _err
 	}
-	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+	return GeoFromPointer(_r0.Pointer()), nil
 }
 
 // Value is MEOS tgeo_value.
-func (x *TGeo) Value() (*TRGeometrySeqSet, error) {
+func (x *TGeo) Value() (*Geo, error) {
 	_r0, _err := functions.TgeoValue(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+	return GeoFromPointer(_r0.Pointer()), nil
 }
 
 // ValueAtTimestamptz is MEOS tgeo_value_at_timestamptz.
-func (x *TGeo) ValueAtTimestamptz(t int64, strict bool) (*TRGeometrySeqSet, bool, error) {
+func (x *TGeo) ValueAtTimestamptz(t int64, strict bool) (*Geo, bool, error) {
 	_found, _value, _err := functions.TgeoValueAtTimestamptz(functions.TemporalFromPointer(x.Pointer()), t, strict)
 	if _err != nil {
 		return nil, false, _err
@@ -97,11 +97,11 @@ func (x *TGeo) ValueAtTimestamptz(t int64, strict bool) (*TRGeometrySeqSet, bool
 	if !_found {
 		return nil, false, nil
 	}
-	return TRGeometrySeqSetFromPointer(_value.Pointer()), true, nil
+	return GeoFromPointer(_value.Pointer()), true, nil
 }
 
 // ValueN is MEOS tgeo_value_n.
-func (x *TGeo) ValueN(n int) (*TRGeometrySeqSet, bool, error) {
+func (x *TGeo) ValueN(n int) (*Geo, bool, error) {
 	_found, _value, _err := functions.TgeoValueN(functions.TemporalFromPointer(x.Pointer()), n)
 	if _err != nil {
 		return nil, false, _err
@@ -109,7 +109,7 @@ func (x *TGeo) ValueN(n int) (*TRGeometrySeqSet, bool, error) {
 	if !_found {
 		return nil, false, nil
 	}
-	return TRGeometrySeqSetFromPointer(_value.Pointer()), true, nil
+	return GeoFromPointer(_value.Pointer()), true, nil
 }
 
 // Values is MEOS tgeo_values.
@@ -149,7 +149,7 @@ func (x *TGeo) Rotate(angle float64, x0 float64, y0 float64) (*Temporal, error) 
 }
 
 // RotateGeo is MEOS tgeo_rotate_geo.
-func (x *TGeo) RotateGeo(angle float64, origin *TRGeometrySeqSet) (*Temporal, error) {
+func (x *TGeo) RotateGeo(angle float64, origin *Geo) (*Temporal, error) {
 	_r0, _err := functions.TgeoRotateGeo(functions.TemporalFromPointer(x.Pointer()), angle, functions.GeomFromPointer(origin.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -194,7 +194,7 @@ func (x *TGeo) Scale(xfactor float64, yfactor float64, zfactor float64) (*Tempor
 }
 
 // ScaleGeo is MEOS tgeo_scale_geo.
-func (x *TGeo) ScaleGeo(scale *TRGeometrySeqSet) (*Temporal, error) {
+func (x *TGeo) ScaleGeo(scale *Geo) (*Temporal, error) {
 	_r0, _err := functions.TgeoScaleGeo(functions.TemporalFromPointer(x.Pointer()), functions.GeomFromPointer(scale.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -203,7 +203,7 @@ func (x *TGeo) ScaleGeo(scale *TRGeometrySeqSet) (*Temporal, error) {
 }
 
 // ScaleGeoOrigin is MEOS tgeo_scale_geo_origin.
-func (x *TGeo) ScaleGeoOrigin(scale *TRGeometrySeqSet, sorigin *TRGeometrySeqSet) (*Temporal, error) {
+func (x *TGeo) ScaleGeoOrigin(scale *Geo, sorigin *Geo) (*Temporal, error) {
 	_r0, _err := functions.TgeoScaleGeoOrigin(functions.TemporalFromPointer(x.Pointer()), functions.GeomFromPointer(scale.Pointer()), functions.GeomFromPointer(sorigin.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -230,7 +230,7 @@ func (x *TGeo) Transscale(deltax float64, deltay float64, xfactor float64, yfact
 }
 
 // AtGeom is MEOS tgeo_at_geom.
-func (x *TGeo) AtGeom(gs *TRGeometrySeqSet) (*Temporal, error) {
+func (x *TGeo) AtGeom(gs *Geo) (*Temporal, error) {
 	_r0, _err := functions.TgeoAtGeom(functions.TemporalFromPointer(x.Pointer()), functions.GeomFromPointer(gs.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -248,7 +248,7 @@ func (x *TGeo) AtStbox(box *STBox, border_inc bool) (*Temporal, error) {
 }
 
 // AtValue is MEOS tgeo_at_value.
-func (x *TGeo) AtValue(gs *TRGeometrySeqSet) (*Temporal, error) {
+func (x *TGeo) AtValue(gs *Geo) (*Temporal, error) {
 	_r0, _err := functions.TgeoAtValue(functions.TemporalFromPointer(x.Pointer()), functions.GeomFromPointer(gs.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -257,7 +257,7 @@ func (x *TGeo) AtValue(gs *TRGeometrySeqSet) (*Temporal, error) {
 }
 
 // MinusGeom is MEOS tgeo_minus_geom.
-func (x *TGeo) MinusGeom(gs *TRGeometrySeqSet) (*Temporal, error) {
+func (x *TGeo) MinusGeom(gs *Geo) (*Temporal, error) {
 	_r0, _err := functions.TgeoMinusGeom(functions.TemporalFromPointer(x.Pointer()), functions.GeomFromPointer(gs.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -275,7 +275,7 @@ func (x *TGeo) MinusStbox(box *STBox, border_inc bool) (*Temporal, error) {
 }
 
 // MinusValue is MEOS tgeo_minus_value.
-func (x *TGeo) MinusValue(gs *TRGeometrySeqSet) (*Temporal, error) {
+func (x *TGeo) MinusValue(gs *Geo) (*Temporal, error) {
 	_r0, _err := functions.TgeoMinusValue(functions.TemporalFromPointer(x.Pointer()), functions.GeomFromPointer(gs.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -293,7 +293,7 @@ func (x *TGeo) Stboxes(count unsafe.Pointer) (*STBox, error) {
 }
 
 // SpaceBoxes is MEOS tgeo_space_boxes.
-func (x *TGeo) SpaceBoxes(xsize float64, ysize float64, zsize float64, sorigin *TRGeometrySeqSet, bitmatrix bool, border_inc bool, count unsafe.Pointer) (*STBox, error) {
+func (x *TGeo) SpaceBoxes(xsize float64, ysize float64, zsize float64, sorigin *Geo, bitmatrix bool, border_inc bool, count unsafe.Pointer) (*STBox, error) {
 	_r0, _err := functions.TgeoSpaceBoxes(functions.TemporalFromPointer(x.Pointer()), xsize, ysize, zsize, functions.GeomFromPointer(sorigin.Pointer()), bitmatrix, border_inc, count)
 	if _err != nil {
 		return nil, _err
@@ -320,7 +320,7 @@ func (x *TGeo) SplitNStboxes(box_count int, count unsafe.Pointer) (*STBox, error
 }
 
 // SpaceSplit is MEOS tgeo_space_split.
-func (x *TGeo) SpaceSplit(xsize float64, ysize float64, zsize float64, sorigin *TRGeometrySeqSet, bitmatrix bool, border_inc bool, space_bins unsafe.Pointer, count unsafe.Pointer) (unsafe.Pointer, error) {
+func (x *TGeo) SpaceSplit(xsize float64, ysize float64, zsize float64, sorigin *Geo, bitmatrix bool, border_inc bool, space_bins unsafe.Pointer, count unsafe.Pointer) (unsafe.Pointer, error) {
 	_r0, _err := functions.TgeoSpaceSplit(functions.TemporalFromPointer(x.Pointer()), xsize, ysize, zsize, functions.GeomFromPointer(sorigin.Pointer()), bitmatrix, border_inc, space_bins, count)
 	if _err != nil {
 		return nil, _err

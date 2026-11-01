@@ -9,7 +9,7 @@ import (
 )
 
 type TRGeometryInst struct {
-	handle
+	TRGeometry
 }
 
 // TRGeometryInstFromPointer wraps a MEOS pointer, answering nil for nil so an
@@ -24,7 +24,7 @@ func TRGeometryInstFromPointer(p unsafe.Pointer) *TRGeometryInst {
 }
 
 // TRGeometryInstMake is MEOS trgeometryinst_make.
-func TRGeometryInstMake(geom *TRGeometrySeqSet, pose *Pose, t int64) (*Temporal, error) {
+func TRGeometryInstMake(geom *Geo, pose *Pose, t int64) (*Temporal, error) {
 	_r0, _err := functions.TrgeometryinstMake(functions.GeomFromPointer(geom.Pointer()), functions.PoseFromPointer(pose.Pointer()), t)
 	if _err != nil {
 		return nil, _err
