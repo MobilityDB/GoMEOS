@@ -328,3 +328,32 @@ func (x *Cbuffer) ToSet() (*Set, error) {
 	}
 	return SetFromPointer(_r0.Pointer()), nil
 }
+
+// CbufferFromEWKB is the portable fromEWKB of MEOS cbuffer_from_wkb.
+func CbufferFromEWKB(wkb unsafe.Pointer, size uint) (*Cbuffer, error) {
+	return CbufferFromWKB(wkb, size)
+}
+
+// CbufferFromEWKT is the portable fromEWKT of MEOS cbuffer_in.
+func CbufferFromEWKT(str string) (*Cbuffer, error) {
+	return CbufferIn(str)
+}
+
+// CbufferFromHexEWKB is the portable fromHexEWKB of MEOS cbuffer_from_hexwkb.
+func CbufferFromHexEWKB(hexwkb string) (*Cbuffer, error) {
+	return CbufferFromHexWKB(hexwkb)
+}
+
+// CbufferFromText is the portable fromText of MEOS cbuffer_in.
+func CbufferFromText(str string) (*Cbuffer, error) {
+	return CbufferIn(str)
+}
+
+// String is the text MEOS writes this value as, MEOS cbuffer_as_text.
+func (x *Cbuffer) String() string {
+	s, err := x.AsText(15)
+	if err != nil {
+		return "%!s(MEOS error: " + err.Error() + ")"
+	}
+	return s
+}

@@ -85,3 +85,44 @@ func (x *BigIntSpanSet) Bins(vsize int64, vorigin int64, border_inc bool, count 
 	}
 	return SpanFromPointer(_r0.Pointer()), nil
 }
+
+// BigIntSpanSetFromHexWKB is the portable fromHexWKB of MEOS spanset_from_hexwkb.
+func BigIntSpanSetFromHexWKB(hexwkb string) (*BigIntSpanSet, error) {
+	r, err := SpanSetFromHexWKB(hexwkb)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return BigIntSpanSetFromPointer(r.Pointer()), nil
+}
+
+// AsText is the portable asText of MEOS bigintspanset_out.
+func (x *BigIntSpanSet) AsText() (string, error) {
+	return x.Out()
+}
+
+// BigIntSpanSetFromText is the portable fromText of MEOS bigintspanset_in.
+func BigIntSpanSetFromText(str string) (*BigIntSpanSet, error) {
+	r, err := BigIntSpanSetIn(str)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return BigIntSpanSetFromPointer(r.Pointer()), nil
+}
+
+// BigIntSpanSetFromWKB is the portable fromWKB of MEOS spanset_from_wkb.
+func BigIntSpanSetFromWKB(wkb unsafe.Pointer, size uint) (*BigIntSpanSet, error) {
+	r, err := SpanSetFromWKB(wkb, size)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return BigIntSpanSetFromPointer(r.Pointer()), nil
+}
+
+// String is the text MEOS writes this value as, MEOS bigintspanset_out.
+func (x *BigIntSpanSet) String() string {
+	s, err := x.Out()
+	if err != nil {
+		return "%!s(MEOS error: " + err.Error() + ")"
+	}
+	return s
+}

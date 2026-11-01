@@ -325,3 +325,44 @@ func (x *TFloat) ValueSplit(vsize float64, vorigin float64, border_inc bool, bin
 	}
 	return _r0, nil
 }
+
+// TFloatFromHexWKB is the portable fromHexWKB of MEOS temporal_from_hexwkb.
+func TFloatFromHexWKB(hexwkb string) (*TFloat, error) {
+	r, err := TemporalFromHexWKB(hexwkb)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TFloatFromPointer(r.Pointer()), nil
+}
+
+// AsText is the portable asText of MEOS tfloat_out.
+func (x *TFloat) AsText(maxdd int) (string, error) {
+	return x.Out(maxdd)
+}
+
+// TFloatFromText is the portable fromText of MEOS tfloat_in.
+func TFloatFromText(str string) (*TFloat, error) {
+	r, err := TFloatIn(str)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TFloatFromPointer(r.Pointer()), nil
+}
+
+// TFloatFromWKB is the portable fromWKB of MEOS temporal_from_wkb.
+func TFloatFromWKB(wkb unsafe.Pointer, size uint) (*TFloat, error) {
+	r, err := TemporalFromWKB(wkb, size)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TFloatFromPointer(r.Pointer()), nil
+}
+
+// String is the text MEOS writes this value as, MEOS tfloat_out.
+func (x *TFloat) String() string {
+	s, err := x.Out(15)
+	if err != nil {
+		return "%!s(MEOS error: " + err.Error() + ")"
+	}
+	return s
+}

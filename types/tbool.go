@@ -163,3 +163,44 @@ func (x *TBool) WhenTrue() (*SpanSet, error) {
 	}
 	return SpanSetFromPointer(_r0.Pointer()), nil
 }
+
+// TBoolFromHexWKB is the portable fromHexWKB of MEOS temporal_from_hexwkb.
+func TBoolFromHexWKB(hexwkb string) (*TBool, error) {
+	r, err := TemporalFromHexWKB(hexwkb)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TBoolFromPointer(r.Pointer()), nil
+}
+
+// AsText is the portable asText of MEOS tbool_out.
+func (x *TBool) AsText() (string, error) {
+	return x.Out()
+}
+
+// TBoolFromText is the portable fromText of MEOS tbool_in.
+func TBoolFromText(str string) (*TBool, error) {
+	r, err := TBoolIn(str)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TBoolFromPointer(r.Pointer()), nil
+}
+
+// TBoolFromWKB is the portable fromWKB of MEOS temporal_from_wkb.
+func TBoolFromWKB(wkb unsafe.Pointer, size uint) (*TBool, error) {
+	r, err := TemporalFromWKB(wkb, size)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TBoolFromPointer(r.Pointer()), nil
+}
+
+// String is the text MEOS writes this value as, MEOS tbool_out.
+func (x *TBool) String() string {
+	s, err := x.Out()
+	if err != nil {
+		return "%!s(MEOS error: " + err.Error() + ")"
+	}
+	return s
+}

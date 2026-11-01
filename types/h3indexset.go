@@ -106,3 +106,66 @@ func (x *H3IndexSet) CoverCells(resolution int32) (*Set, error) {
 	}
 	return SetFromPointer(_r0.Pointer()), nil
 }
+
+// H3IndexSetFromEWKB is the portable fromEWKB of MEOS set_from_wkb.
+func H3IndexSetFromEWKB(wkb unsafe.Pointer, size uint) (*H3IndexSet, error) {
+	r, err := SetFromWKB(wkb, size)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return H3IndexSetFromPointer(r.Pointer()), nil
+}
+
+// H3IndexSetFromEWKT is the portable fromEWKT of MEOS h3indexset_in.
+func H3IndexSetFromEWKT(str string) (*H3IndexSet, error) {
+	r, err := H3IndexSetIn(str)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return H3IndexSetFromPointer(r.Pointer()), nil
+}
+
+// H3IndexSetFromHexEWKB is the portable fromHexEWKB of MEOS set_from_hexwkb.
+func H3IndexSetFromHexEWKB(hexwkb string) (*H3IndexSet, error) {
+	r, err := SetFromHexWKB(hexwkb)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return H3IndexSetFromPointer(r.Pointer()), nil
+}
+
+// H3IndexSetFromHexWKB is the portable fromHexWKB of MEOS set_from_hexwkb.
+func H3IndexSetFromHexWKB(hexwkb string) (*H3IndexSet, error) {
+	r, err := SetFromHexWKB(hexwkb)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return H3IndexSetFromPointer(r.Pointer()), nil
+}
+
+// H3IndexSetFromText is the portable fromText of MEOS h3indexset_in.
+func H3IndexSetFromText(str string) (*H3IndexSet, error) {
+	r, err := H3IndexSetIn(str)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return H3IndexSetFromPointer(r.Pointer()), nil
+}
+
+// H3IndexSetFromWKB is the portable fromWKB of MEOS set_from_wkb.
+func H3IndexSetFromWKB(wkb unsafe.Pointer, size uint) (*H3IndexSet, error) {
+	r, err := SetFromWKB(wkb, size)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return H3IndexSetFromPointer(r.Pointer()), nil
+}
+
+// String is the text MEOS writes this value as, MEOS h3indexset_out.
+func (x *H3IndexSet) String() string {
+	s, err := x.Out()
+	if err != nil {
+		return "%!s(MEOS error: " + err.Error() + ")"
+	}
+	return s
+}

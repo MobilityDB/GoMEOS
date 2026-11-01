@@ -280,3 +280,66 @@ func (x *TNpoint) MinusStbox(box *STBox, border_inc bool) (*Temporal, error) {
 	}
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
+
+// TNpointFromEWKB is the portable fromEWKB of MEOS temporal_from_wkb.
+func TNpointFromEWKB(wkb unsafe.Pointer, size uint) (*TNpoint, error) {
+	r, err := TemporalFromWKB(wkb, size)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TNpointFromPointer(r.Pointer()), nil
+}
+
+// TNpointFromEWKT is the portable fromEWKT of MEOS tnpoint_in.
+func TNpointFromEWKT(str string) (*TNpoint, error) {
+	r, err := TNpointIn(str)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TNpointFromPointer(r.Pointer()), nil
+}
+
+// TNpointFromHexEWKB is the portable fromHexEWKB of MEOS temporal_from_hexwkb.
+func TNpointFromHexEWKB(hexwkb string) (*TNpoint, error) {
+	r, err := TemporalFromHexWKB(hexwkb)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TNpointFromPointer(r.Pointer()), nil
+}
+
+// TNpointFromHexWKB is the portable fromHexWKB of MEOS temporal_from_hexwkb.
+func TNpointFromHexWKB(hexwkb string) (*TNpoint, error) {
+	r, err := TemporalFromHexWKB(hexwkb)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TNpointFromPointer(r.Pointer()), nil
+}
+
+// TNpointFromText is the portable fromText of MEOS tnpoint_in.
+func TNpointFromText(str string) (*TNpoint, error) {
+	r, err := TNpointIn(str)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TNpointFromPointer(r.Pointer()), nil
+}
+
+// TNpointFromWKB is the portable fromWKB of MEOS temporal_from_wkb.
+func TNpointFromWKB(wkb unsafe.Pointer, size uint) (*TNpoint, error) {
+	r, err := TemporalFromWKB(wkb, size)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TNpointFromPointer(r.Pointer()), nil
+}
+
+// String is the text MEOS writes this value as, MEOS tspatial_as_text.
+func (x *TNpoint) String() string {
+	s, err := x.AsText(15)
+	if err != nil {
+		return "%!s(MEOS error: " + err.Error() + ")"
+	}
+	return s
+}

@@ -193,3 +193,66 @@ func (x *TPoseChain) MinusValue(pc unsafe.Pointer) (*Temporal, error) {
 	}
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
+
+// TPoseChainFromEWKB is the portable fromEWKB of MEOS temporal_from_wkb.
+func TPoseChainFromEWKB(wkb unsafe.Pointer, size uint) (*TPoseChain, error) {
+	r, err := TemporalFromWKB(wkb, size)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TPoseChainFromPointer(r.Pointer()), nil
+}
+
+// TPoseChainFromEWKT is the portable fromEWKT of MEOS tposechain_in.
+func TPoseChainFromEWKT(str string) (*TPoseChain, error) {
+	r, err := TPoseChainIn(str)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TPoseChainFromPointer(r.Pointer()), nil
+}
+
+// TPoseChainFromHexEWKB is the portable fromHexEWKB of MEOS temporal_from_hexwkb.
+func TPoseChainFromHexEWKB(hexwkb string) (*TPoseChain, error) {
+	r, err := TemporalFromHexWKB(hexwkb)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TPoseChainFromPointer(r.Pointer()), nil
+}
+
+// TPoseChainFromHexWKB is the portable fromHexWKB of MEOS temporal_from_hexwkb.
+func TPoseChainFromHexWKB(hexwkb string) (*TPoseChain, error) {
+	r, err := TemporalFromHexWKB(hexwkb)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TPoseChainFromPointer(r.Pointer()), nil
+}
+
+// TPoseChainFromText is the portable fromText of MEOS tposechain_in.
+func TPoseChainFromText(str string) (*TPoseChain, error) {
+	r, err := TPoseChainIn(str)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TPoseChainFromPointer(r.Pointer()), nil
+}
+
+// TPoseChainFromWKB is the portable fromWKB of MEOS temporal_from_wkb.
+func TPoseChainFromWKB(wkb unsafe.Pointer, size uint) (*TPoseChain, error) {
+	r, err := TemporalFromWKB(wkb, size)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TPoseChainFromPointer(r.Pointer()), nil
+}
+
+// String is the text MEOS writes this value as, MEOS tspatial_as_text.
+func (x *TPoseChain) String() string {
+	s, err := x.AsText(15)
+	if err != nil {
+		return "%!s(MEOS error: " + err.Error() + ")"
+	}
+	return s
+}

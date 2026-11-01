@@ -163,3 +163,66 @@ func (x *TPcpoint) Pcid() (uint32, error) {
 	}
 	return _r0, nil
 }
+
+// TPcpointFromEWKB is the portable fromEWKB of MEOS temporal_from_wkb.
+func TPcpointFromEWKB(wkb unsafe.Pointer, size uint) (*TPcpoint, error) {
+	r, err := TemporalFromWKB(wkb, size)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TPcpointFromPointer(r.Pointer()), nil
+}
+
+// TPcpointFromEWKT is the portable fromEWKT of MEOS tpcpoint_in.
+func TPcpointFromEWKT(str string) (*TPcpoint, error) {
+	r, err := TPcpointIn(str)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TPcpointFromPointer(r.Pointer()), nil
+}
+
+// TPcpointFromHexEWKB is the portable fromHexEWKB of MEOS temporal_from_hexwkb.
+func TPcpointFromHexEWKB(hexwkb string) (*TPcpoint, error) {
+	r, err := TemporalFromHexWKB(hexwkb)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TPcpointFromPointer(r.Pointer()), nil
+}
+
+// TPcpointFromHexWKB is the portable fromHexWKB of MEOS temporal_from_hexwkb.
+func TPcpointFromHexWKB(hexwkb string) (*TPcpoint, error) {
+	r, err := TemporalFromHexWKB(hexwkb)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TPcpointFromPointer(r.Pointer()), nil
+}
+
+// TPcpointFromText is the portable fromText of MEOS tpcpoint_in.
+func TPcpointFromText(str string) (*TPcpoint, error) {
+	r, err := TPcpointIn(str)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TPcpointFromPointer(r.Pointer()), nil
+}
+
+// TPcpointFromWKB is the portable fromWKB of MEOS temporal_from_wkb.
+func TPcpointFromWKB(wkb unsafe.Pointer, size uint) (*TPcpoint, error) {
+	r, err := TemporalFromWKB(wkb, size)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TPcpointFromPointer(r.Pointer()), nil
+}
+
+// String is the text MEOS writes this value as, MEOS tpcpoint_out.
+func (x *TPcpoint) String() string {
+	s, err := x.Out()
+	if err != nil {
+		return "%!s(MEOS error: " + err.Error() + ")"
+	}
+	return s
+}

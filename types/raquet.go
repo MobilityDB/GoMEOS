@@ -295,3 +295,8 @@ func RaquetGt(rq1 unsafe.Pointer, rq2 unsafe.Pointer) (bool, error) {
 	}
 	return _r0, nil
 }
+
+// RaquetFromText is the portable fromText of MEOS raquet_in.
+func RaquetFromText(str string) (unsafe.Pointer, error) {
+	return RaquetIn(str)
+}

@@ -139,3 +139,18 @@ func GeographyShortestline(gs1 *TRGeometrySeqSet, gs2 *TRGeometrySeqSet, use_sph
 	}
 	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
 }
+
+// GeographyFromEWKB is the portable fromEWKB of MEOS geo_from_ewkb.
+func GeographyFromEWKB(wkb unsafe.Pointer, wkb_size uint, srid int32) (*TRGeometrySeqSet, error) {
+	return GeoFromEWKB(wkb, wkb_size, srid)
+}
+
+// GeographyFromMFJSON is the portable fromMFJSON of MEOS geo_from_geojson.
+func GeographyFromMFJSON(geojson string) (*TRGeometrySeqSet, error) {
+	return GeoFromGeoJSON(geojson)
+}
+
+// GeographyFromText is the portable fromText of MEOS geo_from_text.
+func GeographyFromText(wkt string, srid int32) (*TRGeometrySeqSet, error) {
+	return GeoFromText(wkt, srid)
+}

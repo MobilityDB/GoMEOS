@@ -106,3 +106,44 @@ func (x *IntSet) ShiftScale(shift int, width int, hasshift bool, haswidth bool) 
 	}
 	return SetFromPointer(_r0.Pointer()), nil
 }
+
+// IntSetFromHexWKB is the portable fromHexWKB of MEOS set_from_hexwkb.
+func IntSetFromHexWKB(hexwkb string) (*IntSet, error) {
+	r, err := SetFromHexWKB(hexwkb)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return IntSetFromPointer(r.Pointer()), nil
+}
+
+// AsText is the portable asText of MEOS intset_out.
+func (x *IntSet) AsText() (string, error) {
+	return x.Out()
+}
+
+// IntSetFromText is the portable fromText of MEOS intset_in.
+func IntSetFromText(str string) (*IntSet, error) {
+	r, err := IntSetIn(str)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return IntSetFromPointer(r.Pointer()), nil
+}
+
+// IntSetFromWKB is the portable fromWKB of MEOS set_from_wkb.
+func IntSetFromWKB(wkb unsafe.Pointer, size uint) (*IntSet, error) {
+	r, err := SetFromWKB(wkb, size)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return IntSetFromPointer(r.Pointer()), nil
+}
+
+// String is the text MEOS writes this value as, MEOS intset_out.
+func (x *IntSet) String() string {
+	s, err := x.Out()
+	if err != nil {
+		return "%!s(MEOS error: " + err.Error() + ")"
+	}
+	return s
+}

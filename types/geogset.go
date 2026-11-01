@@ -31,3 +31,66 @@ func GeogSetIn(str string) (*Set, error) {
 	}
 	return SetFromPointer(_r0.Pointer()), nil
 }
+
+// GeogSetFromEWKB is the portable fromEWKB of MEOS set_from_wkb.
+func GeogSetFromEWKB(wkb unsafe.Pointer, size uint) (*GeogSet, error) {
+	r, err := SetFromWKB(wkb, size)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return GeogSetFromPointer(r.Pointer()), nil
+}
+
+// GeogSetFromEWKT is the portable fromEWKT of MEOS geogset_in.
+func GeogSetFromEWKT(str string) (*GeogSet, error) {
+	r, err := GeogSetIn(str)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return GeogSetFromPointer(r.Pointer()), nil
+}
+
+// GeogSetFromHexEWKB is the portable fromHexEWKB of MEOS set_from_hexwkb.
+func GeogSetFromHexEWKB(hexwkb string) (*GeogSet, error) {
+	r, err := SetFromHexWKB(hexwkb)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return GeogSetFromPointer(r.Pointer()), nil
+}
+
+// GeogSetFromHexWKB is the portable fromHexWKB of MEOS set_from_hexwkb.
+func GeogSetFromHexWKB(hexwkb string) (*GeogSet, error) {
+	r, err := SetFromHexWKB(hexwkb)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return GeogSetFromPointer(r.Pointer()), nil
+}
+
+// GeogSetFromText is the portable fromText of MEOS geogset_in.
+func GeogSetFromText(str string) (*GeogSet, error) {
+	r, err := GeogSetIn(str)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return GeogSetFromPointer(r.Pointer()), nil
+}
+
+// GeogSetFromWKB is the portable fromWKB of MEOS set_from_wkb.
+func GeogSetFromWKB(wkb unsafe.Pointer, size uint) (*GeogSet, error) {
+	r, err := SetFromWKB(wkb, size)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return GeogSetFromPointer(r.Pointer()), nil
+}
+
+// String is the text MEOS writes this value as, MEOS spatialset_as_text.
+func (x *GeogSet) String() string {
+	s, err := x.AsText(15)
+	if err != nil {
+		return "%!s(MEOS error: " + err.Error() + ")"
+	}
+	return s
+}

@@ -58,3 +58,66 @@ func (x *TGeography) ToTgeometry() (*Temporal, error) {
 	}
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
+
+// TGeographyFromEWKB is the portable fromEWKB of MEOS temporal_from_wkb.
+func TGeographyFromEWKB(wkb unsafe.Pointer, size uint) (*TGeography, error) {
+	r, err := TemporalFromWKB(wkb, size)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TGeographyFromPointer(r.Pointer()), nil
+}
+
+// TGeographyFromEWKT is the portable fromEWKT of MEOS tgeography_in.
+func TGeographyFromEWKT(str string) (*TGeography, error) {
+	r, err := TGeographyIn(str)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TGeographyFromPointer(r.Pointer()), nil
+}
+
+// TGeographyFromHexEWKB is the portable fromHexEWKB of MEOS temporal_from_hexwkb.
+func TGeographyFromHexEWKB(hexwkb string) (*TGeography, error) {
+	r, err := TemporalFromHexWKB(hexwkb)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TGeographyFromPointer(r.Pointer()), nil
+}
+
+// TGeographyFromHexWKB is the portable fromHexWKB of MEOS temporal_from_hexwkb.
+func TGeographyFromHexWKB(hexwkb string) (*TGeography, error) {
+	r, err := TemporalFromHexWKB(hexwkb)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TGeographyFromPointer(r.Pointer()), nil
+}
+
+// TGeographyFromText is the portable fromText of MEOS tgeography_in.
+func TGeographyFromText(str string) (*TGeography, error) {
+	r, err := TGeographyIn(str)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TGeographyFromPointer(r.Pointer()), nil
+}
+
+// TGeographyFromWKB is the portable fromWKB of MEOS temporal_from_wkb.
+func TGeographyFromWKB(wkb unsafe.Pointer, size uint) (*TGeography, error) {
+	r, err := TemporalFromWKB(wkb, size)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TGeographyFromPointer(r.Pointer()), nil
+}
+
+// String is the text MEOS writes this value as, MEOS tspatial_as_text.
+func (x *TGeography) String() string {
+	s, err := x.AsText(15)
+	if err != nil {
+		return "%!s(MEOS error: " + err.Error() + ")"
+	}
+	return s
+}

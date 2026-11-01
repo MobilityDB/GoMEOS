@@ -502,3 +502,32 @@ func (x *STBox) SpaceTiles(xsize float64, ysize float64, zsize float64, sorigin 
 	}
 	return STBoxFromPointer(_r0.Pointer()), nil
 }
+
+// STBoxFromEWKB is the portable fromEWKB of MEOS stbox_from_wkb.
+func STBoxFromEWKB(wkb unsafe.Pointer, size uint) (*STBox, error) {
+	return STBoxFromWKB(wkb, size)
+}
+
+// STBoxFromHexEWKB is the portable fromHexEWKB of MEOS stbox_from_hexwkb.
+func STBoxFromHexEWKB(hexwkb string) (*STBox, error) {
+	return STBoxFromHexWKB(hexwkb)
+}
+
+// AsText is the portable asText of MEOS stbox_out.
+func (x *STBox) AsText(maxdd int) (string, error) {
+	return x.Out(maxdd)
+}
+
+// STBoxFromText is the portable fromText of MEOS stbox_in.
+func STBoxFromText(str string) (*STBox, error) {
+	return STBoxIn(str)
+}
+
+// String is the text MEOS writes this value as, MEOS stbox_out.
+func (x *STBox) String() string {
+	s, err := x.Out(15)
+	if err != nil {
+		return "%!s(MEOS error: " + err.Error() + ")"
+	}
+	return s
+}

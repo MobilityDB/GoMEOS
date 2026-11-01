@@ -721,3 +721,66 @@ func (x *TRGeometry) MinusTstzspanset(ss *SpanSet) (*Temporal, error) {
 	}
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
+
+// TRGeometryFromEWKB is the portable fromEWKB of MEOS temporal_from_wkb.
+func TRGeometryFromEWKB(wkb unsafe.Pointer, size uint) (*TRGeometry, error) {
+	r, err := TemporalFromWKB(wkb, size)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TRGeometryFromPointer(r.Pointer()), nil
+}
+
+// TRGeometryFromEWKT is the portable fromEWKT of MEOS trgeometry_in.
+func TRGeometryFromEWKT(str string) (*TRGeometry, error) {
+	r, err := TRGeometryIn(str)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TRGeometryFromPointer(r.Pointer()), nil
+}
+
+// TRGeometryFromHexEWKB is the portable fromHexEWKB of MEOS temporal_from_hexwkb.
+func TRGeometryFromHexEWKB(hexwkb string) (*TRGeometry, error) {
+	r, err := TemporalFromHexWKB(hexwkb)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TRGeometryFromPointer(r.Pointer()), nil
+}
+
+// TRGeometryFromHexWKB is the portable fromHexWKB of MEOS temporal_from_hexwkb.
+func TRGeometryFromHexWKB(hexwkb string) (*TRGeometry, error) {
+	r, err := TemporalFromHexWKB(hexwkb)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TRGeometryFromPointer(r.Pointer()), nil
+}
+
+// TRGeometryFromText is the portable fromText of MEOS trgeometry_in.
+func TRGeometryFromText(str string) (*TRGeometry, error) {
+	r, err := TRGeometryIn(str)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TRGeometryFromPointer(r.Pointer()), nil
+}
+
+// TRGeometryFromWKB is the portable fromWKB of MEOS temporal_from_wkb.
+func TRGeometryFromWKB(wkb unsafe.Pointer, size uint) (*TRGeometry, error) {
+	r, err := TemporalFromWKB(wkb, size)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TRGeometryFromPointer(r.Pointer()), nil
+}
+
+// String is the text MEOS writes this value as, MEOS trgeometry_as_text.
+func (x *TRGeometry) String() string {
+	s, err := x.AsText(15)
+	if err != nil {
+		return "%!s(MEOS error: " + err.Error() + ")"
+	}
+	return s
+}

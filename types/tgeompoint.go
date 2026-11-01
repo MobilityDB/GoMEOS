@@ -121,3 +121,66 @@ func (x *TGeomPoint) S2cellSplit(level int32, border_inc bool, cells unsafe.Poin
 	}
 	return _r0, nil
 }
+
+// TGeomPointFromEWKB is the portable fromEWKB of MEOS temporal_from_wkb.
+func TGeomPointFromEWKB(wkb unsafe.Pointer, size uint) (*TGeomPoint, error) {
+	r, err := TemporalFromWKB(wkb, size)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TGeomPointFromPointer(r.Pointer()), nil
+}
+
+// TGeomPointFromEWKT is the portable fromEWKT of MEOS tgeompoint_in.
+func TGeomPointFromEWKT(str string) (*TGeomPoint, error) {
+	r, err := TGeomPointIn(str)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TGeomPointFromPointer(r.Pointer()), nil
+}
+
+// TGeomPointFromHexEWKB is the portable fromHexEWKB of MEOS temporal_from_hexwkb.
+func TGeomPointFromHexEWKB(hexwkb string) (*TGeomPoint, error) {
+	r, err := TemporalFromHexWKB(hexwkb)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TGeomPointFromPointer(r.Pointer()), nil
+}
+
+// TGeomPointFromHexWKB is the portable fromHexWKB of MEOS temporal_from_hexwkb.
+func TGeomPointFromHexWKB(hexwkb string) (*TGeomPoint, error) {
+	r, err := TemporalFromHexWKB(hexwkb)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TGeomPointFromPointer(r.Pointer()), nil
+}
+
+// TGeomPointFromText is the portable fromText of MEOS tgeompoint_in.
+func TGeomPointFromText(str string) (*TGeomPoint, error) {
+	r, err := TGeomPointIn(str)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TGeomPointFromPointer(r.Pointer()), nil
+}
+
+// TGeomPointFromWKB is the portable fromWKB of MEOS temporal_from_wkb.
+func TGeomPointFromWKB(wkb unsafe.Pointer, size uint) (*TGeomPoint, error) {
+	r, err := TemporalFromWKB(wkb, size)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TGeomPointFromPointer(r.Pointer()), nil
+}
+
+// String is the text MEOS writes this value as, MEOS tspatial_as_text.
+func (x *TGeomPoint) String() string {
+	s, err := x.AsText(15)
+	if err != nil {
+		return "%!s(MEOS error: " + err.Error() + ")"
+	}
+	return s
+}

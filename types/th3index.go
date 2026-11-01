@@ -370,3 +370,66 @@ func (x *TH3Index) EdgeLength() (*Temporal, error) {
 	}
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
+
+// TH3IndexFromEWKB is the portable fromEWKB of MEOS temporal_from_wkb.
+func TH3IndexFromEWKB(wkb unsafe.Pointer, size uint) (*TH3Index, error) {
+	r, err := TemporalFromWKB(wkb, size)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TH3IndexFromPointer(r.Pointer()), nil
+}
+
+// TH3IndexFromEWKT is the portable fromEWKT of MEOS th3index_in.
+func TH3IndexFromEWKT(str string) (*TH3Index, error) {
+	r, err := TH3IndexIn(str)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TH3IndexFromPointer(r.Pointer()), nil
+}
+
+// TH3IndexFromHexEWKB is the portable fromHexEWKB of MEOS temporal_from_hexwkb.
+func TH3IndexFromHexEWKB(hexwkb string) (*TH3Index, error) {
+	r, err := TemporalFromHexWKB(hexwkb)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TH3IndexFromPointer(r.Pointer()), nil
+}
+
+// TH3IndexFromHexWKB is the portable fromHexWKB of MEOS temporal_from_hexwkb.
+func TH3IndexFromHexWKB(hexwkb string) (*TH3Index, error) {
+	r, err := TemporalFromHexWKB(hexwkb)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TH3IndexFromPointer(r.Pointer()), nil
+}
+
+// TH3IndexFromText is the portable fromText of MEOS th3index_in.
+func TH3IndexFromText(str string) (*TH3Index, error) {
+	r, err := TH3IndexIn(str)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TH3IndexFromPointer(r.Pointer()), nil
+}
+
+// TH3IndexFromWKB is the portable fromWKB of MEOS temporal_from_wkb.
+func TH3IndexFromWKB(wkb unsafe.Pointer, size uint) (*TH3Index, error) {
+	r, err := TemporalFromWKB(wkb, size)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TH3IndexFromPointer(r.Pointer()), nil
+}
+
+// String is the text MEOS writes this value as, MEOS th3index_out.
+func (x *TH3Index) String() string {
+	s, err := x.Out()
+	if err != nil {
+		return "%!s(MEOS error: " + err.Error() + ")"
+	}
+	return s
+}

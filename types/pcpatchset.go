@@ -88,3 +88,66 @@ func (x *PcpatchSet) Values(count unsafe.Pointer) (unsafe.Pointer, error) {
 	}
 	return _r0, nil
 }
+
+// PcpatchSetFromEWKB is the portable fromEWKB of MEOS set_from_wkb.
+func PcpatchSetFromEWKB(wkb unsafe.Pointer, size uint) (*PcpatchSet, error) {
+	r, err := SetFromWKB(wkb, size)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return PcpatchSetFromPointer(r.Pointer()), nil
+}
+
+// PcpatchSetFromEWKT is the portable fromEWKT of MEOS pcpatchset_in.
+func PcpatchSetFromEWKT(str string) (*PcpatchSet, error) {
+	r, err := PcpatchSetIn(str)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return PcpatchSetFromPointer(r.Pointer()), nil
+}
+
+// PcpatchSetFromHexEWKB is the portable fromHexEWKB of MEOS set_from_hexwkb.
+func PcpatchSetFromHexEWKB(hexwkb string) (*PcpatchSet, error) {
+	r, err := SetFromHexWKB(hexwkb)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return PcpatchSetFromPointer(r.Pointer()), nil
+}
+
+// PcpatchSetFromHexWKB is the portable fromHexWKB of MEOS set_from_hexwkb.
+func PcpatchSetFromHexWKB(hexwkb string) (*PcpatchSet, error) {
+	r, err := SetFromHexWKB(hexwkb)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return PcpatchSetFromPointer(r.Pointer()), nil
+}
+
+// PcpatchSetFromText is the portable fromText of MEOS pcpatchset_in.
+func PcpatchSetFromText(str string) (*PcpatchSet, error) {
+	r, err := PcpatchSetIn(str)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return PcpatchSetFromPointer(r.Pointer()), nil
+}
+
+// PcpatchSetFromWKB is the portable fromWKB of MEOS set_from_wkb.
+func PcpatchSetFromWKB(wkb unsafe.Pointer, size uint) (*PcpatchSet, error) {
+	r, err := SetFromWKB(wkb, size)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return PcpatchSetFromPointer(r.Pointer()), nil
+}
+
+// String is the text MEOS writes this value as, MEOS spatialset_as_text.
+func (x *PcpatchSet) String() string {
+	s, err := x.AsText(15)
+	if err != nil {
+		return "%!s(MEOS error: " + err.Error() + ")"
+	}
+	return s
+}

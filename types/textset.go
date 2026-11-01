@@ -124,3 +124,44 @@ func (x *TextSet) ToJsonbset() (*Set, error) {
 	}
 	return SetFromPointer(_r0.Pointer()), nil
 }
+
+// TextSetFromHexWKB is the portable fromHexWKB of MEOS set_from_hexwkb.
+func TextSetFromHexWKB(hexwkb string) (*TextSet, error) {
+	r, err := SetFromHexWKB(hexwkb)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TextSetFromPointer(r.Pointer()), nil
+}
+
+// AsText is the portable asText of MEOS textset_out.
+func (x *TextSet) AsText() (string, error) {
+	return x.Out()
+}
+
+// TextSetFromText is the portable fromText of MEOS textset_in.
+func TextSetFromText(str string) (*TextSet, error) {
+	r, err := TextSetIn(str)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TextSetFromPointer(r.Pointer()), nil
+}
+
+// TextSetFromWKB is the portable fromWKB of MEOS set_from_wkb.
+func TextSetFromWKB(wkb unsafe.Pointer, size uint) (*TextSet, error) {
+	r, err := SetFromWKB(wkb, size)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TextSetFromPointer(r.Pointer()), nil
+}
+
+// String is the text MEOS writes this value as, MEOS textset_out.
+func (x *TextSet) String() string {
+	s, err := x.Out()
+	if err != nil {
+		return "%!s(MEOS error: " + err.Error() + ")"
+	}
+	return s
+}

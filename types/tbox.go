@@ -352,3 +352,22 @@ func TBoxGetValueTile(value float64, vsize float64, vorigin float64) (*TBox, err
 	}
 	return TBoxFromPointer(_r0.Pointer()), nil
 }
+
+// AsText is the portable asText of MEOS tbox_out.
+func (x *TBox) AsText(maxdd int) (string, error) {
+	return x.Out(maxdd)
+}
+
+// TBoxFromText is the portable fromText of MEOS tbox_in.
+func TBoxFromText(str string) (*TBox, error) {
+	return TBoxIn(str)
+}
+
+// String is the text MEOS writes this value as, MEOS tbox_out.
+func (x *TBox) String() string {
+	s, err := x.Out(15)
+	if err != nil {
+		return "%!s(MEOS error: " + err.Error() + ")"
+	}
+	return s
+}

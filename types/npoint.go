@@ -301,3 +301,32 @@ func (x *Npoint) ToSet() (*Set, error) {
 	}
 	return SetFromPointer(_r0.Pointer()), nil
 }
+
+// NpointFromEWKB is the portable fromEWKB of MEOS npoint_from_wkb.
+func NpointFromEWKB(wkb unsafe.Pointer, size uint) (*Npoint, error) {
+	return NpointFromWKB(wkb, size)
+}
+
+// NpointFromEWKT is the portable fromEWKT of MEOS npoint_in.
+func NpointFromEWKT(str string) (*Npoint, error) {
+	return NpointIn(str)
+}
+
+// NpointFromHexEWKB is the portable fromHexEWKB of MEOS npoint_from_hexwkb.
+func NpointFromHexEWKB(hexwkb string) (*Npoint, error) {
+	return NpointFromHexWKB(hexwkb)
+}
+
+// NpointFromText is the portable fromText of MEOS npoint_in.
+func NpointFromText(str string) (*Npoint, error) {
+	return NpointIn(str)
+}
+
+// String is the text MEOS writes this value as, MEOS npoint_as_text.
+func (x *Npoint) String() string {
+	s, err := x.AsText(15)
+	if err != nil {
+		return "%!s(MEOS error: " + err.Error() + ")"
+	}
+	return s
+}

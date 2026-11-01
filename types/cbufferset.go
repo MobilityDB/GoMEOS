@@ -88,3 +88,66 @@ func (x *CbufferSet) Values(count unsafe.Pointer) (unsafe.Pointer, error) {
 	}
 	return _r0, nil
 }
+
+// CbufferSetFromEWKB is the portable fromEWKB of MEOS set_from_wkb.
+func CbufferSetFromEWKB(wkb unsafe.Pointer, size uint) (*CbufferSet, error) {
+	r, err := SetFromWKB(wkb, size)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return CbufferSetFromPointer(r.Pointer()), nil
+}
+
+// CbufferSetFromEWKT is the portable fromEWKT of MEOS cbufferset_in.
+func CbufferSetFromEWKT(str string) (*CbufferSet, error) {
+	r, err := CbufferSetIn(str)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return CbufferSetFromPointer(r.Pointer()), nil
+}
+
+// CbufferSetFromHexEWKB is the portable fromHexEWKB of MEOS set_from_hexwkb.
+func CbufferSetFromHexEWKB(hexwkb string) (*CbufferSet, error) {
+	r, err := SetFromHexWKB(hexwkb)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return CbufferSetFromPointer(r.Pointer()), nil
+}
+
+// CbufferSetFromHexWKB is the portable fromHexWKB of MEOS set_from_hexwkb.
+func CbufferSetFromHexWKB(hexwkb string) (*CbufferSet, error) {
+	r, err := SetFromHexWKB(hexwkb)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return CbufferSetFromPointer(r.Pointer()), nil
+}
+
+// CbufferSetFromText is the portable fromText of MEOS cbufferset_in.
+func CbufferSetFromText(str string) (*CbufferSet, error) {
+	r, err := CbufferSetIn(str)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return CbufferSetFromPointer(r.Pointer()), nil
+}
+
+// CbufferSetFromWKB is the portable fromWKB of MEOS set_from_wkb.
+func CbufferSetFromWKB(wkb unsafe.Pointer, size uint) (*CbufferSet, error) {
+	r, err := SetFromWKB(wkb, size)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return CbufferSetFromPointer(r.Pointer()), nil
+}
+
+// String is the text MEOS writes this value as, MEOS spatialset_as_text.
+func (x *CbufferSet) String() string {
+	s, err := x.AsText(15)
+	if err != nil {
+		return "%!s(MEOS error: " + err.Error() + ")"
+	}
+	return s
+}

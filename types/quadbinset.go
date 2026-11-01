@@ -124,3 +124,66 @@ func (x *QuadbinSet) Values(count unsafe.Pointer) (unsafe.Pointer, error) {
 	}
 	return _r0, nil
 }
+
+// QuadbinSetFromEWKB is the portable fromEWKB of MEOS set_from_wkb.
+func QuadbinSetFromEWKB(wkb unsafe.Pointer, size uint) (*QuadbinSet, error) {
+	r, err := SetFromWKB(wkb, size)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return QuadbinSetFromPointer(r.Pointer()), nil
+}
+
+// QuadbinSetFromEWKT is the portable fromEWKT of MEOS quadbinset_in.
+func QuadbinSetFromEWKT(str string) (*QuadbinSet, error) {
+	r, err := QuadbinSetIn(str)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return QuadbinSetFromPointer(r.Pointer()), nil
+}
+
+// QuadbinSetFromHexEWKB is the portable fromHexEWKB of MEOS set_from_hexwkb.
+func QuadbinSetFromHexEWKB(hexwkb string) (*QuadbinSet, error) {
+	r, err := SetFromHexWKB(hexwkb)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return QuadbinSetFromPointer(r.Pointer()), nil
+}
+
+// QuadbinSetFromHexWKB is the portable fromHexWKB of MEOS set_from_hexwkb.
+func QuadbinSetFromHexWKB(hexwkb string) (*QuadbinSet, error) {
+	r, err := SetFromHexWKB(hexwkb)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return QuadbinSetFromPointer(r.Pointer()), nil
+}
+
+// QuadbinSetFromText is the portable fromText of MEOS quadbinset_in.
+func QuadbinSetFromText(str string) (*QuadbinSet, error) {
+	r, err := QuadbinSetIn(str)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return QuadbinSetFromPointer(r.Pointer()), nil
+}
+
+// QuadbinSetFromWKB is the portable fromWKB of MEOS set_from_wkb.
+func QuadbinSetFromWKB(wkb unsafe.Pointer, size uint) (*QuadbinSet, error) {
+	r, err := SetFromWKB(wkb, size)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return QuadbinSetFromPointer(r.Pointer()), nil
+}
+
+// String is the text MEOS writes this value as, MEOS quadbinset_out.
+func (x *QuadbinSet) String() string {
+	s, err := x.Out()
+	if err != nil {
+		return "%!s(MEOS error: " + err.Error() + ")"
+	}
+	return s
+}

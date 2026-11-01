@@ -142,3 +142,44 @@ func (x *FloatSet) ShiftScale(shift float64, width float64, hasshift bool, haswi
 	}
 	return SetFromPointer(_r0.Pointer()), nil
 }
+
+// FloatSetFromHexWKB is the portable fromHexWKB of MEOS set_from_hexwkb.
+func FloatSetFromHexWKB(hexwkb string) (*FloatSet, error) {
+	r, err := SetFromHexWKB(hexwkb)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return FloatSetFromPointer(r.Pointer()), nil
+}
+
+// AsText is the portable asText of MEOS floatset_out.
+func (x *FloatSet) AsText(maxdd int) (string, error) {
+	return x.Out(maxdd)
+}
+
+// FloatSetFromText is the portable fromText of MEOS floatset_in.
+func FloatSetFromText(str string) (*FloatSet, error) {
+	r, err := FloatSetIn(str)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return FloatSetFromPointer(r.Pointer()), nil
+}
+
+// FloatSetFromWKB is the portable fromWKB of MEOS set_from_wkb.
+func FloatSetFromWKB(wkb unsafe.Pointer, size uint) (*FloatSet, error) {
+	r, err := SetFromWKB(wkb, size)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return FloatSetFromPointer(r.Pointer()), nil
+}
+
+// String is the text MEOS writes this value as, MEOS floatset_out.
+func (x *FloatSet) String() string {
+	s, err := x.Out(15)
+	if err != nil {
+		return "%!s(MEOS error: " + err.Error() + ")"
+	}
+	return s
+}

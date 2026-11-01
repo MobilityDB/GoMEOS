@@ -181,3 +181,66 @@ func (x *TS2Cell) GridDistance(dest *Temporal) (*Temporal, error) {
 	}
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
+
+// TS2CellFromEWKB is the portable fromEWKB of MEOS temporal_from_wkb.
+func TS2CellFromEWKB(wkb unsafe.Pointer, size uint) (*TS2Cell, error) {
+	r, err := TemporalFromWKB(wkb, size)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TS2CellFromPointer(r.Pointer()), nil
+}
+
+// TS2CellFromEWKT is the portable fromEWKT of MEOS ts2cell_in.
+func TS2CellFromEWKT(str string) (*TS2Cell, error) {
+	r, err := TS2CellIn(str)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TS2CellFromPointer(r.Pointer()), nil
+}
+
+// TS2CellFromHexEWKB is the portable fromHexEWKB of MEOS temporal_from_hexwkb.
+func TS2CellFromHexEWKB(hexwkb string) (*TS2Cell, error) {
+	r, err := TemporalFromHexWKB(hexwkb)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TS2CellFromPointer(r.Pointer()), nil
+}
+
+// TS2CellFromHexWKB is the portable fromHexWKB of MEOS temporal_from_hexwkb.
+func TS2CellFromHexWKB(hexwkb string) (*TS2Cell, error) {
+	r, err := TemporalFromHexWKB(hexwkb)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TS2CellFromPointer(r.Pointer()), nil
+}
+
+// TS2CellFromText is the portable fromText of MEOS ts2cell_in.
+func TS2CellFromText(str string) (*TS2Cell, error) {
+	r, err := TS2CellIn(str)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TS2CellFromPointer(r.Pointer()), nil
+}
+
+// TS2CellFromWKB is the portable fromWKB of MEOS temporal_from_wkb.
+func TS2CellFromWKB(wkb unsafe.Pointer, size uint) (*TS2Cell, error) {
+	r, err := TemporalFromWKB(wkb, size)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TS2CellFromPointer(r.Pointer()), nil
+}
+
+// String is the text MEOS writes this value as, MEOS ts2cell_out.
+func (x *TS2Cell) String() string {
+	s, err := x.Out()
+	if err != nil {
+		return "%!s(MEOS error: " + err.Error() + ")"
+	}
+	return s
+}

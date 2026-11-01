@@ -88,3 +88,66 @@ func (x *PcpointSet) Values(count unsafe.Pointer) (unsafe.Pointer, error) {
 	}
 	return _r0, nil
 }
+
+// PcpointSetFromEWKB is the portable fromEWKB of MEOS set_from_wkb.
+func PcpointSetFromEWKB(wkb unsafe.Pointer, size uint) (*PcpointSet, error) {
+	r, err := SetFromWKB(wkb, size)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return PcpointSetFromPointer(r.Pointer()), nil
+}
+
+// PcpointSetFromEWKT is the portable fromEWKT of MEOS pcpointset_in.
+func PcpointSetFromEWKT(str string) (*PcpointSet, error) {
+	r, err := PcpointSetIn(str)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return PcpointSetFromPointer(r.Pointer()), nil
+}
+
+// PcpointSetFromHexEWKB is the portable fromHexEWKB of MEOS set_from_hexwkb.
+func PcpointSetFromHexEWKB(hexwkb string) (*PcpointSet, error) {
+	r, err := SetFromHexWKB(hexwkb)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return PcpointSetFromPointer(r.Pointer()), nil
+}
+
+// PcpointSetFromHexWKB is the portable fromHexWKB of MEOS set_from_hexwkb.
+func PcpointSetFromHexWKB(hexwkb string) (*PcpointSet, error) {
+	r, err := SetFromHexWKB(hexwkb)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return PcpointSetFromPointer(r.Pointer()), nil
+}
+
+// PcpointSetFromText is the portable fromText of MEOS pcpointset_in.
+func PcpointSetFromText(str string) (*PcpointSet, error) {
+	r, err := PcpointSetIn(str)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return PcpointSetFromPointer(r.Pointer()), nil
+}
+
+// PcpointSetFromWKB is the portable fromWKB of MEOS set_from_wkb.
+func PcpointSetFromWKB(wkb unsafe.Pointer, size uint) (*PcpointSet, error) {
+	r, err := SetFromWKB(wkb, size)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return PcpointSetFromPointer(r.Pointer()), nil
+}
+
+// String is the text MEOS writes this value as, MEOS spatialset_as_text.
+func (x *PcpointSet) String() string {
+	s, err := x.AsText(15)
+	if err != nil {
+		return "%!s(MEOS error: " + err.Error() + ")"
+	}
+	return s
+}

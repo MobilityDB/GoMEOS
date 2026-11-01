@@ -85,3 +85,44 @@ func (x *DateSpan) ShiftScale(shift int, width int, hasshift bool, haswidth bool
 	}
 	return SpanFromPointer(_r0.Pointer()), nil
 }
+
+// DateSpanFromHexWKB is the portable fromHexWKB of MEOS span_from_hexwkb.
+func DateSpanFromHexWKB(hexwkb string) (*DateSpan, error) {
+	r, err := SpanFromHexWKB(hexwkb)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return DateSpanFromPointer(r.Pointer()), nil
+}
+
+// AsText is the portable asText of MEOS datespan_out.
+func (x *DateSpan) AsText() (string, error) {
+	return x.Out()
+}
+
+// DateSpanFromText is the portable fromText of MEOS datespan_in.
+func DateSpanFromText(str string) (*DateSpan, error) {
+	r, err := DateSpanIn(str)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return DateSpanFromPointer(r.Pointer()), nil
+}
+
+// DateSpanFromWKB is the portable fromWKB of MEOS span_from_wkb.
+func DateSpanFromWKB(wkb unsafe.Pointer, size uint) (*DateSpan, error) {
+	r, err := SpanFromWKB(wkb, size)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return DateSpanFromPointer(r.Pointer()), nil
+}
+
+// String is the text MEOS writes this value as, MEOS datespan_out.
+func (x *DateSpan) String() string {
+	s, err := x.Out()
+	if err != nil {
+		return "%!s(MEOS error: " + err.Error() + ")"
+	}
+	return s
+}
