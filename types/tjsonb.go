@@ -467,8 +467,8 @@ func TJsonbFromText(str string) (*TJsonb, error) {
 }
 
 // TJsonbFromWKB is the portable fromWKB of MEOS temporal_from_wkb.
-func TJsonbFromWKB(wkb unsafe.Pointer, size uint) (*TJsonb, error) {
-	r, err := TemporalFromWKB(wkb, size)
+func TJsonbFromWKB(wkb []byte) (*TJsonb, error) {
+	r, err := TemporalFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}

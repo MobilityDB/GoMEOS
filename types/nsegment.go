@@ -24,8 +24,9 @@ func NsegmentFromPointer(p unsafe.Pointer) *Nsegment {
 }
 
 // AsHexEWKB is MEOS nsegment_as_hexewkb.
-func (x *Nsegment) AsHexEWKB(variant uint8, size_out unsafe.Pointer) (string, error) {
-	_r0, _err := functions.NsegmentAsHexewkb(functions.NsegmentFromPointer(x.Pointer()), variant, size_out)
+func (x *Nsegment) AsHexEWKB(variant uint8) (string, error) {
+	var _size uint64
+	_r0, _err := functions.NsegmentAsHexewkb(functions.NsegmentFromPointer(x.Pointer()), variant, unsafe.Pointer(&_size))
 	if _err != nil {
 		return "", _err
 	}
@@ -33,8 +34,9 @@ func (x *Nsegment) AsHexEWKB(variant uint8, size_out unsafe.Pointer) (string, er
 }
 
 // AsHexWKB is MEOS nsegment_as_hexwkb.
-func (x *Nsegment) AsHexWKB(variant uint8, size_out unsafe.Pointer) (string, error) {
-	_r0, _err := functions.NsegmentAsHexwkb(functions.NsegmentFromPointer(x.Pointer()), variant, size_out)
+func (x *Nsegment) AsHexWKB(variant uint8) (string, error) {
+	var _size uint64
+	_r0, _err := functions.NsegmentAsHexwkb(functions.NsegmentFromPointer(x.Pointer()), variant, unsafe.Pointer(&_size))
 	if _err != nil {
 		return "", _err
 	}
@@ -42,12 +44,13 @@ func (x *Nsegment) AsHexWKB(variant uint8, size_out unsafe.Pointer) (string, err
 }
 
 // AsWKB is MEOS nsegment_as_wkb.
-func (x *Nsegment) AsWKB(variant uint8, size_out unsafe.Pointer) (unsafe.Pointer, error) {
-	_r0, _err := functions.NsegmentAsWKB(functions.NsegmentFromPointer(x.Pointer()), variant, size_out)
+func (x *Nsegment) AsWKB(variant uint8) ([]byte, error) {
+	var _size uint64
+	_r0, _err := functions.NsegmentAsWKB(functions.NsegmentFromPointer(x.Pointer()), variant, unsafe.Pointer(&_size))
 	if _err != nil {
 		return nil, _err
 	}
-	return _r0, nil
+	return functions.TakeBytes(_r0, _size), nil
 }
 
 // NsegmentFromHexWKB is MEOS nsegment_from_hexwkb.
@@ -60,8 +63,12 @@ func NsegmentFromHexWKB(hexwkb string) (*Nsegment, error) {
 }
 
 // NsegmentFromWKB is MEOS nsegment_from_wkb.
-func NsegmentFromWKB(wkb unsafe.Pointer, size uint) (*Nsegment, error) {
-	_r0, _err := functions.NsegmentFromWKB(wkb, size)
+func NsegmentFromWKB(wkb []byte) (*Nsegment, error) {
+	var _p_wkb unsafe.Pointer
+	if len(wkb) > 0 {
+		_p_wkb = unsafe.Pointer(&wkb[0])
+	}
+	_r0, _err := functions.NsegmentFromWKB(_p_wkb, uint(len(wkb)))
 	if _err != nil {
 		return nil, _err
 	}
@@ -87,12 +94,13 @@ func (x *Nsegment) Out(maxdd int) (string, error) {
 }
 
 // AsEWKB is MEOS nsegment_as_ewkb.
-func (x *Nsegment) AsEWKB(variant uint8, size_out unsafe.Pointer) (unsafe.Pointer, error) {
-	_r0, _err := functions.NsegmentAsEWKB(functions.NsegmentFromPointer(x.Pointer()), variant, size_out)
+func (x *Nsegment) AsEWKB(variant uint8) ([]byte, error) {
+	var _size uint64
+	_r0, _err := functions.NsegmentAsEWKB(functions.NsegmentFromPointer(x.Pointer()), variant, unsafe.Pointer(&_size))
 	if _err != nil {
 		return nil, _err
 	}
-	return _r0, nil
+	return functions.TakeBytes(_r0, _size), nil
 }
 
 // AsEWKT is MEOS nsegment_as_ewkt.
@@ -258,8 +266,8 @@ func (x *Nsegment) Ne(ns2 *Nsegment) (bool, error) {
 }
 
 // NsegmentFromEWKB is the portable fromEWKB of MEOS nsegment_from_wkb.
-func NsegmentFromEWKB(wkb unsafe.Pointer, size uint) (*Nsegment, error) {
-	return NsegmentFromWKB(wkb, size)
+func NsegmentFromEWKB(wkb []byte) (*Nsegment, error) {
+	return NsegmentFromWKB(wkb)
 }
 
 // NsegmentFromEWKT is the portable fromEWKT of MEOS nsegment_in.

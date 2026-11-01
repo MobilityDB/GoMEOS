@@ -24,8 +24,12 @@ func RasterFromPointer(p unsafe.Pointer) *Raster {
 }
 
 // RasterFromWKB is MEOS raster_from_wkb.
-func RasterFromWKB(wkb unsafe.Pointer, size uint) (unsafe.Pointer, error) {
-	_r0, _err := functions.RasterFromWKB(wkb, size)
+func RasterFromWKB(wkb []byte) (unsafe.Pointer, error) {
+	var _p_wkb unsafe.Pointer
+	if len(wkb) > 0 {
+		_p_wkb = unsafe.Pointer(&wkb[0])
+	}
+	_r0, _err := functions.RasterFromWKB(_p_wkb, uint(len(wkb)))
 	if _err != nil {
 		return nil, _err
 	}
@@ -42,17 +46,19 @@ func RasterFromHexWKB(hexwkb string) (unsafe.Pointer, error) {
 }
 
 // RasterAsWKB is MEOS raster_as_wkb.
-func RasterAsWKB(rast unsafe.Pointer, variant uint8, size_out unsafe.Pointer) (unsafe.Pointer, error) {
-	_r0, _err := functions.RasterAsWKB(rast, variant, size_out)
+func RasterAsWKB(rast unsafe.Pointer, variant uint8) ([]byte, error) {
+	var _size uint64
+	_r0, _err := functions.RasterAsWKB(rast, variant, unsafe.Pointer(&_size))
 	if _err != nil {
 		return nil, _err
 	}
-	return _r0, nil
+	return functions.TakeBytes(_r0, _size), nil
 }
 
 // RasterAsHexWKB is MEOS raster_as_hexwkb.
-func RasterAsHexWKB(rast unsafe.Pointer, variant uint8, size_out unsafe.Pointer) (string, error) {
-	_r0, _err := functions.RasterAsHexwkb(rast, variant, size_out)
+func RasterAsHexWKB(rast unsafe.Pointer, variant uint8) (string, error) {
+	var _size uint64
+	_r0, _err := functions.RasterAsHexwkb(rast, variant, unsafe.Pointer(&_size))
 	if _err != nil {
 		return "", _err
 	}
@@ -69,8 +75,12 @@ func RasterCopy(rast unsafe.Pointer) (unsafe.Pointer, error) {
 }
 
 // RasterMake is MEOS raster_make.
-func RasterMake(width int, height int, upperleftx float64, upperlefty float64, scalex float64, scaley float64, skewx float64, skewy float64, srid int32, pixeltype string, nodataval float64, has_nodata bool, pixels unsafe.Pointer, size uint) (unsafe.Pointer, error) {
-	_r0, _err := functions.RasterMake(width, height, upperleftx, upperlefty, scalex, scaley, skewx, skewy, srid, pixeltype, nodataval, has_nodata, pixels, size)
+func RasterMake(width int, height int, upperleftx float64, upperlefty float64, scalex float64, scaley float64, skewx float64, skewy float64, srid int32, pixeltype string, nodataval float64, has_nodata bool, pixels []byte) (unsafe.Pointer, error) {
+	var _p_pixels unsafe.Pointer
+	if len(pixels) > 0 {
+		_p_pixels = unsafe.Pointer(&pixels[0])
+	}
+	_r0, _err := functions.RasterMake(width, height, upperleftx, upperlefty, scalex, scaley, skewx, skewy, srid, pixeltype, nodataval, has_nodata, _p_pixels, uint(len(pixels)))
 	if _err != nil {
 		return nil, _err
 	}
@@ -234,12 +244,13 @@ func RasterBandNodataValue(rast unsafe.Pointer, band int) (float64, bool, error)
 }
 
 // RasterBandPixels is MEOS raster_band_pixels.
-func RasterBandPixels(rast unsafe.Pointer, band int, size_out unsafe.Pointer) (unsafe.Pointer, error) {
-	_r0, _err := functions.RasterBandPixels(rast, band, size_out)
+func RasterBandPixels(rast unsafe.Pointer, band int) ([]byte, error) {
+	var _size uint64
+	_r0, _err := functions.RasterBandPixels(rast, band, unsafe.Pointer(&_size))
 	if _err != nil {
 		return nil, _err
 	}
-	return _r0, nil
+	return functions.TakeBytes(_r0, _size), nil
 }
 
 // RasterClip is MEOS raster_clip.
@@ -468,8 +479,12 @@ func RasterMinusValueGdal(traj *Temporal, path string, band int, vspan *Span) (*
 }
 
 // RasterTileValueQuadbin is MEOS raster_tile_value_quadbin.
-func RasterTileValueQuadbin(traj *Temporal, pixels unsafe.Pointer, pixels_size uint, width int32, height int32, quadbin uint64, pixtype functions.MeosPixType, nodata float64, has_nodata bool) (*Temporal, error) {
-	_r0, _err := functions.RasterTileValueQuadbin(functions.TemporalFromPointer(traj.Pointer()), pixels, pixels_size, width, height, quadbin, pixtype, nodata, has_nodata)
+func RasterTileValueQuadbin(traj *Temporal, pixels []byte, width int32, height int32, quadbin uint64, pixtype functions.MeosPixType, nodata float64, has_nodata bool) (*Temporal, error) {
+	var _p_pixels unsafe.Pointer
+	if len(pixels) > 0 {
+		_p_pixels = unsafe.Pointer(&pixels[0])
+	}
+	_r0, _err := functions.RasterTileValueQuadbin(functions.TemporalFromPointer(traj.Pointer()), _p_pixels, uint(len(pixels)), width, height, quadbin, pixtype, nodata, has_nodata)
 	if _err != nil {
 		return nil, _err
 	}

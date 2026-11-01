@@ -42,12 +42,13 @@ func (x *SpatialSet) AsText(maxdd int) (string, error) {
 }
 
 // AsEWKB is MEOS spatialset_as_ewkb.
-func (x *SpatialSet) AsEWKB(variant uint8, size_out unsafe.Pointer) (unsafe.Pointer, error) {
-	_r0, _err := functions.SpatialsetAsEWKB(functions.SetFromPointer(x.Pointer()), variant, size_out)
+func (x *SpatialSet) AsEWKB(variant uint8) ([]byte, error) {
+	var _size uint64
+	_r0, _err := functions.SpatialsetAsEWKB(functions.SetFromPointer(x.Pointer()), variant, unsafe.Pointer(&_size))
 	if _err != nil {
 		return nil, _err
 	}
-	return _r0, nil
+	return functions.TakeBytes(_r0, _size), nil
 }
 
 // AsEWKT is MEOS spatialset_as_ewkt.
@@ -60,8 +61,9 @@ func (x *SpatialSet) AsEWKT(maxdd int) (string, error) {
 }
 
 // AsHexEWKB is MEOS spatialset_as_hexewkb.
-func (x *SpatialSet) AsHexEWKB(variant uint8, size_out unsafe.Pointer) (string, error) {
-	_r0, _err := functions.SpatialsetAsHexewkb(functions.SetFromPointer(x.Pointer()), variant, size_out)
+func (x *SpatialSet) AsHexEWKB(variant uint8) (string, error) {
+	var _size uint64
+	_r0, _err := functions.SpatialsetAsHexewkb(functions.SetFromPointer(x.Pointer()), variant, unsafe.Pointer(&_size))
 	if _err != nil {
 		return "", _err
 	}

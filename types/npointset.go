@@ -99,8 +99,8 @@ func (x *NpointSet) Values(count unsafe.Pointer) (unsafe.Pointer, error) {
 }
 
 // NpointSetFromEWKB is the portable fromEWKB of MEOS set_from_wkb.
-func NpointSetFromEWKB(wkb unsafe.Pointer, size uint) (*NpointSet, error) {
-	r, err := SetFromWKB(wkb, size)
+func NpointSetFromEWKB(wkb []byte) (*NpointSet, error) {
+	r, err := SetFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}
@@ -144,8 +144,8 @@ func NpointSetFromText(str string) (*NpointSet, error) {
 }
 
 // NpointSetFromWKB is the portable fromWKB of MEOS set_from_wkb.
-func NpointSetFromWKB(wkb unsafe.Pointer, size uint) (*NpointSet, error) {
-	r, err := SetFromWKB(wkb, size)
+func NpointSetFromWKB(wkb []byte) (*NpointSet, error) {
+	r, err := SetFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}

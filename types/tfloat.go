@@ -350,8 +350,8 @@ func TFloatFromText(str string) (*TFloat, error) {
 }
 
 // TFloatFromWKB is the portable fromWKB of MEOS temporal_from_wkb.
-func TFloatFromWKB(wkb unsafe.Pointer, size uint) (*TFloat, error) {
-	r, err := TemporalFromWKB(wkb, size)
+func TFloatFromWKB(wkb []byte) (*TFloat, error) {
+	r, err := TemporalFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}

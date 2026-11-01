@@ -24,12 +24,13 @@ func PoseFromPointer(p unsafe.Pointer) *Pose {
 }
 
 // AsEWKB is MEOS pose_as_ewkb.
-func (x *Pose) AsEWKB(variant uint8, size_out unsafe.Pointer) (unsafe.Pointer, error) {
-	_r0, _err := functions.PoseAsEWKB(functions.PoseFromPointer(x.Pointer()), variant, size_out)
+func (x *Pose) AsEWKB(variant uint8) ([]byte, error) {
+	var _size uint64
+	_r0, _err := functions.PoseAsEWKB(functions.PoseFromPointer(x.Pointer()), variant, unsafe.Pointer(&_size))
 	if _err != nil {
 		return nil, _err
 	}
-	return _r0, nil
+	return functions.TakeBytes(_r0, _size), nil
 }
 
 // AsEWKT is MEOS pose_as_ewkt.
@@ -42,8 +43,9 @@ func (x *Pose) AsEWKT(maxdd int) (string, error) {
 }
 
 // AsHexEWKB is MEOS pose_as_hexewkb.
-func (x *Pose) AsHexEWKB(variant uint8, size_out unsafe.Pointer) (string, error) {
-	_r0, _err := functions.PoseAsHexewkb(functions.PoseFromPointer(x.Pointer()), variant, size_out)
+func (x *Pose) AsHexEWKB(variant uint8) (string, error) {
+	var _size uint64
+	_r0, _err := functions.PoseAsHexewkb(functions.PoseFromPointer(x.Pointer()), variant, unsafe.Pointer(&_size))
 	if _err != nil {
 		return "", _err
 	}
@@ -51,8 +53,9 @@ func (x *Pose) AsHexEWKB(variant uint8, size_out unsafe.Pointer) (string, error)
 }
 
 // AsHexWKB is MEOS pose_as_hexwkb.
-func (x *Pose) AsHexWKB(variant uint8, size_out unsafe.Pointer) (string, error) {
-	_r0, _err := functions.PoseAsHexwkb(functions.PoseFromPointer(x.Pointer()), variant, size_out)
+func (x *Pose) AsHexWKB(variant uint8) (string, error) {
+	var _size uint64
+	_r0, _err := functions.PoseAsHexwkb(functions.PoseFromPointer(x.Pointer()), variant, unsafe.Pointer(&_size))
 	if _err != nil {
 		return "", _err
 	}
@@ -69,17 +72,22 @@ func (x *Pose) AsText(maxdd int) (string, error) {
 }
 
 // AsWKB is MEOS pose_as_wkb.
-func (x *Pose) AsWKB(variant uint8, size_out unsafe.Pointer) (unsafe.Pointer, error) {
-	_r0, _err := functions.PoseAsWKB(functions.PoseFromPointer(x.Pointer()), variant, size_out)
+func (x *Pose) AsWKB(variant uint8) ([]byte, error) {
+	var _size uint64
+	_r0, _err := functions.PoseAsWKB(functions.PoseFromPointer(x.Pointer()), variant, unsafe.Pointer(&_size))
 	if _err != nil {
 		return nil, _err
 	}
-	return _r0, nil
+	return functions.TakeBytes(_r0, _size), nil
 }
 
 // PoseFromWKB is MEOS pose_from_wkb.
-func PoseFromWKB(wkb unsafe.Pointer, size uint) (*Pose, error) {
-	_r0, _err := functions.PoseFromWKB(wkb, size)
+func PoseFromWKB(wkb []byte) (*Pose, error) {
+	var _p_wkb unsafe.Pointer
+	if len(wkb) > 0 {
+		_p_wkb = unsafe.Pointer(&wkb[0])
+	}
+	_r0, _err := functions.PoseFromWKB(_p_wkb, uint(len(wkb)))
 	if _err != nil {
 		return nil, _err
 	}
@@ -483,8 +491,8 @@ func (x *Pose) ToPosechain() (unsafe.Pointer, error) {
 }
 
 // PoseFromEWKB is the portable fromEWKB of MEOS pose_from_wkb.
-func PoseFromEWKB(wkb unsafe.Pointer, size uint) (*Pose, error) {
-	return PoseFromWKB(wkb, size)
+func PoseFromEWKB(wkb []byte) (*Pose, error) {
+	return PoseFromWKB(wkb)
 }
 
 // PoseFromEWKT is the portable fromEWKT of MEOS pose_from_text.

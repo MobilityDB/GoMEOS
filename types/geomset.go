@@ -33,8 +33,8 @@ func GeomSetIn(str string) (*Set, error) {
 }
 
 // GeomSetFromEWKB is the portable fromEWKB of MEOS set_from_wkb.
-func GeomSetFromEWKB(wkb unsafe.Pointer, size uint) (*GeomSet, error) {
-	r, err := SetFromWKB(wkb, size)
+func GeomSetFromEWKB(wkb []byte) (*GeomSet, error) {
+	r, err := SetFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}
@@ -78,8 +78,8 @@ func GeomSetFromText(str string) (*GeomSet, error) {
 }
 
 // GeomSetFromWKB is the portable fromWKB of MEOS set_from_wkb.
-func GeomSetFromWKB(wkb unsafe.Pointer, size uint) (*GeomSet, error) {
-	r, err := SetFromWKB(wkb, size)
+func GeomSetFromWKB(wkb []byte) (*GeomSet, error) {
+	r, err := SetFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}

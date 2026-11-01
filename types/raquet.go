@@ -60,8 +60,12 @@ func RaquetOut(rq unsafe.Pointer) (string, error) {
 }
 
 // RaquetFromWKB is MEOS raquet_from_wkb.
-func RaquetFromWKB(wkb unsafe.Pointer, size uint) (unsafe.Pointer, error) {
-	_r0, _err := functions.RaquetFromWKB(wkb, size)
+func RaquetFromWKB(wkb []byte) (unsafe.Pointer, error) {
+	var _p_wkb unsafe.Pointer
+	if len(wkb) > 0 {
+		_p_wkb = unsafe.Pointer(&wkb[0])
+	}
+	_r0, _err := functions.RaquetFromWKB(_p_wkb, uint(len(wkb)))
 	if _err != nil {
 		return nil, _err
 	}
@@ -78,17 +82,19 @@ func RaquetFromHexWKB(hexwkb string) (unsafe.Pointer, error) {
 }
 
 // RaquetAsWKB is MEOS raquet_as_wkb.
-func RaquetAsWKB(rq unsafe.Pointer, variant uint8, size_out unsafe.Pointer) (unsafe.Pointer, error) {
-	_r0, _err := functions.RaquetAsWKB(rq, variant, size_out)
+func RaquetAsWKB(rq unsafe.Pointer, variant uint8) ([]byte, error) {
+	var _size uint64
+	_r0, _err := functions.RaquetAsWKB(rq, variant, unsafe.Pointer(&_size))
 	if _err != nil {
 		return nil, _err
 	}
-	return _r0, nil
+	return functions.TakeBytes(_r0, _size), nil
 }
 
 // RaquetAsHexWKB is MEOS raquet_as_hexwkb.
-func RaquetAsHexWKB(rq unsafe.Pointer, variant uint8, size_out unsafe.Pointer) (string, error) {
-	_r0, _err := functions.RaquetAsHexwkb(rq, variant, size_out)
+func RaquetAsHexWKB(rq unsafe.Pointer, variant uint8) (string, error) {
+	var _size uint64
+	_r0, _err := functions.RaquetAsHexwkb(rq, variant, unsafe.Pointer(&_size))
 	if _err != nil {
 		return "", _err
 	}
@@ -96,8 +102,12 @@ func RaquetAsHexWKB(rq unsafe.Pointer, variant uint8, size_out unsafe.Pointer) (
 }
 
 // RaquetMake is MEOS raquet_make.
-func RaquetMake(quadbin uint64, width int32, height int32, pixtype functions.MeosPixType, nodata float64, has_nodata bool, pixels unsafe.Pointer, pixels_size uint) (unsafe.Pointer, error) {
-	_r0, _err := functions.RaquetMake(quadbin, width, height, pixtype, nodata, has_nodata, pixels, pixels_size)
+func RaquetMake(quadbin uint64, width int32, height int32, pixtype functions.MeosPixType, nodata float64, has_nodata bool, pixels []byte) (unsafe.Pointer, error) {
+	var _p_pixels unsafe.Pointer
+	if len(pixels) > 0 {
+		_p_pixels = unsafe.Pointer(&pixels[0])
+	}
+	_r0, _err := functions.RaquetMake(quadbin, width, height, pixtype, nodata, has_nodata, _p_pixels, uint(len(pixels)))
 	if _err != nil {
 		return nil, _err
 	}
@@ -123,8 +133,12 @@ func RaquetRead(path string, quadbin uint64) (unsafe.Pointer, error) {
 }
 
 // RaquetReadBytes is MEOS raquet_read_bytes.
-func RaquetReadBytes(data unsafe.Pointer, size uint, quadbin uint64) (unsafe.Pointer, error) {
-	_r0, _err := functions.RaquetReadBytes(data, size, quadbin)
+func RaquetReadBytes(data []byte, quadbin uint64) (unsafe.Pointer, error) {
+	var _p_data unsafe.Pointer
+	if len(data) > 0 {
+		_p_data = unsafe.Pointer(&data[0])
+	}
+	_r0, _err := functions.RaquetReadBytes(_p_data, uint(len(data)), quadbin)
 	if _err != nil {
 		return nil, _err
 	}
@@ -189,12 +203,13 @@ func RaquetBandNodataValue(rq unsafe.Pointer) (float64, bool, error) {
 }
 
 // RaquetPixels is MEOS raquet_pixels.
-func RaquetPixels(rq unsafe.Pointer, size_out unsafe.Pointer) (unsafe.Pointer, error) {
-	_r0, _err := functions.RaquetPixels(rq, size_out)
+func RaquetPixels(rq unsafe.Pointer) ([]byte, error) {
+	var _size uint64
+	_r0, _err := functions.RaquetPixels(rq, unsafe.Pointer(&_size))
 	if _err != nil {
 		return nil, _err
 	}
-	return _r0, nil
+	return functions.TakeBytes(_r0, _size), nil
 }
 
 // RaquetHash is MEOS raquet_hash.

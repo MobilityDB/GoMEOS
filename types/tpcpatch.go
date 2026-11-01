@@ -192,8 +192,8 @@ func (x *TPcpatch) Npoints() (int64, error) {
 }
 
 // TPcpatchFromEWKB is the portable fromEWKB of MEOS temporal_from_wkb.
-func TPcpatchFromEWKB(wkb unsafe.Pointer, size uint) (*TPcpatch, error) {
-	r, err := TemporalFromWKB(wkb, size)
+func TPcpatchFromEWKB(wkb []byte) (*TPcpatch, error) {
+	r, err := TemporalFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}
@@ -237,8 +237,8 @@ func TPcpatchFromText(str string) (*TPcpatch, error) {
 }
 
 // TPcpatchFromWKB is the portable fromWKB of MEOS temporal_from_wkb.
-func TPcpatchFromWKB(wkb unsafe.Pointer, size uint) (*TPcpatch, error) {
-	r, err := TemporalFromWKB(wkb, size)
+func TPcpatchFromWKB(wkb []byte) (*TPcpatch, error) {
+	r, err := TemporalFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}

@@ -51,12 +51,13 @@ func PoseChainAsText(pc unsafe.Pointer, maxdd int) (string, error) {
 }
 
 // PoseChainAsEWKB is MEOS posechain_as_ewkb.
-func PoseChainAsEWKB(pc unsafe.Pointer, variant uint8, size_out unsafe.Pointer) (unsafe.Pointer, error) {
-	_r0, _err := functions.PosechainAsEWKB(pc, variant, size_out)
+func PoseChainAsEWKB(pc unsafe.Pointer, variant uint8) ([]byte, error) {
+	var _size uint64
+	_r0, _err := functions.PosechainAsEWKB(pc, variant, unsafe.Pointer(&_size))
 	if _err != nil {
 		return nil, _err
 	}
-	return _r0, nil
+	return functions.TakeBytes(_r0, _size), nil
 }
 
 // PoseChainAsEWKT is MEOS posechain_as_ewkt.
@@ -69,17 +70,19 @@ func PoseChainAsEWKT(pc unsafe.Pointer, maxdd int) (string, error) {
 }
 
 // PoseChainAsWKB is MEOS posechain_as_wkb.
-func PoseChainAsWKB(pc unsafe.Pointer, variant uint8, size_out unsafe.Pointer) (unsafe.Pointer, error) {
-	_r0, _err := functions.PosechainAsWKB(pc, variant, size_out)
+func PoseChainAsWKB(pc unsafe.Pointer, variant uint8) ([]byte, error) {
+	var _size uint64
+	_r0, _err := functions.PosechainAsWKB(pc, variant, unsafe.Pointer(&_size))
 	if _err != nil {
 		return nil, _err
 	}
-	return _r0, nil
+	return functions.TakeBytes(_r0, _size), nil
 }
 
 // PoseChainAsHexEWKB is MEOS posechain_as_hexewkb.
-func PoseChainAsHexEWKB(pc unsafe.Pointer, variant uint8, size_out unsafe.Pointer) (string, error) {
-	_r0, _err := functions.PosechainAsHexewkb(pc, variant, size_out)
+func PoseChainAsHexEWKB(pc unsafe.Pointer, variant uint8) (string, error) {
+	var _size uint64
+	_r0, _err := functions.PosechainAsHexewkb(pc, variant, unsafe.Pointer(&_size))
 	if _err != nil {
 		return "", _err
 	}
@@ -87,8 +90,9 @@ func PoseChainAsHexEWKB(pc unsafe.Pointer, variant uint8, size_out unsafe.Pointe
 }
 
 // PoseChainAsHexWKB is MEOS posechain_as_hexwkb.
-func PoseChainAsHexWKB(pc unsafe.Pointer, variant uint8, size_out unsafe.Pointer) (string, error) {
-	_r0, _err := functions.PosechainAsHexwkb(pc, variant, size_out)
+func PoseChainAsHexWKB(pc unsafe.Pointer, variant uint8) (string, error) {
+	var _size uint64
+	_r0, _err := functions.PosechainAsHexwkb(pc, variant, unsafe.Pointer(&_size))
 	if _err != nil {
 		return "", _err
 	}
@@ -96,8 +100,12 @@ func PoseChainAsHexWKB(pc unsafe.Pointer, variant uint8, size_out unsafe.Pointer
 }
 
 // PoseChainFromWKB is MEOS posechain_from_wkb.
-func PoseChainFromWKB(wkb unsafe.Pointer, size uint) (unsafe.Pointer, error) {
-	_r0, _err := functions.PosechainFromWKB(wkb, size)
+func PoseChainFromWKB(wkb []byte) (unsafe.Pointer, error) {
+	var _p_wkb unsafe.Pointer
+	if len(wkb) > 0 {
+		_p_wkb = unsafe.Pointer(&wkb[0])
+	}
+	_r0, _err := functions.PosechainFromWKB(_p_wkb, uint(len(wkb)))
 	if _err != nil {
 		return nil, _err
 	}
@@ -384,8 +392,8 @@ func PoseChainToSet(pc unsafe.Pointer) (*Set, error) {
 }
 
 // PoseChainFromEWKB is the portable fromEWKB of MEOS posechain_from_wkb.
-func PoseChainFromEWKB(wkb unsafe.Pointer, size uint) (unsafe.Pointer, error) {
-	return PoseChainFromWKB(wkb, size)
+func PoseChainFromEWKB(wkb []byte) (unsafe.Pointer, error) {
+	return PoseChainFromWKB(wkb)
 }
 
 // PoseChainFromEWKT is the portable fromEWKT of MEOS posechain_in.

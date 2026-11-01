@@ -149,8 +149,8 @@ func TsTzSpanSetFromText(str string) (*TsTzSpanSet, error) {
 }
 
 // TsTzSpanSetFromWKB is the portable fromWKB of MEOS spanset_from_wkb.
-func TsTzSpanSetFromWKB(wkb unsafe.Pointer, size uint) (*TsTzSpanSet, error) {
-	r, err := SpanSetFromWKB(wkb, size)
+func TsTzSpanSetFromWKB(wkb []byte) (*TsTzSpanSet, error) {
+	r, err := SpanSetFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}

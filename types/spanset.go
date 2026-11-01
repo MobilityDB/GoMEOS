@@ -24,8 +24,9 @@ func SpanSetFromPointer(p unsafe.Pointer) *SpanSet {
 }
 
 // AsHexWKB is MEOS spanset_as_hexwkb.
-func (x *SpanSet) AsHexWKB(variant uint8, size_out unsafe.Pointer) (string, error) {
-	_r0, _err := functions.SpansetAsHexwkb(functions.SpanSetFromPointer(x.Pointer()), variant, size_out)
+func (x *SpanSet) AsHexWKB(variant uint8) (string, error) {
+	var _size uint64
+	_r0, _err := functions.SpansetAsHexwkb(functions.SpanSetFromPointer(x.Pointer()), variant, unsafe.Pointer(&_size))
 	if _err != nil {
 		return "", _err
 	}
@@ -33,12 +34,13 @@ func (x *SpanSet) AsHexWKB(variant uint8, size_out unsafe.Pointer) (string, erro
 }
 
 // AsWKB is MEOS spanset_as_wkb.
-func (x *SpanSet) AsWKB(variant uint8, size_out unsafe.Pointer) (unsafe.Pointer, error) {
-	_r0, _err := functions.SpansetAsWKB(functions.SpanSetFromPointer(x.Pointer()), variant, size_out)
+func (x *SpanSet) AsWKB(variant uint8) ([]byte, error) {
+	var _size uint64
+	_r0, _err := functions.SpansetAsWKB(functions.SpanSetFromPointer(x.Pointer()), variant, unsafe.Pointer(&_size))
 	if _err != nil {
 		return nil, _err
 	}
-	return _r0, nil
+	return functions.TakeBytes(_r0, _size), nil
 }
 
 // SpanSetFromHexWKB is MEOS spanset_from_hexwkb.
@@ -51,8 +53,12 @@ func SpanSetFromHexWKB(hexwkb string) (*SpanSet, error) {
 }
 
 // SpanSetFromWKB is MEOS spanset_from_wkb.
-func SpanSetFromWKB(wkb unsafe.Pointer, size uint) (*SpanSet, error) {
-	_r0, _err := functions.SpansetFromWKB(wkb, size)
+func SpanSetFromWKB(wkb []byte) (*SpanSet, error) {
+	var _p_wkb unsafe.Pointer
+	if len(wkb) > 0 {
+		_p_wkb = unsafe.Pointer(&wkb[0])
+	}
+	_r0, _err := functions.SpansetFromWKB(_p_wkb, uint(len(wkb)))
 	if _err != nil {
 		return nil, _err
 	}
@@ -240,12 +246,13 @@ func (x *SpanSet) Ne(ss2 *SpanSet) (bool, error) {
 }
 
 // Sortkey is MEOS spanset_sortkey.
-func (x *SpanSet) Sortkey(size unsafe.Pointer) (unsafe.Pointer, error) {
-	_r0, _err := functions.SpansetSortkey(functions.SpanSetFromPointer(x.Pointer()), size)
+func (x *SpanSet) Sortkey() ([]byte, error) {
+	var _size uint64
+	_r0, _err := functions.SpansetSortkey(functions.SpanSetFromPointer(x.Pointer()), unsafe.Pointer(&_size))
 	if _err != nil {
 		return nil, _err
 	}
-	return _r0, nil
+	return functions.TakeBytes(_r0, _size), nil
 }
 
 // Spans is MEOS spanset_spans.

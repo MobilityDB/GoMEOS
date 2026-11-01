@@ -33,8 +33,8 @@ func GeogSetIn(str string) (*Set, error) {
 }
 
 // GeogSetFromEWKB is the portable fromEWKB of MEOS set_from_wkb.
-func GeogSetFromEWKB(wkb unsafe.Pointer, size uint) (*GeogSet, error) {
-	r, err := SetFromWKB(wkb, size)
+func GeogSetFromEWKB(wkb []byte) (*GeogSet, error) {
+	r, err := SetFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}
@@ -78,8 +78,8 @@ func GeogSetFromText(str string) (*GeogSet, error) {
 }
 
 // GeogSetFromWKB is the portable fromWKB of MEOS set_from_wkb.
-func GeogSetFromWKB(wkb unsafe.Pointer, size uint) (*GeogSet, error) {
-	r, err := SetFromWKB(wkb, size)
+func GeogSetFromWKB(wkb []byte) (*GeogSet, error) {
+	r, err := SetFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}

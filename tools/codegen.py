@@ -1166,11 +1166,28 @@ _CGO_FILE = """package functions
 #cgo linux CFLAGS: -I/usr/include/h3
 
 #include <stddef.h>
+#include <stdlib.h>
 @INCLUDES@
 */
 import "C"
 
-import "fmt"
+import (
+	"fmt"
+	"unsafe"
+)
+
+// TakeBytes copies the n bytes a MEOS writer answered at p into Go memory and
+// frees MEOS's buffer, as every wrapper answering a char * frees it once
+// C.GoString has copied it (#_free_returned_string): the byte buffer of a WKB
+// writer, whose length MEOS states through its size_t * out-parameter, becomes
+// a []byte the caller owns. A nil buffer answers nil.
+func TakeBytes(p unsafe.Pointer, n uint64) []byte {
+	if p == nil {
+		return nil
+	}
+	defer C.free(p)
+	return C.GoBytes(p, C.int(n))
+}
 
 // MeosError reports that the MEOS call behind a wrapper failed, carrying the
 // error code MEOS recorded for it.

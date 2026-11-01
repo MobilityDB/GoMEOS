@@ -188,8 +188,8 @@ func TBoolFromText(str string) (*TBool, error) {
 }
 
 // TBoolFromWKB is the portable fromWKB of MEOS temporal_from_wkb.
-func TBoolFromWKB(wkb unsafe.Pointer, size uint) (*TBool, error) {
-	r, err := TemporalFromWKB(wkb, size)
+func TBoolFromWKB(wkb []byte) (*TBool, error) {
+	r, err := TemporalFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}

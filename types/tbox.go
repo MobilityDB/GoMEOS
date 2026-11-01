@@ -24,8 +24,9 @@ func TBoxFromPointer(p unsafe.Pointer) *TBox {
 }
 
 // AsHexWKB is MEOS tbox_as_hexwkb.
-func (x *TBox) AsHexWKB(variant uint8, size_out unsafe.Pointer) (string, error) {
-	_r0, _err := functions.TBOXAsHexwkb(functions.TBoxFromPointer(x.Pointer()), variant, size_out)
+func (x *TBox) AsHexWKB(variant uint8) (string, error) {
+	var _size uint64
+	_r0, _err := functions.TBOXAsHexwkb(functions.TBoxFromPointer(x.Pointer()), variant, unsafe.Pointer(&_size))
 	if _err != nil {
 		return "", _err
 	}
@@ -33,12 +34,13 @@ func (x *TBox) AsHexWKB(variant uint8, size_out unsafe.Pointer) (string, error) 
 }
 
 // AsWKB is MEOS tbox_as_wkb.
-func (x *TBox) AsWKB(variant uint8, size_out unsafe.Pointer) (unsafe.Pointer, error) {
-	_r0, _err := functions.TBOXAsWKB(functions.TBoxFromPointer(x.Pointer()), variant, size_out)
+func (x *TBox) AsWKB(variant uint8) ([]byte, error) {
+	var _size uint64
+	_r0, _err := functions.TBOXAsWKB(functions.TBoxFromPointer(x.Pointer()), variant, unsafe.Pointer(&_size))
 	if _err != nil {
 		return nil, _err
 	}
-	return _r0, nil
+	return functions.TakeBytes(_r0, _size), nil
 }
 
 // TBoxFromHexWKB is MEOS tbox_from_hexwkb.
@@ -51,8 +53,12 @@ func TBoxFromHexWKB(hexwkb string) (*TBox, error) {
 }
 
 // TBoxFromWKB is MEOS tbox_from_wkb.
-func TBoxFromWKB(wkb unsafe.Pointer, size uint) (*TBox, error) {
-	_r0, _err := functions.TBOXFromWKB(wkb, size)
+func TBoxFromWKB(wkb []byte) (*TBox, error) {
+	var _p_wkb unsafe.Pointer
+	if len(wkb) > 0 {
+		_p_wkb = unsafe.Pointer(&wkb[0])
+	}
+	_r0, _err := functions.TBOXFromWKB(_p_wkb, uint(len(wkb)))
 	if _err != nil {
 		return nil, _err
 	}
@@ -336,12 +342,13 @@ func (x *TBox) Ne(box2 *TBox) (bool, error) {
 }
 
 // Sortkey is MEOS tbox_sortkey.
-func (x *TBox) Sortkey(size unsafe.Pointer) (unsafe.Pointer, error) {
-	_r0, _err := functions.TBOXSortkey(functions.TBoxFromPointer(x.Pointer()), size)
+func (x *TBox) Sortkey() ([]byte, error) {
+	var _size uint64
+	_r0, _err := functions.TBOXSortkey(functions.TBoxFromPointer(x.Pointer()), unsafe.Pointer(&_size))
 	if _err != nil {
 		return nil, _err
 	}
-	return _r0, nil
+	return functions.TakeBytes(_r0, _size), nil
 }
 
 // TBoxGetValueTile is MEOS tbox_get_value_tile.

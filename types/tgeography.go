@@ -60,8 +60,8 @@ func (x *TGeography) ToTgeometry() (*Temporal, error) {
 }
 
 // TGeographyFromEWKB is the portable fromEWKB of MEOS temporal_from_wkb.
-func TGeographyFromEWKB(wkb unsafe.Pointer, size uint) (*TGeography, error) {
-	r, err := TemporalFromWKB(wkb, size)
+func TGeographyFromEWKB(wkb []byte) (*TGeography, error) {
+	r, err := TemporalFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}
@@ -105,8 +105,8 @@ func TGeographyFromText(str string) (*TGeography, error) {
 }
 
 // TGeographyFromWKB is the portable fromWKB of MEOS temporal_from_wkb.
-func TGeographyFromWKB(wkb unsafe.Pointer, size uint) (*TGeography, error) {
-	r, err := TemporalFromWKB(wkb, size)
+func TGeographyFromWKB(wkb []byte) (*TGeography, error) {
+	r, err := TemporalFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}

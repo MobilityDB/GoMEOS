@@ -110,8 +110,8 @@ func DateSpanFromText(str string) (*DateSpan, error) {
 }
 
 // DateSpanFromWKB is the portable fromWKB of MEOS span_from_wkb.
-func DateSpanFromWKB(wkb unsafe.Pointer, size uint) (*DateSpan, error) {
-	r, err := SpanFromWKB(wkb, size)
+func DateSpanFromWKB(wkb []byte) (*DateSpan, error) {
+	r, err := SpanFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}

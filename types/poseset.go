@@ -90,8 +90,8 @@ func (x *PoseSet) Values(count unsafe.Pointer) (unsafe.Pointer, error) {
 }
 
 // PoseSetFromEWKB is the portable fromEWKB of MEOS set_from_wkb.
-func PoseSetFromEWKB(wkb unsafe.Pointer, size uint) (*PoseSet, error) {
-	r, err := SetFromWKB(wkb, size)
+func PoseSetFromEWKB(wkb []byte) (*PoseSet, error) {
+	r, err := SetFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}
@@ -135,8 +135,8 @@ func PoseSetFromText(str string) (*PoseSet, error) {
 }
 
 // PoseSetFromWKB is the portable fromWKB of MEOS set_from_wkb.
-func PoseSetFromWKB(wkb unsafe.Pointer, size uint) (*PoseSet, error) {
-	r, err := SetFromWKB(wkb, size)
+func PoseSetFromWKB(wkb []byte) (*PoseSet, error) {
+	r, err := SetFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}

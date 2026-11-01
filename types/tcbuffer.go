@@ -273,8 +273,8 @@ func (x *TCbuffer) MinusStbox(box *STBox, border_inc bool) (*Temporal, error) {
 }
 
 // TCbufferFromEWKB is the portable fromEWKB of MEOS temporal_from_wkb.
-func TCbufferFromEWKB(wkb unsafe.Pointer, size uint) (*TCbuffer, error) {
-	r, err := TemporalFromWKB(wkb, size)
+func TCbufferFromEWKB(wkb []byte) (*TCbuffer, error) {
+	r, err := TemporalFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}
@@ -318,8 +318,8 @@ func TCbufferFromText(str string) (*TCbuffer, error) {
 }
 
 // TCbufferFromWKB is the portable fromWKB of MEOS temporal_from_wkb.
-func TCbufferFromWKB(wkb unsafe.Pointer, size uint) (*TCbuffer, error) {
-	r, err := TemporalFromWKB(wkb, size)
+func TCbufferFromWKB(wkb []byte) (*TCbuffer, error) {
+	r, err := TemporalFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}

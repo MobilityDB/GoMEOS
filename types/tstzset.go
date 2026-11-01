@@ -131,8 +131,8 @@ func TsTzSetFromText(str string) (*TsTzSet, error) {
 }
 
 // TsTzSetFromWKB is the portable fromWKB of MEOS set_from_wkb.
-func TsTzSetFromWKB(wkb unsafe.Pointer, size uint) (*TsTzSet, error) {
-	r, err := SetFromWKB(wkb, size)
+func TsTzSetFromWKB(wkb []byte) (*TsTzSet, error) {
+	r, err := SetFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}

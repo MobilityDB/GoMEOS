@@ -90,8 +90,8 @@ func (x *PcpointSet) Values(count unsafe.Pointer) (unsafe.Pointer, error) {
 }
 
 // PcpointSetFromEWKB is the portable fromEWKB of MEOS set_from_wkb.
-func PcpointSetFromEWKB(wkb unsafe.Pointer, size uint) (*PcpointSet, error) {
-	r, err := SetFromWKB(wkb, size)
+func PcpointSetFromEWKB(wkb []byte) (*PcpointSet, error) {
+	r, err := SetFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}
@@ -135,8 +135,8 @@ func PcpointSetFromText(str string) (*PcpointSet, error) {
 }
 
 // PcpointSetFromWKB is the portable fromWKB of MEOS set_from_wkb.
-func PcpointSetFromWKB(wkb unsafe.Pointer, size uint) (*PcpointSet, error) {
-	r, err := SetFromWKB(wkb, size)
+func PcpointSetFromWKB(wkb []byte) (*PcpointSet, error) {
+	r, err := SetFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}

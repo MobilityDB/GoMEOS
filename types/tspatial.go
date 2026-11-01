@@ -35,12 +35,13 @@ func (x *TSpatial) Out(maxdd int) (string, error) {
 }
 
 // AsEWKB is MEOS tspatial_as_ewkb.
-func (x *TSpatial) AsEWKB(variant uint8, size_out unsafe.Pointer) (unsafe.Pointer, error) {
-	_r0, _err := functions.TspatialAsEWKB(functions.TemporalFromPointer(x.Pointer()), variant, size_out)
+func (x *TSpatial) AsEWKB(variant uint8) ([]byte, error) {
+	var _size uint64
+	_r0, _err := functions.TspatialAsEWKB(functions.TemporalFromPointer(x.Pointer()), variant, unsafe.Pointer(&_size))
 	if _err != nil {
 		return nil, _err
 	}
-	return _r0, nil
+	return functions.TakeBytes(_r0, _size), nil
 }
 
 // AsEWKT is MEOS tspatial_as_ewkt.
@@ -53,8 +54,9 @@ func (x *TSpatial) AsEWKT(maxdd int) (string, error) {
 }
 
 // AsHexEWKB is MEOS tspatial_as_hexewkb.
-func (x *TSpatial) AsHexEWKB(variant uint8, size_out unsafe.Pointer) (string, error) {
-	_r0, _err := functions.TspatialAsHexewkb(functions.TemporalFromPointer(x.Pointer()), variant, size_out)
+func (x *TSpatial) AsHexEWKB(variant uint8) (string, error) {
+	var _size uint64
+	_r0, _err := functions.TspatialAsHexewkb(functions.TemporalFromPointer(x.Pointer()), variant, unsafe.Pointer(&_size))
 	if _err != nil {
 		return "", _err
 	}

@@ -90,8 +90,8 @@ func (x *CbufferSet) Values(count unsafe.Pointer) (unsafe.Pointer, error) {
 }
 
 // CbufferSetFromEWKB is the portable fromEWKB of MEOS set_from_wkb.
-func CbufferSetFromEWKB(wkb unsafe.Pointer, size uint) (*CbufferSet, error) {
-	r, err := SetFromWKB(wkb, size)
+func CbufferSetFromEWKB(wkb []byte) (*CbufferSet, error) {
+	r, err := SetFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}
@@ -135,8 +135,8 @@ func CbufferSetFromText(str string) (*CbufferSet, error) {
 }
 
 // CbufferSetFromWKB is the portable fromWKB of MEOS set_from_wkb.
-func CbufferSetFromWKB(wkb unsafe.Pointer, size uint) (*CbufferSet, error) {
-	r, err := SetFromWKB(wkb, size)
+func CbufferSetFromWKB(wkb []byte) (*CbufferSet, error) {
+	r, err := SetFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}

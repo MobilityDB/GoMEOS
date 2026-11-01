@@ -24,8 +24,9 @@ func SetFromPointer(p unsafe.Pointer) *Set {
 }
 
 // AsHexWKB is MEOS set_as_hexwkb.
-func (x *Set) AsHexWKB(variant uint8, size_out unsafe.Pointer) (string, error) {
-	_r0, _err := functions.SetAsHexwkb(functions.SetFromPointer(x.Pointer()), variant, size_out)
+func (x *Set) AsHexWKB(variant uint8) (string, error) {
+	var _size uint64
+	_r0, _err := functions.SetAsHexwkb(functions.SetFromPointer(x.Pointer()), variant, unsafe.Pointer(&_size))
 	if _err != nil {
 		return "", _err
 	}
@@ -33,12 +34,13 @@ func (x *Set) AsHexWKB(variant uint8, size_out unsafe.Pointer) (string, error) {
 }
 
 // AsWKB is MEOS set_as_wkb.
-func (x *Set) AsWKB(variant uint8, size_out unsafe.Pointer) (unsafe.Pointer, error) {
-	_r0, _err := functions.SetAsWKB(functions.SetFromPointer(x.Pointer()), variant, size_out)
+func (x *Set) AsWKB(variant uint8) ([]byte, error) {
+	var _size uint64
+	_r0, _err := functions.SetAsWKB(functions.SetFromPointer(x.Pointer()), variant, unsafe.Pointer(&_size))
 	if _err != nil {
 		return nil, _err
 	}
-	return _r0, nil
+	return functions.TakeBytes(_r0, _size), nil
 }
 
 // SetFromHexWKB is MEOS set_from_hexwkb.
@@ -51,8 +53,12 @@ func SetFromHexWKB(hexwkb string) (*Set, error) {
 }
 
 // SetFromWKB is MEOS set_from_wkb.
-func SetFromWKB(wkb unsafe.Pointer, size uint) (*Set, error) {
-	_r0, _err := functions.SetFromWKB(wkb, size)
+func SetFromWKB(wkb []byte) (*Set, error) {
+	var _p_wkb unsafe.Pointer
+	if len(wkb) > 0 {
+		_p_wkb = unsafe.Pointer(&wkb[0])
+	}
+	_r0, _err := functions.SetFromWKB(_p_wkb, uint(len(wkb)))
 	if _err != nil {
 		return nil, _err
 	}
@@ -195,12 +201,13 @@ func (x *Set) Ne(s2 *Set) (bool, error) {
 }
 
 // Sortkey is MEOS set_sortkey.
-func (x *Set) Sortkey(size unsafe.Pointer) (unsafe.Pointer, error) {
-	_r0, _err := functions.SetSortkey(functions.SetFromPointer(x.Pointer()), size)
+func (x *Set) Sortkey() ([]byte, error) {
+	var _size uint64
+	_r0, _err := functions.SetSortkey(functions.SetFromPointer(x.Pointer()), unsafe.Pointer(&_size))
 	if _err != nil {
 		return nil, _err
 	}
-	return _r0, nil
+	return functions.TakeBytes(_r0, _size), nil
 }
 
 // Spans is MEOS set_spans.

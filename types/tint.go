@@ -260,8 +260,8 @@ func TIntFromText(str string) (*TInt, error) {
 }
 
 // TIntFromWKB is the portable fromWKB of MEOS temporal_from_wkb.
-func TIntFromWKB(wkb unsafe.Pointer, size uint) (*TInt, error) {
-	r, err := TemporalFromWKB(wkb, size)
+func TIntFromWKB(wkb []byte) (*TInt, error) {
+	r, err := TemporalFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}
