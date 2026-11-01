@@ -23,8 +23,8 @@ func GeographyFromPointer(p unsafe.Pointer) *Geography {
 	return v
 }
 
-// GeographyFromHEXEWKB is MEOS geog_from_hexewkb.
-func GeographyFromHEXEWKB(hexwkb string) (*TRGeometrySeqSet, error) {
+// GeographyFromHexEWKB is MEOS geog_from_hexewkb.
+func GeographyFromHexEWKB(hexwkb string) (*TRGeometrySeqSet, error) {
 	_r0, _err := functions.GeogFromHexewkb(hexwkb)
 	if _err != nil {
 		return nil, _err

@@ -728,9 +728,20 @@ func GeoScale(gs *Geom, xfactor float64, yfactor float64, zfactor float64) (_r0 
 
 
 // GeoScaleGeo wraps MEOS C function geo_scale_geo.
-func GeoScaleGeo(gs *Geom, scale *Geom, sorigin *Geom) (_r0 *Geom, _err error) {
+func GeoScaleGeo(gs *Geom, scale *Geom) (_r0 *Geom, _err error) {
 	C.meos_errno_reset()
-	_cret := C.geo_scale_geo(gs._inner, scale._inner, sorigin._inner)
+	_cret := C.geo_scale_geo(gs._inner, scale._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Geom{_inner: _cret}, nil
+}
+
+
+// GeoScaleGeoOrigin wraps MEOS C function geo_scale_geo_origin.
+func GeoScaleGeoOrigin(gs *Geom, scale *Geom, sorigin *Geom) (_r0 *Geom, _err error) {
+	C.meos_errno_reset()
+	_cret := C.geo_scale_geo_origin(gs._inner, scale._inner, sorigin._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -2324,10 +2335,32 @@ func STBOXRound(box *STBox, maxdd int) (_r0 *STBox, _err error) {
 }
 
 
+// STBOXScaleTime wraps MEOS C function stbox_scale_time.
+func STBOXScaleTime(box *STBox, duration *Interval) (_r0 *STBox, _err error) {
+	C.meos_errno_reset()
+	_cret := C.stbox_scale_time(box._inner, duration._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &STBox{_inner: _cret}, nil
+}
+
+
 // STBOXShiftScaleTime wraps MEOS C function stbox_shift_scale_time.
 func STBOXShiftScaleTime(box *STBox, shift *Interval, duration *Interval) (_r0 *STBox, _err error) {
 	C.meos_errno_reset()
 	_cret := C.stbox_shift_scale_time(box._inner, shift._inner, duration._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &STBox{_inner: _cret}, nil
+}
+
+
+// STBOXShiftTime wraps MEOS C function stbox_shift_time.
+func STBOXShiftTime(box *STBox, shift *Interval) (_r0 *STBox, _err error) {
+	C.meos_errno_reset()
+	_cret := C.stbox_shift_time(box._inner, shift._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -3529,9 +3562,20 @@ func TgeoScale(temp *Temporal, xfactor float64, yfactor float64, zfactor float64
 
 
 // TgeoScaleGeo wraps MEOS C function tgeo_scale_geo.
-func TgeoScaleGeo(temp *Temporal, scale *Geom, sorigin *Geom) (_r0 *Temporal, _err error) {
+func TgeoScaleGeo(temp *Temporal, scale *Geom) (_r0 *Temporal, _err error) {
 	C.meos_errno_reset()
-	_cret := C.tgeo_scale_geo(temp._inner, scale._inner, sorigin._inner)
+	_cret := C.tgeo_scale_geo(temp._inner, scale._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// TgeoScaleGeoOrigin wraps MEOS C function tgeo_scale_geo_origin.
+func TgeoScaleGeoOrigin(temp *Temporal, scale *Geom, sorigin *Geom) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tgeo_scale_geo_origin(temp._inner, scale._inner, sorigin._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}

@@ -2393,6 +2393,17 @@ func TpcpatchNpoints(temp *Temporal) (_r0 int64, _err error) {
 }
 
 
+// TpcpatchSwath wraps MEOS C function tpcpatch_swath.
+func TpcpatchSwath(temp *Temporal, maxt *Interval) (_r0 *Geom, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tpcpatch_swath(temp._inner, maxt._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Geom{_inner: _cret}, nil
+}
+
+
 // EverEqPcpointTpcpoint wraps MEOS C function ever_eq_pcpoint_tpcpoint.
 func EverEqPcpointTpcpoint(pt *Pcpoint, temp *Temporal) (_r0 int, _err error) {
 	C.meos_errno_reset()

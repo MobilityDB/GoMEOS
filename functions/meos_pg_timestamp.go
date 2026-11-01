@@ -662,13 +662,13 @@ func TimestamptzBin(tstz int64, stride *Interval, origin int64) (_r0 int64, _err
 
 
 // TimestamptzHash wraps MEOS C function timestamptz_hash.
-func TimestamptzHash(tstz int64) (_r0 int32, _err error) {
+func TimestamptzHash(tstz int64) (_r0 uint32, _err error) {
 	C.meos_errno_reset()
 	_cret := C.timestamptz_hash(C.TimestampTz(tstz))
 	if _err = meosError(); _err != nil {
 		return
 	}
-	return int32(_cret), nil
+	return uint32(_cret), nil
 }
 
 

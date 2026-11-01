@@ -278,6 +278,18 @@ func (x *TRGeometry) ValueN(n int) (*TRGeometrySeqSet, bool, error) {
 	return TRGeometrySeqSetFromPointer(_value.Pointer()), true, nil
 }
 
+// ValueAtTimestamptz is MEOS trgeometry_value_at_timestamptz.
+func (x *TRGeometry) ValueAtTimestamptz(t int64, strict bool) (*TRGeometrySeqSet, bool, error) {
+	_found, _value, _err := functions.TrgeometryValueAtTimestamptz(functions.TemporalFromPointer(x.Pointer()), t, strict)
+	if _err != nil {
+		return nil, false, _err
+	}
+	if !_found {
+		return nil, false, nil
+	}
+	return TRGeometrySeqSetFromPointer(_value.Pointer()), true, nil
+}
+
 // TraversedArea is MEOS trgeometry_traversed_area.
 func (x *TRGeometry) TraversedArea(unary_union bool) (*TRGeometrySeqSet, error) {
 	_r0, _err := functions.TrgeometryTraversedArea(functions.TemporalFromPointer(x.Pointer()), unary_union)

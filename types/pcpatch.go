@@ -41,8 +41,8 @@ func (x *Pcpatch) HexOut(maxdd int) (string, error) {
 	return _r0, nil
 }
 
-// PcpatchFromHEXWKB is MEOS pcpatch_from_hexwkb.
-func PcpatchFromHEXWKB(hexwkb string) (*Pcpatch, error) {
+// PcpatchFromHexWKB is MEOS pcpatch_from_hexwkb.
+func PcpatchFromHexWKB(hexwkb string) (*Pcpatch, error) {
 	_r0, _err := functions.PcpatchFromHexwkb(hexwkb)
 	if _err != nil {
 		return nil, _err
@@ -50,8 +50,8 @@ func PcpatchFromHEXWKB(hexwkb string) (*Pcpatch, error) {
 	return PcpatchFromPointer(_r0.Pointer()), nil
 }
 
-// AsHEXWKB is MEOS pcpatch_as_hexwkb.
-func (x *Pcpatch) AsHEXWKB() (string, error) {
+// AsHexWKB is MEOS pcpatch_as_hexwkb.
+func (x *Pcpatch) AsHexWKB() (string, error) {
 	_r0, _err := functions.PcpatchAsHexwkb(functions.PcpatchFromPointer(x.Pointer()))
 	if _err != nil {
 		return "", _err

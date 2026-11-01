@@ -476,6 +476,18 @@ func TrgeometryValueN(temp *Temporal, n int) (_r0 bool, _r1 *Geom, _err error) {
 }
 
 
+// TrgeometryValueAtTimestamptz wraps MEOS C function trgeometry_value_at_timestamptz.
+func TrgeometryValueAtTimestamptz(temp *Temporal, t int64, strict bool) (_r0 bool, _r1 *Geom, _err error) {
+	var _out_result *C.GSERIALIZED
+	C.meos_errno_reset()
+	_cret := C.trgeometry_value_at_timestamptz(temp._inner, C.TimestampTz(t), C.bool(strict), &_out_result)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), &Geom{_inner: _out_result}, nil
+}
+
+
 // TrgeometryTraversedArea wraps MEOS C function trgeometry_traversed_area.
 func TrgeometryTraversedArea(temp *Temporal, unary_union bool) (_r0 *Geom, _err error) {
 	C.meos_errno_reset()

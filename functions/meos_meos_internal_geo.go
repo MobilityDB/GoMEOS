@@ -127,6 +127,17 @@ func PointRound(gs *Geom, maxdd int) (_r0 *Geom, _err error) {
 }
 
 
+// GeoScaleGeoIntl wraps MEOS C function geo_scale_geo_intl.
+func GeoScaleGeoIntl(gs *Geom, scale *Geom, sorigin *Geom) (_r0 *Geom, _err error) {
+	C.meos_errno_reset()
+	_cret := C.geo_scale_geo_intl(gs._inner, scale._inner, sorigin._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Geom{_inner: _cret}, nil
+}
+
+
 // STBOXSet wraps MEOS C function stbox_set.
 func STBOXSet(hasx bool, hasz bool, geodetic bool, srid int32, xmin float64, xmax float64, ymin float64, ymax float64, zmin float64, zmax float64, s *Span) (_r0 *STBox, _err error) {
 	var _out_result C.STBox
@@ -267,6 +278,17 @@ func STBOXExpandSpaceSet(box *STBox, d float64) (_r0 bool, _r1 *STBox, _err erro
 		return
 	}
 	return bool(_cret), &STBox{_inner: &_out_result}, nil
+}
+
+
+// STBOXShiftScaleTimeIntl wraps MEOS C function stbox_shift_scale_time_intl.
+func STBOXShiftScaleTimeIntl(box *STBox, shift *Interval, duration *Interval) (_r0 *STBox, _err error) {
+	C.meos_errno_reset()
+	_cret := C.stbox_shift_scale_time_intl(box._inner, shift._inner, duration._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &STBox{_inner: _cret}, nil
 }
 
 
@@ -688,6 +710,17 @@ func TgeometryseqsetIn(str string) (_r0 *TSequenceSet, _err error) {
 		return
 	}
 	return &TSequenceSet{_inner: _cret}, nil
+}
+
+
+// TgeoScaleGeoIntl wraps MEOS C function tgeo_scale_geo_intl.
+func TgeoScaleGeoIntl(temp *Temporal, scale *Geom, sorigin *Geom) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tgeo_scale_geo_intl(temp._inner, scale._inner, sorigin._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
 }
 
 

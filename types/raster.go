@@ -32,8 +32,8 @@ func RasterFromWKB(wkb unsafe.Pointer, size uint) (unsafe.Pointer, error) {
 	return _r0, nil
 }
 
-// RasterFromHEXWKB is MEOS raster_from_hexwkb.
-func RasterFromHEXWKB(hexwkb string) (unsafe.Pointer, error) {
+// RasterFromHexWKB is MEOS raster_from_hexwkb.
+func RasterFromHexWKB(hexwkb string) (unsafe.Pointer, error) {
 	_r0, _err := functions.RasterFromHexwkb(hexwkb)
 	if _err != nil {
 		return nil, _err
@@ -50,8 +50,8 @@ func RasterAsWKB(rast unsafe.Pointer, variant uint8, size_out unsafe.Pointer) (u
 	return _r0, nil
 }
 
-// RasterAsHEXWKB is MEOS raster_as_hexwkb.
-func RasterAsHEXWKB(rast unsafe.Pointer, variant uint8, size_out unsafe.Pointer) (string, error) {
+// RasterAsHexWKB is MEOS raster_as_hexwkb.
+func RasterAsHexWKB(rast unsafe.Pointer, variant uint8, size_out unsafe.Pointer) (string, error) {
 	_r0, _err := functions.RasterAsHexwkb(rast, variant, size_out)
 	if _err != nil {
 		return "", _err
@@ -333,8 +333,8 @@ func RasterValueCount(rast unsafe.Pointer, band int, exclude_nodata bool, search
 }
 
 // RasterSetValues is MEOS raster_set_values.
-func RasterSetValues(rast unsafe.Pointer, band int, x int, y int, width int, height int, values unsafe.Pointer, nodata unsafe.Pointer, noset unsafe.Pointer, count int, keepnodata bool) (unsafe.Pointer, error) {
-	_r0, _err := functions.RasterSetValues(rast, band, x, y, width, height, values, nodata, noset, count, keepnodata)
+func RasterSetValues(rast unsafe.Pointer, band int, x int, y int, width int, height int, values unsafe.Pointer, nodata unsafe.Pointer, noset unsafe.Pointer, nosetwidth int, nosetheight int, count int, keepnodata bool) (unsafe.Pointer, error) {
+	_r0, _err := functions.RasterSetValues(rast, band, x, y, width, height, values, nodata, noset, nosetwidth, nosetheight, count, keepnodata)
 	if _err != nil {
 		return nil, _err
 	}

@@ -836,9 +836,9 @@ func RasterValueCount(rast unsafe.Pointer, band int, exclude_nodata bool, search
 
 
 // RasterSetValues wraps MEOS C function raster_set_values.
-func RasterSetValues(rast unsafe.Pointer, band int, x int, y int, width int, height int, values unsafe.Pointer, nodata unsafe.Pointer, noset unsafe.Pointer, count int, keepnodata bool) (_r0 unsafe.Pointer, _err error) {
+func RasterSetValues(rast unsafe.Pointer, band int, x int, y int, width int, height int, values unsafe.Pointer, nodata unsafe.Pointer, noset unsafe.Pointer, nosetwidth int, nosetheight int, count int, keepnodata bool) (_r0 unsafe.Pointer, _err error) {
 	C.meos_errno_reset()
-	_cret := C.raster_set_values((*C.Raster)(unsafe.Pointer(rast)), C.int(band), C.int(x), C.int(y), C.int(width), C.int(height), (*C.double)(unsafe.Pointer(values)), (*C.bool)(unsafe.Pointer(nodata)), (*C.bool)(unsafe.Pointer(noset)), C.int(count), C.bool(keepnodata))
+	_cret := C.raster_set_values((*C.Raster)(unsafe.Pointer(rast)), C.int(band), C.int(x), C.int(y), C.int(width), C.int(height), (*C.double)(unsafe.Pointer(values)), (*C.bool)(unsafe.Pointer(nodata)), (*C.bool)(unsafe.Pointer(noset)), C.int(nosetwidth), C.int(nosetheight), C.int(count), C.bool(keepnodata))
 	if _err = meosError(); _err != nil {
 		return
 	}

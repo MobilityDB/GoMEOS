@@ -194,8 +194,17 @@ func (x *TGeo) Scale(xfactor float64, yfactor float64, zfactor float64) (*Tempor
 }
 
 // ScaleGeo is MEOS tgeo_scale_geo.
-func (x *TGeo) ScaleGeo(scale *TRGeometrySeqSet, sorigin *TRGeometrySeqSet) (*Temporal, error) {
-	_r0, _err := functions.TgeoScaleGeo(functions.TemporalFromPointer(x.Pointer()), functions.GeomFromPointer(scale.Pointer()), functions.GeomFromPointer(sorigin.Pointer()))
+func (x *TGeo) ScaleGeo(scale *TRGeometrySeqSet) (*Temporal, error) {
+	_r0, _err := functions.TgeoScaleGeo(functions.TemporalFromPointer(x.Pointer()), functions.GeomFromPointer(scale.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// ScaleGeoOrigin is MEOS tgeo_scale_geo_origin.
+func (x *TGeo) ScaleGeoOrigin(scale *TRGeometrySeqSet, sorigin *TRGeometrySeqSet) (*Temporal, error) {
+	_r0, _err := functions.TgeoScaleGeoOrigin(functions.TemporalFromPointer(x.Pointer()), functions.GeomFromPointer(scale.Pointer()), functions.GeomFromPointer(sorigin.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}

@@ -447,6 +447,39 @@ func IntspanSetFloatspan(s1 *Span, s2 *Span) (_err error) {
 }
 
 
+// TstzsetShiftScaleIntl wraps MEOS C function tstzset_shift_scale_intl.
+func TstzsetShiftScaleIntl(s *Set, shift *Interval, duration *Interval) (_r0 *Set, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tstzset_shift_scale_intl(s._inner, shift._inner, duration._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Set{_inner: _cret}, nil
+}
+
+
+// TstzspanShiftScaleIntl wraps MEOS C function tstzspan_shift_scale_intl.
+func TstzspanShiftScaleIntl(s *Span, shift *Interval, duration *Interval) (_r0 *Span, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tstzspan_shift_scale_intl(s._inner, shift._inner, duration._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Span{_inner: _cret}, nil
+}
+
+
+// TstzspansetShiftScaleIntl wraps MEOS C function tstzspanset_shift_scale_intl.
+func TstzspansetShiftScaleIntl(ss *SpanSet, shift *Interval, duration *Interval) (_r0 *SpanSet, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tstzspanset_shift_scale_intl(ss._inner, shift._inner, duration._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &SpanSet{_inner: _cret}, nil
+}
+
+
 // SetCompact wraps MEOS C function set_compact.
 func SetCompact(s *Set) (_r0 *Set, _err error) {
 	C.meos_errno_reset()
@@ -914,6 +947,17 @@ func TstzspanSetTBOX(s *Span, box *TBox) (_err error) {
 		return
 	}
 	return nil
+}
+
+
+// TBOXShiftScaleTimeIntl wraps MEOS C function tbox_shift_scale_time_intl.
+func TBOXShiftScaleTimeIntl(box *TBox, shift *Interval, duration *Interval) (_r0 *TBox, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tbox_shift_scale_time_intl(box._inner, shift._inner, duration._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &TBox{_inner: _cret}, nil
 }
 
 
@@ -2214,6 +2258,17 @@ func TinstantAsTsequenceset(inst *TInstant, interp Interpolation) (_r0 *TSequenc
 		return
 	}
 	return &TSequenceSet{_inner: _cret}, nil
+}
+
+
+// TemporalShiftScaleTimeIntl wraps MEOS C function temporal_shift_scale_time_intl.
+func TemporalShiftScaleTimeIntl(temp *Temporal, shift *Interval, duration *Interval) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.temporal_shift_scale_time_intl(temp._inner, shift._inner, duration._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
 }
 
 

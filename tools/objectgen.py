@@ -294,6 +294,13 @@ class Generator:
             args.insert(0, f"functions.{handle}FromPointer(x.Pointer())")
 
         name = pascal(oo) if recv is not None else cls + pascal(oo)
+        # A method may not share the name of the struct its class embeds, the
+        # field Go gives that parent (JsonbSet embeds Set, and jsonbset_set reads
+        # `set`), so such a method takes the name of its SQL function, which
+        # carries the type as the SQL dialect writes it (jsonbsetSet), spelled as
+        # #pascal spells every method.
+        if recv is not None and name == self.m.parent.get(cls):
+            name = pascal(f.get("sqlfn") or cls[:1].lower() + cls[1:] + name)
 
         # THE OUT-PARAMETER FOLD, and the shape is the repository's own: MEOS answers
         # a bool saying whether a value is there and writes the value out, so the

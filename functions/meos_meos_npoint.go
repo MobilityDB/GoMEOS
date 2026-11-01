@@ -1007,6 +1007,17 @@ func UnionSetNpoint(s *Set, np *Npoint) (_r0 *Set, _err error) {
 }
 
 
+// DistanceNpointsetNpointset wraps MEOS C function distance_npointset_npointset.
+func DistanceNpointsetNpointset(s1 *Set, s2 *Set) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.distance_npointset_npointset(s1._inner, s2._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
 // TnpointIn wraps MEOS C function tnpoint_in.
 func TnpointIn(str string) (_r0 *Temporal, _err error) {
 	_c_str := C.CString(str)

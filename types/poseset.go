@@ -9,7 +9,7 @@ import (
 )
 
 type PoseSet struct {
-	Set
+	SpatialSet
 }
 
 // PoseSetFromPointer wraps a MEOS pointer, answering nil for nil so an

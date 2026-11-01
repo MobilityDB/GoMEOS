@@ -183,13 +183,13 @@ func PlusTimetzInterval(timetz unsafe.Pointer, interv *Interval) (_r0 unsafe.Poi
 
 
 // TimeCmp wraps MEOS C function time_cmp.
-func TimeCmp(time1 int64, time2 int64) (_r0 int, _err error) {
+func TimeCmp(time1 int64, time2 int64) (_r0 int32, _err error) {
 	C.meos_errno_reset()
 	_cret := C.time_cmp(C.TimeADT(time1), C.TimeADT(time2))
 	if _err = meosError(); _err != nil {
 		return
 	}
-	return int(_cret), nil
+	return int32(_cret), nil
 }
 
 
