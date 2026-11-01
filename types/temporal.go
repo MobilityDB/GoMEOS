@@ -25,8 +25,8 @@ func TemporalFromPointer(p unsafe.Pointer) *Temporal {
 	return v
 }
 
-// AsHEXWKB is MEOS temporal_as_hexwkb.
-func (x *Temporal) AsHEXWKB(variant uint8, size_out unsafe.Pointer) (string, error) {
+// AsHexWKB is MEOS temporal_as_hexwkb.
+func (x *Temporal) AsHexWKB(variant uint8, size_out unsafe.Pointer) (string, error) {
 	_r0, _err := functions.TemporalAsHexwkb(functions.TemporalFromPointer(x.Pointer()), variant, size_out)
 	if _err != nil {
 		return "", _err
@@ -52,8 +52,8 @@ func (x *Temporal) AsWKB(variant uint8, size_out unsafe.Pointer) (unsafe.Pointer
 	return _r0, nil
 }
 
-// TemporalFromHEXWKB is MEOS temporal_from_hexwkb.
-func TemporalFromHEXWKB(hexwkb string) (*Temporal, error) {
+// TemporalFromHexWKB is MEOS temporal_from_hexwkb.
+func TemporalFromHexWKB(hexwkb string) (*Temporal, error) {
 	_r0, _err := functions.TemporalFromHexwkb(hexwkb)
 	if _err != nil {
 		return nil, _err

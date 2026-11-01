@@ -1464,6 +1464,28 @@ func JsonbsetObjectFieldCommon(set *Set, key string, astext bool, null_handle Nu
 }
 
 
+// JsonbsetPathExistsIntl wraps MEOS C function jsonbset_path_exists_intl.
+func JsonbsetPathExistsIntl(set *Set, jp *JsonPath, vars *Jsonb, silent bool, tz bool, count unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
+	C.meos_errno_reset()
+	_cret := C.jsonbset_path_exists_intl(set._inner, jp._inner, vars._inner, C.bool(silent), C.bool(tz), (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
+}
+
+
+// JsonbsetPathMatchIntl wraps MEOS C function jsonbset_path_match_intl.
+func JsonbsetPathMatchIntl(set *Set, jp *JsonPath, vars *Jsonb, silent bool, tz bool, count unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
+	C.meos_errno_reset()
+	_cret := C.jsonbset_path_match_intl(set._inner, jp._inner, vars._inner, C.bool(silent), C.bool(tz), (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
+}
+
+
 // ContainedJsonbSet wraps MEOS C function contained_jsonb_set.
 func ContainedJsonbSet(jb *Jsonb, s *Set) (_r0 bool, _err error) {
 	C.meos_errno_reset()
@@ -2331,6 +2353,28 @@ func TjsonbObjectFieldCommon(temp *Temporal, key string, astext bool, null_handl
 	defer C.free(unsafe.Pointer(_c_key))
 	C.meos_errno_reset()
 	_cret := C.tjsonb_object_field_common(temp._inner, _c_key, C.bool(astext), C.nullHandleType(null_handle))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// TjsonbPathExistsIntl wraps MEOS C function tjsonb_path_exists_intl.
+func TjsonbPathExistsIntl(temp *Temporal, jp *JsonPath, vars *Jsonb, silent bool, tz bool) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tjsonb_path_exists_intl(temp._inner, jp._inner, vars._inner, C.bool(silent), C.bool(tz))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// TjsonbPathMatchIntl wraps MEOS C function tjsonb_path_match_intl.
+func TjsonbPathMatchIntl(temp *Temporal, jp *JsonPath, vars *Jsonb, silent bool, tz bool) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tjsonb_path_match_intl(temp._inner, jp._inner, vars._inner, C.bool(silent), C.bool(tz))
 	if _err = meosError(); _err != nil {
 		return
 	}

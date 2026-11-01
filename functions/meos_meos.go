@@ -3675,6 +3675,28 @@ func TimestamptzTprecision(t int64, duration *Interval, torigin int64) (_r0 int6
 }
 
 
+// TstzsetScale wraps MEOS C function tstzset_scale.
+func TstzsetScale(s *Set, duration *Interval) (_r0 *Set, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tstzset_scale(s._inner, duration._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Set{_inner: _cret}, nil
+}
+
+
+// TstzsetShift wraps MEOS C function tstzset_shift.
+func TstzsetShift(s *Set, shift *Interval) (_r0 *Set, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tstzset_shift(s._inner, shift._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Set{_inner: _cret}, nil
+}
+
+
 // TstzsetShiftScale wraps MEOS C function tstzset_shift_scale.
 func TstzsetShiftScale(s *Set, shift *Interval, duration *Interval) (_r0 *Set, _err error) {
 	C.meos_errno_reset()
@@ -3697,6 +3719,28 @@ func TstzsetTprecision(s *Set, duration *Interval, torigin int64) (_r0 *Set, _er
 }
 
 
+// TstzspanScale wraps MEOS C function tstzspan_scale.
+func TstzspanScale(s *Span, duration *Interval) (_r0 *Span, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tstzspan_scale(s._inner, duration._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Span{_inner: _cret}, nil
+}
+
+
+// TstzspanShift wraps MEOS C function tstzspan_shift.
+func TstzspanShift(s *Span, shift *Interval) (_r0 *Span, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tstzspan_shift(s._inner, shift._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Span{_inner: _cret}, nil
+}
+
+
 // TstzspanShiftScale wraps MEOS C function tstzspan_shift_scale.
 func TstzspanShiftScale(s *Span, shift *Interval, duration *Interval) (_r0 *Span, _err error) {
 	C.meos_errno_reset()
@@ -3716,6 +3760,28 @@ func TstzspanTprecision(s *Span, duration *Interval, torigin int64) (_r0 *Span, 
 		return
 	}
 	return &Span{_inner: _cret}, nil
+}
+
+
+// TstzspansetScale wraps MEOS C function tstzspanset_scale.
+func TstzspansetScale(ss *SpanSet, duration *Interval) (_r0 *SpanSet, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tstzspanset_scale(ss._inner, duration._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &SpanSet{_inner: _cret}, nil
+}
+
+
+// TstzspansetShift wraps MEOS C function tstzspanset_shift.
+func TstzspansetShift(ss *SpanSet, shift *Interval) (_r0 *SpanSet, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tstzspanset_shift(ss._inner, shift._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &SpanSet{_inner: _cret}, nil
 }
 
 
@@ -9207,10 +9273,32 @@ func TintboxShiftScale(box *TBox, shift int, width int, hasshift bool, haswidth 
 }
 
 
+// TBOXScaleTime wraps MEOS C function tbox_scale_time.
+func TBOXScaleTime(box *TBox, duration *Interval) (_r0 *TBox, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tbox_scale_time(box._inner, duration._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &TBox{_inner: _cret}, nil
+}
+
+
 // TBOXShiftScaleTime wraps MEOS C function tbox_shift_scale_time.
 func TBOXShiftScaleTime(box *TBox, shift *Interval, duration *Interval) (_r0 *TBox, _err error) {
 	C.meos_errno_reset()
 	_cret := C.tbox_shift_scale_time(box._inner, shift._inner, duration._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &TBox{_inner: _cret}, nil
+}
+
+
+// TBOXShiftTime wraps MEOS C function tbox_shift_time.
+func TBOXShiftTime(box *TBox, shift *Interval) (_r0 *TBox, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tbox_shift_time(box._inner, shift._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -9398,6 +9486,402 @@ func OverrightTBOXTBOX(box1 *TBox, box2 *TBox) (_r0 bool, _err error) {
 func RightTBOXTBOX(box1 *TBox, box2 *TBox) (_r0 bool, _err error) {
 	C.meos_errno_reset()
 	_cret := C.right_tbox_tbox(box1._inner, box2._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// AdjacentNumspanTBOX wraps MEOS C function adjacent_numspan_tbox.
+func AdjacentNumspanTBOX(s *Span, box *TBox) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.adjacent_numspan_tbox(s._inner, box._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// AdjacentTBOXNumspan wraps MEOS C function adjacent_tbox_numspan.
+func AdjacentTBOXNumspan(box *TBox, s *Span) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.adjacent_tbox_numspan(box._inner, s._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// AdjacentTBOXTstzspan wraps MEOS C function adjacent_tbox_tstzspan.
+func AdjacentTBOXTstzspan(box *TBox, s *Span) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.adjacent_tbox_tstzspan(box._inner, s._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// AdjacentTstzspanTBOX wraps MEOS C function adjacent_tstzspan_tbox.
+func AdjacentTstzspanTBOX(s *Span, box *TBox) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.adjacent_tstzspan_tbox(s._inner, box._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// ContainedNumspanTBOX wraps MEOS C function contained_numspan_tbox.
+func ContainedNumspanTBOX(s *Span, box *TBox) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.contained_numspan_tbox(s._inner, box._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// ContainedTBOXNumspan wraps MEOS C function contained_tbox_numspan.
+func ContainedTBOXNumspan(box *TBox, s *Span) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.contained_tbox_numspan(box._inner, s._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// ContainedTBOXTstzspan wraps MEOS C function contained_tbox_tstzspan.
+func ContainedTBOXTstzspan(box *TBox, s *Span) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.contained_tbox_tstzspan(box._inner, s._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// ContainedTstzspanTBOX wraps MEOS C function contained_tstzspan_tbox.
+func ContainedTstzspanTBOX(s *Span, box *TBox) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.contained_tstzspan_tbox(s._inner, box._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// ContainsNumspanTBOX wraps MEOS C function contains_numspan_tbox.
+func ContainsNumspanTBOX(s *Span, box *TBox) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.contains_numspan_tbox(s._inner, box._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// ContainsTBOXNumspan wraps MEOS C function contains_tbox_numspan.
+func ContainsTBOXNumspan(box *TBox, s *Span) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.contains_tbox_numspan(box._inner, s._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// ContainsTBOXTstzspan wraps MEOS C function contains_tbox_tstzspan.
+func ContainsTBOXTstzspan(box *TBox, s *Span) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.contains_tbox_tstzspan(box._inner, s._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// ContainsTstzspanTBOX wraps MEOS C function contains_tstzspan_tbox.
+func ContainsTstzspanTBOX(s *Span, box *TBox) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.contains_tstzspan_tbox(s._inner, box._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// OverlapsNumspanTBOX wraps MEOS C function overlaps_numspan_tbox.
+func OverlapsNumspanTBOX(s *Span, box *TBox) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.overlaps_numspan_tbox(s._inner, box._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// OverlapsTBOXNumspan wraps MEOS C function overlaps_tbox_numspan.
+func OverlapsTBOXNumspan(box *TBox, s *Span) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.overlaps_tbox_numspan(box._inner, s._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// OverlapsTBOXTstzspan wraps MEOS C function overlaps_tbox_tstzspan.
+func OverlapsTBOXTstzspan(box *TBox, s *Span) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.overlaps_tbox_tstzspan(box._inner, s._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// OverlapsTstzspanTBOX wraps MEOS C function overlaps_tstzspan_tbox.
+func OverlapsTstzspanTBOX(s *Span, box *TBox) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.overlaps_tstzspan_tbox(s._inner, box._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// SameNumspanTBOX wraps MEOS C function same_numspan_tbox.
+func SameNumspanTBOX(s *Span, box *TBox) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.same_numspan_tbox(s._inner, box._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// SameTBOXNumspan wraps MEOS C function same_tbox_numspan.
+func SameTBOXNumspan(box *TBox, s *Span) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.same_tbox_numspan(box._inner, s._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// SameTBOXTstzspan wraps MEOS C function same_tbox_tstzspan.
+func SameTBOXTstzspan(box *TBox, s *Span) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.same_tbox_tstzspan(box._inner, s._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// SameTstzspanTBOX wraps MEOS C function same_tstzspan_tbox.
+func SameTstzspanTBOX(s *Span, box *TBox) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.same_tstzspan_tbox(s._inner, box._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// AfterTBOXTstzspan wraps MEOS C function after_tbox_tstzspan.
+func AfterTBOXTstzspan(box *TBox, s *Span) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.after_tbox_tstzspan(box._inner, s._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// AfterTstzspanTBOX wraps MEOS C function after_tstzspan_tbox.
+func AfterTstzspanTBOX(s *Span, box *TBox) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.after_tstzspan_tbox(s._inner, box._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// BeforeTBOXTstzspan wraps MEOS C function before_tbox_tstzspan.
+func BeforeTBOXTstzspan(box *TBox, s *Span) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.before_tbox_tstzspan(box._inner, s._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// BeforeTstzspanTBOX wraps MEOS C function before_tstzspan_tbox.
+func BeforeTstzspanTBOX(s *Span, box *TBox) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.before_tstzspan_tbox(s._inner, box._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// LeftNumspanTBOX wraps MEOS C function left_numspan_tbox.
+func LeftNumspanTBOX(s *Span, box *TBox) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.left_numspan_tbox(s._inner, box._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// LeftTBOXNumspan wraps MEOS C function left_tbox_numspan.
+func LeftTBOXNumspan(box *TBox, s *Span) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.left_tbox_numspan(box._inner, s._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// OverafterTBOXTstzspan wraps MEOS C function overafter_tbox_tstzspan.
+func OverafterTBOXTstzspan(box *TBox, s *Span) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.overafter_tbox_tstzspan(box._inner, s._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// OverafterTstzspanTBOX wraps MEOS C function overafter_tstzspan_tbox.
+func OverafterTstzspanTBOX(s *Span, box *TBox) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.overafter_tstzspan_tbox(s._inner, box._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// OverbeforeTBOXTstzspan wraps MEOS C function overbefore_tbox_tstzspan.
+func OverbeforeTBOXTstzspan(box *TBox, s *Span) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.overbefore_tbox_tstzspan(box._inner, s._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// OverbeforeTstzspanTBOX wraps MEOS C function overbefore_tstzspan_tbox.
+func OverbeforeTstzspanTBOX(s *Span, box *TBox) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.overbefore_tstzspan_tbox(s._inner, box._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// OverleftNumspanTBOX wraps MEOS C function overleft_numspan_tbox.
+func OverleftNumspanTBOX(s *Span, box *TBox) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.overleft_numspan_tbox(s._inner, box._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// OverleftTBOXNumspan wraps MEOS C function overleft_tbox_numspan.
+func OverleftTBOXNumspan(box *TBox, s *Span) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.overleft_tbox_numspan(box._inner, s._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// OverrightNumspanTBOX wraps MEOS C function overright_numspan_tbox.
+func OverrightNumspanTBOX(s *Span, box *TBox) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.overright_numspan_tbox(s._inner, box._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// OverrightTBOXNumspan wraps MEOS C function overright_tbox_numspan.
+func OverrightTBOXNumspan(box *TBox, s *Span) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.overright_tbox_numspan(box._inner, s._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// RightNumspanTBOX wraps MEOS C function right_numspan_tbox.
+func RightNumspanTBOX(s *Span, box *TBox) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.right_numspan_tbox(s._inner, box._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// RightTBOXNumspan wraps MEOS C function right_tbox_numspan.
+func RightTBOXNumspan(box *TBox, s *Span) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.right_tbox_numspan(box._inner, s._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -15531,10 +16015,32 @@ func TdistanceTnumberTnumber(temp1 *Temporal, temp2 *Temporal) (_r0 *Temporal, _
 }
 
 
+// NadBigintspanTBOX wraps MEOS C function nad_bigintspan_tbox.
+func NadBigintspanTBOX(s *Span, box *TBox) (_r0 int64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.nad_bigintspan_tbox(s._inner, box._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int64(_cret), nil
+}
+
+
 // NadTboxfloatTboxfloat wraps MEOS C function nad_tboxfloat_tboxfloat.
 func NadTboxfloatTboxfloat(box1 *TBox, box2 *TBox) (_r0 float64, _err error) {
 	C.meos_errno_reset()
 	_cret := C.nad_tboxfloat_tboxfloat(box1._inner, box2._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// NadFloatspanTBOX wraps MEOS C function nad_floatspan_tbox.
+func NadFloatspanTBOX(s *Span, box *TBox) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.nad_floatspan_tbox(s._inner, box._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -15553,10 +16059,32 @@ func NadTboxintTboxint(box1 *TBox, box2 *TBox) (_r0 int, _err error) {
 }
 
 
+// NadIntspanTBOX wraps MEOS C function nad_intspan_tbox.
+func NadIntspanTBOX(s *Span, box *TBox) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.nad_intspan_tbox(s._inner, box._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
 // NadTfloatFloat wraps MEOS C function nad_tfloat_float.
 func NadTfloatFloat(temp *Temporal, d float64) (_r0 float64, _err error) {
 	C.meos_errno_reset()
 	_cret := C.nad_tfloat_float(temp._inner, C.double(d))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// NadTfloatFloatspan wraps MEOS C function nad_tfloat_floatspan.
+func NadTfloatFloatspan(temp *Temporal, s *Span) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.nad_tfloat_floatspan(temp._inner, s._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -15590,6 +16118,17 @@ func NadTfloatTBOX(temp *Temporal, box *TBox) (_r0 float64, _err error) {
 func NadTbigintBigint(temp *Temporal, i int64) (_r0 int64, _err error) {
 	C.meos_errno_reset()
 	_cret := C.nad_tbigint_bigint(temp._inner, C.int64_t(i))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int64(_cret), nil
+}
+
+
+// NadTbigintBigintspan wraps MEOS C function nad_tbigint_bigintspan.
+func NadTbigintBigintspan(temp *Temporal, s *Span) (_r0 int64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.nad_tbigint_bigintspan(temp._inner, s._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -15634,6 +16173,17 @@ func NadTboxbigintTboxbigint(box1 *TBox, box2 *TBox) (_r0 int64, _err error) {
 func NadTintInt(temp *Temporal, i int) (_r0 int, _err error) {
 	C.meos_errno_reset()
 	_cret := C.nad_tint_int(temp._inner, C.int(i))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
+// NadTintIntspan wraps MEOS C function nad_tint_intspan.
+func NadTintIntspan(temp *Temporal, s *Span) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.nad_tint_intspan(temp._inner, s._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}

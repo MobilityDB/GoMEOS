@@ -41,8 +41,8 @@ func (x *Pcpoint) HexOut(maxdd int) (string, error) {
 	return _r0, nil
 }
 
-// PcpointFromHEXWKB is MEOS pcpoint_from_hexwkb.
-func PcpointFromHEXWKB(hexwkb string) (*Pcpoint, error) {
+// PcpointFromHexWKB is MEOS pcpoint_from_hexwkb.
+func PcpointFromHexWKB(hexwkb string) (*Pcpoint, error) {
 	_r0, _err := functions.PcpointFromHexwkb(hexwkb)
 	if _err != nil {
 		return nil, _err
@@ -50,8 +50,8 @@ func PcpointFromHEXWKB(hexwkb string) (*Pcpoint, error) {
 	return PcpointFromPointer(_r0.Pointer()), nil
 }
 
-// AsHEXWKB is MEOS pcpoint_as_hexwkb.
-func (x *Pcpoint) AsHEXWKB() (string, error) {
+// AsHexWKB is MEOS pcpoint_as_hexwkb.
+func (x *Pcpoint) AsHexWKB() (string, error) {
 	_r0, _err := functions.PcpointAsHexwkb(functions.PcpointFromPointer(x.Pointer()))
 	if _err != nil {
 		return "", _err

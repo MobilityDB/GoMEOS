@@ -813,6 +813,17 @@ func UnionSetCbuffer(s *Set, cb *Cbuffer) (_r0 *Set, _err error) {
 }
 
 
+// DistanceCbuffersetCbufferset wraps MEOS C function distance_cbufferset_cbufferset.
+func DistanceCbuffersetCbufferset(s1 *Set, s2 *Set) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.distance_cbufferset_cbufferset(s1._inner, s2._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
 // TcbufferIn wraps MEOS C function tcbuffer_in.
 func TcbufferIn(str string) (_r0 *Temporal, _err error) {
 	_c_str := C.CString(str)

@@ -41,8 +41,8 @@ func (x *Pose) AsEWKT(maxdd int) (string, error) {
 	return _r0, nil
 }
 
-// AsHEXEWKB is MEOS pose_as_hexewkb.
-func (x *Pose) AsHEXEWKB(variant uint8, size_out unsafe.Pointer) (string, error) {
+// AsHexEWKB is MEOS pose_as_hexewkb.
+func (x *Pose) AsHexEWKB(variant uint8, size_out unsafe.Pointer) (string, error) {
 	_r0, _err := functions.PoseAsHexewkb(functions.PoseFromPointer(x.Pointer()), variant, size_out)
 	if _err != nil {
 		return "", _err
@@ -50,8 +50,8 @@ func (x *Pose) AsHEXEWKB(variant uint8, size_out unsafe.Pointer) (string, error)
 	return _r0, nil
 }
 
-// AsHEXWKB is MEOS pose_as_hexwkb.
-func (x *Pose) AsHEXWKB(variant uint8, size_out unsafe.Pointer) (string, error) {
+// AsHexWKB is MEOS pose_as_hexwkb.
+func (x *Pose) AsHexWKB(variant uint8, size_out unsafe.Pointer) (string, error) {
 	_r0, _err := functions.PoseAsHexwkb(functions.PoseFromPointer(x.Pointer()), variant, size_out)
 	if _err != nil {
 		return "", _err
@@ -86,8 +86,8 @@ func PoseFromWKB(wkb unsafe.Pointer, size uint) (*Pose, error) {
 	return PoseFromPointer(_r0.Pointer()), nil
 }
 
-// PoseFromHEXWKB is MEOS pose_from_hexwkb.
-func PoseFromHEXWKB(hexwkb string) (*Pose, error) {
+// PoseFromHexWKB is MEOS pose_from_hexwkb.
+func PoseFromHexWKB(hexwkb string) (*Pose, error) {
 	_r0, _err := functions.PoseFromHexwkb(hexwkb)
 	if _err != nil {
 		return nil, _err

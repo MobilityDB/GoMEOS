@@ -23,8 +23,8 @@ func GeometryFromPointer(p unsafe.Pointer) *Geometry {
 	return v
 }
 
-// GeometryFromHEXEWKB is MEOS geom_from_hexewkb.
-func GeometryFromHEXEWKB(hexwkb string) (*TRGeometrySeqSet, error) {
+// GeometryFromHexEWKB is MEOS geom_from_hexewkb.
+func GeometryFromHexEWKB(hexwkb string) (*TRGeometrySeqSet, error) {
 	_r0, _err := functions.GeomFromHexewkb(hexwkb)
 	if _err != nil {
 		return nil, _err

@@ -9,7 +9,7 @@ import (
 )
 
 type NpointSet struct {
-	Set
+	SpatialSet
 }
 
 // NpointSetFromPointer wraps a MEOS pointer, answering nil for nil so an

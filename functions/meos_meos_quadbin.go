@@ -1354,3 +1354,14 @@ func TquadbinCellToQuadkey(temp *Temporal) (_r0 *Temporal, _err error) {
 	return &Temporal{_inner: _cret}, nil
 }
 
+
+// TquadbinGridDistance wraps MEOS C function tquadbin_grid_distance.
+func TquadbinGridDistance(origin *Temporal, dest *Temporal) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tquadbin_grid_distance(origin._inner, dest._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+

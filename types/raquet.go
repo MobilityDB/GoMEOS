@@ -68,8 +68,8 @@ func RaquetFromWKB(wkb unsafe.Pointer, size uint) (unsafe.Pointer, error) {
 	return _r0, nil
 }
 
-// RaquetFromHEXWKB is MEOS raquet_from_hexwkb.
-func RaquetFromHEXWKB(hexwkb string) (unsafe.Pointer, error) {
+// RaquetFromHexWKB is MEOS raquet_from_hexwkb.
+func RaquetFromHexWKB(hexwkb string) (unsafe.Pointer, error) {
 	_r0, _err := functions.RaquetFromHexwkb(hexwkb)
 	if _err != nil {
 		return nil, _err
@@ -86,8 +86,8 @@ func RaquetAsWKB(rq unsafe.Pointer, variant uint8, size_out unsafe.Pointer) (uns
 	return _r0, nil
 }
 
-// RaquetAsHEXWKB is MEOS raquet_as_hexwkb.
-func RaquetAsHEXWKB(rq unsafe.Pointer, variant uint8, size_out unsafe.Pointer) (string, error) {
+// RaquetAsHexWKB is MEOS raquet_as_hexwkb.
+func RaquetAsHexWKB(rq unsafe.Pointer, variant uint8, size_out unsafe.Pointer) (string, error) {
 	_r0, _err := functions.RaquetAsHexwkb(rq, variant, size_out)
 	if _err != nil {
 		return "", _err

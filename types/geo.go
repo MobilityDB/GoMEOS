@@ -41,8 +41,8 @@ func GeoAsEWKT(gs *TRGeometrySeqSet, precision int) (string, error) {
 	return _r0, nil
 }
 
-// GeoAsGEOJSON is MEOS geo_as_geojson.
-func GeoAsGEOJSON(gs *TRGeometrySeqSet, option int, precision int, srs *string) (string, error) {
+// GeoAsGeoJSON is MEOS geo_as_geojson.
+func GeoAsGeoJSON(gs *TRGeometrySeqSet, option int, precision int, srs *string) (string, error) {
 	_r0, _err := functions.GeoAsGeojson(functions.GeomFromPointer(gs.Pointer()), option, precision, srs)
 	if _err != nil {
 		return "", _err
@@ -50,8 +50,8 @@ func GeoAsGEOJSON(gs *TRGeometrySeqSet, option int, precision int, srs *string) 
 	return _r0, nil
 }
 
-// GeoAsHEXEWKB is MEOS geo_as_hexewkb.
-func GeoAsHEXEWKB(gs *TRGeometrySeqSet, endian *string) (string, error) {
+// GeoAsHexEWKB is MEOS geo_as_hexewkb.
+func GeoAsHexEWKB(gs *TRGeometrySeqSet, endian *string) (string, error) {
 	_r0, _err := functions.GeoAsHexewkb(functions.GeomFromPointer(gs.Pointer()), endian)
 	if _err != nil {
 		return "", _err
@@ -77,8 +77,8 @@ func GeoFromEWKB(wkb unsafe.Pointer, wkb_size uint, srid int32) (*TRGeometrySeqS
 	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
 }
 
-// GeoFromGEOJSON is MEOS geo_from_geojson.
-func GeoFromGEOJSON(geojson string) (*TRGeometrySeqSet, error) {
+// GeoFromGeoJSON is MEOS geo_from_geojson.
+func GeoFromGeoJSON(geojson string) (*TRGeometrySeqSet, error) {
 	_r0, _err := functions.GeoFromGeojson(geojson)
 	if _err != nil {
 		return nil, _err
@@ -267,8 +267,17 @@ func GeoScale(gs *TRGeometrySeqSet, xfactor float64, yfactor float64, zfactor fl
 }
 
 // GeoScaleGeo is MEOS geo_scale_geo.
-func GeoScaleGeo(gs *TRGeometrySeqSet, scale *TRGeometrySeqSet, sorigin *TRGeometrySeqSet) (*TRGeometrySeqSet, error) {
-	_r0, _err := functions.GeoScaleGeo(functions.GeomFromPointer(gs.Pointer()), functions.GeomFromPointer(scale.Pointer()), functions.GeomFromPointer(sorigin.Pointer()))
+func GeoScaleGeo(gs *TRGeometrySeqSet, scale *TRGeometrySeqSet) (*TRGeometrySeqSet, error) {
+	_r0, _err := functions.GeoScaleGeo(functions.GeomFromPointer(gs.Pointer()), functions.GeomFromPointer(scale.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+}
+
+// GeoScaleGeoOrigin is MEOS geo_scale_geo_origin.
+func GeoScaleGeoOrigin(gs *TRGeometrySeqSet, scale *TRGeometrySeqSet, sorigin *TRGeometrySeqSet) (*TRGeometrySeqSet, error) {
+	_r0, _err := functions.GeoScaleGeoOrigin(functions.GeomFromPointer(gs.Pointer()), functions.GeomFromPointer(scale.Pointer()), functions.GeomFromPointer(sorigin.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}

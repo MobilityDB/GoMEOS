@@ -23,8 +23,8 @@ func SpanFromPointer(p unsafe.Pointer) *Span {
 	return v
 }
 
-// AsHEXWKB is MEOS span_as_hexwkb.
-func (x *Span) AsHEXWKB(variant uint8, size_out unsafe.Pointer) (string, error) {
+// AsHexWKB is MEOS span_as_hexwkb.
+func (x *Span) AsHexWKB(variant uint8, size_out unsafe.Pointer) (string, error) {
 	_r0, _err := functions.SpanAsHexwkb(functions.SpanFromPointer(x.Pointer()), variant, size_out)
 	if _err != nil {
 		return "", _err
@@ -41,8 +41,8 @@ func (x *Span) AsWKB(variant uint8, size_out unsafe.Pointer) (unsafe.Pointer, er
 	return _r0, nil
 }
 
-// SpanFromHEXWKB is MEOS span_from_hexwkb.
-func SpanFromHEXWKB(hexwkb string) (*Span, error) {
+// SpanFromHexWKB is MEOS span_from_hexwkb.
+func SpanFromHexWKB(hexwkb string) (*Span, error) {
 	_r0, _err := functions.SpanFromHexwkb(hexwkb)
 	if _err != nil {
 		return nil, _err

@@ -1111,6 +1111,17 @@ func UnionSetPose(s *Set, pose *Pose) (_r0 *Set, _err error) {
 }
 
 
+// DistancePosesetPoseset wraps MEOS C function distance_poseset_poseset.
+func DistancePosesetPoseset(s1 *Set, s2 *Set) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.distance_poseset_poseset(s1._inner, s2._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
 // TposeFromMFJSON wraps MEOS C function tpose_from_mfjson.
 func TposeFromMFJSON(str string) (_r0 *Temporal, _err error) {
 	_c_str := C.CString(str)
@@ -2265,6 +2276,39 @@ func PosechainGe(pc1 unsafe.Pointer, pc2 unsafe.Pointer) (_r0 bool, _err error) 
 }
 
 
+// DistancePosechainGeo wraps MEOS C function distance_posechain_geo.
+func DistancePosechainGeo(pc unsafe.Pointer, gs *Geom) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.distance_posechain_geo((*C.PoseChain)(unsafe.Pointer(pc)), gs._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// DistancePosechainPosechain wraps MEOS C function distance_posechain_posechain.
+func DistancePosechainPosechain(pc1 unsafe.Pointer, pc2 unsafe.Pointer) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.distance_posechain_posechain((*C.PoseChain)(unsafe.Pointer(pc1)), (*C.PoseChain)(unsafe.Pointer(pc2)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// DistancePosechainSTBOX wraps MEOS C function distance_posechain_stbox.
+func DistancePosechainSTBOX(pc unsafe.Pointer, box *STBox) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.distance_posechain_stbox((*C.PoseChain)(unsafe.Pointer(pc)), box._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
 // PosechainsetIn wraps MEOS C function posechainset_in.
 func PosechainsetIn(str string) (_r0 *Set, _err error) {
 	_c_str := C.CString(str)
@@ -2448,6 +2492,17 @@ func UnionSetPosechain(s *Set, pc unsafe.Pointer) (_r0 *Set, _err error) {
 }
 
 
+// DistancePosechainsetPosechainset wraps MEOS C function distance_posechainset_posechainset.
+func DistancePosechainsetPosechainset(s1 *Set, s2 *Set) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.distance_posechainset_posechainset(s1._inner, s2._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
 // TposechainIn wraps MEOS C function tposechain_in.
 func TposechainIn(str string) (_r0 *Temporal, _err error) {
 	_c_str := C.CString(str)
@@ -2584,6 +2639,10 @@ func TposechainValue(temp *Temporal) (_r0 unsafe.Pointer, _err error) {
 }
 
 
+// TODO tposechain_value_at_timestamptz: unhandled OUTPUT_SCALAR shape PoseChain **
+// func TposechainValueAtTimestamptz(...) { /* not yet handled by codegen */ }
+
+
 // TODO tposechain_value_n: unhandled OUTPUT_SCALAR shape PoseChain **
 // func TposechainValueN(...) { /* not yet handled by codegen */ }
 
@@ -2684,6 +2743,149 @@ func TposechainMinusValue(temp *Temporal, pc unsafe.Pointer) (_r0 *Temporal, _er
 		return
 	}
 	return &Temporal{_inner: _cret}, nil
+}
+
+
+// TdistanceTposechainGeo wraps MEOS C function tdistance_tposechain_geo.
+func TdistanceTposechainGeo(temp *Temporal, gs *Geom) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tdistance_tposechain_geo(temp._inner, gs._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// TdistanceTposechainPosechain wraps MEOS C function tdistance_tposechain_posechain.
+func TdistanceTposechainPosechain(temp *Temporal, pc unsafe.Pointer) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tdistance_tposechain_posechain(temp._inner, (*C.PoseChain)(unsafe.Pointer(pc)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// TdistanceTposechainTposechain wraps MEOS C function tdistance_tposechain_tposechain.
+func TdistanceTposechainTposechain(temp1 *Temporal, temp2 *Temporal) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tdistance_tposechain_tposechain(temp1._inner, temp2._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// NadTposechainGeo wraps MEOS C function nad_tposechain_geo.
+func NadTposechainGeo(temp *Temporal, gs *Geom) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.nad_tposechain_geo(temp._inner, gs._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// NadTposechainPosechain wraps MEOS C function nad_tposechain_posechain.
+func NadTposechainPosechain(temp *Temporal, pc unsafe.Pointer) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.nad_tposechain_posechain(temp._inner, (*C.PoseChain)(unsafe.Pointer(pc)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// NadTposechainSTBOX wraps MEOS C function nad_tposechain_stbox.
+func NadTposechainSTBOX(temp *Temporal, box *STBox) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.nad_tposechain_stbox(temp._inner, box._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// NadTposechainTposechain wraps MEOS C function nad_tposechain_tposechain.
+func NadTposechainTposechain(temp1 *Temporal, temp2 *Temporal) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.nad_tposechain_tposechain(temp1._inner, temp2._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// NaiTposechainGeo wraps MEOS C function nai_tposechain_geo.
+func NaiTposechainGeo(temp *Temporal, gs *Geom) (_r0 *TInstant, _err error) {
+	C.meos_errno_reset()
+	_cret := C.nai_tposechain_geo(temp._inner, gs._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &TInstant{_inner: _cret}, nil
+}
+
+
+// NaiTposechainPosechain wraps MEOS C function nai_tposechain_posechain.
+func NaiTposechainPosechain(temp *Temporal, pc unsafe.Pointer) (_r0 *TInstant, _err error) {
+	C.meos_errno_reset()
+	_cret := C.nai_tposechain_posechain(temp._inner, (*C.PoseChain)(unsafe.Pointer(pc)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &TInstant{_inner: _cret}, nil
+}
+
+
+// NaiTposechainTposechain wraps MEOS C function nai_tposechain_tposechain.
+func NaiTposechainTposechain(temp1 *Temporal, temp2 *Temporal) (_r0 *TInstant, _err error) {
+	C.meos_errno_reset()
+	_cret := C.nai_tposechain_tposechain(temp1._inner, temp2._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &TInstant{_inner: _cret}, nil
+}
+
+
+// ShortestlineTposechainGeo wraps MEOS C function shortestline_tposechain_geo.
+func ShortestlineTposechainGeo(temp *Temporal, gs *Geom) (_r0 *Geom, _err error) {
+	C.meos_errno_reset()
+	_cret := C.shortestline_tposechain_geo(temp._inner, gs._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Geom{_inner: _cret}, nil
+}
+
+
+// ShortestlineTposechainPosechain wraps MEOS C function shortestline_tposechain_posechain.
+func ShortestlineTposechainPosechain(temp *Temporal, pc unsafe.Pointer) (_r0 *Geom, _err error) {
+	C.meos_errno_reset()
+	_cret := C.shortestline_tposechain_posechain(temp._inner, (*C.PoseChain)(unsafe.Pointer(pc)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Geom{_inner: _cret}, nil
+}
+
+
+// ShortestlineTposechainTposechain wraps MEOS C function shortestline_tposechain_tposechain.
+func ShortestlineTposechainTposechain(temp1 *Temporal, temp2 *Temporal) (_r0 *Geom, _err error) {
+	C.meos_errno_reset()
+	_cret := C.shortestline_tposechain_tposechain(temp1._inner, temp2._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Geom{_inner: _cret}, nil
 }
 
 

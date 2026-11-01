@@ -9,7 +9,7 @@ import (
 )
 
 type CbufferSet struct {
-	Set
+	SpatialSet
 }
 
 // CbufferSetFromPointer wraps a MEOS pointer, answering nil for nil so an

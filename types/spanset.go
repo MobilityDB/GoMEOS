@@ -23,8 +23,8 @@ func SpanSetFromPointer(p unsafe.Pointer) *SpanSet {
 	return v
 }
 
-// AsHEXWKB is MEOS spanset_as_hexwkb.
-func (x *SpanSet) AsHEXWKB(variant uint8, size_out unsafe.Pointer) (string, error) {
+// AsHexWKB is MEOS spanset_as_hexwkb.
+func (x *SpanSet) AsHexWKB(variant uint8, size_out unsafe.Pointer) (string, error) {
 	_r0, _err := functions.SpansetAsHexwkb(functions.SpanSetFromPointer(x.Pointer()), variant, size_out)
 	if _err != nil {
 		return "", _err
@@ -41,8 +41,8 @@ func (x *SpanSet) AsWKB(variant uint8, size_out unsafe.Pointer) (unsafe.Pointer,
 	return _r0, nil
 }
 
-// SpanSetFromHEXWKB is MEOS spanset_from_hexwkb.
-func SpanSetFromHEXWKB(hexwkb string) (*SpanSet, error) {
+// SpanSetFromHexWKB is MEOS spanset_from_hexwkb.
+func SpanSetFromHexWKB(hexwkb string) (*SpanSet, error) {
 	_r0, _err := functions.SpansetFromHexwkb(hexwkb)
 	if _err != nil {
 		return nil, _err

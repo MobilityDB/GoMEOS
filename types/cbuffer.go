@@ -41,8 +41,8 @@ func (x *Cbuffer) AsEWKT(maxdd int) (string, error) {
 	return _r0, nil
 }
 
-// AsHEXEWKB is MEOS cbuffer_as_hexewkb.
-func (x *Cbuffer) AsHEXEWKB(variant uint8, size_out unsafe.Pointer) (string, error) {
+// AsHexEWKB is MEOS cbuffer_as_hexewkb.
+func (x *Cbuffer) AsHexEWKB(variant uint8, size_out unsafe.Pointer) (string, error) {
 	_r0, _err := functions.CbufferAsHexewkb(functions.CbufferFromPointer(x.Pointer()), variant, size_out)
 	if _err != nil {
 		return "", _err
@@ -50,8 +50,8 @@ func (x *Cbuffer) AsHEXEWKB(variant uint8, size_out unsafe.Pointer) (string, err
 	return _r0, nil
 }
 
-// AsHEXWKB is MEOS cbuffer_as_hexwkb.
-func (x *Cbuffer) AsHEXWKB(variant uint8, size_out unsafe.Pointer) (string, error) {
+// AsHexWKB is MEOS cbuffer_as_hexwkb.
+func (x *Cbuffer) AsHexWKB(variant uint8, size_out unsafe.Pointer) (string, error) {
 	_r0, _err := functions.CbufferAsHexwkb(functions.CbufferFromPointer(x.Pointer()), variant, size_out)
 	if _err != nil {
 		return "", _err
@@ -77,8 +77,8 @@ func (x *Cbuffer) AsWKB(variant uint8, size_out unsafe.Pointer) (unsafe.Pointer,
 	return _r0, nil
 }
 
-// CbufferFromHEXWKB is MEOS cbuffer_from_hexwkb.
-func CbufferFromHEXWKB(hexwkb string) (*Cbuffer, error) {
+// CbufferFromHexWKB is MEOS cbuffer_from_hexwkb.
+func CbufferFromHexWKB(hexwkb string) (*Cbuffer, error) {
 	_r0, _err := functions.CbufferFromHexwkb(hexwkb)
 	if _err != nil {
 		return nil, _err

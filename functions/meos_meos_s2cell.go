@@ -1362,3 +1362,14 @@ func Ts2cellCellToToken(temp *Temporal) (_r0 *Temporal, _err error) {
 	return &Temporal{_inner: _cret}, nil
 }
 
+
+// Ts2cellGridDistance wraps MEOS C function ts2cell_grid_distance.
+func Ts2cellGridDistance(origin *Temporal, dest *Temporal) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.ts2cell_grid_distance(origin._inner, dest._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+

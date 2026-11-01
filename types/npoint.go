@@ -41,8 +41,8 @@ func (x *Npoint) AsEWKT(maxdd int) (string, error) {
 	return _r0, nil
 }
 
-// AsHEXEWKB is MEOS npoint_as_hexewkb.
-func (x *Npoint) AsHEXEWKB(variant uint8, size_out unsafe.Pointer) (string, error) {
+// AsHexEWKB is MEOS npoint_as_hexewkb.
+func (x *Npoint) AsHexEWKB(variant uint8, size_out unsafe.Pointer) (string, error) {
 	_r0, _err := functions.NpointAsHexewkb(functions.NpointFromPointer(x.Pointer()), variant, size_out)
 	if _err != nil {
 		return "", _err
@@ -50,8 +50,8 @@ func (x *Npoint) AsHEXEWKB(variant uint8, size_out unsafe.Pointer) (string, erro
 	return _r0, nil
 }
 
-// AsHEXWKB is MEOS npoint_as_hexwkb.
-func (x *Npoint) AsHEXWKB(variant uint8, size_out unsafe.Pointer) (string, error) {
+// AsHexWKB is MEOS npoint_as_hexwkb.
+func (x *Npoint) AsHexWKB(variant uint8, size_out unsafe.Pointer) (string, error) {
 	_r0, _err := functions.NpointAsHexwkb(functions.NpointFromPointer(x.Pointer()), variant, size_out)
 	if _err != nil {
 		return "", _err
@@ -77,8 +77,8 @@ func (x *Npoint) AsWKB(variant uint8, size_out unsafe.Pointer) (unsafe.Pointer, 
 	return _r0, nil
 }
 
-// NpointFromHEXWKB is MEOS npoint_from_hexwkb.
-func NpointFromHEXWKB(hexwkb string) (*Npoint, error) {
+// NpointFromHexWKB is MEOS npoint_from_hexwkb.
+func NpointFromHexWKB(hexwkb string) (*Npoint, error) {
 	_r0, _err := functions.NpointFromHexwkb(hexwkb)
 	if _err != nil {
 		return nil, _err

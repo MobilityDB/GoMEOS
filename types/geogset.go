@@ -9,7 +9,7 @@ import (
 )
 
 type GeogSet struct {
-	Set
+	GeoSet
 }
 
 // GeogSetFromPointer wraps a MEOS pointer, answering nil for nil so an

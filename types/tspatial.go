@@ -52,8 +52,8 @@ func (x *TSpatial) AsEWKT(maxdd int) (string, error) {
 	return _r0, nil
 }
 
-// AsHEXEWKB is MEOS tspatial_as_hexewkb.
-func (x *TSpatial) AsHEXEWKB(variant uint8, size_out unsafe.Pointer) (string, error) {
+// AsHexEWKB is MEOS tspatial_as_hexewkb.
+func (x *TSpatial) AsHexEWKB(variant uint8, size_out unsafe.Pointer) (string, error) {
 	_r0, _err := functions.TspatialAsHexewkb(functions.TemporalFromPointer(x.Pointer()), variant, size_out)
 	if _err != nil {
 		return "", _err
