@@ -149,12 +149,12 @@ func (x *Pose) AsGeopose(conformance int, precision int) (string, error) {
 }
 
 // ApplyGeo is MEOS pose_apply_geo.
-func (x *Pose) ApplyGeo(body *TRGeometrySeqSet) (*TRGeometrySeqSet, error) {
+func (x *Pose) ApplyGeo(body *Geo) (*Geo, error) {
 	_r0, _err := functions.PoseApplyGeo(functions.PoseFromPointer(x.Pointer()), functions.GeomFromPointer(body.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+	return GeoFromPointer(_r0.Pointer()), nil
 }
 
 // ComposeTpose is MEOS pose_compose_tpose.
@@ -194,7 +194,7 @@ func PoseMake3d(x float64, y float64, z float64, W float64, X float64, Y float64
 }
 
 // PoseMakePoint2d is MEOS pose_make_point2d.
-func PoseMakePoint2d(gs *TRGeometrySeqSet, theta float64) (*Pose, error) {
+func PoseMakePoint2d(gs *Geo, theta float64) (*Pose, error) {
 	_r0, _err := functions.PoseMakePoint2d(functions.GeomFromPointer(gs.Pointer()), theta)
 	if _err != nil {
 		return nil, _err
@@ -203,7 +203,7 @@ func PoseMakePoint2d(gs *TRGeometrySeqSet, theta float64) (*Pose, error) {
 }
 
 // PoseMakePoint3d is MEOS pose_make_point3d.
-func PoseMakePoint3d(gs *TRGeometrySeqSet, W float64, X float64, Y float64, Z float64) (*Pose, error) {
+func PoseMakePoint3d(gs *Geo, W float64, X float64, Y float64, Z float64) (*Pose, error) {
 	_r0, _err := functions.PoseMakePoint3d(functions.GeomFromPointer(gs.Pointer()), W, X, Y, Z)
 	if _err != nil {
 		return nil, _err
@@ -212,7 +212,7 @@ func PoseMakePoint3d(gs *TRGeometrySeqSet, W float64, X float64, Y float64, Z fl
 }
 
 // PoseMakePoint3dYpr is MEOS pose_make_point3d_ypr.
-func PoseMakePoint3dYpr(gs *TRGeometrySeqSet, yaw float64, pitch float64, roll float64) (*Pose, error) {
+func PoseMakePoint3dYpr(gs *Geo, yaw float64, pitch float64, roll float64) (*Pose, error) {
 	_r0, _err := functions.PoseMakePoint3dYpr(functions.GeomFromPointer(gs.Pointer()), yaw, pitch, roll)
 	if _err != nil {
 		return nil, _err
@@ -221,12 +221,12 @@ func PoseMakePoint3dYpr(gs *TRGeometrySeqSet, yaw float64, pitch float64, roll f
 }
 
 // ToPoint is MEOS pose_to_point.
-func (x *Pose) ToPoint() (*TRGeometrySeqSet, error) {
+func (x *Pose) ToPoint() (*Geo, error) {
 	_r0, _err := functions.PoseToPoint(functions.PoseFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+	return GeoFromPointer(_r0.Pointer()), nil
 }
 
 // ToStbox is MEOS pose_to_stbox.

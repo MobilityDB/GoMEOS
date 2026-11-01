@@ -9,7 +9,7 @@ import (
 )
 
 type TBoolInst struct {
-	handle
+	TBool
 }
 
 // TBoolInstFromPointer wraps a MEOS pointer, answering nil for nil so an

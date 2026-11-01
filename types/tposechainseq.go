@@ -9,7 +9,7 @@ import (
 )
 
 type TPoseChainSeq struct {
-	handle
+	TPoseChain
 }
 
 // TPoseChainSeqFromPointer wraps a MEOS pointer, answering nil for nil so an

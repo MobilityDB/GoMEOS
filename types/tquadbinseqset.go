@@ -9,7 +9,7 @@ import (
 )
 
 type TQuadbinSeqSet struct {
-	handle
+	TQuadbin
 }
 
 // TQuadbinSeqSetFromPointer wraps a MEOS pointer, answering nil for nil so an

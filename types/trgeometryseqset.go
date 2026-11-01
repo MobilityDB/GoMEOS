@@ -9,7 +9,7 @@ import (
 )
 
 type TRGeometrySeqSet struct {
-	handle
+	TRGeometry
 }
 
 // TRGeometrySeqSetFromPointer wraps a MEOS pointer, answering nil for nil so an
@@ -23,9 +23,9 @@ func TRGeometrySeqSetFromPointer(p unsafe.Pointer) *TRGeometrySeqSet {
 	return v
 }
 
-// Make is MEOS trgeometryseqset_make.
-func (x *TRGeometrySeqSet) Make(sequences unsafe.Pointer, count int, normalize bool) (*Temporal, error) {
-	_r0, _err := functions.TrgeometryseqsetMake(functions.GeomFromPointer(x.Pointer()), sequences, count, normalize)
+// TRGeometrySeqSetMake is MEOS trgeometryseqset_make.
+func TRGeometrySeqSetMake(geom *Geo, sequences unsafe.Pointer, count int, normalize bool) (*Temporal, error) {
+	_r0, _err := functions.TrgeometryseqsetMake(functions.GeomFromPointer(geom.Pointer()), sequences, count, normalize)
 	if _err != nil {
 		return nil, _err
 	}

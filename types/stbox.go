@@ -122,12 +122,12 @@ func STBoxMake(hasx bool, hasz bool, geodetic bool, srid int32, xmin float64, xm
 }
 
 // ToGeo is MEOS stbox_to_geo.
-func (x *STBox) ToGeo() (*TRGeometrySeqSet, error) {
+func (x *STBox) ToGeo() (*Geo, error) {
 	_r0, _err := functions.STBOXToGeo(functions.STBoxFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+	return GeoFromPointer(_r0.Pointer()), nil
 }
 
 // ToTstzspan is MEOS stbox_to_tstzspan.
@@ -495,7 +495,7 @@ func (x *STBox) SpatialDistance(box2 *STBox) (float64, error) {
 }
 
 // STBoxGetSpaceTile is MEOS stbox_get_space_tile.
-func STBoxGetSpaceTile(point *TRGeometrySeqSet, xsize float64, ysize float64, zsize float64, sorigin *TRGeometrySeqSet) (*STBox, error) {
+func STBoxGetSpaceTile(point *Geo, xsize float64, ysize float64, zsize float64, sorigin *Geo) (*STBox, error) {
 	_r0, _err := functions.STBOXGetSpaceTile(functions.GeomFromPointer(point.Pointer()), xsize, ysize, zsize, functions.GeomFromPointer(sorigin.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -504,7 +504,7 @@ func STBoxGetSpaceTile(point *TRGeometrySeqSet, xsize float64, ysize float64, zs
 }
 
 // SpaceTiles is MEOS stbox_space_tiles.
-func (x *STBox) SpaceTiles(xsize float64, ysize float64, zsize float64, sorigin *TRGeometrySeqSet, border_inc bool, count unsafe.Pointer) (*STBox, error) {
+func (x *STBox) SpaceTiles(xsize float64, ysize float64, zsize float64, sorigin *Geo, border_inc bool, count unsafe.Pointer) (*STBox, error) {
 	_r0, _err := functions.STBOXSpaceTiles(functions.STBoxFromPointer(x.Pointer()), xsize, ysize, zsize, functions.GeomFromPointer(sorigin.Pointer()), border_inc, count)
 	if _err != nil {
 		return nil, _err

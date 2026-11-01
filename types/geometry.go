@@ -24,35 +24,35 @@ func GeometryFromPointer(p unsafe.Pointer) *Geometry {
 }
 
 // GeometryFromHexEWKB is MEOS geom_from_hexewkb.
-func GeometryFromHexEWKB(hexwkb string) (*TRGeometrySeqSet, error) {
+func GeometryFromHexEWKB(hexwkb string) (*Geo, error) {
 	_r0, _err := functions.GeomFromHexewkb(hexwkb)
 	if _err != nil {
 		return nil, _err
 	}
-	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+	return GeoFromPointer(_r0.Pointer()), nil
 }
 
 // GeometryIn is MEOS geom_in.
-func GeometryIn(str string, typmod int32) (*TRGeometrySeqSet, error) {
+func GeometryIn(str string, typmod int32) (*Geo, error) {
 	_r0, _err := functions.GeomIn(str, typmod)
 	if _err != nil {
 		return nil, _err
 	}
-	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+	return GeoFromPointer(_r0.Pointer()), nil
 }
 
-// GeometryToGeog is MEOS geom_to_geog.
-func GeometryToGeog(geom *TRGeometrySeqSet) (*TRGeometrySeqSet, error) {
-	_r0, _err := functions.GeomToGeog(functions.GeomFromPointer(geom.Pointer()))
+// ToGeog is MEOS geom_to_geog.
+func (x *Geometry) ToGeog() (*Geo, error) {
+	_r0, _err := functions.GeomToGeog(functions.GeomFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+	return GeoFromPointer(_r0.Pointer()), nil
 }
 
-// GeometryAzimuth is MEOS geom_azimuth.
-func GeometryAzimuth(gs1 *TRGeometrySeqSet, gs2 *TRGeometrySeqSet) (float64, bool, error) {
-	_found, _value, _err := functions.GeomAzimuth(functions.GeomFromPointer(gs1.Pointer()), functions.GeomFromPointer(gs2.Pointer()))
+// Azimuth is MEOS geom_azimuth.
+func (x *Geometry) Azimuth(gs2 *Geo) (float64, bool, error) {
+	_found, _value, _err := functions.GeomAzimuth(functions.GeomFromPointer(x.Pointer()), functions.GeomFromPointer(gs2.Pointer()))
 	if _err != nil {
 		return 0, false, _err
 	}
@@ -62,27 +62,27 @@ func GeometryAzimuth(gs1 *TRGeometrySeqSet, gs2 *TRGeometrySeqSet) (float64, boo
 	return _value, true, nil
 }
 
-// GeometryArea is MEOS geom_area.
-func GeometryArea(gs *TRGeometrySeqSet) (float64, error) {
-	_r0, _err := functions.GeomArea(functions.GeomFromPointer(gs.Pointer()))
+// Area is MEOS geom_area.
+func (x *Geometry) Area() (float64, error) {
+	_r0, _err := functions.GeomArea(functions.GeomFromPointer(x.Pointer()))
 	if _err != nil {
 		return 0, _err
 	}
 	return _r0, nil
 }
 
-// GeometryLength is MEOS geom_length.
-func GeometryLength(gs *TRGeometrySeqSet) (float64, error) {
-	_r0, _err := functions.GeomLength(functions.GeomFromPointer(gs.Pointer()))
+// Length is MEOS geom_length.
+func (x *Geometry) Length() (float64, error) {
+	_r0, _err := functions.GeomLength(functions.GeomFromPointer(x.Pointer()))
 	if _err != nil {
 		return 0, _err
 	}
 	return _r0, nil
 }
 
-// GeometryPerimeter is MEOS geom_perimeter.
-func GeometryPerimeter(gs *TRGeometrySeqSet) (float64, error) {
-	_r0, _err := functions.GeomPerimeter(functions.GeomFromPointer(gs.Pointer()))
+// Perimeter is MEOS geom_perimeter.
+func (x *Geometry) Perimeter() (float64, error) {
+	_r0, _err := functions.GeomPerimeter(functions.GeomFromPointer(x.Pointer()))
 	if _err != nil {
 		return 0, _err
 	}
@@ -90,350 +90,350 @@ func GeometryPerimeter(gs *TRGeometrySeqSet) (float64, error) {
 }
 
 // GeometryArrayUnion is MEOS geom_array_union.
-func GeometryArrayUnion(gsarr unsafe.Pointer, count int) (*TRGeometrySeqSet, error) {
+func GeometryArrayUnion(gsarr unsafe.Pointer, count int) (*Geo, error) {
 	_r0, _err := functions.GeomArrayUnion(gsarr, count)
 	if _err != nil {
 		return nil, _err
 	}
-	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+	return GeoFromPointer(_r0.Pointer()), nil
 }
 
-// GeometryBoundary is MEOS geom_boundary.
-func GeometryBoundary(gs *TRGeometrySeqSet) (*TRGeometrySeqSet, error) {
-	_r0, _err := functions.GeomBoundary(functions.GeomFromPointer(gs.Pointer()))
+// Boundary is MEOS geom_boundary.
+func (x *Geometry) Boundary() (*Geo, error) {
+	_r0, _err := functions.GeomBoundary(functions.GeomFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+	return GeoFromPointer(_r0.Pointer()), nil
 }
 
-// GeometryBuffer is MEOS geom_buffer.
-func GeometryBuffer(gs *TRGeometrySeqSet, size float64, params string) (*TRGeometrySeqSet, error) {
-	_r0, _err := functions.GeomBuffer(functions.GeomFromPointer(gs.Pointer()), size, params)
+// Buffer is MEOS geom_buffer.
+func (x *Geometry) Buffer(size float64, params string) (*Geo, error) {
+	_r0, _err := functions.GeomBuffer(functions.GeomFromPointer(x.Pointer()), size, params)
 	if _err != nil {
 		return nil, _err
 	}
-	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+	return GeoFromPointer(_r0.Pointer()), nil
 }
 
-// GeometryCentroid is MEOS geom_centroid.
-func GeometryCentroid(gs *TRGeometrySeqSet) (*TRGeometrySeqSet, error) {
-	_r0, _err := functions.GeomCentroid(functions.GeomFromPointer(gs.Pointer()))
+// Centroid is MEOS geom_centroid.
+func (x *Geometry) Centroid() (*Geo, error) {
+	_r0, _err := functions.GeomCentroid(functions.GeomFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+	return GeoFromPointer(_r0.Pointer()), nil
 }
 
-// GeometryConvexHull is MEOS geom_convex_hull.
-func GeometryConvexHull(gs *TRGeometrySeqSet) (*TRGeometrySeqSet, error) {
-	_r0, _err := functions.GeomConvexHull(functions.GeomFromPointer(gs.Pointer()))
+// ConvexHull is MEOS geom_convex_hull.
+func (x *Geometry) ConvexHull() (*Geo, error) {
+	_r0, _err := functions.GeomConvexHull(functions.GeomFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+	return GeoFromPointer(_r0.Pointer()), nil
 }
 
-// GeometryDifference2d is MEOS geom_difference2d.
-func GeometryDifference2d(gs1 *TRGeometrySeqSet, gs2 *TRGeometrySeqSet) (*TRGeometrySeqSet, error) {
-	_r0, _err := functions.GeomDifference2d(functions.GeomFromPointer(gs1.Pointer()), functions.GeomFromPointer(gs2.Pointer()))
+// Difference2d is MEOS geom_difference2d.
+func (x *Geometry) Difference2d(gs2 *Geo) (*Geo, error) {
+	_r0, _err := functions.GeomDifference2d(functions.GeomFromPointer(x.Pointer()), functions.GeomFromPointer(gs2.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+	return GeoFromPointer(_r0.Pointer()), nil
 }
 
-// GeometryIsSimple is MEOS geom_is_simple.
-func GeometryIsSimple(gs *TRGeometrySeqSet) (bool, error) {
-	_r0, _err := functions.GeomIsSimple(functions.GeomFromPointer(gs.Pointer()))
+// IsSimple is MEOS geom_is_simple.
+func (x *Geometry) IsSimple() (bool, error) {
+	_r0, _err := functions.GeomIsSimple(functions.GeomFromPointer(x.Pointer()))
 	if _err != nil {
 		return false, _err
 	}
 	return _r0, nil
 }
 
-// GeometryIntersection2d is MEOS geom_intersection2d.
-func GeometryIntersection2d(gs1 *TRGeometrySeqSet, gs2 *TRGeometrySeqSet) (*TRGeometrySeqSet, error) {
-	_r0, _err := functions.GeomIntersection2d(functions.GeomFromPointer(gs1.Pointer()), functions.GeomFromPointer(gs2.Pointer()))
+// Intersection2d is MEOS geom_intersection2d.
+func (x *Geometry) Intersection2d(gs2 *Geo) (*Geo, error) {
+	_r0, _err := functions.GeomIntersection2d(functions.GeomFromPointer(x.Pointer()), functions.GeomFromPointer(gs2.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+	return GeoFromPointer(_r0.Pointer()), nil
 }
 
-// GeometryIntersection2dColl is MEOS geom_intersection2d_coll.
-func GeometryIntersection2dColl(gs1 *TRGeometrySeqSet, gs2 *TRGeometrySeqSet) (*TRGeometrySeqSet, error) {
-	_r0, _err := functions.GeomIntersection2dColl(functions.GeomFromPointer(gs1.Pointer()), functions.GeomFromPointer(gs2.Pointer()))
+// Intersection2dColl is MEOS geom_intersection2d_coll.
+func (x *Geometry) Intersection2dColl(gs2 *Geo) (*Geo, error) {
+	_r0, _err := functions.GeomIntersection2dColl(functions.GeomFromPointer(x.Pointer()), functions.GeomFromPointer(gs2.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+	return GeoFromPointer(_r0.Pointer()), nil
 }
 
-// GeometryMinimumBoundingRadius is MEOS geom_minimum_bounding_radius.
-func GeometryMinimumBoundingRadius(geom *TRGeometrySeqSet, radius unsafe.Pointer) (*TRGeometrySeqSet, error) {
-	_r0, _err := functions.GeomMinimumBoundingRadius(functions.GeomFromPointer(geom.Pointer()), radius)
+// MinimumBoundingRadius is MEOS geom_minimum_bounding_radius.
+func (x *Geometry) MinimumBoundingRadius(radius unsafe.Pointer) (*Geo, error) {
+	_r0, _err := functions.GeomMinimumBoundingRadius(functions.GeomFromPointer(x.Pointer()), radius)
 	if _err != nil {
 		return nil, _err
 	}
-	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+	return GeoFromPointer(_r0.Pointer()), nil
 }
 
-// GeometryOrientedEnvelope is MEOS geom_oriented_envelope.
-func GeometryOrientedEnvelope(gs *TRGeometrySeqSet) (*TRGeometrySeqSet, error) {
-	_r0, _err := functions.GeomOrientedEnvelope(functions.GeomFromPointer(gs.Pointer()))
+// OrientedEnvelope is MEOS geom_oriented_envelope.
+func (x *Geometry) OrientedEnvelope() (*Geo, error) {
+	_r0, _err := functions.GeomOrientedEnvelope(functions.GeomFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+	return GeoFromPointer(_r0.Pointer()), nil
 }
 
-// GeometryShortestline is MEOS geom_shortestline.
-func GeometryShortestline(gs1 *TRGeometrySeqSet, gs2 *TRGeometrySeqSet) (*TRGeometrySeqSet, error) {
-	_r0, _err := functions.GeomShortestline(functions.GeomFromPointer(gs1.Pointer()), functions.GeomFromPointer(gs2.Pointer()))
+// Shortestline is MEOS geom_shortestline.
+func (x *Geometry) Shortestline(gs2 *Geo) (*Geo, error) {
+	_r0, _err := functions.GeomShortestline(functions.GeomFromPointer(x.Pointer()), functions.GeomFromPointer(gs2.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+	return GeoFromPointer(_r0.Pointer()), nil
 }
 
-// GeometryShortestline2d is MEOS geom_shortestline2d.
-func GeometryShortestline2d(gs1 *TRGeometrySeqSet, gs2 *TRGeometrySeqSet) (*TRGeometrySeqSet, error) {
-	_r0, _err := functions.GeomShortestline2d(functions.GeomFromPointer(gs1.Pointer()), functions.GeomFromPointer(gs2.Pointer()))
+// Shortestline2d is MEOS geom_shortestline2d.
+func (x *Geometry) Shortestline2d(gs2 *Geo) (*Geo, error) {
+	_r0, _err := functions.GeomShortestline2d(functions.GeomFromPointer(x.Pointer()), functions.GeomFromPointer(gs2.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+	return GeoFromPointer(_r0.Pointer()), nil
 }
 
-// GeometryShortestline3d is MEOS geom_shortestline3d.
-func GeometryShortestline3d(gs1 *TRGeometrySeqSet, gs2 *TRGeometrySeqSet) (*TRGeometrySeqSet, error) {
-	_r0, _err := functions.GeomShortestline3d(functions.GeomFromPointer(gs1.Pointer()), functions.GeomFromPointer(gs2.Pointer()))
+// Shortestline3d is MEOS geom_shortestline3d.
+func (x *Geometry) Shortestline3d(gs2 *Geo) (*Geo, error) {
+	_r0, _err := functions.GeomShortestline3d(functions.GeomFromPointer(x.Pointer()), functions.GeomFromPointer(gs2.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+	return GeoFromPointer(_r0.Pointer()), nil
 }
 
-// GeometrySymdifference2d is MEOS geom_symdifference2d.
-func GeometrySymdifference2d(gs1 *TRGeometrySeqSet, gs2 *TRGeometrySeqSet) (*TRGeometrySeqSet, error) {
-	_r0, _err := functions.GeomSymdifference2d(functions.GeomFromPointer(gs1.Pointer()), functions.GeomFromPointer(gs2.Pointer()))
+// Symdifference2d is MEOS geom_symdifference2d.
+func (x *Geometry) Symdifference2d(gs2 *Geo) (*Geo, error) {
+	_r0, _err := functions.GeomSymdifference2d(functions.GeomFromPointer(x.Pointer()), functions.GeomFromPointer(gs2.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+	return GeoFromPointer(_r0.Pointer()), nil
 }
 
-// GeometryUnaryUnion is MEOS geom_unary_union.
-func GeometryUnaryUnion(gs *TRGeometrySeqSet) (*TRGeometrySeqSet, error) {
-	_r0, _err := functions.GeomUnaryUnion(functions.GeomFromPointer(gs.Pointer()))
+// UnaryUnion is MEOS geom_unary_union.
+func (x *Geometry) UnaryUnion() (*Geo, error) {
+	_r0, _err := functions.GeomUnaryUnion(functions.GeomFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+	return GeoFromPointer(_r0.Pointer()), nil
 }
 
-// GeometryUnion2d is MEOS geom_union2d.
-func GeometryUnion2d(gs1 *TRGeometrySeqSet, gs2 *TRGeometrySeqSet) (*TRGeometrySeqSet, error) {
-	_r0, _err := functions.GeomUnion2d(functions.GeomFromPointer(gs1.Pointer()), functions.GeomFromPointer(gs2.Pointer()))
+// Union2d is MEOS geom_union2d.
+func (x *Geometry) Union2d(gs2 *Geo) (*Geo, error) {
+	_r0, _err := functions.GeomUnion2d(functions.GeomFromPointer(x.Pointer()), functions.GeomFromPointer(gs2.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+	return GeoFromPointer(_r0.Pointer()), nil
 }
 
-// GeometryContains is MEOS geom_contains.
-func GeometryContains(gs1 *TRGeometrySeqSet, gs2 *TRGeometrySeqSet) (bool, error) {
-	_r0, _err := functions.GeomContains(functions.GeomFromPointer(gs1.Pointer()), functions.GeomFromPointer(gs2.Pointer()))
+// Contains is MEOS geom_contains.
+func (x *Geometry) Contains(gs2 *Geo) (bool, error) {
+	_r0, _err := functions.GeomContains(functions.GeomFromPointer(x.Pointer()), functions.GeomFromPointer(gs2.Pointer()))
 	if _err != nil {
 		return false, _err
 	}
 	return _r0, nil
 }
 
-// GeometryCovers is MEOS geom_covers.
-func GeometryCovers(gs1 *TRGeometrySeqSet, gs2 *TRGeometrySeqSet) (bool, error) {
-	_r0, _err := functions.GeomCovers(functions.GeomFromPointer(gs1.Pointer()), functions.GeomFromPointer(gs2.Pointer()))
+// Covers is MEOS geom_covers.
+func (x *Geometry) Covers(gs2 *Geo) (bool, error) {
+	_r0, _err := functions.GeomCovers(functions.GeomFromPointer(x.Pointer()), functions.GeomFromPointer(gs2.Pointer()))
 	if _err != nil {
 		return false, _err
 	}
 	return _r0, nil
 }
 
-// GeometryDisjoint is MEOS geom_disjoint.
-func GeometryDisjoint(gs1 *TRGeometrySeqSet, gs2 *TRGeometrySeqSet) (bool, error) {
-	_r0, _err := functions.GeomDisjoint(functions.GeomFromPointer(gs1.Pointer()), functions.GeomFromPointer(gs2.Pointer()))
+// Disjoint is MEOS geom_disjoint.
+func (x *Geometry) Disjoint(gs2 *Geo) (bool, error) {
+	_r0, _err := functions.GeomDisjoint(functions.GeomFromPointer(x.Pointer()), functions.GeomFromPointer(gs2.Pointer()))
 	if _err != nil {
 		return false, _err
 	}
 	return _r0, nil
 }
 
-// GeometryDisjoint2d is MEOS geom_disjoint2d.
-func GeometryDisjoint2d(gs1 *TRGeometrySeqSet, gs2 *TRGeometrySeqSet) (bool, error) {
-	_r0, _err := functions.GeomDisjoint2d(functions.GeomFromPointer(gs1.Pointer()), functions.GeomFromPointer(gs2.Pointer()))
+// Disjoint2d is MEOS geom_disjoint2d.
+func (x *Geometry) Disjoint2d(gs2 *Geo) (bool, error) {
+	_r0, _err := functions.GeomDisjoint2d(functions.GeomFromPointer(x.Pointer()), functions.GeomFromPointer(gs2.Pointer()))
 	if _err != nil {
 		return false, _err
 	}
 	return _r0, nil
 }
 
-// GeometryDwithin is MEOS geom_dwithin.
-func GeometryDwithin(gs1 *TRGeometrySeqSet, gs2 *TRGeometrySeqSet, tolerance float64) (bool, error) {
-	_r0, _err := functions.GeomDwithin(functions.GeomFromPointer(gs1.Pointer()), functions.GeomFromPointer(gs2.Pointer()), tolerance)
+// Dwithin is MEOS geom_dwithin.
+func (x *Geometry) Dwithin(gs2 *Geo, tolerance float64) (bool, error) {
+	_r0, _err := functions.GeomDwithin(functions.GeomFromPointer(x.Pointer()), functions.GeomFromPointer(gs2.Pointer()), tolerance)
 	if _err != nil {
 		return false, _err
 	}
 	return _r0, nil
 }
 
-// GeometryDwithin2d is MEOS geom_dwithin2d.
-func GeometryDwithin2d(gs1 *TRGeometrySeqSet, gs2 *TRGeometrySeqSet, tolerance float64) (bool, error) {
-	_r0, _err := functions.GeomDwithin2d(functions.GeomFromPointer(gs1.Pointer()), functions.GeomFromPointer(gs2.Pointer()), tolerance)
+// Dwithin2d is MEOS geom_dwithin2d.
+func (x *Geometry) Dwithin2d(gs2 *Geo, tolerance float64) (bool, error) {
+	_r0, _err := functions.GeomDwithin2d(functions.GeomFromPointer(x.Pointer()), functions.GeomFromPointer(gs2.Pointer()), tolerance)
 	if _err != nil {
 		return false, _err
 	}
 	return _r0, nil
 }
 
-// GeometryDwithin3d is MEOS geom_dwithin3d.
-func GeometryDwithin3d(gs1 *TRGeometrySeqSet, gs2 *TRGeometrySeqSet, tolerance float64) (bool, error) {
-	_r0, _err := functions.GeomDwithin3d(functions.GeomFromPointer(gs1.Pointer()), functions.GeomFromPointer(gs2.Pointer()), tolerance)
+// Dwithin3d is MEOS geom_dwithin3d.
+func (x *Geometry) Dwithin3d(gs2 *Geo, tolerance float64) (bool, error) {
+	_r0, _err := functions.GeomDwithin3d(functions.GeomFromPointer(x.Pointer()), functions.GeomFromPointer(gs2.Pointer()), tolerance)
 	if _err != nil {
 		return false, _err
 	}
 	return _r0, nil
 }
 
-// GeometryIntersects is MEOS geom_intersects.
-func GeometryIntersects(gs1 *TRGeometrySeqSet, gs2 *TRGeometrySeqSet) (bool, error) {
-	_r0, _err := functions.GeomIntersects(functions.GeomFromPointer(gs1.Pointer()), functions.GeomFromPointer(gs2.Pointer()))
+// Intersects is MEOS geom_intersects.
+func (x *Geometry) Intersects(gs2 *Geo) (bool, error) {
+	_r0, _err := functions.GeomIntersects(functions.GeomFromPointer(x.Pointer()), functions.GeomFromPointer(gs2.Pointer()))
 	if _err != nil {
 		return false, _err
 	}
 	return _r0, nil
 }
 
-// GeometryIntersects2d is MEOS geom_intersects2d.
-func GeometryIntersects2d(gs1 *TRGeometrySeqSet, gs2 *TRGeometrySeqSet) (bool, error) {
-	_r0, _err := functions.GeomIntersects2d(functions.GeomFromPointer(gs1.Pointer()), functions.GeomFromPointer(gs2.Pointer()))
+// Intersects2d is MEOS geom_intersects2d.
+func (x *Geometry) Intersects2d(gs2 *Geo) (bool, error) {
+	_r0, _err := functions.GeomIntersects2d(functions.GeomFromPointer(x.Pointer()), functions.GeomFromPointer(gs2.Pointer()))
 	if _err != nil {
 		return false, _err
 	}
 	return _r0, nil
 }
 
-// GeometryIntersects3d is MEOS geom_intersects3d.
-func GeometryIntersects3d(gs1 *TRGeometrySeqSet, gs2 *TRGeometrySeqSet) (bool, error) {
-	_r0, _err := functions.GeomIntersects3d(functions.GeomFromPointer(gs1.Pointer()), functions.GeomFromPointer(gs2.Pointer()))
+// Intersects3d is MEOS geom_intersects3d.
+func (x *Geometry) Intersects3d(gs2 *Geo) (bool, error) {
+	_r0, _err := functions.GeomIntersects3d(functions.GeomFromPointer(x.Pointer()), functions.GeomFromPointer(gs2.Pointer()))
 	if _err != nil {
 		return false, _err
 	}
 	return _r0, nil
 }
 
-// GeometryRelate is MEOS geom_relate.
-func GeometryRelate(gs1 *TRGeometrySeqSet, gs2 *TRGeometrySeqSet) (string, error) {
-	_r0, _err := functions.GeomRelate(functions.GeomFromPointer(gs1.Pointer()), functions.GeomFromPointer(gs2.Pointer()))
+// Relate is MEOS geom_relate.
+func (x *Geometry) Relate(gs2 *Geo) (string, error) {
+	_r0, _err := functions.GeomRelate(functions.GeomFromPointer(x.Pointer()), functions.GeomFromPointer(gs2.Pointer()))
 	if _err != nil {
 		return "", _err
 	}
 	return _r0, nil
 }
 
-// GeometryRelatePattern is MEOS geom_relate_pattern.
-func GeometryRelatePattern(gs1 *TRGeometrySeqSet, gs2 *TRGeometrySeqSet, patt string) (bool, error) {
-	_r0, _err := functions.GeomRelatePattern(functions.GeomFromPointer(gs1.Pointer()), functions.GeomFromPointer(gs2.Pointer()), patt)
+// RelatePattern is MEOS geom_relate_pattern.
+func (x *Geometry) RelatePattern(gs2 *Geo, patt string) (bool, error) {
+	_r0, _err := functions.GeomRelatePattern(functions.GeomFromPointer(x.Pointer()), functions.GeomFromPointer(gs2.Pointer()), patt)
 	if _err != nil {
 		return false, _err
 	}
 	return _r0, nil
 }
 
-// GeometryTouches is MEOS geom_touches.
-func GeometryTouches(gs1 *TRGeometrySeqSet, gs2 *TRGeometrySeqSet) (bool, error) {
-	_r0, _err := functions.GeomTouches(functions.GeomFromPointer(gs1.Pointer()), functions.GeomFromPointer(gs2.Pointer()))
+// Touches is MEOS geom_touches.
+func (x *Geometry) Touches(gs2 *Geo) (bool, error) {
+	_r0, _err := functions.GeomTouches(functions.GeomFromPointer(x.Pointer()), functions.GeomFromPointer(gs2.Pointer()))
 	if _err != nil {
 		return false, _err
 	}
 	return _r0, nil
 }
 
-// GeometryDistance is MEOS geom_distance.
-func GeometryDistance(gs1 *TRGeometrySeqSet, gs2 *TRGeometrySeqSet) (float64, error) {
-	_r0, _err := functions.GeomDistance(functions.GeomFromPointer(gs1.Pointer()), functions.GeomFromPointer(gs2.Pointer()))
+// Distance is MEOS geom_distance.
+func (x *Geometry) Distance(gs2 *Geo) (float64, error) {
+	_r0, _err := functions.GeomDistance(functions.GeomFromPointer(x.Pointer()), functions.GeomFromPointer(gs2.Pointer()))
 	if _err != nil {
 		return 0, _err
 	}
 	return _r0, nil
 }
 
-// GeometryDistance2d is MEOS geom_distance2d.
-func GeometryDistance2d(gs1 *TRGeometrySeqSet, gs2 *TRGeometrySeqSet) (float64, error) {
-	_r0, _err := functions.GeomDistance2d(functions.GeomFromPointer(gs1.Pointer()), functions.GeomFromPointer(gs2.Pointer()))
+// Distance2d is MEOS geom_distance2d.
+func (x *Geometry) Distance2d(gs2 *Geo) (float64, error) {
+	_r0, _err := functions.GeomDistance2d(functions.GeomFromPointer(x.Pointer()), functions.GeomFromPointer(gs2.Pointer()))
 	if _err != nil {
 		return 0, _err
 	}
 	return _r0, nil
 }
 
-// GeometryMaxDistance is MEOS geom_max_distance.
-func GeometryMaxDistance(gs1 *TRGeometrySeqSet, gs2 *TRGeometrySeqSet) (float64, error) {
-	_r0, _err := functions.GeomMaxDistance(functions.GeomFromPointer(gs1.Pointer()), functions.GeomFromPointer(gs2.Pointer()))
+// MaxDistance is MEOS geom_max_distance.
+func (x *Geometry) MaxDistance(gs2 *Geo) (float64, error) {
+	_r0, _err := functions.GeomMaxDistance(functions.GeomFromPointer(x.Pointer()), functions.GeomFromPointer(gs2.Pointer()))
 	if _err != nil {
 		return 0, _err
 	}
 	return _r0, nil
 }
 
-// GeometryMaxDistance2d is MEOS geom_max_distance2d.
-func GeometryMaxDistance2d(gs1 *TRGeometrySeqSet, gs2 *TRGeometrySeqSet) (float64, error) {
-	_r0, _err := functions.GeomMaxDistance2d(functions.GeomFromPointer(gs1.Pointer()), functions.GeomFromPointer(gs2.Pointer()))
+// MaxDistance2d is MEOS geom_max_distance2d.
+func (x *Geometry) MaxDistance2d(gs2 *Geo) (float64, error) {
+	_r0, _err := functions.GeomMaxDistance2d(functions.GeomFromPointer(x.Pointer()), functions.GeomFromPointer(gs2.Pointer()))
 	if _err != nil {
 		return 0, _err
 	}
 	return _r0, nil
 }
 
-// GeometryMaxDistance3d is MEOS geom_max_distance3d.
-func GeometryMaxDistance3d(gs1 *TRGeometrySeqSet, gs2 *TRGeometrySeqSet) (float64, error) {
-	_r0, _err := functions.GeomMaxDistance3d(functions.GeomFromPointer(gs1.Pointer()), functions.GeomFromPointer(gs2.Pointer()))
+// MaxDistance3d is MEOS geom_max_distance3d.
+func (x *Geometry) MaxDistance3d(gs2 *Geo) (float64, error) {
+	_r0, _err := functions.GeomMaxDistance3d(functions.GeomFromPointer(x.Pointer()), functions.GeomFromPointer(gs2.Pointer()))
 	if _err != nil {
 		return 0, _err
 	}
 	return _r0, nil
 }
 
-// GeometryDistance3d is MEOS geom_distance3d.
-func GeometryDistance3d(gs1 *TRGeometrySeqSet, gs2 *TRGeometrySeqSet) (float64, error) {
-	_r0, _err := functions.GeomDistance3d(functions.GeomFromPointer(gs1.Pointer()), functions.GeomFromPointer(gs2.Pointer()))
+// Distance3d is MEOS geom_distance3d.
+func (x *Geometry) Distance3d(gs2 *Geo) (float64, error) {
+	_r0, _err := functions.GeomDistance3d(functions.GeomFromPointer(x.Pointer()), functions.GeomFromPointer(gs2.Pointer()))
 	if _err != nil {
 		return 0, _err
 	}
 	return _r0, nil
 }
 
-// GeometryToCbuffer is MEOS geom_to_cbuffer.
-func GeometryToCbuffer(gs *TRGeometrySeqSet) (*Cbuffer, error) {
-	_r0, _err := functions.GeomToCbuffer(functions.GeomFromPointer(gs.Pointer()))
+// ToCbuffer is MEOS geom_to_cbuffer.
+func (x *Geometry) ToCbuffer() (*Cbuffer, error) {
+	_r0, _err := functions.GeomToCbuffer(functions.GeomFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
 	return CbufferFromPointer(_r0.Pointer()), nil
 }
 
-// GeometryToNsegment is MEOS geom_to_nsegment.
-func GeometryToNsegment(gs *TRGeometrySeqSet) (*Nsegment, error) {
-	_r0, _err := functions.GeomToNsegment(functions.GeomFromPointer(gs.Pointer()))
+// ToNsegment is MEOS geom_to_nsegment.
+func (x *Geometry) ToNsegment() (*Nsegment, error) {
+	_r0, _err := functions.GeomToNsegment(functions.GeomFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
 	return NsegmentFromPointer(_r0.Pointer()), nil
 }
 
-// GeometryTposeToTrgeometry is MEOS geometry_tpose_to_trgeometry.
-func GeometryTposeToTrgeometry(gs *TRGeometrySeqSet, temp *Temporal) (*Temporal, error) {
-	_r0, _err := functions.GeometryTposeToTrgeometry(functions.GeomFromPointer(gs.Pointer()), functions.TemporalFromPointer(temp.Pointer()))
+// TposeToTrgeometry is MEOS geometry_tpose_to_trgeometry.
+func (x *Geometry) TposeToTrgeometry(temp *Temporal) (*Temporal, error) {
+	_r0, _err := functions.GeometryTposeToTrgeometry(functions.GeomFromPointer(x.Pointer()), functions.TemporalFromPointer(temp.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
@@ -441,16 +441,33 @@ func GeometryTposeToTrgeometry(gs *TRGeometrySeqSet, temp *Temporal) (*Temporal,
 }
 
 // GeometryFromEWKB is the portable fromEWKB of MEOS geo_from_ewkb.
-func GeometryFromEWKB(wkb []byte, srid int32) (*TRGeometrySeqSet, error) {
-	return GeoFromEWKB(wkb, srid)
+func GeometryFromEWKB(wkb []byte, srid int32) (*Geometry, error) {
+	r, err := GeoFromEWKB(wkb, srid)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return GeometryFromPointer(r.Pointer()), nil
+}
+
+// AsMFJSON is the portable asMFJSON of MEOS geo_as_geojson.
+func (x *Geometry) AsMFJSON(option int, precision int, srs *string) (string, error) {
+	return x.AsGeoJSON(option, precision, srs)
 }
 
 // GeometryFromMFJSON is the portable fromMFJSON of MEOS geo_from_geojson.
-func GeometryFromMFJSON(geojson string) (*TRGeometrySeqSet, error) {
-	return GeoFromGeoJSON(geojson)
+func GeometryFromMFJSON(geojson string) (*Geometry, error) {
+	r, err := GeoFromGeoJSON(geojson)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return GeometryFromPointer(r.Pointer()), nil
 }
 
 // GeometryFromText is the portable fromText of MEOS geo_from_text.
-func GeometryFromText(wkt string, srid int32) (*TRGeometrySeqSet, error) {
-	return GeoFromText(wkt, srid)
+func GeometryFromText(wkt string, srid int32) (*Geometry, error) {
+	r, err := GeoFromText(wkt, srid)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return GeometryFromPointer(r.Pointer()), nil
 }

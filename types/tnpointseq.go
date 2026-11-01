@@ -9,7 +9,7 @@ import (
 )
 
 type TNpointSeq struct {
-	handle
+	TNpoint
 }
 
 // TNpointSeqFromPointer wraps a MEOS pointer, answering nil for nil so an

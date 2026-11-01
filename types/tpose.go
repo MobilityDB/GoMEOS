@@ -69,7 +69,7 @@ func (x *TPose) AsGeoposeStream(precision int) (string, error) {
 }
 
 // ApplyGeo is MEOS tpose_apply_geo.
-func (x *TPose) ApplyGeo(body *TRGeometrySeqSet) (*Temporal, error) {
+func (x *TPose) ApplyGeo(body *Geo) (*Temporal, error) {
 	_r0, _err := functions.TposeApplyGeo(functions.TemporalFromPointer(x.Pointer()), functions.GeomFromPointer(body.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -267,12 +267,12 @@ func (x *TPose) StartValue() (*Pose, error) {
 }
 
 // Trajectory is MEOS tpose_trajectory.
-func (x *TPose) Trajectory() (*TRGeometrySeqSet, error) {
+func (x *TPose) Trajectory() (*Geo, error) {
 	_r0, _err := functions.TposeTrajectory(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+	return GeoFromPointer(_r0.Pointer()), nil
 }
 
 // Value is MEOS tpose_value.
@@ -336,7 +336,7 @@ func (x *TPose) AtElevation(s *Span) (*Temporal, error) {
 }
 
 // AtGeom is MEOS tpose_at_geom.
-func (x *TPose) AtGeom(gs *TRGeometrySeqSet) (*Temporal, error) {
+func (x *TPose) AtGeom(gs *Geo) (*Temporal, error) {
 	_r0, _err := functions.TposeAtGeom(functions.TemporalFromPointer(x.Pointer()), functions.GeomFromPointer(gs.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -372,7 +372,7 @@ func (x *TPose) MinusElevation(s *Span) (*Temporal, error) {
 }
 
 // MinusGeom is MEOS tpose_minus_geom.
-func (x *TPose) MinusGeom(gs *TRGeometrySeqSet) (*Temporal, error) {
+func (x *TPose) MinusGeom(gs *Geo) (*Temporal, error) {
 	_r0, _err := functions.TposeMinusGeom(functions.TemporalFromPointer(x.Pointer()), functions.GeomFromPointer(gs.Pointer()))
 	if _err != nil {
 		return nil, _err

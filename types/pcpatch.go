@@ -150,12 +150,12 @@ func (x *Pcpatch) MemSize() (int, error) {
 }
 
 // ToGeom is MEOS pcpatch_to_geom.
-func (x *Pcpatch) ToGeom() (*TRGeometrySeqSet, error) {
+func (x *Pcpatch) ToGeom() (*Geo, error) {
 	_r0, _err := functions.PcpatchToGeom(functions.PcpatchFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+	return GeoFromPointer(_r0.Pointer()), nil
 }
 
 // Cmp is MEOS pcpatch_cmp.

@@ -9,7 +9,7 @@ import (
 )
 
 type TS2CellSeqSet struct {
-	handle
+	TS2Cell
 }
 
 // TS2CellSeqSetFromPointer wraps a MEOS pointer, answering nil for nil so an

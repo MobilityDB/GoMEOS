@@ -9,7 +9,7 @@ import (
 )
 
 type TTextSeqSet struct {
-	handle
+	TText
 }
 
 // TTextSeqSetFromPointer wraps a MEOS pointer, answering nil for nil so an

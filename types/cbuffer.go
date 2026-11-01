@@ -131,7 +131,7 @@ func (x *Cbuffer) Copy() (*Cbuffer, error) {
 }
 
 // CbufferMake is MEOS cbuffer_make.
-func CbufferMake(point *TRGeometrySeqSet, radius float64) (*Cbuffer, error) {
+func CbufferMake(point *Geo, radius float64) (*Cbuffer, error) {
 	_r0, _err := functions.CbufferMake(functions.GeomFromPointer(point.Pointer()), radius)
 	if _err != nil {
 		return nil, _err
@@ -140,12 +140,12 @@ func CbufferMake(point *TRGeometrySeqSet, radius float64) (*Cbuffer, error) {
 }
 
 // ToGeom is MEOS cbuffer_to_geom.
-func (x *Cbuffer) ToGeom() (*TRGeometrySeqSet, error) {
+func (x *Cbuffer) ToGeom() (*Geo, error) {
 	_r0, _err := functions.CbufferToGeom(functions.CbufferFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+	return GeoFromPointer(_r0.Pointer()), nil
 }
 
 // ToStbox is MEOS cbuffer_to_stbox.
@@ -185,12 +185,12 @@ func (x *Cbuffer) MemSize() (int, error) {
 }
 
 // Point is MEOS cbuffer_point.
-func (x *Cbuffer) Point() (*TRGeometrySeqSet, error) {
+func (x *Cbuffer) Point() (*Geo, error) {
 	_r0, _err := functions.CbufferPoint(functions.CbufferFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+	return GeoFromPointer(_r0.Pointer()), nil
 }
 
 // Radius is MEOS cbuffer_radius.

@@ -9,7 +9,7 @@ import (
 )
 
 type TCbufferSeq struct {
-	handle
+	TCbuffer
 }
 
 // TCbufferSeqFromPointer wraps a MEOS pointer, answering nil for nil so an

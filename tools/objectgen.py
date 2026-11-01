@@ -101,6 +101,11 @@ def zero(go_type: str) -> str:
     return "0"
 
 
+# The suffix a concrete class takes for each template subtype, as MEOS.NET's
+# tools/objectgen.py names them.
+SUBTYPE_SUFFIX = {"TInstant": "Inst", "TSequence": "Seq", "TSequenceSet": "SeqSet"}
+
+
 class Model:
     """The class hierarchy the catalog defines, indexed for emission."""
 
@@ -128,6 +133,16 @@ class Model:
             cls = value.get("class")
             if cls:
                 self.parent[cls] = "Temporal"
+
+        # A concrete class is `<leaf><suffix>` and embeds its leaf, so it
+        # carries the leaf's family surface (TGeomPointSeq the methods of
+        # TGeomPoint), as #_build of MEOS.NET's tools/objectgen.py makes the
+        # leaf its base.
+        for leaf in [n for n, v in self.om["lattice"].items()
+                     if isinstance(v, dict) and v.get("kind") == "leaf"]:
+            for suffix in SUBTYPE_SUFFIX.values():
+                if leaf + suffix in self.om["classes"]:
+                    self.parent[leaf + suffix] = leaf
 
         for family in [k for k in self.om["companions"] if not k.startswith("_")]:
             for name, node in self.om["companions"][family]["nodes"].items():

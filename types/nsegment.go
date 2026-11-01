@@ -140,12 +140,12 @@ func NsegmentMake(rid int64, pos1 float64, pos2 float64) (*Nsegment, error) {
 }
 
 // ToGeom is MEOS nsegment_to_geom.
-func (x *Nsegment) ToGeom() (*TRGeometrySeqSet, error) {
+func (x *Nsegment) ToGeom() (*Geo, error) {
 	_r0, _err := functions.NsegmentToGeom(functions.NsegmentFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+	return GeoFromPointer(_r0.Pointer()), nil
 }
 
 // ToStbox is MEOS nsegment_to_stbox.

@@ -37,6 +37,20 @@ func ExampleTGeomPointFromHexEWKB() {
 	// POINT(1 1)@2024-12-06 00:00:00+00 <nil>
 }
 
+func Example_sequenceAtGeometry() {
+	// A sequence carries the methods of its leaf, and a geometry argument is
+	// a *Geo: TGeomPointSeq reaches TPoint.AtGeom through TGeomPoint, whose
+	// restriction MEOS answers as a sequence set. It reads the value as
+	// #ExampleTGeomPointFromText does.
+	temp, _ := types.TGeomPointFromText("[Point(0 0)@2024-12-06, Point(2 0)@2024-12-08]")
+	seq := types.TGeomPointSeqFromPointer(temp.Pointer())
+	box, _ := types.GeometryFromText("Polygon((0 -1,1 -1,1 1,0 1,0 -1))", 0)
+	at, err := seq.AtGeom(&box.Geo)
+	fmt.Println(types.TGeomPointFromPointer(at.Pointer()), err)
+	// Output:
+	// {[POINT(0 0)@2024-12-06 00:00:00+00, POINT(1 0)@2024-12-07 00:00:00+00]} <nil>
+}
+
 func Example_cbufferString() {
 	cbuffer, _ := types.CbufferFromText("Cbuffer(Point(1 1),0.5)")
 	fmt.Println(cbuffer)

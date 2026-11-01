@@ -33,34 +33,34 @@ func GeoSetMake(values unsafe.Pointer, count int) (*Set, error) {
 }
 
 // ToGeo is MEOS geoset_to_geo.
-func (x *GeoSet) ToGeo() (*TRGeometrySeqSet, error) {
+func (x *GeoSet) ToGeo() (*Geo, error) {
 	_r0, _err := functions.GeosetToGeo(functions.SetFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+	return GeoFromPointer(_r0.Pointer()), nil
 }
 
 // EndValue is MEOS geoset_end_value.
-func (x *GeoSet) EndValue() (*TRGeometrySeqSet, error) {
+func (x *GeoSet) EndValue() (*Geo, error) {
 	_r0, _err := functions.GeosetEndValue(functions.SetFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+	return GeoFromPointer(_r0.Pointer()), nil
 }
 
 // StartValue is MEOS geoset_start_value.
-func (x *GeoSet) StartValue() (*TRGeometrySeqSet, error) {
+func (x *GeoSet) StartValue() (*Geo, error) {
 	_r0, _err := functions.GeosetStartValue(functions.SetFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return TRGeometrySeqSetFromPointer(_r0.Pointer()), nil
+	return GeoFromPointer(_r0.Pointer()), nil
 }
 
 // ValueN is MEOS geoset_value_n.
-func (x *GeoSet) ValueN(n int) (*TRGeometrySeqSet, bool, error) {
+func (x *GeoSet) ValueN(n int) (*Geo, bool, error) {
 	_found, _value, _err := functions.GeosetValueN(functions.SetFromPointer(x.Pointer()), n)
 	if _err != nil {
 		return nil, false, _err
@@ -68,7 +68,7 @@ func (x *GeoSet) ValueN(n int) (*TRGeometrySeqSet, bool, error) {
 	if !_found {
 		return nil, false, nil
 	}
-	return TRGeometrySeqSetFromPointer(_value.Pointer()), true, nil
+	return GeoFromPointer(_value.Pointer()), true, nil
 }
 
 // Values is MEOS geoset_values.

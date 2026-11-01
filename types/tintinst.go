@@ -9,7 +9,7 @@ import (
 )
 
 type TIntInst struct {
-	handle
+	TInt
 }
 
 // TIntInstFromPointer wraps a MEOS pointer, answering nil for nil so an

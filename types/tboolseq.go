@@ -9,7 +9,7 @@ import (
 )
 
 type TBoolSeq struct {
-	handle
+	TBool
 }
 
 // TBoolSeqFromPointer wraps a MEOS pointer, answering nil for nil so an

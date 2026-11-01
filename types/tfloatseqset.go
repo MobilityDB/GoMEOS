@@ -9,7 +9,7 @@ import (
 )
 
 type TFloatSeqSet struct {
-	handle
+	TFloat
 }
 
 // TFloatSeqSetFromPointer wraps a MEOS pointer, answering nil for nil so an
