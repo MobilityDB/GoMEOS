@@ -24,12 +24,13 @@ func GeoFromPointer(p unsafe.Pointer) *Geo {
 }
 
 // GeoAsEWKB is MEOS geo_as_ewkb.
-func GeoAsEWKB(gs *TRGeometrySeqSet, endian *string, size unsafe.Pointer) (unsafe.Pointer, error) {
-	_r0, _err := functions.GeoAsEWKB(functions.GeomFromPointer(gs.Pointer()), endian, size)
+func GeoAsEWKB(gs *TRGeometrySeqSet, endian *string) ([]byte, error) {
+	var _size uint64
+	_r0, _err := functions.GeoAsEWKB(functions.GeomFromPointer(gs.Pointer()), endian, unsafe.Pointer(&_size))
 	if _err != nil {
 		return nil, _err
 	}
-	return _r0, nil
+	return functions.TakeBytes(_r0, _size), nil
 }
 
 // GeoAsEWKT is MEOS geo_as_ewkt.
@@ -69,8 +70,12 @@ func GeoAsText(gs *TRGeometrySeqSet, precision int) (string, error) {
 }
 
 // GeoFromEWKB is MEOS geo_from_ewkb.
-func GeoFromEWKB(wkb unsafe.Pointer, wkb_size uint, srid int32) (*TRGeometrySeqSet, error) {
-	_r0, _err := functions.GeoFromEWKB(wkb, wkb_size, srid)
+func GeoFromEWKB(wkb []byte, srid int32) (*TRGeometrySeqSet, error) {
+	var _p_wkb unsafe.Pointer
+	if len(wkb) > 0 {
+		_p_wkb = unsafe.Pointer(&wkb[0])
+	}
+	_r0, _err := functions.GeoFromEWKB(_p_wkb, uint(len(wkb)), srid)
 	if _err != nil {
 		return nil, _err
 	}

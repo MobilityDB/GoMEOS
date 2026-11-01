@@ -149,8 +149,8 @@ func TextSetFromText(str string) (*TextSet, error) {
 }
 
 // TextSetFromWKB is the portable fromWKB of MEOS set_from_wkb.
-func TextSetFromWKB(wkb unsafe.Pointer, size uint) (*TextSet, error) {
-	r, err := SetFromWKB(wkb, size)
+func TextSetFromWKB(wkb []byte) (*TextSet, error) {
+	r, err := SetFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}

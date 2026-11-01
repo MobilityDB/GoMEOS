@@ -356,8 +356,8 @@ func JsonbSetFromText(str string) (*JsonbSet, error) {
 }
 
 // JsonbSetFromWKB is the portable fromWKB of MEOS set_from_wkb.
-func JsonbSetFromWKB(wkb unsafe.Pointer, size uint) (*JsonbSet, error) {
-	r, err := SetFromWKB(wkb, size)
+func JsonbSetFromWKB(wkb []byte) (*JsonbSet, error) {
+	r, err := SetFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}

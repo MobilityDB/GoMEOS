@@ -26,8 +26,9 @@ func TemporalFromPointer(p unsafe.Pointer) *Temporal {
 }
 
 // AsHexWKB is MEOS temporal_as_hexwkb.
-func (x *Temporal) AsHexWKB(variant uint8, size_out unsafe.Pointer) (string, error) {
-	_r0, _err := functions.TemporalAsHexwkb(functions.TemporalFromPointer(x.Pointer()), variant, size_out)
+func (x *Temporal) AsHexWKB(variant uint8) (string, error) {
+	var _size uint64
+	_r0, _err := functions.TemporalAsHexwkb(functions.TemporalFromPointer(x.Pointer()), variant, unsafe.Pointer(&_size))
 	if _err != nil {
 		return "", _err
 	}
@@ -44,12 +45,13 @@ func (x *Temporal) AsMFJSON(option int, flags int, precision int, srs *string) (
 }
 
 // AsWKB is MEOS temporal_as_wkb.
-func (x *Temporal) AsWKB(variant uint8, size_out unsafe.Pointer) (unsafe.Pointer, error) {
-	_r0, _err := functions.TemporalAsWKB(functions.TemporalFromPointer(x.Pointer()), variant, size_out)
+func (x *Temporal) AsWKB(variant uint8) ([]byte, error) {
+	var _size uint64
+	_r0, _err := functions.TemporalAsWKB(functions.TemporalFromPointer(x.Pointer()), variant, unsafe.Pointer(&_size))
 	if _err != nil {
 		return nil, _err
 	}
-	return _r0, nil
+	return functions.TakeBytes(_r0, _size), nil
 }
 
 // TemporalFromHexWKB is MEOS temporal_from_hexwkb.
@@ -62,8 +64,12 @@ func TemporalFromHexWKB(hexwkb string) (*Temporal, error) {
 }
 
 // TemporalFromWKB is MEOS temporal_from_wkb.
-func TemporalFromWKB(wkb unsafe.Pointer, size uint) (*Temporal, error) {
-	_r0, _err := functions.TemporalFromWKB(wkb, size)
+func TemporalFromWKB(wkb []byte) (*Temporal, error) {
+	var _p_wkb unsafe.Pointer
+	if len(wkb) > 0 {
+		_p_wkb = unsafe.Pointer(&wkb[0])
+	}
+	_r0, _err := functions.TemporalFromWKB(_p_wkb, uint(len(wkb)))
 	if _err != nil {
 		return nil, _err
 	}
@@ -677,12 +683,13 @@ func (x *Temporal) Ne(temp2 *Temporal) (bool, error) {
 }
 
 // Sortkey is MEOS temporal_sortkey.
-func (x *Temporal) Sortkey(size unsafe.Pointer) (unsafe.Pointer, error) {
-	_r0, _err := functions.TemporalSortkey(functions.TemporalFromPointer(x.Pointer()), size)
+func (x *Temporal) Sortkey() ([]byte, error) {
+	var _size uint64
+	_r0, _err := functions.TemporalSortkey(functions.TemporalFromPointer(x.Pointer()), unsafe.Pointer(&_size))
 	if _err != nil {
 		return nil, _err
 	}
-	return _r0, nil
+	return functions.TakeBytes(_r0, _size), nil
 }
 
 // Spans is MEOS temporal_spans.

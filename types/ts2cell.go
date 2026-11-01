@@ -183,8 +183,8 @@ func (x *TS2Cell) GridDistance(dest *Temporal) (*Temporal, error) {
 }
 
 // TS2CellFromEWKB is the portable fromEWKB of MEOS temporal_from_wkb.
-func TS2CellFromEWKB(wkb unsafe.Pointer, size uint) (*TS2Cell, error) {
-	r, err := TemporalFromWKB(wkb, size)
+func TS2CellFromEWKB(wkb []byte) (*TS2Cell, error) {
+	r, err := TemporalFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}
@@ -228,8 +228,8 @@ func TS2CellFromText(str string) (*TS2Cell, error) {
 }
 
 // TS2CellFromWKB is the portable fromWKB of MEOS temporal_from_wkb.
-func TS2CellFromWKB(wkb unsafe.Pointer, size uint) (*TS2Cell, error) {
-	r, err := TemporalFromWKB(wkb, size)
+func TS2CellFromWKB(wkb []byte) (*TS2Cell, error) {
+	r, err := TemporalFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}

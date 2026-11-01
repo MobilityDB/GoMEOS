@@ -165,8 +165,8 @@ func (x *TPcpoint) Pcid() (uint32, error) {
 }
 
 // TPcpointFromEWKB is the portable fromEWKB of MEOS temporal_from_wkb.
-func TPcpointFromEWKB(wkb unsafe.Pointer, size uint) (*TPcpoint, error) {
-	r, err := TemporalFromWKB(wkb, size)
+func TPcpointFromEWKB(wkb []byte) (*TPcpoint, error) {
+	r, err := TemporalFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}
@@ -210,8 +210,8 @@ func TPcpointFromText(str string) (*TPcpoint, error) {
 }
 
 // TPcpointFromWKB is the portable fromWKB of MEOS temporal_from_wkb.
-func TPcpointFromWKB(wkb unsafe.Pointer, size uint) (*TPcpoint, error) {
-	r, err := TemporalFromWKB(wkb, size)
+func TPcpointFromWKB(wkb []byte) (*TPcpoint, error) {
+	r, err := TemporalFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}

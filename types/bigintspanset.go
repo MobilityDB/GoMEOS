@@ -110,8 +110,8 @@ func BigIntSpanSetFromText(str string) (*BigIntSpanSet, error) {
 }
 
 // BigIntSpanSetFromWKB is the portable fromWKB of MEOS spanset_from_wkb.
-func BigIntSpanSetFromWKB(wkb unsafe.Pointer, size uint) (*BigIntSpanSet, error) {
-	r, err := SpanSetFromWKB(wkb, size)
+func BigIntSpanSetFromWKB(wkb []byte) (*BigIntSpanSet, error) {
+	r, err := SpanSetFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}

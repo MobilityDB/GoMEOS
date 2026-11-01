@@ -117,8 +117,8 @@ func (x *S2CellSet) Values(count unsafe.Pointer) (unsafe.Pointer, error) {
 }
 
 // S2CellSetFromEWKB is the portable fromEWKB of MEOS set_from_wkb.
-func S2CellSetFromEWKB(wkb unsafe.Pointer, size uint) (*S2CellSet, error) {
-	r, err := SetFromWKB(wkb, size)
+func S2CellSetFromEWKB(wkb []byte) (*S2CellSet, error) {
+	r, err := SetFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}
@@ -162,8 +162,8 @@ func S2CellSetFromText(str string) (*S2CellSet, error) {
 }
 
 // S2CellSetFromWKB is the portable fromWKB of MEOS set_from_wkb.
-func S2CellSetFromWKB(wkb unsafe.Pointer, size uint) (*S2CellSet, error) {
-	r, err := SetFromWKB(wkb, size)
+func S2CellSetFromWKB(wkb []byte) (*S2CellSet, error) {
+	r, err := SetFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}

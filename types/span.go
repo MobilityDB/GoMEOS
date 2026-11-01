@@ -24,8 +24,9 @@ func SpanFromPointer(p unsafe.Pointer) *Span {
 }
 
 // AsHexWKB is MEOS span_as_hexwkb.
-func (x *Span) AsHexWKB(variant uint8, size_out unsafe.Pointer) (string, error) {
-	_r0, _err := functions.SpanAsHexwkb(functions.SpanFromPointer(x.Pointer()), variant, size_out)
+func (x *Span) AsHexWKB(variant uint8) (string, error) {
+	var _size uint64
+	_r0, _err := functions.SpanAsHexwkb(functions.SpanFromPointer(x.Pointer()), variant, unsafe.Pointer(&_size))
 	if _err != nil {
 		return "", _err
 	}
@@ -33,12 +34,13 @@ func (x *Span) AsHexWKB(variant uint8, size_out unsafe.Pointer) (string, error) 
 }
 
 // AsWKB is MEOS span_as_wkb.
-func (x *Span) AsWKB(variant uint8, size_out unsafe.Pointer) (unsafe.Pointer, error) {
-	_r0, _err := functions.SpanAsWKB(functions.SpanFromPointer(x.Pointer()), variant, size_out)
+func (x *Span) AsWKB(variant uint8) ([]byte, error) {
+	var _size uint64
+	_r0, _err := functions.SpanAsWKB(functions.SpanFromPointer(x.Pointer()), variant, unsafe.Pointer(&_size))
 	if _err != nil {
 		return nil, _err
 	}
-	return _r0, nil
+	return functions.TakeBytes(_r0, _size), nil
 }
 
 // SpanFromHexWKB is MEOS span_from_hexwkb.
@@ -51,8 +53,12 @@ func SpanFromHexWKB(hexwkb string) (*Span, error) {
 }
 
 // SpanFromWKB is MEOS span_from_wkb.
-func SpanFromWKB(wkb unsafe.Pointer, size uint) (*Span, error) {
-	_r0, _err := functions.SpanFromWKB(wkb, size)
+func SpanFromWKB(wkb []byte) (*Span, error) {
+	var _p_wkb unsafe.Pointer
+	if len(wkb) > 0 {
+		_p_wkb = unsafe.Pointer(&wkb[0])
+	}
+	_r0, _err := functions.SpanFromWKB(_p_wkb, uint(len(wkb)))
 	if _err != nil {
 		return nil, _err
 	}
@@ -177,12 +183,13 @@ func (x *Span) Ne(s2 *Span) (bool, error) {
 }
 
 // Sortkey is MEOS span_sortkey.
-func (x *Span) Sortkey(size unsafe.Pointer) (unsafe.Pointer, error) {
-	_r0, _err := functions.SpanSortkey(functions.SpanFromPointer(x.Pointer()), size)
+func (x *Span) Sortkey() ([]byte, error) {
+	var _size uint64
+	_r0, _err := functions.SpanSortkey(functions.SpanFromPointer(x.Pointer()), unsafe.Pointer(&_size))
 	if _err != nil {
 		return nil, _err
 	}
-	return _r0, nil
+	return functions.TakeBytes(_r0, _size), nil
 }
 
 // ToTbox is MEOS span_to_tbox.

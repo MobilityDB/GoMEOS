@@ -131,8 +131,8 @@ func DateSetFromText(str string) (*DateSet, error) {
 }
 
 // DateSetFromWKB is the portable fromWKB of MEOS set_from_wkb.
-func DateSetFromWKB(wkb unsafe.Pointer, size uint) (*DateSet, error) {
-	r, err := SetFromWKB(wkb, size)
+func DateSetFromWKB(wkb []byte) (*DateSet, error) {
+	r, err := SetFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}

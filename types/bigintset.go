@@ -122,8 +122,8 @@ func BigIntSetFromText(str string) (*BigIntSet, error) {
 }
 
 // BigIntSetFromWKB is the portable fromWKB of MEOS set_from_wkb.
-func BigIntSetFromWKB(wkb unsafe.Pointer, size uint) (*BigIntSet, error) {
-	r, err := SetFromWKB(wkb, size)
+func BigIntSetFromWKB(wkb []byte) (*BigIntSet, error) {
+	r, err := SetFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}

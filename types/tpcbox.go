@@ -24,17 +24,19 @@ func TPCBoxFromPointer(p unsafe.Pointer) *TPCBox {
 }
 
 // AsEWKB is MEOS tpcbox_as_ewkb.
-func (x *TPCBox) AsEWKB(variant uint8, size_out unsafe.Pointer) (unsafe.Pointer, error) {
-	_r0, _err := functions.TpcboxAsEWKB(functions.TPCBoxFromPointer(x.Pointer()), variant, size_out)
+func (x *TPCBox) AsEWKB(variant uint8) ([]byte, error) {
+	var _size uint64
+	_r0, _err := functions.TpcboxAsEWKB(functions.TPCBoxFromPointer(x.Pointer()), variant, unsafe.Pointer(&_size))
 	if _err != nil {
 		return nil, _err
 	}
-	return _r0, nil
+	return functions.TakeBytes(_r0, _size), nil
 }
 
 // AsHexEWKB is MEOS tpcbox_as_hexewkb.
-func (x *TPCBox) AsHexEWKB(variant uint8, size_out unsafe.Pointer) (string, error) {
-	_r0, _err := functions.TpcboxAsHexewkb(functions.TPCBoxFromPointer(x.Pointer()), variant, size_out)
+func (x *TPCBox) AsHexEWKB(variant uint8) (string, error) {
+	var _size uint64
+	_r0, _err := functions.TpcboxAsHexewkb(functions.TPCBoxFromPointer(x.Pointer()), variant, unsafe.Pointer(&_size))
 	if _err != nil {
 		return "", _err
 	}
@@ -42,8 +44,9 @@ func (x *TPCBox) AsHexEWKB(variant uint8, size_out unsafe.Pointer) (string, erro
 }
 
 // AsHexWKB is MEOS tpcbox_as_hexwkb.
-func (x *TPCBox) AsHexWKB(variant uint8, size_out unsafe.Pointer) (string, error) {
-	_r0, _err := functions.TpcboxAsHexwkb(functions.TPCBoxFromPointer(x.Pointer()), variant, size_out)
+func (x *TPCBox) AsHexWKB(variant uint8) (string, error) {
+	var _size uint64
+	_r0, _err := functions.TpcboxAsHexwkb(functions.TPCBoxFromPointer(x.Pointer()), variant, unsafe.Pointer(&_size))
 	if _err != nil {
 		return "", _err
 	}
@@ -51,12 +54,13 @@ func (x *TPCBox) AsHexWKB(variant uint8, size_out unsafe.Pointer) (string, error
 }
 
 // AsWKB is MEOS tpcbox_as_wkb.
-func (x *TPCBox) AsWKB(variant uint8, size_out unsafe.Pointer) (unsafe.Pointer, error) {
-	_r0, _err := functions.TpcboxAsWKB(functions.TPCBoxFromPointer(x.Pointer()), variant, size_out)
+func (x *TPCBox) AsWKB(variant uint8) ([]byte, error) {
+	var _size uint64
+	_r0, _err := functions.TpcboxAsWKB(functions.TPCBoxFromPointer(x.Pointer()), variant, unsafe.Pointer(&_size))
 	if _err != nil {
 		return nil, _err
 	}
-	return _r0, nil
+	return functions.TakeBytes(_r0, _size), nil
 }
 
 // TPCBoxFromHexWKB is MEOS tpcbox_from_hexwkb.
@@ -69,8 +73,12 @@ func TPCBoxFromHexWKB(hexwkb string) (*TPCBox, error) {
 }
 
 // TPCBoxFromWKB is MEOS tpcbox_from_wkb.
-func TPCBoxFromWKB(wkb unsafe.Pointer, size uint) (*TPCBox, error) {
-	_r0, _err := functions.TpcboxFromWKB(wkb, size)
+func TPCBoxFromWKB(wkb []byte) (*TPCBox, error) {
+	var _p_wkb unsafe.Pointer
+	if len(wkb) > 0 {
+		_p_wkb = unsafe.Pointer(&wkb[0])
+	}
+	_r0, _err := functions.TpcboxFromWKB(_p_wkb, uint(len(wkb)))
 	if _err != nil {
 		return nil, _err
 	}
@@ -342,12 +350,13 @@ func (x *TPCBox) Ne(box2 *TPCBox) (bool, error) {
 }
 
 // Sortkey is MEOS tpcbox_sortkey.
-func (x *TPCBox) Sortkey(size unsafe.Pointer) (unsafe.Pointer, error) {
-	_r0, _err := functions.TpcboxSortkey(functions.TPCBoxFromPointer(x.Pointer()), size)
+func (x *TPCBox) Sortkey() ([]byte, error) {
+	var _size uint64
+	_r0, _err := functions.TpcboxSortkey(functions.TPCBoxFromPointer(x.Pointer()), unsafe.Pointer(&_size))
 	if _err != nil {
 		return nil, _err
 	}
-	return _r0, nil
+	return functions.TakeBytes(_r0, _size), nil
 }
 
 // Lt is MEOS tpcbox_lt.
@@ -387,8 +396,8 @@ func (x *TPCBox) Ge(box2 *TPCBox) (bool, error) {
 }
 
 // TPCBoxFromEWKB is the portable fromEWKB of MEOS tpcbox_from_wkb.
-func TPCBoxFromEWKB(wkb unsafe.Pointer, size uint) (*TPCBox, error) {
-	return TPCBoxFromWKB(wkb, size)
+func TPCBoxFromEWKB(wkb []byte) (*TPCBox, error) {
+	return TPCBoxFromWKB(wkb)
 }
 
 // TPCBoxFromHexEWKB is the portable fromHexEWKB of MEOS tpcbox_from_hexwkb.

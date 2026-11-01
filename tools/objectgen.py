@@ -308,8 +308,42 @@ class Generator:
         if params and self.class_of_handle(params[0][1]) in family:
             recv = params.pop(0)
 
+        # A byte buffer travels as a []byte, as MEOS.NET's method_for reads the
+        # catalog's shape: a `size_t *` the shape lists in `outParams` states the
+        # length of the buffer the call answers, so it leaves the signature and
+        # the buffer comes back as a []byte (functions.TakeBytes); a `uint8_t`
+        # array the shape lists in `inputArrays` is taken as a []byte, the
+        # parameter its length comes from filled with len().
+        shape = f.get("shape") or {}
+        length_out = next(
+            (codegen._go_param_name(p["name"]) for p in f.get("params", [])
+             if p["name"] in (shape.get("outParams") or [])
+             and p["cType"].replace(" ", "") == "size_t*"), None)
+        byte_inputs = {
+            codegen._go_param_name(a["param"]): codegen._go_param_name(a["lengthFrom"]["name"])
+            for a in shape.get("inputArrays") or []
+            if (a.get("element") or {}).get("c") == "uint8_t"
+            and (a.get("lengthFrom") or {}).get("kind") == "param"}
+        length_of = {length: arr for arr, length in byte_inputs.items()}
+        prelude = []
+
         args, decl = [], []
         for pname, ptype in params:
+            if pname == length_out:
+                prelude.append("\tvar _size uint64")
+                args.append("unsafe.Pointer(&_size)")
+                continue
+            if pname in byte_inputs:
+                local = f"_p_{pname}"
+                prelude.append(f"\tvar {local} unsafe.Pointer\n"
+                               f"\tif len({ident(pname)}) > 0 {{\n"
+                               f"\t\t{local} = unsafe.Pointer(&{ident(pname)}[0])\n\t}}")
+                decl.append(f"{ident(pname)} []byte")
+                args.append(local)
+                continue
+            if pname in length_of:
+                args.append(f"{self.qualify(ptype)}(len({ident(length_of[pname])}))")
+                continue
             mapped = self.map_param(ptype, ident(pname))
             if mapped is None:
                 self.deferred[cls].append(f"{oo}: parameter {pname} is {ptype}")
@@ -341,11 +375,19 @@ class Generator:
         folded = (len(sig.returns) == 2 and sig.returns[0] == "bool"
                   and f["returnType"]["c"].replace("const ", "").strip() == "bool")
 
-        rets, body = [], []
+        rets, body = [], list(prelude)
         call = f"functions.{sig.go_name}({', '.join(args)})"
+        answers_bytes = (length_out is not None and sig.returns == ["unsafe.Pointer"]
+                         and f["returnType"]["c"].replace("const ", "").replace(" ", "")
+                         == "uint8_t*")
 
         if not sig.returns:
             body.append(f"\treturn {call}")
+        elif answers_bytes:
+            rets = ["[]byte"]
+            body.append(f"\t_r0, _err := {call}")
+            body.append("\tif _err != nil {\n\t\treturn nil, _err\n\t}")
+            body.append("\treturn functions.TakeBytes(_r0, _size), nil")
         elif folded:
             mapped = self.map_return(sig.returns[1], "_value")
             if mapped is None:

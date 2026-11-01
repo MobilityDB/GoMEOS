@@ -195,8 +195,8 @@ func (x *TPoseChain) MinusValue(pc unsafe.Pointer) (*Temporal, error) {
 }
 
 // TPoseChainFromEWKB is the portable fromEWKB of MEOS temporal_from_wkb.
-func TPoseChainFromEWKB(wkb unsafe.Pointer, size uint) (*TPoseChain, error) {
-	r, err := TemporalFromWKB(wkb, size)
+func TPoseChainFromEWKB(wkb []byte) (*TPoseChain, error) {
+	r, err := TemporalFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}
@@ -240,8 +240,8 @@ func TPoseChainFromText(str string) (*TPoseChain, error) {
 }
 
 // TPoseChainFromWKB is the portable fromWKB of MEOS temporal_from_wkb.
-func TPoseChainFromWKB(wkb unsafe.Pointer, size uint) (*TPoseChain, error) {
-	r, err := TemporalFromWKB(wkb, size)
+func TPoseChainFromWKB(wkb []byte) (*TPoseChain, error) {
+	r, err := TemporalFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}

@@ -287,8 +287,8 @@ func TBigintFromText(str string) (*TBigint, error) {
 }
 
 // TBigintFromWKB is the portable fromWKB of MEOS temporal_from_wkb.
-func TBigintFromWKB(wkb unsafe.Pointer, size uint) (*TBigint, error) {
-	r, err := TemporalFromWKB(wkb, size)
+func TBigintFromWKB(wkb []byte) (*TBigint, error) {
+	r, err := TemporalFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}

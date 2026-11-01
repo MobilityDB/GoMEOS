@@ -24,12 +24,13 @@ func NpointFromPointer(p unsafe.Pointer) *Npoint {
 }
 
 // AsEWKB is MEOS npoint_as_ewkb.
-func (x *Npoint) AsEWKB(variant uint8, size_out unsafe.Pointer) (unsafe.Pointer, error) {
-	_r0, _err := functions.NpointAsEWKB(functions.NpointFromPointer(x.Pointer()), variant, size_out)
+func (x *Npoint) AsEWKB(variant uint8) ([]byte, error) {
+	var _size uint64
+	_r0, _err := functions.NpointAsEWKB(functions.NpointFromPointer(x.Pointer()), variant, unsafe.Pointer(&_size))
 	if _err != nil {
 		return nil, _err
 	}
-	return _r0, nil
+	return functions.TakeBytes(_r0, _size), nil
 }
 
 // AsEWKT is MEOS npoint_as_ewkt.
@@ -42,8 +43,9 @@ func (x *Npoint) AsEWKT(maxdd int) (string, error) {
 }
 
 // AsHexEWKB is MEOS npoint_as_hexewkb.
-func (x *Npoint) AsHexEWKB(variant uint8, size_out unsafe.Pointer) (string, error) {
-	_r0, _err := functions.NpointAsHexewkb(functions.NpointFromPointer(x.Pointer()), variant, size_out)
+func (x *Npoint) AsHexEWKB(variant uint8) (string, error) {
+	var _size uint64
+	_r0, _err := functions.NpointAsHexewkb(functions.NpointFromPointer(x.Pointer()), variant, unsafe.Pointer(&_size))
 	if _err != nil {
 		return "", _err
 	}
@@ -51,8 +53,9 @@ func (x *Npoint) AsHexEWKB(variant uint8, size_out unsafe.Pointer) (string, erro
 }
 
 // AsHexWKB is MEOS npoint_as_hexwkb.
-func (x *Npoint) AsHexWKB(variant uint8, size_out unsafe.Pointer) (string, error) {
-	_r0, _err := functions.NpointAsHexwkb(functions.NpointFromPointer(x.Pointer()), variant, size_out)
+func (x *Npoint) AsHexWKB(variant uint8) (string, error) {
+	var _size uint64
+	_r0, _err := functions.NpointAsHexwkb(functions.NpointFromPointer(x.Pointer()), variant, unsafe.Pointer(&_size))
 	if _err != nil {
 		return "", _err
 	}
@@ -69,12 +72,13 @@ func (x *Npoint) AsText(maxdd int) (string, error) {
 }
 
 // AsWKB is MEOS npoint_as_wkb.
-func (x *Npoint) AsWKB(variant uint8, size_out unsafe.Pointer) (unsafe.Pointer, error) {
-	_r0, _err := functions.NpointAsWKB(functions.NpointFromPointer(x.Pointer()), variant, size_out)
+func (x *Npoint) AsWKB(variant uint8) ([]byte, error) {
+	var _size uint64
+	_r0, _err := functions.NpointAsWKB(functions.NpointFromPointer(x.Pointer()), variant, unsafe.Pointer(&_size))
 	if _err != nil {
 		return nil, _err
 	}
-	return _r0, nil
+	return functions.TakeBytes(_r0, _size), nil
 }
 
 // NpointFromHexWKB is MEOS npoint_from_hexwkb.
@@ -87,8 +91,12 @@ func NpointFromHexWKB(hexwkb string) (*Npoint, error) {
 }
 
 // NpointFromWKB is MEOS npoint_from_wkb.
-func NpointFromWKB(wkb unsafe.Pointer, size uint) (*Npoint, error) {
-	_r0, _err := functions.NpointFromWKB(wkb, size)
+func NpointFromWKB(wkb []byte) (*Npoint, error) {
+	var _p_wkb unsafe.Pointer
+	if len(wkb) > 0 {
+		_p_wkb = unsafe.Pointer(&wkb[0])
+	}
+	_r0, _err := functions.NpointFromWKB(_p_wkb, uint(len(wkb)))
 	if _err != nil {
 		return nil, _err
 	}
@@ -303,8 +311,8 @@ func (x *Npoint) ToSet() (*Set, error) {
 }
 
 // NpointFromEWKB is the portable fromEWKB of MEOS npoint_from_wkb.
-func NpointFromEWKB(wkb unsafe.Pointer, size uint) (*Npoint, error) {
-	return NpointFromWKB(wkb, size)
+func NpointFromEWKB(wkb []byte) (*Npoint, error) {
+	return NpointFromWKB(wkb)
 }
 
 // NpointFromEWKT is the portable fromEWKT of MEOS npoint_in.

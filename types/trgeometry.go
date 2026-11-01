@@ -723,8 +723,8 @@ func (x *TRGeometry) MinusTstzspanset(ss *SpanSet) (*Temporal, error) {
 }
 
 // TRGeometryFromEWKB is the portable fromEWKB of MEOS temporal_from_wkb.
-func TRGeometryFromEWKB(wkb unsafe.Pointer, size uint) (*TRGeometry, error) {
-	r, err := TemporalFromWKB(wkb, size)
+func TRGeometryFromEWKB(wkb []byte) (*TRGeometry, error) {
+	r, err := TemporalFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}
@@ -768,8 +768,8 @@ func TRGeometryFromText(str string) (*TRGeometry, error) {
 }
 
 // TRGeometryFromWKB is the portable fromWKB of MEOS temporal_from_wkb.
-func TRGeometryFromWKB(wkb unsafe.Pointer, size uint) (*TRGeometry, error) {
-	r, err := TemporalFromWKB(wkb, size)
+func TRGeometryFromWKB(wkb []byte) (*TRGeometry, error) {
+	r, err := TemporalFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}

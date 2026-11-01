@@ -126,8 +126,8 @@ func (x *QuadbinSet) Values(count unsafe.Pointer) (unsafe.Pointer, error) {
 }
 
 // QuadbinSetFromEWKB is the portable fromEWKB of MEOS set_from_wkb.
-func QuadbinSetFromEWKB(wkb unsafe.Pointer, size uint) (*QuadbinSet, error) {
-	r, err := SetFromWKB(wkb, size)
+func QuadbinSetFromEWKB(wkb []byte) (*QuadbinSet, error) {
+	r, err := SetFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}
@@ -171,8 +171,8 @@ func QuadbinSetFromText(str string) (*QuadbinSet, error) {
 }
 
 // QuadbinSetFromWKB is the portable fromWKB of MEOS set_from_wkb.
-func QuadbinSetFromWKB(wkb unsafe.Pointer, size uint) (*QuadbinSet, error) {
-	r, err := SetFromWKB(wkb, size)
+func QuadbinSetFromWKB(wkb []byte) (*QuadbinSet, error) {
+	r, err := SetFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}

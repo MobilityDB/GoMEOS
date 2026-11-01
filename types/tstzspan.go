@@ -110,8 +110,8 @@ func TsTzSpanFromText(str string) (*TsTzSpan, error) {
 }
 
 // TsTzSpanFromWKB is the portable fromWKB of MEOS span_from_wkb.
-func TsTzSpanFromWKB(wkb unsafe.Pointer, size uint) (*TsTzSpan, error) {
-	r, err := SpanFromWKB(wkb, size)
+func TsTzSpanFromWKB(wkb []byte) (*TsTzSpan, error) {
+	r, err := SpanFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}

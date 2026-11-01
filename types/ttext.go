@@ -224,8 +224,8 @@ func TTextFromText(str string) (*TText, error) {
 }
 
 // TTextFromWKB is the portable fromWKB of MEOS temporal_from_wkb.
-func TTextFromWKB(wkb unsafe.Pointer, size uint) (*TText, error) {
-	r, err := TemporalFromWKB(wkb, size)
+func TTextFromWKB(wkb []byte) (*TText, error) {
+	r, err := TemporalFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}

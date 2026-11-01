@@ -183,8 +183,8 @@ func (x *TQuadbin) GridDistance(dest *Temporal) (*Temporal, error) {
 }
 
 // TQuadbinFromEWKB is the portable fromEWKB of MEOS temporal_from_wkb.
-func TQuadbinFromEWKB(wkb unsafe.Pointer, size uint) (*TQuadbin, error) {
-	r, err := TemporalFromWKB(wkb, size)
+func TQuadbinFromEWKB(wkb []byte) (*TQuadbin, error) {
+	r, err := TemporalFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}
@@ -228,8 +228,8 @@ func TQuadbinFromText(str string) (*TQuadbin, error) {
 }
 
 // TQuadbinFromWKB is the portable fromWKB of MEOS temporal_from_wkb.
-func TQuadbinFromWKB(wkb unsafe.Pointer, size uint) (*TQuadbin, error) {
-	r, err := TemporalFromWKB(wkb, size)
+func TQuadbinFromWKB(wkb []byte) (*TQuadbin, error) {
+	r, err := TemporalFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}

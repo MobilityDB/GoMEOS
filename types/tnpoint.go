@@ -282,8 +282,8 @@ func (x *TNpoint) MinusStbox(box *STBox, border_inc bool) (*Temporal, error) {
 }
 
 // TNpointFromEWKB is the portable fromEWKB of MEOS temporal_from_wkb.
-func TNpointFromEWKB(wkb unsafe.Pointer, size uint) (*TNpoint, error) {
-	r, err := TemporalFromWKB(wkb, size)
+func TNpointFromEWKB(wkb []byte) (*TNpoint, error) {
+	r, err := TemporalFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}
@@ -327,8 +327,8 @@ func TNpointFromText(str string) (*TNpoint, error) {
 }
 
 // TNpointFromWKB is the portable fromWKB of MEOS temporal_from_wkb.
-func TNpointFromWKB(wkb unsafe.Pointer, size uint) (*TNpoint, error) {
-	r, err := TemporalFromWKB(wkb, size)
+func TNpointFromWKB(wkb []byte) (*TNpoint, error) {
+	r, err := TemporalFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}

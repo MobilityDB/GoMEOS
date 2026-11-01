@@ -123,8 +123,8 @@ func (x *TGeogPoint) S2cellSplit(level int32, border_inc bool, cells unsafe.Poin
 }
 
 // TGeogPointFromEWKB is the portable fromEWKB of MEOS temporal_from_wkb.
-func TGeogPointFromEWKB(wkb unsafe.Pointer, size uint) (*TGeogPoint, error) {
-	r, err := TemporalFromWKB(wkb, size)
+func TGeogPointFromEWKB(wkb []byte) (*TGeogPoint, error) {
+	r, err := TemporalFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}
@@ -168,8 +168,8 @@ func TGeogPointFromText(str string) (*TGeogPoint, error) {
 }
 
 // TGeogPointFromWKB is the portable fromWKB of MEOS temporal_from_wkb.
-func TGeogPointFromWKB(wkb unsafe.Pointer, size uint) (*TGeogPoint, error) {
-	r, err := TemporalFromWKB(wkb, size)
+func TGeogPointFromWKB(wkb []byte) (*TGeogPoint, error) {
+	r, err := TemporalFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}

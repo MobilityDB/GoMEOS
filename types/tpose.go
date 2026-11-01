@@ -399,8 +399,8 @@ func (x *TPose) MinusStbox(box *STBox, border_inc bool) (*Temporal, error) {
 }
 
 // TPoseFromEWKB is the portable fromEWKB of MEOS temporal_from_wkb.
-func TPoseFromEWKB(wkb unsafe.Pointer, size uint) (*TPose, error) {
-	r, err := TemporalFromWKB(wkb, size)
+func TPoseFromEWKB(wkb []byte) (*TPose, error) {
+	r, err := TemporalFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}
@@ -444,8 +444,8 @@ func TPoseFromText(str string) (*TPose, error) {
 }
 
 // TPoseFromWKB is the portable fromWKB of MEOS temporal_from_wkb.
-func TPoseFromWKB(wkb unsafe.Pointer, size uint) (*TPose, error) {
-	r, err := TemporalFromWKB(wkb, size)
+func TPoseFromWKB(wkb []byte) (*TPose, error) {
+	r, err := TemporalFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}

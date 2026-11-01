@@ -155,8 +155,8 @@ func BigIntSpanFromText(str string) (*BigIntSpan, error) {
 }
 
 // BigIntSpanFromWKB is the portable fromWKB of MEOS span_from_wkb.
-func BigIntSpanFromWKB(wkb unsafe.Pointer, size uint) (*BigIntSpan, error) {
-	r, err := SpanFromWKB(wkb, size)
+func BigIntSpanFromWKB(wkb []byte) (*BigIntSpan, error) {
+	r, err := SpanFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}

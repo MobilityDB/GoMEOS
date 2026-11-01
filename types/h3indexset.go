@@ -108,8 +108,8 @@ func (x *H3IndexSet) CoverCells(resolution int32) (*Set, error) {
 }
 
 // H3IndexSetFromEWKB is the portable fromEWKB of MEOS set_from_wkb.
-func H3IndexSetFromEWKB(wkb unsafe.Pointer, size uint) (*H3IndexSet, error) {
-	r, err := SetFromWKB(wkb, size)
+func H3IndexSetFromEWKB(wkb []byte) (*H3IndexSet, error) {
+	r, err := SetFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}
@@ -153,8 +153,8 @@ func H3IndexSetFromText(str string) (*H3IndexSet, error) {
 }
 
 // H3IndexSetFromWKB is the portable fromWKB of MEOS set_from_wkb.
-func H3IndexSetFromWKB(wkb unsafe.Pointer, size uint) (*H3IndexSet, error) {
-	r, err := SetFromWKB(wkb, size)
+func H3IndexSetFromWKB(wkb []byte) (*H3IndexSet, error) {
+	r, err := SetFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}

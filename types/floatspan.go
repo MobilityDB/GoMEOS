@@ -200,8 +200,8 @@ func FloatSpanFromText(str string) (*FloatSpan, error) {
 }
 
 // FloatSpanFromWKB is the portable fromWKB of MEOS span_from_wkb.
-func FloatSpanFromWKB(wkb unsafe.Pointer, size uint) (*FloatSpan, error) {
-	r, err := SpanFromWKB(wkb, size)
+func FloatSpanFromWKB(wkb []byte) (*FloatSpan, error) {
+	r, err := SpanFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}

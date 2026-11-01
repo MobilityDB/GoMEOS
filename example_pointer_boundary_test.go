@@ -27,7 +27,7 @@ func ExampleTemporalFromPointer() {
 	// 3 <nil> Sequence <nil>
 }
 
-func ExampleTemporal_Pointer() {
+func Example_temporalPointer() {
 	tb := NewTBoolSeq("{FALSE@2022-10-01, TRUE@2022-10-03}")
 	crossed := functions.TemporalFromPointer(unsafe.Pointer(tb.Inner()))
 

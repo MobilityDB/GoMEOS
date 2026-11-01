@@ -24,17 +24,19 @@ func STBoxFromPointer(p unsafe.Pointer) *STBox {
 }
 
 // AsEWKB is MEOS stbox_as_ewkb.
-func (x *STBox) AsEWKB(variant uint8, size_out unsafe.Pointer) (unsafe.Pointer, error) {
-	_r0, _err := functions.STBOXAsEWKB(functions.STBoxFromPointer(x.Pointer()), variant, size_out)
+func (x *STBox) AsEWKB(variant uint8) ([]byte, error) {
+	var _size uint64
+	_r0, _err := functions.STBOXAsEWKB(functions.STBoxFromPointer(x.Pointer()), variant, unsafe.Pointer(&_size))
 	if _err != nil {
 		return nil, _err
 	}
-	return _r0, nil
+	return functions.TakeBytes(_r0, _size), nil
 }
 
 // AsHexEWKB is MEOS stbox_as_hexewkb.
-func (x *STBox) AsHexEWKB(variant uint8, size_out unsafe.Pointer) (string, error) {
-	_r0, _err := functions.STBOXAsHexewkb(functions.STBoxFromPointer(x.Pointer()), variant, size_out)
+func (x *STBox) AsHexEWKB(variant uint8) (string, error) {
+	var _size uint64
+	_r0, _err := functions.STBOXAsHexewkb(functions.STBoxFromPointer(x.Pointer()), variant, unsafe.Pointer(&_size))
 	if _err != nil {
 		return "", _err
 	}
@@ -42,8 +44,9 @@ func (x *STBox) AsHexEWKB(variant uint8, size_out unsafe.Pointer) (string, error
 }
 
 // AsHexWKB is MEOS stbox_as_hexwkb.
-func (x *STBox) AsHexWKB(variant uint8, size_out unsafe.Pointer) (string, error) {
-	_r0, _err := functions.STBOXAsHexwkb(functions.STBoxFromPointer(x.Pointer()), variant, size_out)
+func (x *STBox) AsHexWKB(variant uint8) (string, error) {
+	var _size uint64
+	_r0, _err := functions.STBOXAsHexwkb(functions.STBoxFromPointer(x.Pointer()), variant, unsafe.Pointer(&_size))
 	if _err != nil {
 		return "", _err
 	}
@@ -51,12 +54,13 @@ func (x *STBox) AsHexWKB(variant uint8, size_out unsafe.Pointer) (string, error)
 }
 
 // AsWKB is MEOS stbox_as_wkb.
-func (x *STBox) AsWKB(variant uint8, size_out unsafe.Pointer) (unsafe.Pointer, error) {
-	_r0, _err := functions.STBOXAsWKB(functions.STBoxFromPointer(x.Pointer()), variant, size_out)
+func (x *STBox) AsWKB(variant uint8) ([]byte, error) {
+	var _size uint64
+	_r0, _err := functions.STBOXAsWKB(functions.STBoxFromPointer(x.Pointer()), variant, unsafe.Pointer(&_size))
 	if _err != nil {
 		return nil, _err
 	}
-	return _r0, nil
+	return functions.TakeBytes(_r0, _size), nil
 }
 
 // STBoxFromHexWKB is MEOS stbox_from_hexwkb.
@@ -69,8 +73,12 @@ func STBoxFromHexWKB(hexwkb string) (*STBox, error) {
 }
 
 // STBoxFromWKB is MEOS stbox_from_wkb.
-func STBoxFromWKB(wkb unsafe.Pointer, size uint) (*STBox, error) {
-	_r0, _err := functions.STBOXFromWKB(wkb, size)
+func STBoxFromWKB(wkb []byte) (*STBox, error) {
+	var _p_wkb unsafe.Pointer
+	if len(wkb) > 0 {
+		_p_wkb = unsafe.Pointer(&wkb[0])
+	}
+	_r0, _err := functions.STBOXFromWKB(_p_wkb, uint(len(wkb)))
 	if _err != nil {
 		return nil, _err
 	}
@@ -468,12 +476,13 @@ func (x *STBox) Ne(box2 *STBox) (bool, error) {
 }
 
 // Sortkey is MEOS stbox_sortkey.
-func (x *STBox) Sortkey(size unsafe.Pointer) (unsafe.Pointer, error) {
-	_r0, _err := functions.STBOXSortkey(functions.STBoxFromPointer(x.Pointer()), size)
+func (x *STBox) Sortkey() ([]byte, error) {
+	var _size uint64
+	_r0, _err := functions.STBOXSortkey(functions.STBoxFromPointer(x.Pointer()), unsafe.Pointer(&_size))
 	if _err != nil {
 		return nil, _err
 	}
-	return _r0, nil
+	return functions.TakeBytes(_r0, _size), nil
 }
 
 // SpatialDistance is MEOS stbox_spatial_distance.
@@ -504,8 +513,8 @@ func (x *STBox) SpaceTiles(xsize float64, ysize float64, zsize float64, sorigin 
 }
 
 // STBoxFromEWKB is the portable fromEWKB of MEOS stbox_from_wkb.
-func STBoxFromEWKB(wkb unsafe.Pointer, size uint) (*STBox, error) {
-	return STBoxFromWKB(wkb, size)
+func STBoxFromEWKB(wkb []byte) (*STBox, error) {
+	return STBoxFromWKB(wkb)
 }
 
 // STBoxFromHexEWKB is the portable fromHexEWKB of MEOS stbox_from_hexwkb.

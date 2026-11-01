@@ -372,8 +372,8 @@ func (x *TH3Index) EdgeLength() (*Temporal, error) {
 }
 
 // TH3IndexFromEWKB is the portable fromEWKB of MEOS temporal_from_wkb.
-func TH3IndexFromEWKB(wkb unsafe.Pointer, size uint) (*TH3Index, error) {
-	r, err := TemporalFromWKB(wkb, size)
+func TH3IndexFromEWKB(wkb []byte) (*TH3Index, error) {
+	r, err := TemporalFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}
@@ -417,8 +417,8 @@ func TH3IndexFromText(str string) (*TH3Index, error) {
 }
 
 // TH3IndexFromWKB is the portable fromWKB of MEOS temporal_from_wkb.
-func TH3IndexFromWKB(wkb unsafe.Pointer, size uint) (*TH3Index, error) {
-	r, err := TemporalFromWKB(wkb, size)
+func TH3IndexFromWKB(wkb []byte) (*TH3Index, error) {
+	r, err := TemporalFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}
