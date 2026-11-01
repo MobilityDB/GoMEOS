@@ -481,3 +481,27 @@ func (x *Pose) ToPosechain() (unsafe.Pointer, error) {
 	}
 	return _r0, nil
 }
+
+// PoseFromEWKB is the portable fromEWKB of MEOS pose_from_wkb.
+func PoseFromEWKB(wkb unsafe.Pointer, size uint) (*Pose, error) {
+	return PoseFromWKB(wkb, size)
+}
+
+// PoseFromEWKT is the portable fromEWKT of MEOS pose_from_text.
+func PoseFromEWKT(str string) (*Pose, error) {
+	return PoseFromText(str)
+}
+
+// PoseFromHexEWKB is the portable fromHexEWKB of MEOS pose_from_hexwkb.
+func PoseFromHexEWKB(hexwkb string) (*Pose, error) {
+	return PoseFromHexWKB(hexwkb)
+}
+
+// String is the text MEOS writes this value as, MEOS pose_as_text.
+func (x *Pose) String() string {
+	s, err := x.AsText(15)
+	if err != nil {
+		return "%!s(MEOS error: " + err.Error() + ")"
+	}
+	return s
+}

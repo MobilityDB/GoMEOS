@@ -76,3 +76,66 @@ func (x *PoseChainSet) Values(count unsafe.Pointer) (unsafe.Pointer, error) {
 	}
 	return _r0, nil
 }
+
+// PoseChainSetFromEWKB is the portable fromEWKB of MEOS set_from_wkb.
+func PoseChainSetFromEWKB(wkb unsafe.Pointer, size uint) (*PoseChainSet, error) {
+	r, err := SetFromWKB(wkb, size)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return PoseChainSetFromPointer(r.Pointer()), nil
+}
+
+// PoseChainSetFromEWKT is the portable fromEWKT of MEOS posechainset_in.
+func PoseChainSetFromEWKT(str string) (*PoseChainSet, error) {
+	r, err := PoseChainSetIn(str)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return PoseChainSetFromPointer(r.Pointer()), nil
+}
+
+// PoseChainSetFromHexEWKB is the portable fromHexEWKB of MEOS set_from_hexwkb.
+func PoseChainSetFromHexEWKB(hexwkb string) (*PoseChainSet, error) {
+	r, err := SetFromHexWKB(hexwkb)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return PoseChainSetFromPointer(r.Pointer()), nil
+}
+
+// PoseChainSetFromHexWKB is the portable fromHexWKB of MEOS set_from_hexwkb.
+func PoseChainSetFromHexWKB(hexwkb string) (*PoseChainSet, error) {
+	r, err := SetFromHexWKB(hexwkb)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return PoseChainSetFromPointer(r.Pointer()), nil
+}
+
+// PoseChainSetFromText is the portable fromText of MEOS posechainset_in.
+func PoseChainSetFromText(str string) (*PoseChainSet, error) {
+	r, err := PoseChainSetIn(str)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return PoseChainSetFromPointer(r.Pointer()), nil
+}
+
+// PoseChainSetFromWKB is the portable fromWKB of MEOS set_from_wkb.
+func PoseChainSetFromWKB(wkb unsafe.Pointer, size uint) (*PoseChainSet, error) {
+	r, err := SetFromWKB(wkb, size)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return PoseChainSetFromPointer(r.Pointer()), nil
+}
+
+// String is the text MEOS writes this value as, MEOS spatialset_as_text.
+func (x *PoseChainSet) String() string {
+	s, err := x.AsText(15)
+	if err != nil {
+		return "%!s(MEOS error: " + err.Error() + ")"
+	}
+	return s
+}

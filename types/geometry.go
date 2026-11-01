@@ -439,3 +439,18 @@ func GeometryTposeToTrgeometry(gs *TRGeometrySeqSet, temp *Temporal) (*Temporal,
 	}
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
+
+// GeometryFromEWKB is the portable fromEWKB of MEOS geo_from_ewkb.
+func GeometryFromEWKB(wkb unsafe.Pointer, wkb_size uint, srid int32) (*TRGeometrySeqSet, error) {
+	return GeoFromEWKB(wkb, wkb_size, srid)
+}
+
+// GeometryFromMFJSON is the portable fromMFJSON of MEOS geo_from_geojson.
+func GeometryFromMFJSON(geojson string) (*TRGeometrySeqSet, error) {
+	return GeoFromGeoJSON(geojson)
+}
+
+// GeometryFromText is the portable fromText of MEOS geo_from_text.
+func GeometryFromText(wkt string, srid int32) (*TRGeometrySeqSet, error) {
+	return GeoFromText(wkt, srid)
+}

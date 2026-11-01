@@ -271,3 +271,66 @@ func (x *TCbuffer) MinusStbox(box *STBox, border_inc bool) (*Temporal, error) {
 	}
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
+
+// TCbufferFromEWKB is the portable fromEWKB of MEOS temporal_from_wkb.
+func TCbufferFromEWKB(wkb unsafe.Pointer, size uint) (*TCbuffer, error) {
+	r, err := TemporalFromWKB(wkb, size)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TCbufferFromPointer(r.Pointer()), nil
+}
+
+// TCbufferFromEWKT is the portable fromEWKT of MEOS tcbuffer_in.
+func TCbufferFromEWKT(str string) (*TCbuffer, error) {
+	r, err := TCbufferIn(str)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TCbufferFromPointer(r.Pointer()), nil
+}
+
+// TCbufferFromHexEWKB is the portable fromHexEWKB of MEOS temporal_from_hexwkb.
+func TCbufferFromHexEWKB(hexwkb string) (*TCbuffer, error) {
+	r, err := TemporalFromHexWKB(hexwkb)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TCbufferFromPointer(r.Pointer()), nil
+}
+
+// TCbufferFromHexWKB is the portable fromHexWKB of MEOS temporal_from_hexwkb.
+func TCbufferFromHexWKB(hexwkb string) (*TCbuffer, error) {
+	r, err := TemporalFromHexWKB(hexwkb)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TCbufferFromPointer(r.Pointer()), nil
+}
+
+// TCbufferFromText is the portable fromText of MEOS tcbuffer_in.
+func TCbufferFromText(str string) (*TCbuffer, error) {
+	r, err := TCbufferIn(str)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TCbufferFromPointer(r.Pointer()), nil
+}
+
+// TCbufferFromWKB is the portable fromWKB of MEOS temporal_from_wkb.
+func TCbufferFromWKB(wkb unsafe.Pointer, size uint) (*TCbuffer, error) {
+	r, err := TemporalFromWKB(wkb, size)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TCbufferFromPointer(r.Pointer()), nil
+}
+
+// String is the text MEOS writes this value as, MEOS tspatial_as_text.
+func (x *TCbuffer) String() string {
+	s, err := x.AsText(15)
+	if err != nil {
+		return "%!s(MEOS error: " + err.Error() + ")"
+	}
+	return s
+}

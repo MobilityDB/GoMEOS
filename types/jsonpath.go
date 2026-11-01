@@ -58,3 +58,22 @@ func (x *JsonPath) Out() (string, error) {
 	}
 	return _r0, nil
 }
+
+// AsText is the portable asText of MEOS jsonpath_out.
+func (x *JsonPath) AsText() (string, error) {
+	return x.Out()
+}
+
+// JsonPathFromText is the portable fromText of MEOS jsonpath_in.
+func JsonPathFromText(str string) (*JsonPath, error) {
+	return JsonPathIn(str)
+}
+
+// String is the text MEOS writes this value as, MEOS jsonpath_out.
+func (x *JsonPath) String() string {
+	s, err := x.Out()
+	if err != nil {
+		return "%!s(MEOS error: " + err.Error() + ")"
+	}
+	return s
+}

@@ -331,3 +331,44 @@ func (x *JsonbSet) PathQueryFirst(jp *JsonPath, vars *Jsonb, silent bool, tz boo
 	}
 	return SetFromPointer(_r0.Pointer()), nil
 }
+
+// JsonbSetFromHexWKB is the portable fromHexWKB of MEOS set_from_hexwkb.
+func JsonbSetFromHexWKB(hexwkb string) (*JsonbSet, error) {
+	r, err := SetFromHexWKB(hexwkb)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return JsonbSetFromPointer(r.Pointer()), nil
+}
+
+// AsText is the portable asText of MEOS jsonbset_out.
+func (x *JsonbSet) AsText() (string, error) {
+	return x.Out()
+}
+
+// JsonbSetFromText is the portable fromText of MEOS jsonbset_in.
+func JsonbSetFromText(str string) (*JsonbSet, error) {
+	r, err := JsonbSetIn(str)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return JsonbSetFromPointer(r.Pointer()), nil
+}
+
+// JsonbSetFromWKB is the portable fromWKB of MEOS set_from_wkb.
+func JsonbSetFromWKB(wkb unsafe.Pointer, size uint) (*JsonbSet, error) {
+	r, err := SetFromWKB(wkb, size)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return JsonbSetFromPointer(r.Pointer()), nil
+}
+
+// String is the text MEOS writes this value as, MEOS jsonbset_out.
+func (x *JsonbSet) String() string {
+	s, err := x.Out()
+	if err != nil {
+		return "%!s(MEOS error: " + err.Error() + ")"
+	}
+	return s
+}

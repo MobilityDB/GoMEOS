@@ -37,6 +37,7 @@ import json
 import shutil
 import sys
 from collections import defaultdict
+from dataclasses import dataclass
 from pathlib import Path
 
 import codegen
@@ -109,12 +110,18 @@ class Model:
         self.functions = {f["name"]: f for f in idl["functions"]}
         self.parent: dict[str, str | None] = {}
         self.ctype: dict[str, str] = {}
+        self.meostype: dict[str, str] = {}      # class -> the MeosType it stands for
         self.wrap_root: dict[str, str] = {}
         self._build()
 
     def _build(self) -> None:
+        # A leaf naming one type stands for it, as #_build of MEOS.NET's
+        # tools/objectgen.py reads the lattice and the companions.
         for name, node in self.om["lattice"].items():
             self.parent[name] = node["parent"]
+            temptypes = node.get("temptypes") or []
+            if node.get("kind") == "leaf" and len(temptypes) == 1:
+                self.meostype[name] = temptypes[0]
 
         # The template subtypes are classes of their own, under the root.
         for value in self.om["axes"]["subtype"]["values"]:
@@ -127,6 +134,8 @@ class Model:
                 if name.startswith("_"):
                     continue
                 self.parent[name] = node["parent"]
+                if node.get("temptype"):
+                    self.meostype[name] = node["temptype"]
 
         # What a class's instances point to is the catalog's to say, so every class
         # takes the cType the model derives from MEOS's own signatures. A binding
@@ -181,11 +190,34 @@ class Model:
         return self.wrap_root.get(struct)
 
 
+@dataclass
+class Emitted:
+    """A method #method_for emitted: the C function behind it, its Go name, its
+    parameter declarations and names, its result clause, and whether it is a
+    method on the value or a function of the class."""
+    function: str
+    name: str
+    decl: list
+    args: list
+    result: str
+    instance: bool
+
+
 class Generator:
     def __init__(self, model: Model):
         self.m = model
         self.deferred: dict[str, list[str]] = defaultdict(list)
         self.emitted = 0
+        self.last: Emitted | None = None
+        # class -> {C function: instance method}, its ancestors' included, since
+        # an embedded parent passes its methods down.
+        self.class_functions: dict[str | None, dict[str, Emitted]] = {}
+        # C function -> function of a class, for every class emitted before.
+        self.static_functions: dict[str, Emitted] = {}
+        # class -> the text writer its String calls.
+        self.class_text_writer: dict[str | None, str | None] = {}
+        # Every function of the package, since Go keeps one name per package.
+        self.package_names: set[str] = set()
         # The Go handle each wrapper struct reaches the flat layer as, read from the
         # flat generator rather than restated: WRAPPER_TYPES is what decides it. Its
         # value carries the star and need not echo the struct -- GSERIALIZED reaches
@@ -345,13 +377,142 @@ class Generator:
                 if recv is not None else
                 f"func {name}({', '.join(decl)}) {result} {{")
         self.emitted += 1
+        # What #portable_methods and #string_method call it by.
+        self.last = Emitted(fname, name, decl, [d.split(" ", 1)[0] for d in decl],
+                            result, recv is not None)
         return f"// {name} is MEOS {fname}.\n{head}\n" + "\n".join(body) + "\n}\n"
+
+    # The portable spelling of each encoding the catalog's typeEncodings names,
+    # the SQL dialect's (asText, asEWKT, asWKB, asHexWKB, asEWKB, asHexEWKB,
+    # asMFJSON and their From readers), as #FORMAT_SPELLING of MEOS.NET's
+    # tools/objectgen.py spells them.
+    FORMAT_SPELLING = {"text": "Text", "ewkt": "EWKT", "wkb": "WKB",
+                       "hexwkb": "HexWKB", "ewkb": "EWKB", "hexewkb": "HexEWKB",
+                       "mfjson": "MFJSON"}
+
+    def encoding(self, cls: str) -> tuple[dict | None, str | None]:
+        """The typeEncodings entry of the class's C type and its SQL type name,
+        the MeosType without its T_, lower-cased, as meos_catalog.c names it."""
+        enc = self.m.idl.get("typeEncodings", {}).get(self.m.ctype.get(cls))
+        mt = self.m.meostype.get(cls)
+        return enc, (mt[2:].lower() if mt else None)
+
+    def portable_methods(self, cls: str, own: list, functions: dict) -> list[str]:
+        """The portable reader and writer of every encoding typeEncodings gives the
+        class's type, as #portable_methods of MEOS.NET's tools/objectgen.py emits
+        them: the function of the type's SQL name in readers/writers, else the C
+        type's decoders/encoders. Where the class or an ancestor has no method of
+        that name, As<Format> forwards to the method behind the writer and
+        <Class>From<Format> to the function behind the reader, so
+        TGeomPointFromEWKB is TemporalFromWKB, one function under two names as in
+        SQL."""
+        enc, sqltype = self.encoding(cls)
+        if not enc or not sqltype:
+            return []
+        taken = {e.name for e in own} | {e.name for e in functions.values()}
+        out = []
+        for e in enc.get("encodings", []):
+            spelling = self.FORMAT_SPELLING.get(e)
+            if not spelling:
+                continue
+            for verb, by_type, by_class in (("As", "writers", "encoders"),
+                                            ("From", "readers", "decoders")):
+                fn = (enc.get(by_type, {}).get(e, {}).get(sqltype)
+                      or enc.get(by_class, {}).get(e))
+                if not fn:
+                    continue
+                if verb == "As":
+                    target, name = functions.get(fn), verb + spelling
+                    call = f"x.{target.name}" if target else None
+                else:
+                    target, name = self.static_functions.get(fn), cls + verb + spelling
+                    call = target.name if target else None
+                if target is None or name in taken or name in self.package_names:
+                    continue
+                result, body = target.result, f"\treturn {call}({', '.join(target.args)})"
+                # A reader answers the class it reads: a function returning an
+                # ancestor (TemporalFromWKB answers *Temporal) is wrapped in this
+                # class, so TGeomPointFromEWKB answers a *TGeomPoint, nil kept nil.
+                answered = result[2:].split(",", 1)[0] if result.startswith("(*") else None
+                if (verb == "From" and answered and answered != cls
+                        and answered in self.m.ancestors(cls)):
+                    result = f"(*{cls}, error)"
+                    body = (f"\tr, err := {call}({', '.join(target.args)})\n"
+                            f"\tif err != nil || r == nil {{\n\t\treturn nil, err\n\t}}\n"
+                            f"\treturn {cls}FromPointer(r.Pointer()), nil")
+                head = (f"func (x *{cls}) {name}({', '.join(target.decl)}) {result}"
+                        if verb == "As" else
+                        f"func {name}({', '.join(target.decl)}) {result}")
+                out.append(f"// {name} is the portable {verb.lower()}{spelling} of "
+                           f"MEOS {fn}.\n{head} {{\n{body}\n}}\n")
+                taken.add(name)
+                if verb == "From":
+                    self.package_names.add(name)
+                self.emitted += 1
+        return out
+
+    def text_writer(self, cls: str) -> str | None:
+        """The text writer typeEncodings names for the class, as #text_writer of
+        MEOS.NET's tools/objectgen.py reads it: the writer of its SQL type, else
+        the text encoder of its C type, else, for a C type the catalog keeps out
+        of its codecs (text, which MEOS-API counts with the strings), the class's
+        own *_out."""
+        enc, sqltype = self.encoding(cls)
+        if enc is None:
+            return next((f for f in self.class_functions.get(cls, {})
+                         if f.endswith("_out")), None)
+        if sqltype:
+            writer = enc.get("writers", {}).get("text", {}).get(sqltype)
+            if writer:
+                return writer
+        return enc.get("encoders", {}).get("text")
+
+    def string_method(self, cls: str, functions: dict) -> list[str]:
+        """String over the text writer #text_writer names, the function behind the
+        SQL asText of the type (rule 2 of the bindings in the I/O plan, MobilityDB
+        #3353): AsText for a spatial value, which writes its points as WKT, and
+        Out for the others; a class writing what it inherits emits none. A Go
+        String answers no error, so a MEOS error is written as fmt writes a
+        failure, %!s(MEOS error: ...), never as an empty string."""
+        inherited = self.class_text_writer.get(self.m.parent.get(cls))
+        writer = self.text_writer(cls) or inherited
+        self.class_text_writer[cls] = writer
+        if writer is None or writer == inherited:
+            return []
+        target = functions.get(writer)
+        if target is None or target.result != "(string, error)":
+            return []
+        args = []
+        if target.decl:
+            if [d.split(" ", 1)[1] for d in target.decl] != ["int"]:
+                return []
+            digits = self.default_digits(cls)
+            if digits is None:
+                return []
+            args = [str(digits)]
+        return [f"// String is the text MEOS writes this value as, MEOS {writer}.\n"
+                f"func (x *{cls}) String() string {{\n"
+                f"\ts, err := x.{target.name}({', '.join(args)})\n"
+                f"\tif err != nil {{\n\t\treturn \"%!s(MEOS error: \" + err.Error() + \")\"\n\t}}\n"
+                f"\treturn s\n}}\n"]
+
+    def default_digits(self, cls: str) -> int | None:
+        """The digits a text writer takes by default: the text encoding's own,
+        else MEOS's OUT_DEFAULT_DECIMAL_DIGITS, as MEOS.NET's ToString reads them."""
+        enc, _ = self.encoding(cls)
+        aux = {a["name"]: a["default"]
+               for a in (enc or {}).get("encoderAux", {}).get("text", [])
+               or (enc or {}).get("out_aux", [])}
+        if "maxdd" in aux:
+            return aux["maxdd"]
+        return next((m.get("value") for m in self.m.idl.get("macros", [])
+                     if m.get("name") == "OUT_DEFAULT_DECIMAL_DIGITS"), None)
 
     def emit_class(self, cls: str) -> str:
         spec = self.m.om["classes"].get(cls) or {"methods": []}
         parent = self.m.parent.get(cls)
 
-        methods, seen = [], set()
+        methods, seen, own = [], set(), []
         for entry in spec["methods"]:
             if entry.get("ooExclude"):
                 continue
@@ -363,6 +524,15 @@ class Generator:
                 continue
             seen.add(head)
             methods.append(code)
+            own.append(self.last)
+
+        functions = dict(self.class_functions.get(parent, {}))
+        functions.update({e.function: e for e in own if e.instance})
+        self.class_functions[cls] = functions
+        self.static_functions.update({e.function: e for e in own if not e.instance})
+        self.package_names |= {e.name for e in own if not e.instance}
+        methods += self.portable_methods(cls, own, functions)
+        methods += self.string_method(cls, functions)
 
         uses_functions = any("functions." in m for m in methods)
         imports = ['\t"unsafe"']
@@ -432,7 +602,9 @@ def main() -> int:
         shutil.rmtree(out_dir)
     out_dir.mkdir(parents=True)
     (out_dir / "meos.go").write_text(gen.base_file())
-    for cls in model.classes():
+    # A parent before its children, so a class reaches the methods its ancestors
+    # emit (#emit_class reads them for String and the portable forms).
+    for cls in sorted(model.classes(), key=lambda c: (model.depth(c), c)):
         (out_dir / f"{cls.lower()}.go").write_text(gen.emit_class(cls))
 
     total_deferred = sum(len(v) for v in gen.deferred.values())

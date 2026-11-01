@@ -397,3 +397,66 @@ func (x *TPose) MinusStbox(box *STBox, border_inc bool) (*Temporal, error) {
 	}
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
+
+// TPoseFromEWKB is the portable fromEWKB of MEOS temporal_from_wkb.
+func TPoseFromEWKB(wkb unsafe.Pointer, size uint) (*TPose, error) {
+	r, err := TemporalFromWKB(wkb, size)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TPoseFromPointer(r.Pointer()), nil
+}
+
+// TPoseFromEWKT is the portable fromEWKT of MEOS tpose_in.
+func TPoseFromEWKT(str string) (*TPose, error) {
+	r, err := TPoseIn(str)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TPoseFromPointer(r.Pointer()), nil
+}
+
+// TPoseFromHexEWKB is the portable fromHexEWKB of MEOS temporal_from_hexwkb.
+func TPoseFromHexEWKB(hexwkb string) (*TPose, error) {
+	r, err := TemporalFromHexWKB(hexwkb)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TPoseFromPointer(r.Pointer()), nil
+}
+
+// TPoseFromHexWKB is the portable fromHexWKB of MEOS temporal_from_hexwkb.
+func TPoseFromHexWKB(hexwkb string) (*TPose, error) {
+	r, err := TemporalFromHexWKB(hexwkb)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TPoseFromPointer(r.Pointer()), nil
+}
+
+// TPoseFromText is the portable fromText of MEOS tpose_in.
+func TPoseFromText(str string) (*TPose, error) {
+	r, err := TPoseIn(str)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TPoseFromPointer(r.Pointer()), nil
+}
+
+// TPoseFromWKB is the portable fromWKB of MEOS temporal_from_wkb.
+func TPoseFromWKB(wkb unsafe.Pointer, size uint) (*TPose, error) {
+	r, err := TemporalFromWKB(wkb, size)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TPoseFromPointer(r.Pointer()), nil
+}
+
+// String is the text MEOS writes this value as, MEOS tspatial_as_text.
+func (x *TPose) String() string {
+	s, err := x.AsText(15)
+	if err != nil {
+		return "%!s(MEOS error: " + err.Error() + ")"
+	}
+	return s
+}

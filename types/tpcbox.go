@@ -385,3 +385,32 @@ func (x *TPCBox) Ge(box2 *TPCBox) (bool, error) {
 	}
 	return _r0, nil
 }
+
+// TPCBoxFromEWKB is the portable fromEWKB of MEOS tpcbox_from_wkb.
+func TPCBoxFromEWKB(wkb unsafe.Pointer, size uint) (*TPCBox, error) {
+	return TPCBoxFromWKB(wkb, size)
+}
+
+// TPCBoxFromHexEWKB is the portable fromHexEWKB of MEOS tpcbox_from_hexwkb.
+func TPCBoxFromHexEWKB(hexwkb string) (*TPCBox, error) {
+	return TPCBoxFromHexWKB(hexwkb)
+}
+
+// AsText is the portable asText of MEOS tpcbox_out.
+func (x *TPCBox) AsText(maxdd int) (string, error) {
+	return x.Out(maxdd)
+}
+
+// TPCBoxFromText is the portable fromText of MEOS tpcbox_in.
+func TPCBoxFromText(str string) (*TPCBox, error) {
+	return TPCBoxIn(str)
+}
+
+// String is the text MEOS writes this value as, MEOS tpcbox_out.
+func (x *TPCBox) String() string {
+	s, err := x.Out(15)
+	if err != nil {
+		return "%!s(MEOS error: " + err.Error() + ")"
+	}
+	return s
+}

@@ -382,3 +382,23 @@ func PoseChainToSet(pc unsafe.Pointer) (*Set, error) {
 	}
 	return SetFromPointer(_r0.Pointer()), nil
 }
+
+// PoseChainFromEWKB is the portable fromEWKB of MEOS posechain_from_wkb.
+func PoseChainFromEWKB(wkb unsafe.Pointer, size uint) (unsafe.Pointer, error) {
+	return PoseChainFromWKB(wkb, size)
+}
+
+// PoseChainFromEWKT is the portable fromEWKT of MEOS posechain_in.
+func PoseChainFromEWKT(str string) (unsafe.Pointer, error) {
+	return PoseChainIn(str)
+}
+
+// PoseChainFromHexEWKB is the portable fromHexEWKB of MEOS posechain_from_hexwkb.
+func PoseChainFromHexEWKB(hexwkb string) (unsafe.Pointer, error) {
+	return PoseChainFromHexWKB(hexwkb)
+}
+
+// PoseChainFromText is the portable fromText of MEOS posechain_in.
+func PoseChainFromText(str string) (unsafe.Pointer, error) {
+	return PoseChainIn(str)
+}

@@ -235,3 +235,44 @@ func (x *TInt) ValueSplit(vsize int, vorigin int, border_inc bool, bins unsafe.P
 	}
 	return _r0, nil
 }
+
+// TIntFromHexWKB is the portable fromHexWKB of MEOS temporal_from_hexwkb.
+func TIntFromHexWKB(hexwkb string) (*TInt, error) {
+	r, err := TemporalFromHexWKB(hexwkb)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TIntFromPointer(r.Pointer()), nil
+}
+
+// AsText is the portable asText of MEOS tint_out.
+func (x *TInt) AsText() (string, error) {
+	return x.Out()
+}
+
+// TIntFromText is the portable fromText of MEOS tint_in.
+func TIntFromText(str string) (*TInt, error) {
+	r, err := TIntIn(str)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TIntFromPointer(r.Pointer()), nil
+}
+
+// TIntFromWKB is the portable fromWKB of MEOS temporal_from_wkb.
+func TIntFromWKB(wkb unsafe.Pointer, size uint) (*TInt, error) {
+	r, err := TemporalFromWKB(wkb, size)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TIntFromPointer(r.Pointer()), nil
+}
+
+// String is the text MEOS writes this value as, MEOS tint_out.
+func (x *TInt) String() string {
+	s, err := x.Out()
+	if err != nil {
+		return "%!s(MEOS error: " + err.Error() + ")"
+	}
+	return s
+}

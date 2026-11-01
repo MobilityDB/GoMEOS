@@ -97,3 +97,44 @@ func (x *BigIntSet) ShiftScale(shift int64, width int64, hasshift bool, haswidth
 	}
 	return SetFromPointer(_r0.Pointer()), nil
 }
+
+// BigIntSetFromHexWKB is the portable fromHexWKB of MEOS set_from_hexwkb.
+func BigIntSetFromHexWKB(hexwkb string) (*BigIntSet, error) {
+	r, err := SetFromHexWKB(hexwkb)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return BigIntSetFromPointer(r.Pointer()), nil
+}
+
+// AsText is the portable asText of MEOS bigintset_out.
+func (x *BigIntSet) AsText() (string, error) {
+	return x.Out()
+}
+
+// BigIntSetFromText is the portable fromText of MEOS bigintset_in.
+func BigIntSetFromText(str string) (*BigIntSet, error) {
+	r, err := BigIntSetIn(str)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return BigIntSetFromPointer(r.Pointer()), nil
+}
+
+// BigIntSetFromWKB is the portable fromWKB of MEOS set_from_wkb.
+func BigIntSetFromWKB(wkb unsafe.Pointer, size uint) (*BigIntSet, error) {
+	r, err := SetFromWKB(wkb, size)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return BigIntSetFromPointer(r.Pointer()), nil
+}
+
+// String is the text MEOS writes this value as, MEOS bigintset_out.
+func (x *BigIntSet) String() string {
+	s, err := x.Out()
+	if err != nil {
+		return "%!s(MEOS error: " + err.Error() + ")"
+	}
+	return s
+}

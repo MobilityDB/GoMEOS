@@ -181,3 +181,66 @@ func (x *TQuadbin) GridDistance(dest *Temporal) (*Temporal, error) {
 	}
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
+
+// TQuadbinFromEWKB is the portable fromEWKB of MEOS temporal_from_wkb.
+func TQuadbinFromEWKB(wkb unsafe.Pointer, size uint) (*TQuadbin, error) {
+	r, err := TemporalFromWKB(wkb, size)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TQuadbinFromPointer(r.Pointer()), nil
+}
+
+// TQuadbinFromEWKT is the portable fromEWKT of MEOS tquadbin_in.
+func TQuadbinFromEWKT(str string) (*TQuadbin, error) {
+	r, err := TQuadbinIn(str)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TQuadbinFromPointer(r.Pointer()), nil
+}
+
+// TQuadbinFromHexEWKB is the portable fromHexEWKB of MEOS temporal_from_hexwkb.
+func TQuadbinFromHexEWKB(hexwkb string) (*TQuadbin, error) {
+	r, err := TemporalFromHexWKB(hexwkb)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TQuadbinFromPointer(r.Pointer()), nil
+}
+
+// TQuadbinFromHexWKB is the portable fromHexWKB of MEOS temporal_from_hexwkb.
+func TQuadbinFromHexWKB(hexwkb string) (*TQuadbin, error) {
+	r, err := TemporalFromHexWKB(hexwkb)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TQuadbinFromPointer(r.Pointer()), nil
+}
+
+// TQuadbinFromText is the portable fromText of MEOS tquadbin_in.
+func TQuadbinFromText(str string) (*TQuadbin, error) {
+	r, err := TQuadbinIn(str)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TQuadbinFromPointer(r.Pointer()), nil
+}
+
+// TQuadbinFromWKB is the portable fromWKB of MEOS temporal_from_wkb.
+func TQuadbinFromWKB(wkb unsafe.Pointer, size uint) (*TQuadbin, error) {
+	r, err := TemporalFromWKB(wkb, size)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TQuadbinFromPointer(r.Pointer()), nil
+}
+
+// String is the text MEOS writes this value as, MEOS tquadbin_out.
+func (x *TQuadbin) String() string {
+	s, err := x.Out()
+	if err != nil {
+		return "%!s(MEOS error: " + err.Error() + ")"
+	}
+	return s
+}

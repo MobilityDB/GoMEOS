@@ -190,3 +190,66 @@ func (x *TPcpatch) Npoints() (int64, error) {
 	}
 	return _r0, nil
 }
+
+// TPcpatchFromEWKB is the portable fromEWKB of MEOS temporal_from_wkb.
+func TPcpatchFromEWKB(wkb unsafe.Pointer, size uint) (*TPcpatch, error) {
+	r, err := TemporalFromWKB(wkb, size)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TPcpatchFromPointer(r.Pointer()), nil
+}
+
+// TPcpatchFromEWKT is the portable fromEWKT of MEOS tpcpatch_in.
+func TPcpatchFromEWKT(str string) (*TPcpatch, error) {
+	r, err := TPcpatchIn(str)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TPcpatchFromPointer(r.Pointer()), nil
+}
+
+// TPcpatchFromHexEWKB is the portable fromHexEWKB of MEOS temporal_from_hexwkb.
+func TPcpatchFromHexEWKB(hexwkb string) (*TPcpatch, error) {
+	r, err := TemporalFromHexWKB(hexwkb)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TPcpatchFromPointer(r.Pointer()), nil
+}
+
+// TPcpatchFromHexWKB is the portable fromHexWKB of MEOS temporal_from_hexwkb.
+func TPcpatchFromHexWKB(hexwkb string) (*TPcpatch, error) {
+	r, err := TemporalFromHexWKB(hexwkb)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TPcpatchFromPointer(r.Pointer()), nil
+}
+
+// TPcpatchFromText is the portable fromText of MEOS tpcpatch_in.
+func TPcpatchFromText(str string) (*TPcpatch, error) {
+	r, err := TPcpatchIn(str)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TPcpatchFromPointer(r.Pointer()), nil
+}
+
+// TPcpatchFromWKB is the portable fromWKB of MEOS temporal_from_wkb.
+func TPcpatchFromWKB(wkb unsafe.Pointer, size uint) (*TPcpatch, error) {
+	r, err := TemporalFromWKB(wkb, size)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TPcpatchFromPointer(r.Pointer()), nil
+}
+
+// String is the text MEOS writes this value as, MEOS tpcpatch_out.
+func (x *TPcpatch) String() string {
+	s, err := x.Out()
+	if err != nil {
+		return "%!s(MEOS error: " + err.Error() + ")"
+	}
+	return s
+}

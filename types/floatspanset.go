@@ -139,3 +139,44 @@ func (x *FloatSpanSet) Bins(vsize float64, vorigin float64, border_inc bool, cou
 	}
 	return SpanFromPointer(_r0.Pointer()), nil
 }
+
+// FloatSpanSetFromHexWKB is the portable fromHexWKB of MEOS spanset_from_hexwkb.
+func FloatSpanSetFromHexWKB(hexwkb string) (*FloatSpanSet, error) {
+	r, err := SpanSetFromHexWKB(hexwkb)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return FloatSpanSetFromPointer(r.Pointer()), nil
+}
+
+// AsText is the portable asText of MEOS floatspanset_out.
+func (x *FloatSpanSet) AsText(maxdd int) (string, error) {
+	return x.Out(maxdd)
+}
+
+// FloatSpanSetFromText is the portable fromText of MEOS floatspanset_in.
+func FloatSpanSetFromText(str string) (*FloatSpanSet, error) {
+	r, err := FloatSpanSetIn(str)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return FloatSpanSetFromPointer(r.Pointer()), nil
+}
+
+// FloatSpanSetFromWKB is the portable fromWKB of MEOS spanset_from_wkb.
+func FloatSpanSetFromWKB(wkb unsafe.Pointer, size uint) (*FloatSpanSet, error) {
+	r, err := SpanSetFromWKB(wkb, size)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return FloatSpanSetFromPointer(r.Pointer()), nil
+}
+
+// String is the text MEOS writes this value as, MEOS floatspanset_out.
+func (x *FloatSpanSet) String() string {
+	s, err := x.Out(15)
+	if err != nil {
+		return "%!s(MEOS error: " + err.Error() + ")"
+	}
+	return s
+}

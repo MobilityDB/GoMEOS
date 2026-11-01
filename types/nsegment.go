@@ -256,3 +256,32 @@ func (x *Nsegment) Ne(ns2 *Nsegment) (bool, error) {
 	}
 	return _r0, nil
 }
+
+// NsegmentFromEWKB is the portable fromEWKB of MEOS nsegment_from_wkb.
+func NsegmentFromEWKB(wkb unsafe.Pointer, size uint) (*Nsegment, error) {
+	return NsegmentFromWKB(wkb, size)
+}
+
+// NsegmentFromEWKT is the portable fromEWKT of MEOS nsegment_in.
+func NsegmentFromEWKT(str string) (*Nsegment, error) {
+	return NsegmentIn(str)
+}
+
+// NsegmentFromHexEWKB is the portable fromHexEWKB of MEOS nsegment_from_hexwkb.
+func NsegmentFromHexEWKB(hexwkb string) (*Nsegment, error) {
+	return NsegmentFromHexWKB(hexwkb)
+}
+
+// NsegmentFromText is the portable fromText of MEOS nsegment_in.
+func NsegmentFromText(str string) (*Nsegment, error) {
+	return NsegmentIn(str)
+}
+
+// String is the text MEOS writes this value as, MEOS nsegment_as_text.
+func (x *Nsegment) String() string {
+	s, err := x.AsText(15)
+	if err != nil {
+		return "%!s(MEOS error: " + err.Error() + ")"
+	}
+	return s
+}

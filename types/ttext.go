@@ -199,3 +199,44 @@ func (x *TText) ToTjsonb() (*Temporal, error) {
 	}
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
+
+// TTextFromHexWKB is the portable fromHexWKB of MEOS temporal_from_hexwkb.
+func TTextFromHexWKB(hexwkb string) (*TText, error) {
+	r, err := TemporalFromHexWKB(hexwkb)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TTextFromPointer(r.Pointer()), nil
+}
+
+// AsText is the portable asText of MEOS ttext_out.
+func (x *TText) AsText() (string, error) {
+	return x.Out()
+}
+
+// TTextFromText is the portable fromText of MEOS ttext_in.
+func TTextFromText(str string) (*TText, error) {
+	r, err := TTextIn(str)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TTextFromPointer(r.Pointer()), nil
+}
+
+// TTextFromWKB is the portable fromWKB of MEOS temporal_from_wkb.
+func TTextFromWKB(wkb unsafe.Pointer, size uint) (*TText, error) {
+	r, err := TemporalFromWKB(wkb, size)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TTextFromPointer(r.Pointer()), nil
+}
+
+// String is the text MEOS writes this value as, MEOS ttext_out.
+func (x *TText) String() string {
+	s, err := x.Out()
+	if err != nil {
+		return "%!s(MEOS error: " + err.Error() + ")"
+	}
+	return s
+}

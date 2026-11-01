@@ -94,3 +94,44 @@ func (x *IntSpanSet) Bins(vsize int, vorigin int, border_inc bool, count unsafe.
 	}
 	return SpanFromPointer(_r0.Pointer()), nil
 }
+
+// IntSpanSetFromHexWKB is the portable fromHexWKB of MEOS spanset_from_hexwkb.
+func IntSpanSetFromHexWKB(hexwkb string) (*IntSpanSet, error) {
+	r, err := SpanSetFromHexWKB(hexwkb)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return IntSpanSetFromPointer(r.Pointer()), nil
+}
+
+// AsText is the portable asText of MEOS intspanset_out.
+func (x *IntSpanSet) AsText() (string, error) {
+	return x.Out()
+}
+
+// IntSpanSetFromText is the portable fromText of MEOS intspanset_in.
+func IntSpanSetFromText(str string) (*IntSpanSet, error) {
+	r, err := IntSpanSetIn(str)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return IntSpanSetFromPointer(r.Pointer()), nil
+}
+
+// IntSpanSetFromWKB is the portable fromWKB of MEOS spanset_from_wkb.
+func IntSpanSetFromWKB(wkb unsafe.Pointer, size uint) (*IntSpanSet, error) {
+	r, err := SpanSetFromWKB(wkb, size)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return IntSpanSetFromPointer(r.Pointer()), nil
+}
+
+// String is the text MEOS writes this value as, MEOS intspanset_out.
+func (x *IntSpanSet) String() string {
+	s, err := x.Out()
+	if err != nil {
+		return "%!s(MEOS error: " + err.Error() + ")"
+	}
+	return s
+}

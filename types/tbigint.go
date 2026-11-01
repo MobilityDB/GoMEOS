@@ -262,3 +262,44 @@ func (x *TBigint) ToTs2cell() (*Temporal, error) {
 	}
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
+
+// TBigintFromHexWKB is the portable fromHexWKB of MEOS temporal_from_hexwkb.
+func TBigintFromHexWKB(hexwkb string) (*TBigint, error) {
+	r, err := TemporalFromHexWKB(hexwkb)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TBigintFromPointer(r.Pointer()), nil
+}
+
+// AsText is the portable asText of MEOS tbigint_out.
+func (x *TBigint) AsText() (string, error) {
+	return x.Out()
+}
+
+// TBigintFromText is the portable fromText of MEOS tbigint_in.
+func TBigintFromText(str string) (*TBigint, error) {
+	r, err := TBigintIn(str)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TBigintFromPointer(r.Pointer()), nil
+}
+
+// TBigintFromWKB is the portable fromWKB of MEOS temporal_from_wkb.
+func TBigintFromWKB(wkb unsafe.Pointer, size uint) (*TBigint, error) {
+	r, err := TemporalFromWKB(wkb, size)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TBigintFromPointer(r.Pointer()), nil
+}
+
+// String is the text MEOS writes this value as, MEOS tbigint_out.
+func (x *TBigint) String() string {
+	s, err := x.Out()
+	if err != nil {
+		return "%!s(MEOS error: " + err.Error() + ")"
+	}
+	return s
+}

@@ -115,3 +115,66 @@ func (x *S2CellSet) Values(count unsafe.Pointer) (unsafe.Pointer, error) {
 	}
 	return _r0, nil
 }
+
+// S2CellSetFromEWKB is the portable fromEWKB of MEOS set_from_wkb.
+func S2CellSetFromEWKB(wkb unsafe.Pointer, size uint) (*S2CellSet, error) {
+	r, err := SetFromWKB(wkb, size)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return S2CellSetFromPointer(r.Pointer()), nil
+}
+
+// S2CellSetFromEWKT is the portable fromEWKT of MEOS s2cellset_in.
+func S2CellSetFromEWKT(str string) (*S2CellSet, error) {
+	r, err := S2CellSetIn(str)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return S2CellSetFromPointer(r.Pointer()), nil
+}
+
+// S2CellSetFromHexEWKB is the portable fromHexEWKB of MEOS set_from_hexwkb.
+func S2CellSetFromHexEWKB(hexwkb string) (*S2CellSet, error) {
+	r, err := SetFromHexWKB(hexwkb)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return S2CellSetFromPointer(r.Pointer()), nil
+}
+
+// S2CellSetFromHexWKB is the portable fromHexWKB of MEOS set_from_hexwkb.
+func S2CellSetFromHexWKB(hexwkb string) (*S2CellSet, error) {
+	r, err := SetFromHexWKB(hexwkb)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return S2CellSetFromPointer(r.Pointer()), nil
+}
+
+// S2CellSetFromText is the portable fromText of MEOS s2cellset_in.
+func S2CellSetFromText(str string) (*S2CellSet, error) {
+	r, err := S2CellSetIn(str)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return S2CellSetFromPointer(r.Pointer()), nil
+}
+
+// S2CellSetFromWKB is the portable fromWKB of MEOS set_from_wkb.
+func S2CellSetFromWKB(wkb unsafe.Pointer, size uint) (*S2CellSet, error) {
+	r, err := SetFromWKB(wkb, size)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return S2CellSetFromPointer(r.Pointer()), nil
+}
+
+// String is the text MEOS writes this value as, MEOS s2cellset_out.
+func (x *S2CellSet) String() string {
+	s, err := x.Out()
+	if err != nil {
+		return "%!s(MEOS error: " + err.Error() + ")"
+	}
+	return s
+}

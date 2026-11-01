@@ -238,3 +238,22 @@ func (x *Pcpatch) ToTpcbox() (*TPCBox, error) {
 	}
 	return TPCBoxFromPointer(_r0.Pointer()), nil
 }
+
+// AsText is the portable asText of MEOS pcpatch_hex_out.
+func (x *Pcpatch) AsText(maxdd int) (string, error) {
+	return x.HexOut(maxdd)
+}
+
+// PcpatchFromText is the portable fromText of MEOS pcpatch_hex_in.
+func PcpatchFromText(str string) (*Pcpatch, error) {
+	return PcpatchHexIn(str)
+}
+
+// String is the text MEOS writes this value as, MEOS pcpatch_hex_out.
+func (x *Pcpatch) String() string {
+	s, err := x.HexOut(15)
+	if err != nil {
+		return "%!s(MEOS error: " + err.Error() + ")"
+	}
+	return s
+}

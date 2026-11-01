@@ -442,3 +442,44 @@ func (x *TJsonb) MinusValue(jsb *Jsonb) (*Temporal, error) {
 	}
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
+
+// TJsonbFromHexWKB is the portable fromHexWKB of MEOS temporal_from_hexwkb.
+func TJsonbFromHexWKB(hexwkb string) (*TJsonb, error) {
+	r, err := TemporalFromHexWKB(hexwkb)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TJsonbFromPointer(r.Pointer()), nil
+}
+
+// AsText is the portable asText of MEOS tjsonb_out.
+func (x *TJsonb) AsText() (string, error) {
+	return x.Out()
+}
+
+// TJsonbFromText is the portable fromText of MEOS tjsonb_in.
+func TJsonbFromText(str string) (*TJsonb, error) {
+	r, err := TJsonbIn(str)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TJsonbFromPointer(r.Pointer()), nil
+}
+
+// TJsonbFromWKB is the portable fromWKB of MEOS temporal_from_wkb.
+func TJsonbFromWKB(wkb unsafe.Pointer, size uint) (*TJsonb, error) {
+	r, err := TemporalFromWKB(wkb, size)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TJsonbFromPointer(r.Pointer()), nil
+}
+
+// String is the text MEOS writes this value as, MEOS tjsonb_out.
+func (x *TJsonb) String() string {
+	s, err := x.Out()
+	if err != nil {
+		return "%!s(MEOS error: " + err.Error() + ")"
+	}
+	return s
+}

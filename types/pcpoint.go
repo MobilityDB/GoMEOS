@@ -229,3 +229,22 @@ func (x *Pcpoint) ToSet() (*Set, error) {
 	}
 	return SetFromPointer(_r0.Pointer()), nil
 }
+
+// AsText is the portable asText of MEOS pcpoint_hex_out.
+func (x *Pcpoint) AsText(maxdd int) (string, error) {
+	return x.HexOut(maxdd)
+}
+
+// PcpointFromText is the portable fromText of MEOS pcpoint_hex_in.
+func PcpointFromText(str string) (*Pcpoint, error) {
+	return PcpointHexIn(str)
+}
+
+// String is the text MEOS writes this value as, MEOS pcpoint_hex_out.
+func (x *Pcpoint) String() string {
+	s, err := x.HexOut(15)
+	if err != nil {
+		return "%!s(MEOS error: " + err.Error() + ")"
+	}
+	return s
+}

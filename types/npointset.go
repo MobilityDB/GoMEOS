@@ -97,3 +97,66 @@ func (x *NpointSet) Values(count unsafe.Pointer) (unsafe.Pointer, error) {
 	}
 	return _r0, nil
 }
+
+// NpointSetFromEWKB is the portable fromEWKB of MEOS set_from_wkb.
+func NpointSetFromEWKB(wkb unsafe.Pointer, size uint) (*NpointSet, error) {
+	r, err := SetFromWKB(wkb, size)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return NpointSetFromPointer(r.Pointer()), nil
+}
+
+// NpointSetFromEWKT is the portable fromEWKT of MEOS npointset_in.
+func NpointSetFromEWKT(str string) (*NpointSet, error) {
+	r, err := NpointSetIn(str)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return NpointSetFromPointer(r.Pointer()), nil
+}
+
+// NpointSetFromHexEWKB is the portable fromHexEWKB of MEOS set_from_hexwkb.
+func NpointSetFromHexEWKB(hexwkb string) (*NpointSet, error) {
+	r, err := SetFromHexWKB(hexwkb)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return NpointSetFromPointer(r.Pointer()), nil
+}
+
+// NpointSetFromHexWKB is the portable fromHexWKB of MEOS set_from_hexwkb.
+func NpointSetFromHexWKB(hexwkb string) (*NpointSet, error) {
+	r, err := SetFromHexWKB(hexwkb)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return NpointSetFromPointer(r.Pointer()), nil
+}
+
+// NpointSetFromText is the portable fromText of MEOS npointset_in.
+func NpointSetFromText(str string) (*NpointSet, error) {
+	r, err := NpointSetIn(str)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return NpointSetFromPointer(r.Pointer()), nil
+}
+
+// NpointSetFromWKB is the portable fromWKB of MEOS set_from_wkb.
+func NpointSetFromWKB(wkb unsafe.Pointer, size uint) (*NpointSet, error) {
+	r, err := SetFromWKB(wkb, size)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return NpointSetFromPointer(r.Pointer()), nil
+}
+
+// String is the text MEOS writes this value as, MEOS spatialset_as_text.
+func (x *NpointSet) String() string {
+	s, err := x.AsText(15)
+	if err != nil {
+		return "%!s(MEOS error: " + err.Error() + ")"
+	}
+	return s
+}

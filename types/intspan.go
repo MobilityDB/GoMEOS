@@ -130,3 +130,44 @@ func IntSpanGetBin(value int, vsize int, vorigin int) (*Span, error) {
 	}
 	return SpanFromPointer(_r0.Pointer()), nil
 }
+
+// IntSpanFromHexWKB is the portable fromHexWKB of MEOS span_from_hexwkb.
+func IntSpanFromHexWKB(hexwkb string) (*IntSpan, error) {
+	r, err := SpanFromHexWKB(hexwkb)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return IntSpanFromPointer(r.Pointer()), nil
+}
+
+// AsText is the portable asText of MEOS intspan_out.
+func (x *IntSpan) AsText() (string, error) {
+	return x.Out()
+}
+
+// IntSpanFromText is the portable fromText of MEOS intspan_in.
+func IntSpanFromText(str string) (*IntSpan, error) {
+	r, err := IntSpanIn(str)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return IntSpanFromPointer(r.Pointer()), nil
+}
+
+// IntSpanFromWKB is the portable fromWKB of MEOS span_from_wkb.
+func IntSpanFromWKB(wkb unsafe.Pointer, size uint) (*IntSpan, error) {
+	r, err := SpanFromWKB(wkb, size)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return IntSpanFromPointer(r.Pointer()), nil
+}
+
+// String is the text MEOS writes this value as, MEOS intspan_out.
+func (x *IntSpan) String() string {
+	s, err := x.Out()
+	if err != nil {
+		return "%!s(MEOS error: " + err.Error() + ")"
+	}
+	return s
+}

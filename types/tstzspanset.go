@@ -124,3 +124,44 @@ func (x *TsTzSpanSet) ToStbox() (*STBox, error) {
 	}
 	return STBoxFromPointer(_r0.Pointer()), nil
 }
+
+// TsTzSpanSetFromHexWKB is the portable fromHexWKB of MEOS spanset_from_hexwkb.
+func TsTzSpanSetFromHexWKB(hexwkb string) (*TsTzSpanSet, error) {
+	r, err := SpanSetFromHexWKB(hexwkb)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TsTzSpanSetFromPointer(r.Pointer()), nil
+}
+
+// AsText is the portable asText of MEOS tstzspanset_out.
+func (x *TsTzSpanSet) AsText() (string, error) {
+	return x.Out()
+}
+
+// TsTzSpanSetFromText is the portable fromText of MEOS tstzspanset_in.
+func TsTzSpanSetFromText(str string) (*TsTzSpanSet, error) {
+	r, err := TsTzSpanSetIn(str)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TsTzSpanSetFromPointer(r.Pointer()), nil
+}
+
+// TsTzSpanSetFromWKB is the portable fromWKB of MEOS spanset_from_wkb.
+func TsTzSpanSetFromWKB(wkb unsafe.Pointer, size uint) (*TsTzSpanSet, error) {
+	r, err := SpanSetFromWKB(wkb, size)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return TsTzSpanSetFromPointer(r.Pointer()), nil
+}
+
+// String is the text MEOS writes this value as, MEOS tstzspanset_out.
+func (x *TsTzSpanSet) String() string {
+	s, err := x.Out()
+	if err != nil {
+		return "%!s(MEOS error: " + err.Error() + ")"
+	}
+	return s
+}
