@@ -119,16 +119,17 @@ func JSONIn(str string) (_r0 string, _err error) {
 
 
 // JSONOut wraps MEOS C function json_out.
-func JSONOut(js string, size_out unsafe.Pointer) (_r0 string, _err error) {
+func JSONOut(js string) (_r0 string, _err error) {
 	_c_js := C.cstring_to_text(C.CString(js))
 	defer C.free(unsafe.Pointer(_c_js))
+	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.json_out(_c_js, (*C.size_t)(unsafe.Pointer(size_out)))
+	_cret := C.json_out(_c_js, &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
 	defer C.free(unsafe.Pointer(_cret))
-	return C.GoString(_cret), nil
+	return takeString(_cret, _size), nil
 }
 
 
@@ -159,14 +160,15 @@ func JsonbIn(str string) (_r0 *Jsonb, _err error) {
 
 
 // JsonbOut wraps MEOS C function jsonb_out.
-func JsonbOut(jb *Jsonb, size_out unsafe.Pointer) (_r0 string, _err error) {
+func JsonbOut(jb *Jsonb) (_r0 string, _err error) {
+	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.jsonb_out(jb._inner, (*C.size_t)(unsafe.Pointer(size_out)))
+	_cret := C.jsonb_out(jb._inner, &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
 	defer C.free(unsafe.Pointer(_cret))
-	return C.GoString(_cret), nil
+	return takeString(_cret, _size), nil
 }
 
 
@@ -237,14 +239,15 @@ func JsonbToBool(jb *Jsonb) (_r0 bool, _err error) {
 
 
 // JsonbToCstring wraps MEOS C function jsonb_to_cstring.
-func JsonbToCstring(jb *Jsonb, size_out unsafe.Pointer) (_r0 string, _err error) {
+func JsonbToCstring(jb *Jsonb) (_r0 string, _err error) {
+	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.jsonb_to_cstring(jb._inner, (*C.size_t)(unsafe.Pointer(size_out)))
+	_cret := C.jsonb_to_cstring(jb._inner, &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
 	defer C.free(unsafe.Pointer(_cret))
-	return C.GoString(_cret), nil
+	return takeString(_cret, _size), nil
 }
 
 
@@ -987,14 +990,15 @@ func JsonpathMemSize(jp *JsonPath) (_r0 int, _err error) {
 
 
 // JsonpathOut wraps MEOS C function jsonpath_out.
-func JsonpathOut(jp *JsonPath, size_out unsafe.Pointer) (_r0 string, _err error) {
+func JsonpathOut(jp *JsonPath) (_r0 string, _err error) {
+	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.jsonpath_out(jp._inner, (*C.size_t)(unsafe.Pointer(size_out)))
+	_cret := C.jsonpath_out(jp._inner, &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
 	defer C.free(unsafe.Pointer(_cret))
-	return C.GoString(_cret), nil
+	return takeString(_cret, _size), nil
 }
 
 
@@ -1012,14 +1016,15 @@ func JsonbsetIn(str string) (_r0 *Set, _err error) {
 
 
 // JsonbsetOut wraps MEOS C function jsonbset_out.
-func JsonbsetOut(s *Set, size_out unsafe.Pointer) (_r0 string, _err error) {
+func JsonbsetOut(s *Set) (_r0 string, _err error) {
+	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.jsonbset_out(s._inner, (*C.size_t)(unsafe.Pointer(size_out)))
+	_cret := C.jsonbset_out(s._inner, &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
 	defer C.free(unsafe.Pointer(_cret))
-	return C.GoString(_cret), nil
+	return takeString(_cret, _size), nil
 }
 
 
@@ -1636,14 +1641,15 @@ func TjsonbIn(str string) (_r0 *Temporal, _err error) {
 
 
 // TjsonbOut wraps MEOS C function tjsonb_out.
-func TjsonbOut(temp *Temporal, size_out unsafe.Pointer) (_r0 string, _err error) {
+func TjsonbOut(temp *Temporal) (_r0 string, _err error) {
+	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.tjsonb_out(temp._inner, (*C.size_t)(unsafe.Pointer(size_out)))
+	_cret := C.tjsonb_out(temp._inner, &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
 	defer C.free(unsafe.Pointer(_cret))
-	return C.GoString(_cret), nil
+	return takeString(_cret, _size), nil
 }
 
 

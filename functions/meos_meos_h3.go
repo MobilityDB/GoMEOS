@@ -130,14 +130,15 @@ func BigintToH3index(i int64) (_r0 uint64, _err error) {
 
 
 // H3indexOut wraps MEOS C function h3index_out.
-func H3indexOut(cell uint64, size_out unsafe.Pointer) (_r0 string, _err error) {
+func H3indexOut(cell uint64) (_r0 string, _err error) {
+	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.h3index_out(C.uint64_t(cell), (*C.size_t)(unsafe.Pointer(size_out)))
+	_cret := C.h3index_out(C.uint64_t(cell), &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
 	defer C.free(unsafe.Pointer(_cret))
-	return C.GoString(_cret), nil
+	return takeString(_cret, _size), nil
 }
 
 
@@ -408,14 +409,15 @@ func H3indexAsWKB(cell uint64, variant uint8, size_out unsafe.Pointer) (_r0 unsa
 
 
 // H3indexAsHexwkb wraps MEOS C function h3index_as_hexwkb.
-func H3indexAsHexwkb(cell uint64, variant uint8, size_out unsafe.Pointer) (_r0 string, _err error) {
+func H3indexAsHexwkb(cell uint64, variant uint8) (_r0 string, _err error) {
+	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.h3index_as_hexwkb(C.uint64_t(cell), C.uint8_t(variant), (*C.size_t)(unsafe.Pointer(size_out)))
+	_cret := C.h3index_as_hexwkb(C.uint64_t(cell), C.uint8_t(variant), &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
 	defer C.free(unsafe.Pointer(_cret))
-	return C.GoString(_cret), nil
+	return takeString(_cret, _size), nil
 }
 
 
@@ -527,14 +529,15 @@ func Th3indexseqsetIn(str string) (_r0 *TSequenceSet, _err error) {
 
 
 // Th3indexOut wraps MEOS C function th3index_out.
-func Th3indexOut(temp *Temporal, size_out unsafe.Pointer) (_r0 string, _err error) {
+func Th3indexOut(temp *Temporal) (_r0 string, _err error) {
+	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.th3index_out(temp._inner, (*C.size_t)(unsafe.Pointer(size_out)))
+	_cret := C.th3index_out(temp._inner, &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
 	defer C.free(unsafe.Pointer(_cret))
-	return C.GoString(_cret), nil
+	return takeString(_cret, _size), nil
 }
 
 
@@ -1139,14 +1142,15 @@ func H3indexsetIn(str string) (_r0 *Set, _err error) {
 
 
 // H3indexsetOut wraps MEOS C function h3indexset_out.
-func H3indexsetOut(s *Set, size_out unsafe.Pointer) (_r0 string, _err error) {
+func H3indexsetOut(s *Set) (_r0 string, _err error) {
+	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.h3indexset_out(s._inner, (*C.size_t)(unsafe.Pointer(size_out)))
+	_cret := C.h3indexset_out(s._inner, &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
 	defer C.free(unsafe.Pointer(_cret))
-	return C.GoString(_cret), nil
+	return takeString(_cret, _size), nil
 }
 
 

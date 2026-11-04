@@ -25,8 +25,7 @@ func NsegmentFromPointer(p unsafe.Pointer) *Nsegment {
 
 // AsHexEWKB is MEOS nsegment_as_hexewkb.
 func (x *Nsegment) AsHexEWKB(variant uint8) (string, error) {
-	var _size uint64
-	_r0, _err := functions.NsegmentAsHexewkb(functions.NsegmentFromPointer(x.Pointer()), variant, unsafe.Pointer(&_size))
+	_r0, _err := functions.NsegmentAsHexewkb(functions.NsegmentFromPointer(x.Pointer()), variant)
 	if _err != nil {
 		return "", _err
 	}
@@ -35,8 +34,7 @@ func (x *Nsegment) AsHexEWKB(variant uint8) (string, error) {
 
 // AsHexWKB is MEOS nsegment_as_hexwkb.
 func (x *Nsegment) AsHexWKB(variant uint8) (string, error) {
-	var _size uint64
-	_r0, _err := functions.NsegmentAsHexwkb(functions.NsegmentFromPointer(x.Pointer()), variant, unsafe.Pointer(&_size))
+	_r0, _err := functions.NsegmentAsHexwkb(functions.NsegmentFromPointer(x.Pointer()), variant)
 	if _err != nil {
 		return "", _err
 	}
@@ -86,8 +84,7 @@ func NsegmentIn(str string) (*Nsegment, error) {
 
 // Out is MEOS nsegment_out.
 func (x *Nsegment) Out(maxdd int) (string, error) {
-	var _size uint64
-	_r0, _err := functions.NsegmentOut(functions.NsegmentFromPointer(x.Pointer()), maxdd, unsafe.Pointer(&_size))
+	_r0, _err := functions.NsegmentOut(functions.NsegmentFromPointer(x.Pointer()), maxdd)
 	if _err != nil {
 		return "", _err
 	}
@@ -106,8 +103,7 @@ func (x *Nsegment) AsEWKB(variant uint8) ([]byte, error) {
 
 // AsEWKT is MEOS nsegment_as_ewkt.
 func (x *Nsegment) AsEWKT(maxdd int) (string, error) {
-	var _size uint64
-	_r0, _err := functions.NsegmentAsEWKT(functions.NsegmentFromPointer(x.Pointer()), maxdd, unsafe.Pointer(&_size))
+	_r0, _err := functions.NsegmentAsEWKT(functions.NsegmentFromPointer(x.Pointer()), maxdd)
 	if _err != nil {
 		return "", _err
 	}
@@ -116,8 +112,7 @@ func (x *Nsegment) AsEWKT(maxdd int) (string, error) {
 
 // AsText is MEOS nsegment_as_text.
 func (x *Nsegment) AsText(maxdd int) (string, error) {
-	var _size uint64
-	_r0, _err := functions.NsegmentAsText(functions.NsegmentFromPointer(x.Pointer()), maxdd, unsafe.Pointer(&_size))
+	_r0, _err := functions.NsegmentAsText(functions.NsegmentFromPointer(x.Pointer()), maxdd)
 	if _err != nil {
 		return "", _err
 	}

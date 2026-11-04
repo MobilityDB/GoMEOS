@@ -43,8 +43,7 @@ func TTextIn(str string) (*Temporal, error) {
 
 // Out is MEOS ttext_out.
 func (x *TText) Out() (string, error) {
-	var _size uint64
-	_r0, _err := functions.TtextOut(functions.TemporalFromPointer(x.Pointer()), unsafe.Pointer(&_size))
+	_r0, _err := functions.TtextOut(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return "", _err
 	}

@@ -57,8 +57,7 @@ func RasterAsWKB(rast unsafe.Pointer, variant uint8) ([]byte, error) {
 
 // RasterAsHexWKB is MEOS raster_as_hexwkb.
 func RasterAsHexWKB(rast unsafe.Pointer, variant uint8) (string, error) {
-	var _size uint64
-	_r0, _err := functions.RasterAsHexwkb(rast, variant, unsafe.Pointer(&_size))
+	_r0, _err := functions.RasterAsHexwkb(rast, variant)
 	if _err != nil {
 		return "", _err
 	}
@@ -215,8 +214,7 @@ func RasterSkewY(rast unsafe.Pointer) (float64, error) {
 
 // RasterBandPixelType is MEOS raster_band_pixel_type.
 func RasterBandPixelType(rast unsafe.Pointer, band int) (string, error) {
-	var _size uint64
-	_r0, _err := functions.RasterBandPixelType(rast, band, unsafe.Pointer(&_size))
+	_r0, _err := functions.RasterBandPixelType(rast, band)
 	if _err != nil {
 		return "", _err
 	}
@@ -409,8 +407,7 @@ func RasterSameAlignment(rast1 unsafe.Pointer, rast2 unsafe.Pointer) (bool, erro
 
 // RasterNotSameAlignmentReason is MEOS raster_not_same_alignment_reason.
 func RasterNotSameAlignmentReason(rast1 unsafe.Pointer, rast2 unsafe.Pointer) (string, error) {
-	var _size uint64
-	_r0, _err := functions.RasterNotSameAlignmentReason(rast1, rast2, unsafe.Pointer(&_size))
+	_r0, _err := functions.RasterNotSameAlignmentReason(rast1, rast2)
 	if _err != nil {
 		return "", _err
 	}

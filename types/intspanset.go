@@ -34,8 +34,7 @@ func IntSpanSetIn(str string) (*SpanSet, error) {
 
 // Out is MEOS intspanset_out.
 func (x *IntSpanSet) Out() (string, error) {
-	var _size uint64
-	_r0, _err := functions.IntspansetOut(functions.SpanSetFromPointer(x.Pointer()), unsafe.Pointer(&_size))
+	_r0, _err := functions.IntspansetOut(functions.SpanSetFromPointer(x.Pointer()))
 	if _err != nil {
 		return "", _err
 	}

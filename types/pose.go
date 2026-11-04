@@ -35,8 +35,7 @@ func (x *Pose) AsEWKB(variant uint8) ([]byte, error) {
 
 // AsEWKT is MEOS pose_as_ewkt.
 func (x *Pose) AsEWKT(maxdd int) (string, error) {
-	var _size uint64
-	_r0, _err := functions.PoseAsEWKT(functions.PoseFromPointer(x.Pointer()), maxdd, unsafe.Pointer(&_size))
+	_r0, _err := functions.PoseAsEWKT(functions.PoseFromPointer(x.Pointer()), maxdd)
 	if _err != nil {
 		return "", _err
 	}
@@ -45,8 +44,7 @@ func (x *Pose) AsEWKT(maxdd int) (string, error) {
 
 // AsHexEWKB is MEOS pose_as_hexewkb.
 func (x *Pose) AsHexEWKB(variant uint8) (string, error) {
-	var _size uint64
-	_r0, _err := functions.PoseAsHexewkb(functions.PoseFromPointer(x.Pointer()), variant, unsafe.Pointer(&_size))
+	_r0, _err := functions.PoseAsHexewkb(functions.PoseFromPointer(x.Pointer()), variant)
 	if _err != nil {
 		return "", _err
 	}
@@ -55,8 +53,7 @@ func (x *Pose) AsHexEWKB(variant uint8) (string, error) {
 
 // AsHexWKB is MEOS pose_as_hexwkb.
 func (x *Pose) AsHexWKB(variant uint8) (string, error) {
-	var _size uint64
-	_r0, _err := functions.PoseAsHexwkb(functions.PoseFromPointer(x.Pointer()), variant, unsafe.Pointer(&_size))
+	_r0, _err := functions.PoseAsHexwkb(functions.PoseFromPointer(x.Pointer()), variant)
 	if _err != nil {
 		return "", _err
 	}
@@ -65,8 +62,7 @@ func (x *Pose) AsHexWKB(variant uint8) (string, error) {
 
 // AsText is MEOS pose_as_text.
 func (x *Pose) AsText(maxdd int) (string, error) {
-	var _size uint64
-	_r0, _err := functions.PoseAsText(functions.PoseFromPointer(x.Pointer()), maxdd, unsafe.Pointer(&_size))
+	_r0, _err := functions.PoseAsText(functions.PoseFromPointer(x.Pointer()), maxdd)
 	if _err != nil {
 		return "", _err
 	}
@@ -125,8 +121,7 @@ func PoseIn(str string) (*Pose, error) {
 
 // Out is MEOS pose_out.
 func (x *Pose) Out(maxdd int) (string, error) {
-	var _size uint64
-	_r0, _err := functions.PoseOut(functions.PoseFromPointer(x.Pointer()), maxdd, unsafe.Pointer(&_size))
+	_r0, _err := functions.PoseOut(functions.PoseFromPointer(x.Pointer()), maxdd)
 	if _err != nil {
 		return "", _err
 	}
@@ -144,8 +139,7 @@ func PoseFromGeopose(json string) (*Pose, error) {
 
 // AsGeopose is MEOS pose_as_geopose.
 func (x *Pose) AsGeopose(conformance int, precision int) (string, error) {
-	var _size uint64
-	_r0, _err := functions.PoseAsGeopose(functions.PoseFromPointer(x.Pointer()), conformance, precision, unsafe.Pointer(&_size))
+	_r0, _err := functions.PoseAsGeopose(functions.PoseFromPointer(x.Pointer()), conformance, precision)
 	if _err != nil {
 		return "", _err
 	}

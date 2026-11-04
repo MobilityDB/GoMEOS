@@ -35,8 +35,7 @@ func (x *TPCBox) AsEWKB(variant uint8) ([]byte, error) {
 
 // AsHexEWKB is MEOS tpcbox_as_hexewkb.
 func (x *TPCBox) AsHexEWKB(variant uint8) (string, error) {
-	var _size uint64
-	_r0, _err := functions.TpcboxAsHexewkb(functions.TPCBoxFromPointer(x.Pointer()), variant, unsafe.Pointer(&_size))
+	_r0, _err := functions.TpcboxAsHexewkb(functions.TPCBoxFromPointer(x.Pointer()), variant)
 	if _err != nil {
 		return "", _err
 	}
@@ -45,8 +44,7 @@ func (x *TPCBox) AsHexEWKB(variant uint8) (string, error) {
 
 // AsHexWKB is MEOS tpcbox_as_hexwkb.
 func (x *TPCBox) AsHexWKB(variant uint8) (string, error) {
-	var _size uint64
-	_r0, _err := functions.TpcboxAsHexwkb(functions.TPCBoxFromPointer(x.Pointer()), variant, unsafe.Pointer(&_size))
+	_r0, _err := functions.TpcboxAsHexwkb(functions.TPCBoxFromPointer(x.Pointer()), variant)
 	if _err != nil {
 		return "", _err
 	}
@@ -96,8 +94,7 @@ func TPCBoxIn(str string) (*TPCBox, error) {
 
 // Out is MEOS tpcbox_out.
 func (x *TPCBox) Out(maxdd int) (string, error) {
-	var _size uint64
-	_r0, _err := functions.TpcboxOut(functions.TPCBoxFromPointer(x.Pointer()), maxdd, unsafe.Pointer(&_size))
+	_r0, _err := functions.TpcboxOut(functions.TPCBoxFromPointer(x.Pointer()), maxdd)
 	if _err != nil {
 		return "", _err
 	}

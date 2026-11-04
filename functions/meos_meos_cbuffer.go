@@ -117,50 +117,54 @@ func CbufferAsEWKB(cb *Cbuffer, variant uint8, size_out unsafe.Pointer) (_r0 uns
 
 
 // CbufferAsEWKT wraps MEOS C function cbuffer_as_ewkt.
-func CbufferAsEWKT(cb *Cbuffer, maxdd int, size_out unsafe.Pointer) (_r0 string, _err error) {
+func CbufferAsEWKT(cb *Cbuffer, maxdd int) (_r0 string, _err error) {
+	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.cbuffer_as_ewkt(cb._inner, C.int(maxdd), (*C.size_t)(unsafe.Pointer(size_out)))
+	_cret := C.cbuffer_as_ewkt(cb._inner, C.int(maxdd), &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
 	defer C.free(unsafe.Pointer(_cret))
-	return C.GoString(_cret), nil
+	return takeString(_cret, _size), nil
 }
 
 
 // CbufferAsHexewkb wraps MEOS C function cbuffer_as_hexewkb.
-func CbufferAsHexewkb(cb *Cbuffer, variant uint8, size_out unsafe.Pointer) (_r0 string, _err error) {
+func CbufferAsHexewkb(cb *Cbuffer, variant uint8) (_r0 string, _err error) {
+	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.cbuffer_as_hexewkb(cb._inner, C.uint8_t(variant), (*C.size_t)(unsafe.Pointer(size_out)))
+	_cret := C.cbuffer_as_hexewkb(cb._inner, C.uint8_t(variant), &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
 	defer C.free(unsafe.Pointer(_cret))
-	return C.GoString(_cret), nil
+	return takeString(_cret, _size), nil
 }
 
 
 // CbufferAsHexwkb wraps MEOS C function cbuffer_as_hexwkb.
-func CbufferAsHexwkb(cb *Cbuffer, variant uint8, size_out unsafe.Pointer) (_r0 string, _err error) {
+func CbufferAsHexwkb(cb *Cbuffer, variant uint8) (_r0 string, _err error) {
+	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.cbuffer_as_hexwkb(cb._inner, C.uint8_t(variant), (*C.size_t)(unsafe.Pointer(size_out)))
+	_cret := C.cbuffer_as_hexwkb(cb._inner, C.uint8_t(variant), &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
 	defer C.free(unsafe.Pointer(_cret))
-	return C.GoString(_cret), nil
+	return takeString(_cret, _size), nil
 }
 
 
 // CbufferAsText wraps MEOS C function cbuffer_as_text.
-func CbufferAsText(cb *Cbuffer, maxdd int, size_out unsafe.Pointer) (_r0 string, _err error) {
+func CbufferAsText(cb *Cbuffer, maxdd int) (_r0 string, _err error) {
+	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.cbuffer_as_text(cb._inner, C.int(maxdd), (*C.size_t)(unsafe.Pointer(size_out)))
+	_cret := C.cbuffer_as_text(cb._inner, C.int(maxdd), &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
 	defer C.free(unsafe.Pointer(_cret))
-	return C.GoString(_cret), nil
+	return takeString(_cret, _size), nil
 }
 
 
@@ -213,14 +217,15 @@ func CbufferIn(str string) (_r0 *Cbuffer, _err error) {
 
 
 // CbufferOut wraps MEOS C function cbuffer_out.
-func CbufferOut(cb *Cbuffer, maxdd int, size_out unsafe.Pointer) (_r0 string, _err error) {
+func CbufferOut(cb *Cbuffer, maxdd int) (_r0 string, _err error) {
+	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.cbuffer_out(cb._inner, C.int(maxdd), (*C.size_t)(unsafe.Pointer(size_out)))
+	_cret := C.cbuffer_out(cb._inner, C.int(maxdd), &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
 	defer C.free(unsafe.Pointer(_cret))
-	return C.GoString(_cret), nil
+	return takeString(_cret, _size), nil
 }
 
 
@@ -636,14 +641,15 @@ func CbuffersetIn(str string) (_r0 *Set, _err error) {
 
 
 // CbuffersetOut wraps MEOS C function cbufferset_out.
-func CbuffersetOut(s *Set, maxdd int, size_out unsafe.Pointer) (_r0 string, _err error) {
+func CbuffersetOut(s *Set, maxdd int) (_r0 string, _err error) {
+	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.cbufferset_out(s._inner, C.int(maxdd), (*C.size_t)(unsafe.Pointer(size_out)))
+	_cret := C.cbufferset_out(s._inner, C.int(maxdd), &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
 	defer C.free(unsafe.Pointer(_cret))
-	return C.GoString(_cret), nil
+	return takeString(_cret, _size), nil
 }
 
 

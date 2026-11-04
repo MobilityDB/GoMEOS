@@ -52,8 +52,7 @@ func RaquetIn(str string) (unsafe.Pointer, error) {
 
 // RaquetOut is MEOS raquet_out.
 func RaquetOut(rq unsafe.Pointer) (string, error) {
-	var _size uint64
-	_r0, _err := functions.RaquetOut(rq, unsafe.Pointer(&_size))
+	_r0, _err := functions.RaquetOut(rq)
 	if _err != nil {
 		return "", _err
 	}
@@ -94,8 +93,7 @@ func RaquetAsWKB(rq unsafe.Pointer, variant uint8) ([]byte, error) {
 
 // RaquetAsHexWKB is MEOS raquet_as_hexwkb.
 func RaquetAsHexWKB(rq unsafe.Pointer, variant uint8) (string, error) {
-	var _size uint64
-	_r0, _err := functions.RaquetAsHexwkb(rq, variant, unsafe.Pointer(&_size))
+	_r0, _err := functions.RaquetAsHexwkb(rq, variant)
 	if _err != nil {
 		return "", _err
 	}
@@ -175,8 +173,7 @@ func RaquetHeight(rq unsafe.Pointer) (int, error) {
 
 // RaquetBandPixelType is MEOS raquet_band_pixel_type.
 func RaquetBandPixelType(rq unsafe.Pointer) (string, error) {
-	var _size uint64
-	_r0, _err := functions.RaquetBandPixelType(rq, unsafe.Pointer(&_size))
+	_r0, _err := functions.RaquetBandPixelType(rq)
 	if _err != nil {
 		return "", _err
 	}

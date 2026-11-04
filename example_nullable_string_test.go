@@ -8,7 +8,6 @@ package gomeos
 import (
 	"fmt"
 	"strings"
-	"unsafe"
 
 	"github.com/MobilityDB/GoMEOS/functions"
 )
@@ -19,12 +18,11 @@ func ExampleTemporalAsMFJSON_nilSrs() {
 		fmt.Println(err)
 		return
 	}
-	var size uint64
-	none, err := functions.TemporalAsMFJSON(temp, 0, 0, 6, nil, unsafe.Pointer(&size))
+	none, err := functions.TemporalAsMFJSON(temp, 0, 0, 6, nil)
 	fmt.Println(strings.Contains(none, `"crs"`), err)
 
 	srs := "EPSG:4326"
-	named, err := functions.TemporalAsMFJSON(temp, 0, 0, 6, &srs, unsafe.Pointer(&size))
+	named, err := functions.TemporalAsMFJSON(temp, 0, 0, 6, &srs)
 	fmt.Println(strings.Contains(named, `"EPSG:4326"`), err)
 	// Output:
 	// false <nil>

@@ -34,8 +34,7 @@ func JsonbSetIn(str string) (*Set, error) {
 
 // Out is MEOS jsonbset_out.
 func (x *JsonbSet) Out() (string, error) {
-	var _size uint64
-	_r0, _err := functions.JsonbsetOut(functions.SetFromPointer(x.Pointer()), unsafe.Pointer(&_size))
+	_r0, _err := functions.JsonbsetOut(functions.SetFromPointer(x.Pointer()))
 	if _err != nil {
 		return "", _err
 	}

@@ -25,8 +25,7 @@ func TBoxFromPointer(p unsafe.Pointer) *TBox {
 
 // AsHexWKB is MEOS tbox_as_hexwkb.
 func (x *TBox) AsHexWKB(variant uint8) (string, error) {
-	var _size uint64
-	_r0, _err := functions.TBOXAsHexwkb(functions.TBoxFromPointer(x.Pointer()), variant, unsafe.Pointer(&_size))
+	_r0, _err := functions.TBOXAsHexwkb(functions.TBoxFromPointer(x.Pointer()), variant)
 	if _err != nil {
 		return "", _err
 	}
@@ -76,8 +75,7 @@ func TBoxIn(str string) (*TBox, error) {
 
 // Out is MEOS tbox_out.
 func (x *TBox) Out(maxdd int) (string, error) {
-	var _size uint64
-	_r0, _err := functions.TBOXOut(functions.TBoxFromPointer(x.Pointer()), maxdd, unsafe.Pointer(&_size))
+	_r0, _err := functions.TBOXOut(functions.TBoxFromPointer(x.Pointer()), maxdd)
 	if _err != nil {
 		return "", _err
 	}

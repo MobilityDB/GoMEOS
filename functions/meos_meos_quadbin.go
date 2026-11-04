@@ -106,14 +106,15 @@ import (
 var _ = unsafe.Pointer(nil)
 
 // QuadbinAsHexwkb wraps MEOS C function quadbin_as_hexwkb.
-func QuadbinAsHexwkb(cell uint64, variant uint8, size_out unsafe.Pointer) (_r0 string, _err error) {
+func QuadbinAsHexwkb(cell uint64, variant uint8) (_r0 string, _err error) {
+	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.quadbin_as_hexwkb(C.uint64_t(cell), C.uint8_t(variant), (*C.size_t)(unsafe.Pointer(size_out)))
+	_cret := C.quadbin_as_hexwkb(C.uint64_t(cell), C.uint8_t(variant), &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
 	defer C.free(unsafe.Pointer(_cret))
-	return C.GoString(_cret), nil
+	return takeString(_cret, _size), nil
 }
 
 
@@ -177,14 +178,15 @@ func BigintToQuadbin(i int64) (_r0 uint64, _err error) {
 
 
 // QuadbinOut wraps MEOS C function quadbin_out.
-func QuadbinOut(cell uint64, size_out unsafe.Pointer) (_r0 string, _err error) {
+func QuadbinOut(cell uint64) (_r0 string, _err error) {
+	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.quadbin_out(C.uint64_t(cell), (*C.size_t)(unsafe.Pointer(size_out)))
+	_cret := C.quadbin_out(C.uint64_t(cell), &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
 	defer C.free(unsafe.Pointer(_cret))
-	return C.GoString(_cret), nil
+	return takeString(_cret, _size), nil
 }
 
 
@@ -510,14 +512,15 @@ func QuadbinCellArea(cell uint64) (_r0 float64, _err error) {
 
 
 // QuadbinIndexToString wraps MEOS C function quadbin_index_to_string.
-func QuadbinIndexToString(index uint64, size_out unsafe.Pointer) (_r0 string, _err error) {
+func QuadbinIndexToString(index uint64) (_r0 string, _err error) {
+	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.quadbin_index_to_string(C.uint64_t(index), (*C.size_t)(unsafe.Pointer(size_out)))
+	_cret := C.quadbin_index_to_string(C.uint64_t(index), &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
 	defer C.free(unsafe.Pointer(_cret))
-	return C.GoString(_cret), nil
+	return takeString(_cret, _size), nil
 }
 
 
@@ -535,14 +538,15 @@ func QuadbinStringToIndex(str string) (_r0 uint64, _err error) {
 
 
 // QuadbinCellToQuadkey wraps MEOS C function quadbin_cell_to_quadkey.
-func QuadbinCellToQuadkey(cell uint64, size_out unsafe.Pointer) (_r0 string, _err error) {
+func QuadbinCellToQuadkey(cell uint64) (_r0 string, _err error) {
+	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.quadbin_cell_to_quadkey(C.uint64_t(cell), (*C.size_t)(unsafe.Pointer(size_out)))
+	_cret := C.quadbin_cell_to_quadkey(C.uint64_t(cell), &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
 	defer C.free(unsafe.Pointer(_cret))
-	return C.GoString(_cret), nil
+	return takeString(_cret, _size), nil
 }
 
 
@@ -637,14 +641,15 @@ func QuadbinsetIn(str string) (_r0 *Set, _err error) {
 
 
 // QuadbinsetOut wraps MEOS C function quadbinset_out.
-func QuadbinsetOut(s *Set, size_out unsafe.Pointer) (_r0 string, _err error) {
+func QuadbinsetOut(s *Set) (_r0 string, _err error) {
+	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.quadbinset_out(s._inner, (*C.size_t)(unsafe.Pointer(size_out)))
+	_cret := C.quadbinset_out(s._inner, &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
 	defer C.free(unsafe.Pointer(_cret))
-	return C.GoString(_cret), nil
+	return takeString(_cret, _size), nil
 }
 
 
@@ -856,14 +861,15 @@ func TquadbinseqsetIn(str string) (_r0 *TSequenceSet, _err error) {
 
 
 // TquadbinOut wraps MEOS C function tquadbin_out.
-func TquadbinOut(temp *Temporal, size_out unsafe.Pointer) (_r0 string, _err error) {
+func TquadbinOut(temp *Temporal) (_r0 string, _err error) {
+	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.tquadbin_out(temp._inner, (*C.size_t)(unsafe.Pointer(size_out)))
+	_cret := C.tquadbin_out(temp._inner, &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
 	defer C.free(unsafe.Pointer(_cret))
-	return C.GoString(_cret), nil
+	return takeString(_cret, _size), nil
 }
 
 

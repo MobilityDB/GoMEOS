@@ -43,8 +43,7 @@ func TIntIn(str string) (*Temporal, error) {
 
 // Out is MEOS tint_out.
 func (x *TInt) Out() (string, error) {
-	var _size uint64
-	_r0, _err := functions.TintOut(functions.TemporalFromPointer(x.Pointer()), unsafe.Pointer(&_size))
+	_r0, _err := functions.TintOut(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return "", _err
 	}

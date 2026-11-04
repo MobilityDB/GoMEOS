@@ -34,8 +34,7 @@ func BigIntSetIn(str string) (*Set, error) {
 
 // Out is MEOS bigintset_out.
 func (x *BigIntSet) Out() (string, error) {
-	var _size uint64
-	_r0, _err := functions.BigintsetOut(functions.SetFromPointer(x.Pointer()), unsafe.Pointer(&_size))
+	_r0, _err := functions.BigintsetOut(functions.SetFromPointer(x.Pointer()))
 	if _err != nil {
 		return "", _err
 	}

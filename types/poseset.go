@@ -34,8 +34,7 @@ func PoseSetIn(str string) (*Set, error) {
 
 // Out is MEOS poseset_out.
 func (x *PoseSet) Out(maxdd int) (string, error) {
-	var _size uint64
-	_r0, _err := functions.PosesetOut(functions.SetFromPointer(x.Pointer()), maxdd, unsafe.Pointer(&_size))
+	_r0, _err := functions.PosesetOut(functions.SetFromPointer(x.Pointer()), maxdd)
 	if _err != nil {
 		return "", _err
 	}

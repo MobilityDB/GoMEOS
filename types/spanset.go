@@ -25,8 +25,7 @@ func SpanSetFromPointer(p unsafe.Pointer) *SpanSet {
 
 // AsHexWKB is MEOS spanset_as_hexwkb.
 func (x *SpanSet) AsHexWKB(variant uint8) (string, error) {
-	var _size uint64
-	_r0, _err := functions.SpansetAsHexwkb(functions.SpanSetFromPointer(x.Pointer()), variant, unsafe.Pointer(&_size))
+	_r0, _err := functions.SpansetAsHexwkb(functions.SpanSetFromPointer(x.Pointer()), variant)
 	if _err != nil {
 		return "", _err
 	}

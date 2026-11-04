@@ -34,8 +34,7 @@ func TQuadbinIn(str string) (*Temporal, error) {
 
 // Out is MEOS tquadbin_out.
 func (x *TQuadbin) Out() (string, error) {
-	var _size uint64
-	_r0, _err := functions.TquadbinOut(functions.TemporalFromPointer(x.Pointer()), unsafe.Pointer(&_size))
+	_r0, _err := functions.TquadbinOut(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return "", _err
 	}

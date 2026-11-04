@@ -143,14 +143,15 @@ func RaquetIn(str string) (_r0 unsafe.Pointer, _err error) {
 
 
 // RaquetOut wraps MEOS C function raquet_out.
-func RaquetOut(rq unsafe.Pointer, size_out unsafe.Pointer) (_r0 string, _err error) {
+func RaquetOut(rq unsafe.Pointer) (_r0 string, _err error) {
+	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.raquet_out((*C.Raquet)(unsafe.Pointer(rq)), (*C.size_t)(unsafe.Pointer(size_out)))
+	_cret := C.raquet_out((*C.Raquet)(unsafe.Pointer(rq)), &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
 	defer C.free(unsafe.Pointer(_cret))
-	return C.GoString(_cret), nil
+	return takeString(_cret, _size), nil
 }
 
 
@@ -190,14 +191,15 @@ func RaquetAsWKB(rq unsafe.Pointer, variant uint8, size_out unsafe.Pointer) (_r0
 
 
 // RaquetAsHexwkb wraps MEOS C function raquet_as_hexwkb.
-func RaquetAsHexwkb(rq unsafe.Pointer, variant uint8, size_out unsafe.Pointer) (_r0 string, _err error) {
+func RaquetAsHexwkb(rq unsafe.Pointer, variant uint8) (_r0 string, _err error) {
+	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.raquet_as_hexwkb((*C.Raquet)(unsafe.Pointer(rq)), C.uint8_t(variant), (*C.size_t)(unsafe.Pointer(size_out)))
+	_cret := C.raquet_as_hexwkb((*C.Raquet)(unsafe.Pointer(rq)), C.uint8_t(variant), &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
 	defer C.free(unsafe.Pointer(_cret))
-	return C.GoString(_cret), nil
+	return takeString(_cret, _size), nil
 }
 
 
@@ -281,14 +283,15 @@ func RaquetHeight(rq unsafe.Pointer) (_r0 int, _err error) {
 
 
 // RaquetBandPixelType wraps MEOS C function raquet_band_pixel_type.
-func RaquetBandPixelType(rq unsafe.Pointer, size_out unsafe.Pointer) (_r0 string, _err error) {
+func RaquetBandPixelType(rq unsafe.Pointer) (_r0 string, _err error) {
+	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.raquet_band_pixel_type((*C.Raquet)(unsafe.Pointer(rq)), (*C.size_t)(unsafe.Pointer(size_out)))
+	_cret := C.raquet_band_pixel_type((*C.Raquet)(unsafe.Pointer(rq)), &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
 	defer C.free(unsafe.Pointer(_cret))
-	return C.GoString(_cret), nil
+	return takeString(_cret, _size), nil
 }
 
 
@@ -395,14 +398,15 @@ func RasterAsWKB(rast unsafe.Pointer, variant uint8, size_out unsafe.Pointer) (_
 
 
 // RasterAsHexwkb wraps MEOS C function raster_as_hexwkb.
-func RasterAsHexwkb(rast unsafe.Pointer, variant uint8, size_out unsafe.Pointer) (_r0 string, _err error) {
+func RasterAsHexwkb(rast unsafe.Pointer, variant uint8) (_r0 string, _err error) {
+	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.raster_as_hexwkb((*C.Raster)(unsafe.Pointer(rast)), C.uint8_t(variant), (*C.size_t)(unsafe.Pointer(size_out)))
+	_cret := C.raster_as_hexwkb((*C.Raster)(unsafe.Pointer(rast)), C.uint8_t(variant), &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
 	defer C.free(unsafe.Pointer(_cret))
-	return C.GoString(_cret), nil
+	return takeString(_cret, _size), nil
 }
 
 
@@ -587,14 +591,15 @@ func RasterSkewY(rast unsafe.Pointer) (_r0 float64, _err error) {
 
 
 // RasterBandPixelType wraps MEOS C function raster_band_pixel_type.
-func RasterBandPixelType(rast unsafe.Pointer, band int, size_out unsafe.Pointer) (_r0 string, _err error) {
+func RasterBandPixelType(rast unsafe.Pointer, band int) (_r0 string, _err error) {
+	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.raster_band_pixel_type((*C.Raster)(unsafe.Pointer(rast)), C.int(band), (*C.size_t)(unsafe.Pointer(size_out)))
+	_cret := C.raster_band_pixel_type((*C.Raster)(unsafe.Pointer(rast)), C.int(band), &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
 	defer C.free(unsafe.Pointer(_cret))
-	return C.GoString(_cret), nil
+	return takeString(_cret, _size), nil
 }
 
 
@@ -1079,14 +1084,15 @@ func RasterSameAlignment(rast1 unsafe.Pointer, rast2 unsafe.Pointer) (_r0 bool, 
 
 
 // RasterNotSameAlignmentReason wraps MEOS C function raster_not_same_alignment_reason.
-func RasterNotSameAlignmentReason(rast1 unsafe.Pointer, rast2 unsafe.Pointer, size_out unsafe.Pointer) (_r0 string, _err error) {
+func RasterNotSameAlignmentReason(rast1 unsafe.Pointer, rast2 unsafe.Pointer) (_r0 string, _err error) {
+	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.raster_not_same_alignment_reason((*C.Raster)(unsafe.Pointer(rast1)), (*C.Raster)(unsafe.Pointer(rast2)), (*C.size_t)(unsafe.Pointer(size_out)))
+	_cret := C.raster_not_same_alignment_reason((*C.Raster)(unsafe.Pointer(rast1)), (*C.Raster)(unsafe.Pointer(rast2)), &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
 	defer C.free(unsafe.Pointer(_cret))
-	return C.GoString(_cret), nil
+	return takeString(_cret, _size), nil
 }
 
 

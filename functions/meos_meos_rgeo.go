@@ -132,38 +132,41 @@ func TrgeometryFromMFJSON(mfjson string) (_r0 *Temporal, _err error) {
 
 
 // TrgeometryOut wraps MEOS C function trgeometry_out.
-func TrgeometryOut(temp *Temporal, size_out unsafe.Pointer) (_r0 string, _err error) {
+func TrgeometryOut(temp *Temporal) (_r0 string, _err error) {
+	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.trgeometry_out(temp._inner, (*C.size_t)(unsafe.Pointer(size_out)))
+	_cret := C.trgeometry_out(temp._inner, &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
 	defer C.free(unsafe.Pointer(_cret))
-	return C.GoString(_cret), nil
+	return takeString(_cret, _size), nil
 }
 
 
 // TrgeometryAsText wraps MEOS C function trgeometry_as_text.
-func TrgeometryAsText(temp *Temporal, maxdd int, size_out unsafe.Pointer) (_r0 string, _err error) {
+func TrgeometryAsText(temp *Temporal, maxdd int) (_r0 string, _err error) {
+	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.trgeometry_as_text(temp._inner, C.int(maxdd), (*C.size_t)(unsafe.Pointer(size_out)))
+	_cret := C.trgeometry_as_text(temp._inner, C.int(maxdd), &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
 	defer C.free(unsafe.Pointer(_cret))
-	return C.GoString(_cret), nil
+	return takeString(_cret, _size), nil
 }
 
 
 // TrgeometryAsEWKT wraps MEOS C function trgeometry_as_ewkt.
-func TrgeometryAsEWKT(temp *Temporal, maxdd int, size_out unsafe.Pointer) (_r0 string, _err error) {
+func TrgeometryAsEWKT(temp *Temporal, maxdd int) (_r0 string, _err error) {
+	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.trgeometry_as_ewkt(temp._inner, C.int(maxdd), (*C.size_t)(unsafe.Pointer(size_out)))
+	_cret := C.trgeometry_as_ewkt(temp._inner, C.int(maxdd), &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
 	defer C.free(unsafe.Pointer(_cret))
-	return C.GoString(_cret), nil
+	return takeString(_cret, _size), nil
 }
 
 

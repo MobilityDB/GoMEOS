@@ -35,8 +35,7 @@ func (x *Npoint) AsEWKB(variant uint8) ([]byte, error) {
 
 // AsEWKT is MEOS npoint_as_ewkt.
 func (x *Npoint) AsEWKT(maxdd int) (string, error) {
-	var _size uint64
-	_r0, _err := functions.NpointAsEWKT(functions.NpointFromPointer(x.Pointer()), maxdd, unsafe.Pointer(&_size))
+	_r0, _err := functions.NpointAsEWKT(functions.NpointFromPointer(x.Pointer()), maxdd)
 	if _err != nil {
 		return "", _err
 	}
@@ -45,8 +44,7 @@ func (x *Npoint) AsEWKT(maxdd int) (string, error) {
 
 // AsHexEWKB is MEOS npoint_as_hexewkb.
 func (x *Npoint) AsHexEWKB(variant uint8) (string, error) {
-	var _size uint64
-	_r0, _err := functions.NpointAsHexewkb(functions.NpointFromPointer(x.Pointer()), variant, unsafe.Pointer(&_size))
+	_r0, _err := functions.NpointAsHexewkb(functions.NpointFromPointer(x.Pointer()), variant)
 	if _err != nil {
 		return "", _err
 	}
@@ -55,8 +53,7 @@ func (x *Npoint) AsHexEWKB(variant uint8) (string, error) {
 
 // AsHexWKB is MEOS npoint_as_hexwkb.
 func (x *Npoint) AsHexWKB(variant uint8) (string, error) {
-	var _size uint64
-	_r0, _err := functions.NpointAsHexwkb(functions.NpointFromPointer(x.Pointer()), variant, unsafe.Pointer(&_size))
+	_r0, _err := functions.NpointAsHexwkb(functions.NpointFromPointer(x.Pointer()), variant)
 	if _err != nil {
 		return "", _err
 	}
@@ -65,8 +62,7 @@ func (x *Npoint) AsHexWKB(variant uint8) (string, error) {
 
 // AsText is MEOS npoint_as_text.
 func (x *Npoint) AsText(maxdd int) (string, error) {
-	var _size uint64
-	_r0, _err := functions.NpointAsText(functions.NpointFromPointer(x.Pointer()), maxdd, unsafe.Pointer(&_size))
+	_r0, _err := functions.NpointAsText(functions.NpointFromPointer(x.Pointer()), maxdd)
 	if _err != nil {
 		return "", _err
 	}
@@ -116,8 +112,7 @@ func NpointIn(str string) (*Npoint, error) {
 
 // Out is MEOS npoint_out.
 func (x *Npoint) Out(maxdd int) (string, error) {
-	var _size uint64
-	_r0, _err := functions.NpointOut(functions.NpointFromPointer(x.Pointer()), maxdd, unsafe.Pointer(&_size))
+	_r0, _err := functions.NpointOut(functions.NpointFromPointer(x.Pointer()), maxdd)
 	if _err != nil {
 		return "", _err
 	}

@@ -69,6 +69,17 @@ func TakeBytes(p unsafe.Pointer, n uint64) []byte {
 	return C.GoBytes(p, C.int(n))
 }
 
+// takeString copies the string a MEOS writer answered at p into Go memory for the
+// size MEOS states through its size_t * out-parameter, the terminator included, as
+// #TakeBytes copies a buffer for its length. A nil string, for which MEOS wrote no
+// size, answers "" as C.GoString does. The wrapper frees the buffer.
+func takeString(p *C.char, size C.size_t) string {
+	if p == nil {
+		return ""
+	}
+	return C.GoStringN(p, C.int(size-1))
+}
+
 // MeosError reports that the MEOS call behind a wrapper failed, carrying the
 // error code MEOS recorded for it.
 type MeosError struct {
