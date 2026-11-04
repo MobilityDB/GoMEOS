@@ -966,14 +966,15 @@ func Int32Or(num1 int32, num2 int32) (_r0 int32, _err error) {
 
 
 // Int32Out wraps MEOS C function int32_out.
-func Int32Out(num int32, size_out unsafe.Pointer) (_r0 string, _err error) {
+func Int32Out(num int32) (_r0 string, _err error) {
+	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.int32_out(C.int32(num), (*C.size_t)(unsafe.Pointer(size_out)))
+	_cret := C.int32_out(C.int32(num), &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
 	defer C.free(unsafe.Pointer(_cret))
-	return C.GoString(_cret), nil
+	return takeString(_cret, _size), nil
 }
 
 
@@ -1233,14 +1234,15 @@ func Int64Or(num1 int64, num2 int64) (_r0 int64, _err error) {
 
 
 // Int64Out wraps MEOS C function int64_out.
-func Int64Out(num int64, size_out unsafe.Pointer) (_r0 string, _err error) {
+func Int64Out(num int64) (_r0 string, _err error) {
+	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.int64_out(C.int64_t(num), (*C.size_t)(unsafe.Pointer(size_out)))
+	_cret := C.int64_out(C.int64_t(num), &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
 	defer C.free(unsafe.Pointer(_cret))
-	return C.GoString(_cret), nil
+	return takeString(_cret, _size), nil
 }
 
 

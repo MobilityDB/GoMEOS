@@ -197,14 +197,15 @@ func SetIn(str string, settype MeosType) (_r0 *Set, _err error) {
 
 
 // SetOut wraps MEOS C function set_out.
-func SetOut(s *Set, maxdd int, size_out unsafe.Pointer) (_r0 string, _err error) {
+func SetOut(s *Set, maxdd int) (_r0 string, _err error) {
+	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.set_out(s._inner, C.int(maxdd), (*C.size_t)(unsafe.Pointer(size_out)))
+	_cret := C.set_out(s._inner, C.int(maxdd), &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
 	defer C.free(unsafe.Pointer(_cret))
-	return C.GoString(_cret), nil
+	return takeString(_cret, _size), nil
 }
 
 
@@ -222,14 +223,15 @@ func SpanIn(str string, spantype MeosType) (_r0 *Span, _err error) {
 
 
 // SpanOut wraps MEOS C function span_out.
-func SpanOut(s *Span, maxdd int, size_out unsafe.Pointer) (_r0 string, _err error) {
+func SpanOut(s *Span, maxdd int) (_r0 string, _err error) {
+	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.span_out(s._inner, C.int(maxdd), (*C.size_t)(unsafe.Pointer(size_out)))
+	_cret := C.span_out(s._inner, C.int(maxdd), &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
 	defer C.free(unsafe.Pointer(_cret))
-	return C.GoString(_cret), nil
+	return takeString(_cret, _size), nil
 }
 
 
@@ -247,14 +249,15 @@ func SpansetIn(str string, spantype MeosType) (_r0 *SpanSet, _err error) {
 
 
 // SpansetOut wraps MEOS C function spanset_out.
-func SpansetOut(ss *SpanSet, maxdd int, size_out unsafe.Pointer) (_r0 string, _err error) {
+func SpansetOut(ss *SpanSet, maxdd int) (_r0 string, _err error) {
+	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.spanset_out(ss._inner, C.int(maxdd), (*C.size_t)(unsafe.Pointer(size_out)))
+	_cret := C.spanset_out(ss._inner, C.int(maxdd), &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
 	defer C.free(unsafe.Pointer(_cret))
-	return C.GoString(_cret), nil
+	return takeString(_cret, _size), nil
 }
 
 
@@ -1268,14 +1271,15 @@ func TemporalIn(str string, temptype MeosType) (_r0 *Temporal, _err error) {
 
 
 // TemporalOut wraps MEOS C function temporal_out.
-func TemporalOut(temp *Temporal, maxdd int, size_out unsafe.Pointer) (_r0 string, _err error) {
+func TemporalOut(temp *Temporal, maxdd int) (_r0 string, _err error) {
+	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.temporal_out(temp._inner, C.int(maxdd), (*C.size_t)(unsafe.Pointer(size_out)))
+	_cret := C.temporal_out(temp._inner, C.int(maxdd), &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
 	defer C.free(unsafe.Pointer(_cret))
-	return C.GoString(_cret), nil
+	return takeString(_cret, _size), nil
 }
 
 
@@ -1343,14 +1347,15 @@ func TinstantIn(str string, temptype MeosType) (_r0 *TInstant, _err error) {
 
 
 // TinstantOut wraps MEOS C function tinstant_out.
-func TinstantOut(inst *TInstant, maxdd int, size_out unsafe.Pointer) (_r0 string, _err error) {
+func TinstantOut(inst *TInstant, maxdd int) (_r0 string, _err error) {
+	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.tinstant_out(inst._inner, C.int(maxdd), (*C.size_t)(unsafe.Pointer(size_out)))
+	_cret := C.tinstant_out(inst._inner, C.int(maxdd), &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
 	defer C.free(unsafe.Pointer(_cret))
-	return C.GoString(_cret), nil
+	return takeString(_cret, _size), nil
 }
 
 
@@ -1446,14 +1451,15 @@ func TsequenceIn(str string, temptype MeosType, interp Interpolation) (_r0 *TSeq
 
 
 // TsequenceOut wraps MEOS C function tsequence_out.
-func TsequenceOut(seq *TSequence, maxdd int, size_out unsafe.Pointer) (_r0 string, _err error) {
+func TsequenceOut(seq *TSequence, maxdd int) (_r0 string, _err error) {
+	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.tsequence_out(seq._inner, C.int(maxdd), (*C.size_t)(unsafe.Pointer(size_out)))
+	_cret := C.tsequence_out(seq._inner, C.int(maxdd), &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
 	defer C.free(unsafe.Pointer(_cret))
-	return C.GoString(_cret), nil
+	return takeString(_cret, _size), nil
 }
 
 
@@ -1471,14 +1477,15 @@ func TsequencesetIn(str string, temptype MeosType, interp Interpolation) (_r0 *T
 
 
 // TsequencesetOut wraps MEOS C function tsequenceset_out.
-func TsequencesetOut(ss *TSequenceSet, maxdd int, size_out unsafe.Pointer) (_r0 string, _err error) {
+func TsequencesetOut(ss *TSequenceSet, maxdd int) (_r0 string, _err error) {
+	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.tsequenceset_out(ss._inner, C.int(maxdd), (*C.size_t)(unsafe.Pointer(size_out)))
+	_cret := C.tsequenceset_out(ss._inner, C.int(maxdd), &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
 	defer C.free(unsafe.Pointer(_cret))
-	return C.GoString(_cret), nil
+	return takeString(_cret, _size), nil
 }
 
 

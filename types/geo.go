@@ -35,8 +35,7 @@ func (x *Geo) AsEWKB(endian *string) ([]byte, error) {
 
 // AsEWKT is MEOS geo_as_ewkt.
 func (x *Geo) AsEWKT(precision int) (string, error) {
-	var _size uint64
-	_r0, _err := functions.GeoAsEWKT(functions.GeomFromPointer(x.Pointer()), precision, unsafe.Pointer(&_size))
+	_r0, _err := functions.GeoAsEWKT(functions.GeomFromPointer(x.Pointer()), precision)
 	if _err != nil {
 		return "", _err
 	}
@@ -45,8 +44,7 @@ func (x *Geo) AsEWKT(precision int) (string, error) {
 
 // AsGeoJSON is MEOS geo_as_geojson.
 func (x *Geo) AsGeoJSON(option int, precision int, srs *string) (string, error) {
-	var _size uint64
-	_r0, _err := functions.GeoAsGeojson(functions.GeomFromPointer(x.Pointer()), option, precision, srs, unsafe.Pointer(&_size))
+	_r0, _err := functions.GeoAsGeojson(functions.GeomFromPointer(x.Pointer()), option, precision, srs)
 	if _err != nil {
 		return "", _err
 	}
@@ -55,8 +53,7 @@ func (x *Geo) AsGeoJSON(option int, precision int, srs *string) (string, error) 
 
 // AsHexEWKB is MEOS geo_as_hexewkb.
 func (x *Geo) AsHexEWKB(endian *string) (string, error) {
-	var _size uint64
-	_r0, _err := functions.GeoAsHexewkb(functions.GeomFromPointer(x.Pointer()), endian, unsafe.Pointer(&_size))
+	_r0, _err := functions.GeoAsHexewkb(functions.GeomFromPointer(x.Pointer()), endian)
 	if _err != nil {
 		return "", _err
 	}
@@ -65,8 +62,7 @@ func (x *Geo) AsHexEWKB(endian *string) (string, error) {
 
 // AsText is MEOS geo_as_text.
 func (x *Geo) AsText(precision int) (string, error) {
-	var _size uint64
-	_r0, _err := functions.GeoAsText(functions.GeomFromPointer(x.Pointer()), precision, unsafe.Pointer(&_size))
+	_r0, _err := functions.GeoAsText(functions.GeomFromPointer(x.Pointer()), precision)
 	if _err != nil {
 		return "", _err
 	}
@@ -106,8 +102,7 @@ func GeoFromText(wkt string, srid int32) (*Geo, error) {
 
 // Out is MEOS geo_out.
 func (x *Geo) Out() (string, error) {
-	var _size uint64
-	_r0, _err := functions.GeoOut(functions.GeomFromPointer(x.Pointer()), unsafe.Pointer(&_size))
+	_r0, _err := functions.GeoOut(functions.GeomFromPointer(x.Pointer()))
 	if _err != nil {
 		return "", _err
 	}

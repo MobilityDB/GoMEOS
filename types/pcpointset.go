@@ -34,8 +34,7 @@ func PcpointSetIn(str string) (*Set, error) {
 
 // Out is MEOS pcpointset_out.
 func (x *PcpointSet) Out(maxdd int) (string, error) {
-	var _size uint64
-	_r0, _err := functions.PcpointsetOut(functions.SetFromPointer(x.Pointer()), maxdd, unsafe.Pointer(&_size))
+	_r0, _err := functions.PcpointsetOut(functions.SetFromPointer(x.Pointer()), maxdd)
 	if _err != nil {
 		return "", _err
 	}

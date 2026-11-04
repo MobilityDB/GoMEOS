@@ -334,8 +334,7 @@ func (x *Geometry) Intersects3d(gs2 *Geo) (bool, error) {
 
 // Relate is MEOS geom_relate.
 func (x *Geometry) Relate(gs2 *Geo) (string, error) {
-	var _size uint64
-	_r0, _err := functions.GeomRelate(functions.GeomFromPointer(x.Pointer()), functions.GeomFromPointer(gs2.Pointer()), unsafe.Pointer(&_size))
+	_r0, _err := functions.GeomRelate(functions.GeomFromPointer(x.Pointer()), functions.GeomFromPointer(gs2.Pointer()))
 	if _err != nil {
 		return "", _err
 	}

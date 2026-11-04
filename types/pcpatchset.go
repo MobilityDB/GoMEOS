@@ -34,8 +34,7 @@ func PcpatchSetIn(str string) (*Set, error) {
 
 // Out is MEOS pcpatchset_out.
 func (x *PcpatchSet) Out(maxdd int) (string, error) {
-	var _size uint64
-	_r0, _err := functions.PcpatchsetOut(functions.SetFromPointer(x.Pointer()), maxdd, unsafe.Pointer(&_size))
+	_r0, _err := functions.PcpatchsetOut(functions.SetFromPointer(x.Pointer()), maxdd)
 	if _err != nil {
 		return "", _err
 	}

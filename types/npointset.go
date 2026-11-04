@@ -34,8 +34,7 @@ func NpointSetIn(str string) (*Set, error) {
 
 // Out is MEOS npointset_out.
 func (x *NpointSet) Out(maxdd int) (string, error) {
-	var _size uint64
-	_r0, _err := functions.NpointsetOut(functions.SetFromPointer(x.Pointer()), maxdd, unsafe.Pointer(&_size))
+	_r0, _err := functions.NpointsetOut(functions.SetFromPointer(x.Pointer()), maxdd)
 	if _err != nil {
 		return "", _err
 	}

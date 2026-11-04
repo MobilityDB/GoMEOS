@@ -43,8 +43,7 @@ func JsonbIn(str string) (*Jsonb, error) {
 
 // Out is MEOS jsonb_out.
 func (x *Jsonb) Out() (string, error) {
-	var _size uint64
-	_r0, _err := functions.JsonbOut(functions.JsonbFromPointer(x.Pointer()), unsafe.Pointer(&_size))
+	_r0, _err := functions.JsonbOut(functions.JsonbFromPointer(x.Pointer()))
 	if _err != nil {
 		return "", _err
 	}
@@ -89,8 +88,7 @@ func (x *Jsonb) ToBool() (bool, error) {
 
 // ToCstring is MEOS jsonb_to_cstring.
 func (x *Jsonb) ToCstring() (string, error) {
-	var _size uint64
-	_r0, _err := functions.JsonbToCstring(functions.JsonbFromPointer(x.Pointer()), unsafe.Pointer(&_size))
+	_r0, _err := functions.JsonbToCstring(functions.JsonbFromPointer(x.Pointer()))
 	if _err != nil {
 		return "", _err
 	}

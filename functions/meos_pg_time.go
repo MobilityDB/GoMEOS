@@ -560,14 +560,15 @@ func TimetzCopy(timetz unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
 
 
 // TimetzOut wraps MEOS C function timetz_out.
-func TimetzOut(timetz unsafe.Pointer, size_out unsafe.Pointer) (_r0 string, _err error) {
+func TimetzOut(timetz unsafe.Pointer) (_r0 string, _err error) {
+	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.timetz_out((*C.TimeTzADT)(unsafe.Pointer(timetz)), (*C.size_t)(unsafe.Pointer(size_out)))
+	_cret := C.timetz_out((*C.TimeTzADT)(unsafe.Pointer(timetz)), &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
 	defer C.free(unsafe.Pointer(_cret))
-	return C.GoString(_cret), nil
+	return takeString(_cret, _size), nil
 }
 
 

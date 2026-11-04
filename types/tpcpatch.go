@@ -34,8 +34,7 @@ func TPcpatchIn(str string) (*Temporal, error) {
 
 // Out is MEOS tpcpatch_out.
 func (x *TPcpatch) Out() (string, error) {
-	var _size uint64
-	_r0, _err := functions.TpcpatchOut(functions.TemporalFromPointer(x.Pointer()), unsafe.Pointer(&_size))
+	_r0, _err := functions.TpcpatchOut(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return "", _err
 	}

@@ -27,8 +27,7 @@ func TemporalFromPointer(p unsafe.Pointer) *Temporal {
 
 // AsHexWKB is MEOS temporal_as_hexwkb.
 func (x *Temporal) AsHexWKB(variant uint8) (string, error) {
-	var _size uint64
-	_r0, _err := functions.TemporalAsHexwkb(functions.TemporalFromPointer(x.Pointer()), variant, unsafe.Pointer(&_size))
+	_r0, _err := functions.TemporalAsHexwkb(functions.TemporalFromPointer(x.Pointer()), variant)
 	if _err != nil {
 		return "", _err
 	}
@@ -37,8 +36,7 @@ func (x *Temporal) AsHexWKB(variant uint8) (string, error) {
 
 // AsMFJSON is MEOS temporal_as_mfjson.
 func (x *Temporal) AsMFJSON(option int, flags int, precision int, srs *string) (string, error) {
-	var _size uint64
-	_r0, _err := functions.TemporalAsMFJSON(functions.TemporalFromPointer(x.Pointer()), option, flags, precision, srs, unsafe.Pointer(&_size))
+	_r0, _err := functions.TemporalAsMFJSON(functions.TemporalFromPointer(x.Pointer()), option, flags, precision, srs)
 	if _err != nil {
 		return "", _err
 	}

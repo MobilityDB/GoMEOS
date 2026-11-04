@@ -43,8 +43,7 @@ func TBigintIn(str string) (*Temporal, error) {
 
 // Out is MEOS tbigint_out.
 func (x *TBigint) Out() (string, error) {
-	var _size uint64
-	_r0, _err := functions.TbigintOut(functions.TemporalFromPointer(x.Pointer()), unsafe.Pointer(&_size))
+	_r0, _err := functions.TbigintOut(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return "", _err
 	}

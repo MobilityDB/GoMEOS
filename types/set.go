@@ -25,8 +25,7 @@ func SetFromPointer(p unsafe.Pointer) *Set {
 
 // AsHexWKB is MEOS set_as_hexwkb.
 func (x *Set) AsHexWKB(variant uint8) (string, error) {
-	var _size uint64
-	_r0, _err := functions.SetAsHexwkb(functions.SetFromPointer(x.Pointer()), variant, unsafe.Pointer(&_size))
+	_r0, _err := functions.SetAsHexwkb(functions.SetFromPointer(x.Pointer()), variant)
 	if _err != nil {
 		return "", _err
 	}

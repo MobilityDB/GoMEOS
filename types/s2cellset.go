@@ -61,8 +61,7 @@ func S2CellSetIn(str string) (*Set, error) {
 
 // Out is MEOS s2cellset_out.
 func (x *S2CellSet) Out() (string, error) {
-	var _size uint64
-	_r0, _err := functions.S2cellsetOut(functions.SetFromPointer(x.Pointer()), unsafe.Pointer(&_size))
+	_r0, _err := functions.S2cellsetOut(functions.SetFromPointer(x.Pointer()))
 	if _err != nil {
 		return "", _err
 	}

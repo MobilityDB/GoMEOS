@@ -34,8 +34,7 @@ func TPoseFromGeopose(json string) (*Temporal, error) {
 
 // AsGeopose is MEOS tpose_as_geopose.
 func (x *TPose) AsGeopose(conformance int, precision int) (string, error) {
-	var _size uint64
-	_r0, _err := functions.TposeAsGeopose(functions.TemporalFromPointer(x.Pointer()), conformance, precision, unsafe.Pointer(&_size))
+	_r0, _err := functions.TposeAsGeopose(functions.TemporalFromPointer(x.Pointer()), conformance, precision)
 	if _err != nil {
 		return "", _err
 	}
@@ -44,8 +43,7 @@ func (x *TPose) AsGeopose(conformance int, precision int) (string, error) {
 
 // AsGeoposeStreamHeader is MEOS tpose_as_geopose_stream_header.
 func (x *TPose) AsGeoposeStreamHeader(precision int) (string, error) {
-	var _size uint64
-	_r0, _err := functions.TposeAsGeoposeStreamHeader(functions.TemporalFromPointer(x.Pointer()), precision, unsafe.Pointer(&_size))
+	_r0, _err := functions.TposeAsGeoposeStreamHeader(functions.TemporalFromPointer(x.Pointer()), precision)
 	if _err != nil {
 		return "", _err
 	}
@@ -54,8 +52,7 @@ func (x *TPose) AsGeoposeStreamHeader(precision int) (string, error) {
 
 // AsGeoposeStreamElement is MEOS tpose_as_geopose_stream_element.
 func (x *TPose) AsGeoposeStreamElement(inst *Temporal, precision int) (string, error) {
-	var _size uint64
-	_r0, _err := functions.TposeAsGeoposeStreamElement(functions.TemporalFromPointer(x.Pointer()), functions.TInstantFromPointer(inst.Pointer()), precision, unsafe.Pointer(&_size))
+	_r0, _err := functions.TposeAsGeoposeStreamElement(functions.TemporalFromPointer(x.Pointer()), functions.TInstantFromPointer(inst.Pointer()), precision)
 	if _err != nil {
 		return "", _err
 	}
@@ -64,8 +61,7 @@ func (x *TPose) AsGeoposeStreamElement(inst *Temporal, precision int) (string, e
 
 // AsGeoposeStream is MEOS tpose_as_geopose_stream.
 func (x *TPose) AsGeoposeStream(precision int) (string, error) {
-	var _size uint64
-	_r0, _err := functions.TposeAsGeoposeStream(functions.TemporalFromPointer(x.Pointer()), precision, unsafe.Pointer(&_size))
+	_r0, _err := functions.TposeAsGeoposeStream(functions.TemporalFromPointer(x.Pointer()), precision)
 	if _err != nil {
 		return "", _err
 	}

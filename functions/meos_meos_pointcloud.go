@@ -119,14 +119,15 @@ func PcpointHexIn(str string) (_r0 *Pcpoint, _err error) {
 
 
 // PcpointHexOut wraps MEOS C function pcpoint_hex_out.
-func PcpointHexOut(pt *Pcpoint, maxdd int, size_out unsafe.Pointer) (_r0 string, _err error) {
+func PcpointHexOut(pt *Pcpoint, maxdd int) (_r0 string, _err error) {
+	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.pcpoint_hex_out(pt._inner, C.int(maxdd), (*C.size_t)(unsafe.Pointer(size_out)))
+	_cret := C.pcpoint_hex_out(pt._inner, C.int(maxdd), &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
 	defer C.free(unsafe.Pointer(_cret))
-	return C.GoString(_cret), nil
+	return takeString(_cret, _size), nil
 }
 
 
@@ -144,14 +145,15 @@ func PcpointFromHexwkb(hexwkb string) (_r0 *Pcpoint, _err error) {
 
 
 // PcpointAsHexwkb wraps MEOS C function pcpoint_as_hexwkb.
-func PcpointAsHexwkb(pt *Pcpoint, size_out unsafe.Pointer) (_r0 string, _err error) {
+func PcpointAsHexwkb(pt *Pcpoint) (_r0 string, _err error) {
+	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.pcpoint_as_hexwkb(pt._inner, (*C.size_t)(unsafe.Pointer(size_out)))
+	_cret := C.pcpoint_as_hexwkb(pt._inner, &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
 	defer C.free(unsafe.Pointer(_cret))
-	return C.GoString(_cret), nil
+	return takeString(_cret, _size), nil
 }
 
 
@@ -534,14 +536,15 @@ func PcpatchHexIn(str string) (_r0 *Pcpatch, _err error) {
 
 
 // PcpatchHexOut wraps MEOS C function pcpatch_hex_out.
-func PcpatchHexOut(pa *Pcpatch, maxdd int, size_out unsafe.Pointer) (_r0 string, _err error) {
+func PcpatchHexOut(pa *Pcpatch, maxdd int) (_r0 string, _err error) {
+	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.pcpatch_hex_out(pa._inner, C.int(maxdd), (*C.size_t)(unsafe.Pointer(size_out)))
+	_cret := C.pcpatch_hex_out(pa._inner, C.int(maxdd), &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
 	defer C.free(unsafe.Pointer(_cret))
-	return C.GoString(_cret), nil
+	return takeString(_cret, _size), nil
 }
 
 
@@ -559,14 +562,15 @@ func PcpatchFromHexwkb(hexwkb string) (_r0 *Pcpatch, _err error) {
 
 
 // PcpatchAsHexwkb wraps MEOS C function pcpatch_as_hexwkb.
-func PcpatchAsHexwkb(pa *Pcpatch, size_out unsafe.Pointer) (_r0 string, _err error) {
+func PcpatchAsHexwkb(pa *Pcpatch) (_r0 string, _err error) {
+	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.pcpatch_as_hexwkb(pa._inner, (*C.size_t)(unsafe.Pointer(size_out)))
+	_cret := C.pcpatch_as_hexwkb(pa._inner, &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
 	defer C.free(unsafe.Pointer(_cret))
-	return C.GoString(_cret), nil
+	return takeString(_cret, _size), nil
 }
 
 
@@ -782,14 +786,15 @@ func PcpointsetIn(str string) (_r0 *Set, _err error) {
 
 
 // PcpointsetOut wraps MEOS C function pcpointset_out.
-func PcpointsetOut(s *Set, maxdd int, size_out unsafe.Pointer) (_r0 string, _err error) {
+func PcpointsetOut(s *Set, maxdd int) (_r0 string, _err error) {
+	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.pcpointset_out(s._inner, C.int(maxdd), (*C.size_t)(unsafe.Pointer(size_out)))
+	_cret := C.pcpointset_out(s._inner, C.int(maxdd), &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
 	defer C.free(unsafe.Pointer(_cret))
-	return C.GoString(_cret), nil
+	return takeString(_cret, _size), nil
 }
 
 
@@ -973,14 +978,15 @@ func PcpatchsetIn(str string) (_r0 *Set, _err error) {
 
 
 // PcpatchsetOut wraps MEOS C function pcpatchset_out.
-func PcpatchsetOut(s *Set, maxdd int, size_out unsafe.Pointer) (_r0 string, _err error) {
+func PcpatchsetOut(s *Set, maxdd int) (_r0 string, _err error) {
+	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.pcpatchset_out(s._inner, C.int(maxdd), (*C.size_t)(unsafe.Pointer(size_out)))
+	_cret := C.pcpatchset_out(s._inner, C.int(maxdd), &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
 	defer C.free(unsafe.Pointer(_cret))
-	return C.GoString(_cret), nil
+	return takeString(_cret, _size), nil
 }
 
 
@@ -1162,26 +1168,28 @@ func TpcboxAsEWKB(box *TPCBox, variant uint8, size_out unsafe.Pointer) (_r0 unsa
 
 
 // TpcboxAsHexewkb wraps MEOS C function tpcbox_as_hexewkb.
-func TpcboxAsHexewkb(box *TPCBox, variant uint8, size_out unsafe.Pointer) (_r0 string, _err error) {
+func TpcboxAsHexewkb(box *TPCBox, variant uint8) (_r0 string, _err error) {
+	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.tpcbox_as_hexewkb(box._inner, C.uint8_t(variant), (*C.size_t)(unsafe.Pointer(size_out)))
+	_cret := C.tpcbox_as_hexewkb(box._inner, C.uint8_t(variant), &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
 	defer C.free(unsafe.Pointer(_cret))
-	return C.GoString(_cret), nil
+	return takeString(_cret, _size), nil
 }
 
 
 // TpcboxAsHexwkb wraps MEOS C function tpcbox_as_hexwkb.
-func TpcboxAsHexwkb(box *TPCBox, variant uint8, size_out unsafe.Pointer) (_r0 string, _err error) {
+func TpcboxAsHexwkb(box *TPCBox, variant uint8) (_r0 string, _err error) {
+	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.tpcbox_as_hexwkb(box._inner, C.uint8_t(variant), (*C.size_t)(unsafe.Pointer(size_out)))
+	_cret := C.tpcbox_as_hexwkb(box._inner, C.uint8_t(variant), &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
 	defer C.free(unsafe.Pointer(_cret))
-	return C.GoString(_cret), nil
+	return takeString(_cret, _size), nil
 }
 
 
@@ -1234,14 +1242,15 @@ func TpcboxIn(str string) (_r0 *TPCBox, _err error) {
 
 
 // TpcboxOut wraps MEOS C function tpcbox_out.
-func TpcboxOut(box *TPCBox, maxdd int, size_out unsafe.Pointer) (_r0 string, _err error) {
+func TpcboxOut(box *TPCBox, maxdd int) (_r0 string, _err error) {
+	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.tpcbox_out(box._inner, C.int(maxdd), (*C.size_t)(unsafe.Pointer(size_out)))
+	_cret := C.tpcbox_out(box._inner, C.int(maxdd), &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
 	defer C.free(unsafe.Pointer(_cret))
-	return C.GoString(_cret), nil
+	return takeString(_cret, _size), nil
 }
 
 
@@ -1864,14 +1873,15 @@ func TpcpointIn(str string) (_r0 *Temporal, _err error) {
 
 
 // TpcpointOut wraps MEOS C function tpcpoint_out.
-func TpcpointOut(temp *Temporal, size_out unsafe.Pointer) (_r0 string, _err error) {
+func TpcpointOut(temp *Temporal) (_r0 string, _err error) {
+	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.tpcpoint_out(temp._inner, (*C.size_t)(unsafe.Pointer(size_out)))
+	_cret := C.tpcpoint_out(temp._inner, &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
 	defer C.free(unsafe.Pointer(_cret))
-	return C.GoString(_cret), nil
+	return takeString(_cret, _size), nil
 }
 
 
@@ -1902,14 +1912,15 @@ func TpcpatchIn(str string) (_r0 *Temporal, _err error) {
 
 
 // TpcpatchOut wraps MEOS C function tpcpatch_out.
-func TpcpatchOut(temp *Temporal, size_out unsafe.Pointer) (_r0 string, _err error) {
+func TpcpatchOut(temp *Temporal) (_r0 string, _err error) {
+	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.tpcpatch_out(temp._inner, (*C.size_t)(unsafe.Pointer(size_out)))
+	_cret := C.tpcpatch_out(temp._inner, &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
 	defer C.free(unsafe.Pointer(_cret))
-	return C.GoString(_cret), nil
+	return takeString(_cret, _size), nil
 }
 
 

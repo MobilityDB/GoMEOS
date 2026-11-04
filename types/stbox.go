@@ -35,8 +35,7 @@ func (x *STBox) AsEWKB(variant uint8) ([]byte, error) {
 
 // AsHexEWKB is MEOS stbox_as_hexewkb.
 func (x *STBox) AsHexEWKB(variant uint8) (string, error) {
-	var _size uint64
-	_r0, _err := functions.STBOXAsHexewkb(functions.STBoxFromPointer(x.Pointer()), variant, unsafe.Pointer(&_size))
+	_r0, _err := functions.STBOXAsHexewkb(functions.STBoxFromPointer(x.Pointer()), variant)
 	if _err != nil {
 		return "", _err
 	}
@@ -45,8 +44,7 @@ func (x *STBox) AsHexEWKB(variant uint8) (string, error) {
 
 // AsHexWKB is MEOS stbox_as_hexwkb.
 func (x *STBox) AsHexWKB(variant uint8) (string, error) {
-	var _size uint64
-	_r0, _err := functions.STBOXAsHexwkb(functions.STBoxFromPointer(x.Pointer()), variant, unsafe.Pointer(&_size))
+	_r0, _err := functions.STBOXAsHexwkb(functions.STBoxFromPointer(x.Pointer()), variant)
 	if _err != nil {
 		return "", _err
 	}
@@ -96,8 +94,7 @@ func STBoxIn(str string) (*STBox, error) {
 
 // Out is MEOS stbox_out.
 func (x *STBox) Out(maxdd int) (string, error) {
-	var _size uint64
-	_r0, _err := functions.STBOXOut(functions.STBoxFromPointer(x.Pointer()), maxdd, unsafe.Pointer(&_size))
+	_r0, _err := functions.STBOXOut(functions.STBoxFromPointer(x.Pointer()), maxdd)
 	if _err != nil {
 		return "", _err
 	}

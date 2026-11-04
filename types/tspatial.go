@@ -27,8 +27,7 @@ func TSpatialFromPointer(p unsafe.Pointer) *TSpatial {
 
 // Out is MEOS tspatial_out.
 func (x *TSpatial) Out(maxdd int) (string, error) {
-	var _size uint64
-	_r0, _err := functions.TspatialOut(functions.TemporalFromPointer(x.Pointer()), maxdd, unsafe.Pointer(&_size))
+	_r0, _err := functions.TspatialOut(functions.TemporalFromPointer(x.Pointer()), maxdd)
 	if _err != nil {
 		return "", _err
 	}
@@ -47,8 +46,7 @@ func (x *TSpatial) AsEWKB(variant uint8) ([]byte, error) {
 
 // AsEWKT is MEOS tspatial_as_ewkt.
 func (x *TSpatial) AsEWKT(maxdd int) (string, error) {
-	var _size uint64
-	_r0, _err := functions.TspatialAsEWKT(functions.TemporalFromPointer(x.Pointer()), maxdd, unsafe.Pointer(&_size))
+	_r0, _err := functions.TspatialAsEWKT(functions.TemporalFromPointer(x.Pointer()), maxdd)
 	if _err != nil {
 		return "", _err
 	}
@@ -57,8 +55,7 @@ func (x *TSpatial) AsEWKT(maxdd int) (string, error) {
 
 // AsHexEWKB is MEOS tspatial_as_hexewkb.
 func (x *TSpatial) AsHexEWKB(variant uint8) (string, error) {
-	var _size uint64
-	_r0, _err := functions.TspatialAsHexewkb(functions.TemporalFromPointer(x.Pointer()), variant, unsafe.Pointer(&_size))
+	_r0, _err := functions.TspatialAsHexewkb(functions.TemporalFromPointer(x.Pointer()), variant)
 	if _err != nil {
 		return "", _err
 	}
@@ -67,8 +64,7 @@ func (x *TSpatial) AsHexEWKB(variant uint8) (string, error) {
 
 // AsText is MEOS tspatial_as_text.
 func (x *TSpatial) AsText(maxdd int) (string, error) {
-	var _size uint64
-	_r0, _err := functions.TspatialAsText(functions.TemporalFromPointer(x.Pointer()), maxdd, unsafe.Pointer(&_size))
+	_r0, _err := functions.TspatialAsText(functions.TemporalFromPointer(x.Pointer()), maxdd)
 	if _err != nil {
 		return "", _err
 	}

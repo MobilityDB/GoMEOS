@@ -34,8 +34,7 @@ func TS2CellIn(str string) (*Temporal, error) {
 
 // Out is MEOS ts2cell_out.
 func (x *TS2Cell) Out() (string, error) {
-	var _size uint64
-	_r0, _err := functions.Ts2cellOut(functions.TemporalFromPointer(x.Pointer()), unsafe.Pointer(&_size))
+	_r0, _err := functions.Ts2cellOut(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return "", _err
 	}

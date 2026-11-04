@@ -34,8 +34,7 @@ func BigIntSpanSetIn(str string) (*SpanSet, error) {
 
 // Out is MEOS bigintspanset_out.
 func (x *BigIntSpanSet) Out() (string, error) {
-	var _size uint64
-	_r0, _err := functions.BigintspansetOut(functions.SpanSetFromPointer(x.Pointer()), unsafe.Pointer(&_size))
+	_r0, _err := functions.BigintspansetOut(functions.SpanSetFromPointer(x.Pointer()))
 	if _err != nil {
 		return "", _err
 	}

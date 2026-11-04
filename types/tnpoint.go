@@ -43,8 +43,7 @@ func TNpointFromMFJSON(mfjson string) (*Temporal, error) {
 
 // Out is MEOS tnpoint_out.
 func (x *TNpoint) Out(maxdd int) (string, error) {
-	var _size uint64
-	_r0, _err := functions.TnpointOut(functions.TemporalFromPointer(x.Pointer()), maxdd, unsafe.Pointer(&_size))
+	_r0, _err := functions.TnpointOut(functions.TemporalFromPointer(x.Pointer()), maxdd)
 	if _err != nil {
 		return "", _err
 	}

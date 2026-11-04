@@ -34,8 +34,7 @@ func H3IndexSetIn(str string) (*Set, error) {
 
 // Out is MEOS h3indexset_out.
 func (x *H3IndexSet) Out() (string, error) {
-	var _size uint64
-	_r0, _err := functions.H3indexsetOut(functions.SetFromPointer(x.Pointer()), unsafe.Pointer(&_size))
+	_r0, _err := functions.H3indexsetOut(functions.SetFromPointer(x.Pointer()))
 	if _err != nil {
 		return "", _err
 	}

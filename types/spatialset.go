@@ -25,8 +25,7 @@ func SpatialSetFromPointer(p unsafe.Pointer) *SpatialSet {
 
 // Out is MEOS spatialset_out.
 func (x *SpatialSet) Out(maxdd int) (string, error) {
-	var _size uint64
-	_r0, _err := functions.SpatialsetOut(functions.SetFromPointer(x.Pointer()), maxdd, unsafe.Pointer(&_size))
+	_r0, _err := functions.SpatialsetOut(functions.SetFromPointer(x.Pointer()), maxdd)
 	if _err != nil {
 		return "", _err
 	}
@@ -35,8 +34,7 @@ func (x *SpatialSet) Out(maxdd int) (string, error) {
 
 // AsText is MEOS spatialset_as_text.
 func (x *SpatialSet) AsText(maxdd int) (string, error) {
-	var _size uint64
-	_r0, _err := functions.SpatialsetAsText(functions.SetFromPointer(x.Pointer()), maxdd, unsafe.Pointer(&_size))
+	_r0, _err := functions.SpatialsetAsText(functions.SetFromPointer(x.Pointer()), maxdd)
 	if _err != nil {
 		return "", _err
 	}
@@ -55,8 +53,7 @@ func (x *SpatialSet) AsEWKB(variant uint8) ([]byte, error) {
 
 // AsEWKT is MEOS spatialset_as_ewkt.
 func (x *SpatialSet) AsEWKT(maxdd int) (string, error) {
-	var _size uint64
-	_r0, _err := functions.SpatialsetAsEWKT(functions.SetFromPointer(x.Pointer()), maxdd, unsafe.Pointer(&_size))
+	_r0, _err := functions.SpatialsetAsEWKT(functions.SetFromPointer(x.Pointer()), maxdd)
 	if _err != nil {
 		return "", _err
 	}
@@ -65,8 +62,7 @@ func (x *SpatialSet) AsEWKT(maxdd int) (string, error) {
 
 // AsHexEWKB is MEOS spatialset_as_hexewkb.
 func (x *SpatialSet) AsHexEWKB(variant uint8) (string, error) {
-	var _size uint64
-	_r0, _err := functions.SpatialsetAsHexewkb(functions.SetFromPointer(x.Pointer()), variant, unsafe.Pointer(&_size))
+	_r0, _err := functions.SpatialsetAsHexewkb(functions.SetFromPointer(x.Pointer()), variant)
 	if _err != nil {
 		return "", _err
 	}

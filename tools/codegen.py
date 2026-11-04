@@ -737,7 +737,21 @@ def emit_function(entry: dict) -> EmittedFunc:
 
     # Pre-classify every parameter so the input loop can skip ones that
     # become outputs or array-length companions.
+    # A ``char *`` return's ``size_t *`` the shape lists in ``outParams`` states the
+    # size of the string the call answers, its terminator included: it leaves the
+    # signature and the string is copied for that size (#takeString, freed as
+    # #_free_returned_string frees it), as objectgen.py's #method_for reads a byte
+    # buffer's length from the same shape.
+    string_size_outs = set()
+    if return_c.replace(" ", "") == "char*":
+        string_size_outs = {
+            p["name"] for p in params
+            if p["name"] in (shape.get("outParams") or [])
+            and p["cType"].replace(" ", "") == "size_t*"}
+
     def classify_one(p, i):
+        if p["name"] in string_size_outs:
+            return "STRING_SIZE"
         if p["name"] in named_outputs:
             return "OUTPUT_SCALAR"
         return _classify_param(p, params, i)
@@ -818,6 +832,11 @@ def emit_function(entry: dict) -> EmittedFunc:
         pname = _go_param_name(p["name"])
         ptype = p["cType"]
         cls = classes[i]
+
+        if cls == "STRING_SIZE":
+            deferred.append("var _size C.size_t")
+            inner_args.append("&_size")
+            continue
 
         if cls == "ARRAY_LENGTH":
             # Length is derived from the preceding slice's len(); locate it.
@@ -1059,7 +1078,8 @@ def emit_function(entry: dict) -> EmittedFunc:
         free_cret = _free_returned_string(return_c)
         if free_cret:
             body_lines.append(free_cret.lstrip("\n"))
-        return_expr = ret_from_c.replace("$x", "_cret")
+        return_expr = ("takeString(_cret, _size)" if string_size_outs
+                       else ret_from_c.replace("$x", "_cret"))
         if extra_returns:
             tail = ", ".join(c2g for _, _, c2g in extra_returns)
             tail = _expand_slice_markers(tail, body_lines, array_count_local, array_length_source)
@@ -1187,6 +1207,17 @@ func TakeBytes(p unsafe.Pointer, n uint64) []byte {
 	}
 	defer C.free(p)
 	return C.GoBytes(p, C.int(n))
+}
+
+// takeString copies the string a MEOS writer answered at p into Go memory for the
+// size MEOS states through its size_t * out-parameter, the terminator included, as
+// #TakeBytes copies a buffer for its length. A nil string, for which MEOS wrote no
+// size, answers "" as C.GoString does. The wrapper frees the buffer.
+func takeString(p *C.char, size C.size_t) string {
+	if p == nil {
+		return ""
+	}
+	return C.GoStringN(p, C.int(size-1))
 }
 
 // MeosError reports that the MEOS call behind a wrapper failed, carrying the

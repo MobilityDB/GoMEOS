@@ -34,8 +34,7 @@ func TextIn(str string) (string, error) {
 
 // TextOut is MEOS text_out.
 func TextOut(txt string) (string, error) {
-	var _size uint64
-	_r0, _err := functions.TextOut(txt, unsafe.Pointer(&_size))
+	_r0, _err := functions.TextOut(txt)
 	if _err != nil {
 		return "", _err
 	}
