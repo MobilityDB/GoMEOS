@@ -86,19 +86,31 @@ func (geom *Geom) GeoOut() string {
 }
 
 func GeoAsText(g *Geom, precision int) string {
-	return C.GoString(C.geo_as_text(g._inner, C.int(precision), new(C.size_t)))
+	_cstr := C.geo_as_text(g._inner, C.int(precision), new(C.size_t))
+	defer C.free(unsafe.Pointer(_cstr))
+	return C.GoString(_cstr)
 }
 
 func GeoAsGeojson(g *Geom, option int, precision int, srs string) string {
-	return C.GoString(C.geo_as_geojson(g._inner, C.int(option), C.int(precision), C.CString(srs), new(C.size_t)))
+	c_srs := C.CString(srs)
+	defer C.free(unsafe.Pointer(c_srs))
+	_cstr := C.geo_as_geojson(g._inner, C.int(option), C.int(precision), c_srs, new(C.size_t))
+	defer C.free(unsafe.Pointer(_cstr))
+	return C.GoString(_cstr)
 }
 
 func GeoAsEWKT(g *Geom, precision int) string {
-	return C.GoString(C.geo_as_ewkt(g._inner, C.int(precision), new(C.size_t)))
+	_cstr := C.geo_as_ewkt(g._inner, C.int(precision), new(C.size_t))
+	defer C.free(unsafe.Pointer(_cstr))
+	return C.GoString(_cstr)
 }
 
 func GeoAsHexEwkb(g *Geom, endian string) string {
-	return C.GoString(C.geo_as_hexewkb(g._inner, C.CString(endian), new(C.size_t)))
+	c_endian := C.CString(endian)
+	defer C.free(unsafe.Pointer(c_endian))
+	_cstr := C.geo_as_hexewkb(g._inner, c_endian, new(C.size_t))
+	defer C.free(unsafe.Pointer(_cstr))
+	return C.GoString(_cstr)
 }
 
 func GeoSame(g1 *Geom, g2 *Geom) bool {

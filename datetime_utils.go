@@ -30,7 +30,9 @@ func DateToDateADT(t time.Time) C.DateADT {
 }
 
 func DateADTToDate(d C.DateADT) time.Time {
-	dateStr := C.GoString(C.date_out(d, new(C.size_t)))
+	_cstr := C.date_out(d, new(C.size_t))
+	defer C.free(unsafe.Pointer(_cstr))
+	dateStr := C.GoString(_cstr)
 	layout := "2006-01-02"
 	parsedDate, _ := time.Parse(layout, dateStr)
 	return parsedDate
@@ -63,7 +65,9 @@ func TimestamptzIn(timeStr string) C.TimestampTz {
 }
 
 func TimestamptzOut(ts C.TimestampTz) string {
-	timeStr := C.GoString(C.timestamptz_out(ts, new(C.size_t)))
+	_cstr := C.timestamptz_out(ts, new(C.size_t))
+	defer C.free(unsafe.Pointer(_cstr))
+	timeStr := C.GoString(_cstr)
 	return timeStr
 }
 
