@@ -43,7 +43,8 @@ func TFloatIn(str string) (*Temporal, error) {
 
 // Out is MEOS tfloat_out.
 func (x *TFloat) Out(maxdd int) (string, error) {
-	_r0, _err := functions.TfloatOut(functions.TemporalFromPointer(x.Pointer()), maxdd)
+	var _size uint64
+	_r0, _err := functions.TfloatOut(functions.TemporalFromPointer(x.Pointer()), maxdd, unsafe.Pointer(&_size))
 	if _err != nil {
 		return "", _err
 	}

@@ -34,8 +34,8 @@ func TPointFromBaseTemp(gs *Geo, temp *Temporal) (*Temporal, error) {
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
-// AsMvtgeom is MEOS tpoint_as_mvtgeom.
-func (x *TPoint) AsMvtgeom(bounds *STBox, extent int32, buffer int32, clip_geom bool, gsarr unsafe.Pointer, timesarr unsafe.Pointer, count unsafe.Pointer) (bool, error) {
+// AsMVTGeom is MEOS tpoint_as_mvtgeom.
+func (x *TPoint) AsMVTGeom(bounds *STBox, extent int32, buffer int32, clip_geom bool, gsarr unsafe.Pointer, timesarr unsafe.Pointer, count unsafe.Pointer) (bool, error) {
 	_r0, _err := functions.TpointAsMvtgeom(functions.TemporalFromPointer(x.Pointer()), functions.STBoxFromPointer(bounds.Pointer()), extent, buffer, clip_geom, gsarr, timesarr, count)
 	if _err != nil {
 		return false, _err
@@ -53,6 +53,15 @@ func (x *TPoint) TfloatToGeomeas(measure *Temporal, segmentize bool) (*Geo, bool
 		return nil, false, nil
 	}
 	return GeoFromPointer(_value.Pointer()), true, nil
+}
+
+// ToGeomeas is MEOS tpoint_to_geomeas.
+func (x *TPoint) ToGeomeas(segmentize bool) (*Geo, error) {
+	_r0, _err := functions.TpointToGeomeas(functions.TemporalFromPointer(x.Pointer()), segmentize)
+	if _err != nil {
+		return nil, _err
+	}
+	return GeoFromPointer(_r0.Pointer()), nil
 }
 
 // AngularDifference is MEOS tpoint_angular_difference.

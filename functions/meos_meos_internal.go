@@ -197,9 +197,9 @@ func SetIn(str string, settype MeosType) (_r0 *Set, _err error) {
 
 
 // SetOut wraps MEOS C function set_out.
-func SetOut(s *Set, maxdd int) (_r0 string, _err error) {
+func SetOut(s *Set, maxdd int, size_out unsafe.Pointer) (_r0 string, _err error) {
 	C.meos_errno_reset()
-	_cret := C.set_out(s._inner, C.int(maxdd))
+	_cret := C.set_out(s._inner, C.int(maxdd), (*C.size_t)(unsafe.Pointer(size_out)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -222,9 +222,9 @@ func SpanIn(str string, spantype MeosType) (_r0 *Span, _err error) {
 
 
 // SpanOut wraps MEOS C function span_out.
-func SpanOut(s *Span, maxdd int) (_r0 string, _err error) {
+func SpanOut(s *Span, maxdd int, size_out unsafe.Pointer) (_r0 string, _err error) {
 	C.meos_errno_reset()
-	_cret := C.span_out(s._inner, C.int(maxdd))
+	_cret := C.span_out(s._inner, C.int(maxdd), (*C.size_t)(unsafe.Pointer(size_out)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -247,9 +247,9 @@ func SpansetIn(str string, spantype MeosType) (_r0 *SpanSet, _err error) {
 
 
 // SpansetOut wraps MEOS C function spanset_out.
-func SpansetOut(ss *SpanSet, maxdd int) (_r0 string, _err error) {
+func SpansetOut(ss *SpanSet, maxdd int, size_out unsafe.Pointer) (_r0 string, _err error) {
 	C.meos_errno_reset()
-	_cret := C.spanset_out(ss._inner, C.int(maxdd))
+	_cret := C.spanset_out(ss._inner, C.int(maxdd), (*C.size_t)(unsafe.Pointer(size_out)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -655,6 +655,83 @@ func EnsureIndexJoinOp(op IndexSearchOp) (_r0 bool, _err error) {
 		return
 	}
 	return bool(_cret), nil
+}
+
+
+// BboxSameStructure wraps MEOS C function bbox_same_structure.
+func BboxSameStructure(bboxtype MeosType, box1 unsafe.Pointer, box2 unsafe.Pointer) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.bbox_same_structure(C.MeosType(bboxtype), unsafe.Pointer(box1), unsafe.Pointer(box2))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// EnsureIndexOp wraps MEOS C function ensure_index_op.
+func EnsureIndexOp(bboxtype MeosType, op IndexSearchOp) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.ensure_index_op(C.MeosType(bboxtype), C.IndexSearchOp(op))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// IndexOpIsValid wraps MEOS C function index_op_is_valid.
+func IndexOpIsValid(bboxtype MeosType, op IndexSearchOp, box unsafe.Pointer, query unsafe.Pointer) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.index_op_is_valid(C.MeosType(bboxtype), C.IndexSearchOp(op), unsafe.Pointer(box), unsafe.Pointer(query))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// IndexOpApply wraps MEOS C function index_op_apply.
+func IndexOpApply(bboxtype MeosType, op IndexSearchOp, box unsafe.Pointer, query unsafe.Pointer) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.index_op_apply(C.MeosType(bboxtype), C.IndexSearchOp(op), unsafe.Pointer(box), unsafe.Pointer(query))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// IndexQueryProject wraps MEOS C function index_query_project.
+func IndexQueryProject(bboxtype MeosType, query unsafe.Pointer, box unsafe.Pointer, result unsafe.Pointer) (_err error) {
+	C.meos_errno_reset()
+	C.index_query_project(C.MeosType(bboxtype), unsafe.Pointer(query), unsafe.Pointer(box), unsafe.Pointer(result))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return nil
+}
+
+
+// IndexDistanceIsValid wraps MEOS C function index_distance_is_valid.
+func IndexDistanceIsValid(bboxtype MeosType, box unsafe.Pointer, query unsafe.Pointer) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.index_distance_is_valid(C.MeosType(bboxtype), unsafe.Pointer(box), unsafe.Pointer(query))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// IndexDistanceApply wraps MEOS C function index_distance_apply.
+func IndexDistanceApply(bboxtype MeosType, box unsafe.Pointer, query unsafe.Pointer) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.index_distance_apply(C.MeosType(bboxtype), unsafe.Pointer(box), unsafe.Pointer(query))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
 }
 
 
@@ -1191,9 +1268,9 @@ func TemporalIn(str string, temptype MeosType) (_r0 *Temporal, _err error) {
 
 
 // TemporalOut wraps MEOS C function temporal_out.
-func TemporalOut(temp *Temporal, maxdd int) (_r0 string, _err error) {
+func TemporalOut(temp *Temporal, maxdd int, size_out unsafe.Pointer) (_r0 string, _err error) {
 	C.meos_errno_reset()
-	_cret := C.temporal_out(temp._inner, C.int(maxdd))
+	_cret := C.temporal_out(temp._inner, C.int(maxdd), (*C.size_t)(unsafe.Pointer(size_out)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1266,9 +1343,9 @@ func TinstantIn(str string, temptype MeosType) (_r0 *TInstant, _err error) {
 
 
 // TinstantOut wraps MEOS C function tinstant_out.
-func TinstantOut(inst *TInstant, maxdd int) (_r0 string, _err error) {
+func TinstantOut(inst *TInstant, maxdd int, size_out unsafe.Pointer) (_r0 string, _err error) {
 	C.meos_errno_reset()
-	_cret := C.tinstant_out(inst._inner, C.int(maxdd))
+	_cret := C.tinstant_out(inst._inner, C.int(maxdd), (*C.size_t)(unsafe.Pointer(size_out)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1369,9 +1446,9 @@ func TsequenceIn(str string, temptype MeosType, interp Interpolation) (_r0 *TSeq
 
 
 // TsequenceOut wraps MEOS C function tsequence_out.
-func TsequenceOut(seq *TSequence, maxdd int) (_r0 string, _err error) {
+func TsequenceOut(seq *TSequence, maxdd int, size_out unsafe.Pointer) (_r0 string, _err error) {
 	C.meos_errno_reset()
-	_cret := C.tsequence_out(seq._inner, C.int(maxdd))
+	_cret := C.tsequence_out(seq._inner, C.int(maxdd), (*C.size_t)(unsafe.Pointer(size_out)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1394,9 +1471,9 @@ func TsequencesetIn(str string, temptype MeosType, interp Interpolation) (_r0 *T
 
 
 // TsequencesetOut wraps MEOS C function tsequenceset_out.
-func TsequencesetOut(ss *TSequenceSet, maxdd int) (_r0 string, _err error) {
+func TsequencesetOut(ss *TSequenceSet, maxdd int, size_out unsafe.Pointer) (_r0 string, _err error) {
 	C.meos_errno_reset()
-	_cret := C.tsequenceset_out(ss._inner, C.int(maxdd))
+	_cret := C.tsequenceset_out(ss._inner, C.int(maxdd), (*C.size_t)(unsafe.Pointer(size_out)))
 	if _err = meosError(); _err != nil {
 		return
 	}

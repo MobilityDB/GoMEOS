@@ -31,14 +31,14 @@ func NewEmptyTGeomPointInst() TGeomPointInst {
 }
 
 func (tgmpi *TGeomPointInst) TPointOut(maxdd int) string {
-	c_tgmpi_out := C.tspatial_as_text(tgmpi._inner, C.int(maxdd))
+	c_tgmpi_out := C.tspatial_as_text(tgmpi._inner, C.int(maxdd), new(C.size_t))
 	defer C.free(unsafe.Pointer(c_tgmpi_out))
 	tgmpi_out := C.GoString(c_tgmpi_out)
 	return tgmpi_out
 }
 
 func (tgmpi *TGeomPointInst) TInstantOut(maxdd int) string {
-	c_tgmpi_out := C.tspatial_as_text(tgmpi._inner, C.int(maxdd))
+	c_tgmpi_out := C.tspatial_as_text(tgmpi._inner, C.int(maxdd), new(C.size_t))
 	defer C.free(unsafe.Pointer(c_tgmpi_out))
 	tgmpi_out := C.GoString(c_tgmpi_out)
 	return tgmpi_out
@@ -93,7 +93,7 @@ func NewTGeomPointSeqFromWKB(tgmpi_in string) *TGeomPointSeq {
 }
 
 func (tgmpi *TGeomPointSeq) TPointOut(maxdd int) string {
-	c_tgmpi_out := C.tspatial_as_text(tgmpi._inner, C.int(maxdd))
+	c_tgmpi_out := C.tspatial_as_text(tgmpi._inner, C.int(maxdd), new(C.size_t))
 	defer C.free(unsafe.Pointer(c_tgmpi_out))
 	tgmpi_out := C.GoString(c_tgmpi_out)
 	return tgmpi_out
@@ -144,7 +144,7 @@ func NewTGeomPointSeqSet(tgmpi_in string) *TGeomPointSeqSet {
 }
 
 func (tgmpi *TGeomPointSeqSet) TPointOut(maxdd int) string {
-	c_tgmpi_out := C.tspatial_as_text(tgmpi._inner, C.int(maxdd))
+	c_tgmpi_out := C.tspatial_as_text(tgmpi._inner, C.int(maxdd), new(C.size_t))
 	defer C.free(unsafe.Pointer(c_tgmpi_out))
 	tgmpi_out := C.GoString(c_tgmpi_out)
 	return tgmpi_out

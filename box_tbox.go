@@ -122,7 +122,7 @@ func NumSpanTimestamptzToTBox[S NumSpan](numspan S, t time.Time) *TBox {
 
 // TBoxOut Return the Well-Known Text (WKT) representation of a temporal box
 func TBoxOut(tbox *TBox, max_decimals int) string {
-	return C.GoString(C.tbox_out(tbox._inner, C.int(max_decimals)))
+	return C.GoString(C.tbox_out(tbox._inner, C.int(max_decimals), new(C.size_t)))
 }
 
 // TBoxAsWKB Returns the tbox object as a hex-encoded WKB string.

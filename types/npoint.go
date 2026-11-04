@@ -35,7 +35,8 @@ func (x *Npoint) AsEWKB(variant uint8) ([]byte, error) {
 
 // AsEWKT is MEOS npoint_as_ewkt.
 func (x *Npoint) AsEWKT(maxdd int) (string, error) {
-	_r0, _err := functions.NpointAsEWKT(functions.NpointFromPointer(x.Pointer()), maxdd)
+	var _size uint64
+	_r0, _err := functions.NpointAsEWKT(functions.NpointFromPointer(x.Pointer()), maxdd, unsafe.Pointer(&_size))
 	if _err != nil {
 		return "", _err
 	}
@@ -64,7 +65,8 @@ func (x *Npoint) AsHexWKB(variant uint8) (string, error) {
 
 // AsText is MEOS npoint_as_text.
 func (x *Npoint) AsText(maxdd int) (string, error) {
-	_r0, _err := functions.NpointAsText(functions.NpointFromPointer(x.Pointer()), maxdd)
+	var _size uint64
+	_r0, _err := functions.NpointAsText(functions.NpointFromPointer(x.Pointer()), maxdd, unsafe.Pointer(&_size))
 	if _err != nil {
 		return "", _err
 	}
@@ -114,7 +116,8 @@ func NpointIn(str string) (*Npoint, error) {
 
 // Out is MEOS npoint_out.
 func (x *Npoint) Out(maxdd int) (string, error) {
-	_r0, _err := functions.NpointOut(functions.NpointFromPointer(x.Pointer()), maxdd)
+	var _size uint64
+	_r0, _err := functions.NpointOut(functions.NpointFromPointer(x.Pointer()), maxdd, unsafe.Pointer(&_size))
 	if _err != nil {
 		return "", _err
 	}

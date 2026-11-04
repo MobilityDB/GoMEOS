@@ -32,7 +32,7 @@ func (tb *TTextInst) IsTText() bool {
 }
 
 func (tb *TTextInst) TTextOut() string {
-	c_tf_out := C.ttext_out(tb._inner)
+	c_tf_out := C.ttext_out(tb._inner, new(C.size_t))
 	defer C.free(unsafe.Pointer(c_tf_out))
 	tf_out := C.GoString(c_tf_out)
 	return tf_out
@@ -63,7 +63,7 @@ func (tb *TTextSeq) IsTText() bool {
 }
 
 func (tb *TTextSeq) TTextOut() string {
-	c_tf_out := C.ttext_out(tb._inner)
+	c_tf_out := C.ttext_out(tb._inner, new(C.size_t))
 	defer C.free(unsafe.Pointer(c_tf_out))
 	tf_out := C.GoString(c_tf_out)
 	return tf_out
@@ -98,7 +98,7 @@ func (tb *TTextSeqSet) IsTText() bool {
 }
 
 func (tb *TTextSeqSet) TTextOut() string {
-	c_tf_out := C.ttext_out(tb._inner)
+	c_tf_out := C.ttext_out(tb._inner, new(C.size_t))
 	defer C.free(unsafe.Pointer(c_tf_out))
 	tf_out := C.GoString(c_tf_out)
 	return tf_out
@@ -163,7 +163,7 @@ func TTextFromMFJSON[TF TText](input string, output TF) TF {
 
 // TTextOut Return a temporal text from its Well-Known Text (WKT) representation
 func TTextOut[TF TText](tf TF) string {
-	c_text := C.ttext_out(tf.Inner())
+	c_text := C.ttext_out(tf.Inner(), new(C.size_t))
 	defer C.free(unsafe.Pointer(c_text))
 	text_out := C.GoString(c_text)
 	return text_out
@@ -172,25 +172,25 @@ func TTextOut[TF TText](tf TF) string {
 // TTextStartValue Return the start value of a temporal text
 func TTextStartValue[TT TText](tt TT) string {
 	cValue := C.ttext_start_value(tt.Inner())
-	return C.GoString(C.text_out(cValue))
+	return C.GoString(C.text_out(cValue, new(C.size_t)))
 }
 
 // TTextEndValue Return the end value of a temporal text
 func TTextEndValue[TT TText](tt TT) string {
 	cValue := C.ttext_end_value(tt.Inner())
-	return C.GoString(C.text_out(cValue))
+	return C.GoString(C.text_out(cValue, new(C.size_t)))
 }
 
 // TTextMinValue Return the minimum value of a temporal text
 func TTextMinValue[TT TText](tt TT) string {
 	cValue := C.ttext_min_value(tt.Inner())
-	return C.GoString(C.text_out(cValue))
+	return C.GoString(C.text_out(cValue, new(C.size_t)))
 }
 
 // TTextMaxValue Return the maximum value of a temporal text
 func TTextMaxValue[TT TText](tt TT) string {
 	cValue := C.ttext_max_value(tt.Inner())
-	return C.GoString(C.text_out(cValue))
+	return C.GoString(C.text_out(cValue, new(C.size_t)))
 }
 
 // TTextValueAtTimestamp Return the value of a temporal text at a timestamptz.

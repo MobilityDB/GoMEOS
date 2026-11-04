@@ -34,7 +34,8 @@ func TsTzSetIn(str string) (*Set, error) {
 
 // Out is MEOS tstzset_out.
 func (x *TsTzSet) Out() (string, error) {
-	_r0, _err := functions.TstzsetOut(functions.SetFromPointer(x.Pointer()))
+	var _size uint64
+	_r0, _err := functions.TstzsetOut(functions.SetFromPointer(x.Pointer()), unsafe.Pointer(&_size))
 	if _err != nil {
 		return "", _err
 	}

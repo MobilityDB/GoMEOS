@@ -76,7 +76,8 @@ func TBoxIn(str string) (*TBox, error) {
 
 // Out is MEOS tbox_out.
 func (x *TBox) Out(maxdd int) (string, error) {
-	_r0, _err := functions.TBOXOut(functions.TBoxFromPointer(x.Pointer()), maxdd)
+	var _size uint64
+	_r0, _err := functions.TBOXOut(functions.TBoxFromPointer(x.Pointer()), maxdd, unsafe.Pointer(&_size))
 	if _err != nil {
 		return "", _err
 	}

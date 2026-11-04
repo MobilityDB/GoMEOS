@@ -127,15 +127,6 @@ func (x *RTree) Insert(box unsafe.Pointer, id int64) (bool, error) {
 	return _r0, nil
 }
 
-// Load is MEOS rtree_load.
-func (x *RTree) Load(boxes unsafe.Pointer, ids unsafe.Pointer, count int) (bool, error) {
-	_r0, _err := functions.RtreeLoad(functions.RTreeFromPointer(x.Pointer()), boxes, ids, count)
-	if _err != nil {
-		return false, _err
-	}
-	return _r0, nil
-}
-
 // InsertTemporal is MEOS rtree_insert_temporal.
 func (x *RTree) InsertTemporal(temp *Temporal, id int64) (bool, error) {
 	_r0, _err := functions.RtreeInsertTemporal(functions.RTreeFromPointer(x.Pointer()), functions.TemporalFromPointer(temp.Pointer()), id)

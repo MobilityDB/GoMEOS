@@ -117,9 +117,9 @@ func PoseAsEWKB(pose *Pose, variant uint8, size_out unsafe.Pointer) (_r0 unsafe.
 
 
 // PoseAsEWKT wraps MEOS C function pose_as_ewkt.
-func PoseAsEWKT(pose *Pose, maxdd int) (_r0 string, _err error) {
+func PoseAsEWKT(pose *Pose, maxdd int, size_out unsafe.Pointer) (_r0 string, _err error) {
 	C.meos_errno_reset()
-	_cret := C.pose_as_ewkt(pose._inner, C.int(maxdd))
+	_cret := C.pose_as_ewkt(pose._inner, C.int(maxdd), (*C.size_t)(unsafe.Pointer(size_out)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -153,9 +153,9 @@ func PoseAsHexwkb(pose *Pose, variant uint8, size_out unsafe.Pointer) (_r0 strin
 
 
 // PoseAsText wraps MEOS C function pose_as_text.
-func PoseAsText(pose *Pose, maxdd int) (_r0 string, _err error) {
+func PoseAsText(pose *Pose, maxdd int, size_out unsafe.Pointer) (_r0 string, _err error) {
 	C.meos_errno_reset()
-	_cret := C.pose_as_text(pose._inner, C.int(maxdd))
+	_cret := C.pose_as_text(pose._inner, C.int(maxdd), (*C.size_t)(unsafe.Pointer(size_out)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -226,9 +226,9 @@ func PoseIn(str string) (_r0 *Pose, _err error) {
 
 
 // PoseOut wraps MEOS C function pose_out.
-func PoseOut(pose *Pose, maxdd int) (_r0 string, _err error) {
+func PoseOut(pose *Pose, maxdd int, size_out unsafe.Pointer) (_r0 string, _err error) {
 	C.meos_errno_reset()
-	_cret := C.pose_out(pose._inner, C.int(maxdd))
+	_cret := C.pose_out(pose._inner, C.int(maxdd), (*C.size_t)(unsafe.Pointer(size_out)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -251,9 +251,9 @@ func PoseFromGeopose(json string) (_r0 *Pose, _err error) {
 
 
 // PoseAsGeopose wraps MEOS C function pose_as_geopose.
-func PoseAsGeopose(pose *Pose, conformance int, precision int) (_r0 string, _err error) {
+func PoseAsGeopose(pose *Pose, conformance int, precision int, size_out unsafe.Pointer) (_r0 string, _err error) {
 	C.meos_errno_reset()
-	_cret := C.pose_as_geopose(pose._inner, C.int(conformance), C.int(precision))
+	_cret := C.pose_as_geopose(pose._inner, C.int(conformance), C.int(precision), (*C.size_t)(unsafe.Pointer(size_out)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -276,9 +276,9 @@ func TposeFromGeopose(json string) (_r0 *Temporal, _err error) {
 
 
 // TposeAsGeopose wraps MEOS C function tpose_as_geopose.
-func TposeAsGeopose(temp *Temporal, conformance int, precision int) (_r0 string, _err error) {
+func TposeAsGeopose(temp *Temporal, conformance int, precision int, size_out unsafe.Pointer) (_r0 string, _err error) {
 	C.meos_errno_reset()
-	_cret := C.tpose_as_geopose(temp._inner, C.int(conformance), C.int(precision))
+	_cret := C.tpose_as_geopose(temp._inner, C.int(conformance), C.int(precision), (*C.size_t)(unsafe.Pointer(size_out)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -288,9 +288,9 @@ func TposeAsGeopose(temp *Temporal, conformance int, precision int) (_r0 string,
 
 
 // TposeAsGeoposeStreamHeader wraps MEOS C function tpose_as_geopose_stream_header.
-func TposeAsGeoposeStreamHeader(temp *Temporal, precision int) (_r0 string, _err error) {
+func TposeAsGeoposeStreamHeader(temp *Temporal, precision int, size_out unsafe.Pointer) (_r0 string, _err error) {
 	C.meos_errno_reset()
-	_cret := C.tpose_as_geopose_stream_header(temp._inner, C.int(precision))
+	_cret := C.tpose_as_geopose_stream_header(temp._inner, C.int(precision), (*C.size_t)(unsafe.Pointer(size_out)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -300,9 +300,9 @@ func TposeAsGeoposeStreamHeader(temp *Temporal, precision int) (_r0 string, _err
 
 
 // TposeAsGeoposeStreamElement wraps MEOS C function tpose_as_geopose_stream_element.
-func TposeAsGeoposeStreamElement(temp *Temporal, inst *TInstant, precision int) (_r0 string, _err error) {
+func TposeAsGeoposeStreamElement(temp *Temporal, inst *TInstant, precision int, size_out unsafe.Pointer) (_r0 string, _err error) {
 	C.meos_errno_reset()
-	_cret := C.tpose_as_geopose_stream_element(temp._inner, inst._inner, C.int(precision))
+	_cret := C.tpose_as_geopose_stream_element(temp._inner, inst._inner, C.int(precision), (*C.size_t)(unsafe.Pointer(size_out)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -312,9 +312,9 @@ func TposeAsGeoposeStreamElement(temp *Temporal, inst *TInstant, precision int) 
 
 
 // TposeAsGeoposeStream wraps MEOS C function tpose_as_geopose_stream.
-func TposeAsGeoposeStream(temp *Temporal, precision int) (_r0 string, _err error) {
+func TposeAsGeoposeStream(temp *Temporal, precision int, size_out unsafe.Pointer) (_r0 string, _err error) {
 	C.meos_errno_reset()
-	_cret := C.tpose_as_geopose_stream(temp._inner, C.int(precision))
+	_cret := C.tpose_as_geopose_stream(temp._inner, C.int(precision), (*C.size_t)(unsafe.Pointer(size_out)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -346,9 +346,9 @@ func GeoposeFrame(frame_id int32) (_r0 unsafe.Pointer, _err error) {
 
 
 // GeoposeFrameName wraps MEOS C function geopose_frame_name.
-func GeoposeFrameName(frame_id int32) (_r0 string, _err error) {
+func GeoposeFrameName(frame_id int32, size_out unsafe.Pointer) (_r0 string, _err error) {
 	C.meos_errno_reset()
-	_cret := C.geopose_frame_name(C.int32_t(frame_id))
+	_cret := C.geopose_frame_name(C.int32_t(frame_id), (*C.size_t)(unsafe.Pointer(size_out)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -934,9 +934,9 @@ func PosesetIn(str string) (_r0 *Set, _err error) {
 
 
 // PosesetOut wraps MEOS C function poseset_out.
-func PosesetOut(s *Set, maxdd int) (_r0 string, _err error) {
+func PosesetOut(s *Set, maxdd int, size_out unsafe.Pointer) (_r0 string, _err error) {
 	C.meos_errno_reset()
-	_cret := C.poseset_out(s._inner, C.int(maxdd))
+	_cret := C.poseset_out(s._inner, C.int(maxdd), (*C.size_t)(unsafe.Pointer(size_out)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1802,9 +1802,9 @@ func PosechainIn(str string) (_r0 unsafe.Pointer, _err error) {
 
 
 // PosechainOut wraps MEOS C function posechain_out.
-func PosechainOut(pc unsafe.Pointer, maxdd int) (_r0 string, _err error) {
+func PosechainOut(pc unsafe.Pointer, maxdd int, size_out unsafe.Pointer) (_r0 string, _err error) {
 	C.meos_errno_reset()
-	_cret := C.posechain_out((*C.PoseChain)(unsafe.Pointer(pc)), C.int(maxdd))
+	_cret := C.posechain_out((*C.PoseChain)(unsafe.Pointer(pc)), C.int(maxdd), (*C.size_t)(unsafe.Pointer(size_out)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1814,9 +1814,9 @@ func PosechainOut(pc unsafe.Pointer, maxdd int) (_r0 string, _err error) {
 
 
 // PosechainAsText wraps MEOS C function posechain_as_text.
-func PosechainAsText(pc unsafe.Pointer, maxdd int) (_r0 string, _err error) {
+func PosechainAsText(pc unsafe.Pointer, maxdd int, size_out unsafe.Pointer) (_r0 string, _err error) {
 	C.meos_errno_reset()
-	_cret := C.posechain_as_text((*C.PoseChain)(unsafe.Pointer(pc)), C.int(maxdd))
+	_cret := C.posechain_as_text((*C.PoseChain)(unsafe.Pointer(pc)), C.int(maxdd), (*C.size_t)(unsafe.Pointer(size_out)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1837,9 +1837,9 @@ func PosechainAsEWKB(pc unsafe.Pointer, variant uint8, size_out unsafe.Pointer) 
 
 
 // PosechainAsEWKT wraps MEOS C function posechain_as_ewkt.
-func PosechainAsEWKT(pc unsafe.Pointer, maxdd int) (_r0 string, _err error) {
+func PosechainAsEWKT(pc unsafe.Pointer, maxdd int, size_out unsafe.Pointer) (_r0 string, _err error) {
 	C.meos_errno_reset()
-	_cret := C.posechain_as_ewkt((*C.PoseChain)(unsafe.Pointer(pc)), C.int(maxdd))
+	_cret := C.posechain_as_ewkt((*C.PoseChain)(unsafe.Pointer(pc)), C.int(maxdd), (*C.size_t)(unsafe.Pointer(size_out)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -2176,9 +2176,9 @@ func TposechainFromGeopose(json string) (_r0 *Temporal, _err error) {
 
 
 // TposechainAsGeopose wraps MEOS C function tposechain_as_geopose.
-func TposechainAsGeopose(temp *Temporal, precision int) (_r0 string, _err error) {
+func TposechainAsGeopose(temp *Temporal, precision int, size_out unsafe.Pointer) (_r0 string, _err error) {
 	C.meos_errno_reset()
-	_cret := C.tposechain_as_geopose(temp._inner, C.int(precision))
+	_cret := C.tposechain_as_geopose(temp._inner, C.int(precision), (*C.size_t)(unsafe.Pointer(size_out)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -2188,9 +2188,9 @@ func TposechainAsGeopose(temp *Temporal, precision int) (_r0 string, _err error)
 
 
 // TposechainarrAsGeopose wraps MEOS C function tposechainarr_as_geopose.
-func TposechainarrAsGeopose(temparr unsafe.Pointer, count int, precision int) (_r0 string, _err error) {
+func TposechainarrAsGeopose(temparr unsafe.Pointer, count int, precision int, size_out unsafe.Pointer) (_r0 string, _err error) {
 	C.meos_errno_reset()
-	_cret := C.tposechainarr_as_geopose((**C.Temporal)(unsafe.Pointer(temparr)), C.int(count), C.int(precision))
+	_cret := C.tposechainarr_as_geopose((**C.Temporal)(unsafe.Pointer(temparr)), C.int(count), C.int(precision), (*C.size_t)(unsafe.Pointer(size_out)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -2323,9 +2323,9 @@ func PosechainsetIn(str string) (_r0 *Set, _err error) {
 
 
 // PosechainsetOut wraps MEOS C function posechainset_out.
-func PosechainsetOut(s *Set, maxdd int) (_r0 string, _err error) {
+func PosechainsetOut(s *Set, maxdd int, size_out unsafe.Pointer) (_r0 string, _err error) {
 	C.meos_errno_reset()
-	_cret := C.posechainset_out(s._inner, C.int(maxdd))
+	_cret := C.posechainset_out(s._inner, C.int(maxdd), (*C.size_t)(unsafe.Pointer(size_out)))
 	if _err = meosError(); _err != nil {
 		return
 	}

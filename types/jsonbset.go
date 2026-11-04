@@ -34,7 +34,8 @@ func JsonbSetIn(str string) (*Set, error) {
 
 // Out is MEOS jsonbset_out.
 func (x *JsonbSet) Out() (string, error) {
-	_r0, _err := functions.JsonbsetOut(functions.SetFromPointer(x.Pointer()))
+	var _size uint64
+	_r0, _err := functions.JsonbsetOut(functions.SetFromPointer(x.Pointer()), unsafe.Pointer(&_size))
 	if _err != nil {
 		return "", _err
 	}
@@ -189,8 +190,17 @@ func (x *JsonbSet) ExistsArray(keys unsafe.Pointer, count int, any bool, rescoun
 }
 
 // JsonbsetSet is MEOS jsonbset_set.
-func (x *JsonbSet) JsonbsetSet(keys unsafe.Pointer, count int, newjb *Jsonb, create bool, null_handle string, lax bool) (*Set, error) {
-	_r0, _err := functions.JsonbsetSet(functions.SetFromPointer(x.Pointer()), keys, count, functions.JsonbFromPointer(newjb.Pointer()), create, null_handle, lax)
+func (x *JsonbSet) JsonbsetSet(keys unsafe.Pointer, count int, newjb *Jsonb, create bool) (*Set, error) {
+	_r0, _err := functions.JsonbsetSet(functions.SetFromPointer(x.Pointer()), keys, count, functions.JsonbFromPointer(newjb.Pointer()), create)
+	if _err != nil {
+		return nil, _err
+	}
+	return SetFromPointer(_r0.Pointer()), nil
+}
+
+// SetLax is MEOS jsonbset_set_lax.
+func (x *JsonbSet) SetLax(keys unsafe.Pointer, count int, newjb *Jsonb, create bool, null_handle string) (*Set, error) {
+	_r0, _err := functions.JsonbsetSetLax(functions.SetFromPointer(x.Pointer()), keys, count, functions.JsonbFromPointer(newjb.Pointer()), create, null_handle)
 	if _err != nil {
 		return nil, _err
 	}

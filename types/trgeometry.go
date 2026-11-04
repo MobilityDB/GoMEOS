@@ -43,7 +43,8 @@ func TRGeometryFromMFJSON(mfjson string) (*Temporal, error) {
 
 // Out is MEOS trgeometry_out.
 func (x *TRGeometry) Out() (string, error) {
-	_r0, _err := functions.TrgeometryOut(functions.TemporalFromPointer(x.Pointer()))
+	var _size uint64
+	_r0, _err := functions.TrgeometryOut(functions.TemporalFromPointer(x.Pointer()), unsafe.Pointer(&_size))
 	if _err != nil {
 		return "", _err
 	}
@@ -52,7 +53,8 @@ func (x *TRGeometry) Out() (string, error) {
 
 // AsText is MEOS trgeometry_as_text.
 func (x *TRGeometry) AsText(maxdd int) (string, error) {
-	_r0, _err := functions.TrgeometryAsText(functions.TemporalFromPointer(x.Pointer()), maxdd)
+	var _size uint64
+	_r0, _err := functions.TrgeometryAsText(functions.TemporalFromPointer(x.Pointer()), maxdd, unsafe.Pointer(&_size))
 	if _err != nil {
 		return "", _err
 	}
@@ -61,7 +63,8 @@ func (x *TRGeometry) AsText(maxdd int) (string, error) {
 
 // AsEWKT is MEOS trgeometry_as_ewkt.
 func (x *TRGeometry) AsEWKT(maxdd int) (string, error) {
-	_r0, _err := functions.TrgeometryAsEWKT(functions.TemporalFromPointer(x.Pointer()), maxdd)
+	var _size uint64
+	_r0, _err := functions.TrgeometryAsEWKT(functions.TemporalFromPointer(x.Pointer()), maxdd, unsafe.Pointer(&_size))
 	if _err != nil {
 		return "", _err
 	}

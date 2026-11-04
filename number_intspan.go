@@ -35,7 +35,7 @@ func NewIntSpan(g_is_in string) *IntSpan {
 }
 
 func (g_is *IntSpan) IntSpanOut() string {
-	c_is_out := C.intspan_out(g_is._inner)
+	c_is_out := C.intspan_out(g_is._inner, new(C.size_t))
 	defer C.free(unsafe.Pointer(c_is_out))
 	g_is_out := C.GoString(c_is_out)
 	return g_is_out

@@ -28,7 +28,7 @@ func NewTFloatInst(tf_in string) *TFloatInst {
 }
 
 func (tf *TFloatInst) TPointOut(maxdd int) string {
-	c_tf_out := C.tfloat_out(tf._inner, C.int(maxdd))
+	c_tf_out := C.tfloat_out(tf._inner, C.int(maxdd), new(C.size_t))
 	defer C.free(unsafe.Pointer(c_tf_out))
 	tf_out := C.GoString(c_tf_out)
 	return tf_out
@@ -75,7 +75,7 @@ func NewTFloatSeq(tf_in string) *TFloatSeq {
 }
 
 func (tf *TFloatSeq) TPointOut(maxdd int) string {
-	c_tf_out := C.tfloat_out(tf._inner, C.int(maxdd))
+	c_tf_out := C.tfloat_out(tf._inner, C.int(maxdd), new(C.size_t))
 	defer C.free(unsafe.Pointer(c_tf_out))
 	tf_out := C.GoString(c_tf_out)
 	return tf_out
@@ -122,7 +122,7 @@ func NewTFloatSeqSet(tf_in string) *TFloatSeqSet {
 }
 
 func (tf *TFloatSeqSet) TPointOut(maxdd int) string {
-	c_tf_out := C.tfloat_out(tf._inner, C.int(maxdd))
+	c_tf_out := C.tfloat_out(tf._inner, C.int(maxdd), new(C.size_t))
 	defer C.free(unsafe.Pointer(c_tf_out))
 	tf_out := C.GoString(c_tf_out)
 	return tf_out
@@ -203,7 +203,7 @@ func TFloatFromMFJSON[TF TFloat](input string, output TF) TF {
 
 // TFloatOut Return a temporal float from its Well-Known Text (WKT) representation
 func TFloatOut[TF TFloat](tf TF, maxdd int) string {
-	c_float := C.tfloat_out(tf.Inner(), C.int(maxdd))
+	c_float := C.tfloat_out(tf.Inner(), C.int(maxdd), new(C.size_t))
 	defer C.free(unsafe.Pointer(c_float))
 	float_out := C.GoString(c_float)
 	return float_out

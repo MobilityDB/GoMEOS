@@ -34,7 +34,8 @@ func DateSpanSetIn(str string) (*SpanSet, error) {
 
 // Out is MEOS datespanset_out.
 func (x *DateSpanSet) Out() (string, error) {
-	_r0, _err := functions.DatespansetOut(functions.SpanSetFromPointer(x.Pointer()))
+	var _size uint64
+	_r0, _err := functions.DatespansetOut(functions.SpanSetFromPointer(x.Pointer()), unsafe.Pointer(&_size))
 	if _err != nil {
 		return "", _err
 	}

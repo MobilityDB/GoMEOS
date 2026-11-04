@@ -177,9 +177,9 @@ func BigintToS2cell(i int64) (_r0 uint64, _err error) {
 
 
 // S2cellOut wraps MEOS C function s2cell_out.
-func S2cellOut(cell uint64) (_r0 string, _err error) {
+func S2cellOut(cell uint64, size_out unsafe.Pointer) (_r0 string, _err error) {
 	C.meos_errno_reset()
-	_cret := C.s2cell_out(C.uint64_t(cell))
+	_cret := C.s2cell_out(C.uint64_t(cell), (*C.size_t)(unsafe.Pointer(size_out)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -299,9 +299,9 @@ func S2cellIsValidCell(cell uint64) (_r0 bool, _err error) {
 
 
 // S2cellCellToToken wraps MEOS C function s2cell_cell_to_token.
-func S2cellCellToToken(cell uint64) (_r0 string, _err error) {
+func S2cellCellToToken(cell uint64, size_out unsafe.Pointer) (_r0 string, _err error) {
 	C.meos_errno_reset()
-	_cret := C.s2cell_cell_to_token(C.uint64_t(cell))
+	_cret := C.s2cell_cell_to_token(C.uint64_t(cell), (*C.size_t)(unsafe.Pointer(size_out)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -645,9 +645,9 @@ func S2cellsetIn(str string) (_r0 *Set, _err error) {
 
 
 // S2cellsetOut wraps MEOS C function s2cellset_out.
-func S2cellsetOut(s *Set) (_r0 string, _err error) {
+func S2cellsetOut(s *Set, size_out unsafe.Pointer) (_r0 string, _err error) {
 	C.meos_errno_reset()
-	_cret := C.s2cellset_out(s._inner)
+	_cret := C.s2cellset_out(s._inner, (*C.size_t)(unsafe.Pointer(size_out)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -864,9 +864,9 @@ func Ts2cellseqsetIn(str string) (_r0 *TSequenceSet, _err error) {
 
 
 // Ts2cellOut wraps MEOS C function ts2cell_out.
-func Ts2cellOut(temp *Temporal) (_r0 string, _err error) {
+func Ts2cellOut(temp *Temporal, size_out unsafe.Pointer) (_r0 string, _err error) {
 	C.meos_errno_reset()
-	_cret := C.ts2cell_out(temp._inner)
+	_cret := C.ts2cell_out(temp._inner, (*C.size_t)(unsafe.Pointer(size_out)))
 	if _err = meosError(); _err != nil {
 		return
 	}

@@ -43,7 +43,8 @@ func TJsonbIn(str string) (*Temporal, error) {
 
 // Out is MEOS tjsonb_out.
 func (x *TJsonb) Out() (string, error) {
-	_r0, _err := functions.TjsonbOut(functions.TemporalFromPointer(x.Pointer()))
+	var _size uint64
+	_r0, _err := functions.TjsonbOut(functions.TemporalFromPointer(x.Pointer()), unsafe.Pointer(&_size))
 	if _err != nil {
 		return "", _err
 	}
@@ -327,8 +328,17 @@ func (x *TJsonb) Pretty() (*Temporal, error) {
 }
 
 // Set is MEOS tjsonb_set.
-func (x *TJsonb) Set(keys unsafe.Pointer, count int, newjb *Jsonb, create bool, handle_null string, lax bool) (*Temporal, error) {
-	_r0, _err := functions.TjsonbSet(functions.TemporalFromPointer(x.Pointer()), keys, count, functions.JsonbFromPointer(newjb.Pointer()), create, handle_null, lax)
+func (x *TJsonb) Set(keys unsafe.Pointer, count int, newjb *Jsonb, create bool) (*Temporal, error) {
+	_r0, _err := functions.TjsonbSet(functions.TemporalFromPointer(x.Pointer()), keys, count, functions.JsonbFromPointer(newjb.Pointer()), create)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// SetLax is MEOS tjsonb_set_lax.
+func (x *TJsonb) SetLax(keys unsafe.Pointer, count int, newjb *Jsonb, create bool, null_handle string) (*Temporal, error) {
+	_r0, _err := functions.TjsonbSetLax(functions.TemporalFromPointer(x.Pointer()), keys, count, functions.JsonbFromPointer(newjb.Pointer()), create, null_handle)
 	if _err != nil {
 		return nil, _err
 	}

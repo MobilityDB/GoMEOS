@@ -215,7 +215,8 @@ func RasterSkewY(rast unsafe.Pointer) (float64, error) {
 
 // RasterBandPixelType is MEOS raster_band_pixel_type.
 func RasterBandPixelType(rast unsafe.Pointer, band int) (string, error) {
-	_r0, _err := functions.RasterBandPixelType(rast, band)
+	var _size uint64
+	_r0, _err := functions.RasterBandPixelType(rast, band, unsafe.Pointer(&_size))
 	if _err != nil {
 		return "", _err
 	}
@@ -263,7 +264,7 @@ func RasterClip(rast unsafe.Pointer, bands unsafe.Pointer, nbands int, gs *Geo, 
 }
 
 // RasterTransform is MEOS raster_transform.
-func RasterTransform(rast unsafe.Pointer, srid int32, algorithm *string, max_err float64, scale_x float64, scale_y float64) (unsafe.Pointer, error) {
+func RasterTransform(rast unsafe.Pointer, srid int32, algorithm string, max_err float64, scale_x float64, scale_y float64) (unsafe.Pointer, error) {
 	_r0, _err := functions.RasterTransform(rast, srid, algorithm, max_err, scale_x, scale_y)
 	if _err != nil {
 		return nil, _err
@@ -272,7 +273,7 @@ func RasterTransform(rast unsafe.Pointer, srid int32, algorithm *string, max_err
 }
 
 // RasterTransformPipeline is MEOS raster_transform_pipeline.
-func RasterTransformPipeline(rast unsafe.Pointer, pipelinestr string, srid int32, is_forward bool, algorithm *string, max_err float64, scale_x float64, scale_y float64) (unsafe.Pointer, error) {
+func RasterTransformPipeline(rast unsafe.Pointer, pipelinestr string, srid int32, is_forward bool, algorithm string, max_err float64, scale_x float64, scale_y float64) (unsafe.Pointer, error) {
 	_r0, _err := functions.RasterTransformPipeline(rast, pipelinestr, srid, is_forward, algorithm, max_err, scale_x, scale_y)
 	if _err != nil {
 		return nil, _err
@@ -281,7 +282,7 @@ func RasterTransformPipeline(rast unsafe.Pointer, pipelinestr string, srid int32
 }
 
 // RasterTransformRaster is MEOS raster_transform_raster.
-func RasterTransformRaster(rast unsafe.Pointer, alignto unsafe.Pointer, algorithm *string, max_err float64) (unsafe.Pointer, error) {
+func RasterTransformRaster(rast unsafe.Pointer, alignto unsafe.Pointer, algorithm string, max_err float64) (unsafe.Pointer, error) {
 	_r0, _err := functions.RasterTransformRaster(rast, alignto, algorithm, max_err)
 	if _err != nil {
 		return nil, _err
@@ -290,7 +291,7 @@ func RasterTransformRaster(rast unsafe.Pointer, alignto unsafe.Pointer, algorith
 }
 
 // RasterRescale is MEOS raster_rescale.
-func RasterRescale(rast unsafe.Pointer, scale_x float64, scale_y float64, algorithm *string, max_err float64) (unsafe.Pointer, error) {
+func RasterRescale(rast unsafe.Pointer, scale_x float64, scale_y float64, algorithm string, max_err float64) (unsafe.Pointer, error) {
 	_r0, _err := functions.RasterRescale(rast, scale_x, scale_y, algorithm, max_err)
 	if _err != nil {
 		return nil, _err
@@ -408,7 +409,8 @@ func RasterSameAlignment(rast1 unsafe.Pointer, rast2 unsafe.Pointer) (bool, erro
 
 // RasterNotSameAlignmentReason is MEOS raster_not_same_alignment_reason.
 func RasterNotSameAlignmentReason(rast1 unsafe.Pointer, rast2 unsafe.Pointer) (string, error) {
-	_r0, _err := functions.RasterNotSameAlignmentReason(rast1, rast2)
+	var _size uint64
+	_r0, _err := functions.RasterNotSameAlignmentReason(rast1, rast2, unsafe.Pointer(&_size))
 	if _err != nil {
 		return "", _err
 	}
@@ -425,7 +427,7 @@ func RasterToStbox(rast unsafe.Pointer) (*STBox, error) {
 }
 
 // RasterValue is MEOS raster_value.
-func RasterValue(traj *Temporal, rast unsafe.Pointer, band int, exclude_nodata bool, resample *string) (*Temporal, error) {
+func RasterValue(traj *Temporal, rast unsafe.Pointer, band int, exclude_nodata bool, resample string) (*Temporal, error) {
 	_r0, _err := functions.RasterValue(functions.TemporalFromPointer(traj.Pointer()), rast, band, exclude_nodata, resample)
 	if _err != nil {
 		return nil, _err
