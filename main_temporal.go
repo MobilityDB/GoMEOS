@@ -46,7 +46,7 @@ func TemporalAsMFJSON[T Temporal](temp T, with_bbox bool, flags int, precision i
 	if with_bbox {
 		option = 1
 	}
-	c_mfjson := C.temporal_as_mfjson(temp.Inner(), C.int(option), C.int(flags), C.int(precision), c_srs)
+	c_mfjson := C.temporal_as_mfjson(temp.Inner(), C.int(option), C.int(flags), C.int(precision), c_srs, new(C.size_t))
 	defer C.free(unsafe.Pointer(c_mfjson))
 	mfjson_out := C.GoString(c_mfjson)
 	return mfjson_out

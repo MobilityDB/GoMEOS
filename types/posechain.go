@@ -34,7 +34,8 @@ func PoseChainIn(str string) (unsafe.Pointer, error) {
 
 // PoseChainOut is MEOS posechain_out.
 func PoseChainOut(pc unsafe.Pointer, maxdd int) (string, error) {
-	_r0, _err := functions.PosechainOut(pc, maxdd)
+	var _size uint64
+	_r0, _err := functions.PosechainOut(pc, maxdd, unsafe.Pointer(&_size))
 	if _err != nil {
 		return "", _err
 	}
@@ -43,7 +44,8 @@ func PoseChainOut(pc unsafe.Pointer, maxdd int) (string, error) {
 
 // PoseChainAsText is MEOS posechain_as_text.
 func PoseChainAsText(pc unsafe.Pointer, maxdd int) (string, error) {
-	_r0, _err := functions.PosechainAsText(pc, maxdd)
+	var _size uint64
+	_r0, _err := functions.PosechainAsText(pc, maxdd, unsafe.Pointer(&_size))
 	if _err != nil {
 		return "", _err
 	}
@@ -62,7 +64,8 @@ func PoseChainAsEWKB(pc unsafe.Pointer, variant uint8) ([]byte, error) {
 
 // PoseChainAsEWKT is MEOS posechain_as_ewkt.
 func PoseChainAsEWKT(pc unsafe.Pointer, maxdd int) (string, error) {
-	_r0, _err := functions.PosechainAsEWKT(pc, maxdd)
+	var _size uint64
+	_r0, _err := functions.PosechainAsEWKT(pc, maxdd, unsafe.Pointer(&_size))
 	if _err != nil {
 		return "", _err
 	}

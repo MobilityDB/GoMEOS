@@ -34,7 +34,8 @@ func DateSetIn(str string) (*Set, error) {
 
 // Out is MEOS dateset_out.
 func (x *DateSet) Out() (string, error) {
-	_r0, _err := functions.DatesetOut(functions.SetFromPointer(x.Pointer()))
+	var _size uint64
+	_r0, _err := functions.DatesetOut(functions.SetFromPointer(x.Pointer()), unsafe.Pointer(&_size))
 	if _err != nil {
 		return "", _err
 	}

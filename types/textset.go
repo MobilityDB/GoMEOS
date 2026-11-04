@@ -34,7 +34,8 @@ func TextSetIn(str string) (*Set, error) {
 
 // Out is MEOS textset_out.
 func (x *TextSet) Out() (string, error) {
-	_r0, _err := functions.TextsetOut(functions.SetFromPointer(x.Pointer()))
+	var _size uint64
+	_r0, _err := functions.TextsetOut(functions.SetFromPointer(x.Pointer()), unsafe.Pointer(&_size))
 	if _err != nil {
 		return "", _err
 	}

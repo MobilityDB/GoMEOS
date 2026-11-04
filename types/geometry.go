@@ -279,8 +279,8 @@ func (x *Geometry) Disjoint2d(gs2 *Geo) (bool, error) {
 }
 
 // Dwithin is MEOS geom_dwithin.
-func (x *Geometry) Dwithin(gs2 *Geo, tolerance float64) (bool, error) {
-	_r0, _err := functions.GeomDwithin(functions.GeomFromPointer(x.Pointer()), functions.GeomFromPointer(gs2.Pointer()), tolerance)
+func (x *Geometry) Dwithin(gs2 *Geo, dist float64) (bool, error) {
+	_r0, _err := functions.GeomDwithin(functions.GeomFromPointer(x.Pointer()), functions.GeomFromPointer(gs2.Pointer()), dist)
 	if _err != nil {
 		return false, _err
 	}
@@ -288,8 +288,8 @@ func (x *Geometry) Dwithin(gs2 *Geo, tolerance float64) (bool, error) {
 }
 
 // Dwithin2d is MEOS geom_dwithin2d.
-func (x *Geometry) Dwithin2d(gs2 *Geo, tolerance float64) (bool, error) {
-	_r0, _err := functions.GeomDwithin2d(functions.GeomFromPointer(x.Pointer()), functions.GeomFromPointer(gs2.Pointer()), tolerance)
+func (x *Geometry) Dwithin2d(gs2 *Geo, dist float64) (bool, error) {
+	_r0, _err := functions.GeomDwithin2d(functions.GeomFromPointer(x.Pointer()), functions.GeomFromPointer(gs2.Pointer()), dist)
 	if _err != nil {
 		return false, _err
 	}
@@ -297,8 +297,8 @@ func (x *Geometry) Dwithin2d(gs2 *Geo, tolerance float64) (bool, error) {
 }
 
 // Dwithin3d is MEOS geom_dwithin3d.
-func (x *Geometry) Dwithin3d(gs2 *Geo, tolerance float64) (bool, error) {
-	_r0, _err := functions.GeomDwithin3d(functions.GeomFromPointer(x.Pointer()), functions.GeomFromPointer(gs2.Pointer()), tolerance)
+func (x *Geometry) Dwithin3d(gs2 *Geo, dist float64) (bool, error) {
+	_r0, _err := functions.GeomDwithin3d(functions.GeomFromPointer(x.Pointer()), functions.GeomFromPointer(gs2.Pointer()), dist)
 	if _err != nil {
 		return false, _err
 	}
@@ -334,7 +334,8 @@ func (x *Geometry) Intersects3d(gs2 *Geo) (bool, error) {
 
 // Relate is MEOS geom_relate.
 func (x *Geometry) Relate(gs2 *Geo) (string, error) {
-	_r0, _err := functions.GeomRelate(functions.GeomFromPointer(x.Pointer()), functions.GeomFromPointer(gs2.Pointer()))
+	var _size uint64
+	_r0, _err := functions.GeomRelate(functions.GeomFromPointer(x.Pointer()), functions.GeomFromPointer(gs2.Pointer()), unsafe.Pointer(&_size))
 	if _err != nil {
 		return "", _err
 	}

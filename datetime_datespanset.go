@@ -32,7 +32,7 @@ func (g_dss *DateSpanSet) DateSpanSetOut() string {
 	if g_dss._inner == nil {
 		return "Nil"
 	} else {
-		c_dss_out := C.datespanset_out(g_dss._inner)
+		c_dss_out := C.datespanset_out(g_dss._inner, new(C.size_t))
 		defer C.free(unsafe.Pointer(c_dss_out))
 		g_dss_out := C.GoString(c_dss_out)
 		return g_dss_out

@@ -43,7 +43,8 @@ func FloatSpanIn(str string) (*Span, error) {
 
 // Out is MEOS floatspan_out.
 func (x *FloatSpan) Out(maxdd int) (string, error) {
-	_r0, _err := functions.FloatspanOut(functions.SpanFromPointer(x.Pointer()), maxdd)
+	var _size uint64
+	_r0, _err := functions.FloatspanOut(functions.SpanFromPointer(x.Pointer()), maxdd, unsafe.Pointer(&_size))
 	if _err != nil {
 		return "", _err
 	}

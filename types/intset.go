@@ -34,7 +34,8 @@ func IntSetIn(str string) (*Set, error) {
 
 // Out is MEOS intset_out.
 func (x *IntSet) Out() (string, error) {
-	_r0, _err := functions.IntsetOut(functions.SetFromPointer(x.Pointer()))
+	var _size uint64
+	_r0, _err := functions.IntsetOut(functions.SetFromPointer(x.Pointer()), unsafe.Pointer(&_size))
 	if _err != nil {
 		return "", _err
 	}

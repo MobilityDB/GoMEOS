@@ -130,9 +130,9 @@ func BigintToH3index(i int64) (_r0 uint64, _err error) {
 
 
 // H3indexOut wraps MEOS C function h3index_out.
-func H3indexOut(cell uint64) (_r0 string, _err error) {
+func H3indexOut(cell uint64, size_out unsafe.Pointer) (_r0 string, _err error) {
 	C.meos_errno_reset()
-	_cret := C.h3index_out(C.uint64_t(cell))
+	_cret := C.h3index_out(C.uint64_t(cell), (*C.size_t)(unsafe.Pointer(size_out)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -527,9 +527,9 @@ func Th3indexseqsetIn(str string) (_r0 *TSequenceSet, _err error) {
 
 
 // Th3indexOut wraps MEOS C function th3index_out.
-func Th3indexOut(temp *Temporal) (_r0 string, _err error) {
+func Th3indexOut(temp *Temporal, size_out unsafe.Pointer) (_r0 string, _err error) {
 	C.meos_errno_reset()
-	_cret := C.th3index_out(temp._inner)
+	_cret := C.th3index_out(temp._inner, (*C.size_t)(unsafe.Pointer(size_out)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1139,9 +1139,9 @@ func H3indexsetIn(str string) (_r0 *Set, _err error) {
 
 
 // H3indexsetOut wraps MEOS C function h3indexset_out.
-func H3indexsetOut(s *Set) (_r0 string, _err error) {
+func H3indexsetOut(s *Set, size_out unsafe.Pointer) (_r0 string, _err error) {
 	C.meos_errno_reset()
-	_cret := C.h3indexset_out(s._inner)
+	_cret := C.h3indexset_out(s._inner, (*C.size_t)(unsafe.Pointer(size_out)))
 	if _err = meosError(); _err != nil {
 		return
 	}

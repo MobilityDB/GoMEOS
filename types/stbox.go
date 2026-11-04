@@ -96,7 +96,8 @@ func STBoxIn(str string) (*STBox, error) {
 
 // Out is MEOS stbox_out.
 func (x *STBox) Out(maxdd int) (string, error) {
-	_r0, _err := functions.STBOXOut(functions.STBoxFromPointer(x.Pointer()), maxdd)
+	var _size uint64
+	_r0, _err := functions.STBOXOut(functions.STBoxFromPointer(x.Pointer()), maxdd, unsafe.Pointer(&_size))
 	if _err != nil {
 		return "", _err
 	}

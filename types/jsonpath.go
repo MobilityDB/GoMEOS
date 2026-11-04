@@ -52,7 +52,8 @@ func (x *JsonPath) MemSize() (int, error) {
 
 // Out is MEOS jsonpath_out.
 func (x *JsonPath) Out() (string, error) {
-	_r0, _err := functions.JsonpathOut(functions.JsonPathFromPointer(x.Pointer()))
+	var _size uint64
+	_r0, _err := functions.JsonpathOut(functions.JsonPathFromPointer(x.Pointer()), unsafe.Pointer(&_size))
 	if _err != nil {
 		return "", _err
 	}

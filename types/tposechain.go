@@ -34,7 +34,8 @@ func TPoseChainFromGeopose(json string) (*Temporal, error) {
 
 // AsGeopose is MEOS tposechain_as_geopose.
 func (x *TPoseChain) AsGeopose(precision int) (string, error) {
-	_r0, _err := functions.TposechainAsGeopose(functions.TemporalFromPointer(x.Pointer()), precision)
+	var _size uint64
+	_r0, _err := functions.TposechainAsGeopose(functions.TemporalFromPointer(x.Pointer()), precision, unsafe.Pointer(&_size))
 	if _err != nil {
 		return "", _err
 	}

@@ -117,9 +117,9 @@ func CbufferAsEWKB(cb *Cbuffer, variant uint8, size_out unsafe.Pointer) (_r0 uns
 
 
 // CbufferAsEWKT wraps MEOS C function cbuffer_as_ewkt.
-func CbufferAsEWKT(cb *Cbuffer, maxdd int) (_r0 string, _err error) {
+func CbufferAsEWKT(cb *Cbuffer, maxdd int, size_out unsafe.Pointer) (_r0 string, _err error) {
 	C.meos_errno_reset()
-	_cret := C.cbuffer_as_ewkt(cb._inner, C.int(maxdd))
+	_cret := C.cbuffer_as_ewkt(cb._inner, C.int(maxdd), (*C.size_t)(unsafe.Pointer(size_out)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -153,9 +153,9 @@ func CbufferAsHexwkb(cb *Cbuffer, variant uint8, size_out unsafe.Pointer) (_r0 s
 
 
 // CbufferAsText wraps MEOS C function cbuffer_as_text.
-func CbufferAsText(cb *Cbuffer, maxdd int) (_r0 string, _err error) {
+func CbufferAsText(cb *Cbuffer, maxdd int, size_out unsafe.Pointer) (_r0 string, _err error) {
 	C.meos_errno_reset()
-	_cret := C.cbuffer_as_text(cb._inner, C.int(maxdd))
+	_cret := C.cbuffer_as_text(cb._inner, C.int(maxdd), (*C.size_t)(unsafe.Pointer(size_out)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -213,9 +213,9 @@ func CbufferIn(str string) (_r0 *Cbuffer, _err error) {
 
 
 // CbufferOut wraps MEOS C function cbuffer_out.
-func CbufferOut(cb *Cbuffer, maxdd int) (_r0 string, _err error) {
+func CbufferOut(cb *Cbuffer, maxdd int, size_out unsafe.Pointer) (_r0 string, _err error) {
 	C.meos_errno_reset()
-	_cret := C.cbuffer_out(cb._inner, C.int(maxdd))
+	_cret := C.cbuffer_out(cb._inner, C.int(maxdd), (*C.size_t)(unsafe.Pointer(size_out)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -636,9 +636,9 @@ func CbuffersetIn(str string) (_r0 *Set, _err error) {
 
 
 // CbuffersetOut wraps MEOS C function cbufferset_out.
-func CbuffersetOut(s *Set, maxdd int) (_r0 string, _err error) {
+func CbuffersetOut(s *Set, maxdd int, size_out unsafe.Pointer) (_r0 string, _err error) {
 	C.meos_errno_reset()
-	_cret := C.cbufferset_out(s._inner, C.int(maxdd))
+	_cret := C.cbufferset_out(s._inner, C.int(maxdd), (*C.size_t)(unsafe.Pointer(size_out)))
 	if _err = meosError(); _err != nil {
 		return
 	}

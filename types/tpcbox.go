@@ -96,7 +96,8 @@ func TPCBoxIn(str string) (*TPCBox, error) {
 
 // Out is MEOS tpcbox_out.
 func (x *TPCBox) Out(maxdd int) (string, error) {
-	_r0, _err := functions.TpcboxOut(functions.TPCBoxFromPointer(x.Pointer()), maxdd)
+	var _size uint64
+	_r0, _err := functions.TpcboxOut(functions.TPCBoxFromPointer(x.Pointer()), maxdd, unsafe.Pointer(&_size))
 	if _err != nil {
 		return "", _err
 	}
@@ -104,8 +105,8 @@ func (x *TPCBox) Out(maxdd int) (string, error) {
 }
 
 // TPCBoxMake is MEOS tpcbox_make.
-func TPCBoxMake(hasx bool, hasz bool, hast bool, geodetic bool, pcid uint32, xmin float64, xmax float64, ymin float64, ymax float64, zmin float64, zmax float64, period *Span) (*TPCBox, error) {
-	_r0, _err := functions.TpcboxMake(hasx, hasz, hast, geodetic, pcid, xmin, xmax, ymin, ymax, zmin, zmax, functions.SpanFromPointer(period.Pointer()))
+func TPCBoxMake(hasx bool, hasz bool, geodetic bool, pcid uint32, xmin float64, xmax float64, ymin float64, ymax float64, zmin float64, zmax float64, period *Span) (*TPCBox, error) {
+	_r0, _err := functions.TpcboxMake(hasx, hasz, geodetic, pcid, xmin, xmax, ymin, ymax, zmin, zmax, functions.SpanFromPointer(period.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}

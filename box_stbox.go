@@ -77,7 +77,7 @@ func GeoTimestamptzToSTBox(geom *Geom, t time.Time) *STBox {
 }
 
 func STBoxOut(stbox *STBox, max_decimals int) string {
-	return C.GoString(C.stbox_out(stbox._inner, C.int(max_decimals)))
+	return C.GoString(C.stbox_out(stbox._inner, C.int(max_decimals), new(C.size_t)))
 }
 
 // STBoxAsWKB Returns the stbox object as a hex-encoded WKB string.

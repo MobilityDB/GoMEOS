@@ -34,7 +34,8 @@ func TPcpointIn(str string) (*Temporal, error) {
 
 // Out is MEOS tpcpoint_out.
 func (x *TPcpoint) Out() (string, error) {
-	_r0, _err := functions.TpcpointOut(functions.TemporalFromPointer(x.Pointer()))
+	var _size uint64
+	_r0, _err := functions.TpcpointOut(functions.TemporalFromPointer(x.Pointer()), unsafe.Pointer(&_size))
 	if _err != nil {
 		return "", _err
 	}

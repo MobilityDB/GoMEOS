@@ -34,7 +34,8 @@ func FloatSpanSetIn(str string) (*SpanSet, error) {
 
 // Out is MEOS floatspanset_out.
 func (x *FloatSpanSet) Out(maxdd int) (string, error) {
-	_r0, _err := functions.FloatspansetOut(functions.SpanSetFromPointer(x.Pointer()), maxdd)
+	var _size uint64
+	_r0, _err := functions.FloatspansetOut(functions.SpanSetFromPointer(x.Pointer()), maxdd, unsafe.Pointer(&_size))
 	if _err != nil {
 		return "", _err
 	}

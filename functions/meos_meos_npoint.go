@@ -117,9 +117,9 @@ func NpointAsEWKB(np *Npoint, variant uint8, size_out unsafe.Pointer) (_r0 unsaf
 
 
 // NpointAsEWKT wraps MEOS C function npoint_as_ewkt.
-func NpointAsEWKT(np *Npoint, maxdd int) (_r0 string, _err error) {
+func NpointAsEWKT(np *Npoint, maxdd int, size_out unsafe.Pointer) (_r0 string, _err error) {
 	C.meos_errno_reset()
-	_cret := C.npoint_as_ewkt(np._inner, C.int(maxdd))
+	_cret := C.npoint_as_ewkt(np._inner, C.int(maxdd), (*C.size_t)(unsafe.Pointer(size_out)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -153,9 +153,9 @@ func NpointAsHexwkb(np *Npoint, variant uint8, size_out unsafe.Pointer) (_r0 str
 
 
 // NpointAsText wraps MEOS C function npoint_as_text.
-func NpointAsText(np *Npoint, maxdd int) (_r0 string, _err error) {
+func NpointAsText(np *Npoint, maxdd int, size_out unsafe.Pointer) (_r0 string, _err error) {
 	C.meos_errno_reset()
-	_cret := C.npoint_as_text(np._inner, C.int(maxdd))
+	_cret := C.npoint_as_text(np._inner, C.int(maxdd), (*C.size_t)(unsafe.Pointer(size_out)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -213,9 +213,9 @@ func NpointIn(str string) (_r0 *Npoint, _err error) {
 
 
 // NpointOut wraps MEOS C function npoint_out.
-func NpointOut(np *Npoint, maxdd int) (_r0 string, _err error) {
+func NpointOut(np *Npoint, maxdd int, size_out unsafe.Pointer) (_r0 string, _err error) {
 	C.meos_errno_reset()
-	_cret := C.npoint_out(np._inner, C.int(maxdd))
+	_cret := C.npoint_out(np._inner, C.int(maxdd), (*C.size_t)(unsafe.Pointer(size_out)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -297,9 +297,9 @@ func NsegmentIn(str string) (_r0 *Nsegment, _err error) {
 
 
 // NsegmentOut wraps MEOS C function nsegment_out.
-func NsegmentOut(ns *Nsegment, maxdd int) (_r0 string, _err error) {
+func NsegmentOut(ns *Nsegment, maxdd int, size_out unsafe.Pointer) (_r0 string, _err error) {
 	C.meos_errno_reset()
-	_cret := C.nsegment_out(ns._inner, C.int(maxdd))
+	_cret := C.nsegment_out(ns._inner, C.int(maxdd), (*C.size_t)(unsafe.Pointer(size_out)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -320,9 +320,9 @@ func NsegmentAsEWKB(ns *Nsegment, variant uint8, size_out unsafe.Pointer) (_r0 u
 
 
 // NsegmentAsEWKT wraps MEOS C function nsegment_as_ewkt.
-func NsegmentAsEWKT(ns *Nsegment, maxdd int) (_r0 string, _err error) {
+func NsegmentAsEWKT(ns *Nsegment, maxdd int, size_out unsafe.Pointer) (_r0 string, _err error) {
 	C.meos_errno_reset()
-	_cret := C.nsegment_as_ewkt(ns._inner, C.int(maxdd))
+	_cret := C.nsegment_as_ewkt(ns._inner, C.int(maxdd), (*C.size_t)(unsafe.Pointer(size_out)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -332,9 +332,9 @@ func NsegmentAsEWKT(ns *Nsegment, maxdd int) (_r0 string, _err error) {
 
 
 // NsegmentAsText wraps MEOS C function nsegment_as_text.
-func NsegmentAsText(ns *Nsegment, maxdd int) (_r0 string, _err error) {
+func NsegmentAsText(ns *Nsegment, maxdd int, size_out unsafe.Pointer) (_r0 string, _err error) {
 	C.meos_errno_reset()
-	_cret := C.nsegment_as_text(ns._inner, C.int(maxdd))
+	_cret := C.nsegment_as_text(ns._inner, C.int(maxdd), (*C.size_t)(unsafe.Pointer(size_out)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -819,9 +819,9 @@ func NpointsetIn(str string) (_r0 *Set, _err error) {
 
 
 // NpointsetOut wraps MEOS C function npointset_out.
-func NpointsetOut(s *Set, maxdd int) (_r0 string, _err error) {
+func NpointsetOut(s *Set, maxdd int, size_out unsafe.Pointer) (_r0 string, _err error) {
 	C.meos_errno_reset()
-	_cret := C.npointset_out(s._inner, C.int(maxdd))
+	_cret := C.npointset_out(s._inner, C.int(maxdd), (*C.size_t)(unsafe.Pointer(size_out)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1045,9 +1045,9 @@ func TnpointFromMFJSON(mfjson string) (_r0 *Temporal, _err error) {
 
 
 // TnpointOut wraps MEOS C function tnpoint_out.
-func TnpointOut(temp *Temporal, maxdd int) (_r0 string, _err error) {
+func TnpointOut(temp *Temporal, maxdd int, size_out unsafe.Pointer) (_r0 string, _err error) {
 	C.meos_errno_reset()
-	_cret := C.tnpoint_out(temp._inner, C.int(maxdd))
+	_cret := C.tnpoint_out(temp._inner, C.int(maxdd), (*C.size_t)(unsafe.Pointer(size_out)))
 	if _err = meosError(); _err != nil {
 		return
 	}

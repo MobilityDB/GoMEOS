@@ -86,7 +86,8 @@ func NsegmentIn(str string) (*Nsegment, error) {
 
 // Out is MEOS nsegment_out.
 func (x *Nsegment) Out(maxdd int) (string, error) {
-	_r0, _err := functions.NsegmentOut(functions.NsegmentFromPointer(x.Pointer()), maxdd)
+	var _size uint64
+	_r0, _err := functions.NsegmentOut(functions.NsegmentFromPointer(x.Pointer()), maxdd, unsafe.Pointer(&_size))
 	if _err != nil {
 		return "", _err
 	}
@@ -105,7 +106,8 @@ func (x *Nsegment) AsEWKB(variant uint8) ([]byte, error) {
 
 // AsEWKT is MEOS nsegment_as_ewkt.
 func (x *Nsegment) AsEWKT(maxdd int) (string, error) {
-	_r0, _err := functions.NsegmentAsEWKT(functions.NsegmentFromPointer(x.Pointer()), maxdd)
+	var _size uint64
+	_r0, _err := functions.NsegmentAsEWKT(functions.NsegmentFromPointer(x.Pointer()), maxdd, unsafe.Pointer(&_size))
 	if _err != nil {
 		return "", _err
 	}
@@ -114,7 +116,8 @@ func (x *Nsegment) AsEWKT(maxdd int) (string, error) {
 
 // AsText is MEOS nsegment_as_text.
 func (x *Nsegment) AsText(maxdd int) (string, error) {
-	_r0, _err := functions.NsegmentAsText(functions.NsegmentFromPointer(x.Pointer()), maxdd)
+	var _size uint64
+	_r0, _err := functions.NsegmentAsText(functions.NsegmentFromPointer(x.Pointer()), maxdd, unsafe.Pointer(&_size))
 	if _err != nil {
 		return "", _err
 	}

@@ -35,7 +35,8 @@ func (x *Cbuffer) AsEWKB(variant uint8) ([]byte, error) {
 
 // AsEWKT is MEOS cbuffer_as_ewkt.
 func (x *Cbuffer) AsEWKT(maxdd int) (string, error) {
-	_r0, _err := functions.CbufferAsEWKT(functions.CbufferFromPointer(x.Pointer()), maxdd)
+	var _size uint64
+	_r0, _err := functions.CbufferAsEWKT(functions.CbufferFromPointer(x.Pointer()), maxdd, unsafe.Pointer(&_size))
 	if _err != nil {
 		return "", _err
 	}
@@ -64,7 +65,8 @@ func (x *Cbuffer) AsHexWKB(variant uint8) (string, error) {
 
 // AsText is MEOS cbuffer_as_text.
 func (x *Cbuffer) AsText(maxdd int) (string, error) {
-	_r0, _err := functions.CbufferAsText(functions.CbufferFromPointer(x.Pointer()), maxdd)
+	var _size uint64
+	_r0, _err := functions.CbufferAsText(functions.CbufferFromPointer(x.Pointer()), maxdd, unsafe.Pointer(&_size))
 	if _err != nil {
 		return "", _err
 	}
@@ -114,7 +116,8 @@ func CbufferIn(str string) (*Cbuffer, error) {
 
 // Out is MEOS cbuffer_out.
 func (x *Cbuffer) Out(maxdd int) (string, error) {
-	_r0, _err := functions.CbufferOut(functions.CbufferFromPointer(x.Pointer()), maxdd)
+	var _size uint64
+	_r0, _err := functions.CbufferOut(functions.CbufferFromPointer(x.Pointer()), maxdd, unsafe.Pointer(&_size))
 	if _err != nil {
 		return "", _err
 	}

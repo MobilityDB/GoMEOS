@@ -28,7 +28,7 @@ func NewTGeogPointInst(tgmpi_in string) *TGeogPointInst {
 }
 
 func (tgmpi *TGeogPointInst) TPointOut(maxdd int) string {
-	c_tgmpi_out := C.tspatial_as_text(tgmpi._inner, C.int(maxdd))
+	c_tgmpi_out := C.tspatial_as_text(tgmpi._inner, C.int(maxdd), new(C.size_t))
 	defer C.free(unsafe.Pointer(c_tgmpi_out))
 	tgmpi_out := C.GoString(c_tgmpi_out)
 	return tgmpi_out
@@ -69,7 +69,7 @@ func (tgmpi *TGeomPointInst) Timestamptz() time.Time {
 
 func (tgmpi *TGeomPointInst) TimestampOut() string {
 	c_inst := C.cast_temporal_to_tinstant(tgmpi._inner)
-	return C.GoString(C.timestamptz_out(c_inst.t))
+	return C.GoString(C.timestamptz_out(c_inst.t, new(C.size_t)))
 }
 
 type TGeogPointSeq struct {
@@ -85,7 +85,7 @@ func NewTGeogPointSeq(tgmpi_in string) TGeogPointSeq {
 }
 
 func (tgmpi *TGeogPointSeq) TPointOut(maxdd int) string {
-	c_tgmpi_out := C.tspatial_as_text(tgmpi._inner, C.int(maxdd))
+	c_tgmpi_out := C.tspatial_as_text(tgmpi._inner, C.int(maxdd), new(C.size_t))
 	defer C.free(unsafe.Pointer(c_tgmpi_out))
 	tgmpi_out := C.GoString(c_tgmpi_out)
 	return tgmpi_out
@@ -132,7 +132,7 @@ func NewTGeogPointSeqSet(tgmpi_in string) *TGeogPointSeqSet {
 }
 
 func (tgmpi *TGeogPointSeqSet) TPointOut(maxdd int) string {
-	c_tgmpi_out := C.tspatial_as_text(tgmpi._inner, C.int(maxdd))
+	c_tgmpi_out := C.tspatial_as_text(tgmpi._inner, C.int(maxdd), new(C.size_t))
 	defer C.free(unsafe.Pointer(c_tgmpi_out))
 	tgmpi_out := C.GoString(c_tgmpi_out)
 	return tgmpi_out

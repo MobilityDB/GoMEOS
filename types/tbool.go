@@ -43,7 +43,8 @@ func TBoolIn(str string) (*Temporal, error) {
 
 // Out is MEOS tbool_out.
 func (x *TBool) Out() (string, error) {
-	_r0, _err := functions.TboolOut(functions.TemporalFromPointer(x.Pointer()))
+	var _size uint64
+	_r0, _err := functions.TboolOut(functions.TemporalFromPointer(x.Pointer()), unsafe.Pointer(&_size))
 	if _err != nil {
 		return "", _err
 	}

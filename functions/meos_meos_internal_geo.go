@@ -713,6 +713,18 @@ func TgeometryseqsetIn(str string) (_r0 *TSequenceSet, _err error) {
 }
 
 
+// TpointTfloatToGeomeasIntl wraps MEOS C function tpoint_tfloat_to_geomeas_intl.
+func TpointTfloatToGeomeasIntl(tpoint *Temporal, meas *Temporal, segmentize bool) (_r0 bool, _r1 *Geom, _err error) {
+	var _out_result *C.GSERIALIZED
+	C.meos_errno_reset()
+	_cret := C.tpoint_tfloat_to_geomeas_intl(tpoint._inner, meas._inner, C.bool(segmentize), &_out_result)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), &Geom{_inner: _out_result}, nil
+}
+
+
 // TgeoScaleGeoIntl wraps MEOS C function tgeo_scale_geo_intl.
 func TgeoScaleGeoIntl(temp *Temporal, scale *Geom, sorigin *Geom) (_r0 *Temporal, _err error) {
 	C.meos_errno_reset()

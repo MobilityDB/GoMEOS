@@ -127,15 +127,6 @@ func SPTreeInsert(sptree unsafe.Pointer, box unsafe.Pointer, id int64) (bool, er
 	return _r0, nil
 }
 
-// SPTreeLoad is MEOS sptree_load.
-func SPTreeLoad(sptree unsafe.Pointer, boxes unsafe.Pointer, ids unsafe.Pointer, count int) (bool, error) {
-	_r0, _err := functions.SptreeLoad(sptree, boxes, ids, count)
-	if _err != nil {
-		return false, _err
-	}
-	return _r0, nil
-}
-
 // SPTreeInsertTemporal is MEOS sptree_insert_temporal.
 func SPTreeInsertTemporal(sptree unsafe.Pointer, temp *Temporal, id int64) (bool, error) {
 	_r0, _err := functions.SptreeInsertTemporal(sptree, functions.TemporalFromPointer(temp.Pointer()), id)
