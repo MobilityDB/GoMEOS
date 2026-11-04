@@ -7,11 +7,14 @@ package gomeos
 #include "cast.h"
 */
 import "C"
+import "unsafe"
 
 func MeosInitialize(tz string) {
 	C.meos_initialize()
 	if tz != "" {
-		C.meos_initialize_timezone(C.CString(tz))
+		c_tz := C.CString(tz)
+		defer C.free(unsafe.Pointer(c_tz))
+		C.meos_initialize_timezone(c_tz)
 	}
 }
 

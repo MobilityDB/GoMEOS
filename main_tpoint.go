@@ -33,7 +33,9 @@ func TPointAsText[TP TPoint](tp TP, maxdd int) string {
 
 // TPointAsEWKT Return the Extended Well-Known Text (EWKT) representation of a temporal point
 func TPointAsEWKT[T TPoint](temp T, maxdd int) string {
-	return C.GoString(C.tspatial_as_ewkt(temp.Inner(), C.int(maxdd), new(C.size_t)))
+	_cstr := C.tspatial_as_ewkt(temp.Inner(), C.int(maxdd), new(C.size_t))
+	defer C.free(unsafe.Pointer(_cstr))
+	return C.GoString(_cstr)
 }
 
 // TPointGeoAsEWKT Return the Extended Well-Known Text (EWKT) representation of the geometry of a temporal point
@@ -41,7 +43,9 @@ func TPointGeoAsEWKT[T TPoint](temp T, maxdd int) string {
 	c_inst := C.cast_temporal_to_tinstant(temp.Inner())
 	c_value := c_inst.value
 	c_geo := (*C.GSERIALIZED)(unsafe.Pointer(&c_value))
-	return C.GoString(C.geo_as_ewkt(c_geo, C.int(maxdd), new(C.size_t)))
+	_cstr := C.geo_as_ewkt(c_geo, C.int(maxdd), new(C.size_t))
+	defer C.free(unsafe.Pointer(_cstr))
+	return C.GoString(_cstr)
 }
 
 // TPointAsGeoJson Return the GeoJson representation of the geometry of a temporal point

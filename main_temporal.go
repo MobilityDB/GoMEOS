@@ -32,7 +32,9 @@ func TemporalFromWKB(wkb []byte) Temporal {
 
 // TemporalFromHexWKB Returns a temporal object from a hex-encoded WKB string.
 func TemporalFromHexWKB[T Temporal](s string, output T) T {
-	c_temp := C.temporal_from_hexwkb(C.CString(s))
+	c_s := C.CString(s)
+	defer C.free(unsafe.Pointer(c_s))
+	c_temp := C.temporal_from_hexwkb(c_s)
 	output.Init(c_temp)
 	return output
 }

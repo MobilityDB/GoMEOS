@@ -39,7 +39,9 @@ func TsTzSpanSetToSTBox(tstzspanset *TsTzSpanSet) *STBox {
 }
 
 func STBoxIn(s string) *STBox {
-	return &STBox{_inner: C.stbox_in(C.CString(s))}
+	c_s := C.CString(s)
+	defer C.free(unsafe.Pointer(c_s))
+	return &STBox{_inner: C.stbox_in(c_s)}
 }
 
 func STBoxMake(hasx bool, hasz bool, geodetic bool, srid int, xmin float64, xmax float64, ymin float64, ymax float64, zmin float64, zmax float64, tstzspan *TsTzSpan) *STBox {
@@ -77,7 +79,9 @@ func GeoTimestamptzToSTBox(geom *Geom, t time.Time) *STBox {
 }
 
 func STBoxOut(stbox *STBox, max_decimals int) string {
-	return C.GoString(C.stbox_out(stbox._inner, C.int(max_decimals), new(C.size_t)))
+	_cstr := C.stbox_out(stbox._inner, C.int(max_decimals), new(C.size_t))
+	defer C.free(unsafe.Pointer(_cstr))
+	return C.GoString(_cstr)
 }
 
 // STBoxAsWKB Returns the stbox object as a hex-encoded WKB string.

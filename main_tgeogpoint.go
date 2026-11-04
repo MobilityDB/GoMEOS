@@ -69,7 +69,9 @@ func (tgmpi *TGeomPointInst) Timestamptz() time.Time {
 
 func (tgmpi *TGeomPointInst) TimestampOut() string {
 	c_inst := C.cast_temporal_to_tinstant(tgmpi._inner)
-	return C.GoString(C.timestamptz_out(c_inst.t, new(C.size_t)))
+	_cstr := C.timestamptz_out(c_inst.t, new(C.size_t))
+	defer C.free(unsafe.Pointer(_cstr))
+	return C.GoString(_cstr)
 }
 
 type TGeogPointSeq struct {
