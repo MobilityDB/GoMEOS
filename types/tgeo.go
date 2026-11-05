@@ -139,6 +139,24 @@ func (x *TGeo) Affine(a float64, b float64, c float64, d float64, e float64, f f
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
+// Force2d is MEOS tgeo_force2d.
+func (x *TGeo) Force2d() (*Temporal, error) {
+	_r0, _err := functions.TgeoForce2d(functions.TemporalFromPointer(x.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// Force3d is MEOS tgeo_force3d.
+func (x *TGeo) Force3d(zvalue float64) (*Temporal, error) {
+	_r0, _err := functions.TgeoForce3d(functions.TemporalFromPointer(x.Pointer()), zvalue)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
 // Rotate is MEOS tgeo_rotate.
 func (x *TGeo) Rotate(angle float64, x0 float64, y0 float64) (*Temporal, error) {
 	_r0, _err := functions.TgeoRotate(functions.TemporalFromPointer(x.Pointer()), angle, x0, y0)

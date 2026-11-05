@@ -186,7 +186,7 @@ func IntervalIn(str string, typmod int32) (_r0 *Interval, _err error) {
 	_c_str := C.CString(str)
 	defer C.free(unsafe.Pointer(_c_str))
 	C.meos_errno_reset()
-	_cret := C.interval_in(_c_str, C.int32(typmod))
+	_cret := C.interval_in(_c_str, C.int32_t(typmod))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -212,7 +212,7 @@ func TimeIn(str string, typmod int32) (_r0 int64, _err error) {
 	_c_str := C.CString(str)
 	defer C.free(unsafe.Pointer(_c_str))
 	C.meos_errno_reset()
-	_cret := C.time_in(_c_str, C.int32(typmod))
+	_cret := C.time_in(_c_str, C.int32_t(typmod))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -238,7 +238,7 @@ func TimestampIn(str string, typmod int32) (_r0 int64, _err error) {
 	_c_str := C.CString(str)
 	defer C.free(unsafe.Pointer(_c_str))
 	C.meos_errno_reset()
-	_cret := C.timestamp_in(_c_str, C.int32(typmod))
+	_cret := C.timestamp_in(_c_str, C.int32_t(typmod))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -264,7 +264,7 @@ func TimestamptzIn(str string, typmod int32) (_r0 int64, _err error) {
 	_c_str := C.CString(str)
 	defer C.free(unsafe.Pointer(_c_str))
 	C.meos_errno_reset()
-	_cret := C.timestamptz_in(_c_str, C.int32(typmod))
+	_cret := C.timestamptz_in(_c_str, C.int32_t(typmod))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -340,8 +340,19 @@ func TextOut(txt string) (_r0 string, _err error) {
 }
 
 
-// TODO text_cmp: unsupported param Oid
-// func TextCmp(...) { /* not yet handled by codegen */ }
+// TextCmp wraps MEOS C function text_cmp.
+func TextCmp(txt1 string, txt2 string, collid uint32) (_r0 int, _err error) {
+	_c_txt1 := C.cstring_to_text(C.CString(txt1))
+	defer C.free(unsafe.Pointer(_c_txt1))
+	_c_txt2 := C.cstring_to_text(C.CString(txt2))
+	defer C.free(unsafe.Pointer(_c_txt2))
+	C.meos_errno_reset()
+	_cret := C.text_cmp(_c_txt1, _c_txt2, C.Oid(collid))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
 
 
 // TextCopy wraps MEOS C function text_copy.
@@ -749,7 +760,7 @@ func RtreeNnCursorOpen(rtree *RTree, query unsafe.Pointer) (_r0 unsafe.Pointer, 
 // RtreeNnCursorNext wraps MEOS C function rtree_nn_cursor_next.
 func RtreeNnCursorNext(cursor unsafe.Pointer, id_out unsafe.Pointer, dist_out unsafe.Pointer) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.rtree_nn_cursor_next((*C.RTreeNNCursor)(unsafe.Pointer(cursor)), (*C.int64_t)(unsafe.Pointer(id_out)), (*C.double)(unsafe.Pointer(dist_out)))
+	_cret := C.rtree_nn_cursor_next((*C.struct_RTreeNNCursor)(unsafe.Pointer(cursor)), (*C.int64_t)(unsafe.Pointer(id_out)), (*C.double)(unsafe.Pointer(dist_out)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -760,7 +771,7 @@ func RtreeNnCursorNext(cursor unsafe.Pointer, id_out unsafe.Pointer, dist_out un
 // RtreeNnCursorClose wraps MEOS C function rtree_nn_cursor_close.
 func RtreeNnCursorClose(cursor unsafe.Pointer) (_err error) {
 	C.meos_errno_reset()
-	C.rtree_nn_cursor_close((*C.RTreeNNCursor)(unsafe.Pointer(cursor)))
+	C.rtree_nn_cursor_close((*C.struct_RTreeNNCursor)(unsafe.Pointer(cursor)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -848,7 +859,7 @@ func SptreeCreateSTBOX(kind SPTreeKind) (_r0 unsafe.Pointer, _err error) {
 // SptreeFree wraps MEOS C function sptree_free.
 func SptreeFree(sptree unsafe.Pointer) (_err error) {
 	C.meos_errno_reset()
-	C.sptree_free((*C.SPTree)(unsafe.Pointer(sptree)))
+	C.sptree_free((*C.struct_SPTree)(unsafe.Pointer(sptree)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -859,7 +870,7 @@ func SptreeFree(sptree unsafe.Pointer) (_err error) {
 // SptreeNumEntries wraps MEOS C function sptree_num_entries.
 func SptreeNumEntries(sptree unsafe.Pointer) (_r0 int, _err error) {
 	C.meos_errno_reset()
-	_cret := C.sptree_num_entries((*C.SPTree)(unsafe.Pointer(sptree)))
+	_cret := C.sptree_num_entries((*C.struct_SPTree)(unsafe.Pointer(sptree)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -870,7 +881,7 @@ func SptreeNumEntries(sptree unsafe.Pointer) (_r0 int, _err error) {
 // SptreeMemSize wraps MEOS C function sptree_mem_size.
 func SptreeMemSize(sptree unsafe.Pointer) (_r0 int64, _err error) {
 	C.meos_errno_reset()
-	_cret := C.sptree_mem_size((*C.SPTree)(unsafe.Pointer(sptree)))
+	_cret := C.sptree_mem_size((*C.struct_SPTree)(unsafe.Pointer(sptree)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -881,7 +892,7 @@ func SptreeMemSize(sptree unsafe.Pointer) (_r0 int64, _err error) {
 // SptreeHeight wraps MEOS C function sptree_height.
 func SptreeHeight(sptree unsafe.Pointer) (_r0 int, _err error) {
 	C.meos_errno_reset()
-	_cret := C.sptree_height((*C.SPTree)(unsafe.Pointer(sptree)))
+	_cret := C.sptree_height((*C.struct_SPTree)(unsafe.Pointer(sptree)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -892,7 +903,7 @@ func SptreeHeight(sptree unsafe.Pointer) (_r0 int, _err error) {
 // SptreeInsert wraps MEOS C function sptree_insert.
 func SptreeInsert(sptree unsafe.Pointer, box unsafe.Pointer, id int64) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.sptree_insert((*C.SPTree)(unsafe.Pointer(sptree)), unsafe.Pointer(box), C.int64_t(id))
+	_cret := C.sptree_insert((*C.struct_SPTree)(unsafe.Pointer(sptree)), unsafe.Pointer(box), C.int64_t(id))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -903,7 +914,7 @@ func SptreeInsert(sptree unsafe.Pointer, box unsafe.Pointer, id int64) (_r0 bool
 // SptreeLoad wraps MEOS C function sptree_load.
 func SptreeLoad(sptree unsafe.Pointer, boxes unsafe.Pointer, ids unsafe.Pointer, count int) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.sptree_load((*C.SPTree)(unsafe.Pointer(sptree)), unsafe.Pointer(boxes), (*C.int64_t)(unsafe.Pointer(ids)), C.int(count))
+	_cret := C.sptree_load((*C.struct_SPTree)(unsafe.Pointer(sptree)), unsafe.Pointer(boxes), (*C.int64_t)(unsafe.Pointer(ids)), C.int(count))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -914,7 +925,7 @@ func SptreeLoad(sptree unsafe.Pointer, boxes unsafe.Pointer, ids unsafe.Pointer,
 // SptreeInsertTemporal wraps MEOS C function sptree_insert_temporal.
 func SptreeInsertTemporal(sptree unsafe.Pointer, temp *Temporal, id int64) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.sptree_insert_temporal((*C.SPTree)(unsafe.Pointer(sptree)), temp._inner, C.int64_t(id))
+	_cret := C.sptree_insert_temporal((*C.struct_SPTree)(unsafe.Pointer(sptree)), temp._inner, C.int64_t(id))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -925,7 +936,7 @@ func SptreeInsertTemporal(sptree unsafe.Pointer, temp *Temporal, id int64) (_r0 
 // SptreeInsertTemporalSplit wraps MEOS C function sptree_insert_temporal_split.
 func SptreeInsertTemporalSplit(sptree unsafe.Pointer, temp *Temporal, id int64, maxboxes int) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.sptree_insert_temporal_split((*C.SPTree)(unsafe.Pointer(sptree)), temp._inner, C.int64_t(id), C.int(maxboxes))
+	_cret := C.sptree_insert_temporal_split((*C.struct_SPTree)(unsafe.Pointer(sptree)), temp._inner, C.int64_t(id), C.int(maxboxes))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -937,7 +948,7 @@ func SptreeInsertTemporalSplit(sptree unsafe.Pointer, temp *Temporal, id int64, 
 func SptreeSearch(sptree unsafe.Pointer, op IndexSearchOp, query unsafe.Pointer) (_r0 int, _r1 *MeosArray, _err error) {
 	var _out_result C.MeosArray
 	C.meos_errno_reset()
-	_cret := C.sptree_search((*C.SPTree)(unsafe.Pointer(sptree)), C.IndexSearchOp(op), unsafe.Pointer(query), &_out_result)
+	_cret := C.sptree_search((*C.struct_SPTree)(unsafe.Pointer(sptree)), C.IndexSearchOp(op), unsafe.Pointer(query), &_out_result)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -949,7 +960,7 @@ func SptreeSearch(sptree unsafe.Pointer, op IndexSearchOp, query unsafe.Pointer)
 func SptreeJoin(sptree1 unsafe.Pointer, sptree2 unsafe.Pointer, op IndexSearchOp) (_r0 int, _r1 *MeosArray, _err error) {
 	var _out_result C.MeosArray
 	C.meos_errno_reset()
-	_cret := C.sptree_join((*C.SPTree)(unsafe.Pointer(sptree1)), (*C.SPTree)(unsafe.Pointer(sptree2)), C.IndexSearchOp(op), &_out_result)
+	_cret := C.sptree_join((*C.struct_SPTree)(unsafe.Pointer(sptree1)), (*C.struct_SPTree)(unsafe.Pointer(sptree2)), C.IndexSearchOp(op), &_out_result)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -961,7 +972,7 @@ func SptreeJoin(sptree1 unsafe.Pointer, sptree2 unsafe.Pointer, op IndexSearchOp
 func SptreeSearchTemporal(sptree unsafe.Pointer, op IndexSearchOp, temp *Temporal) (_r0 int, _r1 *MeosArray, _err error) {
 	var _out_result C.MeosArray
 	C.meos_errno_reset()
-	_cret := C.sptree_search_temporal((*C.SPTree)(unsafe.Pointer(sptree)), C.IndexSearchOp(op), temp._inner, &_out_result)
+	_cret := C.sptree_search_temporal((*C.struct_SPTree)(unsafe.Pointer(sptree)), C.IndexSearchOp(op), temp._inner, &_out_result)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -973,7 +984,7 @@ func SptreeSearchTemporal(sptree unsafe.Pointer, op IndexSearchOp, temp *Tempora
 func SptreeSearchTemporalDedup(sptree unsafe.Pointer, op IndexSearchOp, temp *Temporal, maxboxes int) (_r0 int, _r1 *MeosArray, _err error) {
 	var _out_result C.MeosArray
 	C.meos_errno_reset()
-	_cret := C.sptree_search_temporal_dedup((*C.SPTree)(unsafe.Pointer(sptree)), C.IndexSearchOp(op), temp._inner, C.int(maxboxes), &_out_result)
+	_cret := C.sptree_search_temporal_dedup((*C.struct_SPTree)(unsafe.Pointer(sptree)), C.IndexSearchOp(op), temp._inner, C.int(maxboxes), &_out_result)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -984,7 +995,7 @@ func SptreeSearchTemporalDedup(sptree unsafe.Pointer, op IndexSearchOp, temp *Te
 // SptreeNnCursorOpen wraps MEOS C function sptree_nn_cursor_open.
 func SptreeNnCursorOpen(sptree unsafe.Pointer, query unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
 	C.meos_errno_reset()
-	_cret := C.sptree_nn_cursor_open((*C.SPTree)(unsafe.Pointer(sptree)), unsafe.Pointer(query))
+	_cret := C.sptree_nn_cursor_open((*C.struct_SPTree)(unsafe.Pointer(sptree)), unsafe.Pointer(query))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -995,7 +1006,7 @@ func SptreeNnCursorOpen(sptree unsafe.Pointer, query unsafe.Pointer) (_r0 unsafe
 // SptreeNnCursorNext wraps MEOS C function sptree_nn_cursor_next.
 func SptreeNnCursorNext(cursor unsafe.Pointer, id_out unsafe.Pointer, dist_out unsafe.Pointer) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.sptree_nn_cursor_next((*C.SPNNCursor)(unsafe.Pointer(cursor)), (*C.int64_t)(unsafe.Pointer(id_out)), (*C.double)(unsafe.Pointer(dist_out)))
+	_cret := C.sptree_nn_cursor_next((*C.struct_SPNNCursor)(unsafe.Pointer(cursor)), (*C.int64_t)(unsafe.Pointer(id_out)), (*C.double)(unsafe.Pointer(dist_out)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1006,7 +1017,7 @@ func SptreeNnCursorNext(cursor unsafe.Pointer, id_out unsafe.Pointer, dist_out u
 // SptreeNnCursorClose wraps MEOS C function sptree_nn_cursor_close.
 func SptreeNnCursorClose(cursor unsafe.Pointer) (_err error) {
 	C.meos_errno_reset()
-	C.sptree_nn_cursor_close((*C.SPNNCursor)(unsafe.Pointer(cursor)))
+	C.sptree_nn_cursor_close((*C.struct_SPNNCursor)(unsafe.Pointer(cursor)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1014,12 +1025,26 @@ func SptreeNnCursorClose(cursor unsafe.Pointer) (_err error) {
 }
 
 
-// TODO meos_initialize_interrupt_handler: unsupported param interrupt_handler_fn
-// func MeosInitializeInterruptHandler(...) { /* not yet handled by codegen */ }
+// MeosInitializeInterruptHandler wraps MEOS C function meos_initialize_interrupt_handler.
+func MeosInitializeInterruptHandler(handler unsafe.Pointer) (_err error) {
+	C.meos_errno_reset()
+	C.meos_initialize_interrupt_handler((*[0]byte)(handler))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return nil
+}
 
 
-// TODO meos_initialize_allocator: unsupported param meos_malloc_fn
-// func MeosInitializeAllocator(...) { /* not yet handled by codegen */ }
+// MeosInitializeAllocator wraps MEOS C function meos_initialize_allocator.
+func MeosInitializeAllocator(malloc_fn unsafe.Pointer, realloc_fn unsafe.Pointer, free_fn unsafe.Pointer) (_err error) {
+	C.meos_errno_reset()
+	C.meos_initialize_allocator((*[0]byte)(malloc_fn), (*[0]byte)(realloc_fn), (*[0]byte)(free_fn))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return nil
+}
 
 
 // MeosInitializeNoexitErrorHandler wraps MEOS C function meos_initialize_noexit_error_handler.
@@ -1549,7 +1574,7 @@ func IntsetOut(set *Set) (_r0 string, _err error) {
 // IntspanExpand wraps MEOS C function intspan_expand.
 func IntspanExpand(s *Span, value int32) (_r0 *Span, _err error) {
 	C.meos_errno_reset()
-	_cret := C.intspan_expand(s._inner, C.int32(value))
+	_cret := C.intspan_expand(s._inner, C.int32_t(value))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -8308,7 +8333,7 @@ func IntExtentTransfn(state *Span, i int) (_r0 *Span, _err error) {
 // IntUnionTransfn wraps MEOS C function int_union_transfn.
 func IntUnionTransfn(state *Set, i int32) (_r0 *Set, _err error) {
 	C.meos_errno_reset()
-	_cret := C.int_union_transfn(state._inner, C.int32(i))
+	_cret := C.int_union_transfn(state._inner, C.int32_t(i))
 	if _err = meosError(); _err != nil {
 		return
 	}

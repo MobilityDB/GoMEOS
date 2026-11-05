@@ -251,12 +251,26 @@ func JsonbToCstring(jb *Jsonb) (_r0 string, _err error) {
 }
 
 
-// TODO jsonb_to_float4: unsupported return type float4
-// func JsonbToFloat4(...) { /* not yet handled by codegen */ }
+// JsonbToFloat4 wraps MEOS C function jsonb_to_float4.
+func JsonbToFloat4(jb *Jsonb) (_r0 float32, _err error) {
+	C.meos_errno_reset()
+	_cret := C.jsonb_to_float4(jb._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float32(_cret), nil
+}
 
 
-// TODO jsonb_to_float8: unsupported return type float8
-// func JsonbToFloat8(...) { /* not yet handled by codegen */ }
+// JsonbToFloat8 wraps MEOS C function jsonb_to_float8.
+func JsonbToFloat8(jb *Jsonb) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.jsonb_to_float8(jb._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
 
 
 // JsonbToInt16 wraps MEOS C function jsonb_to_int16.
@@ -292,8 +306,15 @@ func JsonbToInt64(jb *Jsonb) (_r0 int64, _err error) {
 }
 
 
-// TODO jsonb_to_numeric: unsupported return type Numeric
-// func JsonbToNumeric(...) { /* not yet handled by codegen */ }
+// JsonbToNumeric wraps MEOS C function jsonb_to_numeric.
+func JsonbToNumeric(jb *Jsonb) (_r0 unsafe.Pointer, _err error) {
+	C.meos_errno_reset()
+	_cret := C.jsonb_to_numeric(jb._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
+}
 
 
 // JsonbToText wraps MEOS C function jsonb_to_text.

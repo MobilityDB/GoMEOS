@@ -24,7 +24,7 @@ func TS2CellInstFromPointer(p unsafe.Pointer) *TS2CellInst {
 }
 
 // TS2CellInstMake is MEOS ts2cellinst_make.
-func TS2CellInstMake(value uint64, t int64) (*Temporal, error) {
+func TS2CellInstMake(value functions.S2CellId, t int64) (*Temporal, error) {
 	_r0, _err := functions.Ts2cellinstMake(value, t)
 	if _err != nil {
 		return nil, _err

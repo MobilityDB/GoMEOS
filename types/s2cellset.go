@@ -78,7 +78,7 @@ func S2CellSetMake(values unsafe.Pointer, count int) (*Set, error) {
 }
 
 // EndValue is MEOS s2cellset_end_value.
-func (x *S2CellSet) EndValue() (uint64, error) {
+func (x *S2CellSet) EndValue() (functions.S2CellId, error) {
 	_r0, _err := functions.S2cellsetEndValue(functions.SetFromPointer(x.Pointer()))
 	if _err != nil {
 		return 0, _err
@@ -87,7 +87,7 @@ func (x *S2CellSet) EndValue() (uint64, error) {
 }
 
 // StartValue is MEOS s2cellset_start_value.
-func (x *S2CellSet) StartValue() (uint64, error) {
+func (x *S2CellSet) StartValue() (functions.S2CellId, error) {
 	_r0, _err := functions.S2cellsetStartValue(functions.SetFromPointer(x.Pointer()))
 	if _err != nil {
 		return 0, _err
@@ -96,7 +96,7 @@ func (x *S2CellSet) StartValue() (uint64, error) {
 }
 
 // ValueN is MEOS s2cellset_value_n.
-func (x *S2CellSet) ValueN(n int) (uint64, bool, error) {
+func (x *S2CellSet) ValueN(n int) (functions.S2CellId, bool, error) {
 	_found, _value, _err := functions.S2cellsetValueN(functions.SetFromPointer(x.Pointer()), n)
 	if _err != nil {
 		return 0, false, _err

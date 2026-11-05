@@ -146,7 +146,7 @@ func RaquetIn(str string) (_r0 unsafe.Pointer, _err error) {
 func RaquetOut(rq unsafe.Pointer) (_r0 string, _err error) {
 	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.raquet_out((*C.Raquet)(unsafe.Pointer(rq)), &_size)
+	_cret := C.raquet_out((*C.struct_Raquet)(unsafe.Pointer(rq)), &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -182,7 +182,7 @@ func RaquetFromHexwkb(hexwkb string) (_r0 unsafe.Pointer, _err error) {
 // RaquetAsWKB wraps MEOS C function raquet_as_wkb.
 func RaquetAsWKB(rq unsafe.Pointer, variant uint8, size_out unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
 	C.meos_errno_reset()
-	_cret := C.raquet_as_wkb((*C.Raquet)(unsafe.Pointer(rq)), C.uint8_t(variant), (*C.size_t)(unsafe.Pointer(size_out)))
+	_cret := C.raquet_as_wkb((*C.struct_Raquet)(unsafe.Pointer(rq)), C.uint8_t(variant), (*C.size_t)(unsafe.Pointer(size_out)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -194,7 +194,7 @@ func RaquetAsWKB(rq unsafe.Pointer, variant uint8, size_out unsafe.Pointer) (_r0
 func RaquetAsHexwkb(rq unsafe.Pointer, variant uint8) (_r0 string, _err error) {
 	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.raquet_as_hexwkb((*C.Raquet)(unsafe.Pointer(rq)), C.uint8_t(variant), &_size)
+	_cret := C.raquet_as_hexwkb((*C.struct_Raquet)(unsafe.Pointer(rq)), C.uint8_t(variant), &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -204,9 +204,9 @@ func RaquetAsHexwkb(rq unsafe.Pointer, variant uint8) (_r0 string, _err error) {
 
 
 // RaquetMake wraps MEOS C function raquet_make.
-func RaquetMake(quadbin uint64, width int32, height int32, pixtype MeosPixType, nodata float64, has_nodata bool, pixels unsafe.Pointer, pixels_size uint) (_r0 unsafe.Pointer, _err error) {
+func RaquetMake(quadbin Quadbin, width int32, height int32, pixtype MeosPixType, nodata float64, has_nodata bool, pixels unsafe.Pointer, pixels_size uint) (_r0 unsafe.Pointer, _err error) {
 	C.meos_errno_reset()
-	_cret := C.raquet_make(C.uint64_t(quadbin), C.int32(width), C.int32(height), C.MeosPixType(pixtype), C.double(nodata), C.bool(has_nodata), (*C.uint8_t)(unsafe.Pointer(pixels)), C.size_t(pixels_size))
+	_cret := C.raquet_make(C.Quadbin(quadbin), C.int32_t(width), C.int32_t(height), C.MeosPixType(pixtype), C.double(nodata), C.bool(has_nodata), (*C.uint8_t)(unsafe.Pointer(pixels)), C.size_t(pixels_size))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -217,7 +217,7 @@ func RaquetMake(quadbin uint64, width int32, height int32, pixtype MeosPixType, 
 // RaquetCopy wraps MEOS C function raquet_copy.
 func RaquetCopy(rq unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
 	C.meos_errno_reset()
-	_cret := C.raquet_copy((*C.Raquet)(unsafe.Pointer(rq)))
+	_cret := C.raquet_copy((*C.struct_Raquet)(unsafe.Pointer(rq)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -226,11 +226,11 @@ func RaquetCopy(rq unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
 
 
 // RaquetRead wraps MEOS C function raquet_read.
-func RaquetRead(path string, quadbin uint64) (_r0 unsafe.Pointer, _err error) {
+func RaquetRead(path string, quadbin Quadbin) (_r0 unsafe.Pointer, _err error) {
 	_c_path := C.CString(path)
 	defer C.free(unsafe.Pointer(_c_path))
 	C.meos_errno_reset()
-	_cret := C.raquet_read(_c_path, C.uint64_t(quadbin))
+	_cret := C.raquet_read(_c_path, C.Quadbin(quadbin))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -239,9 +239,9 @@ func RaquetRead(path string, quadbin uint64) (_r0 unsafe.Pointer, _err error) {
 
 
 // RaquetReadBytes wraps MEOS C function raquet_read_bytes.
-func RaquetReadBytes(data unsafe.Pointer, size uint, quadbin uint64) (_r0 unsafe.Pointer, _err error) {
+func RaquetReadBytes(data unsafe.Pointer, size uint, quadbin Quadbin) (_r0 unsafe.Pointer, _err error) {
 	C.meos_errno_reset()
-	_cret := C.raquet_read_bytes((*C.uint8_t)(unsafe.Pointer(data)), C.size_t(size), C.uint64_t(quadbin))
+	_cret := C.raquet_read_bytes((*C.uint8_t)(unsafe.Pointer(data)), C.size_t(size), C.Quadbin(quadbin))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -250,20 +250,20 @@ func RaquetReadBytes(data unsafe.Pointer, size uint, quadbin uint64) (_r0 unsafe
 
 
 // RaquetQuadbin wraps MEOS C function raquet_quadbin.
-func RaquetQuadbin(rq unsafe.Pointer) (_r0 uint64, _err error) {
+func RaquetQuadbin(rq unsafe.Pointer) (_r0 Quadbin, _err error) {
 	C.meos_errno_reset()
-	_cret := C.raquet_quadbin((*C.Raquet)(unsafe.Pointer(rq)))
+	_cret := C.raquet_quadbin((*C.struct_Raquet)(unsafe.Pointer(rq)))
 	if _err = meosError(); _err != nil {
 		return
 	}
-	return uint64(_cret), nil
+	return Quadbin(_cret), nil
 }
 
 
 // RaquetWidth wraps MEOS C function raquet_width.
 func RaquetWidth(rq unsafe.Pointer) (_r0 int, _err error) {
 	C.meos_errno_reset()
-	_cret := C.raquet_width((*C.Raquet)(unsafe.Pointer(rq)))
+	_cret := C.raquet_width((*C.struct_Raquet)(unsafe.Pointer(rq)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -274,7 +274,7 @@ func RaquetWidth(rq unsafe.Pointer) (_r0 int, _err error) {
 // RaquetHeight wraps MEOS C function raquet_height.
 func RaquetHeight(rq unsafe.Pointer) (_r0 int, _err error) {
 	C.meos_errno_reset()
-	_cret := C.raquet_height((*C.Raquet)(unsafe.Pointer(rq)))
+	_cret := C.raquet_height((*C.struct_Raquet)(unsafe.Pointer(rq)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -286,7 +286,7 @@ func RaquetHeight(rq unsafe.Pointer) (_r0 int, _err error) {
 func RaquetBandPixelType(rq unsafe.Pointer) (_r0 string, _err error) {
 	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.raquet_band_pixel_type((*C.Raquet)(unsafe.Pointer(rq)), &_size)
+	_cret := C.raquet_band_pixel_type((*C.struct_Raquet)(unsafe.Pointer(rq)), &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -298,7 +298,7 @@ func RaquetBandPixelType(rq unsafe.Pointer) (_r0 string, _err error) {
 // RaquetBandHasNodataValue wraps MEOS C function raquet_band_has_nodata_value.
 func RaquetBandHasNodataValue(rq unsafe.Pointer) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.raquet_band_has_nodata_value((*C.Raquet)(unsafe.Pointer(rq)))
+	_cret := C.raquet_band_has_nodata_value((*C.struct_Raquet)(unsafe.Pointer(rq)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -310,7 +310,7 @@ func RaquetBandHasNodataValue(rq unsafe.Pointer) (_r0 bool, _err error) {
 func RaquetBandNodataValue(rq unsafe.Pointer) (_r0 bool, _r1 float64, _err error) {
 	var _out_result C.double
 	C.meos_errno_reset()
-	_cret := C.raquet_band_nodata_value((*C.Raquet)(unsafe.Pointer(rq)), &_out_result)
+	_cret := C.raquet_band_nodata_value((*C.struct_Raquet)(unsafe.Pointer(rq)), &_out_result)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -321,7 +321,7 @@ func RaquetBandNodataValue(rq unsafe.Pointer) (_r0 bool, _r1 float64, _err error
 // RaquetPixels wraps MEOS C function raquet_pixels.
 func RaquetPixels(rq unsafe.Pointer, size_out unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
 	C.meos_errno_reset()
-	_cret := C.raquet_pixels((*C.Raquet)(unsafe.Pointer(rq)), (*C.size_t)(unsafe.Pointer(size_out)))
+	_cret := C.raquet_pixels((*C.struct_Raquet)(unsafe.Pointer(rq)), (*C.size_t)(unsafe.Pointer(size_out)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -332,7 +332,7 @@ func RaquetPixels(rq unsafe.Pointer, size_out unsafe.Pointer) (_r0 unsafe.Pointe
 // RaquetHash wraps MEOS C function raquet_hash.
 func RaquetHash(rq unsafe.Pointer) (_r0 uint32, _err error) {
 	C.meos_errno_reset()
-	_cret := C.raquet_hash((*C.Raquet)(unsafe.Pointer(rq)))
+	_cret := C.raquet_hash((*C.struct_Raquet)(unsafe.Pointer(rq)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -343,7 +343,7 @@ func RaquetHash(rq unsafe.Pointer) (_r0 uint32, _err error) {
 // RaquetHashExtended wraps MEOS C function raquet_hash_extended.
 func RaquetHashExtended(rq unsafe.Pointer, seed uint64) (_r0 uint64, _err error) {
 	C.meos_errno_reset()
-	_cret := C.raquet_hash_extended((*C.Raquet)(unsafe.Pointer(rq)), C.uint64_t(seed))
+	_cret := C.raquet_hash_extended((*C.struct_Raquet)(unsafe.Pointer(rq)), C.uint64_t(seed))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -354,7 +354,7 @@ func RaquetHashExtended(rq unsafe.Pointer, seed uint64) (_r0 uint64, _err error)
 // RaquetMemSize wraps MEOS C function raquet_mem_size.
 func RaquetMemSize(rq unsafe.Pointer) (_r0 int, _err error) {
 	C.meos_errno_reset()
-	_cret := C.raquet_mem_size((*C.Raquet)(unsafe.Pointer(rq)))
+	_cret := C.raquet_mem_size((*C.struct_Raquet)(unsafe.Pointer(rq)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -389,7 +389,7 @@ func RasterFromHexwkb(hexwkb string) (_r0 unsafe.Pointer, _err error) {
 // RasterAsWKB wraps MEOS C function raster_as_wkb.
 func RasterAsWKB(rast unsafe.Pointer, variant uint8, size_out unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
 	C.meos_errno_reset()
-	_cret := C.raster_as_wkb((*C.Raster)(unsafe.Pointer(rast)), C.uint8_t(variant), (*C.size_t)(unsafe.Pointer(size_out)))
+	_cret := C.raster_as_wkb((*C.struct_Raster)(unsafe.Pointer(rast)), C.uint8_t(variant), (*C.size_t)(unsafe.Pointer(size_out)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -401,7 +401,7 @@ func RasterAsWKB(rast unsafe.Pointer, variant uint8, size_out unsafe.Pointer) (_
 func RasterAsHexwkb(rast unsafe.Pointer, variant uint8) (_r0 string, _err error) {
 	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.raster_as_hexwkb((*C.Raster)(unsafe.Pointer(rast)), C.uint8_t(variant), &_size)
+	_cret := C.raster_as_hexwkb((*C.struct_Raster)(unsafe.Pointer(rast)), C.uint8_t(variant), &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -413,7 +413,7 @@ func RasterAsHexwkb(rast unsafe.Pointer, variant uint8) (_r0 string, _err error)
 // RasterCopy wraps MEOS C function raster_copy.
 func RasterCopy(rast unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
 	C.meos_errno_reset()
-	_cret := C.raster_copy((*C.Raster)(unsafe.Pointer(rast)))
+	_cret := C.raster_copy((*C.struct_Raster)(unsafe.Pointer(rast)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -450,7 +450,7 @@ func RasterAddBand(rast unsafe.Pointer, index int, pixeltype string, initialvalu
 	_c_pixeltype := C.CString(pixeltype)
 	defer C.free(unsafe.Pointer(_c_pixeltype))
 	C.meos_errno_reset()
-	_cret := C.raster_add_band((*C.Raster)(unsafe.Pointer(rast)), C.int(index), _c_pixeltype, C.double(initialvalue), C.double(nodataval), C.bool(has_nodata))
+	_cret := C.raster_add_band((*C.struct_Raster)(unsafe.Pointer(rast)), C.int(index), _c_pixeltype, C.double(initialvalue), C.double(nodataval), C.bool(has_nodata))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -461,7 +461,7 @@ func RasterAddBand(rast unsafe.Pointer, index int, pixeltype string, initialvalu
 // RasterAddBandRaster wraps MEOS C function raster_add_band_raster.
 func RasterAddBandRaster(torast unsafe.Pointer, fromrast unsafe.Pointer, fromband int, toindex int) (_r0 unsafe.Pointer, _err error) {
 	C.meos_errno_reset()
-	_cret := C.raster_add_band_raster((*C.Raster)(unsafe.Pointer(torast)), (*C.Raster)(unsafe.Pointer(fromrast)), C.int(fromband), C.int(toindex))
+	_cret := C.raster_add_band_raster((*C.struct_Raster)(unsafe.Pointer(torast)), (*C.struct_Raster)(unsafe.Pointer(fromrast)), C.int(fromband), C.int(toindex))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -472,7 +472,7 @@ func RasterAddBandRaster(torast unsafe.Pointer, fromrast unsafe.Pointer, fromban
 // RasterMemSize wraps MEOS C function raster_mem_size.
 func RasterMemSize(rast unsafe.Pointer) (_r0 int, _err error) {
 	C.meos_errno_reset()
-	_cret := C.raster_mem_size((*C.Raster)(unsafe.Pointer(rast)))
+	_cret := C.raster_mem_size((*C.struct_Raster)(unsafe.Pointer(rast)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -483,7 +483,7 @@ func RasterMemSize(rast unsafe.Pointer) (_r0 int, _err error) {
 // RasterNumBands wraps MEOS C function raster_num_bands.
 func RasterNumBands(rast unsafe.Pointer) (_r0 int, _err error) {
 	C.meos_errno_reset()
-	_cret := C.raster_num_bands((*C.Raster)(unsafe.Pointer(rast)))
+	_cret := C.raster_num_bands((*C.struct_Raster)(unsafe.Pointer(rast)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -494,7 +494,7 @@ func RasterNumBands(rast unsafe.Pointer) (_r0 int, _err error) {
 // RasterWidth wraps MEOS C function raster_width.
 func RasterWidth(rast unsafe.Pointer) (_r0 int, _err error) {
 	C.meos_errno_reset()
-	_cret := C.raster_width((*C.Raster)(unsafe.Pointer(rast)))
+	_cret := C.raster_width((*C.struct_Raster)(unsafe.Pointer(rast)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -505,7 +505,7 @@ func RasterWidth(rast unsafe.Pointer) (_r0 int, _err error) {
 // RasterHeight wraps MEOS C function raster_height.
 func RasterHeight(rast unsafe.Pointer) (_r0 int, _err error) {
 	C.meos_errno_reset()
-	_cret := C.raster_height((*C.Raster)(unsafe.Pointer(rast)))
+	_cret := C.raster_height((*C.struct_Raster)(unsafe.Pointer(rast)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -516,7 +516,7 @@ func RasterHeight(rast unsafe.Pointer) (_r0 int, _err error) {
 // RasterSRID wraps MEOS C function raster_srid.
 func RasterSRID(rast unsafe.Pointer) (_r0 int32, _err error) {
 	C.meos_errno_reset()
-	_cret := C.raster_srid((*C.Raster)(unsafe.Pointer(rast)))
+	_cret := C.raster_srid((*C.struct_Raster)(unsafe.Pointer(rast)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -527,7 +527,7 @@ func RasterSRID(rast unsafe.Pointer) (_r0 int32, _err error) {
 // RasterUpperLeftX wraps MEOS C function raster_upper_left_x.
 func RasterUpperLeftX(rast unsafe.Pointer) (_r0 float64, _err error) {
 	C.meos_errno_reset()
-	_cret := C.raster_upper_left_x((*C.Raster)(unsafe.Pointer(rast)))
+	_cret := C.raster_upper_left_x((*C.struct_Raster)(unsafe.Pointer(rast)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -538,7 +538,7 @@ func RasterUpperLeftX(rast unsafe.Pointer) (_r0 float64, _err error) {
 // RasterUpperLeftY wraps MEOS C function raster_upper_left_y.
 func RasterUpperLeftY(rast unsafe.Pointer) (_r0 float64, _err error) {
 	C.meos_errno_reset()
-	_cret := C.raster_upper_left_y((*C.Raster)(unsafe.Pointer(rast)))
+	_cret := C.raster_upper_left_y((*C.struct_Raster)(unsafe.Pointer(rast)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -549,7 +549,7 @@ func RasterUpperLeftY(rast unsafe.Pointer) (_r0 float64, _err error) {
 // RasterScaleX wraps MEOS C function raster_scale_x.
 func RasterScaleX(rast unsafe.Pointer) (_r0 float64, _err error) {
 	C.meos_errno_reset()
-	_cret := C.raster_scale_x((*C.Raster)(unsafe.Pointer(rast)))
+	_cret := C.raster_scale_x((*C.struct_Raster)(unsafe.Pointer(rast)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -560,7 +560,7 @@ func RasterScaleX(rast unsafe.Pointer) (_r0 float64, _err error) {
 // RasterScaleY wraps MEOS C function raster_scale_y.
 func RasterScaleY(rast unsafe.Pointer) (_r0 float64, _err error) {
 	C.meos_errno_reset()
-	_cret := C.raster_scale_y((*C.Raster)(unsafe.Pointer(rast)))
+	_cret := C.raster_scale_y((*C.struct_Raster)(unsafe.Pointer(rast)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -571,7 +571,7 @@ func RasterScaleY(rast unsafe.Pointer) (_r0 float64, _err error) {
 // RasterSkewX wraps MEOS C function raster_skew_x.
 func RasterSkewX(rast unsafe.Pointer) (_r0 float64, _err error) {
 	C.meos_errno_reset()
-	_cret := C.raster_skew_x((*C.Raster)(unsafe.Pointer(rast)))
+	_cret := C.raster_skew_x((*C.struct_Raster)(unsafe.Pointer(rast)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -582,7 +582,7 @@ func RasterSkewX(rast unsafe.Pointer) (_r0 float64, _err error) {
 // RasterSkewY wraps MEOS C function raster_skew_y.
 func RasterSkewY(rast unsafe.Pointer) (_r0 float64, _err error) {
 	C.meos_errno_reset()
-	_cret := C.raster_skew_y((*C.Raster)(unsafe.Pointer(rast)))
+	_cret := C.raster_skew_y((*C.struct_Raster)(unsafe.Pointer(rast)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -594,7 +594,7 @@ func RasterSkewY(rast unsafe.Pointer) (_r0 float64, _err error) {
 func RasterBandPixelType(rast unsafe.Pointer, band int) (_r0 string, _err error) {
 	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.raster_band_pixel_type((*C.Raster)(unsafe.Pointer(rast)), C.int(band), &_size)
+	_cret := C.raster_band_pixel_type((*C.struct_Raster)(unsafe.Pointer(rast)), C.int(band), &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -606,7 +606,7 @@ func RasterBandPixelType(rast unsafe.Pointer, band int) (_r0 string, _err error)
 // RasterBandHasNodataValue wraps MEOS C function raster_band_has_nodata_value.
 func RasterBandHasNodataValue(rast unsafe.Pointer, band int) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.raster_band_has_nodata_value((*C.Raster)(unsafe.Pointer(rast)), C.int(band))
+	_cret := C.raster_band_has_nodata_value((*C.struct_Raster)(unsafe.Pointer(rast)), C.int(band))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -618,7 +618,7 @@ func RasterBandHasNodataValue(rast unsafe.Pointer, band int) (_r0 bool, _err err
 func RasterBandNodataValue(rast unsafe.Pointer, band int) (_r0 bool, _r1 float64, _err error) {
 	var _out_result C.double
 	C.meos_errno_reset()
-	_cret := C.raster_band_nodata_value((*C.Raster)(unsafe.Pointer(rast)), C.int(band), &_out_result)
+	_cret := C.raster_band_nodata_value((*C.struct_Raster)(unsafe.Pointer(rast)), C.int(band), &_out_result)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -629,7 +629,7 @@ func RasterBandNodataValue(rast unsafe.Pointer, band int) (_r0 bool, _r1 float64
 // RasterBandPixels wraps MEOS C function raster_band_pixels.
 func RasterBandPixels(rast unsafe.Pointer, band int, size_out unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
 	C.meos_errno_reset()
-	_cret := C.raster_band_pixels((*C.Raster)(unsafe.Pointer(rast)), C.int(band), (*C.size_t)(unsafe.Pointer(size_out)))
+	_cret := C.raster_band_pixels((*C.struct_Raster)(unsafe.Pointer(rast)), C.int(band), (*C.size_t)(unsafe.Pointer(size_out)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -711,7 +711,7 @@ func BandstatsMax(stats unsafe.Pointer) (_r0 bool, _r1 float64, _err error) {
 // RasterClip wraps MEOS C function raster_clip.
 func RasterClip(rast unsafe.Pointer, bands unsafe.Pointer, nbands int, gs *Geom, nodata unsafe.Pointer, nnodata int, crop bool, touched bool) (_r0 unsafe.Pointer, _err error) {
 	C.meos_errno_reset()
-	_cret := C.raster_clip((*C.Raster)(unsafe.Pointer(rast)), (*C.int)(unsafe.Pointer(bands)), C.int(nbands), gs._inner, (*C.double)(unsafe.Pointer(nodata)), C.int(nnodata), C.bool(crop), C.bool(touched))
+	_cret := C.raster_clip((*C.struct_Raster)(unsafe.Pointer(rast)), (*C.int)(unsafe.Pointer(bands)), C.int(nbands), gs._inner, (*C.double)(unsafe.Pointer(nodata)), C.int(nnodata), C.bool(crop), C.bool(touched))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -724,7 +724,7 @@ func RasterTransform(rast unsafe.Pointer, srid int32, algorithm string, max_err 
 	_c_algorithm := C.CString(algorithm)
 	defer C.free(unsafe.Pointer(_c_algorithm))
 	C.meos_errno_reset()
-	_cret := C.raster_transform((*C.Raster)(unsafe.Pointer(rast)), C.int32_t(srid), _c_algorithm, C.double(max_err), C.double(scale_x), C.double(scale_y))
+	_cret := C.raster_transform((*C.struct_Raster)(unsafe.Pointer(rast)), C.int32_t(srid), _c_algorithm, C.double(max_err), C.double(scale_x), C.double(scale_y))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -739,7 +739,7 @@ func RasterTransformPipeline(rast unsafe.Pointer, pipelinestr string, srid int32
 	_c_algorithm := C.CString(algorithm)
 	defer C.free(unsafe.Pointer(_c_algorithm))
 	C.meos_errno_reset()
-	_cret := C.raster_transform_pipeline((*C.Raster)(unsafe.Pointer(rast)), _c_pipelinestr, C.int32_t(srid), C.bool(is_forward), _c_algorithm, C.double(max_err), C.double(scale_x), C.double(scale_y))
+	_cret := C.raster_transform_pipeline((*C.struct_Raster)(unsafe.Pointer(rast)), _c_pipelinestr, C.int32_t(srid), C.bool(is_forward), _c_algorithm, C.double(max_err), C.double(scale_x), C.double(scale_y))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -752,7 +752,7 @@ func RasterTransformRaster(rast unsafe.Pointer, alignto unsafe.Pointer, algorith
 	_c_algorithm := C.CString(algorithm)
 	defer C.free(unsafe.Pointer(_c_algorithm))
 	C.meos_errno_reset()
-	_cret := C.raster_transform_raster((*C.Raster)(unsafe.Pointer(rast)), (*C.Raster)(unsafe.Pointer(alignto)), _c_algorithm, C.double(max_err))
+	_cret := C.raster_transform_raster((*C.struct_Raster)(unsafe.Pointer(rast)), (*C.struct_Raster)(unsafe.Pointer(alignto)), _c_algorithm, C.double(max_err))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -765,7 +765,7 @@ func RasterRescale(rast unsafe.Pointer, scale_x float64, scale_y float64, algori
 	_c_algorithm := C.CString(algorithm)
 	defer C.free(unsafe.Pointer(_c_algorithm))
 	C.meos_errno_reset()
-	_cret := C.raster_rescale((*C.Raster)(unsafe.Pointer(rast)), C.double(scale_x), C.double(scale_y), _c_algorithm, C.double(max_err))
+	_cret := C.raster_rescale((*C.struct_Raster)(unsafe.Pointer(rast)), C.double(scale_x), C.double(scale_y), _c_algorithm, C.double(max_err))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -776,7 +776,7 @@ func RasterRescale(rast unsafe.Pointer, scale_x float64, scale_y float64, algori
 // RasterDumpAsPolygons wraps MEOS C function raster_dump_as_polygons.
 func RasterDumpAsPolygons(rast unsafe.Pointer, band int, exclude_nodata bool, count unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
 	C.meos_errno_reset()
-	_cret := C.raster_dump_as_polygons((*C.Raster)(unsafe.Pointer(rast)), C.int(band), C.bool(exclude_nodata), (*C.int)(unsafe.Pointer(count)))
+	_cret := C.raster_dump_as_polygons((*C.struct_Raster)(unsafe.Pointer(rast)), C.int(band), C.bool(exclude_nodata), (*C.int)(unsafe.Pointer(count)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -787,7 +787,7 @@ func RasterDumpAsPolygons(rast unsafe.Pointer, band int, exclude_nodata bool, co
 // RasterDumpValues wraps MEOS C function raster_dump_values.
 func RasterDumpValues(rast unsafe.Pointer, band int, exclude_nodata bool, nodata unsafe.Pointer, count unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
 	C.meos_errno_reset()
-	_cret := C.raster_dump_values((*C.Raster)(unsafe.Pointer(rast)), C.int(band), C.bool(exclude_nodata), (**C.bool)(unsafe.Pointer(nodata)), (*C.int)(unsafe.Pointer(count)))
+	_cret := C.raster_dump_values((*C.struct_Raster)(unsafe.Pointer(rast)), C.int(band), C.bool(exclude_nodata), (**C.bool)(unsafe.Pointer(nodata)), (*C.int)(unsafe.Pointer(count)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -798,7 +798,7 @@ func RasterDumpValues(rast unsafe.Pointer, band int, exclude_nodata bool, nodata
 // RasterPixelAsPoints wraps MEOS C function raster_pixel_as_points.
 func RasterPixelAsPoints(rast unsafe.Pointer, band int, exclude_nodata bool, count unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
 	C.meos_errno_reset()
-	_cret := C.raster_pixel_as_points((*C.Raster)(unsafe.Pointer(rast)), C.int(band), C.bool(exclude_nodata), (*C.int)(unsafe.Pointer(count)))
+	_cret := C.raster_pixel_as_points((*C.struct_Raster)(unsafe.Pointer(rast)), C.int(band), C.bool(exclude_nodata), (*C.int)(unsafe.Pointer(count)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -809,7 +809,7 @@ func RasterPixelAsPoints(rast unsafe.Pointer, band int, exclude_nodata bool, cou
 // RasterSummaryStats wraps MEOS C function raster_summary_stats.
 func RasterSummaryStats(rast unsafe.Pointer, band int, exclude_nodata bool) (_r0 unsafe.Pointer, _err error) {
 	C.meos_errno_reset()
-	_cret := C.raster_summary_stats((*C.Raster)(unsafe.Pointer(rast)), C.int(band), C.bool(exclude_nodata))
+	_cret := C.raster_summary_stats((*C.struct_Raster)(unsafe.Pointer(rast)), C.int(band), C.bool(exclude_nodata))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -820,7 +820,7 @@ func RasterSummaryStats(rast unsafe.Pointer, band int, exclude_nodata bool) (_r0
 // RasterValueCount wraps MEOS C function raster_value_count.
 func RasterValueCount(rast unsafe.Pointer, band int, exclude_nodata bool, searchvalues unsafe.Pointer, nsearch int, roundto float64, count unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
 	C.meos_errno_reset()
-	_cret := C.raster_value_count((*C.Raster)(unsafe.Pointer(rast)), C.int(band), C.bool(exclude_nodata), (*C.double)(unsafe.Pointer(searchvalues)), C.int(nsearch), C.double(roundto), (*C.int)(unsafe.Pointer(count)))
+	_cret := C.raster_value_count((*C.struct_Raster)(unsafe.Pointer(rast)), C.int(band), C.bool(exclude_nodata), (*C.double)(unsafe.Pointer(searchvalues)), C.int(nsearch), C.double(roundto), (*C.int)(unsafe.Pointer(count)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -831,7 +831,7 @@ func RasterValueCount(rast unsafe.Pointer, band int, exclude_nodata bool, search
 // RasterSetValues wraps MEOS C function raster_set_values.
 func RasterSetValues(rast unsafe.Pointer, band int, x int, y int, width int, height int, values unsafe.Pointer, nodata unsafe.Pointer, noset unsafe.Pointer, nosetwidth int, nosetheight int, count int, keepnodata bool) (_r0 unsafe.Pointer, _err error) {
 	C.meos_errno_reset()
-	_cret := C.raster_set_values((*C.Raster)(unsafe.Pointer(rast)), C.int(band), C.int(x), C.int(y), C.int(width), C.int(height), (*C.double)(unsafe.Pointer(values)), (*C.bool)(unsafe.Pointer(nodata)), (*C.bool)(unsafe.Pointer(noset)), C.int(nosetwidth), C.int(nosetheight), C.int(count), C.bool(keepnodata))
+	_cret := C.raster_set_values((*C.struct_Raster)(unsafe.Pointer(rast)), C.int(band), C.int(x), C.int(y), C.int(width), C.int(height), (*C.double)(unsafe.Pointer(values)), (*C.bool)(unsafe.Pointer(nodata)), (*C.bool)(unsafe.Pointer(noset)), C.int(nosetwidth), C.int(nosetheight), C.int(count), C.bool(keepnodata))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -846,7 +846,7 @@ func RasterReclass(rast unsafe.Pointer, band int, expr string, pixeltype string,
 	_c_pixeltype := C.CString(pixeltype)
 	defer C.free(unsafe.Pointer(_c_pixeltype))
 	C.meos_errno_reset()
-	_cret := C.raster_reclass((*C.Raster)(unsafe.Pointer(rast)), C.int(band), _c_expr, _c_pixeltype, C.bool(has_nodata), C.double(nodataval))
+	_cret := C.raster_reclass((*C.struct_Raster)(unsafe.Pointer(rast)), C.int(band), _c_expr, _c_pixeltype, C.bool(has_nodata), C.double(nodataval))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -861,7 +861,7 @@ func RasterSlope(rast unsafe.Pointer, band int, customextent unsafe.Pointer, pix
 	_c_units := C.CString(units)
 	defer C.free(unsafe.Pointer(_c_units))
 	C.meos_errno_reset()
-	_cret := C.raster_slope((*C.Raster)(unsafe.Pointer(rast)), C.int(band), (*C.Raster)(unsafe.Pointer(customextent)), _c_pixeltype, _c_units, C.double(scale), C.bool(interpolate_nodata))
+	_cret := C.raster_slope((*C.struct_Raster)(unsafe.Pointer(rast)), C.int(band), (*C.struct_Raster)(unsafe.Pointer(customextent)), _c_pixeltype, _c_units, C.double(scale), C.bool(interpolate_nodata))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -874,7 +874,7 @@ func RasterTpi(rast unsafe.Pointer, band int, customextent unsafe.Pointer, pixel
 	_c_pixeltype := C.CString(pixeltype)
 	defer C.free(unsafe.Pointer(_c_pixeltype))
 	C.meos_errno_reset()
-	_cret := C.raster_tpi((*C.Raster)(unsafe.Pointer(rast)), C.int(band), (*C.Raster)(unsafe.Pointer(customextent)), _c_pixeltype, C.bool(interpolate_nodata))
+	_cret := C.raster_tpi((*C.struct_Raster)(unsafe.Pointer(rast)), C.int(band), (*C.struct_Raster)(unsafe.Pointer(customextent)), _c_pixeltype, C.bool(interpolate_nodata))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -887,7 +887,7 @@ func RasterTri(rast unsafe.Pointer, band int, customextent unsafe.Pointer, pixel
 	_c_pixeltype := C.CString(pixeltype)
 	defer C.free(unsafe.Pointer(_c_pixeltype))
 	C.meos_errno_reset()
-	_cret := C.raster_tri((*C.Raster)(unsafe.Pointer(rast)), C.int(band), (*C.Raster)(unsafe.Pointer(customextent)), _c_pixeltype, C.bool(interpolate_nodata))
+	_cret := C.raster_tri((*C.struct_Raster)(unsafe.Pointer(rast)), C.int(band), (*C.struct_Raster)(unsafe.Pointer(customextent)), _c_pixeltype, C.bool(interpolate_nodata))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -910,7 +910,7 @@ func RasterMapAlgebra(rast unsafe.Pointer, band int, stat string, pixeltype *str
 		defer C.free(unsafe.Pointer(_c_extenttype))
 	}
 	C.meos_errno_reset()
-	_cret := C.raster_map_algebra((*C.Raster)(unsafe.Pointer(rast)), C.int(band), _c_stat, _c_pixeltype, _c_extenttype, (*C.Raster)(unsafe.Pointer(customextent)), C.int32(distancex), C.int32(distancey))
+	_cret := C.raster_map_algebra((*C.struct_Raster)(unsafe.Pointer(rast)), C.int(band), _c_stat, _c_pixeltype, _c_extenttype, (*C.struct_Raster)(unsafe.Pointer(customextent)), C.int32_t(distancex), C.int32_t(distancey))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -943,7 +943,7 @@ func PixelArrFree(pixarr unsafe.Pointer, count int) (_err error) {
 // AddFloatRaster wraps MEOS C function add_float_raster.
 func AddFloatRaster(d float64, rast unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
 	C.meos_errno_reset()
-	_cret := C.add_float_raster(C.double(d), (*C.Raster)(unsafe.Pointer(rast)))
+	_cret := C.add_float_raster(C.double(d), (*C.struct_Raster)(unsafe.Pointer(rast)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -954,7 +954,7 @@ func AddFloatRaster(d float64, rast unsafe.Pointer) (_r0 unsafe.Pointer, _err er
 // AddRasterFloat wraps MEOS C function add_raster_float.
 func AddRasterFloat(rast unsafe.Pointer, d float64) (_r0 unsafe.Pointer, _err error) {
 	C.meos_errno_reset()
-	_cret := C.add_raster_float((*C.Raster)(unsafe.Pointer(rast)), C.double(d))
+	_cret := C.add_raster_float((*C.struct_Raster)(unsafe.Pointer(rast)), C.double(d))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -965,7 +965,7 @@ func AddRasterFloat(rast unsafe.Pointer, d float64) (_r0 unsafe.Pointer, _err er
 // AddRasterRaster wraps MEOS C function add_raster_raster.
 func AddRasterRaster(rast1 unsafe.Pointer, rast2 unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
 	C.meos_errno_reset()
-	_cret := C.add_raster_raster((*C.Raster)(unsafe.Pointer(rast1)), (*C.Raster)(unsafe.Pointer(rast2)))
+	_cret := C.add_raster_raster((*C.struct_Raster)(unsafe.Pointer(rast1)), (*C.struct_Raster)(unsafe.Pointer(rast2)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -976,7 +976,7 @@ func AddRasterRaster(rast1 unsafe.Pointer, rast2 unsafe.Pointer) (_r0 unsafe.Poi
 // DivFloatRaster wraps MEOS C function div_float_raster.
 func DivFloatRaster(d float64, rast unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
 	C.meos_errno_reset()
-	_cret := C.div_float_raster(C.double(d), (*C.Raster)(unsafe.Pointer(rast)))
+	_cret := C.div_float_raster(C.double(d), (*C.struct_Raster)(unsafe.Pointer(rast)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -987,7 +987,7 @@ func DivFloatRaster(d float64, rast unsafe.Pointer) (_r0 unsafe.Pointer, _err er
 // DivRasterFloat wraps MEOS C function div_raster_float.
 func DivRasterFloat(rast unsafe.Pointer, d float64) (_r0 unsafe.Pointer, _err error) {
 	C.meos_errno_reset()
-	_cret := C.div_raster_float((*C.Raster)(unsafe.Pointer(rast)), C.double(d))
+	_cret := C.div_raster_float((*C.struct_Raster)(unsafe.Pointer(rast)), C.double(d))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -998,7 +998,7 @@ func DivRasterFloat(rast unsafe.Pointer, d float64) (_r0 unsafe.Pointer, _err er
 // DivRasterRaster wraps MEOS C function div_raster_raster.
 func DivRasterRaster(rast1 unsafe.Pointer, rast2 unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
 	C.meos_errno_reset()
-	_cret := C.div_raster_raster((*C.Raster)(unsafe.Pointer(rast1)), (*C.Raster)(unsafe.Pointer(rast2)))
+	_cret := C.div_raster_raster((*C.struct_Raster)(unsafe.Pointer(rast1)), (*C.struct_Raster)(unsafe.Pointer(rast2)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1009,7 +1009,7 @@ func DivRasterRaster(rast1 unsafe.Pointer, rast2 unsafe.Pointer) (_r0 unsafe.Poi
 // MulFloatRaster wraps MEOS C function mul_float_raster.
 func MulFloatRaster(d float64, rast unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
 	C.meos_errno_reset()
-	_cret := C.mul_float_raster(C.double(d), (*C.Raster)(unsafe.Pointer(rast)))
+	_cret := C.mul_float_raster(C.double(d), (*C.struct_Raster)(unsafe.Pointer(rast)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1020,7 +1020,7 @@ func MulFloatRaster(d float64, rast unsafe.Pointer) (_r0 unsafe.Pointer, _err er
 // MulRasterFloat wraps MEOS C function mul_raster_float.
 func MulRasterFloat(rast unsafe.Pointer, d float64) (_r0 unsafe.Pointer, _err error) {
 	C.meos_errno_reset()
-	_cret := C.mul_raster_float((*C.Raster)(unsafe.Pointer(rast)), C.double(d))
+	_cret := C.mul_raster_float((*C.struct_Raster)(unsafe.Pointer(rast)), C.double(d))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1031,7 +1031,7 @@ func MulRasterFloat(rast unsafe.Pointer, d float64) (_r0 unsafe.Pointer, _err er
 // MulRasterRaster wraps MEOS C function mul_raster_raster.
 func MulRasterRaster(rast1 unsafe.Pointer, rast2 unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
 	C.meos_errno_reset()
-	_cret := C.mul_raster_raster((*C.Raster)(unsafe.Pointer(rast1)), (*C.Raster)(unsafe.Pointer(rast2)))
+	_cret := C.mul_raster_raster((*C.struct_Raster)(unsafe.Pointer(rast1)), (*C.struct_Raster)(unsafe.Pointer(rast2)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1042,7 +1042,7 @@ func MulRasterRaster(rast1 unsafe.Pointer, rast2 unsafe.Pointer) (_r0 unsafe.Poi
 // SubFloatRaster wraps MEOS C function sub_float_raster.
 func SubFloatRaster(d float64, rast unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
 	C.meos_errno_reset()
-	_cret := C.sub_float_raster(C.double(d), (*C.Raster)(unsafe.Pointer(rast)))
+	_cret := C.sub_float_raster(C.double(d), (*C.struct_Raster)(unsafe.Pointer(rast)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1053,7 +1053,7 @@ func SubFloatRaster(d float64, rast unsafe.Pointer) (_r0 unsafe.Pointer, _err er
 // SubRasterFloat wraps MEOS C function sub_raster_float.
 func SubRasterFloat(rast unsafe.Pointer, d float64) (_r0 unsafe.Pointer, _err error) {
 	C.meos_errno_reset()
-	_cret := C.sub_raster_float((*C.Raster)(unsafe.Pointer(rast)), C.double(d))
+	_cret := C.sub_raster_float((*C.struct_Raster)(unsafe.Pointer(rast)), C.double(d))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1064,7 +1064,7 @@ func SubRasterFloat(rast unsafe.Pointer, d float64) (_r0 unsafe.Pointer, _err er
 // SubRasterRaster wraps MEOS C function sub_raster_raster.
 func SubRasterRaster(rast1 unsafe.Pointer, rast2 unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
 	C.meos_errno_reset()
-	_cret := C.sub_raster_raster((*C.Raster)(unsafe.Pointer(rast1)), (*C.Raster)(unsafe.Pointer(rast2)))
+	_cret := C.sub_raster_raster((*C.struct_Raster)(unsafe.Pointer(rast1)), (*C.struct_Raster)(unsafe.Pointer(rast2)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1075,7 +1075,7 @@ func SubRasterRaster(rast1 unsafe.Pointer, rast2 unsafe.Pointer) (_r0 unsafe.Poi
 // RasterSameAlignment wraps MEOS C function raster_same_alignment.
 func RasterSameAlignment(rast1 unsafe.Pointer, rast2 unsafe.Pointer) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.raster_same_alignment((*C.Raster)(unsafe.Pointer(rast1)), (*C.Raster)(unsafe.Pointer(rast2)))
+	_cret := C.raster_same_alignment((*C.struct_Raster)(unsafe.Pointer(rast1)), (*C.struct_Raster)(unsafe.Pointer(rast2)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1087,7 +1087,7 @@ func RasterSameAlignment(rast1 unsafe.Pointer, rast2 unsafe.Pointer) (_r0 bool, 
 func RasterNotSameAlignmentReason(rast1 unsafe.Pointer, rast2 unsafe.Pointer) (_r0 string, _err error) {
 	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.raster_not_same_alignment_reason((*C.Raster)(unsafe.Pointer(rast1)), (*C.Raster)(unsafe.Pointer(rast2)), &_size)
+	_cret := C.raster_not_same_alignment_reason((*C.struct_Raster)(unsafe.Pointer(rast1)), (*C.struct_Raster)(unsafe.Pointer(rast2)), &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1121,7 +1121,7 @@ func RasterSameAlignmentFinalfn(state unsafe.Pointer) (_r0 bool, _err error) {
 // RasterSameAlignmentTransfn wraps MEOS C function raster_same_alignment_transfn.
 func RasterSameAlignmentTransfn(state unsafe.Pointer, rast unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
 	C.meos_errno_reset()
-	_cret := C.raster_same_alignment_transfn((*C.RasterAlignState)(unsafe.Pointer(state)), (*C.Raster)(unsafe.Pointer(rast)))
+	_cret := C.raster_same_alignment_transfn((*C.RasterAlignState)(unsafe.Pointer(state)), (*C.struct_Raster)(unsafe.Pointer(rast)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1154,7 +1154,7 @@ func RasterSummaryStatsFinalfn(state unsafe.Pointer) (_r0 unsafe.Pointer, _err e
 // RasterSummaryStatsTransfn wraps MEOS C function raster_summary_stats_transfn.
 func RasterSummaryStatsTransfn(state unsafe.Pointer, rast unsafe.Pointer, band int, exclude_nodata bool) (_r0 unsafe.Pointer, _err error) {
 	C.meos_errno_reset()
-	_cret := C.raster_summary_stats_transfn((*C.RasterStatsState)(unsafe.Pointer(state)), (*C.Raster)(unsafe.Pointer(rast)), C.int(band), C.bool(exclude_nodata))
+	_cret := C.raster_summary_stats_transfn((*C.RasterStatsState)(unsafe.Pointer(state)), (*C.struct_Raster)(unsafe.Pointer(rast)), C.int(band), C.bool(exclude_nodata))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1192,7 +1192,7 @@ func RasterUnionTransfn(state unsafe.Pointer, rast unsafe.Pointer, band int, uni
 		defer C.free(unsafe.Pointer(_c_uniontype))
 	}
 	C.meos_errno_reset()
-	_cret := C.raster_union_transfn((*C.RasterUnionState)(unsafe.Pointer(state)), (*C.Raster)(unsafe.Pointer(rast)), C.int(band), _c_uniontype)
+	_cret := C.raster_union_transfn((*C.RasterUnionState)(unsafe.Pointer(state)), (*C.struct_Raster)(unsafe.Pointer(rast)), C.int(band), _c_uniontype)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1269,7 +1269,7 @@ func RasterunionstateSerialize(state unsafe.Pointer, size_out unsafe.Pointer) (_
 // RaquetToSTBOX wraps MEOS C function raquet_to_stbox.
 func RaquetToSTBOX(rq unsafe.Pointer) (_r0 *STBox, _err error) {
 	C.meos_errno_reset()
-	_cret := C.raquet_to_stbox((*C.Raquet)(unsafe.Pointer(rq)))
+	_cret := C.raquet_to_stbox((*C.struct_Raquet)(unsafe.Pointer(rq)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1280,7 +1280,7 @@ func RaquetToSTBOX(rq unsafe.Pointer) (_r0 *STBox, _err error) {
 // RasterToSTBOX wraps MEOS C function raster_to_stbox.
 func RasterToSTBOX(rast unsafe.Pointer) (_r0 *STBox, _err error) {
 	C.meos_errno_reset()
-	_cret := C.raster_to_stbox((*C.Raster)(unsafe.Pointer(rast)))
+	_cret := C.raster_to_stbox((*C.struct_Raster)(unsafe.Pointer(rast)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1291,7 +1291,7 @@ func RasterToSTBOX(rast unsafe.Pointer) (_r0 *STBox, _err error) {
 // RaquetCmp wraps MEOS C function raquet_cmp.
 func RaquetCmp(rq1 unsafe.Pointer, rq2 unsafe.Pointer) (_r0 int, _err error) {
 	C.meos_errno_reset()
-	_cret := C.raquet_cmp((*C.Raquet)(unsafe.Pointer(rq1)), (*C.Raquet)(unsafe.Pointer(rq2)))
+	_cret := C.raquet_cmp((*C.struct_Raquet)(unsafe.Pointer(rq1)), (*C.struct_Raquet)(unsafe.Pointer(rq2)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1302,7 +1302,7 @@ func RaquetCmp(rq1 unsafe.Pointer, rq2 unsafe.Pointer) (_r0 int, _err error) {
 // RaquetEq wraps MEOS C function raquet_eq.
 func RaquetEq(rq1 unsafe.Pointer, rq2 unsafe.Pointer) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.raquet_eq((*C.Raquet)(unsafe.Pointer(rq1)), (*C.Raquet)(unsafe.Pointer(rq2)))
+	_cret := C.raquet_eq((*C.struct_Raquet)(unsafe.Pointer(rq1)), (*C.struct_Raquet)(unsafe.Pointer(rq2)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1313,7 +1313,7 @@ func RaquetEq(rq1 unsafe.Pointer, rq2 unsafe.Pointer) (_r0 bool, _err error) {
 // RaquetNe wraps MEOS C function raquet_ne.
 func RaquetNe(rq1 unsafe.Pointer, rq2 unsafe.Pointer) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.raquet_ne((*C.Raquet)(unsafe.Pointer(rq1)), (*C.Raquet)(unsafe.Pointer(rq2)))
+	_cret := C.raquet_ne((*C.struct_Raquet)(unsafe.Pointer(rq1)), (*C.struct_Raquet)(unsafe.Pointer(rq2)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1324,7 +1324,7 @@ func RaquetNe(rq1 unsafe.Pointer, rq2 unsafe.Pointer) (_r0 bool, _err error) {
 // RaquetLt wraps MEOS C function raquet_lt.
 func RaquetLt(rq1 unsafe.Pointer, rq2 unsafe.Pointer) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.raquet_lt((*C.Raquet)(unsafe.Pointer(rq1)), (*C.Raquet)(unsafe.Pointer(rq2)))
+	_cret := C.raquet_lt((*C.struct_Raquet)(unsafe.Pointer(rq1)), (*C.struct_Raquet)(unsafe.Pointer(rq2)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1335,7 +1335,7 @@ func RaquetLt(rq1 unsafe.Pointer, rq2 unsafe.Pointer) (_r0 bool, _err error) {
 // RaquetLe wraps MEOS C function raquet_le.
 func RaquetLe(rq1 unsafe.Pointer, rq2 unsafe.Pointer) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.raquet_le((*C.Raquet)(unsafe.Pointer(rq1)), (*C.Raquet)(unsafe.Pointer(rq2)))
+	_cret := C.raquet_le((*C.struct_Raquet)(unsafe.Pointer(rq1)), (*C.struct_Raquet)(unsafe.Pointer(rq2)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1346,7 +1346,7 @@ func RaquetLe(rq1 unsafe.Pointer, rq2 unsafe.Pointer) (_r0 bool, _err error) {
 // RaquetGe wraps MEOS C function raquet_ge.
 func RaquetGe(rq1 unsafe.Pointer, rq2 unsafe.Pointer) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.raquet_ge((*C.Raquet)(unsafe.Pointer(rq1)), (*C.Raquet)(unsafe.Pointer(rq2)))
+	_cret := C.raquet_ge((*C.struct_Raquet)(unsafe.Pointer(rq1)), (*C.struct_Raquet)(unsafe.Pointer(rq2)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1357,7 +1357,7 @@ func RaquetGe(rq1 unsafe.Pointer, rq2 unsafe.Pointer) (_r0 bool, _err error) {
 // RaquetGt wraps MEOS C function raquet_gt.
 func RaquetGt(rq1 unsafe.Pointer, rq2 unsafe.Pointer) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.raquet_gt((*C.Raquet)(unsafe.Pointer(rq1)), (*C.Raquet)(unsafe.Pointer(rq2)))
+	_cret := C.raquet_gt((*C.struct_Raquet)(unsafe.Pointer(rq1)), (*C.struct_Raquet)(unsafe.Pointer(rq2)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1370,7 +1370,7 @@ func RasterValue(traj *Temporal, rast unsafe.Pointer, band int, exclude_nodata b
 	_c_resample := C.CString(resample)
 	defer C.free(unsafe.Pointer(_c_resample))
 	C.meos_errno_reset()
-	_cret := C.raster_value(traj._inner, (*C.Raster)(unsafe.Pointer(rast)), C.int(band), C.bool(exclude_nodata), _c_resample)
+	_cret := C.raster_value(traj._inner, (*C.struct_Raster)(unsafe.Pointer(rast)), C.int(band), C.bool(exclude_nodata), _c_resample)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1381,7 +1381,7 @@ func RasterValue(traj *Temporal, rast unsafe.Pointer, band int, exclude_nodata b
 // RasterAtValue wraps MEOS C function raster_at_value.
 func RasterAtValue(traj *Temporal, rast unsafe.Pointer, band int, vspan *Span) (_r0 *Temporal, _err error) {
 	C.meos_errno_reset()
-	_cret := C.raster_at_value(traj._inner, (*C.Raster)(unsafe.Pointer(rast)), C.int(band), vspan._inner)
+	_cret := C.raster_at_value(traj._inner, (*C.struct_Raster)(unsafe.Pointer(rast)), C.int(band), vspan._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1392,7 +1392,7 @@ func RasterAtValue(traj *Temporal, rast unsafe.Pointer, band int, vspan *Span) (
 // RasterMinusValue wraps MEOS C function raster_minus_value.
 func RasterMinusValue(traj *Temporal, rast unsafe.Pointer, band int, vspan *Span) (_r0 *Temporal, _err error) {
 	C.meos_errno_reset()
-	_cret := C.raster_minus_value(traj._inner, (*C.Raster)(unsafe.Pointer(rast)), C.int(band), vspan._inner)
+	_cret := C.raster_minus_value(traj._inner, (*C.struct_Raster)(unsafe.Pointer(rast)), C.int(band), vspan._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1403,7 +1403,7 @@ func RasterMinusValue(traj *Temporal, rast unsafe.Pointer, band int, vspan *Span
 // ErasterValue wraps MEOS C function eraster_value.
 func ErasterValue(traj *Temporal, rast unsafe.Pointer, band int, vspan *Span) (_r0 int, _err error) {
 	C.meos_errno_reset()
-	_cret := C.eraster_value(traj._inner, (*C.Raster)(unsafe.Pointer(rast)), C.int(band), vspan._inner)
+	_cret := C.eraster_value(traj._inner, (*C.struct_Raster)(unsafe.Pointer(rast)), C.int(band), vspan._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1414,7 +1414,7 @@ func ErasterValue(traj *Temporal, rast unsafe.Pointer, band int, vspan *Span) (_
 // ArasterValue wraps MEOS C function araster_value.
 func ArasterValue(traj *Temporal, rast unsafe.Pointer, band int, vspan *Span) (_r0 int, _err error) {
 	C.meos_errno_reset()
-	_cret := C.araster_value(traj._inner, (*C.Raster)(unsafe.Pointer(rast)), C.int(band), vspan._inner)
+	_cret := C.araster_value(traj._inner, (*C.struct_Raster)(unsafe.Pointer(rast)), C.int(band), vspan._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1488,9 +1488,9 @@ func ArasterValueGdal(traj *Temporal, path string, band int, vspan *Span) (_r0 i
 
 
 // RasterTileValueQuadbin wraps MEOS C function raster_tile_value_quadbin.
-func RasterTileValueQuadbin(traj *Temporal, pixels unsafe.Pointer, pixels_size uint, width int32, height int32, quadbin uint64, pixtype MeosPixType, nodata float64, has_nodata bool) (_r0 *Temporal, _err error) {
+func RasterTileValueQuadbin(traj *Temporal, pixels unsafe.Pointer, pixels_size uint, width int32, height int32, quadbin Quadbin, pixtype MeosPixType, nodata float64, has_nodata bool) (_r0 *Temporal, _err error) {
 	C.meos_errno_reset()
-	_cret := C.raster_tile_value_quadbin(traj._inner, (*C.uint8_t)(unsafe.Pointer(pixels)), C.size_t(pixels_size), C.int32(width), C.int32(height), C.uint64_t(quadbin), C.MeosPixType(pixtype), C.double(nodata), C.bool(has_nodata))
+	_cret := C.raster_tile_value_quadbin(traj._inner, (*C.uint8_t)(unsafe.Pointer(pixels)), C.size_t(pixels_size), C.int32_t(width), C.int32_t(height), C.Quadbin(quadbin), C.MeosPixType(pixtype), C.double(nodata), C.bool(has_nodata))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1501,7 +1501,7 @@ func RasterTileValueQuadbin(traj *Temporal, pixels unsafe.Pointer, pixels_size u
 // RasterTileValue wraps MEOS C function raster_tile_value.
 func RasterTileValue(traj *Temporal, rq unsafe.Pointer) (_r0 *Temporal, _err error) {
 	C.meos_errno_reset()
-	_cret := C.raster_tile_value(traj._inner, (*C.Raquet)(unsafe.Pointer(rq)))
+	_cret := C.raster_tile_value(traj._inner, (*C.struct_Raquet)(unsafe.Pointer(rq)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1512,7 +1512,7 @@ func RasterTileValue(traj *Temporal, rq unsafe.Pointer) (_r0 *Temporal, _err err
 // RasterTileValueArray wraps MEOS C function raster_tile_value_array.
 func RasterTileValueArray(traj *Temporal, rqarr unsafe.Pointer, count int) (_r0 *Temporal, _err error) {
 	C.meos_errno_reset()
-	_cret := C.raster_tile_value_array(traj._inner, (**C.Raquet)(unsafe.Pointer(rqarr)), C.int(count))
+	_cret := C.raster_tile_value_array(traj._inner, (**C.struct_Raquet)(unsafe.Pointer(rqarr)), C.int(count))
 	if _err = meosError(); _err != nil {
 		return
 	}

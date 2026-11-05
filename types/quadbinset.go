@@ -87,7 +87,7 @@ func QuadbinSetMake(values unsafe.Pointer, count int) (*Set, error) {
 }
 
 // EndValue is MEOS quadbinset_end_value.
-func (x *QuadbinSet) EndValue() (uint64, error) {
+func (x *QuadbinSet) EndValue() (functions.Quadbin, error) {
 	_r0, _err := functions.QuadbinsetEndValue(functions.SetFromPointer(x.Pointer()))
 	if _err != nil {
 		return 0, _err
@@ -96,7 +96,7 @@ func (x *QuadbinSet) EndValue() (uint64, error) {
 }
 
 // StartValue is MEOS quadbinset_start_value.
-func (x *QuadbinSet) StartValue() (uint64, error) {
+func (x *QuadbinSet) StartValue() (functions.Quadbin, error) {
 	_r0, _err := functions.QuadbinsetStartValue(functions.SetFromPointer(x.Pointer()))
 	if _err != nil {
 		return 0, _err
@@ -105,7 +105,7 @@ func (x *QuadbinSet) StartValue() (uint64, error) {
 }
 
 // ValueN is MEOS quadbinset_value_n.
-func (x *QuadbinSet) ValueN(n int) (uint64, bool, error) {
+func (x *QuadbinSet) ValueN(n int) (functions.Quadbin, bool, error) {
 	_found, _value, _err := functions.QuadbinsetValueN(functions.SetFromPointer(x.Pointer()), n)
 	if _err != nil {
 		return 0, false, _err

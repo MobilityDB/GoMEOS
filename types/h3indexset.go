@@ -51,7 +51,7 @@ func H3IndexSetMake(values unsafe.Pointer, count int) (*Set, error) {
 }
 
 // EndValue is MEOS h3indexset_end_value.
-func (x *H3IndexSet) EndValue() (uint64, error) {
+func (x *H3IndexSet) EndValue() (functions.H3Index, error) {
 	_r0, _err := functions.H3indexsetEndValue(functions.SetFromPointer(x.Pointer()))
 	if _err != nil {
 		return 0, _err
@@ -60,7 +60,7 @@ func (x *H3IndexSet) EndValue() (uint64, error) {
 }
 
 // StartValue is MEOS h3indexset_start_value.
-func (x *H3IndexSet) StartValue() (uint64, error) {
+func (x *H3IndexSet) StartValue() (functions.H3Index, error) {
 	_r0, _err := functions.H3indexsetStartValue(functions.SetFromPointer(x.Pointer()))
 	if _err != nil {
 		return 0, _err
@@ -69,7 +69,7 @@ func (x *H3IndexSet) StartValue() (uint64, error) {
 }
 
 // ValueN is MEOS h3indexset_value_n.
-func (x *H3IndexSet) ValueN(n int) (uint64, bool, error) {
+func (x *H3IndexSet) ValueN(n int) (functions.H3Index, bool, error) {
 	_found, _value, _err := functions.H3indexsetValueN(functions.SetFromPointer(x.Pointer()), n)
 	if _err != nil {
 		return 0, false, _err

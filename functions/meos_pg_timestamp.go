@@ -217,8 +217,15 @@ func EqTimestamptzTimestamptz(tstz1 int64, tstz2 int64) (_r0 bool, _err error) {
 }
 
 
-// TODO float8_to_timestamptz: unsupported param float8
-// func Float8ToTimestamptz(...) { /* not yet handled by codegen */ }
+// Float8ToTimestamptz wraps MEOS C function float8_to_timestamptz.
+func Float8ToTimestamptz(seconds float64) (_r0 int64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float8_to_timestamptz(C.double(seconds))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int64(_cret), nil
+}
 
 
 // GtTimestampTimestamp wraps MEOS C function gt_timestamp_timestamp.
@@ -476,8 +483,17 @@ func TimestampBin(ts int64, stride *Interval, origin int64) (_r0 int64, _err err
 }
 
 
-// TODO timestamp_extract: unsupported return type Numeric
-// func TimestampExtract(...) { /* not yet handled by codegen */ }
+// TimestampExtract wraps MEOS C function timestamp_extract.
+func TimestampExtract(ts int64, units string) (_r0 unsafe.Pointer, _err error) {
+	_c_units := C.cstring_to_text(C.CString(units))
+	defer C.free(unsafe.Pointer(_c_units))
+	C.meos_errno_reset()
+	_cret := C.timestamp_extract(C.Timestamp(ts), _c_units)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
+}
 
 
 // TimestampHash wraps MEOS C function timestamp_hash.
@@ -546,8 +562,15 @@ func TimestampLarger(ts1 int64, ts2 int64) (_r0 int64, _err error) {
 }
 
 
-// TODO timestamp_make: unsupported param float8
-// func TimestampMake(...) { /* not yet handled by codegen */ }
+// TimestampMake wraps MEOS C function timestamp_make.
+func TimestampMake(year int32, month int32, mday int32, hour int32, min int32, sec float64) (_r0 int64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.timestamp_make(C.int32_t(year), C.int32_t(month), C.int32_t(mday), C.int32_t(hour), C.int32_t(min), C.double(sec))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int64(_cret), nil
+}
 
 
 // TimestampOverlaps wraps MEOS C function timestamp_overlaps.
@@ -561,14 +584,23 @@ func TimestampOverlaps(ts1 int64, te1 int64, ts2 int64, te2 int64) (_r0 bool, _e
 }
 
 
-// TODO timestamp_part: unsupported return type float8
-// func TimestampPart(...) { /* not yet handled by codegen */ }
+// TimestampPart wraps MEOS C function timestamp_part.
+func TimestampPart(ts int64, units string) (_r0 float64, _err error) {
+	_c_units := C.cstring_to_text(C.CString(units))
+	defer C.free(unsafe.Pointer(_c_units))
+	C.meos_errno_reset()
+	_cret := C.timestamp_part(C.Timestamp(ts), _c_units)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
 
 
 // TimestampScale wraps MEOS C function timestamp_scale.
 func TimestampScale(ts int64, typmod int32) (_r0 int64, _err error) {
 	C.meos_errno_reset()
-	_cret := C.timestamp_scale(C.Timestamp(ts), C.int32(typmod))
+	_cret := C.timestamp_scale(C.Timestamp(ts), C.int32_t(typmod))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -657,8 +689,17 @@ func TimestamptzBin(tstz int64, stride *Interval, origin int64) (_r0 int64, _err
 }
 
 
-// TODO timestamptz_extract: unsupported return type Numeric
-// func TimestamptzExtract(...) { /* not yet handled by codegen */ }
+// TimestamptzExtract wraps MEOS C function timestamptz_extract.
+func TimestamptzExtract(tstz int64, units string) (_r0 unsafe.Pointer, _err error) {
+	_c_units := C.cstring_to_text(C.CString(units))
+	defer C.free(unsafe.Pointer(_c_units))
+	C.meos_errno_reset()
+	_cret := C.timestamptz_extract(C.TimestampTz(tstz), _c_units)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
+}
 
 
 // TimestamptzHash wraps MEOS C function timestamptz_hash.
@@ -694,12 +735,28 @@ func TimestamptzIzone(tstz int64, zone *Interval) (_r0 int64, _err error) {
 }
 
 
-// TODO timestamptz_make: unsupported param float8
-// func TimestamptzMake(...) { /* not yet handled by codegen */ }
+// TimestamptzMake wraps MEOS C function timestamptz_make.
+func TimestamptzMake(year int32, month int32, day int32, hour int32, min int32, sec float64) (_r0 int64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.timestamptz_make(C.int32_t(year), C.int32_t(month), C.int32_t(day), C.int32_t(hour), C.int32_t(min), C.double(sec))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int64(_cret), nil
+}
 
 
-// TODO timestamptz_make_at_timezone: unsupported param float8
-// func TimestamptzMakeAtTimezone(...) { /* not yet handled by codegen */ }
+// TimestamptzMakeAtTimezone wraps MEOS C function timestamptz_make_at_timezone.
+func TimestamptzMakeAtTimezone(year int32, month int32, day int32, hour int32, min int32, sec float64, zone string) (_r0 int64, _err error) {
+	_c_zone := C.cstring_to_text(C.CString(zone))
+	defer C.free(unsafe.Pointer(_c_zone))
+	C.meos_errno_reset()
+	_cret := C.timestamptz_make_at_timezone(C.int32_t(year), C.int32_t(month), C.int32_t(day), C.int32_t(hour), C.int32_t(min), C.double(sec), _c_zone)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int64(_cret), nil
+}
 
 
 // TimestamptzOverlaps wraps MEOS C function timestamptz_overlaps.
@@ -713,14 +770,23 @@ func TimestamptzOverlaps(ts1 int64, te1 int64, ts2 int64, te2 int64) (_r0 bool, 
 }
 
 
-// TODO timestamptz_part: unsupported return type float8
-// func TimestamptzPart(...) { /* not yet handled by codegen */ }
+// TimestamptzPart wraps MEOS C function timestamptz_part.
+func TimestamptzPart(tstz int64, units string) (_r0 float64, _err error) {
+	_c_units := C.cstring_to_text(C.CString(units))
+	defer C.free(unsafe.Pointer(_c_units))
+	C.meos_errno_reset()
+	_cret := C.timestamptz_part(C.TimestampTz(tstz), _c_units)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
 
 
 // TimestamptzScale wraps MEOS C function timestamptz_scale.
 func TimestamptzScale(tstz int64, typmod int32) (_r0 int64, _err error) {
 	C.meos_errno_reset()
-	_cret := C.timestamptz_scale(C.TimestampTz(tstz), C.int32(typmod))
+	_cret := C.timestamptz_scale(C.TimestampTz(tstz), C.int32_t(typmod))
 	if _err = meosError(); _err != nil {
 		return
 	}

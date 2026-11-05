@@ -24,7 +24,7 @@ func TH3IndexInstFromPointer(p unsafe.Pointer) *TH3IndexInst {
 }
 
 // TH3IndexInstMake is MEOS th3indexinst_make.
-func TH3IndexInstMake(value uint64, t int64) (*Temporal, error) {
+func TH3IndexInstMake(value functions.H3Index, t int64) (*Temporal, error) {
 	_r0, _err := functions.Th3indexinstMake(value, t)
 	if _err != nil {
 		return nil, _err

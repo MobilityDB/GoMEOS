@@ -106,7 +106,7 @@ import (
 var _ = unsafe.Pointer(nil)
 
 // H3indexIn wraps MEOS C function h3index_in.
-func H3indexIn(str string) (_r0 uint64, _err error) {
+func H3indexIn(str string) (_r0 H3Index, _err error) {
 	_c_str := C.CString(str)
 	defer C.free(unsafe.Pointer(_c_str))
 	C.meos_errno_reset()
@@ -114,26 +114,26 @@ func H3indexIn(str string) (_r0 uint64, _err error) {
 	if _err = meosError(); _err != nil {
 		return
 	}
-	return uint64(_cret), nil
+	return H3Index(_cret), nil
 }
 
 
 // BigintToH3index wraps MEOS C function bigint_to_h3index.
-func BigintToH3index(i int64) (_r0 uint64, _err error) {
+func BigintToH3index(i int64) (_r0 H3Index, _err error) {
 	C.meos_errno_reset()
 	_cret := C.bigint_to_h3index(C.int64_t(i))
 	if _err = meosError(); _err != nil {
 		return
 	}
-	return uint64(_cret), nil
+	return H3Index(_cret), nil
 }
 
 
 // H3indexOut wraps MEOS C function h3index_out.
-func H3indexOut(cell uint64) (_r0 string, _err error) {
+func H3indexOut(cell H3Index) (_r0 string, _err error) {
 	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.h3index_out(C.uint64_t(cell), &_size)
+	_cret := C.h3index_out(C.H3Index(cell), &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -143,9 +143,9 @@ func H3indexOut(cell uint64) (_r0 string, _err error) {
 
 
 // H3IsValidCell wraps MEOS C function h3_is_valid_cell.
-func H3IsValidCell(cell uint64) (_r0 bool, _err error) {
+func H3IsValidCell(cell H3Index) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.h3_is_valid_cell(C.uint64_t(cell))
+	_cret := C.h3_is_valid_cell(C.H3Index(cell))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -154,9 +154,9 @@ func H3IsValidCell(cell uint64) (_r0 bool, _err error) {
 
 
 // H3IsValidDirectedEdge wraps MEOS C function h3_is_valid_directed_edge.
-func H3IsValidDirectedEdge(edge uint64) (_r0 bool, _err error) {
+func H3IsValidDirectedEdge(edge H3Index) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.h3_is_valid_directed_edge(C.uint64_t(edge))
+	_cret := C.h3_is_valid_directed_edge(C.H3Index(edge))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -165,9 +165,9 @@ func H3IsValidDirectedEdge(edge uint64) (_r0 bool, _err error) {
 
 
 // H3IsValidVertex wraps MEOS C function h3_is_valid_vertex.
-func H3IsValidVertex(vertex uint64) (_r0 bool, _err error) {
+func H3IsValidVertex(vertex H3Index) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.h3_is_valid_vertex(C.uint64_t(vertex))
+	_cret := C.h3_is_valid_vertex(C.H3Index(vertex))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -176,9 +176,9 @@ func H3IsValidVertex(vertex uint64) (_r0 bool, _err error) {
 
 
 // H3indexEq wraps MEOS C function h3index_eq.
-func H3indexEq(a uint64, b uint64) (_r0 bool, _err error) {
+func H3indexEq(a H3Index, b H3Index) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.h3index_eq(C.uint64_t(a), C.uint64_t(b))
+	_cret := C.h3index_eq(C.H3Index(a), C.H3Index(b))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -187,9 +187,9 @@ func H3indexEq(a uint64, b uint64) (_r0 bool, _err error) {
 
 
 // H3indexNe wraps MEOS C function h3index_ne.
-func H3indexNe(a uint64, b uint64) (_r0 bool, _err error) {
+func H3indexNe(a H3Index, b H3Index) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.h3index_ne(C.uint64_t(a), C.uint64_t(b))
+	_cret := C.h3index_ne(C.H3Index(a), C.H3Index(b))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -198,9 +198,9 @@ func H3indexNe(a uint64, b uint64) (_r0 bool, _err error) {
 
 
 // H3indexLt wraps MEOS C function h3index_lt.
-func H3indexLt(a uint64, b uint64) (_r0 bool, _err error) {
+func H3indexLt(a H3Index, b H3Index) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.h3index_lt(C.uint64_t(a), C.uint64_t(b))
+	_cret := C.h3index_lt(C.H3Index(a), C.H3Index(b))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -209,9 +209,9 @@ func H3indexLt(a uint64, b uint64) (_r0 bool, _err error) {
 
 
 // H3indexLe wraps MEOS C function h3index_le.
-func H3indexLe(a uint64, b uint64) (_r0 bool, _err error) {
+func H3indexLe(a H3Index, b H3Index) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.h3index_le(C.uint64_t(a), C.uint64_t(b))
+	_cret := C.h3index_le(C.H3Index(a), C.H3Index(b))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -220,9 +220,9 @@ func H3indexLe(a uint64, b uint64) (_r0 bool, _err error) {
 
 
 // H3indexGt wraps MEOS C function h3index_gt.
-func H3indexGt(a uint64, b uint64) (_r0 bool, _err error) {
+func H3indexGt(a H3Index, b H3Index) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.h3index_gt(C.uint64_t(a), C.uint64_t(b))
+	_cret := C.h3index_gt(C.H3Index(a), C.H3Index(b))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -231,9 +231,9 @@ func H3indexGt(a uint64, b uint64) (_r0 bool, _err error) {
 
 
 // H3indexGe wraps MEOS C function h3index_ge.
-func H3indexGe(a uint64, b uint64) (_r0 bool, _err error) {
+func H3indexGe(a H3Index, b H3Index) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.h3index_ge(C.uint64_t(a), C.uint64_t(b))
+	_cret := C.h3index_ge(C.H3Index(a), C.H3Index(b))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -242,9 +242,9 @@ func H3indexGe(a uint64, b uint64) (_r0 bool, _err error) {
 
 
 // H3indexCmp wraps MEOS C function h3index_cmp.
-func H3indexCmp(a uint64, b uint64) (_r0 int, _err error) {
+func H3indexCmp(a H3Index, b H3Index) (_r0 int, _err error) {
 	C.meos_errno_reset()
-	_cret := C.h3index_cmp(C.uint64_t(a), C.uint64_t(b))
+	_cret := C.h3index_cmp(C.H3Index(a), C.H3Index(b))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -253,9 +253,9 @@ func H3indexCmp(a uint64, b uint64) (_r0 int, _err error) {
 
 
 // H3indexHash wraps MEOS C function h3index_hash.
-func H3indexHash(cell uint64) (_r0 uint32, _err error) {
+func H3indexHash(cell H3Index) (_r0 uint32, _err error) {
 	C.meos_errno_reset()
-	_cret := C.h3index_hash(C.uint64_t(cell))
+	_cret := C.h3index_hash(C.H3Index(cell))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -264,9 +264,9 @@ func H3indexHash(cell uint64) (_r0 uint32, _err error) {
 
 
 // H3indexHashExtended wraps MEOS C function h3index_hash_extended.
-func H3indexHashExtended(cell uint64, seed uint64) (_r0 uint64, _err error) {
+func H3indexHashExtended(cell H3Index, seed uint64) (_r0 uint64, _err error) {
 	C.meos_errno_reset()
-	_cret := C.h3index_hash_extended(C.uint64_t(cell), C.uint64_t(seed))
+	_cret := C.h3index_hash_extended(C.H3Index(cell), C.uint64_t(seed))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -275,9 +275,9 @@ func H3indexHashExtended(cell uint64, seed uint64) (_r0 uint64, _err error) {
 
 
 // H3GridDisk wraps MEOS C function h3_grid_disk.
-func H3GridDisk(origin uint64, k int) (_r0 *Set, _err error) {
+func H3GridDisk(origin H3Index, k int) (_r0 *Set, _err error) {
 	C.meos_errno_reset()
-	_cret := C.h3_grid_disk(C.uint64_t(origin), C.int(k))
+	_cret := C.h3_grid_disk(C.H3Index(origin), C.int(k))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -286,9 +286,9 @@ func H3GridDisk(origin uint64, k int) (_r0 *Set, _err error) {
 
 
 // H3CellToChildren wraps MEOS C function h3_cell_to_children.
-func H3CellToChildren(origin uint64, childRes int) (_r0 *Set, _err error) {
+func H3CellToChildren(origin H3Index, childRes int) (_r0 *Set, _err error) {
 	C.meos_errno_reset()
-	_cret := C.h3_cell_to_children(C.uint64_t(origin), C.int(childRes))
+	_cret := C.h3_cell_to_children(C.H3Index(origin), C.int(childRes))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -319,9 +319,9 @@ func H3UncompactCells(cells *Set, res int) (_r0 *Set, _err error) {
 
 
 // H3GridRing wraps MEOS C function h3_grid_ring.
-func H3GridRing(origin uint64, k int) (_r0 *Set, _err error) {
+func H3GridRing(origin H3Index, k int) (_r0 *Set, _err error) {
 	C.meos_errno_reset()
-	_cret := C.h3_grid_ring(C.uint64_t(origin), C.int(k))
+	_cret := C.h3_grid_ring(C.H3Index(origin), C.int(k))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -330,9 +330,9 @@ func H3GridRing(origin uint64, k int) (_r0 *Set, _err error) {
 
 
 // H3GridPathCells wraps MEOS C function h3_grid_path_cells.
-func H3GridPathCells(start uint64, end uint64) (_r0 *Set, _err error) {
+func H3GridPathCells(start H3Index, end H3Index) (_r0 *Set, _err error) {
 	C.meos_errno_reset()
-	_cret := C.h3_grid_path_cells(C.uint64_t(start), C.uint64_t(end))
+	_cret := C.h3_grid_path_cells(C.H3Index(start), C.H3Index(end))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -341,9 +341,9 @@ func H3GridPathCells(start uint64, end uint64) (_r0 *Set, _err error) {
 
 
 // H3OriginToDirectedEdges wraps MEOS C function h3_origin_to_directed_edges.
-func H3OriginToDirectedEdges(origin uint64) (_r0 *Set, _err error) {
+func H3OriginToDirectedEdges(origin H3Index) (_r0 *Set, _err error) {
 	C.meos_errno_reset()
-	_cret := C.h3_origin_to_directed_edges(C.uint64_t(origin))
+	_cret := C.h3_origin_to_directed_edges(C.H3Index(origin))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -352,9 +352,9 @@ func H3OriginToDirectedEdges(origin uint64) (_r0 *Set, _err error) {
 
 
 // H3CellToVertexes wraps MEOS C function h3_cell_to_vertexes.
-func H3CellToVertexes(cell uint64) (_r0 *Set, _err error) {
+func H3CellToVertexes(cell H3Index) (_r0 *Set, _err error) {
 	C.meos_errno_reset()
-	_cret := C.h3_cell_to_vertexes(C.uint64_t(cell))
+	_cret := C.h3_cell_to_vertexes(C.H3Index(cell))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -363,9 +363,9 @@ func H3CellToVertexes(cell uint64) (_r0 *Set, _err error) {
 
 
 // H3GetIcosahedronFaces wraps MEOS C function h3_get_icosahedron_faces.
-func H3GetIcosahedronFaces(cell uint64) (_r0 *Set, _err error) {
+func H3GetIcosahedronFaces(cell H3Index) (_r0 *Set, _err error) {
 	C.meos_errno_reset()
-	_cret := C.h3_get_icosahedron_faces(C.uint64_t(cell))
+	_cret := C.h3_get_icosahedron_faces(C.H3Index(cell))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -374,18 +374,18 @@ func H3GetIcosahedronFaces(cell uint64) (_r0 *Set, _err error) {
 
 
 // H3indexFromWKB wraps MEOS C function h3index_from_wkb.
-func H3indexFromWKB(wkb unsafe.Pointer, size uint) (_r0 uint64, _err error) {
+func H3indexFromWKB(wkb unsafe.Pointer, size uint) (_r0 H3Index, _err error) {
 	C.meos_errno_reset()
 	_cret := C.h3index_from_wkb((*C.uint8_t)(unsafe.Pointer(wkb)), C.size_t(size))
 	if _err = meosError(); _err != nil {
 		return
 	}
-	return uint64(_cret), nil
+	return H3Index(_cret), nil
 }
 
 
 // H3indexFromHexwkb wraps MEOS C function h3index_from_hexwkb.
-func H3indexFromHexwkb(hexwkb string) (_r0 uint64, _err error) {
+func H3indexFromHexwkb(hexwkb string) (_r0 H3Index, _err error) {
 	_c_hexwkb := C.CString(hexwkb)
 	defer C.free(unsafe.Pointer(_c_hexwkb))
 	C.meos_errno_reset()
@@ -393,14 +393,14 @@ func H3indexFromHexwkb(hexwkb string) (_r0 uint64, _err error) {
 	if _err = meosError(); _err != nil {
 		return
 	}
-	return uint64(_cret), nil
+	return H3Index(_cret), nil
 }
 
 
 // H3indexAsWKB wraps MEOS C function h3index_as_wkb.
-func H3indexAsWKB(cell uint64, variant uint8, size_out unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
+func H3indexAsWKB(cell H3Index, variant uint8, size_out unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
 	C.meos_errno_reset()
-	_cret := C.h3index_as_wkb(C.uint64_t(cell), C.uint8_t(variant), (*C.size_t)(unsafe.Pointer(size_out)))
+	_cret := C.h3index_as_wkb(C.H3Index(cell), C.uint8_t(variant), (*C.size_t)(unsafe.Pointer(size_out)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -409,10 +409,10 @@ func H3indexAsWKB(cell uint64, variant uint8, size_out unsafe.Pointer) (_r0 unsa
 
 
 // H3indexAsHexwkb wraps MEOS C function h3index_as_hexwkb.
-func H3indexAsHexwkb(cell uint64, variant uint8) (_r0 string, _err error) {
+func H3indexAsHexwkb(cell H3Index, variant uint8) (_r0 string, _err error) {
 	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.h3index_as_hexwkb(C.uint64_t(cell), C.uint8_t(variant), &_size)
+	_cret := C.h3index_as_hexwkb(C.H3Index(cell), C.uint8_t(variant), &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -422,9 +422,9 @@ func H3indexAsHexwkb(cell uint64, variant uint8) (_r0 string, _err error) {
 
 
 // H3indexGetResolution wraps MEOS C function h3index_get_resolution.
-func H3indexGetResolution(cell uint64) (_r0 uint32, _err error) {
+func H3indexGetResolution(cell H3Index) (_r0 uint32, _err error) {
 	C.meos_errno_reset()
-	_cret := C.h3index_get_resolution(C.uint64_t(cell))
+	_cret := C.h3index_get_resolution(C.H3Index(cell))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -433,20 +433,20 @@ func H3indexGetResolution(cell uint64) (_r0 uint32, _err error) {
 
 
 // H3indexCellToParent wraps MEOS C function h3index_cell_to_parent.
-func H3indexCellToParent(cell uint64, parent_resolution uint32) (_r0 uint64, _err error) {
+func H3indexCellToParent(cell H3Index, parent_resolution uint32) (_r0 H3Index, _err error) {
 	C.meos_errno_reset()
-	_cret := C.h3index_cell_to_parent(C.uint64_t(cell), C.uint32_t(parent_resolution))
+	_cret := C.h3index_cell_to_parent(C.H3Index(cell), C.uint32_t(parent_resolution))
 	if _err = meosError(); _err != nil {
 		return
 	}
-	return uint64(_cret), nil
+	return H3Index(_cret), nil
 }
 
 
 // H3indexCellToPoint wraps MEOS C function h3index_cell_to_point.
-func H3indexCellToPoint(cell uint64) (_r0 *Geom, _err error) {
+func H3indexCellToPoint(cell H3Index) (_r0 *Geom, _err error) {
 	C.meos_errno_reset()
-	_cret := C.h3index_cell_to_point(C.uint64_t(cell))
+	_cret := C.h3index_cell_to_point(C.H3Index(cell))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -455,9 +455,9 @@ func H3indexCellToPoint(cell uint64) (_r0 *Geom, _err error) {
 
 
 // H3indexCellToBoundary wraps MEOS C function h3index_cell_to_boundary.
-func H3indexCellToBoundary(cell uint64) (_r0 *Geom, _err error) {
+func H3indexCellToBoundary(cell H3Index) (_r0 *Geom, _err error) {
 	C.meos_errno_reset()
-	_cret := C.h3index_cell_to_boundary(C.uint64_t(cell))
+	_cret := C.h3index_cell_to_boundary(C.H3Index(cell))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -466,9 +466,9 @@ func H3indexCellToBoundary(cell uint64) (_r0 *Geom, _err error) {
 
 
 // H3indexCellArea wraps MEOS C function h3index_cell_area.
-func H3indexCellArea(cell uint64) (_r0 float64, _err error) {
+func H3indexCellArea(cell H3Index) (_r0 float64, _err error) {
 	C.meos_errno_reset()
-	_cret := C.h3index_cell_area(C.uint64_t(cell))
+	_cret := C.h3index_cell_area(C.H3Index(cell))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -555,9 +555,9 @@ func Th3indexFromMFJSON(mfjson string) (_r0 *Temporal, _err error) {
 
 
 // Th3indexMake wraps MEOS C function th3index_make.
-func Th3indexMake(value uint64, t int64) (_r0 *Temporal, _err error) {
+func Th3indexMake(value H3Index, t int64) (_r0 *Temporal, _err error) {
 	C.meos_errno_reset()
-	_cret := C.th3index_make(C.uint64_t(value), C.TimestampTz(t))
+	_cret := C.th3index_make(C.H3Index(value), C.TimestampTz(t))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -566,9 +566,9 @@ func Th3indexMake(value uint64, t int64) (_r0 *Temporal, _err error) {
 
 
 // Th3indexinstMake wraps MEOS C function th3indexinst_make.
-func Th3indexinstMake(value uint64, t int64) (_r0 *TInstant, _err error) {
+func Th3indexinstMake(value H3Index, t int64) (_r0 *TInstant, _err error) {
 	C.meos_errno_reset()
-	_cret := C.th3indexinst_make(C.uint64_t(value), C.TimestampTz(t))
+	_cret := C.th3indexinst_make(C.H3Index(value), C.TimestampTz(t))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -577,9 +577,9 @@ func Th3indexinstMake(value uint64, t int64) (_r0 *TInstant, _err error) {
 
 
 // Th3indexFromBaseTemp wraps MEOS C function th3index_from_base_temp.
-func Th3indexFromBaseTemp(value uint64, temp *Temporal) (_r0 *Temporal, _err error) {
+func Th3indexFromBaseTemp(value H3Index, temp *Temporal) (_r0 *Temporal, _err error) {
 	C.meos_errno_reset()
-	_cret := C.th3index_from_base_temp(C.uint64_t(value), temp._inner)
+	_cret := C.th3index_from_base_temp(C.H3Index(value), temp._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -588,9 +588,9 @@ func Th3indexFromBaseTemp(value uint64, temp *Temporal) (_r0 *Temporal, _err err
 
 
 // Th3indexseqFromBaseTstzset wraps MEOS C function th3indexseq_from_base_tstzset.
-func Th3indexseqFromBaseTstzset(value uint64, s *Set) (_r0 *TSequence, _err error) {
+func Th3indexseqFromBaseTstzset(value H3Index, s *Set) (_r0 *TSequence, _err error) {
 	C.meos_errno_reset()
-	_cret := C.th3indexseq_from_base_tstzset(C.uint64_t(value), s._inner)
+	_cret := C.th3indexseq_from_base_tstzset(C.H3Index(value), s._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -599,9 +599,9 @@ func Th3indexseqFromBaseTstzset(value uint64, s *Set) (_r0 *TSequence, _err erro
 
 
 // Th3indexseqFromBaseTstzspan wraps MEOS C function th3indexseq_from_base_tstzspan.
-func Th3indexseqFromBaseTstzspan(value uint64, s *Span) (_r0 *TSequence, _err error) {
+func Th3indexseqFromBaseTstzspan(value H3Index, s *Span) (_r0 *TSequence, _err error) {
 	C.meos_errno_reset()
-	_cret := C.th3indexseq_from_base_tstzspan(C.uint64_t(value), s._inner)
+	_cret := C.th3indexseq_from_base_tstzspan(C.H3Index(value), s._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -610,9 +610,9 @@ func Th3indexseqFromBaseTstzspan(value uint64, s *Span) (_r0 *TSequence, _err er
 
 
 // Th3indexseqsetFromBaseTstzspanset wraps MEOS C function th3indexseqset_from_base_tstzspanset.
-func Th3indexseqsetFromBaseTstzspanset(value uint64, ss *SpanSet) (_r0 *TSequenceSet, _err error) {
+func Th3indexseqsetFromBaseTstzspanset(value H3Index, ss *SpanSet) (_r0 *TSequenceSet, _err error) {
 	C.meos_errno_reset()
-	_cret := C.th3indexseqset_from_base_tstzspanset(C.uint64_t(value), ss._inner)
+	_cret := C.th3indexseqset_from_base_tstzspanset(C.H3Index(value), ss._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -623,7 +623,7 @@ func Th3indexseqsetFromBaseTstzspanset(value uint64, ss *SpanSet) (_r0 *TSequenc
 // Th3indexseqMake wraps MEOS C function th3indexseq_make.
 func Th3indexseqMake(values unsafe.Pointer, times unsafe.Pointer, count int, lower_inc bool, upper_inc bool) (_r0 *TSequence, _err error) {
 	C.meos_errno_reset()
-	_cret := C.th3indexseq_make((*C.uint64_t)(unsafe.Pointer(values)), (*C.TimestampTz)(unsafe.Pointer(times)), C.int(count), C.bool(lower_inc), C.bool(upper_inc))
+	_cret := C.th3indexseq_make((*C.H3Index)(unsafe.Pointer(values)), (*C.TimestampTz)(unsafe.Pointer(times)), C.int(count), C.bool(lower_inc), C.bool(upper_inc))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -643,47 +643,47 @@ func Th3indexseqsetMake(sequences unsafe.Pointer, count int) (_r0 *TSequenceSet,
 
 
 // Th3indexStartValue wraps MEOS C function th3index_start_value.
-func Th3indexStartValue(temp *Temporal) (_r0 uint64, _err error) {
+func Th3indexStartValue(temp *Temporal) (_r0 H3Index, _err error) {
 	C.meos_errno_reset()
 	_cret := C.th3index_start_value(temp._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
-	return uint64(_cret), nil
+	return H3Index(_cret), nil
 }
 
 
 // Th3indexEndValue wraps MEOS C function th3index_end_value.
-func Th3indexEndValue(temp *Temporal) (_r0 uint64, _err error) {
+func Th3indexEndValue(temp *Temporal) (_r0 H3Index, _err error) {
 	C.meos_errno_reset()
 	_cret := C.th3index_end_value(temp._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
-	return uint64(_cret), nil
+	return H3Index(_cret), nil
 }
 
 
 // Th3indexValue wraps MEOS C function th3index_value.
-func Th3indexValue(temp *Temporal) (_r0 uint64, _err error) {
+func Th3indexValue(temp *Temporal) (_r0 H3Index, _err error) {
 	C.meos_errno_reset()
 	_cret := C.th3index_value(temp._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
-	return uint64(_cret), nil
+	return H3Index(_cret), nil
 }
 
 
 // Th3indexValueN wraps MEOS C function th3index_value_n.
-func Th3indexValueN(temp *Temporal, n int) (_r0 bool, _r1 uint64, _err error) {
-	var _out_result C.uint64_t
+func Th3indexValueN(temp *Temporal, n int) (_r0 bool, _r1 H3Index, _err error) {
+	var _out_result C.H3Index
 	C.meos_errno_reset()
 	_cret := C.th3index_value_n(temp._inner, C.int(n), &_out_result)
 	if _err = meosError(); _err != nil {
 		return
 	}
-	return bool(_cret), uint64(_out_result), nil
+	return bool(_cret), H3Index(_out_result), nil
 }
 
 
@@ -701,7 +701,7 @@ func Th3indexValues(temp *Temporal, count unsafe.Pointer) (_r0 unsafe.Pointer, _
 // Th3indexUnnest wraps MEOS C function th3index_unnest.
 func Th3indexUnnest(temp *Temporal, values unsafe.Pointer, count unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
 	C.meos_errno_reset()
-	_cret := C.th3index_unnest(temp._inner, (**C.uint64_t)(unsafe.Pointer(values)), (*C.int)(unsafe.Pointer(count)))
+	_cret := C.th3index_unnest(temp._inner, (**C.H3Index)(unsafe.Pointer(values)), (*C.int)(unsafe.Pointer(count)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -710,14 +710,14 @@ func Th3indexUnnest(temp *Temporal, values unsafe.Pointer, count unsafe.Pointer)
 
 
 // Th3indexValueAtTimestamptz wraps MEOS C function th3index_value_at_timestamptz.
-func Th3indexValueAtTimestamptz(temp *Temporal, t int64, strict bool) (_r0 bool, _r1 uint64, _err error) {
-	var _out_result C.uint64_t
+func Th3indexValueAtTimestamptz(temp *Temporal, t int64, strict bool) (_r0 bool, _r1 H3Index, _err error) {
+	var _out_result C.H3Index
 	C.meos_errno_reset()
 	_cret := C.th3index_value_at_timestamptz(temp._inner, C.TimestampTz(t), C.bool(strict), &_out_result)
 	if _err = meosError(); _err != nil {
 		return
 	}
-	return bool(_cret), uint64(_out_result), nil
+	return bool(_cret), H3Index(_out_result), nil
 }
 
 
@@ -744,9 +744,9 @@ func Th3indexToTbigint(temp *Temporal) (_r0 *Temporal, _err error) {
 
 
 // Th3indexAtValue wraps MEOS C function th3index_at_value.
-func Th3indexAtValue(temp *Temporal, cell uint64) (_r0 *Temporal, _err error) {
+func Th3indexAtValue(temp *Temporal, cell H3Index) (_r0 *Temporal, _err error) {
 	C.meos_errno_reset()
-	_cret := C.th3index_at_value(temp._inner, C.uint64_t(cell))
+	_cret := C.th3index_at_value(temp._inner, C.H3Index(cell))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -755,9 +755,9 @@ func Th3indexAtValue(temp *Temporal, cell uint64) (_r0 *Temporal, _err error) {
 
 
 // Th3indexMinusValue wraps MEOS C function th3index_minus_value.
-func Th3indexMinusValue(temp *Temporal, cell uint64) (_r0 *Temporal, _err error) {
+func Th3indexMinusValue(temp *Temporal, cell H3Index) (_r0 *Temporal, _err error) {
 	C.meos_errno_reset()
-	_cret := C.th3index_minus_value(temp._inner, C.uint64_t(cell))
+	_cret := C.th3index_minus_value(temp._inner, C.H3Index(cell))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -766,9 +766,9 @@ func Th3indexMinusValue(temp *Temporal, cell uint64) (_r0 *Temporal, _err error)
 
 
 // EverEqH3indexTh3index wraps MEOS C function ever_eq_h3index_th3index.
-func EverEqH3indexTh3index(cell uint64, temp *Temporal) (_r0 int, _err error) {
+func EverEqH3indexTh3index(cell H3Index, temp *Temporal) (_r0 int, _err error) {
 	C.meos_errno_reset()
-	_cret := C.ever_eq_h3index_th3index(C.uint64_t(cell), temp._inner)
+	_cret := C.ever_eq_h3index_th3index(C.H3Index(cell), temp._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -777,9 +777,9 @@ func EverEqH3indexTh3index(cell uint64, temp *Temporal) (_r0 int, _err error) {
 
 
 // EverEqTh3indexH3index wraps MEOS C function ever_eq_th3index_h3index.
-func EverEqTh3indexH3index(temp *Temporal, cell uint64) (_r0 int, _err error) {
+func EverEqTh3indexH3index(temp *Temporal, cell H3Index) (_r0 int, _err error) {
 	C.meos_errno_reset()
-	_cret := C.ever_eq_th3index_h3index(temp._inner, C.uint64_t(cell))
+	_cret := C.ever_eq_th3index_h3index(temp._inner, C.H3Index(cell))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -788,9 +788,9 @@ func EverEqTh3indexH3index(temp *Temporal, cell uint64) (_r0 int, _err error) {
 
 
 // EverNeH3indexTh3index wraps MEOS C function ever_ne_h3index_th3index.
-func EverNeH3indexTh3index(cell uint64, temp *Temporal) (_r0 int, _err error) {
+func EverNeH3indexTh3index(cell H3Index, temp *Temporal) (_r0 int, _err error) {
 	C.meos_errno_reset()
-	_cret := C.ever_ne_h3index_th3index(C.uint64_t(cell), temp._inner)
+	_cret := C.ever_ne_h3index_th3index(C.H3Index(cell), temp._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -799,9 +799,9 @@ func EverNeH3indexTh3index(cell uint64, temp *Temporal) (_r0 int, _err error) {
 
 
 // EverNeTh3indexH3index wraps MEOS C function ever_ne_th3index_h3index.
-func EverNeTh3indexH3index(temp *Temporal, cell uint64) (_r0 int, _err error) {
+func EverNeTh3indexH3index(temp *Temporal, cell H3Index) (_r0 int, _err error) {
 	C.meos_errno_reset()
-	_cret := C.ever_ne_th3index_h3index(temp._inner, C.uint64_t(cell))
+	_cret := C.ever_ne_th3index_h3index(temp._inner, C.H3Index(cell))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -810,9 +810,9 @@ func EverNeTh3indexH3index(temp *Temporal, cell uint64) (_r0 int, _err error) {
 
 
 // AlwaysEqH3indexTh3index wraps MEOS C function always_eq_h3index_th3index.
-func AlwaysEqH3indexTh3index(cell uint64, temp *Temporal) (_r0 int, _err error) {
+func AlwaysEqH3indexTh3index(cell H3Index, temp *Temporal) (_r0 int, _err error) {
 	C.meos_errno_reset()
-	_cret := C.always_eq_h3index_th3index(C.uint64_t(cell), temp._inner)
+	_cret := C.always_eq_h3index_th3index(C.H3Index(cell), temp._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -821,9 +821,9 @@ func AlwaysEqH3indexTh3index(cell uint64, temp *Temporal) (_r0 int, _err error) 
 
 
 // AlwaysEqTh3indexH3index wraps MEOS C function always_eq_th3index_h3index.
-func AlwaysEqTh3indexH3index(temp *Temporal, cell uint64) (_r0 int, _err error) {
+func AlwaysEqTh3indexH3index(temp *Temporal, cell H3Index) (_r0 int, _err error) {
 	C.meos_errno_reset()
-	_cret := C.always_eq_th3index_h3index(temp._inner, C.uint64_t(cell))
+	_cret := C.always_eq_th3index_h3index(temp._inner, C.H3Index(cell))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -832,9 +832,9 @@ func AlwaysEqTh3indexH3index(temp *Temporal, cell uint64) (_r0 int, _err error) 
 
 
 // AlwaysNeH3indexTh3index wraps MEOS C function always_ne_h3index_th3index.
-func AlwaysNeH3indexTh3index(cell uint64, temp *Temporal) (_r0 int, _err error) {
+func AlwaysNeH3indexTh3index(cell H3Index, temp *Temporal) (_r0 int, _err error) {
 	C.meos_errno_reset()
-	_cret := C.always_ne_h3index_th3index(C.uint64_t(cell), temp._inner)
+	_cret := C.always_ne_h3index_th3index(C.H3Index(cell), temp._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -843,9 +843,9 @@ func AlwaysNeH3indexTh3index(cell uint64, temp *Temporal) (_r0 int, _err error) 
 
 
 // AlwaysNeTh3indexH3index wraps MEOS C function always_ne_th3index_h3index.
-func AlwaysNeTh3indexH3index(temp *Temporal, cell uint64) (_r0 int, _err error) {
+func AlwaysNeTh3indexH3index(temp *Temporal, cell H3Index) (_r0 int, _err error) {
 	C.meos_errno_reset()
-	_cret := C.always_ne_th3index_h3index(temp._inner, C.uint64_t(cell))
+	_cret := C.always_ne_th3index_h3index(temp._inner, C.H3Index(cell))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -898,9 +898,9 @@ func AlwaysNeTh3indexTh3index(temp1 *Temporal, temp2 *Temporal) (_r0 int, _err e
 
 
 // TeqH3indexTh3index wraps MEOS C function teq_h3index_th3index.
-func TeqH3indexTh3index(cell uint64, temp *Temporal) (_r0 *Temporal, _err error) {
+func TeqH3indexTh3index(cell H3Index, temp *Temporal) (_r0 *Temporal, _err error) {
 	C.meos_errno_reset()
-	_cret := C.teq_h3index_th3index(C.uint64_t(cell), temp._inner)
+	_cret := C.teq_h3index_th3index(C.H3Index(cell), temp._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -909,9 +909,9 @@ func TeqH3indexTh3index(cell uint64, temp *Temporal) (_r0 *Temporal, _err error)
 
 
 // TeqTh3indexH3index wraps MEOS C function teq_th3index_h3index.
-func TeqTh3indexH3index(temp *Temporal, cell uint64) (_r0 *Temporal, _err error) {
+func TeqTh3indexH3index(temp *Temporal, cell H3Index) (_r0 *Temporal, _err error) {
 	C.meos_errno_reset()
-	_cret := C.teq_th3index_h3index(temp._inner, C.uint64_t(cell))
+	_cret := C.teq_th3index_h3index(temp._inner, C.H3Index(cell))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -931,9 +931,9 @@ func TeqTh3indexTh3index(temp1 *Temporal, temp2 *Temporal) (_r0 *Temporal, _err 
 
 
 // TneH3indexTh3index wraps MEOS C function tne_h3index_th3index.
-func TneH3indexTh3index(cell uint64, temp *Temporal) (_r0 *Temporal, _err error) {
+func TneH3indexTh3index(cell H3Index, temp *Temporal) (_r0 *Temporal, _err error) {
 	C.meos_errno_reset()
-	_cret := C.tne_h3index_th3index(C.uint64_t(cell), temp._inner)
+	_cret := C.tne_h3index_th3index(C.H3Index(cell), temp._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -942,9 +942,9 @@ func TneH3indexTh3index(cell uint64, temp *Temporal) (_r0 *Temporal, _err error)
 
 
 // TneTh3indexH3index wraps MEOS C function tne_th3index_h3index.
-func TneTh3indexH3index(temp *Temporal, cell uint64) (_r0 *Temporal, _err error) {
+func TneTh3indexH3index(temp *Temporal, cell H3Index) (_r0 *Temporal, _err error) {
 	C.meos_errno_reset()
-	_cret := C.tne_th3index_h3index(temp._inner, C.uint64_t(cell))
+	_cret := C.tne_th3index_h3index(temp._inner, C.H3Index(cell))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1010,7 +1010,7 @@ func Th3indexCellToParentNext(temp *Temporal) (_r0 *Temporal, _err error) {
 // Th3indexCellToCenterChild wraps MEOS C function th3index_cell_to_center_child.
 func Th3indexCellToCenterChild(temp *Temporal, resolution int32) (_r0 *Temporal, _err error) {
 	C.meos_errno_reset()
-	_cret := C.th3index_cell_to_center_child(temp._inner, C.int32(resolution))
+	_cret := C.th3index_cell_to_center_child(temp._inner, C.int32_t(resolution))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1032,7 +1032,7 @@ func Th3indexCellToCenterChildNext(temp *Temporal) (_r0 *Temporal, _err error) {
 // Th3indexCellToChildPos wraps MEOS C function th3index_cell_to_child_pos.
 func Th3indexCellToChildPos(temp *Temporal, parent_res int32) (_r0 *Temporal, _err error) {
 	C.meos_errno_reset()
-	_cret := C.th3index_cell_to_child_pos(temp._inner, C.int32(parent_res))
+	_cret := C.th3index_cell_to_child_pos(temp._inner, C.int32_t(parent_res))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1043,7 +1043,7 @@ func Th3indexCellToChildPos(temp *Temporal, parent_res int32) (_r0 *Temporal, _e
 // Th3indexChildPosToCell wraps MEOS C function th3index_child_pos_to_cell.
 func Th3indexChildPosToCell(child_pos *Temporal, parent *Temporal, child_res int32) (_r0 *Temporal, _err error) {
 	C.meos_errno_reset()
-	_cret := C.th3index_child_pos_to_cell(child_pos._inner, parent._inner, C.int32(child_res))
+	_cret := C.th3index_child_pos_to_cell(child_pos._inner, parent._inner, C.int32_t(child_res))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1054,7 +1054,7 @@ func Th3indexChildPosToCell(child_pos *Temporal, parent *Temporal, child_res int
 // TgeogpointToTh3index wraps MEOS C function tgeogpoint_to_th3index.
 func TgeogpointToTh3index(temp *Temporal, resolution int32, border_inc bool) (_r0 *Temporal, _err error) {
 	C.meos_errno_reset()
-	_cret := C.tgeogpoint_to_th3index(temp._inner, C.int32(resolution), C.bool(border_inc))
+	_cret := C.tgeogpoint_to_th3index(temp._inner, C.int32_t(resolution), C.bool(border_inc))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1065,7 +1065,7 @@ func TgeogpointToTh3index(temp *Temporal, resolution int32, border_inc bool) (_r
 // TgeompointToTh3index wraps MEOS C function tgeompoint_to_th3index.
 func TgeompointToTh3index(temp *Temporal, resolution int32, border_inc bool) (_r0 *Temporal, _err error) {
 	C.meos_errno_reset()
-	_cret := C.tgeompoint_to_th3index(temp._inner, C.int32(resolution), C.bool(border_inc))
+	_cret := C.tgeompoint_to_th3index(temp._inner, C.int32_t(resolution), C.bool(border_inc))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1076,7 +1076,7 @@ func TgeompointToTh3index(temp *Temporal, resolution int32, border_inc bool) (_r
 // TgeogpointH3indexSplit wraps MEOS C function tgeogpoint_h3index_split.
 func TgeogpointH3indexSplit(temp *Temporal, resolution int32, border_inc bool, cells unsafe.Pointer, count unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
 	C.meos_errno_reset()
-	_cret := C.tgeogpoint_h3index_split(temp._inner, C.int32(resolution), C.bool(border_inc), (**C.uint64_t)(unsafe.Pointer(cells)), (*C.int)(unsafe.Pointer(count)))
+	_cret := C.tgeogpoint_h3index_split(temp._inner, C.int32_t(resolution), C.bool(border_inc), (**C.H3Index)(unsafe.Pointer(cells)), (*C.int)(unsafe.Pointer(count)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1087,7 +1087,7 @@ func TgeogpointH3indexSplit(temp *Temporal, resolution int32, border_inc bool, c
 // TgeompointH3indexSplit wraps MEOS C function tgeompoint_h3index_split.
 func TgeompointH3indexSplit(temp *Temporal, resolution int32, border_inc bool, cells unsafe.Pointer, count unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
 	C.meos_errno_reset()
-	_cret := C.tgeompoint_h3index_split(temp._inner, C.int32(resolution), C.bool(border_inc), (**C.uint64_t)(unsafe.Pointer(cells)), (*C.int)(unsafe.Pointer(count)))
+	_cret := C.tgeompoint_h3index_split(temp._inner, C.int32_t(resolution), C.bool(border_inc), (**C.H3Index)(unsafe.Pointer(cells)), (*C.int)(unsafe.Pointer(count)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1118,9 +1118,9 @@ func Th3indexToTgeompoint(temp *Temporal) (_r0 *Temporal, _err error) {
 
 
 // H3indexToSet wraps MEOS C function h3index_to_set.
-func H3indexToSet(cell uint64) (_r0 *Set, _err error) {
+func H3indexToSet(cell H3Index) (_r0 *Set, _err error) {
 	C.meos_errno_reset()
-	_cret := C.h3index_to_set(C.uint64_t(cell))
+	_cret := C.h3index_to_set(C.H3Index(cell))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1157,7 +1157,7 @@ func H3indexsetOut(s *Set) (_r0 string, _err error) {
 // H3indexsetMake wraps MEOS C function h3indexset_make.
 func H3indexsetMake(values unsafe.Pointer, count int) (_r0 *Set, _err error) {
 	C.meos_errno_reset()
-	_cret := C.h3indexset_make((*C.uint64_t)(unsafe.Pointer(values)), C.int(count))
+	_cret := C.h3indexset_make((*C.H3Index)(unsafe.Pointer(values)), C.int(count))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1166,36 +1166,36 @@ func H3indexsetMake(values unsafe.Pointer, count int) (_r0 *Set, _err error) {
 
 
 // H3indexsetEndValue wraps MEOS C function h3indexset_end_value.
-func H3indexsetEndValue(s *Set) (_r0 uint64, _err error) {
+func H3indexsetEndValue(s *Set) (_r0 H3Index, _err error) {
 	C.meos_errno_reset()
 	_cret := C.h3indexset_end_value(s._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
-	return uint64(_cret), nil
+	return H3Index(_cret), nil
 }
 
 
 // H3indexsetStartValue wraps MEOS C function h3indexset_start_value.
-func H3indexsetStartValue(s *Set) (_r0 uint64, _err error) {
+func H3indexsetStartValue(s *Set) (_r0 H3Index, _err error) {
 	C.meos_errno_reset()
 	_cret := C.h3indexset_start_value(s._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
-	return uint64(_cret), nil
+	return H3Index(_cret), nil
 }
 
 
 // H3indexsetValueN wraps MEOS C function h3indexset_value_n.
-func H3indexsetValueN(s *Set, n int) (_r0 bool, _r1 uint64, _err error) {
-	var _out_result C.uint64_t
+func H3indexsetValueN(s *Set, n int) (_r0 bool, _r1 H3Index, _err error) {
+	var _out_result C.H3Index
 	C.meos_errno_reset()
 	_cret := C.h3indexset_value_n(s._inner, C.int(n), &_out_result)
 	if _err = meosError(); _err != nil {
 		return
 	}
-	return bool(_cret), uint64(_out_result), nil
+	return bool(_cret), H3Index(_out_result), nil
 }
 
 
@@ -1211,9 +1211,9 @@ func H3indexsetValues(s *Set, count unsafe.Pointer) (_r0 unsafe.Pointer, _err er
 
 
 // ContainedH3indexSet wraps MEOS C function contained_h3index_set.
-func ContainedH3indexSet(cell uint64, s *Set) (_r0 bool, _err error) {
+func ContainedH3indexSet(cell H3Index, s *Set) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.contained_h3index_set(C.uint64_t(cell), s._inner)
+	_cret := C.contained_h3index_set(C.H3Index(cell), s._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1222,9 +1222,9 @@ func ContainedH3indexSet(cell uint64, s *Set) (_r0 bool, _err error) {
 
 
 // ContainsSetH3index wraps MEOS C function contains_set_h3index.
-func ContainsSetH3index(s *Set, cell uint64) (_r0 bool, _err error) {
+func ContainsSetH3index(s *Set, cell H3Index) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.contains_set_h3index(s._inner, C.uint64_t(cell))
+	_cret := C.contains_set_h3index(s._inner, C.H3Index(cell))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1233,9 +1233,9 @@ func ContainsSetH3index(s *Set, cell uint64) (_r0 bool, _err error) {
 
 
 // IntersectionH3indexSet wraps MEOS C function intersection_h3index_set.
-func IntersectionH3indexSet(cell uint64, s *Set) (_r0 *Set, _err error) {
+func IntersectionH3indexSet(cell H3Index, s *Set) (_r0 *Set, _err error) {
 	C.meos_errno_reset()
-	_cret := C.intersection_h3index_set(C.uint64_t(cell), s._inner)
+	_cret := C.intersection_h3index_set(C.H3Index(cell), s._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1244,9 +1244,9 @@ func IntersectionH3indexSet(cell uint64, s *Set) (_r0 *Set, _err error) {
 
 
 // IntersectionSetH3index wraps MEOS C function intersection_set_h3index.
-func IntersectionSetH3index(s *Set, cell uint64) (_r0 *Set, _err error) {
+func IntersectionSetH3index(s *Set, cell H3Index) (_r0 *Set, _err error) {
 	C.meos_errno_reset()
-	_cret := C.intersection_set_h3index(s._inner, C.uint64_t(cell))
+	_cret := C.intersection_set_h3index(s._inner, C.H3Index(cell))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1255,9 +1255,9 @@ func IntersectionSetH3index(s *Set, cell uint64) (_r0 *Set, _err error) {
 
 
 // MinusH3indexSet wraps MEOS C function minus_h3index_set.
-func MinusH3indexSet(cell uint64, s *Set) (_r0 *Set, _err error) {
+func MinusH3indexSet(cell H3Index, s *Set) (_r0 *Set, _err error) {
 	C.meos_errno_reset()
-	_cret := C.minus_h3index_set(C.uint64_t(cell), s._inner)
+	_cret := C.minus_h3index_set(C.H3Index(cell), s._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1266,9 +1266,9 @@ func MinusH3indexSet(cell uint64, s *Set) (_r0 *Set, _err error) {
 
 
 // MinusSetH3index wraps MEOS C function minus_set_h3index.
-func MinusSetH3index(s *Set, cell uint64) (_r0 *Set, _err error) {
+func MinusSetH3index(s *Set, cell H3Index) (_r0 *Set, _err error) {
 	C.meos_errno_reset()
-	_cret := C.minus_set_h3index(s._inner, C.uint64_t(cell))
+	_cret := C.minus_set_h3index(s._inner, C.H3Index(cell))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1277,9 +1277,9 @@ func MinusSetH3index(s *Set, cell uint64) (_r0 *Set, _err error) {
 
 
 // UnionH3indexSet wraps MEOS C function union_h3index_set.
-func UnionH3indexSet(cell uint64, s *Set) (_r0 *Set, _err error) {
+func UnionH3indexSet(cell H3Index, s *Set) (_r0 *Set, _err error) {
 	C.meos_errno_reset()
-	_cret := C.gunion_h3index_set(C.uint64_t(cell), s._inner)
+	_cret := C.gunion_h3index_set(C.H3Index(cell), s._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1288,9 +1288,9 @@ func UnionH3indexSet(cell uint64, s *Set) (_r0 *Set, _err error) {
 
 
 // UnionSetH3index wraps MEOS C function union_set_h3index.
-func UnionSetH3index(s *Set, cell uint64) (_r0 *Set, _err error) {
+func UnionSetH3index(s *Set, cell H3Index) (_r0 *Set, _err error) {
 	C.meos_errno_reset()
-	_cret := C.gunion_set_h3index(s._inner, C.uint64_t(cell))
+	_cret := C.gunion_set_h3index(s._inner, C.H3Index(cell))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1299,9 +1299,9 @@ func UnionSetH3index(s *Set, cell uint64) (_r0 *Set, _err error) {
 
 
 // H3indexUnionTransfn wraps MEOS C function h3index_union_transfn.
-func H3indexUnionTransfn(state *Set, cell uint64) (_r0 *Set, _err error) {
+func H3indexUnionTransfn(state *Set, cell H3Index) (_r0 *Set, _err error) {
 	C.meos_errno_reset()
-	_cret := C.h3index_union_transfn(state._inner, C.uint64_t(cell))
+	_cret := C.h3index_union_transfn(state._inner, C.H3Index(cell))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1323,7 +1323,7 @@ func H3indexsetGridDisk(cells *Set, k int) (_r0 *Set, _err error) {
 // H3indexsetCoverCells wraps MEOS C function h3indexset_cover_cells.
 func H3indexsetCoverCells(cells *Set, resolution int32) (_r0 *Set, _err error) {
 	C.meos_errno_reset()
-	_cret := C.h3indexset_cover_cells(cells._inner, C.int32(resolution))
+	_cret := C.h3indexset_cover_cells(cells._inner, C.int32_t(resolution))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1332,20 +1332,20 @@ func H3indexsetCoverCells(cells *Set, resolution int32) (_r0 *Set, _err error) {
 
 
 // GeoToH3indexCell wraps MEOS C function geo_to_h3index_cell.
-func GeoToH3indexCell(point *Geom, resolution int32) (_r0 uint64, _err error) {
+func GeoToH3indexCell(point *Geom, resolution int32) (_r0 H3Index, _err error) {
 	C.meos_errno_reset()
-	_cret := C.geo_to_h3index_cell(point._inner, C.int32(resolution))
+	_cret := C.geo_to_h3index_cell(point._inner, C.int32_t(resolution))
 	if _err = meosError(); _err != nil {
 		return
 	}
-	return uint64(_cret), nil
+	return H3Index(_cret), nil
 }
 
 
 // GeoToH3indexSet wraps MEOS C function geo_to_h3index_set.
 func GeoToH3indexSet(gs *Geom, resolution int32) (_r0 *Set, _err error) {
 	C.meos_errno_reset()
-	_cret := C.geo_to_h3index_set(gs._inner, C.int32(resolution))
+	_cret := C.geo_to_h3index_set(gs._inner, C.int32_t(resolution))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1354,9 +1354,9 @@ func GeoToH3indexSet(gs *Geom, resolution int32) (_r0 *Set, _err error) {
 
 
 // H3indexCellToCover wraps MEOS C function h3index_cell_to_cover.
-func H3indexCellToCover(cell uint64, resolution int32) (_r0 *Set, _err error) {
+func H3indexCellToCover(cell H3Index, resolution int32) (_r0 *Set, _err error) {
 	C.meos_errno_reset()
-	_cret := C.h3index_cell_to_cover(C.uint64_t(cell), C.int32(resolution))
+	_cret := C.h3index_cell_to_cover(C.H3Index(cell), C.int32_t(resolution))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1365,9 +1365,9 @@ func H3indexCellToCover(cell uint64, resolution int32) (_r0 *Set, _err error) {
 
 
 // H3indexToSTBOX wraps MEOS C function h3index_to_stbox.
-func H3indexToSTBOX(cell uint64) (_r0 *STBox, _err error) {
+func H3indexToSTBOX(cell H3Index) (_r0 *STBox, _err error) {
 	C.meos_errno_reset()
-	_cret := C.h3index_to_stbox(C.uint64_t(cell))
+	_cret := C.h3index_to_stbox(C.H3Index(cell))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1376,9 +1376,9 @@ func H3indexToSTBOX(cell uint64) (_r0 *STBox, _err error) {
 
 
 // H3indexTimestamptzToSTBOX wraps MEOS C function h3index_timestamptz_to_stbox.
-func H3indexTimestamptzToSTBOX(cell uint64, t int64) (_r0 *STBox, _err error) {
+func H3indexTimestamptzToSTBOX(cell H3Index, t int64) (_r0 *STBox, _err error) {
 	C.meos_errno_reset()
-	_cret := C.h3index_timestamptz_to_stbox(C.uint64_t(cell), C.TimestampTz(t))
+	_cret := C.h3index_timestamptz_to_stbox(C.H3Index(cell), C.TimestampTz(t))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1387,9 +1387,9 @@ func H3indexTimestamptzToSTBOX(cell uint64, t int64) (_r0 *STBox, _err error) {
 
 
 // H3indexTstzspanToSTBOX wraps MEOS C function h3index_tstzspan_to_stbox.
-func H3indexTstzspanToSTBOX(cell uint64, s *Span) (_r0 *STBox, _err error) {
+func H3indexTstzspanToSTBOX(cell H3Index, s *Span) (_r0 *STBox, _err error) {
 	C.meos_errno_reset()
-	_cret := C.h3index_tstzspan_to_stbox(C.uint64_t(cell), s._inner)
+	_cret := C.h3index_tstzspan_to_stbox(C.H3Index(cell), s._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1488,7 +1488,7 @@ func Th3indexDirectedEdgeToBoundary(edge *Temporal) (_r0 *Temporal, _err error) 
 // Th3indexCellToVertex wraps MEOS C function th3index_cell_to_vertex.
 func Th3indexCellToVertex(temp *Temporal, vertex_num int32) (_r0 *Temporal, _err error) {
 	C.meos_errno_reset()
-	_cret := C.th3index_cell_to_vertex(temp._inner, C.int32(vertex_num))
+	_cret := C.th3index_cell_to_vertex(temp._inner, C.int32_t(vertex_num))
 	if _err = meosError(); _err != nil {
 		return
 	}

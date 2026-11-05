@@ -204,8 +204,17 @@ func TimeEq(time1 int64, time2 int64) (_r0 bool, _err error) {
 }
 
 
-// TODO time_extract: unsupported return type Numeric
-// func TimeExtract(...) { /* not yet handled by codegen */ }
+// TimeExtract wraps MEOS C function time_extract.
+func TimeExtract(time int64, units string) (_r0 unsafe.Pointer, _err error) {
+	_c_units := C.cstring_to_text(C.CString(units))
+	defer C.free(unsafe.Pointer(_c_units))
+	C.meos_errno_reset()
+	_cret := C.time_extract(C.TimeADT(time), _c_units)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
+}
 
 
 // TimeGe wraps MEOS C function time_ge.
@@ -244,7 +253,7 @@ func TimeHash(time int64) (_r0 uint32, _err error) {
 // TimeHashExtended wraps MEOS C function time_hash_extended.
 func TimeHashExtended(time int64, seed int32) (_r0 uint64, _err error) {
 	C.meos_errno_reset()
-	_cret := C.time_hash_extended(C.TimeADT(time), C.int32(seed))
+	_cret := C.time_hash_extended(C.TimeADT(time), C.int32_t(seed))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -318,14 +327,23 @@ func TimeOverlaps(ts1 int64, te1 int64, ts2 int64, te2 int64) (_r0 bool, _err er
 }
 
 
-// TODO time_part: unsupported return type float8
-// func TimePart(...) { /* not yet handled by codegen */ }
+// TimePart wraps MEOS C function time_part.
+func TimePart(time int64, units string) (_r0 float64, _err error) {
+	_c_units := C.cstring_to_text(C.CString(units))
+	defer C.free(unsafe.Pointer(_c_units))
+	C.meos_errno_reset()
+	_cret := C.time_part(C.TimeADT(time), _c_units)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
 
 
 // TimeScale wraps MEOS C function time_scale.
 func TimeScale(date int64, typmod int32) (_r0 int64, _err error) {
 	C.meos_errno_reset()
-	_cret := C.time_scale(C.TimeADT(date), C.int32(typmod))
+	_cret := C.time_scale(C.TimeADT(date), C.int32_t(typmod))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -432,8 +450,17 @@ func TimetzEq(timetz1 unsafe.Pointer, timetz2 unsafe.Pointer) (_r0 bool, _err er
 }
 
 
-// TODO timetz_extract: unsupported return type Numeric
-// func TimetzExtract(...) { /* not yet handled by codegen */ }
+// TimetzExtract wraps MEOS C function timetz_extract.
+func TimetzExtract(timetz unsafe.Pointer, units string) (_r0 unsafe.Pointer, _err error) {
+	_c_units := C.cstring_to_text(C.CString(units))
+	defer C.free(unsafe.Pointer(_c_units))
+	C.meos_errno_reset()
+	_cret := C.timetz_extract((*C.TimeTzADT)(unsafe.Pointer(timetz)), _c_units)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
+}
 
 
 // TimetzGe wraps MEOS C function timetz_ge.
@@ -485,7 +512,7 @@ func TimetzIn(str string, typmod int32) (_r0 unsafe.Pointer, _err error) {
 	_c_str := C.CString(str)
 	defer C.free(unsafe.Pointer(_c_str))
 	C.meos_errno_reset()
-	_cret := C.timetz_in(_c_str, C.int32(typmod))
+	_cret := C.timetz_in(_c_str, C.int32_t(typmod))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -583,14 +610,23 @@ func TimetzOverlaps(ts1 unsafe.Pointer, te1 unsafe.Pointer, ts2 unsafe.Pointer, 
 }
 
 
-// TODO timetz_part: unsupported return type float8
-// func TimetzPart(...) { /* not yet handled by codegen */ }
+// TimetzPart wraps MEOS C function timetz_part.
+func TimetzPart(timetz unsafe.Pointer, units string) (_r0 float64, _err error) {
+	_c_units := C.cstring_to_text(C.CString(units))
+	defer C.free(unsafe.Pointer(_c_units))
+	C.meos_errno_reset()
+	_cret := C.timetz_part((*C.TimeTzADT)(unsafe.Pointer(timetz)), _c_units)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
 
 
 // TimetzScale wraps MEOS C function timetz_scale.
 func TimetzScale(timetz unsafe.Pointer, typmod int32) (_r0 unsafe.Pointer, _err error) {
 	C.meos_errno_reset()
-	_cret := C.timetz_scale((*C.TimeTzADT)(unsafe.Pointer(timetz)), C.int32(typmod))
+	_cret := C.timetz_scale((*C.TimeTzADT)(unsafe.Pointer(timetz)), C.int32_t(typmod))
 	if _err = meosError(); _err != nil {
 		return
 	}

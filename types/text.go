@@ -76,3 +76,21 @@ func TextToSet(txt string) (*Set, error) {
 	}
 	return SetFromPointer(_r0.Pointer()), nil
 }
+
+// TextHash is MEOS text_hash.
+func TextHash(txt string, collid uint32) (uint32, error) {
+	_r0, _err := functions.TextHash(txt, collid)
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// TextHashExtended is MEOS text_hash_extended.
+func TextHashExtended(txt string, seed uint64, collid uint32) (uint64, error) {
+	_r0, _err := functions.TextHashExtended(txt, seed, collid)
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}

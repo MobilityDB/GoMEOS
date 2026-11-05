@@ -51,7 +51,7 @@ func TH3IndexFromMFJSON(mfjson string) (*Temporal, error) {
 }
 
 // TH3IndexMake is MEOS th3index_make.
-func TH3IndexMake(value uint64, t int64) (*Temporal, error) {
+func TH3IndexMake(value functions.H3Index, t int64) (*Temporal, error) {
 	_r0, _err := functions.Th3indexMake(value, t)
 	if _err != nil {
 		return nil, _err
@@ -60,7 +60,7 @@ func TH3IndexMake(value uint64, t int64) (*Temporal, error) {
 }
 
 // TH3IndexFromBaseTemp is MEOS th3index_from_base_temp.
-func TH3IndexFromBaseTemp(value uint64, temp *Temporal) (*Temporal, error) {
+func TH3IndexFromBaseTemp(value functions.H3Index, temp *Temporal) (*Temporal, error) {
 	_r0, _err := functions.Th3indexFromBaseTemp(value, functions.TemporalFromPointer(temp.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -69,7 +69,7 @@ func TH3IndexFromBaseTemp(value uint64, temp *Temporal) (*Temporal, error) {
 }
 
 // StartValue is MEOS th3index_start_value.
-func (x *TH3Index) StartValue() (uint64, error) {
+func (x *TH3Index) StartValue() (functions.H3Index, error) {
 	_r0, _err := functions.Th3indexStartValue(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return 0, _err
@@ -78,7 +78,7 @@ func (x *TH3Index) StartValue() (uint64, error) {
 }
 
 // EndValue is MEOS th3index_end_value.
-func (x *TH3Index) EndValue() (uint64, error) {
+func (x *TH3Index) EndValue() (functions.H3Index, error) {
 	_r0, _err := functions.Th3indexEndValue(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return 0, _err
@@ -87,7 +87,7 @@ func (x *TH3Index) EndValue() (uint64, error) {
 }
 
 // Value is MEOS th3index_value.
-func (x *TH3Index) Value() (uint64, error) {
+func (x *TH3Index) Value() (functions.H3Index, error) {
 	_r0, _err := functions.Th3indexValue(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return 0, _err
@@ -96,7 +96,7 @@ func (x *TH3Index) Value() (uint64, error) {
 }
 
 // ValueN is MEOS th3index_value_n.
-func (x *TH3Index) ValueN(n int) (uint64, bool, error) {
+func (x *TH3Index) ValueN(n int) (functions.H3Index, bool, error) {
 	_found, _value, _err := functions.Th3indexValueN(functions.TemporalFromPointer(x.Pointer()), n)
 	if _err != nil {
 		return 0, false, _err
@@ -126,7 +126,7 @@ func (x *TH3Index) Unnest(values unsafe.Pointer, count unsafe.Pointer) (unsafe.P
 }
 
 // ValueAtTimestamptz is MEOS th3index_value_at_timestamptz.
-func (x *TH3Index) ValueAtTimestamptz(t int64, strict bool) (uint64, bool, error) {
+func (x *TH3Index) ValueAtTimestamptz(t int64, strict bool) (functions.H3Index, bool, error) {
 	_found, _value, _err := functions.Th3indexValueAtTimestamptz(functions.TemporalFromPointer(x.Pointer()), t, strict)
 	if _err != nil {
 		return 0, false, _err
@@ -147,7 +147,7 @@ func (x *TH3Index) ToTbigint() (*Temporal, error) {
 }
 
 // AtValue is MEOS th3index_at_value.
-func (x *TH3Index) AtValue(cell uint64) (*Temporal, error) {
+func (x *TH3Index) AtValue(cell functions.H3Index) (*Temporal, error) {
 	_r0, _err := functions.Th3indexAtValue(functions.TemporalFromPointer(x.Pointer()), cell)
 	if _err != nil {
 		return nil, _err
@@ -156,7 +156,7 @@ func (x *TH3Index) AtValue(cell uint64) (*Temporal, error) {
 }
 
 // MinusValue is MEOS th3index_minus_value.
-func (x *TH3Index) MinusValue(cell uint64) (*Temporal, error) {
+func (x *TH3Index) MinusValue(cell functions.H3Index) (*Temporal, error) {
 	_r0, _err := functions.Th3indexMinusValue(functions.TemporalFromPointer(x.Pointer()), cell)
 	if _err != nil {
 		return nil, _err
