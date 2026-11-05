@@ -18,12 +18,18 @@ python3 tools/codegen.py
 The generator binds every non-vendored catalog function of a bound family
 (the catalog's `family`, all on, `<FAMILY>=OFF` in the environment to drop
 one) whose header the libmeos prefix installs, one Go file per header, the
-headers taken from the catalog's `file` field (`header_plan`).  Against
-MobilityDB master it emits 4612 wrappers; 144 shapes stay unresolved, 191
-are excluded as `Datum`-bearing internal helpers (the hand-written surface
-exposes those through typed overloads which the codegen cannot synthesise
-from the IDL), and the 227 internal functions of `pgtypes.h` and
-`pgsql_compat.h`, headers the prefix does not install, are named in its
+headers taken from the catalog's `file` field (`header_plan`).  Each slot's
+Go type comes from its `canonical` spelling: the C standard types
+(`float4` is `float`, `float8` is `double`), the names the catalog keeps
+resolved through its `typedefs` (`TimestampTz` is `int64_t`), the names a
+slot's `typedef` gives a width (`H3Index`, `Quadbin`, `S2CellId`) as Go
+aliases of that width, and the catalog's structures, enums and callbacks.
+A slot of any other type stops the generation, naming the function and the
+type.  Against MobilityDB master it emits 4850 wrappers; 3 shapes stay
+unresolved, 193 are excluded as `Datum`-bearing internal helpers (the
+hand-written surface exposes those through typed overloads which the
+codegen cannot synthesise from the IDL), and the 6 internal functions of
+`pgsql_compat.h`, a header the prefix does not install, are named in its
 report and not bound.  The skiplist primitives that take
 function-pointer arguments (`comp_fn`, `merge_fn`, `datum_func2`) or
 operate on `void **` element arrays surface as `unsafe.Pointer`,

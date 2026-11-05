@@ -116,8 +116,15 @@ func AddIntervalInterval(interv1 *Interval, interv2 *Interval) (_r0 *Interval, _
 }
 
 
-// TODO div_interval_float8: unsupported param float8
-// func DivIntervalFloat8(...) { /* not yet handled by codegen */ }
+// DivIntervalFloat8 wraps MEOS C function div_interval_float8.
+func DivIntervalFloat8(interv *Interval, factor float64) (_r0 *Interval, _err error) {
+	C.meos_errno_reset()
+	_cret := C.div_interval_float8(interv._inner, C.double(factor))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Interval{_inner: _cret}, nil
+}
 
 
 // IntervalCopy wraps MEOS C function interval_copy.
@@ -142,8 +149,17 @@ func IntervalEq(interv1 *Interval, interv2 *Interval) (_r0 bool, _err error) {
 }
 
 
-// TODO interval_extract: unsupported return type Numeric
-// func IntervalExtract(...) { /* not yet handled by codegen */ }
+// IntervalExtract wraps MEOS C function interval_extract.
+func IntervalExtract(interv *Interval, units string) (_r0 unsafe.Pointer, _err error) {
+	_c_units := C.cstring_to_text(C.CString(units))
+	defer C.free(unsafe.Pointer(_c_units))
+	C.meos_errno_reset()
+	_cret := C.interval_extract(interv._inner, _c_units)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
+}
 
 
 // IntervalGe wraps MEOS C function interval_ge.
@@ -267,8 +283,15 @@ func IntervalLt(interv1 *Interval, interv2 *Interval) (_r0 bool, _err error) {
 }
 
 
-// TODO interval_make: unsupported param float8
-// func IntervalMake(...) { /* not yet handled by codegen */ }
+// IntervalMake wraps MEOS C function interval_make.
+func IntervalMake(years int32, months int32, weeks int32, days int32, hours int32, mins int32, secs float64) (_r0 *Interval, _err error) {
+	C.meos_errno_reset()
+	_cret := C.interval_make(C.int32_t(years), C.int32_t(months), C.int32_t(weeks), C.int32_t(days), C.int32_t(hours), C.int32_t(mins), C.double(secs))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Interval{_inner: _cret}, nil
+}
 
 
 // IntervalNe wraps MEOS C function interval_ne.
@@ -293,14 +316,23 @@ func IntervalNegate(interv *Interval) (_r0 *Interval, _err error) {
 }
 
 
-// TODO interval_part: unsupported return type float8
-// func IntervalPart(...) { /* not yet handled by codegen */ }
+// IntervalPart wraps MEOS C function interval_part.
+func IntervalPart(interv *Interval, units string) (_r0 float64, _err error) {
+	_c_units := C.cstring_to_text(C.CString(units))
+	defer C.free(unsafe.Pointer(_c_units))
+	C.meos_errno_reset()
+	_cret := C.interval_part(interv._inner, _c_units)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
 
 
 // IntervalScale wraps MEOS C function interval_scale.
 func IntervalScale(interv *Interval, typmod int32) (_r0 *Interval, _err error) {
 	C.meos_errno_reset()
-	_cret := C.interval_scale(interv._inner, C.int32(typmod))
+	_cret := C.interval_scale(interv._inner, C.int32_t(typmod))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -343,10 +375,24 @@ func MinusIntervalInterval(interv1 *Interval, interv2 *Interval) (_r0 *Interval,
 }
 
 
-// TODO mul_float8_interval: unsupported param float8
-// func MulFloat8Interval(...) { /* not yet handled by codegen */ }
+// MulFloat8Interval wraps MEOS C function mul_float8_interval.
+func MulFloat8Interval(factor float64, interv *Interval) (_r0 *Interval, _err error) {
+	C.meos_errno_reset()
+	_cret := C.mul_float8_interval(C.double(factor), interv._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Interval{_inner: _cret}, nil
+}
 
 
-// TODO mul_interval_float8: unsupported param float8
-// func MulIntervalFloat8(...) { /* not yet handled by codegen */ }
+// MulIntervalFloat8 wraps MEOS C function mul_interval_float8.
+func MulIntervalFloat8(interv *Interval, factor float64) (_r0 *Interval, _err error) {
+	C.meos_errno_reset()
+	_cret := C.mul_interval_float8(interv._inner, C.double(factor))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Interval{_inner: _cret}, nil
+}
 

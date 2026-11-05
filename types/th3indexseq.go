@@ -24,7 +24,7 @@ func TH3IndexSeqFromPointer(p unsafe.Pointer) *TH3IndexSeq {
 }
 
 // TH3IndexSeqFromBaseTstzset is MEOS th3indexseq_from_base_tstzset.
-func TH3IndexSeqFromBaseTstzset(value uint64, s *Set) (*Temporal, error) {
+func TH3IndexSeqFromBaseTstzset(value functions.H3Index, s *Set) (*Temporal, error) {
 	_r0, _err := functions.Th3indexseqFromBaseTstzset(value, functions.SetFromPointer(s.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -33,7 +33,7 @@ func TH3IndexSeqFromBaseTstzset(value uint64, s *Set) (*Temporal, error) {
 }
 
 // TH3IndexSeqFromBaseTstzspan is MEOS th3indexseq_from_base_tstzspan.
-func TH3IndexSeqFromBaseTstzspan(value uint64, s *Span) (*Temporal, error) {
+func TH3IndexSeqFromBaseTstzspan(value functions.H3Index, s *Span) (*Temporal, error) {
 	_r0, _err := functions.Th3indexseqFromBaseTstzspan(value, functions.SpanFromPointer(s.Pointer()))
 	if _err != nil {
 		return nil, _err

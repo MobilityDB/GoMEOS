@@ -106,10 +106,10 @@ import (
 var _ = unsafe.Pointer(nil)
 
 // S2cellAsHexwkb wraps MEOS C function s2cell_as_hexwkb.
-func S2cellAsHexwkb(cell uint64, variant uint8) (_r0 string, _err error) {
+func S2cellAsHexwkb(cell S2CellId, variant uint8) (_r0 string, _err error) {
 	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.s2cell_as_hexwkb(C.uint64_t(cell), C.uint8_t(variant), &_size)
+	_cret := C.s2cell_as_hexwkb(C.S2CellId(cell), C.uint8_t(variant), &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -119,9 +119,9 @@ func S2cellAsHexwkb(cell uint64, variant uint8) (_r0 string, _err error) {
 
 
 // S2cellAsWKB wraps MEOS C function s2cell_as_wkb.
-func S2cellAsWKB(cell uint64, variant uint8, size_out unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
+func S2cellAsWKB(cell S2CellId, variant uint8, size_out unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
 	C.meos_errno_reset()
-	_cret := C.s2cell_as_wkb(C.uint64_t(cell), C.uint8_t(variant), (*C.size_t)(unsafe.Pointer(size_out)))
+	_cret := C.s2cell_as_wkb(C.S2CellId(cell), C.uint8_t(variant), (*C.size_t)(unsafe.Pointer(size_out)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -130,7 +130,7 @@ func S2cellAsWKB(cell uint64, variant uint8, size_out unsafe.Pointer) (_r0 unsaf
 
 
 // S2cellFromHexwkb wraps MEOS C function s2cell_from_hexwkb.
-func S2cellFromHexwkb(hexwkb string) (_r0 uint64, _err error) {
+func S2cellFromHexwkb(hexwkb string) (_r0 S2CellId, _err error) {
 	_c_hexwkb := C.CString(hexwkb)
 	defer C.free(unsafe.Pointer(_c_hexwkb))
 	C.meos_errno_reset()
@@ -138,23 +138,23 @@ func S2cellFromHexwkb(hexwkb string) (_r0 uint64, _err error) {
 	if _err = meosError(); _err != nil {
 		return
 	}
-	return uint64(_cret), nil
+	return S2CellId(_cret), nil
 }
 
 
 // S2cellFromWKB wraps MEOS C function s2cell_from_wkb.
-func S2cellFromWKB(wkb unsafe.Pointer, size uint) (_r0 uint64, _err error) {
+func S2cellFromWKB(wkb unsafe.Pointer, size uint) (_r0 S2CellId, _err error) {
 	C.meos_errno_reset()
 	_cret := C.s2cell_from_wkb((*C.uint8_t)(unsafe.Pointer(wkb)), C.size_t(size))
 	if _err = meosError(); _err != nil {
 		return
 	}
-	return uint64(_cret), nil
+	return S2CellId(_cret), nil
 }
 
 
 // S2cellIn wraps MEOS C function s2cell_in.
-func S2cellIn(str string) (_r0 uint64, _err error) {
+func S2cellIn(str string) (_r0 S2CellId, _err error) {
 	_c_str := C.CString(str)
 	defer C.free(unsafe.Pointer(_c_str))
 	C.meos_errno_reset()
@@ -162,26 +162,26 @@ func S2cellIn(str string) (_r0 uint64, _err error) {
 	if _err = meosError(); _err != nil {
 		return
 	}
-	return uint64(_cret), nil
+	return S2CellId(_cret), nil
 }
 
 
 // BigintToS2cell wraps MEOS C function bigint_to_s2cell.
-func BigintToS2cell(i int64) (_r0 uint64, _err error) {
+func BigintToS2cell(i int64) (_r0 S2CellId, _err error) {
 	C.meos_errno_reset()
 	_cret := C.bigint_to_s2cell(C.int64_t(i))
 	if _err = meosError(); _err != nil {
 		return
 	}
-	return uint64(_cret), nil
+	return S2CellId(_cret), nil
 }
 
 
 // S2cellOut wraps MEOS C function s2cell_out.
-func S2cellOut(cell uint64) (_r0 string, _err error) {
+func S2cellOut(cell S2CellId) (_r0 string, _err error) {
 	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.s2cell_out(C.uint64_t(cell), &_size)
+	_cret := C.s2cell_out(C.S2CellId(cell), &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -191,9 +191,9 @@ func S2cellOut(cell uint64) (_r0 string, _err error) {
 
 
 // S2cellEq wraps MEOS C function s2cell_eq.
-func S2cellEq(a uint64, b uint64) (_r0 bool, _err error) {
+func S2cellEq(a S2CellId, b S2CellId) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.s2cell_eq(C.uint64_t(a), C.uint64_t(b))
+	_cret := C.s2cell_eq(C.S2CellId(a), C.S2CellId(b))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -202,9 +202,9 @@ func S2cellEq(a uint64, b uint64) (_r0 bool, _err error) {
 
 
 // S2cellNe wraps MEOS C function s2cell_ne.
-func S2cellNe(a uint64, b uint64) (_r0 bool, _err error) {
+func S2cellNe(a S2CellId, b S2CellId) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.s2cell_ne(C.uint64_t(a), C.uint64_t(b))
+	_cret := C.s2cell_ne(C.S2CellId(a), C.S2CellId(b))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -213,9 +213,9 @@ func S2cellNe(a uint64, b uint64) (_r0 bool, _err error) {
 
 
 // S2cellLt wraps MEOS C function s2cell_lt.
-func S2cellLt(a uint64, b uint64) (_r0 bool, _err error) {
+func S2cellLt(a S2CellId, b S2CellId) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.s2cell_lt(C.uint64_t(a), C.uint64_t(b))
+	_cret := C.s2cell_lt(C.S2CellId(a), C.S2CellId(b))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -224,9 +224,9 @@ func S2cellLt(a uint64, b uint64) (_r0 bool, _err error) {
 
 
 // S2cellLe wraps MEOS C function s2cell_le.
-func S2cellLe(a uint64, b uint64) (_r0 bool, _err error) {
+func S2cellLe(a S2CellId, b S2CellId) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.s2cell_le(C.uint64_t(a), C.uint64_t(b))
+	_cret := C.s2cell_le(C.S2CellId(a), C.S2CellId(b))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -235,9 +235,9 @@ func S2cellLe(a uint64, b uint64) (_r0 bool, _err error) {
 
 
 // S2cellGt wraps MEOS C function s2cell_gt.
-func S2cellGt(a uint64, b uint64) (_r0 bool, _err error) {
+func S2cellGt(a S2CellId, b S2CellId) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.s2cell_gt(C.uint64_t(a), C.uint64_t(b))
+	_cret := C.s2cell_gt(C.S2CellId(a), C.S2CellId(b))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -246,9 +246,9 @@ func S2cellGt(a uint64, b uint64) (_r0 bool, _err error) {
 
 
 // S2cellGe wraps MEOS C function s2cell_ge.
-func S2cellGe(a uint64, b uint64) (_r0 bool, _err error) {
+func S2cellGe(a S2CellId, b S2CellId) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.s2cell_ge(C.uint64_t(a), C.uint64_t(b))
+	_cret := C.s2cell_ge(C.S2CellId(a), C.S2CellId(b))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -257,9 +257,9 @@ func S2cellGe(a uint64, b uint64) (_r0 bool, _err error) {
 
 
 // S2cellCmp wraps MEOS C function s2cell_cmp.
-func S2cellCmp(a uint64, b uint64) (_r0 int, _err error) {
+func S2cellCmp(a S2CellId, b S2CellId) (_r0 int, _err error) {
 	C.meos_errno_reset()
-	_cret := C.s2cell_cmp(C.uint64_t(a), C.uint64_t(b))
+	_cret := C.s2cell_cmp(C.S2CellId(a), C.S2CellId(b))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -268,9 +268,9 @@ func S2cellCmp(a uint64, b uint64) (_r0 int, _err error) {
 
 
 // S2cellHash wraps MEOS C function s2cell_hash.
-func S2cellHash(cell uint64) (_r0 uint32, _err error) {
+func S2cellHash(cell S2CellId) (_r0 uint32, _err error) {
 	C.meos_errno_reset()
-	_cret := C.s2cell_hash(C.uint64_t(cell))
+	_cret := C.s2cell_hash(C.S2CellId(cell))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -279,9 +279,9 @@ func S2cellHash(cell uint64) (_r0 uint32, _err error) {
 
 
 // S2cellHashExtended wraps MEOS C function s2cell_hash_extended.
-func S2cellHashExtended(cell uint64, seed uint64) (_r0 uint64, _err error) {
+func S2cellHashExtended(cell S2CellId, seed uint64) (_r0 uint64, _err error) {
 	C.meos_errno_reset()
-	_cret := C.s2cell_hash_extended(C.uint64_t(cell), C.uint64_t(seed))
+	_cret := C.s2cell_hash_extended(C.S2CellId(cell), C.uint64_t(seed))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -290,9 +290,9 @@ func S2cellHashExtended(cell uint64, seed uint64) (_r0 uint64, _err error) {
 
 
 // S2cellIsValidCell wraps MEOS C function s2cell_is_valid_cell.
-func S2cellIsValidCell(cell uint64) (_r0 bool, _err error) {
+func S2cellIsValidCell(cell S2CellId) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.s2cell_is_valid_cell(C.uint64_t(cell))
+	_cret := C.s2cell_is_valid_cell(C.S2CellId(cell))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -301,10 +301,10 @@ func S2cellIsValidCell(cell uint64) (_r0 bool, _err error) {
 
 
 // S2cellCellToToken wraps MEOS C function s2cell_cell_to_token.
-func S2cellCellToToken(cell uint64) (_r0 string, _err error) {
+func S2cellCellToToken(cell S2CellId) (_r0 string, _err error) {
 	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.s2cell_cell_to_token(C.uint64_t(cell), &_size)
+	_cret := C.s2cell_cell_to_token(C.S2CellId(cell), &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -314,7 +314,7 @@ func S2cellCellToToken(cell uint64) (_r0 string, _err error) {
 
 
 // S2cellTokenToCell wraps MEOS C function s2cell_token_to_cell.
-func S2cellTokenToCell(token string) (_r0 uint64, _err error) {
+func S2cellTokenToCell(token string) (_r0 S2CellId, _err error) {
 	_c_token := C.CString(token)
 	defer C.free(unsafe.Pointer(_c_token))
 	C.meos_errno_reset()
@@ -322,14 +322,14 @@ func S2cellTokenToCell(token string) (_r0 uint64, _err error) {
 	if _err = meosError(); _err != nil {
 		return
 	}
-	return uint64(_cret), nil
+	return S2CellId(_cret), nil
 }
 
 
 // S2cellGetResolution wraps MEOS C function s2cell_get_resolution.
-func S2cellGetResolution(cell uint64) (_r0 uint32, _err error) {
+func S2cellGetResolution(cell S2CellId) (_r0 uint32, _err error) {
 	C.meos_errno_reset()
-	_cret := C.s2cell_get_resolution(C.uint64_t(cell))
+	_cret := C.s2cell_get_resolution(C.S2CellId(cell))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -338,9 +338,9 @@ func S2cellGetResolution(cell uint64) (_r0 uint32, _err error) {
 
 
 // S2cellGetFace wraps MEOS C function s2cell_get_face.
-func S2cellGetFace(cell uint64) (_r0 uint32, _err error) {
+func S2cellGetFace(cell S2CellId) (_r0 uint32, _err error) {
 	C.meos_errno_reset()
-	_cret := C.s2cell_get_face(C.uint64_t(cell))
+	_cret := C.s2cell_get_face(C.S2CellId(cell))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -349,31 +349,31 @@ func S2cellGetFace(cell uint64) (_r0 uint32, _err error) {
 
 
 // S2cellCellToParent wraps MEOS C function s2cell_cell_to_parent.
-func S2cellCellToParent(cell uint64, level uint32) (_r0 uint64, _err error) {
+func S2cellCellToParent(cell S2CellId, level uint32) (_r0 S2CellId, _err error) {
 	C.meos_errno_reset()
-	_cret := C.s2cell_cell_to_parent(C.uint64_t(cell), C.uint32_t(level))
+	_cret := C.s2cell_cell_to_parent(C.S2CellId(cell), C.uint32_t(level))
 	if _err = meosError(); _err != nil {
 		return
 	}
-	return uint64(_cret), nil
+	return S2CellId(_cret), nil
 }
 
 
 // S2cellCellToChild wraps MEOS C function s2cell_cell_to_child.
-func S2cellCellToChild(cell uint64, level uint32, position uint32) (_r0 uint64, _err error) {
+func S2cellCellToChild(cell S2CellId, level uint32, position uint32) (_r0 S2CellId, _err error) {
 	C.meos_errno_reset()
-	_cret := C.s2cell_cell_to_child(C.uint64_t(cell), C.uint32_t(level), C.uint32_t(position))
+	_cret := C.s2cell_cell_to_child(C.S2CellId(cell), C.uint32_t(level), C.uint32_t(position))
 	if _err = meosError(); _err != nil {
 		return
 	}
-	return uint64(_cret), nil
+	return S2CellId(_cret), nil
 }
 
 
 // S2cellCellToChildren wraps MEOS C function s2cell_cell_to_children.
-func S2cellCellToChildren(cell uint64, level uint32, count unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
+func S2cellCellToChildren(cell S2CellId, level uint32, count unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
 	C.meos_errno_reset()
-	_cret := C.s2cell_cell_to_children(C.uint64_t(cell), C.uint32_t(level), (*C.int)(unsafe.Pointer(count)))
+	_cret := C.s2cell_cell_to_children(C.S2CellId(cell), C.uint32_t(level), (*C.int)(unsafe.Pointer(count)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -382,9 +382,9 @@ func S2cellCellToChildren(cell uint64, level uint32, count unsafe.Pointer) (_r0 
 
 
 // S2cellCellContains wraps MEOS C function s2cell_cell_contains.
-func S2cellCellContains(cell uint64, other uint64) (_r0 bool, _err error) {
+func S2cellCellContains(cell S2CellId, other S2CellId) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.s2cell_cell_contains(C.uint64_t(cell), C.uint64_t(other))
+	_cret := C.s2cell_cell_contains(C.S2CellId(cell), C.S2CellId(other))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -393,9 +393,9 @@ func S2cellCellContains(cell uint64, other uint64) (_r0 bool, _err error) {
 
 
 // S2cellCommonAncestorLevel wraps MEOS C function s2cell_common_ancestor_level.
-func S2cellCommonAncestorLevel(a uint64, b uint64) (_r0 int, _err error) {
+func S2cellCommonAncestorLevel(a S2CellId, b S2CellId) (_r0 int, _err error) {
 	C.meos_errno_reset()
-	_cret := C.s2cell_common_ancestor_level(C.uint64_t(a), C.uint64_t(b))
+	_cret := C.s2cell_common_ancestor_level(C.S2CellId(a), C.S2CellId(b))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -404,31 +404,31 @@ func S2cellCommonAncestorLevel(a uint64, b uint64) (_r0 int, _err error) {
 
 
 // S2cellRangeMin wraps MEOS C function s2cell_range_min.
-func S2cellRangeMin(cell uint64) (_r0 uint64, _err error) {
+func S2cellRangeMin(cell S2CellId) (_r0 S2CellId, _err error) {
 	C.meos_errno_reset()
-	_cret := C.s2cell_range_min(C.uint64_t(cell))
+	_cret := C.s2cell_range_min(C.S2CellId(cell))
 	if _err = meosError(); _err != nil {
 		return
 	}
-	return uint64(_cret), nil
+	return S2CellId(_cret), nil
 }
 
 
 // S2cellRangeMax wraps MEOS C function s2cell_range_max.
-func S2cellRangeMax(cell uint64) (_r0 uint64, _err error) {
+func S2cellRangeMax(cell S2CellId) (_r0 S2CellId, _err error) {
 	C.meos_errno_reset()
-	_cret := C.s2cell_range_max(C.uint64_t(cell))
+	_cret := C.s2cell_range_max(C.S2CellId(cell))
 	if _err = meosError(); _err != nil {
 		return
 	}
-	return uint64(_cret), nil
+	return S2CellId(_cret), nil
 }
 
 
 // S2cellEdgeNeighbors wraps MEOS C function s2cell_edge_neighbors.
-func S2cellEdgeNeighbors(cell uint64, count unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
+func S2cellEdgeNeighbors(cell S2CellId, count unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
 	C.meos_errno_reset()
-	_cret := C.s2cell_edge_neighbors(C.uint64_t(cell), (*C.int)(unsafe.Pointer(count)))
+	_cret := C.s2cell_edge_neighbors(C.S2CellId(cell), (*C.int)(unsafe.Pointer(count)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -437,20 +437,20 @@ func S2cellEdgeNeighbors(cell uint64, count unsafe.Pointer) (_r0 unsafe.Pointer,
 
 
 // S2cellPointToCell wraps MEOS C function s2cell_point_to_cell.
-func S2cellPointToCell(longitude float64, latitude float64, level uint32) (_r0 uint64, _err error) {
+func S2cellPointToCell(longitude float64, latitude float64, level uint32) (_r0 S2CellId, _err error) {
 	C.meos_errno_reset()
 	_cret := C.s2cell_point_to_cell(C.double(longitude), C.double(latitude), C.uint32_t(level))
 	if _err = meosError(); _err != nil {
 		return
 	}
-	return uint64(_cret), nil
+	return S2CellId(_cret), nil
 }
 
 
 // S2cellCellArea wraps MEOS C function s2cell_cell_area.
-func S2cellCellArea(cell uint64) (_r0 float64, _err error) {
+func S2cellCellArea(cell S2CellId) (_r0 float64, _err error) {
 	C.meos_errno_reset()
-	_cret := C.s2cell_cell_area(C.uint64_t(cell))
+	_cret := C.s2cell_cell_area(C.S2CellId(cell))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -459,9 +459,9 @@ func S2cellCellArea(cell uint64) (_r0 float64, _err error) {
 
 
 // S2cellEdgeLength wraps MEOS C function s2cell_edge_length.
-func S2cellEdgeLength(cell uint64, edge uint32) (_r0 float64, _err error) {
+func S2cellEdgeLength(cell S2CellId, edge uint32) (_r0 float64, _err error) {
 	C.meos_errno_reset()
-	_cret := C.s2cell_edge_length(C.uint64_t(cell), C.uint32_t(edge))
+	_cret := C.s2cell_edge_length(C.S2CellId(cell), C.uint32_t(edge))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -470,20 +470,20 @@ func S2cellEdgeLength(cell uint64, edge uint32) (_r0 float64, _err error) {
 
 
 // GeoToS2cellCell wraps MEOS C function geo_to_s2cell_cell.
-func GeoToS2cellCell(point *Geom, level int32) (_r0 uint64, _err error) {
+func GeoToS2cellCell(point *Geom, level int32) (_r0 S2CellId, _err error) {
 	C.meos_errno_reset()
-	_cret := C.geo_to_s2cell_cell(point._inner, C.int32(level))
+	_cret := C.geo_to_s2cell_cell(point._inner, C.int32_t(level))
 	if _err = meosError(); _err != nil {
 		return
 	}
-	return uint64(_cret), nil
+	return S2CellId(_cret), nil
 }
 
 
 // GeoToS2cellSet wraps MEOS C function geo_to_s2cell_set.
 func GeoToS2cellSet(gs *Geom, level int32) (_r0 *Set, _err error) {
 	C.meos_errno_reset()
-	_cret := C.geo_to_s2cell_set(gs._inner, C.int32(level))
+	_cret := C.geo_to_s2cell_set(gs._inner, C.int32_t(level))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -492,9 +492,9 @@ func GeoToS2cellSet(gs *Geom, level int32) (_r0 *Set, _err error) {
 
 
 // S2cellCellToGeogpoint wraps MEOS C function s2cell_cell_to_geogpoint.
-func S2cellCellToGeogpoint(cell uint64) (_r0 *Geom, _err error) {
+func S2cellCellToGeogpoint(cell S2CellId) (_r0 *Geom, _err error) {
 	C.meos_errno_reset()
-	_cret := C.s2cell_cell_to_geogpoint(C.uint64_t(cell))
+	_cret := C.s2cell_cell_to_geogpoint(C.S2CellId(cell))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -503,9 +503,9 @@ func S2cellCellToGeogpoint(cell uint64) (_r0 *Geom, _err error) {
 
 
 // S2cellCellToGeog wraps MEOS C function s2cell_cell_to_geog.
-func S2cellCellToGeog(cell uint64) (_r0 *Geom, _err error) {
+func S2cellCellToGeog(cell S2CellId) (_r0 *Geom, _err error) {
 	C.meos_errno_reset()
-	_cret := C.s2cell_cell_to_geog(C.uint64_t(cell))
+	_cret := C.s2cell_cell_to_geog(C.S2CellId(cell))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -536,9 +536,9 @@ func EverEqTs2cellS2cellset(temp *Temporal, cells *Set) (_r0 int, _err error) {
 
 
 // S2cellToSTBOX wraps MEOS C function s2cell_to_stbox.
-func S2cellToSTBOX(cell uint64) (_r0 *STBox, _err error) {
+func S2cellToSTBOX(cell S2CellId) (_r0 *STBox, _err error) {
 	C.meos_errno_reset()
-	_cret := C.s2cell_to_stbox(C.uint64_t(cell))
+	_cret := C.s2cell_to_stbox(C.S2CellId(cell))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -547,9 +547,9 @@ func S2cellToSTBOX(cell uint64) (_r0 *STBox, _err error) {
 
 
 // S2cellTimestamptzToSTBOX wraps MEOS C function s2cell_timestamptz_to_stbox.
-func S2cellTimestamptzToSTBOX(cell uint64, t int64) (_r0 *STBox, _err error) {
+func S2cellTimestamptzToSTBOX(cell S2CellId, t int64) (_r0 *STBox, _err error) {
 	C.meos_errno_reset()
-	_cret := C.s2cell_timestamptz_to_stbox(C.uint64_t(cell), C.TimestampTz(t))
+	_cret := C.s2cell_timestamptz_to_stbox(C.S2CellId(cell), C.TimestampTz(t))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -558,9 +558,9 @@ func S2cellTimestamptzToSTBOX(cell uint64, t int64) (_r0 *STBox, _err error) {
 
 
 // S2cellTstzspanToSTBOX wraps MEOS C function s2cell_tstzspan_to_stbox.
-func S2cellTstzspanToSTBOX(cell uint64, s *Span) (_r0 *STBox, _err error) {
+func S2cellTstzspanToSTBOX(cell S2CellId, s *Span) (_r0 *STBox, _err error) {
 	C.meos_errno_reset()
-	_cret := C.s2cell_tstzspan_to_stbox(C.uint64_t(cell), s._inner)
+	_cret := C.s2cell_tstzspan_to_stbox(C.S2CellId(cell), s._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -569,9 +569,9 @@ func S2cellTstzspanToSTBOX(cell uint64, s *Span) (_r0 *STBox, _err error) {
 
 
 // S2cellEdgeNeighborsSet wraps MEOS C function s2cell_edge_neighbors_set.
-func S2cellEdgeNeighborsSet(cell uint64) (_r0 *Set, _err error) {
+func S2cellEdgeNeighborsSet(cell S2CellId) (_r0 *Set, _err error) {
 	C.meos_errno_reset()
-	_cret := C.s2cell_edge_neighbors_set(C.uint64_t(cell))
+	_cret := C.s2cell_edge_neighbors_set(C.S2CellId(cell))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -580,9 +580,9 @@ func S2cellEdgeNeighborsSet(cell uint64) (_r0 *Set, _err error) {
 
 
 // S2cellCellToChildrenSet wraps MEOS C function s2cell_cell_to_children_set.
-func S2cellCellToChildrenSet(cell uint64, children_level int) (_r0 *Set, _err error) {
+func S2cellCellToChildrenSet(cell S2CellId, children_level int) (_r0 *Set, _err error) {
 	C.meos_errno_reset()
-	_cret := C.s2cell_cell_to_children_set(C.uint64_t(cell), C.int(children_level))
+	_cret := C.s2cell_cell_to_children_set(C.S2CellId(cell), C.int(children_level))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -613,9 +613,9 @@ func S2cellsetUncompactCells(cells *Set, resolution int) (_r0 *Set, _err error) 
 
 
 // S2cellCellToCover wraps MEOS C function s2cell_cell_to_cover.
-func S2cellCellToCover(cell uint64, resolution int) (_r0 *Set, _err error) {
+func S2cellCellToCover(cell S2CellId, resolution int) (_r0 *Set, _err error) {
 	C.meos_errno_reset()
-	_cret := C.s2cell_cell_to_cover(C.uint64_t(cell), C.int(resolution))
+	_cret := C.s2cell_cell_to_cover(C.S2CellId(cell), C.int(resolution))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -663,7 +663,7 @@ func S2cellsetOut(s *Set) (_r0 string, _err error) {
 // S2cellsetMake wraps MEOS C function s2cellset_make.
 func S2cellsetMake(values unsafe.Pointer, count int) (_r0 *Set, _err error) {
 	C.meos_errno_reset()
-	_cret := C.s2cellset_make((*C.uint64_t)(unsafe.Pointer(values)), C.int(count))
+	_cret := C.s2cellset_make((*C.S2CellId)(unsafe.Pointer(values)), C.int(count))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -672,36 +672,36 @@ func S2cellsetMake(values unsafe.Pointer, count int) (_r0 *Set, _err error) {
 
 
 // S2cellsetEndValue wraps MEOS C function s2cellset_end_value.
-func S2cellsetEndValue(s *Set) (_r0 uint64, _err error) {
+func S2cellsetEndValue(s *Set) (_r0 S2CellId, _err error) {
 	C.meos_errno_reset()
 	_cret := C.s2cellset_end_value(s._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
-	return uint64(_cret), nil
+	return S2CellId(_cret), nil
 }
 
 
 // S2cellsetStartValue wraps MEOS C function s2cellset_start_value.
-func S2cellsetStartValue(s *Set) (_r0 uint64, _err error) {
+func S2cellsetStartValue(s *Set) (_r0 S2CellId, _err error) {
 	C.meos_errno_reset()
 	_cret := C.s2cellset_start_value(s._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
-	return uint64(_cret), nil
+	return S2CellId(_cret), nil
 }
 
 
 // S2cellsetValueN wraps MEOS C function s2cellset_value_n.
-func S2cellsetValueN(s *Set, n int) (_r0 bool, _r1 uint64, _err error) {
-	var _out_result C.uint64_t
+func S2cellsetValueN(s *Set, n int) (_r0 bool, _r1 S2CellId, _err error) {
+	var _out_result C.S2CellId
 	C.meos_errno_reset()
 	_cret := C.s2cellset_value_n(s._inner, C.int(n), &_out_result)
 	if _err = meosError(); _err != nil {
 		return
 	}
-	return bool(_cret), uint64(_out_result), nil
+	return bool(_cret), S2CellId(_out_result), nil
 }
 
 
@@ -717,9 +717,9 @@ func S2cellsetValues(s *Set, count unsafe.Pointer) (_r0 unsafe.Pointer, _err err
 
 
 // ContainedS2cellSet wraps MEOS C function contained_s2cell_set.
-func ContainedS2cellSet(cell uint64, s *Set) (_r0 bool, _err error) {
+func ContainedS2cellSet(cell S2CellId, s *Set) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.contained_s2cell_set(C.uint64_t(cell), s._inner)
+	_cret := C.contained_s2cell_set(C.S2CellId(cell), s._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -728,9 +728,9 @@ func ContainedS2cellSet(cell uint64, s *Set) (_r0 bool, _err error) {
 
 
 // ContainsSetS2cell wraps MEOS C function contains_set_s2cell.
-func ContainsSetS2cell(s *Set, cell uint64) (_r0 bool, _err error) {
+func ContainsSetS2cell(s *Set, cell S2CellId) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.contains_set_s2cell(s._inner, C.uint64_t(cell))
+	_cret := C.contains_set_s2cell(s._inner, C.S2CellId(cell))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -739,9 +739,9 @@ func ContainsSetS2cell(s *Set, cell uint64) (_r0 bool, _err error) {
 
 
 // IntersectionS2cellSet wraps MEOS C function intersection_s2cell_set.
-func IntersectionS2cellSet(cell uint64, s *Set) (_r0 *Set, _err error) {
+func IntersectionS2cellSet(cell S2CellId, s *Set) (_r0 *Set, _err error) {
 	C.meos_errno_reset()
-	_cret := C.intersection_s2cell_set(C.uint64_t(cell), s._inner)
+	_cret := C.intersection_s2cell_set(C.S2CellId(cell), s._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -750,9 +750,9 @@ func IntersectionS2cellSet(cell uint64, s *Set) (_r0 *Set, _err error) {
 
 
 // IntersectionSetS2cell wraps MEOS C function intersection_set_s2cell.
-func IntersectionSetS2cell(s *Set, cell uint64) (_r0 *Set, _err error) {
+func IntersectionSetS2cell(s *Set, cell S2CellId) (_r0 *Set, _err error) {
 	C.meos_errno_reset()
-	_cret := C.intersection_set_s2cell(s._inner, C.uint64_t(cell))
+	_cret := C.intersection_set_s2cell(s._inner, C.S2CellId(cell))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -761,9 +761,9 @@ func IntersectionSetS2cell(s *Set, cell uint64) (_r0 *Set, _err error) {
 
 
 // MinusS2cellSet wraps MEOS C function minus_s2cell_set.
-func MinusS2cellSet(cell uint64, s *Set) (_r0 *Set, _err error) {
+func MinusS2cellSet(cell S2CellId, s *Set) (_r0 *Set, _err error) {
 	C.meos_errno_reset()
-	_cret := C.minus_s2cell_set(C.uint64_t(cell), s._inner)
+	_cret := C.minus_s2cell_set(C.S2CellId(cell), s._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -772,9 +772,9 @@ func MinusS2cellSet(cell uint64, s *Set) (_r0 *Set, _err error) {
 
 
 // MinusSetS2cell wraps MEOS C function minus_set_s2cell.
-func MinusSetS2cell(s *Set, cell uint64) (_r0 *Set, _err error) {
+func MinusSetS2cell(s *Set, cell S2CellId) (_r0 *Set, _err error) {
 	C.meos_errno_reset()
-	_cret := C.minus_set_s2cell(s._inner, C.uint64_t(cell))
+	_cret := C.minus_set_s2cell(s._inner, C.S2CellId(cell))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -783,9 +783,9 @@ func MinusSetS2cell(s *Set, cell uint64) (_r0 *Set, _err error) {
 
 
 // UnionS2cellSet wraps MEOS C function union_s2cell_set.
-func UnionS2cellSet(cell uint64, s *Set) (_r0 *Set, _err error) {
+func UnionS2cellSet(cell S2CellId, s *Set) (_r0 *Set, _err error) {
 	C.meos_errno_reset()
-	_cret := C.gunion_s2cell_set(C.uint64_t(cell), s._inner)
+	_cret := C.gunion_s2cell_set(C.S2CellId(cell), s._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -794,9 +794,9 @@ func UnionS2cellSet(cell uint64, s *Set) (_r0 *Set, _err error) {
 
 
 // UnionSetS2cell wraps MEOS C function union_set_s2cell.
-func UnionSetS2cell(s *Set, cell uint64) (_r0 *Set, _err error) {
+func UnionSetS2cell(s *Set, cell S2CellId) (_r0 *Set, _err error) {
 	C.meos_errno_reset()
-	_cret := C.gunion_set_s2cell(s._inner, C.uint64_t(cell))
+	_cret := C.gunion_set_s2cell(s._inner, C.S2CellId(cell))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -805,9 +805,9 @@ func UnionSetS2cell(s *Set, cell uint64) (_r0 *Set, _err error) {
 
 
 // S2cellUnionTransfn wraps MEOS C function s2cell_union_transfn.
-func S2cellUnionTransfn(state *Set, cell uint64) (_r0 *Set, _err error) {
+func S2cellUnionTransfn(state *Set, cell S2CellId) (_r0 *Set, _err error) {
 	C.meos_errno_reset()
-	_cret := C.s2cell_union_transfn(state._inner, C.uint64_t(cell))
+	_cret := C.s2cell_union_transfn(state._inner, C.S2CellId(cell))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -894,9 +894,9 @@ func Ts2cellFromMFJSON(mfjson string) (_r0 *Temporal, _err error) {
 
 
 // Ts2cellMake wraps MEOS C function ts2cell_make.
-func Ts2cellMake(value uint64, t int64) (_r0 *Temporal, _err error) {
+func Ts2cellMake(value S2CellId, t int64) (_r0 *Temporal, _err error) {
 	C.meos_errno_reset()
-	_cret := C.ts2cell_make(C.uint64_t(value), C.TimestampTz(t))
+	_cret := C.ts2cell_make(C.S2CellId(value), C.TimestampTz(t))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -905,9 +905,9 @@ func Ts2cellMake(value uint64, t int64) (_r0 *Temporal, _err error) {
 
 
 // Ts2cellinstMake wraps MEOS C function ts2cellinst_make.
-func Ts2cellinstMake(value uint64, t int64) (_r0 *TInstant, _err error) {
+func Ts2cellinstMake(value S2CellId, t int64) (_r0 *TInstant, _err error) {
 	C.meos_errno_reset()
-	_cret := C.ts2cellinst_make(C.uint64_t(value), C.TimestampTz(t))
+	_cret := C.ts2cellinst_make(C.S2CellId(value), C.TimestampTz(t))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -916,9 +916,9 @@ func Ts2cellinstMake(value uint64, t int64) (_r0 *TInstant, _err error) {
 
 
 // Ts2cellFromBaseTemp wraps MEOS C function ts2cell_from_base_temp.
-func Ts2cellFromBaseTemp(value uint64, temp *Temporal) (_r0 *Temporal, _err error) {
+func Ts2cellFromBaseTemp(value S2CellId, temp *Temporal) (_r0 *Temporal, _err error) {
 	C.meos_errno_reset()
-	_cret := C.ts2cell_from_base_temp(C.uint64_t(value), temp._inner)
+	_cret := C.ts2cell_from_base_temp(C.S2CellId(value), temp._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -927,9 +927,9 @@ func Ts2cellFromBaseTemp(value uint64, temp *Temporal) (_r0 *Temporal, _err erro
 
 
 // Ts2cellseqFromBaseTstzset wraps MEOS C function ts2cellseq_from_base_tstzset.
-func Ts2cellseqFromBaseTstzset(value uint64, s *Set) (_r0 *TSequence, _err error) {
+func Ts2cellseqFromBaseTstzset(value S2CellId, s *Set) (_r0 *TSequence, _err error) {
 	C.meos_errno_reset()
-	_cret := C.ts2cellseq_from_base_tstzset(C.uint64_t(value), s._inner)
+	_cret := C.ts2cellseq_from_base_tstzset(C.S2CellId(value), s._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -938,9 +938,9 @@ func Ts2cellseqFromBaseTstzset(value uint64, s *Set) (_r0 *TSequence, _err error
 
 
 // Ts2cellseqFromBaseTstzspan wraps MEOS C function ts2cellseq_from_base_tstzspan.
-func Ts2cellseqFromBaseTstzspan(value uint64, s *Span) (_r0 *TSequence, _err error) {
+func Ts2cellseqFromBaseTstzspan(value S2CellId, s *Span) (_r0 *TSequence, _err error) {
 	C.meos_errno_reset()
-	_cret := C.ts2cellseq_from_base_tstzspan(C.uint64_t(value), s._inner)
+	_cret := C.ts2cellseq_from_base_tstzspan(C.S2CellId(value), s._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -949,9 +949,9 @@ func Ts2cellseqFromBaseTstzspan(value uint64, s *Span) (_r0 *TSequence, _err err
 
 
 // Ts2cellseqsetFromBaseTstzspanset wraps MEOS C function ts2cellseqset_from_base_tstzspanset.
-func Ts2cellseqsetFromBaseTstzspanset(value uint64, ss *SpanSet) (_r0 *TSequenceSet, _err error) {
+func Ts2cellseqsetFromBaseTstzspanset(value S2CellId, ss *SpanSet) (_r0 *TSequenceSet, _err error) {
 	C.meos_errno_reset()
-	_cret := C.ts2cellseqset_from_base_tstzspanset(C.uint64_t(value), ss._inner)
+	_cret := C.ts2cellseqset_from_base_tstzspanset(C.S2CellId(value), ss._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -962,7 +962,7 @@ func Ts2cellseqsetFromBaseTstzspanset(value uint64, ss *SpanSet) (_r0 *TSequence
 // Ts2cellseqMake wraps MEOS C function ts2cellseq_make.
 func Ts2cellseqMake(values unsafe.Pointer, times unsafe.Pointer, count int, lower_inc bool, upper_inc bool) (_r0 *TSequence, _err error) {
 	C.meos_errno_reset()
-	_cret := C.ts2cellseq_make((*C.uint64_t)(unsafe.Pointer(values)), (*C.TimestampTz)(unsafe.Pointer(times)), C.int(count), C.bool(lower_inc), C.bool(upper_inc))
+	_cret := C.ts2cellseq_make((*C.S2CellId)(unsafe.Pointer(values)), (*C.TimestampTz)(unsafe.Pointer(times)), C.int(count), C.bool(lower_inc), C.bool(upper_inc))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -982,47 +982,47 @@ func Ts2cellseqsetMake(sequences unsafe.Pointer, count int) (_r0 *TSequenceSet, 
 
 
 // Ts2cellStartValue wraps MEOS C function ts2cell_start_value.
-func Ts2cellStartValue(temp *Temporal) (_r0 uint64, _err error) {
+func Ts2cellStartValue(temp *Temporal) (_r0 S2CellId, _err error) {
 	C.meos_errno_reset()
 	_cret := C.ts2cell_start_value(temp._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
-	return uint64(_cret), nil
+	return S2CellId(_cret), nil
 }
 
 
 // Ts2cellEndValue wraps MEOS C function ts2cell_end_value.
-func Ts2cellEndValue(temp *Temporal) (_r0 uint64, _err error) {
+func Ts2cellEndValue(temp *Temporal) (_r0 S2CellId, _err error) {
 	C.meos_errno_reset()
 	_cret := C.ts2cell_end_value(temp._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
-	return uint64(_cret), nil
+	return S2CellId(_cret), nil
 }
 
 
 // Ts2cellValue wraps MEOS C function ts2cell_value.
-func Ts2cellValue(temp *Temporal) (_r0 uint64, _err error) {
+func Ts2cellValue(temp *Temporal) (_r0 S2CellId, _err error) {
 	C.meos_errno_reset()
 	_cret := C.ts2cell_value(temp._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
-	return uint64(_cret), nil
+	return S2CellId(_cret), nil
 }
 
 
 // Ts2cellValueN wraps MEOS C function ts2cell_value_n.
-func Ts2cellValueN(temp *Temporal, n int) (_r0 bool, _r1 uint64, _err error) {
-	var _out_result C.uint64_t
+func Ts2cellValueN(temp *Temporal, n int) (_r0 bool, _r1 S2CellId, _err error) {
+	var _out_result C.S2CellId
 	C.meos_errno_reset()
 	_cret := C.ts2cell_value_n(temp._inner, C.int(n), &_out_result)
 	if _err = meosError(); _err != nil {
 		return
 	}
-	return bool(_cret), uint64(_out_result), nil
+	return bool(_cret), S2CellId(_out_result), nil
 }
 
 
@@ -1040,7 +1040,7 @@ func Ts2cellValues(temp *Temporal, count unsafe.Pointer) (_r0 unsafe.Pointer, _e
 // Ts2cellUnnest wraps MEOS C function ts2cell_unnest.
 func Ts2cellUnnest(temp *Temporal, values unsafe.Pointer, count unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
 	C.meos_errno_reset()
-	_cret := C.ts2cell_unnest(temp._inner, (**C.uint64_t)(unsafe.Pointer(values)), (*C.int)(unsafe.Pointer(count)))
+	_cret := C.ts2cell_unnest(temp._inner, (**C.S2CellId)(unsafe.Pointer(values)), (*C.int)(unsafe.Pointer(count)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1049,21 +1049,21 @@ func Ts2cellUnnest(temp *Temporal, values unsafe.Pointer, count unsafe.Pointer) 
 
 
 // Ts2cellValueAtTimestamptz wraps MEOS C function ts2cell_value_at_timestamptz.
-func Ts2cellValueAtTimestamptz(temp *Temporal, t int64, strict bool) (_r0 bool, _r1 uint64, _err error) {
-	var _out_result C.uint64_t
+func Ts2cellValueAtTimestamptz(temp *Temporal, t int64, strict bool) (_r0 bool, _r1 S2CellId, _err error) {
+	var _out_result C.S2CellId
 	C.meos_errno_reset()
 	_cret := C.ts2cell_value_at_timestamptz(temp._inner, C.TimestampTz(t), C.bool(strict), &_out_result)
 	if _err = meosError(); _err != nil {
 		return
 	}
-	return bool(_cret), uint64(_out_result), nil
+	return bool(_cret), S2CellId(_out_result), nil
 }
 
 
 // S2cellToSet wraps MEOS C function s2cell_to_set.
-func S2cellToSet(cell uint64) (_r0 *Set, _err error) {
+func S2cellToSet(cell S2CellId) (_r0 *Set, _err error) {
 	C.meos_errno_reset()
-	_cret := C.s2cell_to_set(C.uint64_t(cell))
+	_cret := C.s2cell_to_set(C.S2CellId(cell))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1096,7 +1096,7 @@ func Ts2cellToTbigint(temp *Temporal) (_r0 *Temporal, _err error) {
 // TgeogpointToTs2cell wraps MEOS C function tgeogpoint_to_ts2cell.
 func TgeogpointToTs2cell(temp *Temporal, level int32, border_inc bool) (_r0 *Temporal, _err error) {
 	C.meos_errno_reset()
-	_cret := C.tgeogpoint_to_ts2cell(temp._inner, C.int32(level), C.bool(border_inc))
+	_cret := C.tgeogpoint_to_ts2cell(temp._inner, C.int32_t(level), C.bool(border_inc))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1107,7 +1107,7 @@ func TgeogpointToTs2cell(temp *Temporal, level int32, border_inc bool) (_r0 *Tem
 // TgeompointToTs2cell wraps MEOS C function tgeompoint_to_ts2cell.
 func TgeompointToTs2cell(temp *Temporal, level int32, border_inc bool) (_r0 *Temporal, _err error) {
 	C.meos_errno_reset()
-	_cret := C.tgeompoint_to_ts2cell(temp._inner, C.int32(level), C.bool(border_inc))
+	_cret := C.tgeompoint_to_ts2cell(temp._inner, C.int32_t(level), C.bool(border_inc))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1118,7 +1118,7 @@ func TgeompointToTs2cell(temp *Temporal, level int32, border_inc bool) (_r0 *Tem
 // TgeogpointS2cellSplit wraps MEOS C function tgeogpoint_s2cell_split.
 func TgeogpointS2cellSplit(temp *Temporal, level int32, border_inc bool, cells unsafe.Pointer, count unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
 	C.meos_errno_reset()
-	_cret := C.tgeogpoint_s2cell_split(temp._inner, C.int32(level), C.bool(border_inc), (**C.uint64_t)(unsafe.Pointer(cells)), (*C.int)(unsafe.Pointer(count)))
+	_cret := C.tgeogpoint_s2cell_split(temp._inner, C.int32_t(level), C.bool(border_inc), (**C.S2CellId)(unsafe.Pointer(cells)), (*C.int)(unsafe.Pointer(count)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1129,7 +1129,7 @@ func TgeogpointS2cellSplit(temp *Temporal, level int32, border_inc bool, cells u
 // TgeompointS2cellSplit wraps MEOS C function tgeompoint_s2cell_split.
 func TgeompointS2cellSplit(temp *Temporal, level int32, border_inc bool, cells unsafe.Pointer, count unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
 	C.meos_errno_reset()
-	_cret := C.tgeompoint_s2cell_split(temp._inner, C.int32(level), C.bool(border_inc), (**C.uint64_t)(unsafe.Pointer(cells)), (*C.int)(unsafe.Pointer(count)))
+	_cret := C.tgeompoint_s2cell_split(temp._inner, C.int32_t(level), C.bool(border_inc), (**C.S2CellId)(unsafe.Pointer(cells)), (*C.int)(unsafe.Pointer(count)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1138,9 +1138,9 @@ func TgeompointS2cellSplit(temp *Temporal, level int32, border_inc bool, cells u
 
 
 // Ts2cellAtValue wraps MEOS C function ts2cell_at_value.
-func Ts2cellAtValue(temp *Temporal, cell uint64) (_r0 *Temporal, _err error) {
+func Ts2cellAtValue(temp *Temporal, cell S2CellId) (_r0 *Temporal, _err error) {
 	C.meos_errno_reset()
-	_cret := C.ts2cell_at_value(temp._inner, C.uint64_t(cell))
+	_cret := C.ts2cell_at_value(temp._inner, C.S2CellId(cell))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1149,9 +1149,9 @@ func Ts2cellAtValue(temp *Temporal, cell uint64) (_r0 *Temporal, _err error) {
 
 
 // Ts2cellMinusValue wraps MEOS C function ts2cell_minus_value.
-func Ts2cellMinusValue(temp *Temporal, cell uint64) (_r0 *Temporal, _err error) {
+func Ts2cellMinusValue(temp *Temporal, cell S2CellId) (_r0 *Temporal, _err error) {
 	C.meos_errno_reset()
-	_cret := C.ts2cell_minus_value(temp._inner, C.uint64_t(cell))
+	_cret := C.ts2cell_minus_value(temp._inner, C.S2CellId(cell))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1160,9 +1160,9 @@ func Ts2cellMinusValue(temp *Temporal, cell uint64) (_r0 *Temporal, _err error) 
 
 
 // EverEqS2cellTs2cell wraps MEOS C function ever_eq_s2cell_ts2cell.
-func EverEqS2cellTs2cell(cell uint64, temp *Temporal) (_r0 int, _err error) {
+func EverEqS2cellTs2cell(cell S2CellId, temp *Temporal) (_r0 int, _err error) {
 	C.meos_errno_reset()
-	_cret := C.ever_eq_s2cell_ts2cell(C.uint64_t(cell), temp._inner)
+	_cret := C.ever_eq_s2cell_ts2cell(C.S2CellId(cell), temp._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1171,9 +1171,9 @@ func EverEqS2cellTs2cell(cell uint64, temp *Temporal) (_r0 int, _err error) {
 
 
 // EverEqTs2cellS2cell wraps MEOS C function ever_eq_ts2cell_s2cell.
-func EverEqTs2cellS2cell(temp *Temporal, cell uint64) (_r0 int, _err error) {
+func EverEqTs2cellS2cell(temp *Temporal, cell S2CellId) (_r0 int, _err error) {
 	C.meos_errno_reset()
-	_cret := C.ever_eq_ts2cell_s2cell(temp._inner, C.uint64_t(cell))
+	_cret := C.ever_eq_ts2cell_s2cell(temp._inner, C.S2CellId(cell))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1182,9 +1182,9 @@ func EverEqTs2cellS2cell(temp *Temporal, cell uint64) (_r0 int, _err error) {
 
 
 // EverNeS2cellTs2cell wraps MEOS C function ever_ne_s2cell_ts2cell.
-func EverNeS2cellTs2cell(cell uint64, temp *Temporal) (_r0 int, _err error) {
+func EverNeS2cellTs2cell(cell S2CellId, temp *Temporal) (_r0 int, _err error) {
 	C.meos_errno_reset()
-	_cret := C.ever_ne_s2cell_ts2cell(C.uint64_t(cell), temp._inner)
+	_cret := C.ever_ne_s2cell_ts2cell(C.S2CellId(cell), temp._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1193,9 +1193,9 @@ func EverNeS2cellTs2cell(cell uint64, temp *Temporal) (_r0 int, _err error) {
 
 
 // EverNeTs2cellS2cell wraps MEOS C function ever_ne_ts2cell_s2cell.
-func EverNeTs2cellS2cell(temp *Temporal, cell uint64) (_r0 int, _err error) {
+func EverNeTs2cellS2cell(temp *Temporal, cell S2CellId) (_r0 int, _err error) {
 	C.meos_errno_reset()
-	_cret := C.ever_ne_ts2cell_s2cell(temp._inner, C.uint64_t(cell))
+	_cret := C.ever_ne_ts2cell_s2cell(temp._inner, C.S2CellId(cell))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1204,9 +1204,9 @@ func EverNeTs2cellS2cell(temp *Temporal, cell uint64) (_r0 int, _err error) {
 
 
 // AlwaysEqS2cellTs2cell wraps MEOS C function always_eq_s2cell_ts2cell.
-func AlwaysEqS2cellTs2cell(cell uint64, temp *Temporal) (_r0 int, _err error) {
+func AlwaysEqS2cellTs2cell(cell S2CellId, temp *Temporal) (_r0 int, _err error) {
 	C.meos_errno_reset()
-	_cret := C.always_eq_s2cell_ts2cell(C.uint64_t(cell), temp._inner)
+	_cret := C.always_eq_s2cell_ts2cell(C.S2CellId(cell), temp._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1215,9 +1215,9 @@ func AlwaysEqS2cellTs2cell(cell uint64, temp *Temporal) (_r0 int, _err error) {
 
 
 // AlwaysEqTs2cellS2cell wraps MEOS C function always_eq_ts2cell_s2cell.
-func AlwaysEqTs2cellS2cell(temp *Temporal, cell uint64) (_r0 int, _err error) {
+func AlwaysEqTs2cellS2cell(temp *Temporal, cell S2CellId) (_r0 int, _err error) {
 	C.meos_errno_reset()
-	_cret := C.always_eq_ts2cell_s2cell(temp._inner, C.uint64_t(cell))
+	_cret := C.always_eq_ts2cell_s2cell(temp._inner, C.S2CellId(cell))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1226,9 +1226,9 @@ func AlwaysEqTs2cellS2cell(temp *Temporal, cell uint64) (_r0 int, _err error) {
 
 
 // AlwaysNeS2cellTs2cell wraps MEOS C function always_ne_s2cell_ts2cell.
-func AlwaysNeS2cellTs2cell(cell uint64, temp *Temporal) (_r0 int, _err error) {
+func AlwaysNeS2cellTs2cell(cell S2CellId, temp *Temporal) (_r0 int, _err error) {
 	C.meos_errno_reset()
-	_cret := C.always_ne_s2cell_ts2cell(C.uint64_t(cell), temp._inner)
+	_cret := C.always_ne_s2cell_ts2cell(C.S2CellId(cell), temp._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1237,9 +1237,9 @@ func AlwaysNeS2cellTs2cell(cell uint64, temp *Temporal) (_r0 int, _err error) {
 
 
 // AlwaysNeTs2cellS2cell wraps MEOS C function always_ne_ts2cell_s2cell.
-func AlwaysNeTs2cellS2cell(temp *Temporal, cell uint64) (_r0 int, _err error) {
+func AlwaysNeTs2cellS2cell(temp *Temporal, cell S2CellId) (_r0 int, _err error) {
 	C.meos_errno_reset()
-	_cret := C.always_ne_ts2cell_s2cell(temp._inner, C.uint64_t(cell))
+	_cret := C.always_ne_ts2cell_s2cell(temp._inner, C.S2CellId(cell))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1292,9 +1292,9 @@ func AlwaysNeTs2cellTs2cell(temp1 *Temporal, temp2 *Temporal) (_r0 int, _err err
 
 
 // TeqS2cellTs2cell wraps MEOS C function teq_s2cell_ts2cell.
-func TeqS2cellTs2cell(cell uint64, temp *Temporal) (_r0 *Temporal, _err error) {
+func TeqS2cellTs2cell(cell S2CellId, temp *Temporal) (_r0 *Temporal, _err error) {
 	C.meos_errno_reset()
-	_cret := C.teq_s2cell_ts2cell(C.uint64_t(cell), temp._inner)
+	_cret := C.teq_s2cell_ts2cell(C.S2CellId(cell), temp._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1303,9 +1303,9 @@ func TeqS2cellTs2cell(cell uint64, temp *Temporal) (_r0 *Temporal, _err error) {
 
 
 // TeqTs2cellS2cell wraps MEOS C function teq_ts2cell_s2cell.
-func TeqTs2cellS2cell(temp *Temporal, cell uint64) (_r0 *Temporal, _err error) {
+func TeqTs2cellS2cell(temp *Temporal, cell S2CellId) (_r0 *Temporal, _err error) {
 	C.meos_errno_reset()
-	_cret := C.teq_ts2cell_s2cell(temp._inner, C.uint64_t(cell))
+	_cret := C.teq_ts2cell_s2cell(temp._inner, C.S2CellId(cell))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1325,9 +1325,9 @@ func TeqTs2cellTs2cell(temp1 *Temporal, temp2 *Temporal) (_r0 *Temporal, _err er
 
 
 // TneS2cellTs2cell wraps MEOS C function tne_s2cell_ts2cell.
-func TneS2cellTs2cell(cell uint64, temp *Temporal) (_r0 *Temporal, _err error) {
+func TneS2cellTs2cell(cell S2CellId, temp *Temporal) (_r0 *Temporal, _err error) {
 	C.meos_errno_reset()
-	_cret := C.tne_s2cell_ts2cell(C.uint64_t(cell), temp._inner)
+	_cret := C.tne_s2cell_ts2cell(C.S2CellId(cell), temp._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1336,9 +1336,9 @@ func TneS2cellTs2cell(cell uint64, temp *Temporal) (_r0 *Temporal, _err error) {
 
 
 // TneTs2cellS2cell wraps MEOS C function tne_ts2cell_s2cell.
-func TneTs2cellS2cell(temp *Temporal, cell uint64) (_r0 *Temporal, _err error) {
+func TneTs2cellS2cell(temp *Temporal, cell S2CellId) (_r0 *Temporal, _err error) {
 	C.meos_errno_reset()
-	_cret := C.tne_ts2cell_s2cell(temp._inner, C.uint64_t(cell))
+	_cret := C.tne_ts2cell_s2cell(temp._inner, C.S2CellId(cell))
 	if _err = meosError(); _err != nil {
 		return
 	}

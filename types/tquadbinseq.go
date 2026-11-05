@@ -24,7 +24,7 @@ func TQuadbinSeqFromPointer(p unsafe.Pointer) *TQuadbinSeq {
 }
 
 // TQuadbinSeqFromBaseTstzset is MEOS tquadbinseq_from_base_tstzset.
-func TQuadbinSeqFromBaseTstzset(value uint64, s *Set) (*Temporal, error) {
+func TQuadbinSeqFromBaseTstzset(value functions.Quadbin, s *Set) (*Temporal, error) {
 	_r0, _err := functions.TquadbinseqFromBaseTstzset(value, functions.SetFromPointer(s.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -33,7 +33,7 @@ func TQuadbinSeqFromBaseTstzset(value uint64, s *Set) (*Temporal, error) {
 }
 
 // TQuadbinSeqFromBaseTstzspan is MEOS tquadbinseq_from_base_tstzspan.
-func TQuadbinSeqFromBaseTstzspan(value uint64, s *Span) (*Temporal, error) {
+func TQuadbinSeqFromBaseTstzspan(value functions.Quadbin, s *Span) (*Temporal, error) {
 	_r0, _err := functions.TquadbinseqFromBaseTstzspan(value, functions.SpanFromPointer(s.Pointer()))
 	if _err != nil {
 		return nil, _err

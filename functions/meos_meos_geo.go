@@ -325,7 +325,7 @@ func GeogIn(str string, typmod int32) (_r0 *Geom, _err error) {
 	_c_str := C.CString(str)
 	defer C.free(unsafe.Pointer(_c_str))
 	C.meos_errno_reset()
-	_cret := C.geog_in(_c_str, C.int32(typmod))
+	_cret := C.geog_in(_c_str, C.int32_t(typmod))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -351,7 +351,7 @@ func GeomIn(str string, typmod int32) (_r0 *Geom, _err error) {
 	_c_str := C.CString(str)
 	defer C.free(unsafe.Pointer(_c_str))
 	C.meos_errno_reset()
-	_cret := C.geom_in(_c_str, C.int32(typmod))
+	_cret := C.geom_in(_c_str, C.int32_t(typmod))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -3518,6 +3518,28 @@ func TpointTwcentroid(temp *Temporal) (_r0 *Geom, _err error) {
 func TgeoAffine(temp *Temporal, a float64, b float64, c float64, d float64, e float64, f float64, g float64, h float64, i float64, xoff float64, yoff float64, zoff float64) (_r0 *Temporal, _err error) {
 	C.meos_errno_reset()
 	_cret := C.tgeo_affine(temp._inner, C.double(a), C.double(b), C.double(c), C.double(d), C.double(e), C.double(f), C.double(g), C.double(h), C.double(i), C.double(xoff), C.double(yoff), C.double(zoff))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// TgeoForce2d wraps MEOS C function tgeo_force2d.
+func TgeoForce2d(temp *Temporal) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tgeo_force2d(temp._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// TgeoForce3d wraps MEOS C function tgeo_force3d.
+func TgeoForce3d(temp *Temporal, zvalue float64) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tgeo_force3d(temp._inner, C.double(zvalue))
 	if _err = meosError(); _err != nil {
 		return
 	}

@@ -108,7 +108,7 @@ var _ = unsafe.Pointer(nil)
 // AddDateInt wraps MEOS C function add_date_int.
 func AddDateInt(date int32, days int32) (_r0 int32, _err error) {
 	C.meos_errno_reset()
-	_cret := C.add_date_int(C.DateADT(date), C.int32(days))
+	_cret := C.add_date_int(C.DateADT(date), C.int32_t(days))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -182,8 +182,17 @@ func CmpTimestamptzDate(tstz int64, date int32) (_r0 int32, _err error) {
 }
 
 
-// TODO date_extract: unsupported return type Numeric
-// func DateExtract(...) { /* not yet handled by codegen */ }
+// DateExtract wraps MEOS C function date_extract.
+func DateExtract(date int32, units string) (_r0 unsafe.Pointer, _err error) {
+	_c_units := C.cstring_to_text(C.CString(units))
+	defer C.free(unsafe.Pointer(_c_units))
+	C.meos_errno_reset()
+	_cret := C.date_extract(C.DateADT(date), _c_units)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
+}
 
 
 // DateHash wraps MEOS C function date_hash.
@@ -574,7 +583,7 @@ func MinusDateDate(date1 int32, date2 int32) (_r0 int32, _err error) {
 // MinusDateInt wraps MEOS C function minus_date_int.
 func MinusDateInt(date int32, days int32) (_r0 int32, _err error) {
 	C.meos_errno_reset()
-	_cret := C.minus_date_int(C.DateADT(date), C.int32(days))
+	_cret := C.minus_date_int(C.DateADT(date), C.int32_t(days))
 	if _err = meosError(); _err != nil {
 		return
 	}

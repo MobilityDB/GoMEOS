@@ -105,438 +105,1206 @@ import (
 
 var _ = unsafe.Pointer(nil)
 
-// TODO add_float4_float4: unsupported return type float4
-// func AddFloat4Float4(...) { /* not yet handled by codegen */ }
-
-
-// TODO add_float4_float8: unsupported return type float8
-// func AddFloat4Float8(...) { /* not yet handled by codegen */ }
-
-
-// TODO add_float8_float4: unsupported return type float8
-// func AddFloat8Float4(...) { /* not yet handled by codegen */ }
-
-
-// TODO add_float8_float8: unsupported return type float8
-// func AddFloat8Float8(...) { /* not yet handled by codegen */ }
-
-
-// TODO div_float4_float4: unsupported return type float4
-// func DivFloat4Float4(...) { /* not yet handled by codegen */ }
-
-
-// TODO div_float4_float8: unsupported return type float8
-// func DivFloat4Float8(...) { /* not yet handled by codegen */ }
-
-
-// TODO div_float8_float4: unsupported return type float8
-// func DivFloat8Float4(...) { /* not yet handled by codegen */ }
-
-
-// TODO div_float8_float8: unsupported return type float8
-// func DivFloat8Float8(...) { /* not yet handled by codegen */ }
-
-
-// TODO eq_float4_float4: unsupported param float4
-// func EqFloat4Float4(...) { /* not yet handled by codegen */ }
-
-
-// TODO eq_float4_float8: unsupported param float4
-// func EqFloat4Float8(...) { /* not yet handled by codegen */ }
-
-
-// TODO eq_float8_float4: unsupported param float8
-// func EqFloat8Float4(...) { /* not yet handled by codegen */ }
-
-
-// TODO eq_float8_float8: unsupported param float8
-// func EqFloat8Float8(...) { /* not yet handled by codegen */ }
-
-
-// TODO float4_abs: unsupported return type float4
-// func Float4Abs(...) { /* not yet handled by codegen */ }
-
-
-// TODO float4_cmp: unsupported param float4
-// func Float4Cmp(...) { /* not yet handled by codegen */ }
-
-
-// TODO float4_hash: unsupported param float4
-// func Float4Hash(...) { /* not yet handled by codegen */ }
-
-
-// TODO float4_hash_extended: unsupported param float4
-// func Float4HashExtended(...) { /* not yet handled by codegen */ }
-
-
-// TODO float4_in: unsupported return type float4
-// func Float4In(...) { /* not yet handled by codegen */ }
-
-
-// TODO float4_larger: unsupported return type float4
-// func Float4Larger(...) { /* not yet handled by codegen */ }
-
-
-// TODO float4_out: unsupported param float4
-// func Float4Out(...) { /* not yet handled by codegen */ }
-
-
-// TODO float4_smaller: unsupported return type float4
-// func Float4Smaller(...) { /* not yet handled by codegen */ }
-
-
-// TODO float4_to_float8: unsupported return type float8
-// func Float4ToFloat8(...) { /* not yet handled by codegen */ }
-
-
-// TODO float4_to_int16: unsupported param float4
-// func Float4ToInt16(...) { /* not yet handled by codegen */ }
-
-
-// TODO float4_to_int32: unsupported param float4
-// func Float4ToInt32(...) { /* not yet handled by codegen */ }
-
-
-// TODO float4_um: unsupported return type float4
-// func Float4Um(...) { /* not yet handled by codegen */ }
-
-
-// TODO float4_up: unsupported return type float4
-// func Float4Up(...) { /* not yet handled by codegen */ }
-
-
-// TODO float8_abs: unsupported return type float8
-// func Float8Abs(...) { /* not yet handled by codegen */ }
-
-
-// TODO float8_acos: unsupported return type float8
-// func Float8Acos(...) { /* not yet handled by codegen */ }
-
-
-// TODO float8_acosd: unsupported return type float8
-// func Float8Acosd(...) { /* not yet handled by codegen */ }
-
-
-// TODO float8_acosh: unsupported return type float8
-// func Float8Acosh(...) { /* not yet handled by codegen */ }
-
-
-// TODO float8_asin: unsupported return type float8
-// func Float8Asin(...) { /* not yet handled by codegen */ }
-
-
-// TODO float8_asind: unsupported return type float8
-// func Float8Asind(...) { /* not yet handled by codegen */ }
-
-
-// TODO float8_asinh: unsupported return type float8
-// func Float8Asinh(...) { /* not yet handled by codegen */ }
-
-
-// TODO float8_atan: unsupported return type float8
-// func Float8Atan(...) { /* not yet handled by codegen */ }
-
-
-// TODO float8_atan2: unsupported return type float8
-// func Float8Atan2(...) { /* not yet handled by codegen */ }
-
-
-// TODO float8_atan2d: unsupported return type float8
-// func Float8Atan2d(...) { /* not yet handled by codegen */ }
-
-
-// TODO float8_atand: unsupported return type float8
-// func Float8Atand(...) { /* not yet handled by codegen */ }
-
-
-// TODO float8_atanh: unsupported return type float8
-// func Float8Atanh(...) { /* not yet handled by codegen */ }
-
-
-// TODO float8_cbrt: unsupported return type float8
-// func Float8Cbrt(...) { /* not yet handled by codegen */ }
-
-
-// TODO float8_ceil: unsupported return type float8
-// func Float8Ceil(...) { /* not yet handled by codegen */ }
-
-
-// TODO float8_cmp: unsupported param float8
-// func Float8Cmp(...) { /* not yet handled by codegen */ }
-
-
-// TODO float8_cos: unsupported return type float8
-// func Float8Cos(...) { /* not yet handled by codegen */ }
-
-
-// TODO float8_cosd: unsupported return type float8
-// func Float8Cosd(...) { /* not yet handled by codegen */ }
-
-
-// TODO float8_cosh: unsupported return type float8
-// func Float8Cosh(...) { /* not yet handled by codegen */ }
-
-
-// TODO float8_cot: unsupported return type float8
-// func Float8Cot(...) { /* not yet handled by codegen */ }
-
-
-// TODO float8_cotd: unsupported return type float8
-// func Float8Cotd(...) { /* not yet handled by codegen */ }
-
-
-// TODO float8_degrees: unsupported return type float8
-// func Float8Degrees(...) { /* not yet handled by codegen */ }
-
-
-// TODO float8_exp: unsupported return type float8
-// func Float8Exp(...) { /* not yet handled by codegen */ }
-
-
-// TODO float8_floor: unsupported return type float8
-// func Float8Floor(...) { /* not yet handled by codegen */ }
-
-
-// TODO float8_gamma: unsupported return type float8
-// func Float8Gamma(...) { /* not yet handled by codegen */ }
-
-
-// TODO float8_hash: unsupported param float8
-// func Float8Hash(...) { /* not yet handled by codegen */ }
-
-
-// TODO float8_hash_extended: unsupported param float8
-// func Float8HashExtended(...) { /* not yet handled by codegen */ }
-
-
-// TODO float8_in: unsupported return type float8
-// func Float8In(...) { /* not yet handled by codegen */ }
-
-
-// TODO float8_larger: unsupported return type float8
-// func Float8Larger(...) { /* not yet handled by codegen */ }
-
-
-// TODO float8_lgamma: unsupported return type float8
-// func Float8Lgamma(...) { /* not yet handled by codegen */ }
-
-
-// TODO float8_ln: unsupported return type float8
-// func Float8Ln(...) { /* not yet handled by codegen */ }
-
-
-// TODO float8_log10: unsupported return type float8
-// func Float8Log10(...) { /* not yet handled by codegen */ }
-
-
-// TODO float8_pi: unsupported return type float8
-// func Float8Pi(...) { /* not yet handled by codegen */ }
-
-
-// TODO float8_pow: unsupported return type float8
-// func Float8Pow(...) { /* not yet handled by codegen */ }
-
-
-// TODO float8_radians: unsupported return type float8
-// func Float8Radians(...) { /* not yet handled by codegen */ }
-
-
-// TODO float8_rint: unsupported return type float8
-// func Float8Rint(...) { /* not yet handled by codegen */ }
-
-
-// TODO float8_round: unsupported return type float8
-// func Float8Round(...) { /* not yet handled by codegen */ }
-
-
-// TODO float8_sign: unsupported return type float8
-// func Float8Sign(...) { /* not yet handled by codegen */ }
-
-
-// TODO float8_sin: unsupported return type float8
-// func Float8Sin(...) { /* not yet handled by codegen */ }
-
-
-// TODO float8_sind: unsupported return type float8
-// func Float8Sind(...) { /* not yet handled by codegen */ }
-
-
-// TODO float8_sinh: unsupported return type float8
-// func Float8Sinh(...) { /* not yet handled by codegen */ }
-
-
-// TODO float8_smaller: unsupported return type float8
-// func Float8Smaller(...) { /* not yet handled by codegen */ }
-
-
-// TODO float8_sqrt: unsupported return type float8
-// func Float8Sqrt(...) { /* not yet handled by codegen */ }
-
-
-// TODO float8_tan: unsupported return type float8
-// func Float8Tan(...) { /* not yet handled by codegen */ }
-
-
-// TODO float8_tand: unsupported return type float8
-// func Float8Tand(...) { /* not yet handled by codegen */ }
-
-
-// TODO float8_tanh: unsupported return type float8
-// func Float8Tanh(...) { /* not yet handled by codegen */ }
-
-
-// TODO float8_to_float4: unsupported return type float4
-// func Float8ToFloat4(...) { /* not yet handled by codegen */ }
-
-
-// TODO float8_to_int16: unsupported param float8
-// func Float8ToInt16(...) { /* not yet handled by codegen */ }
-
-
-// TODO float8_to_int32: unsupported param float8
-// func Float8ToInt32(...) { /* not yet handled by codegen */ }
-
-
-// TODO float8_trunc: unsupported return type float8
-// func Float8Trunc(...) { /* not yet handled by codegen */ }
-
-
-// TODO float8_um: unsupported return type float8
-// func Float8Um(...) { /* not yet handled by codegen */ }
-
-
-// TODO float8_up: unsupported return type float8
-// func Float8Up(...) { /* not yet handled by codegen */ }
-
-
-// TODO float8_width_bucket: unsupported param float8
-// func Float8WidthBucket(...) { /* not yet handled by codegen */ }
-
-
-// TODO ge_float4_float4: unsupported param float4
-// func GeFloat4Float4(...) { /* not yet handled by codegen */ }
-
-
-// TODO ge_float4_float8: unsupported param float4
-// func GeFloat4Float8(...) { /* not yet handled by codegen */ }
-
-
-// TODO ge_float8_float4: unsupported param float8
-// func GeFloat8Float4(...) { /* not yet handled by codegen */ }
-
-
-// TODO ge_float8_float8: unsupported param float8
-// func GeFloat8Float8(...) { /* not yet handled by codegen */ }
-
-
-// TODO gt_float4_float4: unsupported param float4
-// func GtFloat4Float4(...) { /* not yet handled by codegen */ }
-
-
-// TODO gt_float4_float8: unsupported param float4
-// func GtFloat4Float8(...) { /* not yet handled by codegen */ }
-
-
-// TODO gt_float8_float4: unsupported param float8
-// func GtFloat8Float4(...) { /* not yet handled by codegen */ }
-
-
-// TODO gt_float8_float8: unsupported param float8
-// func GtFloat8Float8(...) { /* not yet handled by codegen */ }
-
-
-// TODO int16_to_float4: unsupported return type float4
-// func Int16ToFloat4(...) { /* not yet handled by codegen */ }
-
-
-// TODO int16_to_float8: unsupported return type float8
-// func Int16ToFloat8(...) { /* not yet handled by codegen */ }
-
-
-// TODO int32_to_float4: unsupported return type float4
-// func Int32ToFloat4(...) { /* not yet handled by codegen */ }
-
-
-// TODO int32_to_float8: unsupported return type float8
-// func Int32ToFloat8(...) { /* not yet handled by codegen */ }
-
-
-// TODO le_float4_float4: unsupported param float4
-// func LeFloat4Float4(...) { /* not yet handled by codegen */ }
-
-
-// TODO le_float4_float8: unsupported param float4
-// func LeFloat4Float8(...) { /* not yet handled by codegen */ }
-
-
-// TODO le_float8_float4: unsupported param float8
-// func LeFloat8Float4(...) { /* not yet handled by codegen */ }
-
-
-// TODO le_float8_float8: unsupported param float8
-// func LeFloat8Float8(...) { /* not yet handled by codegen */ }
-
-
-// TODO lt_float4_float4: unsupported param float4
-// func LtFloat4Float4(...) { /* not yet handled by codegen */ }
-
-
-// TODO lt_float4_float8: unsupported param float4
-// func LtFloat4Float8(...) { /* not yet handled by codegen */ }
-
-
-// TODO lt_float8_float4: unsupported param float8
-// func LtFloat8Float4(...) { /* not yet handled by codegen */ }
-
-
-// TODO lt_float8_float8: unsupported param float8
-// func LtFloat8Float8(...) { /* not yet handled by codegen */ }
-
-
-// TODO minus_float4_float4: unsupported return type float4
-// func MinusFloat4Float4(...) { /* not yet handled by codegen */ }
-
-
-// TODO minus_float4_float8: unsupported return type float8
-// func MinusFloat4Float8(...) { /* not yet handled by codegen */ }
-
-
-// TODO minus_float8_float4: unsupported return type float8
-// func MinusFloat8Float4(...) { /* not yet handled by codegen */ }
-
-
-// TODO minus_float8_float8: unsupported return type float8
-// func MinusFloat8Float8(...) { /* not yet handled by codegen */ }
-
-
-// TODO mul_float4_float4: unsupported return type float4
-// func MulFloat4Float4(...) { /* not yet handled by codegen */ }
-
-
-// TODO mul_float4_float8: unsupported return type float8
-// func MulFloat4Float8(...) { /* not yet handled by codegen */ }
-
-
-// TODO mul_float8_float4: unsupported return type float8
-// func MulFloat8Float4(...) { /* not yet handled by codegen */ }
-
-
-// TODO mul_float8_float8: unsupported return type float8
-// func MulFloat8Float8(...) { /* not yet handled by codegen */ }
-
-
-// TODO ne_float4_float4: unsupported param float4
-// func NeFloat4Float4(...) { /* not yet handled by codegen */ }
-
-
-// TODO ne_float4_float8: unsupported param float4
-// func NeFloat4Float8(...) { /* not yet handled by codegen */ }
-
-
-// TODO ne_float8_float4: unsupported param float8
-// func NeFloat8Float4(...) { /* not yet handled by codegen */ }
-
-
-// TODO ne_float8_float8: unsupported param float8
-// func NeFloat8Float8(...) { /* not yet handled by codegen */ }
+// AddFloat4Float4 wraps MEOS C function add_float4_float4.
+func AddFloat4Float4(num1 float32, num2 float32) (_r0 float32, _err error) {
+	C.meos_errno_reset()
+	_cret := C.add_float4_float4(C.float(num1), C.float(num2))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float32(_cret), nil
+}
+
+
+// AddFloat4Float8 wraps MEOS C function add_float4_float8.
+func AddFloat4Float8(num1 float32, num2 float64) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.add_float4_float8(C.float(num1), C.double(num2))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// AddFloat8Float4 wraps MEOS C function add_float8_float4.
+func AddFloat8Float4(num1 float64, num2 float32) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.add_float8_float4(C.double(num1), C.float(num2))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// AddFloat8Float8 wraps MEOS C function add_float8_float8.
+func AddFloat8Float8(num1 float64, num2 float64) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.add_float8_float8(C.double(num1), C.double(num2))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// DivFloat4Float4 wraps MEOS C function div_float4_float4.
+func DivFloat4Float4(num1 float32, num2 float32) (_r0 float32, _err error) {
+	C.meos_errno_reset()
+	_cret := C.div_float4_float4(C.float(num1), C.float(num2))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float32(_cret), nil
+}
+
+
+// DivFloat4Float8 wraps MEOS C function div_float4_float8.
+func DivFloat4Float8(num1 float32, num2 float64) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.div_float4_float8(C.float(num1), C.double(num2))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// DivFloat8Float4 wraps MEOS C function div_float8_float4.
+func DivFloat8Float4(num1 float64, num2 float32) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.div_float8_float4(C.double(num1), C.float(num2))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// DivFloat8Float8 wraps MEOS C function div_float8_float8.
+func DivFloat8Float8(num1 float64, num2 float64) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.div_float8_float8(C.double(num1), C.double(num2))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// EqFloat4Float4 wraps MEOS C function eq_float4_float4.
+func EqFloat4Float4(num1 float32, num2 float32) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.eq_float4_float4(C.float(num1), C.float(num2))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// EqFloat4Float8 wraps MEOS C function eq_float4_float8.
+func EqFloat4Float8(num1 float32, num2 float64) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.eq_float4_float8(C.float(num1), C.double(num2))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// EqFloat8Float4 wraps MEOS C function eq_float8_float4.
+func EqFloat8Float4(num1 float64, num2 float32) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.eq_float8_float4(C.double(num1), C.float(num2))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// EqFloat8Float8 wraps MEOS C function eq_float8_float8.
+func EqFloat8Float8(num1 float64, num2 float64) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.eq_float8_float8(C.double(num1), C.double(num2))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// Float4Abs wraps MEOS C function float4_abs.
+func Float4Abs(num float32) (_r0 float32, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float4_abs(C.float(num))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float32(_cret), nil
+}
+
+
+// Float4Cmp wraps MEOS C function float4_cmp.
+func Float4Cmp(num1 float32, num2 float32) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float4_cmp(C.float(num1), C.float(num2))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
+// Float4Hash wraps MEOS C function float4_hash.
+func Float4Hash(num float32) (_r0 uint32, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float4_hash(C.float(num))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return uint32(_cret), nil
+}
+
+
+// Float4HashExtended wraps MEOS C function float4_hash_extended.
+func Float4HashExtended(num float32, seed uint64) (_r0 uint64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float4_hash_extended(C.float(num), C.uint64_t(seed))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return uint64(_cret), nil
+}
+
+
+// Float4In wraps MEOS C function float4_in.
+func Float4In(num string) (_r0 float32, _err error) {
+	_c_num := C.CString(num)
+	defer C.free(unsafe.Pointer(_c_num))
+	C.meos_errno_reset()
+	_cret := C.float4_in(_c_num)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float32(_cret), nil
+}
+
+
+// Float4Larger wraps MEOS C function float4_larger.
+func Float4Larger(num1 float32, num2 float32) (_r0 float32, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float4_larger(C.float(num1), C.float(num2))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float32(_cret), nil
+}
+
+
+// Float4Out wraps MEOS C function float4_out.
+func Float4Out(num float32) (_r0 string, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float4_out(C.float(num))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	defer C.free(unsafe.Pointer(_cret))
+	return C.GoString(_cret), nil
+}
+
+
+// Float4Smaller wraps MEOS C function float4_smaller.
+func Float4Smaller(num1 float32, num2 float32) (_r0 float32, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float4_smaller(C.float(num1), C.float(num2))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float32(_cret), nil
+}
+
+
+// Float4ToFloat8 wraps MEOS C function float4_to_float8.
+func Float4ToFloat8(num float32) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float4_to_float8(C.float(num))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// Float4ToInt16 wraps MEOS C function float4_to_int16.
+func Float4ToInt16(num float32) (_r0 int16, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float4_to_int16(C.float(num))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int16(_cret), nil
+}
+
+
+// Float4ToInt32 wraps MEOS C function float4_to_int32.
+func Float4ToInt32(num float32) (_r0 int32, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float4_to_int32(C.float(num))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int32(_cret), nil
+}
+
+
+// Float4Um wraps MEOS C function float4_um.
+func Float4Um(num float32) (_r0 float32, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float4_um(C.float(num))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float32(_cret), nil
+}
+
+
+// Float4Up wraps MEOS C function float4_up.
+func Float4Up(num float32) (_r0 float32, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float4_up(C.float(num))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float32(_cret), nil
+}
+
+
+// Float8Abs wraps MEOS C function float8_abs.
+func Float8Abs(num float64) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float8_abs(C.double(num))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// Float8Acos wraps MEOS C function float8_acos.
+func Float8Acos(num float64) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float8_acos(C.double(num))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// Float8Acosd wraps MEOS C function float8_acosd.
+func Float8Acosd(num float64) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float8_acosd(C.double(num))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// Float8Acosh wraps MEOS C function float8_acosh.
+func Float8Acosh(num float64) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float8_acosh(C.double(num))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// Float8Asin wraps MEOS C function float8_asin.
+func Float8Asin(num float64) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float8_asin(C.double(num))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// Float8Asind wraps MEOS C function float8_asind.
+func Float8Asind(num float64) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float8_asind(C.double(num))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// Float8Asinh wraps MEOS C function float8_asinh.
+func Float8Asinh(num float64) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float8_asinh(C.double(num))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// Float8Atan wraps MEOS C function float8_atan.
+func Float8Atan(num float64) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float8_atan(C.double(num))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// Float8Atan2 wraps MEOS C function float8_atan2.
+func Float8Atan2(num1 float64, num2 float64) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float8_atan2(C.double(num1), C.double(num2))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// Float8Atan2d wraps MEOS C function float8_atan2d.
+func Float8Atan2d(num1 float64, num2 float64) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float8_atan2d(C.double(num1), C.double(num2))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// Float8Atand wraps MEOS C function float8_atand.
+func Float8Atand(num float64) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float8_atand(C.double(num))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// Float8Atanh wraps MEOS C function float8_atanh.
+func Float8Atanh(num float64) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float8_atanh(C.double(num))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// Float8Cbrt wraps MEOS C function float8_cbrt.
+func Float8Cbrt(num float64) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float8_cbrt(C.double(num))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// Float8Ceil wraps MEOS C function float8_ceil.
+func Float8Ceil(num float64) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float8_ceil(C.double(num))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// Float8Cmp wraps MEOS C function float8_cmp.
+func Float8Cmp(num1 float64, num2 float64) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float8_cmp(C.double(num1), C.double(num2))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
+// Float8Cos wraps MEOS C function float8_cos.
+func Float8Cos(num float64) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float8_cos(C.double(num))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// Float8Cosd wraps MEOS C function float8_cosd.
+func Float8Cosd(num float64) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float8_cosd(C.double(num))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// Float8Cosh wraps MEOS C function float8_cosh.
+func Float8Cosh(num float64) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float8_cosh(C.double(num))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// Float8Cot wraps MEOS C function float8_cot.
+func Float8Cot(num float64) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float8_cot(C.double(num))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// Float8Cotd wraps MEOS C function float8_cotd.
+func Float8Cotd(num float64) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float8_cotd(C.double(num))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// Float8Degrees wraps MEOS C function float8_degrees.
+func Float8Degrees(num float64) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float8_degrees(C.double(num))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// Float8Exp wraps MEOS C function float8_exp.
+func Float8Exp(num float64) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float8_exp(C.double(num))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// Float8Floor wraps MEOS C function float8_floor.
+func Float8Floor(num float64) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float8_floor(C.double(num))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// Float8Gamma wraps MEOS C function float8_gamma.
+func Float8Gamma(num float64) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float8_gamma(C.double(num))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// Float8Hash wraps MEOS C function float8_hash.
+func Float8Hash(num float64) (_r0 uint32, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float8_hash(C.double(num))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return uint32(_cret), nil
+}
+
+
+// Float8HashExtended wraps MEOS C function float8_hash_extended.
+func Float8HashExtended(num float64, seed uint64) (_r0 uint64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float8_hash_extended(C.double(num), C.uint64_t(seed))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return uint64(_cret), nil
+}
+
+
+// Float8In wraps MEOS C function float8_in.
+func Float8In(str string) (_r0 float64, _err error) {
+	_c_str := C.CString(str)
+	defer C.free(unsafe.Pointer(_c_str))
+	C.meos_errno_reset()
+	_cret := C.float8_in(_c_str)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// Float8Larger wraps MEOS C function float8_larger.
+func Float8Larger(num1 float64, num2 float64) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float8_larger(C.double(num1), C.double(num2))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// Float8Lgamma wraps MEOS C function float8_lgamma.
+func Float8Lgamma(num float64) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float8_lgamma(C.double(num))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// Float8Ln wraps MEOS C function float8_ln.
+func Float8Ln(num float64) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float8_ln(C.double(num))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// Float8Log10 wraps MEOS C function float8_log10.
+func Float8Log10(num float64) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float8_log10(C.double(num))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// Float8Pi wraps MEOS C function float8_pi.
+func Float8Pi() (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float8_pi()
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// Float8Pow wraps MEOS C function float8_pow.
+func Float8Pow(num1 float64, num2 float64) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float8_pow(C.double(num1), C.double(num2))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// Float8Radians wraps MEOS C function float8_radians.
+func Float8Radians(num float64) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float8_radians(C.double(num))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// Float8Rint wraps MEOS C function float8_rint.
+func Float8Rint(num float64) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float8_rint(C.double(num))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// Float8Round wraps MEOS C function float8_round.
+func Float8Round(num float64, maxdd int) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float8_round(C.double(num), C.int(maxdd))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// Float8Sign wraps MEOS C function float8_sign.
+func Float8Sign(num float64) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float8_sign(C.double(num))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// Float8Sin wraps MEOS C function float8_sin.
+func Float8Sin(num float64) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float8_sin(C.double(num))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// Float8Sind wraps MEOS C function float8_sind.
+func Float8Sind(num float64) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float8_sind(C.double(num))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// Float8Sinh wraps MEOS C function float8_sinh.
+func Float8Sinh(num float64) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float8_sinh(C.double(num))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// Float8Smaller wraps MEOS C function float8_smaller.
+func Float8Smaller(num1 float64, num2 float64) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float8_smaller(C.double(num1), C.double(num2))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// Float8Sqrt wraps MEOS C function float8_sqrt.
+func Float8Sqrt(num float64) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float8_sqrt(C.double(num))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// Float8Tan wraps MEOS C function float8_tan.
+func Float8Tan(num float64) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float8_tan(C.double(num))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// Float8Tand wraps MEOS C function float8_tand.
+func Float8Tand(num float64) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float8_tand(C.double(num))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// Float8Tanh wraps MEOS C function float8_tanh.
+func Float8Tanh(num float64) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float8_tanh(C.double(num))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// Float8ToFloat4 wraps MEOS C function float8_to_float4.
+func Float8ToFloat4(num float64) (_r0 float32, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float8_to_float4(C.double(num))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float32(_cret), nil
+}
+
+
+// Float8ToInt16 wraps MEOS C function float8_to_int16.
+func Float8ToInt16(num float64) (_r0 int16, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float8_to_int16(C.double(num))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int16(_cret), nil
+}
+
+
+// Float8ToInt32 wraps MEOS C function float8_to_int32.
+func Float8ToInt32(num float64) (_r0 int32, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float8_to_int32(C.double(num))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int32(_cret), nil
+}
+
+
+// Float8Trunc wraps MEOS C function float8_trunc.
+func Float8Trunc(num float64) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float8_trunc(C.double(num))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// Float8Um wraps MEOS C function float8_um.
+func Float8Um(num float64) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float8_um(C.double(num))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// Float8Up wraps MEOS C function float8_up.
+func Float8Up(num float64) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float8_up(C.double(num))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// Float8WidthBucket wraps MEOS C function float8_width_bucket.
+func Float8WidthBucket(num float64, bound1 float64, bound2 float64, count int32) (_r0 int32, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float8_width_bucket(C.double(num), C.double(bound1), C.double(bound2), C.int32_t(count))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int32(_cret), nil
+}
+
+
+// GeFloat4Float4 wraps MEOS C function ge_float4_float4.
+func GeFloat4Float4(num1 float32, num2 float32) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.ge_float4_float4(C.float(num1), C.float(num2))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// GeFloat4Float8 wraps MEOS C function ge_float4_float8.
+func GeFloat4Float8(num1 float32, num2 float64) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.ge_float4_float8(C.float(num1), C.double(num2))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// GeFloat8Float4 wraps MEOS C function ge_float8_float4.
+func GeFloat8Float4(num1 float64, num2 float32) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.ge_float8_float4(C.double(num1), C.float(num2))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// GeFloat8Float8 wraps MEOS C function ge_float8_float8.
+func GeFloat8Float8(num1 float64, num2 float64) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.ge_float8_float8(C.double(num1), C.double(num2))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// GtFloat4Float4 wraps MEOS C function gt_float4_float4.
+func GtFloat4Float4(num1 float32, num2 float32) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.gt_float4_float4(C.float(num1), C.float(num2))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// GtFloat4Float8 wraps MEOS C function gt_float4_float8.
+func GtFloat4Float8(num1 float32, num2 float64) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.gt_float4_float8(C.float(num1), C.double(num2))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// GtFloat8Float4 wraps MEOS C function gt_float8_float4.
+func GtFloat8Float4(num1 float64, num2 float32) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.gt_float8_float4(C.double(num1), C.float(num2))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// GtFloat8Float8 wraps MEOS C function gt_float8_float8.
+func GtFloat8Float8(num1 float64, num2 float64) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.gt_float8_float8(C.double(num1), C.double(num2))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// Int16ToFloat4 wraps MEOS C function int16_to_float4.
+func Int16ToFloat4(num int16) (_r0 float32, _err error) {
+	C.meos_errno_reset()
+	_cret := C.int16_to_float4(C.int16_t(num))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float32(_cret), nil
+}
+
+
+// Int16ToFloat8 wraps MEOS C function int16_to_float8.
+func Int16ToFloat8(num int16) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.int16_to_float8(C.int16_t(num))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// Int32ToFloat4 wraps MEOS C function int32_to_float4.
+func Int32ToFloat4(num int32) (_r0 float32, _err error) {
+	C.meos_errno_reset()
+	_cret := C.int32_to_float4(C.int32_t(num))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float32(_cret), nil
+}
+
+
+// Int32ToFloat8 wraps MEOS C function int32_to_float8.
+func Int32ToFloat8(num int32) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.int32_to_float8(C.int32_t(num))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// LeFloat4Float4 wraps MEOS C function le_float4_float4.
+func LeFloat4Float4(num1 float32, num2 float32) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.le_float4_float4(C.float(num1), C.float(num2))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// LeFloat4Float8 wraps MEOS C function le_float4_float8.
+func LeFloat4Float8(num1 float32, num2 float64) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.le_float4_float8(C.float(num1), C.double(num2))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// LeFloat8Float4 wraps MEOS C function le_float8_float4.
+func LeFloat8Float4(num1 float64, num2 float32) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.le_float8_float4(C.double(num1), C.float(num2))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// LeFloat8Float8 wraps MEOS C function le_float8_float8.
+func LeFloat8Float8(num1 float64, num2 float64) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.le_float8_float8(C.double(num1), C.double(num2))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// LtFloat4Float4 wraps MEOS C function lt_float4_float4.
+func LtFloat4Float4(num1 float32, num2 float32) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.lt_float4_float4(C.float(num1), C.float(num2))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// LtFloat4Float8 wraps MEOS C function lt_float4_float8.
+func LtFloat4Float8(num1 float32, num2 float64) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.lt_float4_float8(C.float(num1), C.double(num2))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// LtFloat8Float4 wraps MEOS C function lt_float8_float4.
+func LtFloat8Float4(num1 float64, num2 float32) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.lt_float8_float4(C.double(num1), C.float(num2))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// LtFloat8Float8 wraps MEOS C function lt_float8_float8.
+func LtFloat8Float8(num1 float64, num2 float64) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.lt_float8_float8(C.double(num1), C.double(num2))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// MinusFloat4Float4 wraps MEOS C function minus_float4_float4.
+func MinusFloat4Float4(num1 float32, num2 float32) (_r0 float32, _err error) {
+	C.meos_errno_reset()
+	_cret := C.minus_float4_float4(C.float(num1), C.float(num2))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float32(_cret), nil
+}
+
+
+// MinusFloat4Float8 wraps MEOS C function minus_float4_float8.
+func MinusFloat4Float8(num1 float32, num2 float64) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.minus_float4_float8(C.float(num1), C.double(num2))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// MinusFloat8Float4 wraps MEOS C function minus_float8_float4.
+func MinusFloat8Float4(num1 float64, num2 float32) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.minus_float8_float4(C.double(num1), C.float(num2))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// MinusFloat8Float8 wraps MEOS C function minus_float8_float8.
+func MinusFloat8Float8(num1 float64, num2 float64) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.minus_float8_float8(C.double(num1), C.double(num2))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// MulFloat4Float4 wraps MEOS C function mul_float4_float4.
+func MulFloat4Float4(num1 float32, num2 float32) (_r0 float32, _err error) {
+	C.meos_errno_reset()
+	_cret := C.mul_float4_float4(C.float(num1), C.float(num2))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float32(_cret), nil
+}
+
+
+// MulFloat4Float8 wraps MEOS C function mul_float4_float8.
+func MulFloat4Float8(num1 float32, num2 float64) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.mul_float4_float8(C.float(num1), C.double(num2))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// MulFloat8Float4 wraps MEOS C function mul_float8_float4.
+func MulFloat8Float4(num1 float64, num2 float32) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.mul_float8_float4(C.double(num1), C.float(num2))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// MulFloat8Float8 wraps MEOS C function mul_float8_float8.
+func MulFloat8Float8(num1 float64, num2 float64) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.mul_float8_float8(C.double(num1), C.double(num2))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// NeFloat4Float4 wraps MEOS C function ne_float4_float4.
+func NeFloat4Float4(num1 float32, num2 float32) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.ne_float4_float4(C.float(num1), C.float(num2))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// NeFloat4Float8 wraps MEOS C function ne_float4_float8.
+func NeFloat4Float8(num1 float32, num2 float64) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.ne_float4_float8(C.float(num1), C.double(num2))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// NeFloat8Float4 wraps MEOS C function ne_float8_float4.
+func NeFloat8Float4(num1 float64, num2 float32) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.ne_float8_float4(C.double(num1), C.float(num2))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// NeFloat8Float8 wraps MEOS C function ne_float8_float8.
+func NeFloat8Float8(num1 float64, num2 float64) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.ne_float8_float8(C.double(num1), C.double(num2))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
 

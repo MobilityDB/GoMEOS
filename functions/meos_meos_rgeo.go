@@ -722,6 +722,17 @@ func TrgeometryDeleteTstzspanset(temp *Temporal, ss *SpanSet, connect bool) (_r0
 }
 
 
+// TrgeometryForce2d wraps MEOS C function trgeometry_force2d.
+func TrgeometryForce2d(temp *Temporal) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.trgeometry_force2d(temp._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
 // TrgeometryMerge wraps MEOS C function trgeometry_merge.
 func TrgeometryMerge(temp1 *Temporal, temp2 *Temporal) (_r0 *Temporal, _err error) {
 	C.meos_errno_reset()

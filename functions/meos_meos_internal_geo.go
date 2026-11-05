@@ -142,7 +142,7 @@ func GeoScaleGeoIntl(gs *Geom, scale *Geom, sorigin *Geom) (_r0 *Geom, _err erro
 func STBOXSet(hasx bool, hasz bool, geodetic bool, srid int32, xmin float64, xmax float64, ymin float64, ymax float64, zmin float64, zmax float64, s *Span) (_r0 *STBox, _err error) {
 	var _out_result C.STBox
 	C.meos_errno_reset()
-	C.stbox_set(C.bool(hasx), C.bool(hasz), C.bool(geodetic), C.int32(srid), C.double(xmin), C.double(xmax), C.double(ymin), C.double(ymax), C.double(zmin), C.double(zmax), s._inner, &_out_result)
+	C.stbox_set(C.bool(hasx), C.bool(hasz), C.bool(geodetic), C.int32_t(srid), C.double(xmin), C.double(xmax), C.double(ymin), C.double(ymax), C.double(zmin), C.double(zmax), s._inner, &_out_result)
 	if _err = meosError(); _err != nil {
 		return
 	}

@@ -108,7 +108,7 @@ var _ = unsafe.Pointer(nil)
 // AddInt16Int16 wraps MEOS C function add_int16_int16.
 func AddInt16Int16(num1 int16, num2 int16) (_r0 int16, _err error) {
 	C.meos_errno_reset()
-	_cret := C.add_int16_int16(C.int16(num1), C.int16(num2))
+	_cret := C.add_int16_int16(C.int16_t(num1), C.int16_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -119,7 +119,7 @@ func AddInt16Int16(num1 int16, num2 int16) (_r0 int16, _err error) {
 // AddInt16Int32 wraps MEOS C function add_int16_int32.
 func AddInt16Int32(num1 int16, num2 int32) (_r0 int32, _err error) {
 	C.meos_errno_reset()
-	_cret := C.add_int16_int32(C.int16(num1), C.int32(num2))
+	_cret := C.add_int16_int32(C.int16_t(num1), C.int32_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -130,7 +130,7 @@ func AddInt16Int32(num1 int16, num2 int32) (_r0 int32, _err error) {
 // AddInt16Int64 wraps MEOS C function add_int16_int64.
 func AddInt16Int64(num1 int16, num2 int64) (_r0 int64, _err error) {
 	C.meos_errno_reset()
-	_cret := C.add_int16_int64(C.int16(num1), C.int64_t(num2))
+	_cret := C.add_int16_int64(C.int16_t(num1), C.int64_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -141,7 +141,7 @@ func AddInt16Int64(num1 int16, num2 int64) (_r0 int64, _err error) {
 // AddInt32Int16 wraps MEOS C function add_int32_int16.
 func AddInt32Int16(num1 int32, num2 int16) (_r0 int32, _err error) {
 	C.meos_errno_reset()
-	_cret := C.add_int32_int16(C.int32(num1), C.int16(num2))
+	_cret := C.add_int32_int16(C.int32_t(num1), C.int16_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -152,7 +152,7 @@ func AddInt32Int16(num1 int32, num2 int16) (_r0 int32, _err error) {
 // AddInt32Int32 wraps MEOS C function add_int32_int32.
 func AddInt32Int32(num1 int32, num2 int32) (_r0 int32, _err error) {
 	C.meos_errno_reset()
-	_cret := C.add_int32_int32(C.int32(num1), C.int32(num2))
+	_cret := C.add_int32_int32(C.int32_t(num1), C.int32_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -163,7 +163,7 @@ func AddInt32Int32(num1 int32, num2 int32) (_r0 int32, _err error) {
 // AddInt32Int64 wraps MEOS C function add_int32_int64.
 func AddInt32Int64(num1 int32, num2 int64) (_r0 int64, _err error) {
 	C.meos_errno_reset()
-	_cret := C.add_int32_int64(C.int32(num1), C.int64_t(num2))
+	_cret := C.add_int32_int64(C.int32_t(num1), C.int64_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -174,7 +174,7 @@ func AddInt32Int64(num1 int32, num2 int64) (_r0 int64, _err error) {
 // AddInt64Int16 wraps MEOS C function add_int64_int16.
 func AddInt64Int16(num1 int64, num2 int16) (_r0 int64, _err error) {
 	C.meos_errno_reset()
-	_cret := C.add_int64_int16(C.int64_t(num1), C.int16(num2))
+	_cret := C.add_int64_int16(C.int64_t(num1), C.int16_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -185,7 +185,7 @@ func AddInt64Int16(num1 int64, num2 int16) (_r0 int64, _err error) {
 // AddInt64Int32 wraps MEOS C function add_int64_int32.
 func AddInt64Int32(num1 int64, num2 int32) (_r0 int64, _err error) {
 	C.meos_errno_reset()
-	_cret := C.add_int64_int32(C.int64_t(num1), C.int32(num2))
+	_cret := C.add_int64_int32(C.int64_t(num1), C.int32_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -218,7 +218,7 @@ func BoolToInt32(b bool) (_r0 int32, _err error) {
 // DivInt16Int16 wraps MEOS C function div_int16_int16.
 func DivInt16Int16(num1 int16, num2 int16) (_r0 int16, _err error) {
 	C.meos_errno_reset()
-	_cret := C.div_int16_int16(C.int16(num1), C.int16(num2))
+	_cret := C.div_int16_int16(C.int16_t(num1), C.int16_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -229,7 +229,7 @@ func DivInt16Int16(num1 int16, num2 int16) (_r0 int16, _err error) {
 // DivInt16Int32 wraps MEOS C function div_int16_int32.
 func DivInt16Int32(num1 int16, num2 int32) (_r0 int32, _err error) {
 	C.meos_errno_reset()
-	_cret := C.div_int16_int32(C.int16(num1), C.int32(num2))
+	_cret := C.div_int16_int32(C.int16_t(num1), C.int32_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -240,7 +240,7 @@ func DivInt16Int32(num1 int16, num2 int32) (_r0 int32, _err error) {
 // DivInt16Int64 wraps MEOS C function div_int16_int64.
 func DivInt16Int64(num1 int16, num2 int64) (_r0 int64, _err error) {
 	C.meos_errno_reset()
-	_cret := C.div_int16_int64(C.int16(num1), C.int64_t(num2))
+	_cret := C.div_int16_int64(C.int16_t(num1), C.int64_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -251,7 +251,7 @@ func DivInt16Int64(num1 int16, num2 int64) (_r0 int64, _err error) {
 // DivInt32Int16 wraps MEOS C function div_int32_int16.
 func DivInt32Int16(num1 int32, num2 int16) (_r0 int32, _err error) {
 	C.meos_errno_reset()
-	_cret := C.div_int32_int16(C.int32(num1), C.int16(num2))
+	_cret := C.div_int32_int16(C.int32_t(num1), C.int16_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -262,7 +262,7 @@ func DivInt32Int16(num1 int32, num2 int16) (_r0 int32, _err error) {
 // DivInt32Int32 wraps MEOS C function div_int32_int32.
 func DivInt32Int32(num1 int32, num2 int32) (_r0 int32, _err error) {
 	C.meos_errno_reset()
-	_cret := C.div_int32_int32(C.int32(num1), C.int32(num2))
+	_cret := C.div_int32_int32(C.int32_t(num1), C.int32_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -273,7 +273,7 @@ func DivInt32Int32(num1 int32, num2 int32) (_r0 int32, _err error) {
 // DivInt32Int64 wraps MEOS C function div_int32_int64.
 func DivInt32Int64(num1 int32, num2 int64) (_r0 int64, _err error) {
 	C.meos_errno_reset()
-	_cret := C.div_int32_int64(C.int32(num1), C.int64_t(num2))
+	_cret := C.div_int32_int64(C.int32_t(num1), C.int64_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -284,7 +284,7 @@ func DivInt32Int64(num1 int32, num2 int64) (_r0 int64, _err error) {
 // DivInt64Int16 wraps MEOS C function div_int64_int16.
 func DivInt64Int16(num1 int64, num2 int16) (_r0 int64, _err error) {
 	C.meos_errno_reset()
-	_cret := C.div_int64_int16(C.int64_t(num1), C.int16(num2))
+	_cret := C.div_int64_int16(C.int64_t(num1), C.int16_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -295,7 +295,7 @@ func DivInt64Int16(num1 int64, num2 int16) (_r0 int64, _err error) {
 // DivInt64Int32 wraps MEOS C function div_int64_int32.
 func DivInt64Int32(num1 int64, num2 int32) (_r0 int64, _err error) {
 	C.meos_errno_reset()
-	_cret := C.div_int64_int32(C.int64_t(num1), C.int32(num2))
+	_cret := C.div_int64_int32(C.int64_t(num1), C.int32_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -317,7 +317,7 @@ func DivInt64Int64(num1 int64, num2 int64) (_r0 int64, _err error) {
 // EqInt16Int16 wraps MEOS C function eq_int16_int16.
 func EqInt16Int16(num1 int16, num2 int16) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.eq_int16_int16(C.int16(num1), C.int16(num2))
+	_cret := C.eq_int16_int16(C.int16_t(num1), C.int16_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -328,7 +328,7 @@ func EqInt16Int16(num1 int16, num2 int16) (_r0 bool, _err error) {
 // EqInt16Int32 wraps MEOS C function eq_int16_int32.
 func EqInt16Int32(num1 int16, num2 int32) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.eq_int16_int32(C.int16(num1), C.int32(num2))
+	_cret := C.eq_int16_int32(C.int16_t(num1), C.int32_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -339,7 +339,7 @@ func EqInt16Int32(num1 int16, num2 int32) (_r0 bool, _err error) {
 // EqInt16Int64 wraps MEOS C function eq_int16_int64.
 func EqInt16Int64(num1 int16, num2 int64) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.eq_int16_int64(C.int16(num1), C.int64_t(num2))
+	_cret := C.eq_int16_int64(C.int16_t(num1), C.int64_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -350,7 +350,7 @@ func EqInt16Int64(num1 int16, num2 int64) (_r0 bool, _err error) {
 // EqInt32Int16 wraps MEOS C function eq_int32_int16.
 func EqInt32Int16(num1 int32, num2 int16) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.eq_int32_int16(C.int32(num1), C.int16(num2))
+	_cret := C.eq_int32_int16(C.int32_t(num1), C.int16_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -361,7 +361,7 @@ func EqInt32Int16(num1 int32, num2 int16) (_r0 bool, _err error) {
 // EqInt32Int32 wraps MEOS C function eq_int32_int32.
 func EqInt32Int32(num1 int32, num2 int32) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.eq_int32_int32(C.int32(num1), C.int32(num2))
+	_cret := C.eq_int32_int32(C.int32_t(num1), C.int32_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -372,7 +372,7 @@ func EqInt32Int32(num1 int32, num2 int32) (_r0 bool, _err error) {
 // EqInt32Int64 wraps MEOS C function eq_int32_int64.
 func EqInt32Int64(num1 int32, num2 int64) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.eq_int32_int64(C.int32(num1), C.int64_t(num2))
+	_cret := C.eq_int32_int64(C.int32_t(num1), C.int64_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -383,7 +383,7 @@ func EqInt32Int64(num1 int32, num2 int64) (_r0 bool, _err error) {
 // EqInt64Int16 wraps MEOS C function eq_int64_int16.
 func EqInt64Int16(num1 int64, num2 int16) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.eq_int64_int16(C.int64_t(num1), C.int16(num2))
+	_cret := C.eq_int64_int16(C.int64_t(num1), C.int16_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -394,7 +394,7 @@ func EqInt64Int16(num1 int64, num2 int16) (_r0 bool, _err error) {
 // EqInt64Int32 wraps MEOS C function eq_int64_int32.
 func EqInt64Int32(num1 int64, num2 int32) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.eq_int64_int32(C.int64_t(num1), C.int32(num2))
+	_cret := C.eq_int64_int32(C.int64_t(num1), C.int32_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -413,18 +413,32 @@ func EqInt64Int64(num1 int64, num2 int64) (_r0 bool, _err error) {
 }
 
 
-// TODO float4_to_int64: unsupported param float4
-// func Float4ToInt64(...) { /* not yet handled by codegen */ }
+// Float4ToInt64 wraps MEOS C function float4_to_int64.
+func Float4ToInt64(num float32) (_r0 int64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float4_to_int64(C.float(num))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int64(_cret), nil
+}
 
 
-// TODO float8_to_int64: unsupported param float8
-// func Float8ToInt64(...) { /* not yet handled by codegen */ }
+// Float8ToInt64 wraps MEOS C function float8_to_int64.
+func Float8ToInt64(num float64) (_r0 int64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.float8_to_int64(C.double(num))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int64(_cret), nil
+}
 
 
 // GeInt16Int16 wraps MEOS C function ge_int16_int16.
 func GeInt16Int16(num1 int16, num2 int16) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.ge_int16_int16(C.int16(num1), C.int16(num2))
+	_cret := C.ge_int16_int16(C.int16_t(num1), C.int16_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -435,7 +449,7 @@ func GeInt16Int16(num1 int16, num2 int16) (_r0 bool, _err error) {
 // GeInt16Int32 wraps MEOS C function ge_int16_int32.
 func GeInt16Int32(num1 int16, num2 int32) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.ge_int16_int32(C.int16(num1), C.int32(num2))
+	_cret := C.ge_int16_int32(C.int16_t(num1), C.int32_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -446,7 +460,7 @@ func GeInt16Int32(num1 int16, num2 int32) (_r0 bool, _err error) {
 // GeInt16Int64 wraps MEOS C function ge_int16_int64.
 func GeInt16Int64(num1 int16, num2 int64) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.ge_int16_int64(C.int16(num1), C.int64_t(num2))
+	_cret := C.ge_int16_int64(C.int16_t(num1), C.int64_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -457,7 +471,7 @@ func GeInt16Int64(num1 int16, num2 int64) (_r0 bool, _err error) {
 // GeInt32Int16 wraps MEOS C function ge_int32_int16.
 func GeInt32Int16(num1 int32, num2 int16) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.ge_int32_int16(C.int32(num1), C.int16(num2))
+	_cret := C.ge_int32_int16(C.int32_t(num1), C.int16_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -468,7 +482,7 @@ func GeInt32Int16(num1 int32, num2 int16) (_r0 bool, _err error) {
 // GeInt32Int32 wraps MEOS C function ge_int32_int32.
 func GeInt32Int32(num1 int32, num2 int32) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.ge_int32_int32(C.int32(num1), C.int32(num2))
+	_cret := C.ge_int32_int32(C.int32_t(num1), C.int32_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -479,7 +493,7 @@ func GeInt32Int32(num1 int32, num2 int32) (_r0 bool, _err error) {
 // GeInt32Int64 wraps MEOS C function ge_int32_int64.
 func GeInt32Int64(num1 int32, num2 int64) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.ge_int32_int64(C.int32(num1), C.int64_t(num2))
+	_cret := C.ge_int32_int64(C.int32_t(num1), C.int64_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -490,7 +504,7 @@ func GeInt32Int64(num1 int32, num2 int64) (_r0 bool, _err error) {
 // GeInt64Int16 wraps MEOS C function ge_int64_int16.
 func GeInt64Int16(num1 int64, num2 int16) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.ge_int64_int16(C.int64_t(num1), C.int16(num2))
+	_cret := C.ge_int64_int16(C.int64_t(num1), C.int16_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -501,7 +515,7 @@ func GeInt64Int16(num1 int64, num2 int16) (_r0 bool, _err error) {
 // GeInt64Int32 wraps MEOS C function ge_int64_int32.
 func GeInt64Int32(num1 int64, num2 int32) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.ge_int64_int32(C.int64_t(num1), C.int32(num2))
+	_cret := C.ge_int64_int32(C.int64_t(num1), C.int32_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -523,7 +537,7 @@ func GeInt64Int64(num1 int64, num2 int64) (_r0 bool, _err error) {
 // GtInt16Int16 wraps MEOS C function gt_int16_int16.
 func GtInt16Int16(num1 int16, num2 int16) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.gt_int16_int16(C.int16(num1), C.int16(num2))
+	_cret := C.gt_int16_int16(C.int16_t(num1), C.int16_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -534,7 +548,7 @@ func GtInt16Int16(num1 int16, num2 int16) (_r0 bool, _err error) {
 // GtInt16Int32 wraps MEOS C function gt_int16_int32.
 func GtInt16Int32(num1 int16, num2 int32) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.gt_int16_int32(C.int16(num1), C.int32(num2))
+	_cret := C.gt_int16_int32(C.int16_t(num1), C.int32_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -545,7 +559,7 @@ func GtInt16Int32(num1 int16, num2 int32) (_r0 bool, _err error) {
 // GtInt16Int64 wraps MEOS C function gt_int16_int64.
 func GtInt16Int64(num1 int16, num2 int64) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.gt_int16_int64(C.int16(num1), C.int64_t(num2))
+	_cret := C.gt_int16_int64(C.int16_t(num1), C.int64_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -556,7 +570,7 @@ func GtInt16Int64(num1 int16, num2 int64) (_r0 bool, _err error) {
 // GtInt32Int16 wraps MEOS C function gt_int32_int16.
 func GtInt32Int16(num1 int32, num2 int16) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.gt_int32_int16(C.int32(num1), C.int16(num2))
+	_cret := C.gt_int32_int16(C.int32_t(num1), C.int16_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -567,7 +581,7 @@ func GtInt32Int16(num1 int32, num2 int16) (_r0 bool, _err error) {
 // GtInt32Int32 wraps MEOS C function gt_int32_int32.
 func GtInt32Int32(num1 int32, num2 int32) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.gt_int32_int32(C.int32(num1), C.int32(num2))
+	_cret := C.gt_int32_int32(C.int32_t(num1), C.int32_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -578,7 +592,7 @@ func GtInt32Int32(num1 int32, num2 int32) (_r0 bool, _err error) {
 // GtInt32Int64 wraps MEOS C function gt_int32_int64.
 func GtInt32Int64(num1 int32, num2 int64) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.gt_int32_int64(C.int32(num1), C.int64_t(num2))
+	_cret := C.gt_int32_int64(C.int32_t(num1), C.int64_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -589,7 +603,7 @@ func GtInt32Int64(num1 int32, num2 int64) (_r0 bool, _err error) {
 // GtInt64Int16 wraps MEOS C function gt_int64_int16.
 func GtInt64Int16(num1 int64, num2 int16) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.gt_int64_int16(C.int64_t(num1), C.int16(num2))
+	_cret := C.gt_int64_int16(C.int64_t(num1), C.int16_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -600,7 +614,7 @@ func GtInt64Int16(num1 int64, num2 int16) (_r0 bool, _err error) {
 // GtInt64Int32 wraps MEOS C function gt_int64_int32.
 func GtInt64Int32(num1 int64, num2 int32) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.gt_int64_int32(C.int64_t(num1), C.int32(num2))
+	_cret := C.gt_int64_int32(C.int64_t(num1), C.int32_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -622,7 +636,7 @@ func GtInt64Int64(num1 int64, num2 int64) (_r0 bool, _err error) {
 // Int16Abs wraps MEOS C function int16_abs.
 func Int16Abs(num int16) (_r0 int16, _err error) {
 	C.meos_errno_reset()
-	_cret := C.int16_abs(C.int16(num))
+	_cret := C.int16_abs(C.int16_t(num))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -633,7 +647,7 @@ func Int16Abs(num int16) (_r0 int16, _err error) {
 // Int16And wraps MEOS C function int16_and.
 func Int16And(num1 int16, num2 int16) (_r0 int16, _err error) {
 	C.meos_errno_reset()
-	_cret := C.int16_and(C.int16(num1), C.int16(num2))
+	_cret := C.int16_and(C.int16_t(num1), C.int16_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -644,7 +658,7 @@ func Int16And(num1 int16, num2 int16) (_r0 int16, _err error) {
 // Int16Hash wraps MEOS C function int16_hash.
 func Int16Hash(val int16) (_r0 uint32, _err error) {
 	C.meos_errno_reset()
-	_cret := C.int16_hash(C.int16(val))
+	_cret := C.int16_hash(C.int16_t(val))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -655,7 +669,7 @@ func Int16Hash(val int16) (_r0 uint32, _err error) {
 // Int16HashExtended wraps MEOS C function int16_hash_extended.
 func Int16HashExtended(val int16, seed uint64) (_r0 uint64, _err error) {
 	C.meos_errno_reset()
-	_cret := C.int16_hash_extended(C.int16(val), C.uint64_t(seed))
+	_cret := C.int16_hash_extended(C.int16_t(val), C.uint64_t(seed))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -679,7 +693,7 @@ func Int16In(str string) (_r0 int16, _err error) {
 // Int16Larger wraps MEOS C function int16_larger.
 func Int16Larger(num1 int16, num2 int16) (_r0 int16, _err error) {
 	C.meos_errno_reset()
-	_cret := C.int16_larger(C.int16(num1), C.int16(num2))
+	_cret := C.int16_larger(C.int16_t(num1), C.int16_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -690,7 +704,7 @@ func Int16Larger(num1 int16, num2 int16) (_r0 int16, _err error) {
 // Int16Mod wraps MEOS C function int16_mod.
 func Int16Mod(num1 int16, num2 int16) (_r0 int16, _err error) {
 	C.meos_errno_reset()
-	_cret := C.int16_mod(C.int16(num1), C.int16(num2))
+	_cret := C.int16_mod(C.int16_t(num1), C.int16_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -701,7 +715,7 @@ func Int16Mod(num1 int16, num2 int16) (_r0 int16, _err error) {
 // Int16Not wraps MEOS C function int16_not.
 func Int16Not(num int16) (_r0 int16, _err error) {
 	C.meos_errno_reset()
-	_cret := C.int16_not(C.int16(num))
+	_cret := C.int16_not(C.int16_t(num))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -712,7 +726,7 @@ func Int16Not(num int16) (_r0 int16, _err error) {
 // Int16Or wraps MEOS C function int16_or.
 func Int16Or(num1 int16, num2 int16) (_r0 int16, _err error) {
 	C.meos_errno_reset()
-	_cret := C.int16_or(C.int16(num1), C.int16(num2))
+	_cret := C.int16_or(C.int16_t(num1), C.int16_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -723,7 +737,7 @@ func Int16Or(num1 int16, num2 int16) (_r0 int16, _err error) {
 // Int16Out wraps MEOS C function int16_out.
 func Int16Out(num int16) (_r0 string, _err error) {
 	C.meos_errno_reset()
-	_cret := C.int16_out(C.int16(num))
+	_cret := C.int16_out(C.int16_t(num))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -735,7 +749,7 @@ func Int16Out(num int16) (_r0 string, _err error) {
 // Int16Shl wraps MEOS C function int16_shl.
 func Int16Shl(num1 int16, num2 int32) (_r0 int16, _err error) {
 	C.meos_errno_reset()
-	_cret := C.int16_shl(C.int16(num1), C.int32(num2))
+	_cret := C.int16_shl(C.int16_t(num1), C.int32_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -746,7 +760,7 @@ func Int16Shl(num1 int16, num2 int32) (_r0 int16, _err error) {
 // Int16Shr wraps MEOS C function int16_shr.
 func Int16Shr(num1 int16, num2 int32) (_r0 int16, _err error) {
 	C.meos_errno_reset()
-	_cret := C.int16_shr(C.int16(num1), C.int32(num2))
+	_cret := C.int16_shr(C.int16_t(num1), C.int32_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -757,7 +771,7 @@ func Int16Shr(num1 int16, num2 int32) (_r0 int16, _err error) {
 // Int16Smaller wraps MEOS C function int16_smaller.
 func Int16Smaller(num1 int16, num2 int16) (_r0 int16, _err error) {
 	C.meos_errno_reset()
-	_cret := C.int16_smaller(C.int16(num1), C.int16(num2))
+	_cret := C.int16_smaller(C.int16_t(num1), C.int16_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -768,7 +782,7 @@ func Int16Smaller(num1 int16, num2 int16) (_r0 int16, _err error) {
 // Int16ToInt32 wraps MEOS C function int16_to_int32.
 func Int16ToInt32(num int16) (_r0 int32, _err error) {
 	C.meos_errno_reset()
-	_cret := C.int16_to_int32(C.int16(num))
+	_cret := C.int16_to_int32(C.int16_t(num))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -779,7 +793,7 @@ func Int16ToInt32(num int16) (_r0 int32, _err error) {
 // Int16ToInt64 wraps MEOS C function int16_to_int64.
 func Int16ToInt64(num int16) (_r0 int64, _err error) {
 	C.meos_errno_reset()
-	_cret := C.int16_to_int64(C.int16(num))
+	_cret := C.int16_to_int64(C.int16_t(num))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -790,7 +804,7 @@ func Int16ToInt64(num int16) (_r0 int64, _err error) {
 // Int16Uminus wraps MEOS C function int16_uminus.
 func Int16Uminus(num int16) (_r0 int16, _err error) {
 	C.meos_errno_reset()
-	_cret := C.int16_uminus(C.int16(num))
+	_cret := C.int16_uminus(C.int16_t(num))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -801,7 +815,7 @@ func Int16Uminus(num int16) (_r0 int16, _err error) {
 // Int16Uplus wraps MEOS C function int16_uplus.
 func Int16Uplus(num int16) (_r0 int16, _err error) {
 	C.meos_errno_reset()
-	_cret := C.int16_uplus(C.int16(num))
+	_cret := C.int16_uplus(C.int16_t(num))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -812,7 +826,7 @@ func Int16Uplus(num int16) (_r0 int16, _err error) {
 // Int16Xor wraps MEOS C function int16_xor.
 func Int16Xor(num1 int16, num2 int16) (_r0 int16, _err error) {
 	C.meos_errno_reset()
-	_cret := C.int16_xor(C.int16(num1), C.int16(num2))
+	_cret := C.int16_xor(C.int16_t(num1), C.int16_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -823,7 +837,7 @@ func Int16Xor(num1 int16, num2 int16) (_r0 int16, _err error) {
 // Int32Abs wraps MEOS C function int32_abs.
 func Int32Abs(num int32) (_r0 int32, _err error) {
 	C.meos_errno_reset()
-	_cret := C.int32_abs(C.int32(num))
+	_cret := C.int32_abs(C.int32_t(num))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -834,7 +848,7 @@ func Int32Abs(num int32) (_r0 int32, _err error) {
 // Int32And wraps MEOS C function int32_and.
 func Int32And(num1 int32, num2 int32) (_r0 int32, _err error) {
 	C.meos_errno_reset()
-	_cret := C.int32_and(C.int32(num1), C.int32(num2))
+	_cret := C.int32_and(C.int32_t(num1), C.int32_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -845,7 +859,7 @@ func Int32And(num1 int32, num2 int32) (_r0 int32, _err error) {
 // Int32Cmp wraps MEOS C function int32_cmp.
 func Int32Cmp(l int32, r int32) (_r0 int, _err error) {
 	C.meos_errno_reset()
-	_cret := C.int32_cmp(C.int32(l), C.int32(r))
+	_cret := C.int32_cmp(C.int32_t(l), C.int32_t(r))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -856,7 +870,7 @@ func Int32Cmp(l int32, r int32) (_r0 int, _err error) {
 // Int32Gcd wraps MEOS C function int32_gcd.
 func Int32Gcd(num1 int32, num2 int32) (_r0 int32, _err error) {
 	C.meos_errno_reset()
-	_cret := C.int32_gcd(C.int32(num1), C.int32(num2))
+	_cret := C.int32_gcd(C.int32_t(num1), C.int32_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -867,7 +881,7 @@ func Int32Gcd(num1 int32, num2 int32) (_r0 int32, _err error) {
 // Int32Hash wraps MEOS C function int32_hash.
 func Int32Hash(val int32) (_r0 uint32, _err error) {
 	C.meos_errno_reset()
-	_cret := C.int32_hash(C.int32(val))
+	_cret := C.int32_hash(C.int32_t(val))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -878,7 +892,7 @@ func Int32Hash(val int32) (_r0 uint32, _err error) {
 // Int32HashExtended wraps MEOS C function int32_hash_extended.
 func Int32HashExtended(val int32, seed uint64) (_r0 uint64, _err error) {
 	C.meos_errno_reset()
-	_cret := C.int32_hash_extended(C.int32(val), C.uint64_t(seed))
+	_cret := C.int32_hash_extended(C.int32_t(val), C.uint64_t(seed))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -902,7 +916,7 @@ func Int32In(str string) (_r0 int32, _err error) {
 // Int32Inc wraps MEOS C function int32_inc.
 func Int32Inc(num int32) (_r0 int32, _err error) {
 	C.meos_errno_reset()
-	_cret := C.int32_inc(C.int32(num))
+	_cret := C.int32_inc(C.int32_t(num))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -913,7 +927,7 @@ func Int32Inc(num int32) (_r0 int32, _err error) {
 // Int32Larger wraps MEOS C function int32_larger.
 func Int32Larger(num1 int32, num2 int32) (_r0 int32, _err error) {
 	C.meos_errno_reset()
-	_cret := C.int32_larger(C.int32(num1), C.int32(num2))
+	_cret := C.int32_larger(C.int32_t(num1), C.int32_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -924,7 +938,7 @@ func Int32Larger(num1 int32, num2 int32) (_r0 int32, _err error) {
 // Int32Lcm wraps MEOS C function int32_lcm.
 func Int32Lcm(num1 int32, num2 int32) (_r0 int32, _err error) {
 	C.meos_errno_reset()
-	_cret := C.int32_lcm(C.int32(num1), C.int32(num2))
+	_cret := C.int32_lcm(C.int32_t(num1), C.int32_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -935,7 +949,7 @@ func Int32Lcm(num1 int32, num2 int32) (_r0 int32, _err error) {
 // Int32Mod wraps MEOS C function int32_mod.
 func Int32Mod(num1 int32, num2 int32) (_r0 int32, _err error) {
 	C.meos_errno_reset()
-	_cret := C.int32_mod(C.int32(num1), C.int32(num2))
+	_cret := C.int32_mod(C.int32_t(num1), C.int32_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -946,7 +960,7 @@ func Int32Mod(num1 int32, num2 int32) (_r0 int32, _err error) {
 // Int32Not wraps MEOS C function int32_not.
 func Int32Not(num int32) (_r0 int32, _err error) {
 	C.meos_errno_reset()
-	_cret := C.int32_not(C.int32(num))
+	_cret := C.int32_not(C.int32_t(num))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -957,7 +971,7 @@ func Int32Not(num int32) (_r0 int32, _err error) {
 // Int32Or wraps MEOS C function int32_or.
 func Int32Or(num1 int32, num2 int32) (_r0 int32, _err error) {
 	C.meos_errno_reset()
-	_cret := C.int32_or(C.int32(num1), C.int32(num2))
+	_cret := C.int32_or(C.int32_t(num1), C.int32_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -969,7 +983,7 @@ func Int32Or(num1 int32, num2 int32) (_r0 int32, _err error) {
 func Int32Out(num int32) (_r0 string, _err error) {
 	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.int32_out(C.int32(num), &_size)
+	_cret := C.int32_out(C.int32_t(num), &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -981,7 +995,7 @@ func Int32Out(num int32) (_r0 string, _err error) {
 // Int32Shl wraps MEOS C function int32_shl.
 func Int32Shl(num1 int32, num2 int32) (_r0 int32, _err error) {
 	C.meos_errno_reset()
-	_cret := C.int32_shl(C.int32(num1), C.int32(num2))
+	_cret := C.int32_shl(C.int32_t(num1), C.int32_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -992,7 +1006,7 @@ func Int32Shl(num1 int32, num2 int32) (_r0 int32, _err error) {
 // Int32Shr wraps MEOS C function int32_shr.
 func Int32Shr(num1 int32, num2 int32) (_r0 int32, _err error) {
 	C.meos_errno_reset()
-	_cret := C.int32_shr(C.int32(num1), C.int32(num2))
+	_cret := C.int32_shr(C.int32_t(num1), C.int32_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1003,7 +1017,7 @@ func Int32Shr(num1 int32, num2 int32) (_r0 int32, _err error) {
 // Int32Smaller wraps MEOS C function int32_smaller.
 func Int32Smaller(num1 int32, num2 int32) (_r0 int32, _err error) {
 	C.meos_errno_reset()
-	_cret := C.int32_smaller(C.int32(num1), C.int32(num2))
+	_cret := C.int32_smaller(C.int32_t(num1), C.int32_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1014,7 +1028,7 @@ func Int32Smaller(num1 int32, num2 int32) (_r0 int32, _err error) {
 // Int32ToBool wraps MEOS C function int32_to_bool.
 func Int32ToBool(num int32) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.int32_to_bool(C.int32(num))
+	_cret := C.int32_to_bool(C.int32_t(num))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1025,7 +1039,7 @@ func Int32ToBool(num int32) (_r0 bool, _err error) {
 // Int32ToInt16 wraps MEOS C function int32_to_int16.
 func Int32ToInt16(num int32) (_r0 int16, _err error) {
 	C.meos_errno_reset()
-	_cret := C.int32_to_int16(C.int32(num))
+	_cret := C.int32_to_int16(C.int32_t(num))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1036,7 +1050,7 @@ func Int32ToInt16(num int32) (_r0 int16, _err error) {
 // Int32ToInt64 wraps MEOS C function int32_to_int64.
 func Int32ToInt64(num int32) (_r0 int64, _err error) {
 	C.meos_errno_reset()
-	_cret := C.int32_to_int64(C.int32(num))
+	_cret := C.int32_to_int64(C.int32_t(num))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1047,7 +1061,7 @@ func Int32ToInt64(num int32) (_r0 int64, _err error) {
 // Int32Uminus wraps MEOS C function int32_uminus.
 func Int32Uminus(num int32) (_r0 int32, _err error) {
 	C.meos_errno_reset()
-	_cret := C.int32_uminus(C.int32(num))
+	_cret := C.int32_uminus(C.int32_t(num))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1058,7 +1072,7 @@ func Int32Uminus(num int32) (_r0 int32, _err error) {
 // Int32Uplus wraps MEOS C function int32_uplus.
 func Int32Uplus(num int32) (_r0 int32, _err error) {
 	C.meos_errno_reset()
-	_cret := C.int32_uplus(C.int32(num))
+	_cret := C.int32_uplus(C.int32_t(num))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1069,7 +1083,7 @@ func Int32Uplus(num int32) (_r0 int32, _err error) {
 // Int32Xor wraps MEOS C function int32_xor.
 func Int32Xor(num1 int32, num2 int32) (_r0 int32, _err error) {
 	C.meos_errno_reset()
-	_cret := C.int32_xor(C.int32(num1), C.int32(num2))
+	_cret := C.int32_xor(C.int32_t(num1), C.int32_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1249,7 +1263,7 @@ func Int64Out(num int64) (_r0 string, _err error) {
 // Int64Shl wraps MEOS C function int64_shl.
 func Int64Shl(num1 int64, num2 int32) (_r0 int64, _err error) {
 	C.meos_errno_reset()
-	_cret := C.int64_shl(C.int64_t(num1), C.int32(num2))
+	_cret := C.int64_shl(C.int64_t(num1), C.int32_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1260,7 +1274,7 @@ func Int64Shl(num1 int64, num2 int32) (_r0 int64, _err error) {
 // Int64Shr wraps MEOS C function int64_shr.
 func Int64Shr(num1 int64, num2 int32) (_r0 int64, _err error) {
 	C.meos_errno_reset()
-	_cret := C.int64_shr(C.int64_t(num1), C.int32(num2))
+	_cret := C.int64_shr(C.int64_t(num1), C.int32_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1279,12 +1293,26 @@ func Int64Smaller(num1 int64, num2 int64) (_r0 int64, _err error) {
 }
 
 
-// TODO int64_to_float4: unsupported return type float4
-// func Int64ToFloat4(...) { /* not yet handled by codegen */ }
+// Int64ToFloat4 wraps MEOS C function int64_to_float4.
+func Int64ToFloat4(num int64) (_r0 float32, _err error) {
+	C.meos_errno_reset()
+	_cret := C.int64_to_float4(C.int64_t(num))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float32(_cret), nil
+}
 
 
-// TODO int64_to_float8: unsupported return type float8
-// func Int64ToFloat8(...) { /* not yet handled by codegen */ }
+// Int64ToFloat8 wraps MEOS C function int64_to_float8.
+func Int64ToFloat8(num int64) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.int64_to_float8(C.int64_t(num))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
 
 
 // Int64ToInt16 wraps MEOS C function int64_to_int16.
@@ -1345,7 +1373,7 @@ func Int64Xor(num1 int64, num2 int64) (_r0 int64, _err error) {
 // LeInt16Int16 wraps MEOS C function le_int16_int16.
 func LeInt16Int16(num1 int16, num2 int16) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.le_int16_int16(C.int16(num1), C.int16(num2))
+	_cret := C.le_int16_int16(C.int16_t(num1), C.int16_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1356,7 +1384,7 @@ func LeInt16Int16(num1 int16, num2 int16) (_r0 bool, _err error) {
 // LeInt16Int32 wraps MEOS C function le_int16_int32.
 func LeInt16Int32(num1 int16, num2 int32) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.le_int16_int32(C.int16(num1), C.int32(num2))
+	_cret := C.le_int16_int32(C.int16_t(num1), C.int32_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1367,7 +1395,7 @@ func LeInt16Int32(num1 int16, num2 int32) (_r0 bool, _err error) {
 // LeInt16Int64 wraps MEOS C function le_int16_int64.
 func LeInt16Int64(num1 int16, num2 int64) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.le_int16_int64(C.int16(num1), C.int64_t(num2))
+	_cret := C.le_int16_int64(C.int16_t(num1), C.int64_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1378,7 +1406,7 @@ func LeInt16Int64(num1 int16, num2 int64) (_r0 bool, _err error) {
 // LeInt32Int16 wraps MEOS C function le_int32_int16.
 func LeInt32Int16(num1 int32, num2 int16) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.le_int32_int16(C.int32(num1), C.int16(num2))
+	_cret := C.le_int32_int16(C.int32_t(num1), C.int16_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1389,7 +1417,7 @@ func LeInt32Int16(num1 int32, num2 int16) (_r0 bool, _err error) {
 // LeInt32Int32 wraps MEOS C function le_int32_int32.
 func LeInt32Int32(num1 int32, num2 int32) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.le_int32_int32(C.int32(num1), C.int32(num2))
+	_cret := C.le_int32_int32(C.int32_t(num1), C.int32_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1400,7 +1428,7 @@ func LeInt32Int32(num1 int32, num2 int32) (_r0 bool, _err error) {
 // LeInt32Int64 wraps MEOS C function le_int32_int64.
 func LeInt32Int64(num1 int32, num2 int64) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.le_int32_int64(C.int32(num1), C.int64_t(num2))
+	_cret := C.le_int32_int64(C.int32_t(num1), C.int64_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1411,7 +1439,7 @@ func LeInt32Int64(num1 int32, num2 int64) (_r0 bool, _err error) {
 // LeInt64Int16 wraps MEOS C function le_int64_int16.
 func LeInt64Int16(num1 int64, num2 int16) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.le_int64_int16(C.int64_t(num1), C.int16(num2))
+	_cret := C.le_int64_int16(C.int64_t(num1), C.int16_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1422,7 +1450,7 @@ func LeInt64Int16(num1 int64, num2 int16) (_r0 bool, _err error) {
 // LeInt64Int32 wraps MEOS C function le_int64_int32.
 func LeInt64Int32(num1 int64, num2 int32) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.le_int64_int32(C.int64_t(num1), C.int32(num2))
+	_cret := C.le_int64_int32(C.int64_t(num1), C.int32_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1444,7 +1472,7 @@ func LeInt64Int64(num1 int64, num2 int64) (_r0 bool, _err error) {
 // LtInt16Int16 wraps MEOS C function lt_int16_int16.
 func LtInt16Int16(num1 int16, num2 int16) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.lt_int16_int16(C.int16(num1), C.int16(num2))
+	_cret := C.lt_int16_int16(C.int16_t(num1), C.int16_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1455,7 +1483,7 @@ func LtInt16Int16(num1 int16, num2 int16) (_r0 bool, _err error) {
 // LtInt16Int32 wraps MEOS C function lt_int16_int32.
 func LtInt16Int32(num1 int16, num2 int32) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.lt_int16_int32(C.int16(num1), C.int32(num2))
+	_cret := C.lt_int16_int32(C.int16_t(num1), C.int32_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1466,7 +1494,7 @@ func LtInt16Int32(num1 int16, num2 int32) (_r0 bool, _err error) {
 // LtInt16Int64 wraps MEOS C function lt_int16_int64.
 func LtInt16Int64(num1 int16, num2 int64) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.lt_int16_int64(C.int16(num1), C.int64_t(num2))
+	_cret := C.lt_int16_int64(C.int16_t(num1), C.int64_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1477,7 +1505,7 @@ func LtInt16Int64(num1 int16, num2 int64) (_r0 bool, _err error) {
 // LtInt32Int16 wraps MEOS C function lt_int32_int16.
 func LtInt32Int16(num1 int32, num2 int16) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.lt_int32_int16(C.int32(num1), C.int16(num2))
+	_cret := C.lt_int32_int16(C.int32_t(num1), C.int16_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1488,7 +1516,7 @@ func LtInt32Int16(num1 int32, num2 int16) (_r0 bool, _err error) {
 // LtInt32Int32 wraps MEOS C function lt_int32_int32.
 func LtInt32Int32(num1 int32, num2 int32) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.lt_int32_int32(C.int32(num1), C.int32(num2))
+	_cret := C.lt_int32_int32(C.int32_t(num1), C.int32_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1499,7 +1527,7 @@ func LtInt32Int32(num1 int32, num2 int32) (_r0 bool, _err error) {
 // LtInt32Int64 wraps MEOS C function lt_int32_int64.
 func LtInt32Int64(num1 int32, num2 int64) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.lt_int32_int64(C.int32(num1), C.int64_t(num2))
+	_cret := C.lt_int32_int64(C.int32_t(num1), C.int64_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1510,7 +1538,7 @@ func LtInt32Int64(num1 int32, num2 int64) (_r0 bool, _err error) {
 // LtInt64Int16 wraps MEOS C function lt_int64_int16.
 func LtInt64Int16(num1 int64, num2 int16) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.lt_int64_int16(C.int64_t(num1), C.int16(num2))
+	_cret := C.lt_int64_int16(C.int64_t(num1), C.int16_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1521,7 +1549,7 @@ func LtInt64Int16(num1 int64, num2 int16) (_r0 bool, _err error) {
 // LtInt64Int32 wraps MEOS C function lt_int64_int32.
 func LtInt64Int32(num1 int64, num2 int32) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.lt_int64_int32(C.int64_t(num1), C.int32(num2))
+	_cret := C.lt_int64_int32(C.int64_t(num1), C.int32_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1543,7 +1571,7 @@ func LtInt64Int64(num1 int64, num2 int64) (_r0 bool, _err error) {
 // MinusInt16Int16 wraps MEOS C function minus_int16_int16.
 func MinusInt16Int16(num1 int16, num2 int16) (_r0 int16, _err error) {
 	C.meos_errno_reset()
-	_cret := C.minus_int16_int16(C.int16(num1), C.int16(num2))
+	_cret := C.minus_int16_int16(C.int16_t(num1), C.int16_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1554,7 +1582,7 @@ func MinusInt16Int16(num1 int16, num2 int16) (_r0 int16, _err error) {
 // MinusInt16Int32 wraps MEOS C function minus_int16_int32.
 func MinusInt16Int32(num1 int16, num2 int32) (_r0 int32, _err error) {
 	C.meos_errno_reset()
-	_cret := C.minus_int16_int32(C.int16(num1), C.int32(num2))
+	_cret := C.minus_int16_int32(C.int16_t(num1), C.int32_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1565,7 +1593,7 @@ func MinusInt16Int32(num1 int16, num2 int32) (_r0 int32, _err error) {
 // MinusInt16Int64 wraps MEOS C function minus_int16_int64.
 func MinusInt16Int64(num1 int16, num2 int64) (_r0 int64, _err error) {
 	C.meos_errno_reset()
-	_cret := C.minus_int16_int64(C.int16(num1), C.int64_t(num2))
+	_cret := C.minus_int16_int64(C.int16_t(num1), C.int64_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1576,7 +1604,7 @@ func MinusInt16Int64(num1 int16, num2 int64) (_r0 int64, _err error) {
 // MinusInt32Int16 wraps MEOS C function minus_int32_int16.
 func MinusInt32Int16(num1 int32, num2 int16) (_r0 int32, _err error) {
 	C.meos_errno_reset()
-	_cret := C.minus_int32_int16(C.int32(num1), C.int16(num2))
+	_cret := C.minus_int32_int16(C.int32_t(num1), C.int16_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1587,7 +1615,7 @@ func MinusInt32Int16(num1 int32, num2 int16) (_r0 int32, _err error) {
 // MinusInt32Int32 wraps MEOS C function minus_int32_int32.
 func MinusInt32Int32(num1 int32, num2 int32) (_r0 int32, _err error) {
 	C.meos_errno_reset()
-	_cret := C.minus_int32_int32(C.int32(num1), C.int32(num2))
+	_cret := C.minus_int32_int32(C.int32_t(num1), C.int32_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1598,7 +1626,7 @@ func MinusInt32Int32(num1 int32, num2 int32) (_r0 int32, _err error) {
 // MinusInt32Int64 wraps MEOS C function minus_int32_int64.
 func MinusInt32Int64(num1 int32, num2 int64) (_r0 int64, _err error) {
 	C.meos_errno_reset()
-	_cret := C.minus_int32_int64(C.int32(num1), C.int64_t(num2))
+	_cret := C.minus_int32_int64(C.int32_t(num1), C.int64_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1609,7 +1637,7 @@ func MinusInt32Int64(num1 int32, num2 int64) (_r0 int64, _err error) {
 // MinusInt64Int16 wraps MEOS C function minus_int64_int16.
 func MinusInt64Int16(num1 int64, num2 int16) (_r0 int64, _err error) {
 	C.meos_errno_reset()
-	_cret := C.minus_int64_int16(C.int64_t(num1), C.int16(num2))
+	_cret := C.minus_int64_int16(C.int64_t(num1), C.int16_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1620,7 +1648,7 @@ func MinusInt64Int16(num1 int64, num2 int16) (_r0 int64, _err error) {
 // MinusInt64Int32 wraps MEOS C function minus_int64_int32.
 func MinusInt64Int32(num1 int64, num2 int32) (_r0 int64, _err error) {
 	C.meos_errno_reset()
-	_cret := C.minus_int64_int32(C.int64_t(num1), C.int32(num2))
+	_cret := C.minus_int64_int32(C.int64_t(num1), C.int32_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1642,7 +1670,7 @@ func MinusInt64Int64(num1 int64, num2 int64) (_r0 int64, _err error) {
 // MulInt16Int16 wraps MEOS C function mul_int16_int16.
 func MulInt16Int16(num1 int16, num2 int16) (_r0 int16, _err error) {
 	C.meos_errno_reset()
-	_cret := C.mul_int16_int16(C.int16(num1), C.int16(num2))
+	_cret := C.mul_int16_int16(C.int16_t(num1), C.int16_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1653,7 +1681,7 @@ func MulInt16Int16(num1 int16, num2 int16) (_r0 int16, _err error) {
 // MulInt16Int32 wraps MEOS C function mul_int16_int32.
 func MulInt16Int32(num1 int16, num2 int32) (_r0 int32, _err error) {
 	C.meos_errno_reset()
-	_cret := C.mul_int16_int32(C.int16(num1), C.int32(num2))
+	_cret := C.mul_int16_int32(C.int16_t(num1), C.int32_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1664,7 +1692,7 @@ func MulInt16Int32(num1 int16, num2 int32) (_r0 int32, _err error) {
 // MulInt16Int64 wraps MEOS C function mul_int16_int64.
 func MulInt16Int64(num1 int16, num2 int64) (_r0 int64, _err error) {
 	C.meos_errno_reset()
-	_cret := C.mul_int16_int64(C.int16(num1), C.int64_t(num2))
+	_cret := C.mul_int16_int64(C.int16_t(num1), C.int64_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1675,7 +1703,7 @@ func MulInt16Int64(num1 int16, num2 int64) (_r0 int64, _err error) {
 // MulInt32Int16 wraps MEOS C function mul_int32_int16.
 func MulInt32Int16(num1 int32, num2 int16) (_r0 int32, _err error) {
 	C.meos_errno_reset()
-	_cret := C.mul_int32_int16(C.int32(num1), C.int16(num2))
+	_cret := C.mul_int32_int16(C.int32_t(num1), C.int16_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1686,7 +1714,7 @@ func MulInt32Int16(num1 int32, num2 int16) (_r0 int32, _err error) {
 // MulInt32Int32 wraps MEOS C function mul_int32_int32.
 func MulInt32Int32(num1 int32, num2 int32) (_r0 int32, _err error) {
 	C.meos_errno_reset()
-	_cret := C.mul_int32_int32(C.int32(num1), C.int32(num2))
+	_cret := C.mul_int32_int32(C.int32_t(num1), C.int32_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1697,7 +1725,7 @@ func MulInt32Int32(num1 int32, num2 int32) (_r0 int32, _err error) {
 // MulInt32Int64 wraps MEOS C function mul_int32_int64.
 func MulInt32Int64(num1 int32, num2 int64) (_r0 int64, _err error) {
 	C.meos_errno_reset()
-	_cret := C.mul_int32_int64(C.int32(num1), C.int64_t(num2))
+	_cret := C.mul_int32_int64(C.int32_t(num1), C.int64_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1708,7 +1736,7 @@ func MulInt32Int64(num1 int32, num2 int64) (_r0 int64, _err error) {
 // MulInt64Int16 wraps MEOS C function mul_int64_int16.
 func MulInt64Int16(num1 int64, num2 int16) (_r0 int64, _err error) {
 	C.meos_errno_reset()
-	_cret := C.mul_int64_int16(C.int64_t(num1), C.int16(num2))
+	_cret := C.mul_int64_int16(C.int64_t(num1), C.int16_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1719,7 +1747,7 @@ func MulInt64Int16(num1 int64, num2 int16) (_r0 int64, _err error) {
 // MulInt64Int32 wraps MEOS C function mul_int64_int32.
 func MulInt64Int32(num1 int64, num2 int32) (_r0 int64, _err error) {
 	C.meos_errno_reset()
-	_cret := C.mul_int64_int32(C.int64_t(num1), C.int32(num2))
+	_cret := C.mul_int64_int32(C.int64_t(num1), C.int32_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1741,7 +1769,7 @@ func MulInt64Int64(num1 int64, num2 int64) (_r0 int64, _err error) {
 // NeInt16Int16 wraps MEOS C function ne_int16_int16.
 func NeInt16Int16(num1 int16, num2 int16) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.ne_int16_int16(C.int16(num1), C.int16(num2))
+	_cret := C.ne_int16_int16(C.int16_t(num1), C.int16_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1752,7 +1780,7 @@ func NeInt16Int16(num1 int16, num2 int16) (_r0 bool, _err error) {
 // NeInt16Int32 wraps MEOS C function ne_int16_int32.
 func NeInt16Int32(num1 int16, num2 int32) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.ne_int16_int32(C.int16(num1), C.int32(num2))
+	_cret := C.ne_int16_int32(C.int16_t(num1), C.int32_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1763,7 +1791,7 @@ func NeInt16Int32(num1 int16, num2 int32) (_r0 bool, _err error) {
 // NeInt16Int64 wraps MEOS C function ne_int16_int64.
 func NeInt16Int64(num1 int16, num2 int64) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.ne_int16_int64(C.int16(num1), C.int64_t(num2))
+	_cret := C.ne_int16_int64(C.int16_t(num1), C.int64_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1774,7 +1802,7 @@ func NeInt16Int64(num1 int16, num2 int64) (_r0 bool, _err error) {
 // NeInt32Int16 wraps MEOS C function ne_int32_int16.
 func NeInt32Int16(num1 int32, num2 int16) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.ne_int32_int16(C.int32(num1), C.int16(num2))
+	_cret := C.ne_int32_int16(C.int32_t(num1), C.int16_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1785,7 +1813,7 @@ func NeInt32Int16(num1 int32, num2 int16) (_r0 bool, _err error) {
 // NeInt32Int32 wraps MEOS C function ne_int32_int32.
 func NeInt32Int32(num1 int32, num2 int32) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.ne_int32_int32(C.int32(num1), C.int32(num2))
+	_cret := C.ne_int32_int32(C.int32_t(num1), C.int32_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1796,7 +1824,7 @@ func NeInt32Int32(num1 int32, num2 int32) (_r0 bool, _err error) {
 // NeInt32Int64 wraps MEOS C function ne_int32_int64.
 func NeInt32Int64(num1 int32, num2 int64) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.ne_int32_int64(C.int32(num1), C.int64_t(num2))
+	_cret := C.ne_int32_int64(C.int32_t(num1), C.int64_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1807,7 +1835,7 @@ func NeInt32Int64(num1 int32, num2 int64) (_r0 bool, _err error) {
 // NeInt64Int16 wraps MEOS C function ne_int64_int16.
 func NeInt64Int16(num1 int64, num2 int16) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.ne_int64_int16(C.int64_t(num1), C.int16(num2))
+	_cret := C.ne_int64_int16(C.int64_t(num1), C.int16_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1818,7 +1846,7 @@ func NeInt64Int16(num1 int64, num2 int16) (_r0 bool, _err error) {
 // NeInt64Int32 wraps MEOS C function ne_int64_int32.
 func NeInt64Int32(num1 int64, num2 int32) (_r0 bool, _err error) {
 	C.meos_errno_reset()
-	_cret := C.ne_int64_int32(C.int64_t(num1), C.int32(num2))
+	_cret := C.ne_int64_int32(C.int64_t(num1), C.int32_t(num2))
 	if _err = meosError(); _err != nil {
 		return
 	}

@@ -200,34 +200,32 @@ class TypeMapping:
     from_c: str | None     # Convert a C result to Go (``{}`` is the C expr)
 
 
-# Scalars and well-known opaque pointers.  Pointer types map to the package's
-# wrapper structs (``*STBox``, ``*Geom``, etc.) where the wrapper exposes an
-# ``Inner()`` method returning the C pointer.
+# The C types a slot's ``canonical`` spells, each with the Go type it crosses cgo as.
+# A catalog slot states its width as MEOS declares it -- ``int32``, ``float8`` and
+# ``Numeric`` reach this table as ``int32_t``, ``double`` and ``struct NumericData *``
+# -- so this table is keyed on the C standard spellings and on nothing else.  The
+# names the catalog KEEPS (``TimestampTz``, ``DateADT``, ``Oid``, ...), the callbacks
+# and the enums are not rows written here: ``configure()`` derives one row for each
+# from the catalog's own ``typedefs``, ``callbacks`` and ``enums``.  Pointer types map
+# to the package's wrapper structs (``*STBox``, ``*Geom``, etc.) where the wrapper
+# exposes an ``Inner()`` method returning the C pointer.
 TYPE_MAP: dict[str, TypeMapping] = {
     "void":              TypeMapping("",         None,                                None),
     "bool":              TypeMapping("bool",     "C.bool({})",                        "bool({})"),
+    "char":              TypeMapping("byte",     "C.char({})",                        "byte({})"),
     "int":               TypeMapping("int",      "C.int({})",                         "int({})"),
-    "int8":              TypeMapping("int8",     "C.int8({})",                        "int8({})"),
-    "int16":             TypeMapping("int16",    "C.int16({})",                       "int16({})"),
-    "int32":             TypeMapping("int32",    "C.int32({})",                       "int32({})"),
+    "unsigned int":      TypeMapping("uint32",   "C.uint({})",                        "uint32({})"),
+    "int8_t":            TypeMapping("int8",     "C.int8_t({})",                      "int8({})"),
+    "int16_t":           TypeMapping("int16",    "C.int16_t({})",                     "int16({})"),
     "int32_t":           TypeMapping("int32",    "C.int32_t({})",                     "int32({})"),
-    "int64":             TypeMapping("int64",    "C.int64({})",                       "int64({})"),
     "int64_t":           TypeMapping("int64",    "C.int64_t({})",                     "int64({})"),
-    "uint8":             TypeMapping("uint8",    "C.uint8({})",                       "uint8({})"),
     "uint8_t":           TypeMapping("uint8",    "C.uint8_t({})",                     "uint8({})"),
-    "uint16":            TypeMapping("uint16",   "C.uint16({})",                      "uint16({})"),
-    "uint32":            TypeMapping("uint32",   "C.uint32({})",                      "uint32({})"),
+    "uint16_t":          TypeMapping("uint16",   "C.uint16_t({})",                    "uint16({})"),
     "uint32_t":          TypeMapping("uint32",   "C.uint32_t({})",                    "uint32({})"),
-    "uint64":            TypeMapping("uint64",   "C.uint64({})",                      "uint64({})"),
     "uint64_t":          TypeMapping("uint64",   "C.uint64_t({})",                    "uint64({})"),
-    "Quadbin":           TypeMapping("uint64",   "C.Quadbin({})",                     "uint64({})"),
+    "float":             TypeMapping("float32",  "C.float({})",                       "float32({})"),
     "double":            TypeMapping("float64",  "C.double({})",                      "float64({})"),
     "size_t":            TypeMapping("uint",     "C.size_t({})",                      "uint({})"),
-    "DateADT":           TypeMapping("int32",    "C.DateADT({})",                     "int32({})"),
-    "Timestamp":         TypeMapping("int64",    "C.Timestamp({})",                   "int64({})"),
-    "TimestampTz":       TypeMapping("int64",    "C.TimestampTz({})",                 "int64({})"),
-    "TimeADT":           TypeMapping("int64",    "C.TimeADT({})",                     "int64({})"),
-    "TimeOffset":        TypeMapping("int64",    "C.TimeOffset({})",                  "int64({})"),
     # Opaque pointer family.  Every binding that consumes meos-idl.json
     # (PyMEOS-CFFI as `_ffi.CData`, MEOS.NET as `IntPtr`, meos-rs as
     # `*mut c_void`) surfaces these as raw pointers and lets the caller
@@ -239,31 +237,17 @@ TYPE_MAP: dict[str, TypeMapping] = {
     # unsafe.Pointer cast to that at the call.
     "void **":                 TypeMapping("unsafe.Pointer", "(*unsafe.Pointer)(unsafe.Pointer({}))",  "unsafe.Pointer({})"),
     "const void **":           TypeMapping("unsafe.Pointer", "(*unsafe.Pointer)(unsafe.Pointer({}))",  "unsafe.Pointer({})"),
-    # Function-pointer typedefs.  MEOS exposes these as opaque handles
-    # the caller obtains from another MEOS call (e.g. taking the address
-    # of a typed comparator).  Skiplist primitives and the error handler
-    # are the only signatures that take one today.
-    # Function-pointer typedefs: JMEOS surfaces them as an opaque Pointer.  cgo
-    # represents every C function pointer uniformly as ``*[0]byte``, so the Go
-    # side is unsafe.Pointer cast to ``*[0]byte`` at the call.
-    "datum_func2":             TypeMapping("unsafe.Pointer", "(*[0]byte)({})",       "{}"),
-    "error_handler_fn":        TypeMapping("unsafe.Pointer", "(*[0]byte)({})",       "{}"),
-    "int (*)(void *, void *)": TypeMapping("unsafe.Pointer", "(*[0]byte)({})",       "{}"),
-    "void *(*)(void *, void *)": TypeMapping("unsafe.Pointer", "(*[0]byte)({})",     "{}"),
-    # NO ENUM ROW IS WRITTEN HERE: ``configure()`` derives one per catalog enum, so an
-    # enum MEOS adds is mapped the day it lands and one it retires stops being mapped.
+    # NO ENUM, CALLBACK OR KEPT-NAME ROW IS WRITTEN HERE: ``configure()`` derives one
+    # per catalog entry, so a type MEOS adds is mapped the day it lands and one it
+    # retires stops being mapped.
     "char *":            TypeMapping("string",   "C.CString({})",                     "C.GoString({})"),
     "const char *":      TypeMapping("string",   "C.CString({})",                     "C.GoString({})"),
-    # PostgreSQL ``text`` is a varlena envelope around a Go string.  The
-    # hand-written ``cstring2text`` / ``text2cstring`` helpers handle the
-    # palloc/pfree, mirroring the same idiom used by the hand-written
-    # surface.
     # PostgreSQL ``text`` is a varlena envelope around a Go string. MEOS
     # exposes the canonical converters ``cstring_to_text`` / ``text_to_cstring``
-    # (public, exported, in the catalog -- the older ``cstring2text`` /
-    # ``text2cstring`` spellings are retired): a Go string becomes
+    # (public, exported, in the catalog): a Go string becomes
     # ``C.cstring_to_text(C.CString(s))`` in and ``C.GoString(C.text_to_cstring(t))``
-    # out.
+    # out.  The catalog keeps the name ``text`` and defines it as ``struct varlena``;
+    # the binding answers the kept name with a string rather than the envelope.
     "text *":            TypeMapping("string",   "C.cstring_to_text(C.CString({}))",  "C.GoString(C.text_to_cstring({}))"),
     "const text *":      TypeMapping("string",   "C.cstring_to_text(C.CString({}))",  "C.GoString(C.text_to_cstring({}))"),
 }
@@ -311,7 +295,9 @@ WRAPPER_TYPES: dict[str, tuple[str, str]] = {
     "BOX3D":             ("*Box3D",            "&Box3D{_inner: $res}"),
     "GBOX":              ("*GBox",             "&GBox{_inner: $res}"),
     "AFFINE":            ("*AFFINE",           "&AFFINE{_inner: $res}"),
-    "PJ_CONTEXT":        ("*PJContext",        "&PJContext{_inner: $res}"),
+    # PROJ declares PJ_CONTEXT as ``struct pj_ctx``, the structure the catalog's
+    # canonical names, so the handle is keyed on the tag as cgo reads it.
+    "struct_pj_ctx":     ("*PJContext",        "&PJContext{_inner: $res}"),
 }
 
 
@@ -338,27 +324,126 @@ ENUM_GO_NAME: dict[str, str] = {
 # tools/codegen.py states at its own ENUM_TYPES.
 ENUM_TYPES: set[str] = set()
 
+# The rows written above, which ``configure`` restores before deriving the
+# catalog's own, so a second run over another catalog keeps none of the first's.
+_WRITTEN_TYPE_MAP = dict(TYPE_MAP)
+
+# The catalog's structures, keyed on name, filled in by ``configure``: a pointer to
+# one is an opaque handle, whether or not WRAPPER_TYPES gives it a typed one.
+STRUCT_NAMES: set[str] = set()
+
+# The names a slot's ``typedef`` gives a type of its own over a width (``H3Index``,
+# ``Quadbin``, ``S2CellId``), each with the Go type of that width, filled in by
+# ``configure``.  ``emit_types`` declares each as a Go alias of its width, so a
+# signature names the type the catalog names while a caller still passes the width.
+TYPEDEF_ALIASES: dict[str, str] = {}
+
+# Every slot whose type ``slot_type`` cannot map, as ``(function, slot, canonical)``.
+# ``generate`` stops on a non-empty list rather than emit any wrapper for it.
+UNMAPPED: list[tuple[str, str, str]] = []
+
 
 def configure(idl: dict) -> None:
     """Take from the catalog the type facts the mapping above reads.
 
-    A HAND LIST GOES SHORT AND ALSO GOES STALE, in both directions at once: the
-    rows this replaces named 6 of the 14 enums the catalog declares -- leaving
-    `IndexSearchOp` (9 functions), `SPTreeKind` (8) and `MeosPixType` (4)
-    unmapped, so 21 wrappers emitted a TODO stub reading `unsupported param` --
-    and carried 2 more, `RTreeSearchOp` and `errorLevel`, for enums the catalog
-    no longer declares at all and no function names.
-
-    The Go spelling comes from ENUM_GO_NAME where the published name is not what
-    PascalCase yields, so this and ``emit_types`` cannot disagree about a name:
-    both read the same helper.
+    A HAND LIST GOES SHORT AND ALSO GOES STALE, in both directions at once, so no
+    row naming a catalog type is written by hand.  Each enum crosses cgo as a Go
+    type of its own, its spelling from ENUM_GO_NAME where the published name is
+    not what PascalCase yields, so this and ``emit_types`` cannot disagree about
+    a name.  Each callback is a C function pointer, which cgo represents
+    uniformly as ``*[0]byte``: the Go side is an opaque unsafe.Pointer cast to it
+    at the call, as JMEOS surfaces it as an opaque Pointer.  Each name the
+    catalog keeps (``typedefs``: ``TimestampTz`` is ``int64_t``, ``Oid`` is
+    ``unsigned int``) crosses as the Go type of the width it is defined as and is
+    cast to its own C name, which the header declares; one defined as a
+    structure is a structure.  Each name a slot's ``typedef`` gives a width
+    crosses as that name, a Go alias of the width.
     """
+    TYPE_MAP.clear()
+    TYPE_MAP.update(_WRITTEN_TYPE_MAP)
+    STRUCT_NAMES.clear()
+    TYPEDEF_ALIASES.clear()
+    UNMAPPED.clear()
     ENUM_TYPES.clear()
     ENUM_TYPES.update(e["name"] for e in idl.get("enums", []) if e.get("name"))
     for c_name in ENUM_TYPES:
         go_name = ENUM_GO_NAME.get(c_name, _go_name(c_name))
         TYPE_MAP[c_name] = TypeMapping(
             go_name, f"C.{c_name}({{}})", f"{go_name}({{}})")
+    for cb in idl.get("callbacks", []):
+        TYPE_MAP[cb["name"]] = TypeMapping(
+            "unsafe.Pointer", "(*[0]byte)({})", "unsafe.Pointer({})")
+    STRUCT_NAMES.update(s["name"] for s in idl.get("structs", []) if s.get("name"))
+    for td in idl.get("typedefs", []):
+        name, definition = td["name"], td["canonical"]
+        if definition.startswith("struct "):
+            STRUCT_NAMES.add(name)
+            continue
+        width = TYPE_MAP.get(definition)
+        if width is not None and name not in TYPE_MAP:
+            TYPE_MAP[name] = TypeMapping(width.go_type, f"C.{name}({{}})", width.from_c)
+    for f in idl.get("functions", []):
+        for slot in [f["returnType"], *f["params"]]:
+            name = slot.get("typedef")
+            if not name or name in TYPE_MAP:
+                continue
+            base, _ = _strip_qualifiers(slot["canonical"])
+            width = TYPE_MAP.get(base)
+            if width is None:
+                continue  # left to slot_type, which names it when it is emitted
+            TYPEDEF_ALIASES[name] = width.go_type
+            TYPE_MAP[name] = TypeMapping(name, f"C.{name}({{}})", f"{name}({{}})")
+
+
+def slot_type(slot: dict, function: str) -> str | None:
+    """The C type a catalog slot is mapped from, spelled for the tables above.
+
+    It is the slot's ``canonical``, the type as MEOS declares it, with the name a
+    slot's ``typedef`` gives its width in place of the width.  A structure is
+    spelled by the name WRAPPER_TYPES keys its handle on, and otherwise by its
+    tag as cgo reads it (``struct_NumericData``), since no other name for it is
+    stated.  A C function pointer type (``int (*)(void *, void *)``) is spelled
+    as it stands.  A name that is no C type of the tables, catalog structure, enum,
+    callback or typedef is recorded in UNMAPPED and answers None: no wrapper is
+    emitted for a type the generator cannot map.
+    """
+    canonical = slot["canonical"]
+    if _is_function_pointer(canonical):
+        return canonical
+    const = canonical.startswith("const ")
+    base, stars = _strip_qualifiers(canonical)
+    if base.startswith("struct "):
+        tag = base[len("struct "):]
+        if tag in WRAPPER_TYPES:
+            base = tag
+        elif tag in STRUCT_NAMES or "struct_" + tag in WRAPPER_TYPES:
+            base = "struct_" + tag
+        else:
+            base = None
+    elif slot.get("typedef"):
+        base = slot["typedef"] if slot["typedef"] in TYPE_MAP else None
+    elif base not in TYPE_MAP and base not in STRUCT_NAMES and base not in WRAPPER_TYPES:
+        base = None
+    if base is None:
+        UNMAPPED.append((function, slot.get("name", "<return>"), canonical))
+        return None
+    return ("const " if const else "") + base + (" " + "*" * stars if stars else "")
+
+
+def _is_function_pointer(c_type: str) -> bool:
+    """Whether a C type is a function pointer stated in full, ``R (*)(A, ...)``."""
+    return "(*)" in c_type
+
+
+def _resolved(entry: dict) -> dict | None:
+    """A copy of a catalog function whose slots carry the type ``slot_type`` maps
+    them from, in the ``c`` / ``cType`` field the emitters read; None when a slot
+    has a type the generator cannot map."""
+    ret = slot_type(entry["returnType"], entry["name"])
+    params = [dict(p, cType=slot_type(p, entry["name"])) for p in entry["params"]]
+    if ret is None or any(p["cType"] is None for p in params):
+        return None
+    return dict(entry, returnType=dict(entry["returnType"], c=ret), params=params)
 
 
 def emit_types(idl: dict, corpus: str, include_block: str) -> str:
@@ -425,15 +510,22 @@ def emit_types(idl: dict, corpus: str, include_block: str) -> str:
                 out.append(f"\t{go_name}_{v['name']} {go_name} = {int(v['value'])}")
             out.append(")")
 
+    # -- the names a slot's typedef gives a width, each an alias of it -----
+    aliases = [f"type {name} = {go_type}"
+               for name, go_type in sorted(TYPEDEF_ALIASES.items()) if referenced(name)]
+    if aliases:
+        out.append("\n// -------------------- named widths --------------------")
+        out.extend(aliases)
+
     header = (_PER_HEADER_PREAMBLE.replace("@INCLUDES@", include_block)
               + "\n".join(out) + "\n")
     return header
 
 
 def _references_opaque(entry: dict) -> bool:
-    if any(t in entry["returnType"]["c"] for t in OPAQUE_TYPES):
+    if any(t in entry["returnType"]["canonical"] for t in OPAQUE_TYPES):
         return True
-    return any(any(t in p["cType"] for t in OPAQUE_TYPES) for p in entry["params"])
+    return any(any(t in p["canonical"] for t in OPAQUE_TYPES) for p in entry["params"])
 
 
 def _is_datum_internal(entry: dict) -> bool:
@@ -441,10 +533,10 @@ def _is_datum_internal(entry: dict) -> bool:
     that the hand-written surface re-exposes through typed overloads.  The
     codegen cannot produce those overloads automatically and reporting them
     as TODO would conflate metadata work with real shape gaps."""
-    if "Datum" in entry["returnType"]["c"].split():
+    if "Datum" in entry["returnType"]["canonical"].split():
         return True
     for p in entry["params"]:
-        if "Datum" in p["cType"].split():
+        if "Datum" in p["canonical"].split():
             return True
     return False
 
@@ -462,6 +554,11 @@ def _go_type_for(c_type: str) -> tuple[str | None, str | None, str | None]:
     Returns ``(go_type, c_cast, from_c)``; any field may be ``None`` when the
     type is not yet handled.
     """
+    if _is_function_pointer(c_type):
+        # cgo represents every C function pointer uniformly as ``*[0]byte``, so the
+        # Go side is an opaque unsafe.Pointer cast to it at the call, as a callback
+        # the catalog names is (#configure).
+        return "unsafe.Pointer", "(*[0]byte)($x)", "unsafe.Pointer($x)"
     if c_type in TYPE_MAP:
         m = TYPE_MAP[c_type]
         # Normalise scalar/string templates to the same ``$x`` placeholder
@@ -715,6 +812,14 @@ def emit_function(entry: dict) -> EmittedFunc:
     # is told to omit entirely (function-pointer args, void ** internals).
     if "skip" in shape:
         return EmittedFunc(go_name, _todo_stub(c_name, "skip: " + shape["skip"]), True)
+
+    # Every slot is mapped from its catalog type; ``generate`` stops on one that
+    # cannot be, so the code returned here is never written.
+    entry = _resolved(entry)
+    if entry is None:
+        return EmittedFunc(go_name, "", True)
+    return_c = entry["returnType"]["c"]
+    params = entry["params"]
 
     # Metadata can mark scalar parameters as outputs even when their name is
     # not the canonical ``result`` / ``value``.  Carry the set down to
@@ -972,7 +1077,7 @@ def emit_function(entry: dict) -> EmittedFunc:
             continue
 
         # Scalar slice input: ``const int *values`` etc. paired with count.
-        if stars == 1 and "const" in ptype and base in {"int", "int64", "double", "DateADT", "TimestampTz"} and i + 1 < len(params) and classes[i + 1] == "ARRAY_LENGTH":
+        if stars == 1 and "const" in ptype and base in {"int", "double", "DateADT", "TimestampTz"} and i + 1 < len(params) and classes[i + 1] == "ARRAY_LENGTH":
             slice_go = f"[]{TYPE_MAP[base].go_type}"
             local = f"_c_{pname}"
             deferred.append(f"{local} := make([]C.{base}, len({pname}))")
@@ -1274,10 +1379,6 @@ def generate(idl_path: Path, out_dir: Path) -> dict:
     out_dir.mkdir(parents=True, exist_ok=True)
 
     groups, includes, uninstalled = header_plan(idl)
-    # One file per header the plan names, so the files of a header it no longer names
-    # leave with the run that drops it
-    for stale in out_dir.glob("meos_*.go"):
-        stale.unlink()
     include_block = "\n".join(f'#include "{h}"' for h in includes)
     bound = [e for e in idl["functions"]
              if not e.get("vendored") and _family_enabled(e)]
@@ -1289,6 +1390,7 @@ def generate(idl_path: Path, out_dir: Path) -> dict:
     stats = {"emitted": 0, "skipped": 0, "explicit_skip": 0, "datum": 0, "by_header": {},
              "uninstalled": {h: sum(e["file"] == h for e in bound) for h in uninstalled}}
     corpus_parts: list[str] = []
+    pending: dict[Path, str] = {}
     # The shared per-file cgo preamble, with the union-operator aliases spliced
     # into the C block so every file that calls a ``C.gunion_*`` resolves it.
     preamble = _PER_HEADER_PREAMBLE.replace("@INCLUDES@", include_block)
@@ -1325,7 +1427,19 @@ def generate(idl_path: Path, out_dir: Path) -> dict:
         out_file = out_dir / f"meos_{header.replace('.h', '')}.go"
         funcs_code = "\n\n".join(e.code for e in emitted_funcs)
         corpus_parts.append(funcs_code)
-        body = preamble + funcs_code + "\n"
+        pending[out_file] = preamble + funcs_code + "\n"
+
+    if UNMAPPED:
+        raise SystemExit(
+            "codegen: the catalog types these slots with a name that is no C type, "
+            "structure, enum, callback or typedef it states; no binding is generated:\n"
+            + "\n".join(f"  {fn}: {slot}: {canonical}" for fn, slot, canonical in UNMAPPED))
+
+    # One file per header the plan names, so the files of a header it no longer names
+    # leave with the run that drops it
+    for stale in out_dir.glob("meos_*.go"):
+        stale.unlink()
+    for out_file, body in pending.items():
         out_file.write_text(body)
 
     # The single cgo preamble file with all #includes lives next to the

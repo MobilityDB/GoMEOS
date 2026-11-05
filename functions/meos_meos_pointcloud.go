@@ -1287,6 +1287,17 @@ func PcpatchToTpcbox(pa *Pcpatch) (_r0 *TPCBox, _err error) {
 }
 
 
+// TpointcloudToTpcbox wraps MEOS C function tpointcloud_to_tpcbox.
+func TpointcloudToTpcbox(temp *Temporal) (_r0 *TPCBox, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tpointcloud_to_tpcbox(temp._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &TPCBox{_inner: _cret}, nil
+}
+
+
 // TpcboxHasx wraps MEOS C function tpcbox_hasx.
 func TpcboxHasx(box *TPCBox) (_r0 bool, _err error) {
 	C.meos_errno_reset()

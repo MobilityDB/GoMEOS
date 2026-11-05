@@ -130,7 +130,7 @@ func TcellindexIsValidCell(temp *Temporal) (_r0 *Temporal, _err error) {
 // TcellindexCellToParent wraps MEOS C function tcellindex_cell_to_parent.
 func TcellindexCellToParent(temp *Temporal, resolution int32) (_r0 *Temporal, _err error) {
 	C.meos_errno_reset()
-	_cret := C.tcellindex_cell_to_parent(temp._inner, C.int32(resolution))
+	_cret := C.tcellindex_cell_to_parent(temp._inner, C.int32_t(resolution))
 	if _err = meosError(); _err != nil {
 		return
 	}

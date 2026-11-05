@@ -143,7 +143,7 @@ func TempsubtypeFromString(str string, subtype unsafe.Pointer) (_r0 bool, _err e
 	_c_str := C.CString(str)
 	defer C.free(unsafe.Pointer(_c_str))
 	C.meos_errno_reset()
-	_cret := C.tempsubtype_from_string(_c_str, (*C.int16)(unsafe.Pointer(subtype)))
+	_cret := C.tempsubtype_from_string(_c_str, (*C.int16_t)(unsafe.Pointer(subtype)))
 	if _err = meosError(); _err != nil {
 		return
 	}

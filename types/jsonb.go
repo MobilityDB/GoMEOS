@@ -95,6 +95,24 @@ func (x *Jsonb) ToCstring() (string, error) {
 	return _r0, nil
 }
 
+// ToFloat4 is MEOS jsonb_to_float4.
+func (x *Jsonb) ToFloat4() (float32, error) {
+	_r0, _err := functions.JsonbToFloat4(functions.JsonbFromPointer(x.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// ToFloat8 is MEOS jsonb_to_float8.
+func (x *Jsonb) ToFloat8() (float64, error) {
+	_r0, _err := functions.JsonbToFloat8(functions.JsonbFromPointer(x.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
 // ToInt16 is MEOS jsonb_to_int16.
 func (x *Jsonb) ToInt16() (int16, error) {
 	_r0, _err := functions.JsonbToInt16(functions.JsonbFromPointer(x.Pointer()))
@@ -118,6 +136,15 @@ func (x *Jsonb) ToInt64() (int64, error) {
 	_r0, _err := functions.JsonbToInt64(functions.JsonbFromPointer(x.Pointer()))
 	if _err != nil {
 		return 0, _err
+	}
+	return _r0, nil
+}
+
+// ToNumeric is MEOS jsonb_to_numeric.
+func (x *Jsonb) ToNumeric() (unsafe.Pointer, error) {
+	_r0, _err := functions.JsonbToNumeric(functions.JsonbFromPointer(x.Pointer()))
+	if _err != nil {
+		return nil, _err
 	}
 	return _r0, nil
 }

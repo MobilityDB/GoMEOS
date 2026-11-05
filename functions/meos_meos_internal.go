@@ -141,7 +141,7 @@ func PrngGetAggregationRng() (_r0 unsafe.Pointer, _err error) {
 // MeosRandomDouble wraps MEOS C function meos_random_double.
 func MeosRandomDouble(rng unsafe.Pointer) (_r0 float64, _err error) {
 	C.meos_errno_reset()
-	_cret := C.meos_random_double((*C.pg_prng_state)(unsafe.Pointer(rng)))
+	_cret := C.meos_random_double((*C.struct_pg_prng_state)(unsafe.Pointer(rng)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -152,7 +152,7 @@ func MeosRandomDouble(rng unsafe.Pointer) (_r0 float64, _err error) {
 // MeosRandomExponential wraps MEOS C function meos_random_exponential.
 func MeosRandomExponential(rng unsafe.Pointer, mean float64) (_r0 float64, _err error) {
 	C.meos_errno_reset()
-	_cret := C.meos_random_exponential((*C.pg_prng_state)(unsafe.Pointer(rng)), C.double(mean))
+	_cret := C.meos_random_exponential((*C.struct_pg_prng_state)(unsafe.Pointer(rng)), C.double(mean))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -163,7 +163,7 @@ func MeosRandomExponential(rng unsafe.Pointer, mean float64) (_r0 float64, _err 
 // MeosRandomBinomial20Half wraps MEOS C function meos_random_binomial20_half.
 func MeosRandomBinomial20Half(rng unsafe.Pointer) (_r0 uint32, _err error) {
 	C.meos_errno_reset()
-	_cret := C.meos_random_binomial20_half((*C.pg_prng_state)(unsafe.Pointer(rng)))
+	_cret := C.meos_random_binomial20_half((*C.struct_pg_prng_state)(unsafe.Pointer(rng)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -788,7 +788,7 @@ func RtreeSearchIntl(rtree *RTree, op IndexSearchOp, query unsafe.Pointer) (_r0 
 func SptreeSearchIntl(sptree unsafe.Pointer, op IndexSearchOp, query unsafe.Pointer) (_r0 int, _r1 *MeosArray, _err error) {
 	var _out_result C.MeosArray
 	C.meos_errno_reset()
-	_cret := C.sptree_search_intl((*C.SPTree)(unsafe.Pointer(sptree)), C.IndexSearchOp(op), unsafe.Pointer(query), &_out_result)
+	_cret := C.sptree_search_intl((*C.struct_SPTree)(unsafe.Pointer(sptree)), C.IndexSearchOp(op), unsafe.Pointer(query), &_out_result)
 	if _err = meosError(); _err != nil {
 		return
 	}

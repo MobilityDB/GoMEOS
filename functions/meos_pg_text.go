@@ -105,12 +105,26 @@ import (
 
 var _ = unsafe.Pointer(nil)
 
-// TODO char_hash: unsupported param char
-// func CharHash(...) { /* not yet handled by codegen */ }
+// CharHash wraps MEOS C function char_hash.
+func CharHash(c byte) (_r0 uint32, _err error) {
+	C.meos_errno_reset()
+	_cret := C.char_hash(C.char(c))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return uint32(_cret), nil
+}
 
 
-// TODO char_hash_extended: unsupported param char
-// func CharHashExtended(...) { /* not yet handled by codegen */ }
+// CharHashExtended wraps MEOS C function char_hash_extended.
+func CharHashExtended(c byte, seed uint64) (_r0 uint64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.char_hash_extended(C.char(c), C.uint64_t(seed))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return uint64(_cret), nil
+}
 
 
 // IcuUnicodeVersion wraps MEOS C function icu_unicode_version.
@@ -127,7 +141,7 @@ func IcuUnicodeVersion() (_r0 string, _err error) {
 // Int32ToBin wraps MEOS C function int32_to_bin.
 func Int32ToBin(num int32) (_r0 string, _err error) {
 	C.meos_errno_reset()
-	_cret := C.int32_to_bin(C.int32(num))
+	_cret := C.int32_to_bin(C.int32_t(num))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -138,7 +152,7 @@ func Int32ToBin(num int32) (_r0 string, _err error) {
 // Int32ToHex wraps MEOS C function int32_to_hex.
 func Int32ToHex(num int32) (_r0 string, _err error) {
 	C.meos_errno_reset()
-	_cret := C.int32_to_hex(C.int32(num))
+	_cret := C.int32_to_hex(C.int32_t(num))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -149,7 +163,7 @@ func Int32ToHex(num int32) (_r0 string, _err error) {
 // Int32ToOct wraps MEOS C function int32_to_oct.
 func Int32ToOct(num int32) (_r0 string, _err error) {
 	C.meos_errno_reset()
-	_cret := C.int32_to_oct(C.int32(num))
+	_cret := C.int32_to_oct(C.int32_t(num))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -274,12 +288,30 @@ func TextGt(txt1 string, txt2 string) (_r0 bool, _err error) {
 }
 
 
-// TODO text_hash: unsupported param Oid
-// func TextHash(...) { /* not yet handled by codegen */ }
+// TextHash wraps MEOS C function text_hash.
+func TextHash(txt string, collid uint32) (_r0 uint32, _err error) {
+	_c_txt := C.cstring_to_text(C.CString(txt))
+	defer C.free(unsafe.Pointer(_c_txt))
+	C.meos_errno_reset()
+	_cret := C.text_hash(_c_txt, C.Oid(collid))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return uint32(_cret), nil
+}
 
 
-// TODO text_hash_extended: unsupported param Oid
-// func TextHashExtended(...) { /* not yet handled by codegen */ }
+// TextHashExtended wraps MEOS C function text_hash_extended.
+func TextHashExtended(txt string, seed uint64, collid uint32) (_r0 uint64, _err error) {
+	_c_txt := C.cstring_to_text(C.CString(txt))
+	defer C.free(unsafe.Pointer(_c_txt))
+	C.meos_errno_reset()
+	_cret := C.text_hash_extended(_c_txt, C.uint64_t(seed), C.Oid(collid))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return uint64(_cret), nil
+}
 
 
 // TextLarger wraps MEOS C function text_larger.
@@ -579,7 +611,7 @@ func TextSubstr(txt string, start int32, length int32) (_r0 string, _err error) 
 	_c_txt := C.cstring_to_text(C.CString(txt))
 	defer C.free(unsafe.Pointer(_c_txt))
 	C.meos_errno_reset()
-	_cret := C.text_substr(_c_txt, C.int32(start), C.int32(length))
+	_cret := C.text_substr(_c_txt, C.int32_t(start), C.int32_t(length))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -592,7 +624,7 @@ func TextSubstrNoLen(txt string, start int32) (_r0 string, _err error) {
 	_c_txt := C.cstring_to_text(C.CString(txt))
 	defer C.free(unsafe.Pointer(_c_txt))
 	C.meos_errno_reset()
-	_cret := C.text_substr_no_len(_c_txt, C.int32(start))
+	_cret := C.text_substr_no_len(_c_txt, C.int32_t(start))
 	if _err = meosError(); _err != nil {
 		return
 	}

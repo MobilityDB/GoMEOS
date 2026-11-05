@@ -144,10 +144,10 @@ type GBox struct { _inner *C.GBOX }
 func (x *GBox) Inner() *C.GBOX { if x == nil { return nil }; return x._inner }
 func (x *GBox) Pointer() unsafe.Pointer { if x == nil { return nil }; return unsafe.Pointer(x._inner) }
 func GBoxFromPointer(p unsafe.Pointer) *GBox { if p == nil { return nil }; return &GBox{_inner: (*C.GBOX)(p)} }
-type PJContext struct { _inner *C.PJ_CONTEXT }
-func (x *PJContext) Inner() *C.PJ_CONTEXT { if x == nil { return nil }; return x._inner }
+type PJContext struct { _inner *C.struct_pj_ctx }
+func (x *PJContext) Inner() *C.struct_pj_ctx { if x == nil { return nil }; return x._inner }
 func (x *PJContext) Pointer() unsafe.Pointer { if x == nil { return nil }; return unsafe.Pointer(x._inner) }
-func PJContextFromPointer(p unsafe.Pointer) *PJContext { if p == nil { return nil }; return &PJContext{_inner: (*C.PJ_CONTEXT)(p)} }
+func PJContextFromPointer(p unsafe.Pointer) *PJContext { if p == nil { return nil }; return &PJContext{_inner: (*C.struct_pj_ctx)(p)} }
 
 // -------------------- enums --------------------
 type TempSubtype C.tempSubtype
@@ -360,3 +360,8 @@ const (
 	MeosPixType_MEOS_PT_UINT64 MeosPixType = 9
 	MeosPixType_MEOS_PT_FLOAT16 MeosPixType = 10
 )
+
+// -------------------- named widths --------------------
+type H3Index = uint64
+type Quadbin = uint64
+type S2CellId = uint64

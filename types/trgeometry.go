@@ -452,6 +452,15 @@ func (x *TRGeometry) DeleteTstzspanset(ss *SpanSet, connect bool) (*Temporal, er
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
+// Force2d is MEOS trgeometry_force2d.
+func (x *TRGeometry) Force2d() (*Temporal, error) {
+	_r0, _err := functions.TrgeometryForce2d(functions.TemporalFromPointer(x.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
 // Merge is MEOS trgeometry_merge.
 func (x *TRGeometry) Merge(temp2 *Temporal) (*Temporal, error) {
 	_r0, _err := functions.TrgeometryMerge(functions.TemporalFromPointer(x.Pointer()), functions.TemporalFromPointer(temp2.Pointer()))

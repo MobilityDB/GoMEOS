@@ -131,6 +131,15 @@ func (x *TPose) RotateY(angle float64) (*Temporal, error) {
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
+// Force2d is MEOS tpose_force2d.
+func (x *TPose) Force2d() (*Temporal, error) {
+	_r0, _err := functions.TposeForce2d(functions.TemporalFromPointer(x.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
 // RotateZ is MEOS tpose_rotate_z.
 func (x *TPose) RotateZ(angle float64) (*Temporal, error) {
 	_r0, _err := functions.TposeRotateZ(functions.TemporalFromPointer(x.Pointer()), angle)
