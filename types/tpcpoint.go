@@ -23,13 +23,13 @@ func TPCPointFromPointer(p unsafe.Pointer) *TPCPoint {
 	return v
 }
 
-// TPCPointIn is MEOS tpcpoint_in.
-func TPCPointIn(str string) (*Temporal, error) {
+// TPCPointFromText is the portable fromText of MEOS tpcpoint_in.
+func TPCPointFromText(str string) (*TPCPoint, error) {
 	_r0, _err := functions.TpcpointIn(str)
 	if _err != nil {
 		return nil, _err
 	}
-	return TemporalFromPointer(_r0.Pointer()), nil
+	return TPCPointFromPointer(_r0.Pointer()), nil
 }
 
 // TPCPointFromMFJSON is MEOS tpcpoint_from_mfjson.
@@ -175,11 +175,7 @@ func TPCPointFromEWKB(wkb []byte) (*TPCPoint, error) {
 
 // TPCPointFromEWKT is the portable fromEWKT of MEOS tpcpoint_in.
 func TPCPointFromEWKT(str string) (*TPCPoint, error) {
-	r, err := TPCPointIn(str)
-	if err != nil || r == nil {
-		return nil, err
-	}
-	return TPCPointFromPointer(r.Pointer()), nil
+	return TPCPointFromText(str)
 }
 
 // TPCPointFromHexEWKB is the portable fromHexEWKB of MEOS temporal_from_hexwkb.
@@ -200,15 +196,6 @@ func TPCPointFromHexWKB(hexwkb string) (*TPCPoint, error) {
 	return TPCPointFromPointer(r.Pointer()), nil
 }
 
-// TPCPointFromText is the portable fromText of MEOS tpcpoint_in.
-func TPCPointFromText(str string) (*TPCPoint, error) {
-	r, err := TPCPointIn(str)
-	if err != nil || r == nil {
-		return nil, err
-	}
-	return TPCPointFromPointer(r.Pointer()), nil
-}
-
 // TPCPointFromWKB is the portable fromWKB of MEOS temporal_from_wkb.
 func TPCPointFromWKB(wkb []byte) (*TPCPoint, error) {
 	r, err := TemporalFromWKB(wkb)
@@ -220,7 +207,7 @@ func TPCPointFromWKB(wkb []byte) (*TPCPoint, error) {
 
 // String is the text MEOS writes this value as, MEOS temporal_out.
 func (x *TPCPoint) String() string {
-	s, err := x.Out(15)
+	s, err := x.AsText(15)
 	if err != nil {
 		return "%!s(MEOS error: " + err.Error() + ")"
 	}

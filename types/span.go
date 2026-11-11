@@ -64,8 +64,8 @@ func SpanFromWKB(wkb []byte) (*Span, error) {
 	return SpanFromPointer(_r0.Pointer()), nil
 }
 
-// Out is MEOS span_out.
-func (x *Span) Out(maxdd int) (string, error) {
+// AsText is the portable asText of MEOS span_out.
+func (x *Span) AsText(maxdd int) (string, error) {
 	_r0, _err := functions.SpanOut(functions.SpanFromPointer(x.Pointer()), maxdd)
 	if _err != nil {
 		return "", _err
@@ -211,7 +211,7 @@ func (x *Span) ToTbox() (*TBox, error) {
 
 // String is the text MEOS writes this value as, MEOS span_out.
 func (x *Span) String() string {
-	s, err := x.Out(15)
+	s, err := x.AsText(15)
 	if err != nil {
 		return "%!s(MEOS error: " + err.Error() + ")"
 	}

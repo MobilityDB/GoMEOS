@@ -64,8 +64,8 @@ func SetFromWKB(wkb []byte) (*Set, error) {
 	return SetFromPointer(_r0.Pointer()), nil
 }
 
-// Out is MEOS set_out.
-func (x *Set) Out(maxdd int) (string, error) {
+// AsText is the portable asText of MEOS set_out.
+func (x *Set) AsText(maxdd int) (string, error) {
 	_r0, _err := functions.SetOut(functions.SetFromPointer(x.Pointer()), maxdd)
 	if _err != nil {
 		return "", _err

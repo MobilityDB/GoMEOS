@@ -23,13 +23,13 @@ func NPointSetFromPointer(p unsafe.Pointer) *NPointSet {
 	return v
 }
 
-// NPointSetIn is MEOS npointset_in.
-func NPointSetIn(str string) (*Set, error) {
+// NPointSetFromText is the portable fromText of MEOS npointset_in.
+func NPointSetFromText(str string) (*NPointSet, error) {
 	_r0, _err := functions.NpointsetIn(str)
 	if _err != nil {
 		return nil, _err
 	}
-	return SetFromPointer(_r0.Pointer()), nil
+	return NPointSetFromPointer(_r0.Pointer()), nil
 }
 
 // NPointSetMake is MEOS npointset_make.
@@ -100,11 +100,7 @@ func NPointSetFromEWKB(wkb []byte) (*NPointSet, error) {
 
 // NPointSetFromEWKT is the portable fromEWKT of MEOS npointset_in.
 func NPointSetFromEWKT(str string) (*NPointSet, error) {
-	r, err := NPointSetIn(str)
-	if err != nil || r == nil {
-		return nil, err
-	}
-	return NPointSetFromPointer(r.Pointer()), nil
+	return NPointSetFromText(str)
 }
 
 // NPointSetFromHexEWKB is the portable fromHexEWKB of MEOS set_from_hexwkb.
@@ -119,15 +115,6 @@ func NPointSetFromHexEWKB(hexwkb string) (*NPointSet, error) {
 // NPointSetFromHexWKB is the portable fromHexWKB of MEOS set_from_hexwkb.
 func NPointSetFromHexWKB(hexwkb string) (*NPointSet, error) {
 	r, err := SetFromHexWKB(hexwkb)
-	if err != nil || r == nil {
-		return nil, err
-	}
-	return NPointSetFromPointer(r.Pointer()), nil
-}
-
-// NPointSetFromText is the portable fromText of MEOS npointset_in.
-func NPointSetFromText(str string) (*NPointSet, error) {
-	r, err := NPointSetIn(str)
 	if err != nil || r == nil {
 		return nil, err
 	}

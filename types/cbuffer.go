@@ -101,8 +101,8 @@ func CBufferFromWKB(wkb []byte) (*CBuffer, error) {
 	return CBufferFromPointer(_r0.Pointer()), nil
 }
 
-// CBufferIn is MEOS cbuffer_in.
-func CBufferIn(str string) (*CBuffer, error) {
+// CBufferFromText is the portable fromText of MEOS cbuffer_in.
+func CBufferFromText(str string) (*CBuffer, error) {
 	_r0, _err := functions.CbufferIn(str)
 	if _err != nil {
 		return nil, _err
@@ -351,17 +351,12 @@ func CBufferFromEWKB(wkb []byte) (*CBuffer, error) {
 
 // CBufferFromEWKT is the portable fromEWKT of MEOS cbuffer_in.
 func CBufferFromEWKT(str string) (*CBuffer, error) {
-	return CBufferIn(str)
+	return CBufferFromText(str)
 }
 
 // CBufferFromHexEWKB is the portable fromHexEWKB of MEOS cbuffer_from_hexwkb.
 func CBufferFromHexEWKB(hexwkb string) (*CBuffer, error) {
 	return CBufferFromHexWKB(hexwkb)
-}
-
-// CBufferFromText is the portable fromText of MEOS cbuffer_in.
-func CBufferFromText(str string) (*CBuffer, error) {
-	return CBufferIn(str)
 }
 
 // String is the text MEOS writes this value as, MEOS cbuffer_as_text.

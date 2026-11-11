@@ -23,13 +23,13 @@ func TQuadbinFromPointer(p unsafe.Pointer) *TQuadbin {
 	return v
 }
 
-// TQuadbinIn is MEOS tquadbin_in.
-func TQuadbinIn(str string) (*Temporal, error) {
+// TQuadbinFromText is the portable fromText of MEOS tquadbin_in.
+func TQuadbinFromText(str string) (*TQuadbin, error) {
 	_r0, _err := functions.TquadbinIn(str)
 	if _err != nil {
 		return nil, _err
 	}
-	return TemporalFromPointer(_r0.Pointer()), nil
+	return TQuadbinFromPointer(_r0.Pointer()), nil
 }
 
 // TQuadbinFromMFJSON is MEOS tquadbin_from_mfjson.
@@ -184,11 +184,7 @@ func TQuadbinFromEWKB(wkb []byte) (*TQuadbin, error) {
 
 // TQuadbinFromEWKT is the portable fromEWKT of MEOS tquadbin_in.
 func TQuadbinFromEWKT(str string) (*TQuadbin, error) {
-	r, err := TQuadbinIn(str)
-	if err != nil || r == nil {
-		return nil, err
-	}
-	return TQuadbinFromPointer(r.Pointer()), nil
+	return TQuadbinFromText(str)
 }
 
 // TQuadbinFromHexEWKB is the portable fromHexEWKB of MEOS temporal_from_hexwkb.
@@ -209,15 +205,6 @@ func TQuadbinFromHexWKB(hexwkb string) (*TQuadbin, error) {
 	return TQuadbinFromPointer(r.Pointer()), nil
 }
 
-// TQuadbinFromText is the portable fromText of MEOS tquadbin_in.
-func TQuadbinFromText(str string) (*TQuadbin, error) {
-	r, err := TQuadbinIn(str)
-	if err != nil || r == nil {
-		return nil, err
-	}
-	return TQuadbinFromPointer(r.Pointer()), nil
-}
-
 // TQuadbinFromWKB is the portable fromWKB of MEOS temporal_from_wkb.
 func TQuadbinFromWKB(wkb []byte) (*TQuadbin, error) {
 	r, err := TemporalFromWKB(wkb)
@@ -229,7 +216,7 @@ func TQuadbinFromWKB(wkb []byte) (*TQuadbin, error) {
 
 // String is the text MEOS writes this value as, MEOS temporal_out.
 func (x *TQuadbin) String() string {
-	s, err := x.Out(15)
+	s, err := x.AsText(15)
 	if err != nil {
 		return "%!s(MEOS error: " + err.Error() + ")"
 	}

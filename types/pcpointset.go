@@ -23,13 +23,13 @@ func PCPointSetFromPointer(p unsafe.Pointer) *PCPointSet {
 	return v
 }
 
-// PCPointSetIn is MEOS pcpointset_in.
-func PCPointSetIn(str string) (*Set, error) {
+// PCPointSetFromText is the portable fromText of MEOS pcpointset_in.
+func PCPointSetFromText(str string) (*PCPointSet, error) {
 	_r0, _err := functions.PcpointsetIn(str)
 	if _err != nil {
 		return nil, _err
 	}
-	return SetFromPointer(_r0.Pointer()), nil
+	return PCPointSetFromPointer(_r0.Pointer()), nil
 }
 
 // PCPointSetMake is MEOS pcpointset_make.
@@ -91,11 +91,7 @@ func PCPointSetFromEWKB(wkb []byte) (*PCPointSet, error) {
 
 // PCPointSetFromEWKT is the portable fromEWKT of MEOS pcpointset_in.
 func PCPointSetFromEWKT(str string) (*PCPointSet, error) {
-	r, err := PCPointSetIn(str)
-	if err != nil || r == nil {
-		return nil, err
-	}
-	return PCPointSetFromPointer(r.Pointer()), nil
+	return PCPointSetFromText(str)
 }
 
 // PCPointSetFromHexEWKB is the portable fromHexEWKB of MEOS set_from_hexwkb.
@@ -110,15 +106,6 @@ func PCPointSetFromHexEWKB(hexwkb string) (*PCPointSet, error) {
 // PCPointSetFromHexWKB is the portable fromHexWKB of MEOS set_from_hexwkb.
 func PCPointSetFromHexWKB(hexwkb string) (*PCPointSet, error) {
 	r, err := SetFromHexWKB(hexwkb)
-	if err != nil || r == nil {
-		return nil, err
-	}
-	return PCPointSetFromPointer(r.Pointer()), nil
-}
-
-// PCPointSetFromText is the portable fromText of MEOS pcpointset_in.
-func PCPointSetFromText(str string) (*PCPointSet, error) {
-	r, err := PCPointSetIn(str)
 	if err != nil || r == nil {
 		return nil, err
 	}

@@ -41,13 +41,13 @@ func (x *TPoseChain) AsGeopose(precision int) (string, error) {
 	return _r0, nil
 }
 
-// TPoseChainIn is MEOS tposechain_in.
-func TPoseChainIn(str string) (*Temporal, error) {
+// TPoseChainFromText is the portable fromText of MEOS tposechain_in.
+func TPoseChainFromText(str string) (*TPoseChain, error) {
 	_r0, _err := functions.TposechainIn(str)
 	if _err != nil {
 		return nil, _err
 	}
-	return TemporalFromPointer(_r0.Pointer()), nil
+	return TPoseChainFromPointer(_r0.Pointer()), nil
 }
 
 // TPoseChainFromMFJSON is MEOS tposechain_from_mfjson.
@@ -223,11 +223,7 @@ func TPoseChainFromEWKB(wkb []byte) (*TPoseChain, error) {
 
 // TPoseChainFromEWKT is the portable fromEWKT of MEOS tposechain_in.
 func TPoseChainFromEWKT(str string) (*TPoseChain, error) {
-	r, err := TPoseChainIn(str)
-	if err != nil || r == nil {
-		return nil, err
-	}
-	return TPoseChainFromPointer(r.Pointer()), nil
+	return TPoseChainFromText(str)
 }
 
 // TPoseChainFromHexEWKB is the portable fromHexEWKB of MEOS temporal_from_hexwkb.
@@ -242,15 +238,6 @@ func TPoseChainFromHexEWKB(hexwkb string) (*TPoseChain, error) {
 // TPoseChainFromHexWKB is the portable fromHexWKB of MEOS temporal_from_hexwkb.
 func TPoseChainFromHexWKB(hexwkb string) (*TPoseChain, error) {
 	r, err := TemporalFromHexWKB(hexwkb)
-	if err != nil || r == nil {
-		return nil, err
-	}
-	return TPoseChainFromPointer(r.Pointer()), nil
-}
-
-// TPoseChainFromText is the portable fromText of MEOS tposechain_in.
-func TPoseChainFromText(str string) (*TPoseChain, error) {
-	r, err := TPoseChainIn(str)
 	if err != nil || r == nil {
 		return nil, err
 	}

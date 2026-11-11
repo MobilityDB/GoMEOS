@@ -64,8 +64,8 @@ func TBoxFromWKB(wkb []byte) (*TBox, error) {
 	return TBoxFromPointer(_r0.Pointer()), nil
 }
 
-// TBoxIn is MEOS tbox_in.
-func TBoxIn(str string) (*TBox, error) {
+// TBoxFromText is the portable fromText of MEOS tbox_in.
+func TBoxFromText(str string) (*TBox, error) {
 	_r0, _err := functions.TBOXIn(str)
 	if _err != nil {
 		return nil, _err
@@ -73,8 +73,8 @@ func TBoxIn(str string) (*TBox, error) {
 	return TBoxFromPointer(_r0.Pointer()), nil
 }
 
-// Out is MEOS tbox_out.
-func (x *TBox) Out(maxdd int) (string, error) {
+// AsText is the portable asText of MEOS tbox_out.
+func (x *TBox) AsText(maxdd int) (string, error) {
 	_r0, _err := functions.TBOXOut(functions.TBoxFromPointer(x.Pointer()), maxdd)
 	if _err != nil {
 		return "", _err
@@ -548,19 +548,9 @@ func TBoxFromTimestamptz(t int64) (*TBox, error) {
 	return TBoxFromPointer(_r0.Pointer()), nil
 }
 
-// AsText is the portable asText of MEOS tbox_out.
-func (x *TBox) AsText(maxdd int) (string, error) {
-	return x.Out(maxdd)
-}
-
-// TBoxFromText is the portable fromText of MEOS tbox_in.
-func TBoxFromText(str string) (*TBox, error) {
-	return TBoxIn(str)
-}
-
 // String is the text MEOS writes this value as, MEOS tbox_out.
 func (x *TBox) String() string {
-	s, err := x.Out(15)
+	s, err := x.AsText(15)
 	if err != nil {
 		return "%!s(MEOS error: " + err.Error() + ")"
 	}

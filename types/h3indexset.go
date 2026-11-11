@@ -23,13 +23,13 @@ func H3IndexSetFromPointer(p unsafe.Pointer) *H3IndexSet {
 	return v
 }
 
-// H3IndexSetIn is MEOS h3indexset_in.
-func H3IndexSetIn(str string) (*Set, error) {
+// H3IndexSetFromText is the portable fromText of MEOS h3indexset_in.
+func H3IndexSetFromText(str string) (*H3IndexSet, error) {
 	_r0, _err := functions.H3indexsetIn(str)
 	if _err != nil {
 		return nil, _err
 	}
-	return SetFromPointer(_r0.Pointer()), nil
+	return H3IndexSetFromPointer(_r0.Pointer()), nil
 }
 
 // H3IndexSetMake is MEOS h3indexset_make.
@@ -118,11 +118,7 @@ func H3IndexSetFromEWKB(wkb []byte) (*H3IndexSet, error) {
 
 // H3IndexSetFromEWKT is the portable fromEWKT of MEOS h3indexset_in.
 func H3IndexSetFromEWKT(str string) (*H3IndexSet, error) {
-	r, err := H3IndexSetIn(str)
-	if err != nil || r == nil {
-		return nil, err
-	}
-	return H3IndexSetFromPointer(r.Pointer()), nil
+	return H3IndexSetFromText(str)
 }
 
 // H3IndexSetFromHexEWKB is the portable fromHexEWKB of MEOS set_from_hexwkb.
@@ -143,15 +139,6 @@ func H3IndexSetFromHexWKB(hexwkb string) (*H3IndexSet, error) {
 	return H3IndexSetFromPointer(r.Pointer()), nil
 }
 
-// H3IndexSetFromText is the portable fromText of MEOS h3indexset_in.
-func H3IndexSetFromText(str string) (*H3IndexSet, error) {
-	r, err := H3IndexSetIn(str)
-	if err != nil || r == nil {
-		return nil, err
-	}
-	return H3IndexSetFromPointer(r.Pointer()), nil
-}
-
 // H3IndexSetFromWKB is the portable fromWKB of MEOS set_from_wkb.
 func H3IndexSetFromWKB(wkb []byte) (*H3IndexSet, error) {
 	r, err := SetFromWKB(wkb)
@@ -163,7 +150,7 @@ func H3IndexSetFromWKB(wkb []byte) (*H3IndexSet, error) {
 
 // String is the text MEOS writes this value as, MEOS set_out.
 func (x *H3IndexSet) String() string {
-	s, err := x.Out(15)
+	s, err := x.AsText(15)
 	if err != nil {
 		return "%!s(MEOS error: " + err.Error() + ")"
 	}

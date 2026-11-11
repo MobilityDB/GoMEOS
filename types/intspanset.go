@@ -23,13 +23,13 @@ func IntSpanSetFromPointer(p unsafe.Pointer) *IntSpanSet {
 	return v
 }
 
-// IntSpanSetIn is MEOS intspanset_in.
-func IntSpanSetIn(str string) (*SpanSet, error) {
+// IntSpanSetFromText is the portable fromText of MEOS intspanset_in.
+func IntSpanSetFromText(str string) (*IntSpanSet, error) {
 	_r0, _err := functions.IntspansetIn(str)
 	if _err != nil {
 		return nil, _err
 	}
-	return SpanSetFromPointer(_r0.Pointer()), nil
+	return IntSpanSetFromPointer(_r0.Pointer()), nil
 }
 
 // ToFloatspanset is MEOS intspanset_to_floatspanset.
@@ -98,20 +98,6 @@ func IntSpanSetFromInt(i int) (*SpanSet, error) {
 // IntSpanSetFromHexWKB is the portable fromHexWKB of MEOS spanset_from_hexwkb.
 func IntSpanSetFromHexWKB(hexwkb string) (*IntSpanSet, error) {
 	r, err := SpanSetFromHexWKB(hexwkb)
-	if err != nil || r == nil {
-		return nil, err
-	}
-	return IntSpanSetFromPointer(r.Pointer()), nil
-}
-
-// AsText is the portable asText of MEOS spanset_out.
-func (x *IntSpanSet) AsText(maxdd int) (string, error) {
-	return x.Out(maxdd)
-}
-
-// IntSpanSetFromText is the portable fromText of MEOS intspanset_in.
-func IntSpanSetFromText(str string) (*IntSpanSet, error) {
-	r, err := IntSpanSetIn(str)
 	if err != nil || r == nil {
 		return nil, err
 	}

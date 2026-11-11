@@ -23,13 +23,13 @@ func PoseSetFromPointer(p unsafe.Pointer) *PoseSet {
 	return v
 }
 
-// PoseSetIn is MEOS poseset_in.
-func PoseSetIn(str string) (*Set, error) {
+// PoseSetFromText is the portable fromText of MEOS poseset_in.
+func PoseSetFromText(str string) (*PoseSet, error) {
 	_r0, _err := functions.PosesetIn(str)
 	if _err != nil {
 		return nil, _err
 	}
-	return SetFromPointer(_r0.Pointer()), nil
+	return PoseSetFromPointer(_r0.Pointer()), nil
 }
 
 // PoseSetMake is MEOS poseset_make.
@@ -91,11 +91,7 @@ func PoseSetFromEWKB(wkb []byte) (*PoseSet, error) {
 
 // PoseSetFromEWKT is the portable fromEWKT of MEOS poseset_in.
 func PoseSetFromEWKT(str string) (*PoseSet, error) {
-	r, err := PoseSetIn(str)
-	if err != nil || r == nil {
-		return nil, err
-	}
-	return PoseSetFromPointer(r.Pointer()), nil
+	return PoseSetFromText(str)
 }
 
 // PoseSetFromHexEWKB is the portable fromHexEWKB of MEOS set_from_hexwkb.
@@ -110,15 +106,6 @@ func PoseSetFromHexEWKB(hexwkb string) (*PoseSet, error) {
 // PoseSetFromHexWKB is the portable fromHexWKB of MEOS set_from_hexwkb.
 func PoseSetFromHexWKB(hexwkb string) (*PoseSet, error) {
 	r, err := SetFromHexWKB(hexwkb)
-	if err != nil || r == nil {
-		return nil, err
-	}
-	return PoseSetFromPointer(r.Pointer()), nil
-}
-
-// PoseSetFromText is the portable fromText of MEOS poseset_in.
-func PoseSetFromText(str string) (*PoseSet, error) {
-	r, err := PoseSetIn(str)
 	if err != nil || r == nil {
 		return nil, err
 	}

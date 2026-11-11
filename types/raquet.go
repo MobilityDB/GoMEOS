@@ -32,8 +32,8 @@ func RaQuetPixtypeSize(pixtype functions.MeosPixType) (uint, error) {
 	return _r0, nil
 }
 
-// RaQuetIn is MEOS raquet_in.
-func RaQuetIn(str string) (unsafe.Pointer, error) {
+// RaQuetFromText is the portable fromText of MEOS raquet_in.
+func RaQuetFromText(str string) (unsafe.Pointer, error) {
 	_r0, _err := functions.RaquetIn(str)
 	if _err != nil {
 		return nil, _err
@@ -299,9 +299,4 @@ func RaQuetGt(rq1 unsafe.Pointer, rq2 unsafe.Pointer) (bool, error) {
 		return false, _err
 	}
 	return _r0, nil
-}
-
-// RaQuetFromText is the portable fromText of MEOS raquet_in.
-func RaQuetFromText(str string) (unsafe.Pointer, error) {
-	return RaQuetIn(str)
 }

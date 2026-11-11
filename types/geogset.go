@@ -23,13 +23,13 @@ func GeogSetFromPointer(p unsafe.Pointer) *GeogSet {
 	return v
 }
 
-// GeogSetIn is MEOS geogset_in.
-func GeogSetIn(str string) (*Set, error) {
+// GeogSetFromText is the portable fromText of MEOS geogset_in.
+func GeogSetFromText(str string) (*GeogSet, error) {
 	_r0, _err := functions.GeogsetIn(str)
 	if _err != nil {
 		return nil, _err
 	}
-	return SetFromPointer(_r0.Pointer()), nil
+	return GeogSetFromPointer(_r0.Pointer()), nil
 }
 
 // ToGeomset is MEOS geogset_to_geomset.
@@ -52,11 +52,7 @@ func GeogSetFromEWKB(wkb []byte) (*GeogSet, error) {
 
 // GeogSetFromEWKT is the portable fromEWKT of MEOS geogset_in.
 func GeogSetFromEWKT(str string) (*GeogSet, error) {
-	r, err := GeogSetIn(str)
-	if err != nil || r == nil {
-		return nil, err
-	}
-	return GeogSetFromPointer(r.Pointer()), nil
+	return GeogSetFromText(str)
 }
 
 // GeogSetFromHexEWKB is the portable fromHexEWKB of MEOS set_from_hexwkb.
@@ -71,15 +67,6 @@ func GeogSetFromHexEWKB(hexwkb string) (*GeogSet, error) {
 // GeogSetFromHexWKB is the portable fromHexWKB of MEOS set_from_hexwkb.
 func GeogSetFromHexWKB(hexwkb string) (*GeogSet, error) {
 	r, err := SetFromHexWKB(hexwkb)
-	if err != nil || r == nil {
-		return nil, err
-	}
-	return GeogSetFromPointer(r.Pointer()), nil
-}
-
-// GeogSetFromText is the portable fromText of MEOS geogset_in.
-func GeogSetFromText(str string) (*GeogSet, error) {
-	r, err := GeogSetIn(str)
 	if err != nil || r == nil {
 		return nil, err
 	}

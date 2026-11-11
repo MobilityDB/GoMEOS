@@ -23,13 +23,13 @@ func TsTzSpanFromPointer(p unsafe.Pointer) *TsTzSpan {
 	return v
 }
 
-// TsTzSpanIn is MEOS tstzspan_in.
-func TsTzSpanIn(str string) (*Span, error) {
+// TsTzSpanFromText is the portable fromText of MEOS tstzspan_in.
+func TsTzSpanFromText(str string) (*TsTzSpan, error) {
 	_r0, _err := functions.TstzspanIn(str)
 	if _err != nil {
 		return nil, _err
 	}
-	return SpanFromPointer(_r0.Pointer()), nil
+	return TsTzSpanFromPointer(_r0.Pointer()), nil
 }
 
 // TsTzSpanMake is MEOS tstzspan_make.
@@ -89,20 +89,6 @@ func TsTzSpanFromTimestamptz(t int64) (*Span, error) {
 // TsTzSpanFromHexWKB is the portable fromHexWKB of MEOS span_from_hexwkb.
 func TsTzSpanFromHexWKB(hexwkb string) (*TsTzSpan, error) {
 	r, err := SpanFromHexWKB(hexwkb)
-	if err != nil || r == nil {
-		return nil, err
-	}
-	return TsTzSpanFromPointer(r.Pointer()), nil
-}
-
-// AsText is the portable asText of MEOS span_out.
-func (x *TsTzSpan) AsText(maxdd int) (string, error) {
-	return x.Out(maxdd)
-}
-
-// TsTzSpanFromText is the portable fromText of MEOS tstzspan_in.
-func TsTzSpanFromText(str string) (*TsTzSpan, error) {
-	r, err := TsTzSpanIn(str)
 	if err != nil || r == nil {
 		return nil, err
 	}

@@ -167,13 +167,13 @@ func TPoseFromMFJSON(str string) (*Temporal, error) {
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
-// TPoseIn is MEOS tpose_in.
-func TPoseIn(str string) (*Temporal, error) {
+// TPoseFromText is the portable fromText of MEOS tpose_in.
+func TPoseFromText(str string) (*TPose, error) {
 	_r0, _err := functions.TposeIn(str)
 	if _err != nil {
 		return nil, _err
 	}
-	return TemporalFromPointer(_r0.Pointer()), nil
+	return TPoseFromPointer(_r0.Pointer()), nil
 }
 
 // TPoseFromBaseTemp is MEOS tpose_from_base_temp.
@@ -436,11 +436,7 @@ func TPoseFromEWKB(wkb []byte) (*TPose, error) {
 
 // TPoseFromEWKT is the portable fromEWKT of MEOS tpose_in.
 func TPoseFromEWKT(str string) (*TPose, error) {
-	r, err := TPoseIn(str)
-	if err != nil || r == nil {
-		return nil, err
-	}
-	return TPoseFromPointer(r.Pointer()), nil
+	return TPoseFromText(str)
 }
 
 // TPoseFromHexEWKB is the portable fromHexEWKB of MEOS temporal_from_hexwkb.
@@ -455,15 +451,6 @@ func TPoseFromHexEWKB(hexwkb string) (*TPose, error) {
 // TPoseFromHexWKB is the portable fromHexWKB of MEOS temporal_from_hexwkb.
 func TPoseFromHexWKB(hexwkb string) (*TPose, error) {
 	r, err := TemporalFromHexWKB(hexwkb)
-	if err != nil || r == nil {
-		return nil, err
-	}
-	return TPoseFromPointer(r.Pointer()), nil
-}
-
-// TPoseFromText is the portable fromText of MEOS tpose_in.
-func TPoseFromText(str string) (*TPose, error) {
-	r, err := TPoseIn(str)
 	if err != nil || r == nil {
 		return nil, err
 	}

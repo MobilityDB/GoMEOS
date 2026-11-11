@@ -32,13 +32,13 @@ func (x *IntSpan) Expand(value int32) (*Span, error) {
 	return SpanFromPointer(_r0.Pointer()), nil
 }
 
-// IntSpanIn is MEOS intspan_in.
-func IntSpanIn(str string) (*Span, error) {
+// IntSpanFromText is the portable fromText of MEOS intspan_in.
+func IntSpanFromText(str string) (*IntSpan, error) {
 	_r0, _err := functions.IntspanIn(str)
 	if _err != nil {
 		return nil, _err
 	}
-	return SpanFromPointer(_r0.Pointer()), nil
+	return IntSpanFromPointer(_r0.Pointer()), nil
 }
 
 // IntSpanMake is MEOS intspan_make.
@@ -134,20 +134,6 @@ func IntSpanFromInt(i int) (*Span, error) {
 // IntSpanFromHexWKB is the portable fromHexWKB of MEOS span_from_hexwkb.
 func IntSpanFromHexWKB(hexwkb string) (*IntSpan, error) {
 	r, err := SpanFromHexWKB(hexwkb)
-	if err != nil || r == nil {
-		return nil, err
-	}
-	return IntSpanFromPointer(r.Pointer()), nil
-}
-
-// AsText is the portable asText of MEOS span_out.
-func (x *IntSpan) AsText(maxdd int) (string, error) {
-	return x.Out(maxdd)
-}
-
-// IntSpanFromText is the portable fromText of MEOS intspan_in.
-func IntSpanFromText(str string) (*IntSpan, error) {
-	r, err := IntSpanIn(str)
 	if err != nil || r == nil {
 		return nil, err
 	}

@@ -32,13 +32,13 @@ func TBigIntFromMFJSON(str string) (*Temporal, error) {
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
-// TBigIntIn is MEOS tbigint_in.
-func TBigIntIn(str string) (*Temporal, error) {
+// TBigIntFromText is the portable fromText of MEOS tbigint_in.
+func TBigIntFromText(str string) (*TBigInt, error) {
 	_r0, _err := functions.TbigintIn(str)
 	if _err != nil {
 		return nil, _err
 	}
-	return TemporalFromPointer(_r0.Pointer()), nil
+	return TBigIntFromPointer(_r0.Pointer()), nil
 }
 
 // TBigIntFromBaseTemp is MEOS tbigint_from_base_temp.
@@ -263,20 +263,6 @@ func TBigIntFromHexWKB(hexwkb string) (*TBigInt, error) {
 	return TBigIntFromPointer(r.Pointer()), nil
 }
 
-// AsText is the portable asText of MEOS temporal_out.
-func (x *TBigInt) AsText(maxdd int) (string, error) {
-	return x.Out(maxdd)
-}
-
-// TBigIntFromText is the portable fromText of MEOS tbigint_in.
-func TBigIntFromText(str string) (*TBigInt, error) {
-	r, err := TBigIntIn(str)
-	if err != nil || r == nil {
-		return nil, err
-	}
-	return TBigIntFromPointer(r.Pointer()), nil
-}
-
 // TBigIntFromWKB is the portable fromWKB of MEOS temporal_from_wkb.
 func TBigIntFromWKB(wkb []byte) (*TBigInt, error) {
 	r, err := TemporalFromWKB(wkb)
@@ -288,7 +274,7 @@ func TBigIntFromWKB(wkb []byte) (*TBigInt, error) {
 
 // String is the text MEOS writes this value as, MEOS temporal_out.
 func (x *TBigInt) String() string {
-	s, err := x.Out(15)
+	s, err := x.AsText(15)
 	if err != nil {
 		return "%!s(MEOS error: " + err.Error() + ")"
 	}

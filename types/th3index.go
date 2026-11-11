@@ -23,13 +23,13 @@ func TH3IndexFromPointer(p unsafe.Pointer) *TH3Index {
 	return v
 }
 
-// TH3IndexIn is MEOS th3index_in.
-func TH3IndexIn(str string) (*Temporal, error) {
+// TH3IndexFromText is the portable fromText of MEOS th3index_in.
+func TH3IndexFromText(str string) (*TH3Index, error) {
 	_r0, _err := functions.Th3indexIn(str)
 	if _err != nil {
 		return nil, _err
 	}
-	return TemporalFromPointer(_r0.Pointer()), nil
+	return TH3IndexFromPointer(_r0.Pointer()), nil
 }
 
 // TH3IndexFromMFJSON is MEOS th3index_from_mfjson.
@@ -364,11 +364,7 @@ func TH3IndexFromEWKB(wkb []byte) (*TH3Index, error) {
 
 // TH3IndexFromEWKT is the portable fromEWKT of MEOS th3index_in.
 func TH3IndexFromEWKT(str string) (*TH3Index, error) {
-	r, err := TH3IndexIn(str)
-	if err != nil || r == nil {
-		return nil, err
-	}
-	return TH3IndexFromPointer(r.Pointer()), nil
+	return TH3IndexFromText(str)
 }
 
 // TH3IndexFromHexEWKB is the portable fromHexEWKB of MEOS temporal_from_hexwkb.
@@ -389,15 +385,6 @@ func TH3IndexFromHexWKB(hexwkb string) (*TH3Index, error) {
 	return TH3IndexFromPointer(r.Pointer()), nil
 }
 
-// TH3IndexFromText is the portable fromText of MEOS th3index_in.
-func TH3IndexFromText(str string) (*TH3Index, error) {
-	r, err := TH3IndexIn(str)
-	if err != nil || r == nil {
-		return nil, err
-	}
-	return TH3IndexFromPointer(r.Pointer()), nil
-}
-
 // TH3IndexFromWKB is the portable fromWKB of MEOS temporal_from_wkb.
 func TH3IndexFromWKB(wkb []byte) (*TH3Index, error) {
 	r, err := TemporalFromWKB(wkb)
@@ -409,7 +396,7 @@ func TH3IndexFromWKB(wkb []byte) (*TH3Index, error) {
 
 // String is the text MEOS writes this value as, MEOS temporal_out.
 func (x *TH3Index) String() string {
-	s, err := x.Out(15)
+	s, err := x.AsText(15)
 	if err != nil {
 		return "%!s(MEOS error: " + err.Error() + ")"
 	}

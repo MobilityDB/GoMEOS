@@ -32,13 +32,13 @@ func TBoolFromMFJSON(str string) (*Temporal, error) {
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
-// TBoolIn is MEOS tbool_in.
-func TBoolIn(str string) (*Temporal, error) {
+// TBoolFromText is the portable fromText of MEOS tbool_in.
+func TBoolFromText(str string) (*TBool, error) {
 	_r0, _err := functions.TboolIn(str)
 	if _err != nil {
 		return nil, _err
 	}
-	return TemporalFromPointer(_r0.Pointer()), nil
+	return TBoolFromPointer(_r0.Pointer()), nil
 }
 
 // TBoolFromBaseTemp is MEOS tbool_from_base_temp.
@@ -164,20 +164,6 @@ func TBoolFromHexWKB(hexwkb string) (*TBool, error) {
 	return TBoolFromPointer(r.Pointer()), nil
 }
 
-// AsText is the portable asText of MEOS temporal_out.
-func (x *TBool) AsText(maxdd int) (string, error) {
-	return x.Out(maxdd)
-}
-
-// TBoolFromText is the portable fromText of MEOS tbool_in.
-func TBoolFromText(str string) (*TBool, error) {
-	r, err := TBoolIn(str)
-	if err != nil || r == nil {
-		return nil, err
-	}
-	return TBoolFromPointer(r.Pointer()), nil
-}
-
 // TBoolFromWKB is the portable fromWKB of MEOS temporal_from_wkb.
 func TBoolFromWKB(wkb []byte) (*TBool, error) {
 	r, err := TemporalFromWKB(wkb)
@@ -189,7 +175,7 @@ func TBoolFromWKB(wkb []byte) (*TBool, error) {
 
 // String is the text MEOS writes this value as, MEOS temporal_out.
 func (x *TBool) String() string {
-	s, err := x.Out(15)
+	s, err := x.AsText(15)
 	if err != nil {
 		return "%!s(MEOS error: " + err.Error() + ")"
 	}

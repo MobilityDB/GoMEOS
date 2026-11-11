@@ -75,8 +75,8 @@ func TemporalFromWKB(wkb []byte) (*Temporal, error) {
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
-// Out is MEOS temporal_out.
-func (x *Temporal) Out(maxdd int) (string, error) {
+// AsText is the portable asText of MEOS temporal_out.
+func (x *Temporal) AsText(maxdd int) (string, error) {
 	_r0, _err := functions.TemporalOut(functions.TemporalFromPointer(x.Pointer()), maxdd)
 	if _err != nil {
 		return "", _err

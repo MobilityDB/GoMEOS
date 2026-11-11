@@ -23,13 +23,13 @@ func DateSpanSetFromPointer(p unsafe.Pointer) *DateSpanSet {
 	return v
 }
 
-// DateSpanSetIn is MEOS datespanset_in.
-func DateSpanSetIn(str string) (*SpanSet, error) {
+// DateSpanSetFromText is the portable fromText of MEOS datespanset_in.
+func DateSpanSetFromText(str string) (*DateSpanSet, error) {
 	_r0, _err := functions.DatespansetIn(str)
 	if _err != nil {
 		return nil, _err
 	}
-	return SpanSetFromPointer(_r0.Pointer()), nil
+	return DateSpanSetFromPointer(_r0.Pointer()), nil
 }
 
 // ToTstzspanset is MEOS datespanset_to_tstzspanset.
@@ -128,20 +128,6 @@ func DateSpanSetFromDate(d int32) (*SpanSet, error) {
 // DateSpanSetFromHexWKB is the portable fromHexWKB of MEOS spanset_from_hexwkb.
 func DateSpanSetFromHexWKB(hexwkb string) (*DateSpanSet, error) {
 	r, err := SpanSetFromHexWKB(hexwkb)
-	if err != nil || r == nil {
-		return nil, err
-	}
-	return DateSpanSetFromPointer(r.Pointer()), nil
-}
-
-// AsText is the portable asText of MEOS spanset_out.
-func (x *DateSpanSet) AsText(maxdd int) (string, error) {
-	return x.Out(maxdd)
-}
-
-// DateSpanSetFromText is the portable fromText of MEOS datespanset_in.
-func DateSpanSetFromText(str string) (*DateSpanSet, error) {
-	r, err := DateSpanSetIn(str)
 	if err != nil || r == nil {
 		return nil, err
 	}

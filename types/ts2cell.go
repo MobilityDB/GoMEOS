@@ -23,13 +23,13 @@ func TS2CellFromPointer(p unsafe.Pointer) *TS2Cell {
 	return v
 }
 
-// TS2CellIn is MEOS ts2cell_in.
-func TS2CellIn(str string) (*Temporal, error) {
+// TS2CellFromText is the portable fromText of MEOS ts2cell_in.
+func TS2CellFromText(str string) (*TS2Cell, error) {
 	_r0, _err := functions.Ts2cellIn(str)
 	if _err != nil {
 		return nil, _err
 	}
-	return TemporalFromPointer(_r0.Pointer()), nil
+	return TS2CellFromPointer(_r0.Pointer()), nil
 }
 
 // TS2CellFromMFJSON is MEOS ts2cell_from_mfjson.
@@ -184,11 +184,7 @@ func TS2CellFromEWKB(wkb []byte) (*TS2Cell, error) {
 
 // TS2CellFromEWKT is the portable fromEWKT of MEOS ts2cell_in.
 func TS2CellFromEWKT(str string) (*TS2Cell, error) {
-	r, err := TS2CellIn(str)
-	if err != nil || r == nil {
-		return nil, err
-	}
-	return TS2CellFromPointer(r.Pointer()), nil
+	return TS2CellFromText(str)
 }
 
 // TS2CellFromHexEWKB is the portable fromHexEWKB of MEOS temporal_from_hexwkb.
@@ -209,15 +205,6 @@ func TS2CellFromHexWKB(hexwkb string) (*TS2Cell, error) {
 	return TS2CellFromPointer(r.Pointer()), nil
 }
 
-// TS2CellFromText is the portable fromText of MEOS ts2cell_in.
-func TS2CellFromText(str string) (*TS2Cell, error) {
-	r, err := TS2CellIn(str)
-	if err != nil || r == nil {
-		return nil, err
-	}
-	return TS2CellFromPointer(r.Pointer()), nil
-}
-
 // TS2CellFromWKB is the portable fromWKB of MEOS temporal_from_wkb.
 func TS2CellFromWKB(wkb []byte) (*TS2Cell, error) {
 	r, err := TemporalFromWKB(wkb)
@@ -229,7 +216,7 @@ func TS2CellFromWKB(wkb []byte) (*TS2Cell, error) {
 
 // String is the text MEOS writes this value as, MEOS temporal_out.
 func (x *TS2Cell) String() string {
-	s, err := x.Out(15)
+	s, err := x.AsText(15)
 	if err != nil {
 		return "%!s(MEOS error: " + err.Error() + ")"
 	}
