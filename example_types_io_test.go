@@ -74,3 +74,44 @@ func Example_temporalEWKB() {
 	// Output:
 	// true <nil> true POINT(1 1)@2024-12-06 00:00:00+00
 }
+
+// A grid cell is a class held by value, and reads and writes its text, WKB and
+// hex WKB as every type does, the expected text and hex WKB being what
+// mobilitydb/test/quadbin/expected/350_quadbin.test.out and
+// mobilitydb/test/s2cell/expected/600_s2cell.test.out hold, as
+// #Example_temporalEWKB reads a value back from its own bytes.
+func Example_quadbinFormats() {
+	cell, err := types.QuadbinFromText("48427fffffffffff")
+	text, _ := cell.AsText()
+	hex, _ := cell.AsHexWKB(0)
+	fromHex, _ := types.QuadbinFromHexWKB(hex)
+	wkb, _ := cell.AsWKB(0)
+	fromWKB, _ := types.QuadbinFromWKB(wkb)
+	fmt.Println(cell, err, text, hex, fromHex == cell, fromWKB == cell)
+	// Output:
+	// 48427fffffffffff <nil> 48427fffffffffff 01470000FFFFFFFFFF7F4248 true true
+}
+
+func Example_s2cellFormats() {
+	cell, err := types.S2CellFromText("47c3c444c")
+	text, _ := cell.AsText()
+	hex, _ := cell.AsHexWKB(0)
+	fromHex, _ := types.S2CellFromHexWKB(hex)
+	wkb, _ := cell.AsWKB(0)
+	fromWKB, _ := types.S2CellFromWKB(wkb)
+	fmt.Println(cell, err, text, hex, fromHex == cell, fromWKB == cell)
+	// Output:
+	// 47c3c444c <nil> 47c3c444c 01550000000000C044C4C347 true true
+}
+
+func Example_h3indexFormats() {
+	cell, err := types.H3IndexFromText("8a2a1072b59ffff")
+	text, _ := cell.AsText()
+	hex, _ := cell.AsHexWKB(0)
+	fromHex, _ := types.H3IndexFromHexWKB(hex)
+	wkb, _ := cell.AsWKB(0)
+	fromWKB, _ := types.H3IndexFromWKB(wkb)
+	fmt.Println(cell, err, text, fromHex == cell, fromWKB == cell)
+	// Output:
+	// 8a2a1072b59ffff <nil> 8a2a1072b59ffff true true
+}

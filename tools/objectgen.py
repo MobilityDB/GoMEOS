@@ -241,6 +241,21 @@ class Generator:
         self.handle_of = {c: go.lstrip("*") for c, (go, _) in codegen.WRAPPER_TYPES.items()}
         self.struct_of = {go: c for c, (go, _) in codegen.WRAPPER_TYPES.items()}
         self.scalars = set(t.go_type for t in codegen.TYPE_MAP.values())
+        # A class the catalog marks byValue holds its value, never a pointer: a
+        # grid cell, whose cType is the typedef the flat layer declares as a Go
+        # alias of its width (codegen.TYPEDEF_ALIASES), so H3Index crosses as
+        # functions.H3Index and this layer's H3Index is a type over it. The
+        # by-value counterpart of #class_of_handle, which maps a pointer.
+        self.value_of = {ct: cls for cls, ct in model.ctype.items()
+                         if model.om["classes"].get(cls, {}).get("byValue")
+                         and ct in codegen.TYPEDEF_ALIASES}
+        self.byvalue = set(self.value_of.values())
+
+    def receiver(self, cls: str) -> str:
+        """The receiver a method of the class is declared on, beside
+        #class_of_handle: the value itself for a class held by value
+        (#value_of), a pointer to the handle else."""
+        return f"x {cls}" if cls in self.byvalue else f"x *{cls}"
 
     # -- marshalling ------------------------------------------------------
 
@@ -287,6 +302,9 @@ class Generator:
             if handle is None:
                 return None
             return (f"*{cls}", f"functions.{handle}FromPointer({name}.Pointer())")
+        if go_type in self.value_of:
+            # A value of a by-value class crosses as the flat layer's type.
+            return (self.value_of[go_type], f"functions.{go_type}({name})")
         if self.passthrough(go_type):
             return (self.qualify(go_type), name)
         return None
@@ -296,6 +314,8 @@ class Generator:
         cls = self.class_of_handle(go_type)
         if cls:
             return (f"*{cls}", f"{cls}FromPointer({expr}.Pointer())")
+        if go_type in self.value_of:
+            return (self.value_of[go_type], f"{self.value_of[go_type]}({expr})")
         if self.passthrough(go_type):
             return (self.qualify(go_type), expr)
         return None
@@ -320,7 +340,8 @@ class Generator:
         family = {cls, *self.m.ancestors(cls)}
         params = list(sig.params)
         recv = None
-        if params and self.class_of_handle(params[0][1]) in family:
+        if params and (self.class_of_handle(params[0][1]) in family
+                       or self.value_of.get(params[0][1]) == cls):
             recv = params.pop(0)
 
         # A byte buffer travels as a []byte, as MEOS.NET's method_for reads the
@@ -367,7 +388,9 @@ class Generator:
             decl.append(f"{ident(pname)} {gotype}")
             args.append(expr)
 
-        if recv is not None:
+        if recv is not None and cls in self.byvalue:
+            args.insert(0, f"functions.{recv[1]}(x)")
+        elif recv is not None:
             handle = self.handle_of.get(self.struct_of.get(recv[1], ""))
             if handle is None:
                 self.deferred[cls].append(f"{oo}: receiver {recv[1]} has no handle")
@@ -430,7 +453,7 @@ class Generator:
             body.append(f"\treturn {', '.join(outs)}, nil")
 
         result = f"({', '.join(rets + ['error'])})" if rets else "error"
-        head = (f"func (x *{cls}) {name}({', '.join(decl)}) {result} {{"
+        head = (f"func ({self.receiver(cls)}) {name}({', '.join(decl)}) {result} {{"
                 if recv is not None else
                 f"func {name}({', '.join(decl)}) {result} {{")
         self.emitted += 1
@@ -521,7 +544,7 @@ class Generator:
         format it reads or writes, its method keeping its body: a reader
         answers the class it reads, as a portable reader of an ancestor's
         function does, so TGeomPointFromText answers a *TGeomPoint."""
-        head = (f"func (x *{cls}) {target.name}(" if target.instance else
+        head = (f"func ({self.receiver(cls)}) {target.name}(" if target.instance else
                 f"func {target.name}(")
         i = next(i for i, m in enumerate(methods) if m.split("\n")[1].startswith(head))
         code = methods[i].split("\n", 1)[1].replace(
@@ -583,7 +606,7 @@ class Generator:
                     body = (f"\tr, err := {call}({', '.join(target.args)})\n"
                             f"\tif err != nil || r == nil {{\n\t\treturn nil, err\n\t}}\n"
                             f"\treturn {cls}FromPointer(r.Pointer()), nil")
-                head = (f"func (x *{cls}) {name}({', '.join(target.decl)}) {result}"
+                head = (f"func ({self.receiver(cls)}) {name}({', '.join(target.decl)}) {result}"
                         if verb == "As" else
                         f"func {name}({', '.join(target.decl)}) {result}")
                 out.append(f"// {name} is the portable {verb.lower()}{spelling} of "
@@ -634,7 +657,7 @@ class Generator:
                 return []
             args = [str(digits)]
         return [f"// String is the text MEOS writes this value as, MEOS {writer}.\n"
-                f"func (x *{cls}) String() string {{\n"
+                f"func ({self.receiver(cls)}) String() string {{\n"
                 f"\ts, err := x.{target.name}({', '.join(args)})\n"
                 f"\tif err != nil {{\n\t\treturn \"%!s(MEOS error: \" + err.Error() + \")\"\n\t}}\n"
                 f"\treturn s\n}}\n"]
@@ -679,26 +702,34 @@ class Generator:
         methods += self.portable_methods(cls, own, functions)
         methods += self.string_method(cls, functions)
 
-        uses_functions = any("functions." in m for m in methods)
-        imports = ['\t"unsafe"']
+        byvalue = cls in self.byvalue
+        uses_functions = byvalue or any("functions." in m for m in methods)
+        imports = [] if byvalue and not any("unsafe." in m for m in methods) else ['\t"unsafe"']
         if uses_functions:
-            imports.append(f'\n\t"{FUNCTIONS_IMPORT}"')
+            imports.append(f'\t"{FUNCTIONS_IMPORT}"')
 
         out = [f"package {PACKAGE}\n",
                "// Code generated by tools/objectgen.py from meos-idl.json. DO NOT EDIT.\n",
-               "import (\n" + "\n".join(imports) + "\n)\n"]
+               "import (\n" + "\n\n".join(imports) + "\n)\n"]
 
         doc = (self.m.om["lattice"].get(cls) or {}).get("doc") or ""
         if doc:
             out.append(f"// {cls} is {doc[0].lower() + doc[1:]}\n")
 
-        out.append(f"type {cls} struct {{\n\t{parent if parent else 'handle'}\n}}\n")
-        out.append(
-            f"// {cls}FromPointer wraps a MEOS pointer, answering nil for nil so an\n"
-            f"// absent MEOS result stays absent rather than becoming a live handle.\n"
-            f"func {cls}FromPointer(p unsafe.Pointer) *{cls} {{\n"
-            f"\tif p == nil {{\n\t\treturn nil\n\t}}\n"
-            f"\tv := &{cls}{{}}\n\tv.ptr = p\n\treturn v\n}}\n")
+        if byvalue:
+            # A value MEOS passes by value is held as that value: a type over the
+            # flat layer's, converted at each call, with no handle to wrap.
+            ctype = self.m.ctype[cls]
+            out.append(f"// {cls} is a value MEOS passes by value, of C type {ctype}.\n"
+                       f"type {cls} functions.{ctype}\n")
+        else:
+            out.append(f"type {cls} struct {{\n\t{parent if parent else 'handle'}\n}}\n")
+            out.append(
+                f"// {cls}FromPointer wraps a MEOS pointer, answering nil for nil so an\n"
+                f"// absent MEOS result stays absent rather than becoming a live handle.\n"
+                f"func {cls}FromPointer(p unsafe.Pointer) *{cls} {{\n"
+                f"\tif p == nil {{\n\t\treturn nil\n\t}}\n"
+                f"\tv := &{cls}{{}}\n\tv.ptr = p\n\treturn v\n}}\n")
         out.extend(methods)
         return "\n".join(out)
 

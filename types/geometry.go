@@ -350,15 +350,6 @@ func GeometryFromCbufferarr(cbarr unsafe.Pointer, count int) (*Geo, error) {
 	return GeoFromPointer(_r0.Pointer()), nil
 }
 
-// GeometryFromQuadbinCell is MEOS quadbin_cell_to_geom.
-func GeometryFromQuadbinCell(cell functions.Quadbin) (*Geo, error) {
-	_r0, _err := functions.QuadbinCellToGeom(cell)
-	if _err != nil {
-		return nil, _err
-	}
-	return GeoFromPointer(_r0.Pointer()), nil
-}
-
 // GeometryFromEWKB is the portable fromEWKB of MEOS geo_from_ewkb.
 func GeometryFromEWKB(wkb []byte, srid int32) (*Geometry, error) {
 	r, err := GeoFromEWKB(wkb, srid)

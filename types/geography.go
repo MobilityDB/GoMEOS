@@ -95,15 +95,6 @@ func (x *Geography) Distance(g2 *Geo, use_spheroid bool) (float64, error) {
 	return _r0, nil
 }
 
-// GeographyFromS2cellCell is MEOS s2cell_cell_to_geog.
-func GeographyFromS2cellCell(cell functions.S2CellId) (*Geo, error) {
-	_r0, _err := functions.S2cellCellToGeog(cell)
-	if _err != nil {
-		return nil, _err
-	}
-	return GeoFromPointer(_r0.Pointer()), nil
-}
-
 // GeographyFromEWKB is the portable fromEWKB of MEOS geo_from_ewkb.
 func GeographyFromEWKB(wkb []byte, srid int32) (*Geography, error) {
 	r, err := GeoFromEWKB(wkb, srid)

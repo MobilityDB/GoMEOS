@@ -155,6 +155,24 @@ func (x *TPCPoint) MinusValue(pt *PCPoint) (*Temporal, error) {
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
+// AtTpcbox is MEOS tpcpoint_at_tpcbox.
+func (x *TPCPoint) AtTpcbox(box *TPCBox, border_inc bool) (*Temporal, error) {
+	_r0, _err := functions.TpcpointAtTpcbox(functions.TemporalFromPointer(x.Pointer()), functions.TPCBoxFromPointer(box.Pointer()), border_inc)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// MinusTpcbox is MEOS tpcpoint_minus_tpcbox.
+func (x *TPCPoint) MinusTpcbox(box *TPCBox, border_inc bool) (*Temporal, error) {
+	_r0, _err := functions.TpcpointMinusTpcbox(functions.TemporalFromPointer(x.Pointer()), functions.TPCBoxFromPointer(box.Pointer()), border_inc)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
 // Pcid is MEOS tpcpoint_pcid.
 func (x *TPCPoint) Pcid() (uint32, error) {
 	_r0, _err := functions.TpcpointPcid(functions.TemporalFromPointer(x.Pointer()))

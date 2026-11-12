@@ -42,8 +42,8 @@ func TS2CellFromMFJSON(mfjson string) (*Temporal, error) {
 }
 
 // TS2CellFromBaseTemp is MEOS ts2cell_from_base_temp.
-func TS2CellFromBaseTemp(value functions.S2CellId, temp *Temporal) (*Temporal, error) {
-	_r0, _err := functions.Ts2cellFromBaseTemp(value, functions.TemporalFromPointer(temp.Pointer()))
+func TS2CellFromBaseTemp(value S2Cell, temp *Temporal) (*Temporal, error) {
+	_r0, _err := functions.Ts2cellFromBaseTemp(functions.S2CellId(value), functions.TemporalFromPointer(temp.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
@@ -51,34 +51,34 @@ func TS2CellFromBaseTemp(value functions.S2CellId, temp *Temporal) (*Temporal, e
 }
 
 // StartValue is MEOS ts2cell_start_value.
-func (x *TS2Cell) StartValue() (functions.S2CellId, error) {
+func (x *TS2Cell) StartValue() (S2Cell, error) {
 	_r0, _err := functions.Ts2cellStartValue(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return 0, _err
 	}
-	return _r0, nil
+	return S2Cell(_r0), nil
 }
 
 // EndValue is MEOS ts2cell_end_value.
-func (x *TS2Cell) EndValue() (functions.S2CellId, error) {
+func (x *TS2Cell) EndValue() (S2Cell, error) {
 	_r0, _err := functions.Ts2cellEndValue(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return 0, _err
 	}
-	return _r0, nil
+	return S2Cell(_r0), nil
 }
 
 // Value is MEOS ts2cell_value.
-func (x *TS2Cell) Value() (functions.S2CellId, error) {
+func (x *TS2Cell) Value() (S2Cell, error) {
 	_r0, _err := functions.Ts2cellValue(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return 0, _err
 	}
-	return _r0, nil
+	return S2Cell(_r0), nil
 }
 
 // ValueN is MEOS ts2cell_value_n.
-func (x *TS2Cell) ValueN(n int) (functions.S2CellId, bool, error) {
+func (x *TS2Cell) ValueN(n int) (S2Cell, bool, error) {
 	_found, _value, _err := functions.Ts2cellValueN(functions.TemporalFromPointer(x.Pointer()), n)
 	if _err != nil {
 		return 0, false, _err
@@ -86,7 +86,7 @@ func (x *TS2Cell) ValueN(n int) (functions.S2CellId, bool, error) {
 	if !_found {
 		return 0, false, nil
 	}
-	return _value, true, nil
+	return S2Cell(_value), true, nil
 }
 
 // Values is MEOS ts2cell_values.
@@ -108,7 +108,7 @@ func (x *TS2Cell) Unnest(values unsafe.Pointer, count unsafe.Pointer) (unsafe.Po
 }
 
 // ValueAtTimestamptz is MEOS ts2cell_value_at_timestamptz.
-func (x *TS2Cell) ValueAtTimestamptz(t int64, strict bool) (functions.S2CellId, bool, error) {
+func (x *TS2Cell) ValueAtTimestamptz(t int64, strict bool) (S2Cell, bool, error) {
 	_found, _value, _err := functions.Ts2cellValueAtTimestamptz(functions.TemporalFromPointer(x.Pointer()), t, strict)
 	if _err != nil {
 		return 0, false, _err
@@ -116,7 +116,7 @@ func (x *TS2Cell) ValueAtTimestamptz(t int64, strict bool) (functions.S2CellId, 
 	if !_found {
 		return 0, false, nil
 	}
-	return _value, true, nil
+	return S2Cell(_value), true, nil
 }
 
 // ToTbigint is MEOS ts2cell_to_tbigint.
@@ -138,8 +138,8 @@ func (x *TS2Cell) ToTgeompoint() (*Temporal, error) {
 }
 
 // AtValue is MEOS ts2cell_at_value.
-func (x *TS2Cell) AtValue(cell functions.S2CellId) (*Temporal, error) {
-	_r0, _err := functions.Ts2cellAtValue(functions.TemporalFromPointer(x.Pointer()), cell)
+func (x *TS2Cell) AtValue(cell S2Cell) (*Temporal, error) {
+	_r0, _err := functions.Ts2cellAtValue(functions.TemporalFromPointer(x.Pointer()), functions.S2CellId(cell))
 	if _err != nil {
 		return nil, _err
 	}
@@ -147,8 +147,8 @@ func (x *TS2Cell) AtValue(cell functions.S2CellId) (*Temporal, error) {
 }
 
 // MinusValue is MEOS ts2cell_minus_value.
-func (x *TS2Cell) MinusValue(cell functions.S2CellId) (*Temporal, error) {
-	_r0, _err := functions.Ts2cellMinusValue(functions.TemporalFromPointer(x.Pointer()), cell)
+func (x *TS2Cell) MinusValue(cell S2Cell) (*Temporal, error) {
+	_r0, _err := functions.Ts2cellMinusValue(functions.TemporalFromPointer(x.Pointer()), functions.S2CellId(cell))
 	if _err != nil {
 		return nil, _err
 	}

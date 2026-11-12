@@ -42,25 +42,25 @@ func H3IndexSetMake(values unsafe.Pointer, count int) (*Set, error) {
 }
 
 // EndValue is MEOS h3indexset_end_value.
-func (x *H3IndexSet) EndValue() (functions.H3Index, error) {
+func (x *H3IndexSet) EndValue() (H3Index, error) {
 	_r0, _err := functions.H3indexsetEndValue(functions.SetFromPointer(x.Pointer()))
 	if _err != nil {
 		return 0, _err
 	}
-	return _r0, nil
+	return H3Index(_r0), nil
 }
 
 // StartValue is MEOS h3indexset_start_value.
-func (x *H3IndexSet) StartValue() (functions.H3Index, error) {
+func (x *H3IndexSet) StartValue() (H3Index, error) {
 	_r0, _err := functions.H3indexsetStartValue(functions.SetFromPointer(x.Pointer()))
 	if _err != nil {
 		return 0, _err
 	}
-	return _r0, nil
+	return H3Index(_r0), nil
 }
 
 // ValueN is MEOS h3indexset_value_n.
-func (x *H3IndexSet) ValueN(n int) (functions.H3Index, bool, error) {
+func (x *H3IndexSet) ValueN(n int) (H3Index, bool, error) {
 	_found, _value, _err := functions.H3indexsetValueN(functions.SetFromPointer(x.Pointer()), n)
 	if _err != nil {
 		return 0, false, _err
@@ -68,7 +68,7 @@ func (x *H3IndexSet) ValueN(n int) (functions.H3Index, bool, error) {
 	if !_found {
 		return 0, false, nil
 	}
-	return _value, true, nil
+	return H3Index(_value), true, nil
 }
 
 // Values is MEOS h3indexset_values.
@@ -92,15 +92,6 @@ func (x *H3IndexSet) GridDisk(k int) (*Set, error) {
 // CoverCells is MEOS h3indexset_cover_cells.
 func (x *H3IndexSet) CoverCells(resolution int32) (*Set, error) {
 	_r0, _err := functions.H3indexsetCoverCells(functions.SetFromPointer(x.Pointer()), resolution)
-	if _err != nil {
-		return nil, _err
-	}
-	return SetFromPointer(_r0.Pointer()), nil
-}
-
-// H3IndexSetFromH3index is MEOS h3index_to_set.
-func H3IndexSetFromH3index(cell functions.H3Index) (*Set, error) {
-	_r0, _err := functions.H3indexToSet(cell)
 	if _err != nil {
 		return nil, _err
 	}

@@ -32,24 +32,6 @@ func RaQuetPixtypeSize(pixtype functions.MeosPixType) (uint, error) {
 	return _r0, nil
 }
 
-// RaQuetFromText is the portable fromText of MEOS raquet_in.
-func RaQuetFromText(str string) (unsafe.Pointer, error) {
-	_r0, _err := functions.RaquetIn(str)
-	if _err != nil {
-		return nil, _err
-	}
-	return _r0, nil
-}
-
-// RaQuetOut is MEOS raquet_out.
-func RaQuetOut(rq unsafe.Pointer) (string, error) {
-	_r0, _err := functions.RaquetOut(rq)
-	if _err != nil {
-		return "", _err
-	}
-	return _r0, nil
-}
-
 // RaQuetFromWKB is MEOS raquet_from_wkb.
 func RaQuetFromWKB(wkb []byte) (unsafe.Pointer, error) {
 	var _p_wkb unsafe.Pointer
@@ -92,12 +74,12 @@ func RaQuetAsHexWKB(rq unsafe.Pointer, variant uint8) (string, error) {
 }
 
 // RaQuetMake is MEOS raquet_make.
-func RaQuetMake(quadbin functions.Quadbin, width int32, height int32, pixtype functions.MeosPixType, nodata float64, has_nodata bool, pixels []byte) (unsafe.Pointer, error) {
+func RaQuetMake(quadbin Quadbin, width int32, height int32, pixtype functions.MeosPixType, nodata float64, has_nodata bool, pixels []byte) (unsafe.Pointer, error) {
 	var _p_pixels unsafe.Pointer
 	if len(pixels) > 0 {
 		_p_pixels = unsafe.Pointer(&pixels[0])
 	}
-	_r0, _err := functions.RaquetMake(quadbin, width, height, pixtype, nodata, has_nodata, _p_pixels, uint(len(pixels)))
+	_r0, _err := functions.RaquetMake(functions.Quadbin(quadbin), width, height, pixtype, nodata, has_nodata, _p_pixels, uint(len(pixels)))
 	if _err != nil {
 		return nil, _err
 	}
@@ -114,8 +96,8 @@ func RaQuetCopy(rq unsafe.Pointer) (unsafe.Pointer, error) {
 }
 
 // RaQuetRead is MEOS raquet_read.
-func RaQuetRead(path string, quadbin functions.Quadbin) (unsafe.Pointer, error) {
-	_r0, _err := functions.RaquetRead(path, quadbin)
+func RaQuetRead(path string, quadbin Quadbin) (unsafe.Pointer, error) {
+	_r0, _err := functions.RaquetRead(path, functions.Quadbin(quadbin))
 	if _err != nil {
 		return nil, _err
 	}
@@ -123,12 +105,12 @@ func RaQuetRead(path string, quadbin functions.Quadbin) (unsafe.Pointer, error) 
 }
 
 // RaQuetReadBytes is MEOS raquet_read_bytes.
-func RaQuetReadBytes(data []byte, quadbin functions.Quadbin) (unsafe.Pointer, error) {
+func RaQuetReadBytes(data []byte, quadbin Quadbin) (unsafe.Pointer, error) {
 	var _p_data unsafe.Pointer
 	if len(data) > 0 {
 		_p_data = unsafe.Pointer(&data[0])
 	}
-	_r0, _err := functions.RaquetReadBytes(_p_data, uint(len(data)), quadbin)
+	_r0, _err := functions.RaquetReadBytes(_p_data, uint(len(data)), functions.Quadbin(quadbin))
 	if _err != nil {
 		return nil, _err
 	}
@@ -136,12 +118,12 @@ func RaQuetReadBytes(data []byte, quadbin functions.Quadbin) (unsafe.Pointer, er
 }
 
 // RaQuetQuadbin is MEOS raquet_quadbin.
-func RaQuetQuadbin(rq unsafe.Pointer) (functions.Quadbin, error) {
+func RaQuetQuadbin(rq unsafe.Pointer) (Quadbin, error) {
 	_r0, _err := functions.RaquetQuadbin(rq)
 	if _err != nil {
 		return 0, _err
 	}
-	return _r0, nil
+	return Quadbin(_r0), nil
 }
 
 // RaQuetWidth is MEOS raquet_width.

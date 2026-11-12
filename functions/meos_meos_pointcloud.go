@@ -2198,6 +2198,28 @@ func TpcpointMinusValue(temp *Temporal, pt *Pcpoint) (_r0 *Temporal, _err error)
 }
 
 
+// TpcpointAtTpcbox wraps MEOS C function tpcpoint_at_tpcbox.
+func TpcpointAtTpcbox(temp *Temporal, box *TPCBox, border_inc bool) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tpcpoint_at_tpcbox(temp._inner, box._inner, C.bool(border_inc))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// TpcpointMinusTpcbox wraps MEOS C function tpcpoint_minus_tpcbox.
+func TpcpointMinusTpcbox(temp *Temporal, box *TPCBox, border_inc bool) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tpcpoint_minus_tpcbox(temp._inner, box._inner, C.bool(border_inc))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
 // TpcpointPcid wraps MEOS C function tpcpoint_pcid.
 func TpcpointPcid(temp *Temporal) (_r0 uint32, _err error) {
 	C.meos_errno_reset()
@@ -2358,6 +2380,28 @@ func TpcpatchAtValue(temp *Temporal, pa *Pcpatch) (_r0 *Temporal, _err error) {
 func TpcpatchMinusValue(temp *Temporal, pa *Pcpatch) (_r0 *Temporal, _err error) {
 	C.meos_errno_reset()
 	_cret := C.tpcpatch_minus_value(temp._inner, pa._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// TpcpatchAtTpcbox wraps MEOS C function tpcpatch_at_tpcbox.
+func TpcpatchAtTpcbox(temp *Temporal, box *TPCBox, border_inc bool) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tpcpatch_at_tpcbox(temp._inner, box._inner, C.bool(border_inc))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// TpcpatchMinusTpcbox wraps MEOS C function tpcpatch_minus_tpcbox.
+func TpcpatchMinusTpcbox(temp *Temporal, box *TPCBox, border_inc bool) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tpcpatch_minus_tpcbox(temp._inner, box._inner, C.bool(border_inc))
 	if _err = meosError(); _err != nil {
 		return
 	}

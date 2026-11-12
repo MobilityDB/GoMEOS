@@ -42,8 +42,8 @@ func TQuadbinFromMFJSON(mfjson string) (*Temporal, error) {
 }
 
 // TQuadbinFromBaseTemp is MEOS tquadbin_from_base_temp.
-func TQuadbinFromBaseTemp(value functions.Quadbin, temp *Temporal) (*Temporal, error) {
-	_r0, _err := functions.TquadbinFromBaseTemp(value, functions.TemporalFromPointer(temp.Pointer()))
+func TQuadbinFromBaseTemp(value Quadbin, temp *Temporal) (*Temporal, error) {
+	_r0, _err := functions.TquadbinFromBaseTemp(functions.Quadbin(value), functions.TemporalFromPointer(temp.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
@@ -51,34 +51,34 @@ func TQuadbinFromBaseTemp(value functions.Quadbin, temp *Temporal) (*Temporal, e
 }
 
 // StartValue is MEOS tquadbin_start_value.
-func (x *TQuadbin) StartValue() (functions.Quadbin, error) {
+func (x *TQuadbin) StartValue() (Quadbin, error) {
 	_r0, _err := functions.TquadbinStartValue(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return 0, _err
 	}
-	return _r0, nil
+	return Quadbin(_r0), nil
 }
 
 // EndValue is MEOS tquadbin_end_value.
-func (x *TQuadbin) EndValue() (functions.Quadbin, error) {
+func (x *TQuadbin) EndValue() (Quadbin, error) {
 	_r0, _err := functions.TquadbinEndValue(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return 0, _err
 	}
-	return _r0, nil
+	return Quadbin(_r0), nil
 }
 
 // Value is MEOS tquadbin_value.
-func (x *TQuadbin) Value() (functions.Quadbin, error) {
+func (x *TQuadbin) Value() (Quadbin, error) {
 	_r0, _err := functions.TquadbinValue(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return 0, _err
 	}
-	return _r0, nil
+	return Quadbin(_r0), nil
 }
 
 // ValueN is MEOS tquadbin_value_n.
-func (x *TQuadbin) ValueN(n int) (functions.Quadbin, bool, error) {
+func (x *TQuadbin) ValueN(n int) (Quadbin, bool, error) {
 	_found, _value, _err := functions.TquadbinValueN(functions.TemporalFromPointer(x.Pointer()), n)
 	if _err != nil {
 		return 0, false, _err
@@ -86,7 +86,7 @@ func (x *TQuadbin) ValueN(n int) (functions.Quadbin, bool, error) {
 	if !_found {
 		return 0, false, nil
 	}
-	return _value, true, nil
+	return Quadbin(_value), true, nil
 }
 
 // Values is MEOS tquadbin_values.
@@ -108,7 +108,7 @@ func (x *TQuadbin) Unnest(values unsafe.Pointer, count unsafe.Pointer) (unsafe.P
 }
 
 // ValueAtTimestamptz is MEOS tquadbin_value_at_timestamptz.
-func (x *TQuadbin) ValueAtTimestamptz(t int64, strict bool) (functions.Quadbin, bool, error) {
+func (x *TQuadbin) ValueAtTimestamptz(t int64, strict bool) (Quadbin, bool, error) {
 	_found, _value, _err := functions.TquadbinValueAtTimestamptz(functions.TemporalFromPointer(x.Pointer()), t, strict)
 	if _err != nil {
 		return 0, false, _err
@@ -116,7 +116,7 @@ func (x *TQuadbin) ValueAtTimestamptz(t int64, strict bool) (functions.Quadbin, 
 	if !_found {
 		return 0, false, nil
 	}
-	return _value, true, nil
+	return Quadbin(_value), true, nil
 }
 
 // ToTbigint is MEOS tquadbin_to_tbigint.
@@ -138,8 +138,8 @@ func (x *TQuadbin) ToTgeogpoint() (*Temporal, error) {
 }
 
 // AtValue is MEOS tquadbin_at_value.
-func (x *TQuadbin) AtValue(cell functions.Quadbin) (*Temporal, error) {
-	_r0, _err := functions.TquadbinAtValue(functions.TemporalFromPointer(x.Pointer()), cell)
+func (x *TQuadbin) AtValue(cell Quadbin) (*Temporal, error) {
+	_r0, _err := functions.TquadbinAtValue(functions.TemporalFromPointer(x.Pointer()), functions.Quadbin(cell))
 	if _err != nil {
 		return nil, _err
 	}
@@ -147,8 +147,8 @@ func (x *TQuadbin) AtValue(cell functions.Quadbin) (*Temporal, error) {
 }
 
 // MinusValue is MEOS tquadbin_minus_value.
-func (x *TQuadbin) MinusValue(cell functions.Quadbin) (*Temporal, error) {
-	_r0, _err := functions.TquadbinMinusValue(functions.TemporalFromPointer(x.Pointer()), cell)
+func (x *TQuadbin) MinusValue(cell Quadbin) (*Temporal, error) {
+	_r0, _err := functions.TquadbinMinusValue(functions.TemporalFromPointer(x.Pointer()), functions.Quadbin(cell))
 	if _err != nil {
 		return nil, _err
 	}

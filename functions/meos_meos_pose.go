@@ -1721,6 +1721,39 @@ func AlwaysNeTposeTpose(temp1 *Temporal, temp2 *Temporal) (_r0 int, _err error) 
 }
 
 
+// AlwaysOverlapsSTBOXTpose wraps MEOS C function always_overlaps_stbox_tpose.
+func AlwaysOverlapsSTBOXTpose(box *STBox, temp *Temporal) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.always_overlaps_stbox_tpose(box._inner, temp._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
+// AlwaysOverlapsTposeSTBOX wraps MEOS C function always_overlaps_tpose_stbox.
+func AlwaysOverlapsTposeSTBOX(temp *Temporal, box *STBox) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.always_overlaps_tpose_stbox(temp._inner, box._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
+// AlwaysOverlapsTposeTpose wraps MEOS C function always_overlaps_tpose_tpose.
+func AlwaysOverlapsTposeTpose(temp1 *Temporal, temp2 *Temporal) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.always_overlaps_tpose_tpose(temp1._inner, temp2._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
 // EverEqPoseTpose wraps MEOS C function ever_eq_pose_tpose.
 func EverEqPoseTpose(pose *Pose, temp *Temporal) (_r0 int, _err error) {
 	C.meos_errno_reset()
@@ -1780,6 +1813,39 @@ func EverNeTposePose(temp *Temporal, pose *Pose) (_r0 int, _err error) {
 func EverNeTposeTpose(temp1 *Temporal, temp2 *Temporal) (_r0 int, _err error) {
 	C.meos_errno_reset()
 	_cret := C.ever_ne_tpose_tpose(temp1._inner, temp2._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
+// EverOverlapsSTBOXTpose wraps MEOS C function ever_overlaps_stbox_tpose.
+func EverOverlapsSTBOXTpose(box *STBox, temp *Temporal) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.ever_overlaps_stbox_tpose(box._inner, temp._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
+// EverOverlapsTposeSTBOX wraps MEOS C function ever_overlaps_tpose_stbox.
+func EverOverlapsTposeSTBOX(temp *Temporal, box *STBox) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.ever_overlaps_tpose_stbox(temp._inner, box._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
+// EverOverlapsTposeTpose wraps MEOS C function ever_overlaps_tpose_tpose.
+func EverOverlapsTposeTpose(temp1 *Temporal, temp2 *Temporal) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.ever_overlaps_tpose_tpose(temp1._inner, temp2._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}

@@ -551,12 +551,12 @@ func GeoClusterWithin(geoms unsafe.Pointer, ngeoms uint32, tolerance float64, co
 }
 
 // ToH3indexCell is MEOS geo_to_h3index_cell.
-func (x *Geo) ToH3indexCell(resolution int32) (functions.H3Index, error) {
+func (x *Geo) ToH3indexCell(resolution int32) (H3Index, error) {
 	_r0, _err := functions.GeoToH3indexCell(functions.GeomFromPointer(x.Pointer()), resolution)
 	if _err != nil {
 		return 0, _err
 	}
-	return _r0, nil
+	return H3Index(_r0), nil
 }
 
 // ToH3indexSet is MEOS geo_to_h3index_set.
@@ -569,12 +569,12 @@ func (x *Geo) ToH3indexSet(resolution int32) (*Set, error) {
 }
 
 // ToQuadbinCell is MEOS geo_to_quadbin_cell.
-func (x *Geo) ToQuadbinCell(resolution int32) (functions.Quadbin, error) {
+func (x *Geo) ToQuadbinCell(resolution int32) (Quadbin, error) {
 	_r0, _err := functions.GeoToQuadbinCell(functions.GeomFromPointer(x.Pointer()), resolution)
 	if _err != nil {
 		return 0, _err
 	}
-	return _r0, nil
+	return Quadbin(_r0), nil
 }
 
 // ToQuadbinSet is MEOS geo_to_quadbin_set.
@@ -587,12 +587,12 @@ func (x *Geo) ToQuadbinSet(resolution int32) (*Set, error) {
 }
 
 // ToS2cellCell is MEOS geo_to_s2cell_cell.
-func (x *Geo) ToS2cellCell(level int32) (functions.S2CellId, error) {
+func (x *Geo) ToS2cellCell(level int32) (S2Cell, error) {
 	_r0, _err := functions.GeoToS2cellCell(functions.GeomFromPointer(x.Pointer()), level)
 	if _err != nil {
 		return 0, _err
 	}
-	return _r0, nil
+	return S2Cell(_r0), nil
 }
 
 // ToS2cellSet is MEOS geo_to_s2cell_set.
