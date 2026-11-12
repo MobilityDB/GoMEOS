@@ -32,24 +32,6 @@ func RaQuetPixtypeSize(pixtype functions.MeosPixType) (uint, error) {
 	return _r0, nil
 }
 
-// RaQuetFromText is the portable fromText of MEOS raquet_in.
-func RaQuetFromText(str string) (unsafe.Pointer, error) {
-	_r0, _err := functions.RaquetIn(str)
-	if _err != nil {
-		return nil, _err
-	}
-	return _r0, nil
-}
-
-// RaQuetOut is MEOS raquet_out.
-func RaQuetOut(rq unsafe.Pointer) (string, error) {
-	_r0, _err := functions.RaquetOut(rq)
-	if _err != nil {
-		return "", _err
-	}
-	return _r0, nil
-}
-
 // RaQuetFromWKB is MEOS raquet_from_wkb.
 func RaQuetFromWKB(wkb []byte) (unsafe.Pointer, error) {
 	var _p_wkb unsafe.Pointer
