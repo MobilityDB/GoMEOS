@@ -41,15 +41,6 @@ func TRGeometryFromMFJSON(mfjson string) (*Temporal, error) {
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
-// Out is MEOS trgeometry_out.
-func (x *TRGeometry) Out() (string, error) {
-	_r0, _err := functions.TrgeometryOut(functions.TemporalFromPointer(x.Pointer()))
-	if _err != nil {
-		return "", _err
-	}
-	return _r0, nil
-}
-
 // AsText is MEOS trgeometry_as_text.
 func (x *TRGeometry) AsText(maxdd int) (string, error) {
 	_r0, _err := functions.TrgeometryAsText(functions.TemporalFromPointer(x.Pointer()), maxdd)

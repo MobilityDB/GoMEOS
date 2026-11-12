@@ -12986,6 +12986,61 @@ func AlwaysNeTtextText(temp *Temporal, txt string) (_r0 int, _err error) {
 }
 
 
+// AlwaysOverlapsTBOXTnumber wraps MEOS C function always_overlaps_tbox_tnumber.
+func AlwaysOverlapsTBOXTnumber(box *TBox, temp *Temporal) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.always_overlaps_tbox_tnumber(box._inner, temp._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
+// AlwaysOverlapsTemporalTemporal wraps MEOS C function always_overlaps_temporal_temporal.
+func AlwaysOverlapsTemporalTemporal(temp1 *Temporal, temp2 *Temporal) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.always_overlaps_temporal_temporal(temp1._inner, temp2._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
+// AlwaysOverlapsTemporalTstzspan wraps MEOS C function always_overlaps_temporal_tstzspan.
+func AlwaysOverlapsTemporalTstzspan(temp *Temporal, s *Span) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.always_overlaps_temporal_tstzspan(temp._inner, s._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
+// AlwaysOverlapsTnumberTBOX wraps MEOS C function always_overlaps_tnumber_tbox.
+func AlwaysOverlapsTnumberTBOX(temp *Temporal, box *TBox) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.always_overlaps_tnumber_tbox(temp._inner, box._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
+// AlwaysOverlapsTstzspanTemporal wraps MEOS C function always_overlaps_tstzspan_temporal.
+func AlwaysOverlapsTstzspanTemporal(s *Span, temp *Temporal) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.always_overlaps_tstzspan_temporal(s._inner, temp._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
 // EverEqBoolTbool wraps MEOS C function ever_eq_bool_tbool.
 func EverEqBoolTbool(b bool, temp *Temporal) (_r0 int, _err error) {
 	C.meos_errno_reset()
@@ -13641,6 +13696,61 @@ func EverNeTtextText(temp *Temporal, txt string) (_r0 int, _err error) {
 	defer C.free(unsafe.Pointer(_c_txt))
 	C.meos_errno_reset()
 	_cret := C.ever_ne_ttext_text(temp._inner, _c_txt)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
+// EverOverlapsTBOXTnumber wraps MEOS C function ever_overlaps_tbox_tnumber.
+func EverOverlapsTBOXTnumber(box *TBox, temp *Temporal) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.ever_overlaps_tbox_tnumber(box._inner, temp._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
+// EverOverlapsTemporalTemporal wraps MEOS C function ever_overlaps_temporal_temporal.
+func EverOverlapsTemporalTemporal(temp1 *Temporal, temp2 *Temporal) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.ever_overlaps_temporal_temporal(temp1._inner, temp2._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
+// EverOverlapsTemporalTstzspan wraps MEOS C function ever_overlaps_temporal_tstzspan.
+func EverOverlapsTemporalTstzspan(temp *Temporal, s *Span) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.ever_overlaps_temporal_tstzspan(temp._inner, s._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
+// EverOverlapsTnumberTBOX wraps MEOS C function ever_overlaps_tnumber_tbox.
+func EverOverlapsTnumberTBOX(temp *Temporal, box *TBox) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.ever_overlaps_tnumber_tbox(temp._inner, box._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
+// EverOverlapsTstzspanTemporal wraps MEOS C function ever_overlaps_tstzspan_temporal.
+func EverOverlapsTstzspanTemporal(s *Span, temp *Temporal) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.ever_overlaps_tstzspan_temporal(s._inner, temp._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}

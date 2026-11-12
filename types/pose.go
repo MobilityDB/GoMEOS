@@ -110,24 +110,6 @@ func PoseFromText(str string) (*Pose, error) {
 	return PoseFromPointer(_r0.Pointer()), nil
 }
 
-// PoseIn is MEOS pose_in.
-func PoseIn(str string) (*Pose, error) {
-	_r0, _err := functions.PoseIn(str)
-	if _err != nil {
-		return nil, _err
-	}
-	return PoseFromPointer(_r0.Pointer()), nil
-}
-
-// Out is MEOS pose_out.
-func (x *Pose) Out(maxdd int) (string, error) {
-	_r0, _err := functions.PoseOut(functions.PoseFromPointer(x.Pointer()), maxdd)
-	if _err != nil {
-		return "", _err
-	}
-	return _r0, nil
-}
-
 // PoseFromGeopose is MEOS pose_from_geopose.
 func PoseFromGeopose(json string) (*Pose, error) {
 	_r0, _err := functions.PoseFromGeopose(json)

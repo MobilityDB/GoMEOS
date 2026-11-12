@@ -476,6 +476,24 @@ class Generator:
                     return verb, spelling
         return None
 
+    def type_support(self, entry: dict) -> bool:
+        """Whether an own method the object model calls by its role (ooName `in`
+        or `out`) is a type support function: one whose function the catalog
+        gives an SQL signature marked typeSupport, the input or output function
+        a CREATE TYPE binds."""
+        return entry["ooName"] in ("in", "out") and any(
+            s.get("typeSupport") for s in
+            self.m.functions.get(entry["function"], {}).get("sqlSignatures") or [])
+
+    def plumbing(self, entry: dict) -> bool:
+        """Whether a type support function serves no portable format
+        (#portable_format), so the object layer leaves it out, as the dialect
+        never names it: its text is the PostgreSQL wire form, which the
+        portable reader of the text reads (pose_out writes POSE (<hex>, 0.5),
+        which poseFromText reads), and its function stays in the flat layer.
+        One serving a portable format takes its name (#take_portable_names)."""
+        return self.type_support(entry) and self.portable_format(entry["function"]) is None
+
     def take_portable_names(self, cls: str, methods: list, own: list,
                             entries: list, functions: dict) -> None:
         """Emit each type support function of the class under the portable name
@@ -487,14 +505,9 @@ class Generator:
         portable format keeps its name."""
         taken = {e.name for e in functions.values()} | {e.name for e in own}
         for target, entry in zip(own, entries):
-            if entry["ooName"] not in ("in", "out") or not any(
-                    s.get("typeSupport") for s in
-                    self.m.functions.get(target.function, {}).get("sqlSignatures") or []):
+            if not self.type_support(entry):
                 continue
-            fmt = self.portable_format(target.function)
-            if fmt is None:
-                continue
-            verb, spelling = fmt
+            verb, spelling = self.portable_format(target.function)
             name = verb + spelling if target.instance else cls + verb + spelling
             if (verb == "As") != target.instance or name in taken \
                     or (not target.instance and name in self.package_names):
@@ -644,7 +657,7 @@ class Generator:
 
         methods, seen, own, entries = [], set(), [], []
         for entry in spec["methods"]:
-            if entry.get("ooExclude"):
+            if entry.get("ooExclude") or self.plumbing(entry):
                 continue
             code = self.method_for(cls, entry)
             if code is None:

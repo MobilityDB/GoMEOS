@@ -110,15 +110,6 @@ func NPointFromText(str string) (*NPoint, error) {
 	return NPointFromPointer(_r0.Pointer()), nil
 }
 
-// Out is MEOS npoint_out.
-func (x *NPoint) Out(maxdd int) (string, error) {
-	_r0, _err := functions.NpointOut(functions.NpointFromPointer(x.Pointer()), maxdd)
-	if _err != nil {
-		return "", _err
-	}
-	return _r0, nil
-}
-
 // Copy is MEOS npoint_copy.
 func (x *NPoint) Copy() (*NPoint, error) {
 	_r0, _err := functions.NpointCopy(functions.NpointFromPointer(x.Pointer()))
