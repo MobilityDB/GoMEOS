@@ -77,6 +77,24 @@ func (x *TPoseChain) ToTpose() (*Temporal, error) {
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
+// ToTgeompoint is MEOS tposechain_to_tgeompoint.
+func (x *TPoseChain) ToTgeompoint() (*Temporal, error) {
+	_r0, _err := functions.TposechainToTgeompoint(functions.TemporalFromPointer(x.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// ToTgeogpoint is MEOS tposechain_to_tgeogpoint.
+func (x *TPoseChain) ToTgeogpoint() (*Temporal, error) {
+	_r0, _err := functions.TposechainToTgeogpoint(functions.TemporalFromPointer(x.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
 // EndValue is MEOS tposechain_end_value.
 func (x *TPoseChain) EndValue() (unsafe.Pointer, error) {
 	_r0, _err := functions.TposechainEndValue(functions.TemporalFromPointer(x.Pointer()))

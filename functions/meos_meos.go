@@ -510,6 +510,30 @@ func MeosArrayDestroyFree(array *MeosArray) (_err error) {
 }
 
 
+// IndexsearchopName wraps MEOS C function indexsearchop_name.
+func IndexsearchopName(op IndexSearchOp) (_r0 string, _err error) {
+	C.meos_errno_reset()
+	_cret := C.indexsearchop_name(C.IndexSearchOp(op))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return C.GoString(_cret), nil
+}
+
+
+// IndexsearchopFromString wraps MEOS C function indexsearchop_from_string.
+func IndexsearchopFromString(str string) (_r0 IndexSearchOp, _err error) {
+	_c_str := C.CString(str)
+	defer C.free(unsafe.Pointer(_c_str))
+	C.meos_errno_reset()
+	_cret := C.indexsearchop_from_string(_c_str)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return IndexSearchOp(_cret), nil
+}
+
+
 // IndexResultCreate wraps MEOS C function index_result_create.
 func IndexResultCreate() (_r0 *MeosArray, _err error) {
 	C.meos_errno_reset()
@@ -776,6 +800,30 @@ func RtreeNnCursorClose(cursor unsafe.Pointer) (_err error) {
 		return
 	}
 	return nil
+}
+
+
+// SptreekindName wraps MEOS C function sptreekind_name.
+func SptreekindName(kind SPTreeKind) (_r0 string, _err error) {
+	C.meos_errno_reset()
+	_cret := C.sptreekind_name(C.SPTreeKind(kind))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return C.GoString(_cret), nil
+}
+
+
+// SptreekindFromString wraps MEOS C function sptreekind_from_string.
+func SptreekindFromString(str string) (_r0 SPTreeKind, _err error) {
+	_c_str := C.CString(str)
+	defer C.free(unsafe.Pointer(_c_str))
+	C.meos_errno_reset()
+	_cret := C.sptreekind_from_string(_c_str)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return SPTreeKind(_cret), nil
 }
 
 
@@ -1302,19 +1350,6 @@ func BigintsetIn(str string) (_r0 *Set, _err error) {
 }
 
 
-// BigintsetOut wraps MEOS C function bigintset_out.
-func BigintsetOut(set *Set) (_r0 string, _err error) {
-	var _size C.size_t
-	C.meos_errno_reset()
-	_cret := C.bigintset_out(set._inner, &_size)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	defer C.free(unsafe.Pointer(_cret))
-	return takeString(_cret, _size), nil
-}
-
-
 // BigintspanExpand wraps MEOS C function bigintspan_expand.
 func BigintspanExpand(s *Span, value int64) (_r0 *Span, _err error) {
 	C.meos_errno_reset()
@@ -1339,19 +1374,6 @@ func BigintspanIn(str string) (_r0 *Span, _err error) {
 }
 
 
-// BigintspanOut wraps MEOS C function bigintspan_out.
-func BigintspanOut(s *Span) (_r0 string, _err error) {
-	var _size C.size_t
-	C.meos_errno_reset()
-	_cret := C.bigintspan_out(s._inner, &_size)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	defer C.free(unsafe.Pointer(_cret))
-	return takeString(_cret, _size), nil
-}
-
-
 // BigintspansetIn wraps MEOS C function bigintspanset_in.
 func BigintspansetIn(str string) (_r0 *SpanSet, _err error) {
 	_c_str := C.CString(str)
@@ -1362,19 +1384,6 @@ func BigintspansetIn(str string) (_r0 *SpanSet, _err error) {
 		return
 	}
 	return &SpanSet{_inner: _cret}, nil
-}
-
-
-// BigintspansetOut wraps MEOS C function bigintspanset_out.
-func BigintspansetOut(ss *SpanSet) (_r0 string, _err error) {
-	var _size C.size_t
-	C.meos_errno_reset()
-	_cret := C.bigintspanset_out(ss._inner, &_size)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	defer C.free(unsafe.Pointer(_cret))
-	return takeString(_cret, _size), nil
 }
 
 
@@ -1391,19 +1400,6 @@ func DatesetIn(str string) (_r0 *Set, _err error) {
 }
 
 
-// DatesetOut wraps MEOS C function dateset_out.
-func DatesetOut(s *Set) (_r0 string, _err error) {
-	var _size C.size_t
-	C.meos_errno_reset()
-	_cret := C.dateset_out(s._inner, &_size)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	defer C.free(unsafe.Pointer(_cret))
-	return takeString(_cret, _size), nil
-}
-
-
 // DatespanIn wraps MEOS C function datespan_in.
 func DatespanIn(str string) (_r0 *Span, _err error) {
 	_c_str := C.CString(str)
@@ -1414,19 +1410,6 @@ func DatespanIn(str string) (_r0 *Span, _err error) {
 		return
 	}
 	return &Span{_inner: _cret}, nil
-}
-
-
-// DatespanOut wraps MEOS C function datespan_out.
-func DatespanOut(s *Span) (_r0 string, _err error) {
-	var _size C.size_t
-	C.meos_errno_reset()
-	_cret := C.datespan_out(s._inner, &_size)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	defer C.free(unsafe.Pointer(_cret))
-	return takeString(_cret, _size), nil
 }
 
 
@@ -1443,19 +1426,6 @@ func DatespansetIn(str string) (_r0 *SpanSet, _err error) {
 }
 
 
-// DatespansetOut wraps MEOS C function datespanset_out.
-func DatespansetOut(ss *SpanSet) (_r0 string, _err error) {
-	var _size C.size_t
-	C.meos_errno_reset()
-	_cret := C.datespanset_out(ss._inner, &_size)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	defer C.free(unsafe.Pointer(_cret))
-	return takeString(_cret, _size), nil
-}
-
-
 // FloatsetIn wraps MEOS C function floatset_in.
 func FloatsetIn(str string) (_r0 *Set, _err error) {
 	_c_str := C.CString(str)
@@ -1466,19 +1436,6 @@ func FloatsetIn(str string) (_r0 *Set, _err error) {
 		return
 	}
 	return &Set{_inner: _cret}, nil
-}
-
-
-// FloatsetOut wraps MEOS C function floatset_out.
-func FloatsetOut(set *Set, maxdd int) (_r0 string, _err error) {
-	var _size C.size_t
-	C.meos_errno_reset()
-	_cret := C.floatset_out(set._inner, C.int(maxdd), &_size)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	defer C.free(unsafe.Pointer(_cret))
-	return takeString(_cret, _size), nil
 }
 
 
@@ -1506,19 +1463,6 @@ func FloatspanIn(str string) (_r0 *Span, _err error) {
 }
 
 
-// FloatspanOut wraps MEOS C function floatspan_out.
-func FloatspanOut(s *Span, maxdd int) (_r0 string, _err error) {
-	var _size C.size_t
-	C.meos_errno_reset()
-	_cret := C.floatspan_out(s._inner, C.int(maxdd), &_size)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	defer C.free(unsafe.Pointer(_cret))
-	return takeString(_cret, _size), nil
-}
-
-
 // FloatspansetIn wraps MEOS C function floatspanset_in.
 func FloatspansetIn(str string) (_r0 *SpanSet, _err error) {
 	_c_str := C.CString(str)
@@ -1532,19 +1476,6 @@ func FloatspansetIn(str string) (_r0 *SpanSet, _err error) {
 }
 
 
-// FloatspansetOut wraps MEOS C function floatspanset_out.
-func FloatspansetOut(ss *SpanSet, maxdd int) (_r0 string, _err error) {
-	var _size C.size_t
-	C.meos_errno_reset()
-	_cret := C.floatspanset_out(ss._inner, C.int(maxdd), &_size)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	defer C.free(unsafe.Pointer(_cret))
-	return takeString(_cret, _size), nil
-}
-
-
 // IntsetIn wraps MEOS C function intset_in.
 func IntsetIn(str string) (_r0 *Set, _err error) {
 	_c_str := C.CString(str)
@@ -1555,19 +1486,6 @@ func IntsetIn(str string) (_r0 *Set, _err error) {
 		return
 	}
 	return &Set{_inner: _cret}, nil
-}
-
-
-// IntsetOut wraps MEOS C function intset_out.
-func IntsetOut(set *Set) (_r0 string, _err error) {
-	var _size C.size_t
-	C.meos_errno_reset()
-	_cret := C.intset_out(set._inner, &_size)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	defer C.free(unsafe.Pointer(_cret))
-	return takeString(_cret, _size), nil
 }
 
 
@@ -1595,19 +1513,6 @@ func IntspanIn(str string) (_r0 *Span, _err error) {
 }
 
 
-// IntspanOut wraps MEOS C function intspan_out.
-func IntspanOut(s *Span) (_r0 string, _err error) {
-	var _size C.size_t
-	C.meos_errno_reset()
-	_cret := C.intspan_out(s._inner, &_size)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	defer C.free(unsafe.Pointer(_cret))
-	return takeString(_cret, _size), nil
-}
-
-
 // IntspansetIn wraps MEOS C function intspanset_in.
 func IntspansetIn(str string) (_r0 *SpanSet, _err error) {
 	_c_str := C.CString(str)
@@ -1618,19 +1523,6 @@ func IntspansetIn(str string) (_r0 *SpanSet, _err error) {
 		return
 	}
 	return &SpanSet{_inner: _cret}, nil
-}
-
-
-// IntspansetOut wraps MEOS C function intspanset_out.
-func IntspansetOut(ss *SpanSet) (_r0 string, _err error) {
-	var _size C.size_t
-	C.meos_errno_reset()
-	_cret := C.intspanset_out(ss._inner, &_size)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	defer C.free(unsafe.Pointer(_cret))
-	return takeString(_cret, _size), nil
 }
 
 
@@ -1682,6 +1574,19 @@ func SetFromWKB(wkb unsafe.Pointer, size uint) (_r0 *Set, _err error) {
 }
 
 
+// SetOut wraps MEOS C function set_out.
+func SetOut(s *Set, maxdd int) (_r0 string, _err error) {
+	var _size C.size_t
+	C.meos_errno_reset()
+	_cret := C.set_out(s._inner, C.int(maxdd), &_size)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	defer C.free(unsafe.Pointer(_cret))
+	return takeString(_cret, _size), nil
+}
+
+
 // SpanAsHexwkb wraps MEOS C function span_as_hexwkb.
 func SpanAsHexwkb(s *Span, variant uint8) (_r0 string, _err error) {
 	var _size C.size_t
@@ -1727,6 +1632,19 @@ func SpanFromWKB(wkb unsafe.Pointer, size uint) (_r0 *Span, _err error) {
 		return
 	}
 	return &Span{_inner: _cret}, nil
+}
+
+
+// SpanOut wraps MEOS C function span_out.
+func SpanOut(s *Span, maxdd int) (_r0 string, _err error) {
+	var _size C.size_t
+	C.meos_errno_reset()
+	_cret := C.span_out(s._inner, C.int(maxdd), &_size)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	defer C.free(unsafe.Pointer(_cret))
+	return takeString(_cret, _size), nil
 }
 
 
@@ -1778,6 +1696,19 @@ func SpansetFromWKB(wkb unsafe.Pointer, size uint) (_r0 *SpanSet, _err error) {
 }
 
 
+// SpansetOut wraps MEOS C function spanset_out.
+func SpansetOut(ss *SpanSet, maxdd int) (_r0 string, _err error) {
+	var _size C.size_t
+	C.meos_errno_reset()
+	_cret := C.spanset_out(ss._inner, C.int(maxdd), &_size)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	defer C.free(unsafe.Pointer(_cret))
+	return takeString(_cret, _size), nil
+}
+
+
 // TextsetIn wraps MEOS C function textset_in.
 func TextsetIn(str string) (_r0 *Set, _err error) {
 	_c_str := C.CString(str)
@@ -1788,19 +1719,6 @@ func TextsetIn(str string) (_r0 *Set, _err error) {
 		return
 	}
 	return &Set{_inner: _cret}, nil
-}
-
-
-// TextsetOut wraps MEOS C function textset_out.
-func TextsetOut(set *Set) (_r0 string, _err error) {
-	var _size C.size_t
-	C.meos_errno_reset()
-	_cret := C.textset_out(set._inner, &_size)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	defer C.free(unsafe.Pointer(_cret))
-	return takeString(_cret, _size), nil
 }
 
 
@@ -1817,19 +1735,6 @@ func TstzsetIn(str string) (_r0 *Set, _err error) {
 }
 
 
-// TstzsetOut wraps MEOS C function tstzset_out.
-func TstzsetOut(set *Set) (_r0 string, _err error) {
-	var _size C.size_t
-	C.meos_errno_reset()
-	_cret := C.tstzset_out(set._inner, &_size)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	defer C.free(unsafe.Pointer(_cret))
-	return takeString(_cret, _size), nil
-}
-
-
 // TstzspanIn wraps MEOS C function tstzspan_in.
 func TstzspanIn(str string) (_r0 *Span, _err error) {
 	_c_str := C.CString(str)
@@ -1843,19 +1748,6 @@ func TstzspanIn(str string) (_r0 *Span, _err error) {
 }
 
 
-// TstzspanOut wraps MEOS C function tstzspan_out.
-func TstzspanOut(s *Span) (_r0 string, _err error) {
-	var _size C.size_t
-	C.meos_errno_reset()
-	_cret := C.tstzspan_out(s._inner, &_size)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	defer C.free(unsafe.Pointer(_cret))
-	return takeString(_cret, _size), nil
-}
-
-
 // TstzspansetIn wraps MEOS C function tstzspanset_in.
 func TstzspansetIn(str string) (_r0 *SpanSet, _err error) {
 	_c_str := C.CString(str)
@@ -1866,19 +1758,6 @@ func TstzspansetIn(str string) (_r0 *SpanSet, _err error) {
 		return
 	}
 	return &SpanSet{_inner: _cret}, nil
-}
-
-
-// TstzspansetOut wraps MEOS C function tstzspanset_out.
-func TstzspansetOut(ss *SpanSet) (_r0 string, _err error) {
-	var _size C.size_t
-	C.meos_errno_reset()
-	_cret := C.tstzspanset_out(ss._inner, &_size)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	defer C.free(unsafe.Pointer(_cret))
-	return takeString(_cret, _size), nil
 }
 
 
@@ -2401,6 +2280,17 @@ func TimestamptzToSpanset(t int64) (_r0 *SpanSet, _err error) {
 }
 
 
+// TimestamptzToUnixUs wraps MEOS C function timestamptz_to_unix_us.
+func TimestamptzToUnixUs(t int64) (_r0 int64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.timestamptz_to_unix_us(C.TimestampTz(t))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int64(_cret), nil
+}
+
+
 // TstzsetToDateset wraps MEOS C function tstzset_to_dateset.
 func TstzsetToDateset(s *Set) (_r0 *Set, _err error) {
 	C.meos_errno_reset()
@@ -2431,6 +2321,17 @@ func TstzspansetToDatespanset(ss *SpanSet) (_r0 *SpanSet, _err error) {
 		return
 	}
 	return &SpanSet{_inner: _cret}, nil
+}
+
+
+// UnixUsToTimestamptz wraps MEOS C function unix_us_to_timestamptz.
+func UnixUsToTimestamptz(us int64) (_r0 int64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.unix_us_to_timestamptz(C.int64_t(us))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int64(_cret), nil
 }
 
 
@@ -10063,19 +9964,6 @@ func TboolIn(str string) (_r0 *Temporal, _err error) {
 }
 
 
-// TboolOut wraps MEOS C function tbool_out.
-func TboolOut(temp *Temporal) (_r0 string, _err error) {
-	var _size C.size_t
-	C.meos_errno_reset()
-	_cret := C.tbool_out(temp._inner, &_size)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	defer C.free(unsafe.Pointer(_cret))
-	return takeString(_cret, _size), nil
-}
-
-
 // TemporalAsHexwkb wraps MEOS C function temporal_as_hexwkb.
 func TemporalAsHexwkb(temp *Temporal, variant uint8) (_r0 string, _err error) {
 	var _size C.size_t
@@ -10134,6 +10022,17 @@ func WKBVariantFromEndian(endian *string) (_r0 uint8, _err error) {
 }
 
 
+// InterptypeName wraps MEOS C function interptype_name.
+func InterptypeName(interp Interpolation) (_r0 string, _err error) {
+	C.meos_errno_reset()
+	_cret := C.interptype_name(C.interpType(interp))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return C.GoString(_cret), nil
+}
+
+
 // InterptypeFromString wraps MEOS C function interptype_from_string.
 func InterptypeFromString(str string) (_r0 Interpolation, _err error) {
 	_c_str := C.CString(str)
@@ -10171,6 +10070,19 @@ func TemporalFromWKB(wkb unsafe.Pointer, size uint) (_r0 *Temporal, _err error) 
 }
 
 
+// TemporalOut wraps MEOS C function temporal_out.
+func TemporalOut(temp *Temporal, maxdd int) (_r0 string, _err error) {
+	var _size C.size_t
+	C.meos_errno_reset()
+	_cret := C.temporal_out(temp._inner, C.int(maxdd), &_size)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	defer C.free(unsafe.Pointer(_cret))
+	return takeString(_cret, _size), nil
+}
+
+
 // TfloatFromMFJSON wraps MEOS C function tfloat_from_mfjson.
 func TfloatFromMFJSON(str string) (_r0 *Temporal, _err error) {
 	_c_str := C.CString(str)
@@ -10194,19 +10106,6 @@ func TfloatIn(str string) (_r0 *Temporal, _err error) {
 		return
 	}
 	return &Temporal{_inner: _cret}, nil
-}
-
-
-// TfloatOut wraps MEOS C function tfloat_out.
-func TfloatOut(temp *Temporal, maxdd int) (_r0 string, _err error) {
-	var _size C.size_t
-	C.meos_errno_reset()
-	_cret := C.tfloat_out(temp._inner, C.int(maxdd), &_size)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	defer C.free(unsafe.Pointer(_cret))
-	return takeString(_cret, _size), nil
 }
 
 
@@ -10262,32 +10161,6 @@ func TbigintIn(str string) (_r0 *Temporal, _err error) {
 }
 
 
-// TintOut wraps MEOS C function tint_out.
-func TintOut(temp *Temporal) (_r0 string, _err error) {
-	var _size C.size_t
-	C.meos_errno_reset()
-	_cret := C.tint_out(temp._inner, &_size)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	defer C.free(unsafe.Pointer(_cret))
-	return takeString(_cret, _size), nil
-}
-
-
-// TbigintOut wraps MEOS C function tbigint_out.
-func TbigintOut(temp *Temporal) (_r0 string, _err error) {
-	var _size C.size_t
-	C.meos_errno_reset()
-	_cret := C.tbigint_out(temp._inner, &_size)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	defer C.free(unsafe.Pointer(_cret))
-	return takeString(_cret, _size), nil
-}
-
-
 // TtextFromMFJSON wraps MEOS C function ttext_from_mfjson.
 func TtextFromMFJSON(str string) (_r0 *Temporal, _err error) {
 	_c_str := C.CString(str)
@@ -10311,19 +10184,6 @@ func TtextIn(str string) (_r0 *Temporal, _err error) {
 		return
 	}
 	return &Temporal{_inner: _cret}, nil
-}
-
-
-// TtextOut wraps MEOS C function ttext_out.
-func TtextOut(temp *Temporal) (_r0 string, _err error) {
-	var _size C.size_t
-	C.meos_errno_reset()
-	_cret := C.ttext_out(temp._inner, &_size)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	defer C.free(unsafe.Pointer(_cret))
-	return takeString(_cret, _size), nil
 }
 
 
@@ -16093,10 +15953,10 @@ func NadBigintspanTBOX(s *Span, box *TBox) (_r0 int64, _err error) {
 }
 
 
-// NadTboxfloatTboxfloat wraps MEOS C function nad_tboxfloat_tboxfloat.
-func NadTboxfloatTboxfloat(box1 *TBox, box2 *TBox) (_r0 float64, _err error) {
+// NadTBOXTBOX wraps MEOS C function nad_tbox_tbox.
+func NadTBOXTBOX(box1 *TBox, box2 *TBox) (_r0 float64, _err error) {
 	C.meos_errno_reset()
-	_cret := C.nad_tboxfloat_tboxfloat(box1._inner, box2._inner)
+	_cret := C.nad_tbox_tbox(box1._inner, box2._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -16112,17 +15972,6 @@ func NadFloatspanTBOX(s *Span, box *TBox) (_r0 float64, _err error) {
 		return
 	}
 	return float64(_cret), nil
-}
-
-
-// NadTboxintTboxint wraps MEOS C function nad_tboxint_tboxint.
-func NadTboxintTboxint(box1 *TBox, box2 *TBox) (_r0 int, _err error) {
-	C.meos_errno_reset()
-	_cret := C.nad_tboxint_tboxint(box1._inner, box2._inner)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	return int(_cret), nil
 }
 
 
@@ -16218,17 +16067,6 @@ func NadTbigintTBOX(temp *Temporal, box *TBox) (_r0 int64, _err error) {
 func NadTbigintTbigint(temp1 *Temporal, temp2 *Temporal) (_r0 int64, _err error) {
 	C.meos_errno_reset()
 	_cret := C.nad_tbigint_tbigint(temp1._inner, temp2._inner)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	return int64(_cret), nil
-}
-
-
-// NadTboxbigintTboxbigint wraps MEOS C function nad_tboxbigint_tboxbigint.
-func NadTboxbigintTboxbigint(box1 *TBox, box2 *TBox) (_r0 int64, _err error) {
-	C.meos_errno_reset()
-	_cret := C.nad_tboxbigint_tboxbigint(box1._inner, box2._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -16981,6 +16819,127 @@ func TemporalExtKalmanFilter(temp *Temporal, gate float64, q float64, variance f
 		return
 	}
 	return &Temporal{_inner: _cret}, nil
+}
+
+
+// TemporalReachabilityFilter wraps MEOS C function temporal_reachability_filter.
+func TemporalReachabilityFilter(temp *Temporal, maxspeed float64) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.temporal_reachability_filter(temp._inner, C.double(maxspeed))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// TemporalReachabilityFilterTransfn wraps MEOS C function temporal_reachability_filter_transfn.
+func TemporalReachabilityFilterTransfn(state unsafe.Pointer, inst *TInstant, maxspeed float64) (_r0 unsafe.Pointer, _err error) {
+	C.meos_errno_reset()
+	_cret := C.temporal_reachability_filter_transfn((*C.struct_ReachabilityState)(unsafe.Pointer(state)), inst._inner, C.double(maxspeed))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
+}
+
+
+// TemporalReachabilityFilterFinalfn wraps MEOS C function temporal_reachability_filter_finalfn.
+func TemporalReachabilityFilterFinalfn(state unsafe.Pointer) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.temporal_reachability_filter_finalfn((*C.struct_ReachabilityState)(unsafe.Pointer(state)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// ReachabilitystateInstants wraps MEOS C function reachabilitystate_instants.
+func ReachabilitystateInstants(state unsafe.Pointer, count unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
+	C.meos_errno_reset()
+	_cret := C.reachabilitystate_instants((*C.struct_ReachabilityState)(unsafe.Pointer(state)), (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
+}
+
+
+// ReachabilitystateClose wraps MEOS C function reachabilitystate_close.
+func ReachabilitystateClose(state unsafe.Pointer, count unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
+	C.meos_errno_reset()
+	_cret := C.reachabilitystate_close((*C.struct_ReachabilityState)(unsafe.Pointer(state)), (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
+}
+
+
+// ReachabilitystateFree wraps MEOS C function reachabilitystate_free.
+func ReachabilitystateFree(state unsafe.Pointer) (_err error) {
+	C.meos_errno_reset()
+	C.reachabilitystate_free((*C.struct_ReachabilityState)(unsafe.Pointer(state)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return nil
+}
+
+
+// ReachabilitystateKept wraps MEOS C function reachabilitystate_kept.
+func ReachabilitystateKept(state unsafe.Pointer) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.reachabilitystate_kept((*C.struct_ReachabilityState)(unsafe.Pointer(state)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
+// ReachabilitystateReports wraps MEOS C function reachabilitystate_reports.
+func ReachabilitystateReports(state unsafe.Pointer) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.reachabilitystate_reports((*C.struct_ReachabilityState)(unsafe.Pointer(state)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
+// ReachabilitystateUnreachable wraps MEOS C function reachabilitystate_unreachable.
+func ReachabilitystateUnreachable(state unsafe.Pointer) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.reachabilitystate_unreachable((*C.struct_ReachabilityState)(unsafe.Pointer(state)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
+// ReachabilitystateDeserialize wraps MEOS C function reachabilitystate_deserialize.
+func ReachabilitystateDeserialize(bytes unsafe.Pointer, size uint) (_r0 unsafe.Pointer, _err error) {
+	C.meos_errno_reset()
+	_cret := C.reachabilitystate_deserialize((*C.uint8_t)(unsafe.Pointer(bytes)), C.size_t(size))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
+}
+
+
+// ReachabilitystateSerialize wraps MEOS C function reachabilitystate_serialize.
+func ReachabilitystateSerialize(state unsafe.Pointer, size_out unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
+	C.meos_errno_reset()
+	_cret := C.reachabilitystate_serialize((*C.struct_ReachabilityState)(unsafe.Pointer(state)), (*C.size_t)(unsafe.Pointer(size_out)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
 }
 
 

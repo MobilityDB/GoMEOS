@@ -8,23 +8,23 @@ import (
 	"github.com/MobilityDB/GoMEOS/functions"
 )
 
-type TPcpointInst struct {
-	TPcpoint
+type TPCPointInst struct {
+	TPCPoint
 }
 
-// TPcpointInstFromPointer wraps a MEOS pointer, answering nil for nil so an
+// TPCPointInstFromPointer wraps a MEOS pointer, answering nil for nil so an
 // absent MEOS result stays absent rather than becoming a live handle.
-func TPcpointInstFromPointer(p unsafe.Pointer) *TPcpointInst {
+func TPCPointInstFromPointer(p unsafe.Pointer) *TPCPointInst {
 	if p == nil {
 		return nil
 	}
-	v := &TPcpointInst{}
+	v := &TPCPointInst{}
 	v.ptr = p
 	return v
 }
 
-// TPcpointInstMake is MEOS tpcpointinst_make.
-func TPcpointInstMake(pt *Pcpoint, t int64) (*Temporal, error) {
+// TPCPointInstMake is MEOS tpcpointinst_make.
+func TPCPointInstMake(pt *PCPoint, t int64) (*Temporal, error) {
 	_r0, _err := functions.TpcpointinstMake(functions.PcpointFromPointer(pt.Pointer()), t)
 	if _err != nil {
 		return nil, _err

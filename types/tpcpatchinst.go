@@ -8,23 +8,23 @@ import (
 	"github.com/MobilityDB/GoMEOS/functions"
 )
 
-type TPcpatchInst struct {
-	TPcpatch
+type TPCPatchInst struct {
+	TPCPatch
 }
 
-// TPcpatchInstFromPointer wraps a MEOS pointer, answering nil for nil so an
+// TPCPatchInstFromPointer wraps a MEOS pointer, answering nil for nil so an
 // absent MEOS result stays absent rather than becoming a live handle.
-func TPcpatchInstFromPointer(p unsafe.Pointer) *TPcpatchInst {
+func TPCPatchInstFromPointer(p unsafe.Pointer) *TPCPatchInst {
 	if p == nil {
 		return nil
 	}
-	v := &TPcpatchInst{}
+	v := &TPCPatchInst{}
 	v.ptr = p
 	return v
 }
 
-// TPcpatchInstMake is MEOS tpcpatchinst_make.
-func TPcpatchInstMake(pa *Pcpatch, t int64) (*Temporal, error) {
+// TPCPatchInstMake is MEOS tpcpatchinst_make.
+func TPCPatchInstMake(pa *PCPatch, t int64) (*Temporal, error) {
 	_r0, _err := functions.TpcpatchinstMake(functions.PcpatchFromPointer(pa.Pointer()), t)
 	if _err != nil {
 		return nil, _err

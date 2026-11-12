@@ -41,15 +41,6 @@ func BigIntSpanIn(str string) (*Span, error) {
 	return SpanFromPointer(_r0.Pointer()), nil
 }
 
-// Out is MEOS bigintspan_out.
-func (x *BigIntSpan) Out() (string, error) {
-	_r0, _err := functions.BigintspanOut(functions.SpanFromPointer(x.Pointer()))
-	if _err != nil {
-		return "", _err
-	}
-	return _r0, nil
-}
-
 // BigIntSpanMake is MEOS bigintspan_make.
 func BigIntSpanMake(lower int64, upper int64, lower_inc bool, upper_inc bool) (*Span, error) {
 	_r0, _err := functions.BigintspanMake(lower, upper, lower_inc, upper_inc)
@@ -131,6 +122,15 @@ func BigIntSpanGetBin(value int64, vsize int64, vorigin int64) (*Span, error) {
 	return SpanFromPointer(_r0.Pointer()), nil
 }
 
+// BigIntSpanFromBigint is MEOS bigint_to_span.
+func BigIntSpanFromBigint(i int64) (*Span, error) {
+	_r0, _err := functions.BigintToSpan(i)
+	if _err != nil {
+		return nil, _err
+	}
+	return SpanFromPointer(_r0.Pointer()), nil
+}
+
 // BigIntSpanFromHexWKB is the portable fromHexWKB of MEOS span_from_hexwkb.
 func BigIntSpanFromHexWKB(hexwkb string) (*BigIntSpan, error) {
 	r, err := SpanFromHexWKB(hexwkb)
@@ -140,9 +140,9 @@ func BigIntSpanFromHexWKB(hexwkb string) (*BigIntSpan, error) {
 	return BigIntSpanFromPointer(r.Pointer()), nil
 }
 
-// AsText is the portable asText of MEOS bigintspan_out.
-func (x *BigIntSpan) AsText() (string, error) {
-	return x.Out()
+// AsText is the portable asText of MEOS span_out.
+func (x *BigIntSpan) AsText(maxdd int) (string, error) {
+	return x.Out(maxdd)
 }
 
 // BigIntSpanFromText is the portable fromText of MEOS bigintspan_in.
@@ -161,13 +161,4 @@ func BigIntSpanFromWKB(wkb []byte) (*BigIntSpan, error) {
 		return nil, err
 	}
 	return BigIntSpanFromPointer(r.Pointer()), nil
-}
-
-// String is the text MEOS writes this value as, MEOS bigintspan_out.
-func (x *BigIntSpan) String() string {
-	s, err := x.Out()
-	if err != nil {
-		return "%!s(MEOS error: " + err.Error() + ")"
-	}
-	return s
 }

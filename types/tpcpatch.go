@@ -8,23 +8,23 @@ import (
 	"github.com/MobilityDB/GoMEOS/functions"
 )
 
-type TPcpatch struct {
+type TPCPatch struct {
 	TSpatial
 }
 
-// TPcpatchFromPointer wraps a MEOS pointer, answering nil for nil so an
+// TPCPatchFromPointer wraps a MEOS pointer, answering nil for nil so an
 // absent MEOS result stays absent rather than becoming a live handle.
-func TPcpatchFromPointer(p unsafe.Pointer) *TPcpatch {
+func TPCPatchFromPointer(p unsafe.Pointer) *TPCPatch {
 	if p == nil {
 		return nil
 	}
-	v := &TPcpatch{}
+	v := &TPCPatch{}
 	v.ptr = p
 	return v
 }
 
-// TPcpatchIn is MEOS tpcpatch_in.
-func TPcpatchIn(str string) (*Temporal, error) {
+// TPCPatchIn is MEOS tpcpatch_in.
+func TPCPatchIn(str string) (*Temporal, error) {
 	_r0, _err := functions.TpcpatchIn(str)
 	if _err != nil {
 		return nil, _err
@@ -32,17 +32,8 @@ func TPcpatchIn(str string) (*Temporal, error) {
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
-// Out is MEOS tpcpatch_out.
-func (x *TPcpatch) Out() (string, error) {
-	_r0, _err := functions.TpcpatchOut(functions.TemporalFromPointer(x.Pointer()))
-	if _err != nil {
-		return "", _err
-	}
-	return _r0, nil
-}
-
-// TPcpatchFromMFJSON is MEOS tpcpatch_from_mfjson.
-func TPcpatchFromMFJSON(mfjson string) (*Temporal, error) {
+// TPCPatchFromMFJSON is MEOS tpcpatch_from_mfjson.
+func TPCPatchFromMFJSON(mfjson string) (*Temporal, error) {
 	_r0, _err := functions.TpcpatchFromMFJSON(mfjson)
 	if _err != nil {
 		return nil, _err
@@ -51,7 +42,7 @@ func TPcpatchFromMFJSON(mfjson string) (*Temporal, error) {
 }
 
 // ToTgeometry is MEOS tpcpatch_to_tgeometry.
-func (x *TPcpatch) ToTgeometry() (*Temporal, error) {
+func (x *TPCPatch) ToTgeometry() (*Temporal, error) {
 	_r0, _err := functions.TpcpatchToTgeometry(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -59,8 +50,17 @@ func (x *TPcpatch) ToTgeometry() (*Temporal, error) {
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
-// TPcpatchFromBaseTemp is MEOS tpcpatch_from_base_temp.
-func TPcpatchFromBaseTemp(pa *Pcpatch, temp *Temporal) (*Temporal, error) {
+// ToTgeography is MEOS tpcpatch_to_tgeography.
+func (x *TPCPatch) ToTgeography() (*Temporal, error) {
+	_r0, _err := functions.TpcpatchToTgeography(functions.TemporalFromPointer(x.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// TPCPatchFromBaseTemp is MEOS tpcpatch_from_base_temp.
+func TPCPatchFromBaseTemp(pa *PCPatch, temp *Temporal) (*Temporal, error) {
 	_r0, _err := functions.TpcpatchFromBaseTemp(functions.PcpatchFromPointer(pa.Pointer()), functions.TemporalFromPointer(temp.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -69,34 +69,34 @@ func TPcpatchFromBaseTemp(pa *Pcpatch, temp *Temporal) (*Temporal, error) {
 }
 
 // StartValue is MEOS tpcpatch_start_value.
-func (x *TPcpatch) StartValue() (*Pcpatch, error) {
+func (x *TPCPatch) StartValue() (*PCPatch, error) {
 	_r0, _err := functions.TpcpatchStartValue(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return PcpatchFromPointer(_r0.Pointer()), nil
+	return PCPatchFromPointer(_r0.Pointer()), nil
 }
 
 // EndValue is MEOS tpcpatch_end_value.
-func (x *TPcpatch) EndValue() (*Pcpatch, error) {
+func (x *TPCPatch) EndValue() (*PCPatch, error) {
 	_r0, _err := functions.TpcpatchEndValue(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return PcpatchFromPointer(_r0.Pointer()), nil
+	return PCPatchFromPointer(_r0.Pointer()), nil
 }
 
 // Value is MEOS tpcpatch_value.
-func (x *TPcpatch) Value() (*Pcpatch, error) {
+func (x *TPCPatch) Value() (*PCPatch, error) {
 	_r0, _err := functions.TpcpatchValue(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return PcpatchFromPointer(_r0.Pointer()), nil
+	return PCPatchFromPointer(_r0.Pointer()), nil
 }
 
 // ValueN is MEOS tpcpatch_value_n.
-func (x *TPcpatch) ValueN(n int) (*Pcpatch, bool, error) {
+func (x *TPCPatch) ValueN(n int) (*PCPatch, bool, error) {
 	_found, _value, _err := functions.TpcpatchValueN(functions.TemporalFromPointer(x.Pointer()), n)
 	if _err != nil {
 		return nil, false, _err
@@ -104,11 +104,11 @@ func (x *TPcpatch) ValueN(n int) (*Pcpatch, bool, error) {
 	if !_found {
 		return nil, false, nil
 	}
-	return PcpatchFromPointer(_value.Pointer()), true, nil
+	return PCPatchFromPointer(_value.Pointer()), true, nil
 }
 
 // Values is MEOS tpcpatch_values.
-func (x *TPcpatch) Values(count unsafe.Pointer) (unsafe.Pointer, error) {
+func (x *TPCPatch) Values(count unsafe.Pointer) (unsafe.Pointer, error) {
 	_r0, _err := functions.TpcpatchValues(functions.TemporalFromPointer(x.Pointer()), count)
 	if _err != nil {
 		return nil, _err
@@ -117,7 +117,7 @@ func (x *TPcpatch) Values(count unsafe.Pointer) (unsafe.Pointer, error) {
 }
 
 // Unnest is MEOS tpcpatch_unnest.
-func (x *TPcpatch) Unnest(values unsafe.Pointer, count unsafe.Pointer) (unsafe.Pointer, error) {
+func (x *TPCPatch) Unnest(values unsafe.Pointer, count unsafe.Pointer) (unsafe.Pointer, error) {
 	_r0, _err := functions.TpcpatchUnnest(functions.TemporalFromPointer(x.Pointer()), values, count)
 	if _err != nil {
 		return nil, _err
@@ -126,7 +126,7 @@ func (x *TPcpatch) Unnest(values unsafe.Pointer, count unsafe.Pointer) (unsafe.P
 }
 
 // ValueAtTimestamptz is MEOS tpcpatch_value_at_timestamptz.
-func (x *TPcpatch) ValueAtTimestamptz(t int64, strict bool) (*Pcpatch, bool, error) {
+func (x *TPCPatch) ValueAtTimestamptz(t int64, strict bool) (*PCPatch, bool, error) {
 	_found, _value, _err := functions.TpcpatchValueAtTimestamptz(functions.TemporalFromPointer(x.Pointer()), t, strict)
 	if _err != nil {
 		return nil, false, _err
@@ -134,11 +134,11 @@ func (x *TPcpatch) ValueAtTimestamptz(t int64, strict bool) (*Pcpatch, bool, err
 	if !_found {
 		return nil, false, nil
 	}
-	return PcpatchFromPointer(_value.Pointer()), true, nil
+	return PCPatchFromPointer(_value.Pointer()), true, nil
 }
 
 // AtValue is MEOS tpcpatch_at_value.
-func (x *TPcpatch) AtValue(pa *Pcpatch) (*Temporal, error) {
+func (x *TPCPatch) AtValue(pa *PCPatch) (*Temporal, error) {
 	_r0, _err := functions.TpcpatchAtValue(functions.TemporalFromPointer(x.Pointer()), functions.PcpatchFromPointer(pa.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -147,7 +147,7 @@ func (x *TPcpatch) AtValue(pa *Pcpatch) (*Temporal, error) {
 }
 
 // MinusValue is MEOS tpcpatch_minus_value.
-func (x *TPcpatch) MinusValue(pa *Pcpatch) (*Temporal, error) {
+func (x *TPCPatch) MinusValue(pa *PCPatch) (*Temporal, error) {
 	_r0, _err := functions.TpcpatchMinusValue(functions.TemporalFromPointer(x.Pointer()), functions.PcpatchFromPointer(pa.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -156,7 +156,7 @@ func (x *TPcpatch) MinusValue(pa *Pcpatch) (*Temporal, error) {
 }
 
 // Pcid is MEOS tpcpatch_pcid.
-func (x *TPcpatch) Pcid() (uint32, error) {
+func (x *TPCPatch) Pcid() (uint32, error) {
 	_r0, _err := functions.TpcpatchPcid(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return 0, _err
@@ -165,7 +165,7 @@ func (x *TPcpatch) Pcid() (uint32, error) {
 }
 
 // StartNpoints is MEOS tpcpatch_start_npoints.
-func (x *TPcpatch) StartNpoints() (uint32, error) {
+func (x *TPCPatch) StartNpoints() (uint32, error) {
 	_r0, _err := functions.TpcpatchStartNpoints(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return 0, _err
@@ -174,7 +174,7 @@ func (x *TPcpatch) StartNpoints() (uint32, error) {
 }
 
 // EndNpoints is MEOS tpcpatch_end_npoints.
-func (x *TPcpatch) EndNpoints() (uint32, error) {
+func (x *TPCPatch) EndNpoints() (uint32, error) {
 	_r0, _err := functions.TpcpatchEndNpoints(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return 0, _err
@@ -183,7 +183,7 @@ func (x *TPcpatch) EndNpoints() (uint32, error) {
 }
 
 // Npoints is MEOS tpcpatch_npoints.
-func (x *TPcpatch) Npoints() (int64, error) {
+func (x *TPCPatch) Npoints() (int64, error) {
 	_r0, _err := functions.TpcpatchNpoints(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return 0, _err
@@ -191,63 +191,63 @@ func (x *TPcpatch) Npoints() (int64, error) {
 	return _r0, nil
 }
 
-// TPcpatchFromEWKB is the portable fromEWKB of MEOS temporal_from_wkb.
-func TPcpatchFromEWKB(wkb []byte) (*TPcpatch, error) {
+// TPCPatchFromEWKB is the portable fromEWKB of MEOS temporal_from_wkb.
+func TPCPatchFromEWKB(wkb []byte) (*TPCPatch, error) {
 	r, err := TemporalFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}
-	return TPcpatchFromPointer(r.Pointer()), nil
+	return TPCPatchFromPointer(r.Pointer()), nil
 }
 
-// TPcpatchFromEWKT is the portable fromEWKT of MEOS tpcpatch_in.
-func TPcpatchFromEWKT(str string) (*TPcpatch, error) {
-	r, err := TPcpatchIn(str)
+// TPCPatchFromEWKT is the portable fromEWKT of MEOS tpcpatch_in.
+func TPCPatchFromEWKT(str string) (*TPCPatch, error) {
+	r, err := TPCPatchIn(str)
 	if err != nil || r == nil {
 		return nil, err
 	}
-	return TPcpatchFromPointer(r.Pointer()), nil
+	return TPCPatchFromPointer(r.Pointer()), nil
 }
 
-// TPcpatchFromHexEWKB is the portable fromHexEWKB of MEOS temporal_from_hexwkb.
-func TPcpatchFromHexEWKB(hexwkb string) (*TPcpatch, error) {
+// TPCPatchFromHexEWKB is the portable fromHexEWKB of MEOS temporal_from_hexwkb.
+func TPCPatchFromHexEWKB(hexwkb string) (*TPCPatch, error) {
 	r, err := TemporalFromHexWKB(hexwkb)
 	if err != nil || r == nil {
 		return nil, err
 	}
-	return TPcpatchFromPointer(r.Pointer()), nil
+	return TPCPatchFromPointer(r.Pointer()), nil
 }
 
-// TPcpatchFromHexWKB is the portable fromHexWKB of MEOS temporal_from_hexwkb.
-func TPcpatchFromHexWKB(hexwkb string) (*TPcpatch, error) {
+// TPCPatchFromHexWKB is the portable fromHexWKB of MEOS temporal_from_hexwkb.
+func TPCPatchFromHexWKB(hexwkb string) (*TPCPatch, error) {
 	r, err := TemporalFromHexWKB(hexwkb)
 	if err != nil || r == nil {
 		return nil, err
 	}
-	return TPcpatchFromPointer(r.Pointer()), nil
+	return TPCPatchFromPointer(r.Pointer()), nil
 }
 
-// TPcpatchFromText is the portable fromText of MEOS tpcpatch_in.
-func TPcpatchFromText(str string) (*TPcpatch, error) {
-	r, err := TPcpatchIn(str)
+// TPCPatchFromText is the portable fromText of MEOS tpcpatch_in.
+func TPCPatchFromText(str string) (*TPCPatch, error) {
+	r, err := TPCPatchIn(str)
 	if err != nil || r == nil {
 		return nil, err
 	}
-	return TPcpatchFromPointer(r.Pointer()), nil
+	return TPCPatchFromPointer(r.Pointer()), nil
 }
 
-// TPcpatchFromWKB is the portable fromWKB of MEOS temporal_from_wkb.
-func TPcpatchFromWKB(wkb []byte) (*TPcpatch, error) {
+// TPCPatchFromWKB is the portable fromWKB of MEOS temporal_from_wkb.
+func TPCPatchFromWKB(wkb []byte) (*TPCPatch, error) {
 	r, err := TemporalFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}
-	return TPcpatchFromPointer(r.Pointer()), nil
+	return TPCPatchFromPointer(r.Pointer()), nil
 }
 
-// String is the text MEOS writes this value as, MEOS tpcpatch_out.
-func (x *TPcpatch) String() string {
-	s, err := x.Out()
+// String is the text MEOS writes this value as, MEOS temporal_out.
+func (x *TPCPatch) String() string {
+	s, err := x.Out(15)
 	if err != nil {
 		return "%!s(MEOS error: " + err.Error() + ")"
 	}

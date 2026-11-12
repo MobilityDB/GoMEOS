@@ -59,15 +59,6 @@ func S2CellSetIn(str string) (*Set, error) {
 	return SetFromPointer(_r0.Pointer()), nil
 }
 
-// Out is MEOS s2cellset_out.
-func (x *S2CellSet) Out() (string, error) {
-	_r0, _err := functions.S2cellsetOut(functions.SetFromPointer(x.Pointer()))
-	if _err != nil {
-		return "", _err
-	}
-	return _r0, nil
-}
-
 // S2CellSetMake is MEOS s2cellset_make.
 func S2CellSetMake(values unsafe.Pointer, count int) (*Set, error) {
 	_r0, _err := functions.S2cellsetMake(values, count)
@@ -114,6 +105,15 @@ func (x *S2CellSet) Values(count unsafe.Pointer) (unsafe.Pointer, error) {
 		return nil, _err
 	}
 	return _r0, nil
+}
+
+// S2CellSetFromS2cell is MEOS s2cell_to_set.
+func S2CellSetFromS2cell(cell functions.S2CellId) (*Set, error) {
+	_r0, _err := functions.S2cellToSet(cell)
+	if _err != nil {
+		return nil, _err
+	}
+	return SetFromPointer(_r0.Pointer()), nil
 }
 
 // S2CellSetFromEWKB is the portable fromEWKB of MEOS set_from_wkb.
@@ -170,9 +170,9 @@ func S2CellSetFromWKB(wkb []byte) (*S2CellSet, error) {
 	return S2CellSetFromPointer(r.Pointer()), nil
 }
 
-// String is the text MEOS writes this value as, MEOS s2cellset_out.
+// String is the text MEOS writes this value as, MEOS set_out.
 func (x *S2CellSet) String() string {
-	s, err := x.Out()
+	s, err := x.Out(15)
 	if err != nil {
 		return "%!s(MEOS error: " + err.Error() + ")"
 	}

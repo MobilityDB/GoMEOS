@@ -32,15 +32,6 @@ func H3IndexSetIn(str string) (*Set, error) {
 	return SetFromPointer(_r0.Pointer()), nil
 }
 
-// Out is MEOS h3indexset_out.
-func (x *H3IndexSet) Out() (string, error) {
-	_r0, _err := functions.H3indexsetOut(functions.SetFromPointer(x.Pointer()))
-	if _err != nil {
-		return "", _err
-	}
-	return _r0, nil
-}
-
 // H3IndexSetMake is MEOS h3indexset_make.
 func H3IndexSetMake(values unsafe.Pointer, count int) (*Set, error) {
 	_r0, _err := functions.H3indexsetMake(values, count)
@@ -107,6 +98,15 @@ func (x *H3IndexSet) CoverCells(resolution int32) (*Set, error) {
 	return SetFromPointer(_r0.Pointer()), nil
 }
 
+// H3IndexSetFromH3index is MEOS h3index_to_set.
+func H3IndexSetFromH3index(cell functions.H3Index) (*Set, error) {
+	_r0, _err := functions.H3indexToSet(cell)
+	if _err != nil {
+		return nil, _err
+	}
+	return SetFromPointer(_r0.Pointer()), nil
+}
+
 // H3IndexSetFromEWKB is the portable fromEWKB of MEOS set_from_wkb.
 func H3IndexSetFromEWKB(wkb []byte) (*H3IndexSet, error) {
 	r, err := SetFromWKB(wkb)
@@ -161,9 +161,9 @@ func H3IndexSetFromWKB(wkb []byte) (*H3IndexSet, error) {
 	return H3IndexSetFromPointer(r.Pointer()), nil
 }
 
-// String is the text MEOS writes this value as, MEOS h3indexset_out.
+// String is the text MEOS writes this value as, MEOS set_out.
 func (x *H3IndexSet) String() string {
-	s, err := x.Out()
+	s, err := x.Out(15)
 	if err != nil {
 		return "%!s(MEOS error: " + err.Error() + ")"
 	}

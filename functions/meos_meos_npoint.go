@@ -398,9 +398,9 @@ func NsegmentMake(rid int64, pos1 float64, pos2 float64) (_r0 *Nsegment, _err er
 
 
 // GeompointToNpoint wraps MEOS C function geompoint_to_npoint.
-func GeompointToNpoint(gs *Geom) (_r0 *Npoint, _err error) {
+func GeompointToNpoint(gs *Geom, tolerance float64) (_r0 *Npoint, _err error) {
 	C.meos_errno_reset()
-	_cret := C.geompoint_to_npoint(gs._inner)
+	_cret := C.geompoint_to_npoint(gs._inner, C.double(tolerance))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -423,6 +423,17 @@ func GeomToNsegment(gs *Geom) (_r0 *Nsegment, _err error) {
 func NpointToGeompoint(np *Npoint) (_r0 *Geom, _err error) {
 	C.meos_errno_reset()
 	_cret := C.npoint_to_geompoint(np._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Geom{_inner: _cret}, nil
+}
+
+
+// NpointToGeog wraps MEOS C function npoint_to_geog.
+func NpointToGeog(np *Npoint) (_r0 *Geom, _err error) {
+	C.meos_errno_reset()
+	_cret := C.npoint_to_geog(np._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -456,6 +467,17 @@ func NpointToSTBOX(np *Npoint) (_r0 *STBox, _err error) {
 func NsegmentToGeom(ns *Nsegment) (_r0 *Geom, _err error) {
 	C.meos_errno_reset()
 	_cret := C.nsegment_to_geom(ns._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Geom{_inner: _cret}, nil
+}
+
+
+// NsegmentToGeog wraps MEOS C function nsegment_to_geog.
+func NsegmentToGeog(ns *Nsegment) (_r0 *Geom, _err error) {
+	C.meos_errno_reset()
+	_cret := C.nsegment_to_geog(ns._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -828,19 +850,6 @@ func NpointsetIn(str string) (_r0 *Set, _err error) {
 }
 
 
-// NpointsetOut wraps MEOS C function npointset_out.
-func NpointsetOut(s *Set, maxdd int) (_r0 string, _err error) {
-	var _size C.size_t
-	C.meos_errno_reset()
-	_cret := C.npointset_out(s._inner, C.int(maxdd), &_size)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	defer C.free(unsafe.Pointer(_cret))
-	return takeString(_cret, _size), nil
-}
-
-
 // NpointsetMake wraps MEOS C function npointset_make.
 func NpointsetMake(values *Npoint, count int) (_r0 *Set, _err error) {
 	C.meos_errno_reset()
@@ -1055,19 +1064,6 @@ func TnpointFromMFJSON(mfjson string) (_r0 *Temporal, _err error) {
 }
 
 
-// TnpointOut wraps MEOS C function tnpoint_out.
-func TnpointOut(temp *Temporal, maxdd int) (_r0 string, _err error) {
-	var _size C.size_t
-	C.meos_errno_reset()
-	_cret := C.tnpoint_out(temp._inner, C.int(maxdd), &_size)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	defer C.free(unsafe.Pointer(_cret))
-	return takeString(_cret, _size), nil
-}
-
-
 // TnpointinstMake wraps MEOS C function tnpointinst_make.
 func TnpointinstMake(np *Npoint, t int64) (_r0 *TInstant, _err error) {
 	C.meos_errno_reset()
@@ -1138,6 +1134,17 @@ func TgeompointToTnpoint(temp *Temporal) (_r0 *Temporal, _err error) {
 func TnpointToTgeompoint(temp *Temporal) (_r0 *Temporal, _err error) {
 	C.meos_errno_reset()
 	_cret := C.tnpoint_to_tgeompoint(temp._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// TnpointToTgeogpoint wraps MEOS C function tnpoint_to_tgeogpoint.
+func TnpointToTgeogpoint(temp *Temporal) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tnpoint_to_tgeogpoint(temp._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}

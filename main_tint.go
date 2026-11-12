@@ -28,7 +28,7 @@ func NewTIntInst(tf_in string) *TIntInst {
 }
 
 func (tf *TIntInst) TIntOut() string {
-	c_tf_out := C.tint_out(tf._inner, new(C.size_t))
+	c_tf_out := C.temporal_out(tf._inner, 0, new(C.size_t))
 	defer C.free(unsafe.Pointer(c_tf_out))
 	tf_out := C.GoString(c_tf_out)
 	return tf_out
@@ -71,7 +71,7 @@ func NewTIntSeq(tf_in string) *TIntSeq {
 }
 
 func (tf *TIntSeq) TIntOut() string {
-	c_tf_out := C.tint_out(tf._inner, new(C.size_t))
+	c_tf_out := C.temporal_out(tf._inner, 0, new(C.size_t))
 	defer C.free(unsafe.Pointer(c_tf_out))
 	tf_out := C.GoString(c_tf_out)
 	return tf_out
@@ -118,7 +118,7 @@ func NewTIntSeqSet(tf_in string) *TIntSeqSet {
 }
 
 func (tf *TIntSeqSet) TIntOut() string {
-	c_tf_out := C.tint_out(tf._inner, new(C.size_t))
+	c_tf_out := C.temporal_out(tf._inner, 0, new(C.size_t))
 	defer C.free(unsafe.Pointer(c_tf_out))
 	tf_out := C.GoString(c_tf_out)
 	return tf_out
@@ -199,7 +199,7 @@ func TIntFromMFJSON[TI TInt](input string, output TI) TI {
 
 // TIntOut Return a temporal integer from its Well-Known Text (WKT) representation
 func TIntOut[TI TInt](ti TI) string {
-	c_int := C.tint_out(ti.Inner(), new(C.size_t))
+	c_int := C.temporal_out(ti.Inner(), 0, new(C.size_t))
 	defer C.free(unsafe.Pointer(c_int))
 	int_out := C.GoString(c_int)
 	return int_out

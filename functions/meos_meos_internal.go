@@ -196,19 +196,6 @@ func SetIn(str string, settype MeosType) (_r0 *Set, _err error) {
 }
 
 
-// SetOut wraps MEOS C function set_out.
-func SetOut(s *Set, maxdd int) (_r0 string, _err error) {
-	var _size C.size_t
-	C.meos_errno_reset()
-	_cret := C.set_out(s._inner, C.int(maxdd), &_size)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	defer C.free(unsafe.Pointer(_cret))
-	return takeString(_cret, _size), nil
-}
-
-
 // SpanIn wraps MEOS C function span_in.
 func SpanIn(str string, spantype MeosType) (_r0 *Span, _err error) {
 	_c_str := C.CString(str)
@@ -222,19 +209,6 @@ func SpanIn(str string, spantype MeosType) (_r0 *Span, _err error) {
 }
 
 
-// SpanOut wraps MEOS C function span_out.
-func SpanOut(s *Span, maxdd int) (_r0 string, _err error) {
-	var _size C.size_t
-	C.meos_errno_reset()
-	_cret := C.span_out(s._inner, C.int(maxdd), &_size)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	defer C.free(unsafe.Pointer(_cret))
-	return takeString(_cret, _size), nil
-}
-
-
 // SpansetIn wraps MEOS C function spanset_in.
 func SpansetIn(str string, spantype MeosType) (_r0 *SpanSet, _err error) {
 	_c_str := C.CString(str)
@@ -245,19 +219,6 @@ func SpansetIn(str string, spantype MeosType) (_r0 *SpanSet, _err error) {
 		return
 	}
 	return &SpanSet{_inner: _cret}, nil
-}
-
-
-// SpansetOut wraps MEOS C function spanset_out.
-func SpansetOut(ss *SpanSet, maxdd int) (_r0 string, _err error) {
-	var _size C.size_t
-	C.meos_errno_reset()
-	_cret := C.spanset_out(ss._inner, C.int(maxdd), &_size)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	defer C.free(unsafe.Pointer(_cret))
-	return takeString(_cret, _size), nil
 }
 
 
@@ -1267,19 +1228,6 @@ func TemporalIn(str string, temptype MeosType) (_r0 *Temporal, _err error) {
 		return
 	}
 	return &Temporal{_inner: _cret}, nil
-}
-
-
-// TemporalOut wraps MEOS C function temporal_out.
-func TemporalOut(temp *Temporal, maxdd int) (_r0 string, _err error) {
-	var _size C.size_t
-	C.meos_errno_reset()
-	_cret := C.temporal_out(temp._inner, C.int(maxdd), &_size)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	defer C.free(unsafe.Pointer(_cret))
-	return takeString(_cret, _size), nil
 }
 
 

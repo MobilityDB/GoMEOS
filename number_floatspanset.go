@@ -49,7 +49,7 @@ MEOS Functions:
 	floatspanset_out
 */
 func (g_fss *FloatSpanSet) FloatSpanSetOut(max_decimal int) string {
-	c_fss_out := C.floatspanset_out(g_fss._inner, C.int(max_decimal), new(C.size_t))
+	c_fss_out := C.spanset_out(g_fss._inner, C.int(max_decimal), new(C.size_t))
 	defer C.free(unsafe.Pointer(c_fss_out))
 	g_fss_out := C.GoString(c_fss_out)
 	return g_fss_out

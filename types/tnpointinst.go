@@ -8,23 +8,23 @@ import (
 	"github.com/MobilityDB/GoMEOS/functions"
 )
 
-type TNpointInst struct {
-	TNpoint
+type TNPointInst struct {
+	TNPoint
 }
 
-// TNpointInstFromPointer wraps a MEOS pointer, answering nil for nil so an
+// TNPointInstFromPointer wraps a MEOS pointer, answering nil for nil so an
 // absent MEOS result stays absent rather than becoming a live handle.
-func TNpointInstFromPointer(p unsafe.Pointer) *TNpointInst {
+func TNPointInstFromPointer(p unsafe.Pointer) *TNPointInst {
 	if p == nil {
 		return nil
 	}
-	v := &TNpointInst{}
+	v := &TNPointInst{}
 	v.ptr = p
 	return v
 }
 
-// TNpointInstMake is MEOS tnpointinst_make.
-func TNpointInstMake(np *Npoint, t int64) (*Temporal, error) {
+// TNPointInstMake is MEOS tnpointinst_make.
+func TNPointInstMake(np *NPoint, t int64) (*Temporal, error) {
 	_r0, _err := functions.TnpointinstMake(functions.NpointFromPointer(np.Pointer()), t)
 	if _err != nil {
 		return nil, _err

@@ -83,6 +83,15 @@ func TPCBoxFromWKB(wkb []byte) (*TPCBox, error) {
 	return TPCBoxFromPointer(_r0.Pointer()), nil
 }
 
+// AsText is MEOS tpcbox_as_text.
+func (x *TPCBox) AsText(maxdd int) (string, error) {
+	_r0, _err := functions.TpcboxAsText(functions.TPCBoxFromPointer(x.Pointer()), maxdd)
+	if _err != nil {
+		return "", _err
+	}
+	return _r0, nil
+}
+
 // TPCBoxIn is MEOS tpcbox_in.
 func TPCBoxIn(str string) (*TPCBox, error) {
 	_r0, _err := functions.TpcboxIn(str)
@@ -393,9 +402,28 @@ func (x *TPCBox) Ge(box2 *TPCBox) (bool, error) {
 	return _r0, nil
 }
 
+// TPCBoxFromTpointcloud is MEOS tpointcloud_to_tpcbox.
+func TPCBoxFromTpointcloud(temp *Temporal) (*TPCBox, error) {
+	_r0, _err := functions.TpointcloudToTpcbox(functions.TemporalFromPointer(temp.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return TPCBoxFromPointer(_r0.Pointer()), nil
+}
+
 // TPCBoxFromEWKB is the portable fromEWKB of MEOS tpcbox_from_wkb.
 func TPCBoxFromEWKB(wkb []byte) (*TPCBox, error) {
 	return TPCBoxFromWKB(wkb)
+}
+
+// AsEWKT is the portable asEWKT of MEOS tpcbox_out.
+func (x *TPCBox) AsEWKT(maxdd int) (string, error) {
+	return x.Out(maxdd)
+}
+
+// TPCBoxFromEWKT is the portable fromEWKT of MEOS tpcbox_in.
+func TPCBoxFromEWKT(str string) (*TPCBox, error) {
+	return TPCBoxIn(str)
 }
 
 // TPCBoxFromHexEWKB is the portable fromHexEWKB of MEOS tpcbox_from_hexwkb.
@@ -403,19 +431,14 @@ func TPCBoxFromHexEWKB(hexwkb string) (*TPCBox, error) {
 	return TPCBoxFromHexWKB(hexwkb)
 }
 
-// AsText is the portable asText of MEOS tpcbox_out.
-func (x *TPCBox) AsText(maxdd int) (string, error) {
-	return x.Out(maxdd)
-}
-
 // TPCBoxFromText is the portable fromText of MEOS tpcbox_in.
 func TPCBoxFromText(str string) (*TPCBox, error) {
 	return TPCBoxIn(str)
 }
 
-// String is the text MEOS writes this value as, MEOS tpcbox_out.
+// String is the text MEOS writes this value as, MEOS tpcbox_as_text.
 func (x *TPCBox) String() string {
-	s, err := x.Out(15)
+	s, err := x.AsText(15)
 	if err != nil {
 		return "%!s(MEOS error: " + err.Error() + ")"
 	}

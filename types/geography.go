@@ -50,42 +50,6 @@ func (x *Geography) ToGeom() (*Geo, error) {
 	return GeoFromPointer(_r0.Pointer()), nil
 }
 
-// Area is MEOS geog_area.
-func (x *Geography) Area(use_spheroid bool) (float64, error) {
-	_r0, _err := functions.GeogArea(functions.GeomFromPointer(x.Pointer()), use_spheroid)
-	if _err != nil {
-		return 0, _err
-	}
-	return _r0, nil
-}
-
-// Centroid is MEOS geog_centroid.
-func (x *Geography) Centroid(use_spheroid bool) (*Geo, error) {
-	_r0, _err := functions.GeogCentroid(functions.GeomFromPointer(x.Pointer()), use_spheroid)
-	if _err != nil {
-		return nil, _err
-	}
-	return GeoFromPointer(_r0.Pointer()), nil
-}
-
-// Length is MEOS geog_length.
-func (x *Geography) Length(use_spheroid bool) (float64, error) {
-	_r0, _err := functions.GeogLength(functions.GeomFromPointer(x.Pointer()), use_spheroid)
-	if _err != nil {
-		return 0, _err
-	}
-	return _r0, nil
-}
-
-// Perimeter is MEOS geog_perimeter.
-func (x *Geography) Perimeter(use_spheroid bool) (float64, error) {
-	_r0, _err := functions.GeogPerimeter(functions.GeomFromPointer(x.Pointer()), use_spheroid)
-	if _err != nil {
-		return 0, _err
-	}
-	return _r0, nil
-}
-
 // GeographyArrayUnion is MEOS geog_array_union.
 func GeographyArrayUnion(gsarr unsafe.Pointer, count int) (*Geo, error) {
 	_r0, _err := functions.GeogArrayUnion(gsarr, count)
@@ -131,9 +95,9 @@ func (x *Geography) Distance(g2 *Geo, use_spheroid bool) (float64, error) {
 	return _r0, nil
 }
 
-// Shortestline is MEOS geog_shortestline.
-func (x *Geography) Shortestline(gs2 *Geo, use_spheroid bool) (*Geo, error) {
-	_r0, _err := functions.GeogShortestline(functions.GeomFromPointer(x.Pointer()), functions.GeomFromPointer(gs2.Pointer()), use_spheroid)
+// GeographyFromS2cellCell is MEOS s2cell_cell_to_geog.
+func GeographyFromS2cellCell(cell functions.S2CellId) (*Geo, error) {
+	_r0, _err := functions.S2cellCellToGeog(cell)
 	if _err != nil {
 		return nil, _err
 	}

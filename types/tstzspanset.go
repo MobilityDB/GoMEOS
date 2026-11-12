@@ -32,15 +32,6 @@ func TsTzSpanSetIn(str string) (*SpanSet, error) {
 	return SpanSetFromPointer(_r0.Pointer()), nil
 }
 
-// Out is MEOS tstzspanset_out.
-func (x *TsTzSpanSet) Out() (string, error) {
-	_r0, _err := functions.TstzspansetOut(functions.SpanSetFromPointer(x.Pointer()))
-	if _err != nil {
-		return "", _err
-	}
-	return _r0, nil
-}
-
 // ToDatespanset is MEOS tstzspanset_to_datespanset.
 func (x *TsTzSpanSet) ToDatespanset() (*SpanSet, error) {
 	_r0, _err := functions.TstzspansetToDatespanset(functions.SpanSetFromPointer(x.Pointer()))
@@ -125,6 +116,15 @@ func (x *TsTzSpanSet) ToStbox() (*STBox, error) {
 	return STBoxFromPointer(_r0.Pointer()), nil
 }
 
+// TsTzSpanSetFromTimestamptz is MEOS timestamptz_to_spanset.
+func TsTzSpanSetFromTimestamptz(t int64) (*SpanSet, error) {
+	_r0, _err := functions.TimestamptzToSpanset(t)
+	if _err != nil {
+		return nil, _err
+	}
+	return SpanSetFromPointer(_r0.Pointer()), nil
+}
+
 // TsTzSpanSetFromHexWKB is the portable fromHexWKB of MEOS spanset_from_hexwkb.
 func TsTzSpanSetFromHexWKB(hexwkb string) (*TsTzSpanSet, error) {
 	r, err := SpanSetFromHexWKB(hexwkb)
@@ -134,9 +134,9 @@ func TsTzSpanSetFromHexWKB(hexwkb string) (*TsTzSpanSet, error) {
 	return TsTzSpanSetFromPointer(r.Pointer()), nil
 }
 
-// AsText is the portable asText of MEOS tstzspanset_out.
-func (x *TsTzSpanSet) AsText() (string, error) {
-	return x.Out()
+// AsText is the portable asText of MEOS spanset_out.
+func (x *TsTzSpanSet) AsText(maxdd int) (string, error) {
+	return x.Out(maxdd)
 }
 
 // TsTzSpanSetFromText is the portable fromText of MEOS tstzspanset_in.
@@ -155,13 +155,4 @@ func TsTzSpanSetFromWKB(wkb []byte) (*TsTzSpanSet, error) {
 		return nil, err
 	}
 	return TsTzSpanSetFromPointer(r.Pointer()), nil
-}
-
-// String is the text MEOS writes this value as, MEOS tstzspanset_out.
-func (x *TsTzSpanSet) String() string {
-	s, err := x.Out()
-	if err != nil {
-		return "%!s(MEOS error: " + err.Error() + ")"
-	}
-	return s
 }

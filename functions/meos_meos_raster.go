@@ -116,12 +116,23 @@ func RaquetPixtypeSize(pixtype MeosPixType) (_r0 uint, _err error) {
 }
 
 
-// RaquetPixtypeFromString wraps MEOS C function raquet_pixtype_from_string.
-func RaquetPixtypeFromString(str string) (_r0 MeosPixType, _err error) {
+// MeospixtypeName wraps MEOS C function meospixtype_name.
+func MeospixtypeName(pixtype MeosPixType) (_r0 string, _err error) {
+	C.meos_errno_reset()
+	_cret := C.meospixtype_name(C.MeosPixType(pixtype))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return C.GoString(_cret), nil
+}
+
+
+// MeospixtypeFromString wraps MEOS C function meospixtype_from_string.
+func MeospixtypeFromString(str string) (_r0 MeosPixType, _err error) {
 	_c_str := C.CString(str)
 	defer C.free(unsafe.Pointer(_c_str))
 	C.meos_errno_reset()
-	_cret := C.raquet_pixtype_from_string(_c_str)
+	_cret := C.meospixtype_from_string(_c_str)
 	if _err = meosError(); _err != nil {
 		return
 	}

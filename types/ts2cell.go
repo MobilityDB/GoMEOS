@@ -32,27 +32,9 @@ func TS2CellIn(str string) (*Temporal, error) {
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
-// Out is MEOS ts2cell_out.
-func (x *TS2Cell) Out() (string, error) {
-	_r0, _err := functions.Ts2cellOut(functions.TemporalFromPointer(x.Pointer()))
-	if _err != nil {
-		return "", _err
-	}
-	return _r0, nil
-}
-
 // TS2CellFromMFJSON is MEOS ts2cell_from_mfjson.
 func TS2CellFromMFJSON(mfjson string) (*Temporal, error) {
 	_r0, _err := functions.Ts2cellFromMFJSON(mfjson)
-	if _err != nil {
-		return nil, _err
-	}
-	return TemporalFromPointer(_r0.Pointer()), nil
-}
-
-// TS2CellMake is MEOS ts2cell_make.
-func TS2CellMake(value functions.S2CellId, t int64) (*Temporal, error) {
-	_r0, _err := functions.Ts2cellMake(value, t)
 	if _err != nil {
 		return nil, _err
 	}
@@ -140,6 +122,15 @@ func (x *TS2Cell) ValueAtTimestamptz(t int64, strict bool) (functions.S2CellId, 
 // ToTbigint is MEOS ts2cell_to_tbigint.
 func (x *TS2Cell) ToTbigint() (*Temporal, error) {
 	_r0, _err := functions.Ts2cellToTbigint(functions.TemporalFromPointer(x.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// ToTgeompoint is MEOS ts2cell_to_tgeompoint.
+func (x *TS2Cell) ToTgeompoint() (*Temporal, error) {
+	_r0, _err := functions.Ts2cellToTgeompoint(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
@@ -236,9 +227,9 @@ func TS2CellFromWKB(wkb []byte) (*TS2Cell, error) {
 	return TS2CellFromPointer(r.Pointer()), nil
 }
 
-// String is the text MEOS writes this value as, MEOS ts2cell_out.
+// String is the text MEOS writes this value as, MEOS temporal_out.
 func (x *TS2Cell) String() string {
-	s, err := x.Out()
+	s, err := x.Out(15)
 	if err != nil {
 		return "%!s(MEOS error: " + err.Error() + ")"
 	}

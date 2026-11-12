@@ -41,15 +41,6 @@ func TIntIn(str string) (*Temporal, error) {
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
-// Out is MEOS tint_out.
-func (x *TInt) Out() (string, error) {
-	_r0, _err := functions.TintOut(functions.TemporalFromPointer(x.Pointer()))
-	if _err != nil {
-		return "", _err
-	}
-	return _r0, nil
-}
-
 // TIntFromBaseTemp is MEOS tint_from_base_temp.
 func TIntFromBaseTemp(i int, temp *Temporal) (*Temporal, error) {
 	_r0, _err := functions.TintFromBaseTemp(i, functions.TemporalFromPointer(temp.Pointer()))
@@ -245,9 +236,9 @@ func TIntFromHexWKB(hexwkb string) (*TInt, error) {
 	return TIntFromPointer(r.Pointer()), nil
 }
 
-// AsText is the portable asText of MEOS tint_out.
-func (x *TInt) AsText() (string, error) {
-	return x.Out()
+// AsText is the portable asText of MEOS temporal_out.
+func (x *TInt) AsText(maxdd int) (string, error) {
+	return x.Out(maxdd)
 }
 
 // TIntFromText is the portable fromText of MEOS tint_in.
@@ -268,9 +259,9 @@ func TIntFromWKB(wkb []byte) (*TInt, error) {
 	return TIntFromPointer(r.Pointer()), nil
 }
 
-// String is the text MEOS writes this value as, MEOS tint_out.
+// String is the text MEOS writes this value as, MEOS temporal_out.
 func (x *TInt) String() string {
-	s, err := x.Out()
+	s, err := x.Out(15)
 	if err != nil {
 		return "%!s(MEOS error: " + err.Error() + ")"
 	}

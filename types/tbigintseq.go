@@ -8,23 +8,23 @@ import (
 	"github.com/MobilityDB/GoMEOS/functions"
 )
 
-type TBigintSeq struct {
-	TBigint
+type TBigIntSeq struct {
+	TBigInt
 }
 
-// TBigintSeqFromPointer wraps a MEOS pointer, answering nil for nil so an
+// TBigIntSeqFromPointer wraps a MEOS pointer, answering nil for nil so an
 // absent MEOS result stays absent rather than becoming a live handle.
-func TBigintSeqFromPointer(p unsafe.Pointer) *TBigintSeq {
+func TBigIntSeqFromPointer(p unsafe.Pointer) *TBigIntSeq {
 	if p == nil {
 		return nil
 	}
-	v := &TBigintSeq{}
+	v := &TBigIntSeq{}
 	v.ptr = p
 	return v
 }
 
-// TBigintSeqFromBaseTstzset is MEOS tbigintseq_from_base_tstzset.
-func TBigintSeqFromBaseTstzset(i int64, s *Set) (*Temporal, error) {
+// TBigIntSeqFromBaseTstzset is MEOS tbigintseq_from_base_tstzset.
+func TBigIntSeqFromBaseTstzset(i int64, s *Set) (*Temporal, error) {
 	_r0, _err := functions.TbigintseqFromBaseTstzset(i, functions.SetFromPointer(s.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -32,8 +32,8 @@ func TBigintSeqFromBaseTstzset(i int64, s *Set) (*Temporal, error) {
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
-// TBigintSeqFromBaseTstzspan is MEOS tbigintseq_from_base_tstzspan.
-func TBigintSeqFromBaseTstzspan(i int64, s *Span) (*Temporal, error) {
+// TBigIntSeqFromBaseTstzspan is MEOS tbigintseq_from_base_tstzspan.
+func TBigIntSeqFromBaseTstzspan(i int64, s *Span) (*Temporal, error) {
 	_r0, _err := functions.TbigintseqFromBaseTstzspan(i, functions.SpanFromPointer(s.Pointer()))
 	if _err != nil {
 		return nil, _err

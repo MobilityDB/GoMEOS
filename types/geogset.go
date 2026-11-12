@@ -32,6 +32,15 @@ func GeogSetIn(str string) (*Set, error) {
 	return SetFromPointer(_r0.Pointer()), nil
 }
 
+// ToGeomset is MEOS geogset_to_geomset.
+func (x *GeogSet) ToGeomset() (*Set, error) {
+	_r0, _err := functions.GeogsetToGeomset(functions.SetFromPointer(x.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return SetFromPointer(_r0.Pointer()), nil
+}
+
 // GeogSetFromEWKB is the portable fromEWKB of MEOS set_from_wkb.
 func GeogSetFromEWKB(wkb []byte) (*GeogSet, error) {
 	r, err := SetFromWKB(wkb)

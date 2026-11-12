@@ -32,15 +32,6 @@ func IntSetIn(str string) (*Set, error) {
 	return SetFromPointer(_r0.Pointer()), nil
 }
 
-// Out is MEOS intset_out.
-func (x *IntSet) Out() (string, error) {
-	_r0, _err := functions.IntsetOut(functions.SetFromPointer(x.Pointer()))
-	if _err != nil {
-		return "", _err
-	}
-	return _r0, nil
-}
-
 // IntSetMake is MEOS intset_make.
 func IntSetMake(values unsafe.Pointer, count int) (*Set, error) {
 	_r0, _err := functions.IntsetMake(values, count)
@@ -107,6 +98,15 @@ func (x *IntSet) ShiftScale(shift int, width int, hasshift bool, haswidth bool) 
 	return SetFromPointer(_r0.Pointer()), nil
 }
 
+// IntSetFromInt is MEOS int_to_set.
+func IntSetFromInt(i int) (*Set, error) {
+	_r0, _err := functions.IntToSet(i)
+	if _err != nil {
+		return nil, _err
+	}
+	return SetFromPointer(_r0.Pointer()), nil
+}
+
 // IntSetFromHexWKB is the portable fromHexWKB of MEOS set_from_hexwkb.
 func IntSetFromHexWKB(hexwkb string) (*IntSet, error) {
 	r, err := SetFromHexWKB(hexwkb)
@@ -116,9 +116,9 @@ func IntSetFromHexWKB(hexwkb string) (*IntSet, error) {
 	return IntSetFromPointer(r.Pointer()), nil
 }
 
-// AsText is the portable asText of MEOS intset_out.
-func (x *IntSet) AsText() (string, error) {
-	return x.Out()
+// AsText is the portable asText of MEOS set_out.
+func (x *IntSet) AsText(maxdd int) (string, error) {
+	return x.Out(maxdd)
 }
 
 // IntSetFromText is the portable fromText of MEOS intset_in.
@@ -139,9 +139,9 @@ func IntSetFromWKB(wkb []byte) (*IntSet, error) {
 	return IntSetFromPointer(r.Pointer()), nil
 }
 
-// String is the text MEOS writes this value as, MEOS intset_out.
+// String is the text MEOS writes this value as, MEOS set_out.
 func (x *IntSet) String() string {
-	s, err := x.Out()
+	s, err := x.Out(15)
 	if err != nil {
 		return "%!s(MEOS error: " + err.Error() + ")"
 	}

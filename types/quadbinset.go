@@ -68,15 +68,6 @@ func QuadbinSetIn(str string) (*Set, error) {
 	return SetFromPointer(_r0.Pointer()), nil
 }
 
-// Out is MEOS quadbinset_out.
-func (x *QuadbinSet) Out() (string, error) {
-	_r0, _err := functions.QuadbinsetOut(functions.SetFromPointer(x.Pointer()))
-	if _err != nil {
-		return "", _err
-	}
-	return _r0, nil
-}
-
 // QuadbinSetMake is MEOS quadbinset_make.
 func QuadbinSetMake(values unsafe.Pointer, count int) (*Set, error) {
 	_r0, _err := functions.QuadbinsetMake(values, count)
@@ -123,6 +114,15 @@ func (x *QuadbinSet) Values(count unsafe.Pointer) (unsafe.Pointer, error) {
 		return nil, _err
 	}
 	return _r0, nil
+}
+
+// QuadbinSetFromQuadbin is MEOS quadbin_to_set.
+func QuadbinSetFromQuadbin(cell functions.Quadbin) (*Set, error) {
+	_r0, _err := functions.QuadbinToSet(cell)
+	if _err != nil {
+		return nil, _err
+	}
+	return SetFromPointer(_r0.Pointer()), nil
 }
 
 // QuadbinSetFromEWKB is the portable fromEWKB of MEOS set_from_wkb.
@@ -179,9 +179,9 @@ func QuadbinSetFromWKB(wkb []byte) (*QuadbinSet, error) {
 	return QuadbinSetFromPointer(r.Pointer()), nil
 }
 
-// String is the text MEOS writes this value as, MEOS quadbinset_out.
+// String is the text MEOS writes this value as, MEOS set_out.
 func (x *QuadbinSet) String() string {
-	s, err := x.Out()
+	s, err := x.Out(15)
 	if err != nil {
 		return "%!s(MEOS error: " + err.Error() + ")"
 	}

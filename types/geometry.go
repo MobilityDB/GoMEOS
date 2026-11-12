@@ -62,33 +62,6 @@ func (x *Geometry) Azimuth(gs2 *Geo) (float64, bool, error) {
 	return _value, true, nil
 }
 
-// Area is MEOS geom_area.
-func (x *Geometry) Area() (float64, error) {
-	_r0, _err := functions.GeomArea(functions.GeomFromPointer(x.Pointer()))
-	if _err != nil {
-		return 0, _err
-	}
-	return _r0, nil
-}
-
-// Length is MEOS geom_length.
-func (x *Geometry) Length() (float64, error) {
-	_r0, _err := functions.GeomLength(functions.GeomFromPointer(x.Pointer()))
-	if _err != nil {
-		return 0, _err
-	}
-	return _r0, nil
-}
-
-// Perimeter is MEOS geom_perimeter.
-func (x *Geometry) Perimeter() (float64, error) {
-	_r0, _err := functions.GeomPerimeter(functions.GeomFromPointer(x.Pointer()))
-	if _err != nil {
-		return 0, _err
-	}
-	return _r0, nil
-}
-
 // GeometryArrayUnion is MEOS geom_array_union.
 func GeometryArrayUnion(gsarr unsafe.Pointer, count int) (*Geo, error) {
 	_r0, _err := functions.GeomArrayUnion(gsarr, count)
@@ -110,15 +83,6 @@ func (x *Geometry) Boundary() (*Geo, error) {
 // Buffer is MEOS geom_buffer.
 func (x *Geometry) Buffer(size float64, params string) (*Geo, error) {
 	_r0, _err := functions.GeomBuffer(functions.GeomFromPointer(x.Pointer()), size, params)
-	if _err != nil {
-		return nil, _err
-	}
-	return GeoFromPointer(_r0.Pointer()), nil
-}
-
-// Centroid is MEOS geom_centroid.
-func (x *Geometry) Centroid() (*Geo, error) {
-	_r0, _err := functions.GeomCentroid(functions.GeomFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
@@ -182,15 +146,6 @@ func (x *Geometry) MinimumBoundingRadius(radius unsafe.Pointer) (*Geo, error) {
 // OrientedEnvelope is MEOS geom_oriented_envelope.
 func (x *Geometry) OrientedEnvelope() (*Geo, error) {
 	_r0, _err := functions.GeomOrientedEnvelope(functions.GeomFromPointer(x.Pointer()))
-	if _err != nil {
-		return nil, _err
-	}
-	return GeoFromPointer(_r0.Pointer()), nil
-}
-
-// Shortestline is MEOS geom_shortestline.
-func (x *Geometry) Shortestline(gs2 *Geo) (*Geo, error) {
-	_r0, _err := functions.GeomShortestline(functions.GeomFromPointer(x.Pointer()), functions.GeomFromPointer(gs2.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
@@ -287,45 +242,9 @@ func (x *Geometry) Dwithin(gs2 *Geo, dist float64) (bool, error) {
 	return _r0, nil
 }
 
-// Dwithin2d is MEOS geom_dwithin2d.
-func (x *Geometry) Dwithin2d(gs2 *Geo, dist float64) (bool, error) {
-	_r0, _err := functions.GeomDwithin2d(functions.GeomFromPointer(x.Pointer()), functions.GeomFromPointer(gs2.Pointer()), dist)
-	if _err != nil {
-		return false, _err
-	}
-	return _r0, nil
-}
-
-// Dwithin3d is MEOS geom_dwithin3d.
-func (x *Geometry) Dwithin3d(gs2 *Geo, dist float64) (bool, error) {
-	_r0, _err := functions.GeomDwithin3d(functions.GeomFromPointer(x.Pointer()), functions.GeomFromPointer(gs2.Pointer()), dist)
-	if _err != nil {
-		return false, _err
-	}
-	return _r0, nil
-}
-
 // Intersects is MEOS geom_intersects.
 func (x *Geometry) Intersects(gs2 *Geo) (bool, error) {
 	_r0, _err := functions.GeomIntersects(functions.GeomFromPointer(x.Pointer()), functions.GeomFromPointer(gs2.Pointer()))
-	if _err != nil {
-		return false, _err
-	}
-	return _r0, nil
-}
-
-// Intersects2d is MEOS geom_intersects2d.
-func (x *Geometry) Intersects2d(gs2 *Geo) (bool, error) {
-	_r0, _err := functions.GeomIntersects2d(functions.GeomFromPointer(x.Pointer()), functions.GeomFromPointer(gs2.Pointer()))
-	if _err != nil {
-		return false, _err
-	}
-	return _r0, nil
-}
-
-// Intersects3d is MEOS geom_intersects3d.
-func (x *Geometry) Intersects3d(gs2 *Geo) (bool, error) {
-	_r0, _err := functions.GeomIntersects3d(functions.GeomFromPointer(x.Pointer()), functions.GeomFromPointer(gs2.Pointer()))
 	if _err != nil {
 		return false, _err
 	}
@@ -386,24 +305,6 @@ func (x *Geometry) MaxDistance(gs2 *Geo) (float64, error) {
 	return _r0, nil
 }
 
-// MaxDistance2d is MEOS geom_max_distance2d.
-func (x *Geometry) MaxDistance2d(gs2 *Geo) (float64, error) {
-	_r0, _err := functions.GeomMaxDistance2d(functions.GeomFromPointer(x.Pointer()), functions.GeomFromPointer(gs2.Pointer()))
-	if _err != nil {
-		return 0, _err
-	}
-	return _r0, nil
-}
-
-// MaxDistance3d is MEOS geom_max_distance3d.
-func (x *Geometry) MaxDistance3d(gs2 *Geo) (float64, error) {
-	_r0, _err := functions.GeomMaxDistance3d(functions.GeomFromPointer(x.Pointer()), functions.GeomFromPointer(gs2.Pointer()))
-	if _err != nil {
-		return 0, _err
-	}
-	return _r0, nil
-}
-
 // Distance3d is MEOS geom_distance3d.
 func (x *Geometry) Distance3d(gs2 *Geo) (float64, error) {
 	_r0, _err := functions.GeomDistance3d(functions.GeomFromPointer(x.Pointer()), functions.GeomFromPointer(gs2.Pointer()))
@@ -414,21 +315,21 @@ func (x *Geometry) Distance3d(gs2 *Geo) (float64, error) {
 }
 
 // ToCbuffer is MEOS geom_to_cbuffer.
-func (x *Geometry) ToCbuffer() (*Cbuffer, error) {
+func (x *Geometry) ToCbuffer() (*CBuffer, error) {
 	_r0, _err := functions.GeomToCbuffer(functions.GeomFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return CbufferFromPointer(_r0.Pointer()), nil
+	return CBufferFromPointer(_r0.Pointer()), nil
 }
 
 // ToNsegment is MEOS geom_to_nsegment.
-func (x *Geometry) ToNsegment() (*Nsegment, error) {
+func (x *Geometry) ToNsegment() (*NSegment, error) {
 	_r0, _err := functions.GeomToNsegment(functions.GeomFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return NsegmentFromPointer(_r0.Pointer()), nil
+	return NSegmentFromPointer(_r0.Pointer()), nil
 }
 
 // TposeToTrgeometry is MEOS geometry_tpose_to_trgeometry.
@@ -438,6 +339,24 @@ func (x *Geometry) TposeToTrgeometry(temp *Temporal) (*Temporal, error) {
 		return nil, _err
 	}
 	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// GeometryFromCbufferarr is MEOS cbufferarr_to_geom.
+func GeometryFromCbufferarr(cbarr unsafe.Pointer, count int) (*Geo, error) {
+	_r0, _err := functions.CbufferarrToGeom(cbarr, count)
+	if _err != nil {
+		return nil, _err
+	}
+	return GeoFromPointer(_r0.Pointer()), nil
+}
+
+// GeometryFromQuadbinCell is MEOS quadbin_cell_to_geom.
+func GeometryFromQuadbinCell(cell functions.Quadbin) (*Geo, error) {
+	_r0, _err := functions.QuadbinCellToGeom(cell)
+	if _err != nil {
+		return nil, _err
+	}
+	return GeoFromPointer(_r0.Pointer()), nil
 }
 
 // GeometryFromEWKB is the portable fromEWKB of MEOS geo_from_ewkb.

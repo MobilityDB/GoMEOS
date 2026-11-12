@@ -32,15 +32,6 @@ func TextSetIn(str string) (*Set, error) {
 	return SetFromPointer(_r0.Pointer()), nil
 }
 
-// Out is MEOS textset_out.
-func (x *TextSet) Out() (string, error) {
-	_r0, _err := functions.TextsetOut(functions.SetFromPointer(x.Pointer()))
-	if _err != nil {
-		return "", _err
-	}
-	return _r0, nil
-}
-
 // TextSetMake is MEOS textset_make.
 func TextSetMake(values unsafe.Pointer, count int) (*Set, error) {
 	_r0, _err := functions.TextsetMake(values, count)
@@ -134,9 +125,9 @@ func TextSetFromHexWKB(hexwkb string) (*TextSet, error) {
 	return TextSetFromPointer(r.Pointer()), nil
 }
 
-// AsText is the portable asText of MEOS textset_out.
-func (x *TextSet) AsText() (string, error) {
-	return x.Out()
+// AsText is the portable asText of MEOS set_out.
+func (x *TextSet) AsText(maxdd int) (string, error) {
+	return x.Out(maxdd)
 }
 
 // TextSetFromText is the portable fromText of MEOS textset_in.
@@ -157,9 +148,9 @@ func TextSetFromWKB(wkb []byte) (*TextSet, error) {
 	return TextSetFromPointer(r.Pointer()), nil
 }
 
-// String is the text MEOS writes this value as, MEOS textset_out.
+// String is the text MEOS writes this value as, MEOS set_out.
 func (x *TextSet) String() string {
-	s, err := x.Out()
+	s, err := x.Out(15)
 	if err != nil {
 		return "%!s(MEOS error: " + err.Error() + ")"
 	}

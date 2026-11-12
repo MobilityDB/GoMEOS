@@ -8,23 +8,23 @@ import (
 	"github.com/MobilityDB/GoMEOS/functions"
 )
 
-type TCbuffer struct {
+type TCBuffer struct {
 	TSpatial
 }
 
-// TCbufferFromPointer wraps a MEOS pointer, answering nil for nil so an
+// TCBufferFromPointer wraps a MEOS pointer, answering nil for nil so an
 // absent MEOS result stays absent rather than becoming a live handle.
-func TCbufferFromPointer(p unsafe.Pointer) *TCbuffer {
+func TCBufferFromPointer(p unsafe.Pointer) *TCBuffer {
 	if p == nil {
 		return nil
 	}
-	v := &TCbuffer{}
+	v := &TCBuffer{}
 	v.ptr = p
 	return v
 }
 
-// TCbufferIn is MEOS tcbuffer_in.
-func TCbufferIn(str string) (*Temporal, error) {
+// TCBufferIn is MEOS tcbuffer_in.
+func TCBufferIn(str string) (*Temporal, error) {
 	_r0, _err := functions.TcbufferIn(str)
 	if _err != nil {
 		return nil, _err
@@ -32,8 +32,8 @@ func TCbufferIn(str string) (*Temporal, error) {
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
-// TCbufferFromMFJSON is MEOS tcbuffer_from_mfjson.
-func TCbufferFromMFJSON(mfjson string) (*Temporal, error) {
+// TCBufferFromMFJSON is MEOS tcbuffer_from_mfjson.
+func TCBufferFromMFJSON(mfjson string) (*Temporal, error) {
 	_r0, _err := functions.TcbufferFromMFJSON(mfjson)
 	if _err != nil {
 		return nil, _err
@@ -42,7 +42,7 @@ func TCbufferFromMFJSON(mfjson string) (*Temporal, error) {
 }
 
 // Make is MEOS tcbuffer_make.
-func (x *TCbuffer) Make(tfloat *Temporal) (*Temporal, error) {
+func (x *TCBuffer) Make(tfloat *Temporal) (*Temporal, error) {
 	_r0, _err := functions.TcbufferMake(functions.TemporalFromPointer(x.Pointer()), functions.TemporalFromPointer(tfloat.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -50,8 +50,8 @@ func (x *TCbuffer) Make(tfloat *Temporal) (*Temporal, error) {
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
-// TCbufferFromBaseTemp is MEOS tcbuffer_from_base_temp.
-func TCbufferFromBaseTemp(cb *Cbuffer, temp *Temporal) (*Temporal, error) {
+// TCBufferFromBaseTemp is MEOS tcbuffer_from_base_temp.
+func TCBufferFromBaseTemp(cb *CBuffer, temp *Temporal) (*Temporal, error) {
 	_r0, _err := functions.TcbufferFromBaseTemp(functions.CbufferFromPointer(cb.Pointer()), functions.TemporalFromPointer(temp.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -60,16 +60,16 @@ func TCbufferFromBaseTemp(cb *Cbuffer, temp *Temporal) (*Temporal, error) {
 }
 
 // EndValue is MEOS tcbuffer_end_value.
-func (x *TCbuffer) EndValue() (*Cbuffer, error) {
+func (x *TCBuffer) EndValue() (*CBuffer, error) {
 	_r0, _err := functions.TcbufferEndValue(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return CbufferFromPointer(_r0.Pointer()), nil
+	return CBufferFromPointer(_r0.Pointer()), nil
 }
 
 // Points is MEOS tcbuffer_points.
-func (x *TCbuffer) Points() (*Set, error) {
+func (x *TCBuffer) Points() (*Set, error) {
 	_r0, _err := functions.TcbufferPoints(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -78,7 +78,7 @@ func (x *TCbuffer) Points() (*Set, error) {
 }
 
 // Radius is MEOS tcbuffer_radius.
-func (x *TCbuffer) Radius() (*Set, error) {
+func (x *TCBuffer) Radius() (*Set, error) {
 	_r0, _err := functions.TcbufferRadius(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -87,7 +87,7 @@ func (x *TCbuffer) Radius() (*Set, error) {
 }
 
 // TraversedArea is MEOS tcbuffer_traversed_area.
-func (x *TCbuffer) TraversedArea(unary_union bool) (*Geo, error) {
+func (x *TCBuffer) TraversedArea(unary_union bool) (*Geo, error) {
 	_r0, _err := functions.TcbufferTraversedArea(functions.TemporalFromPointer(x.Pointer()), unary_union)
 	if _err != nil {
 		return nil, _err
@@ -96,7 +96,7 @@ func (x *TCbuffer) TraversedArea(unary_union bool) (*Geo, error) {
 }
 
 // ConvexHull is MEOS tcbuffer_convex_hull.
-func (x *TCbuffer) ConvexHull() (*Geo, error) {
+func (x *TCBuffer) ConvexHull() (*Geo, error) {
 	_r0, _err := functions.TcbufferConvexHull(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -105,25 +105,25 @@ func (x *TCbuffer) ConvexHull() (*Geo, error) {
 }
 
 // StartValue is MEOS tcbuffer_start_value.
-func (x *TCbuffer) StartValue() (*Cbuffer, error) {
+func (x *TCBuffer) StartValue() (*CBuffer, error) {
 	_r0, _err := functions.TcbufferStartValue(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return CbufferFromPointer(_r0.Pointer()), nil
+	return CBufferFromPointer(_r0.Pointer()), nil
 }
 
 // Value is MEOS tcbuffer_value.
-func (x *TCbuffer) Value() (*Cbuffer, error) {
+func (x *TCBuffer) Value() (*CBuffer, error) {
 	_r0, _err := functions.TcbufferValue(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return CbufferFromPointer(_r0.Pointer()), nil
+	return CBufferFromPointer(_r0.Pointer()), nil
 }
 
 // ValueAtTimestamptz is MEOS tcbuffer_value_at_timestamptz.
-func (x *TCbuffer) ValueAtTimestamptz(t int64, strict bool) (*Cbuffer, bool, error) {
+func (x *TCBuffer) ValueAtTimestamptz(t int64, strict bool) (*CBuffer, bool, error) {
 	_found, _value, _err := functions.TcbufferValueAtTimestamptz(functions.TemporalFromPointer(x.Pointer()), t, strict)
 	if _err != nil {
 		return nil, false, _err
@@ -131,11 +131,11 @@ func (x *TCbuffer) ValueAtTimestamptz(t int64, strict bool) (*Cbuffer, bool, err
 	if !_found {
 		return nil, false, nil
 	}
-	return CbufferFromPointer(_value.Pointer()), true, nil
+	return CBufferFromPointer(_value.Pointer()), true, nil
 }
 
 // ValueN is MEOS tcbuffer_value_n.
-func (x *TCbuffer) ValueN(n int) (*Cbuffer, bool, error) {
+func (x *TCBuffer) ValueN(n int) (*CBuffer, bool, error) {
 	_found, _value, _err := functions.TcbufferValueN(functions.TemporalFromPointer(x.Pointer()), n)
 	if _err != nil {
 		return nil, false, _err
@@ -143,11 +143,11 @@ func (x *TCbuffer) ValueN(n int) (*Cbuffer, bool, error) {
 	if !_found {
 		return nil, false, nil
 	}
-	return CbufferFromPointer(_value.Pointer()), true, nil
+	return CBufferFromPointer(_value.Pointer()), true, nil
 }
 
 // Values is MEOS tcbuffer_values.
-func (x *TCbuffer) Values(count unsafe.Pointer) (unsafe.Pointer, error) {
+func (x *TCBuffer) Values(count unsafe.Pointer) (unsafe.Pointer, error) {
 	_r0, _err := functions.TcbufferValues(functions.TemporalFromPointer(x.Pointer()), count)
 	if _err != nil {
 		return nil, _err
@@ -156,7 +156,7 @@ func (x *TCbuffer) Values(count unsafe.Pointer) (unsafe.Pointer, error) {
 }
 
 // Unnest is MEOS tcbuffer_unnest.
-func (x *TCbuffer) Unnest(values unsafe.Pointer, count unsafe.Pointer) (unsafe.Pointer, error) {
+func (x *TCBuffer) Unnest(values unsafe.Pointer, count unsafe.Pointer) (unsafe.Pointer, error) {
 	_r0, _err := functions.TcbufferUnnest(functions.TemporalFromPointer(x.Pointer()), values, count)
 	if _err != nil {
 		return nil, _err
@@ -165,7 +165,7 @@ func (x *TCbuffer) Unnest(values unsafe.Pointer, count unsafe.Pointer) (unsafe.P
 }
 
 // ToTfloat is MEOS tcbuffer_to_tfloat.
-func (x *TCbuffer) ToTfloat() (*Temporal, error) {
+func (x *TCBuffer) ToTfloat() (*Temporal, error) {
 	_r0, _err := functions.TcbufferToTfloat(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -174,7 +174,7 @@ func (x *TCbuffer) ToTfloat() (*Temporal, error) {
 }
 
 // ToTgeompoint is MEOS tcbuffer_to_tgeompoint.
-func (x *TCbuffer) ToTgeompoint() (*Temporal, error) {
+func (x *TCBuffer) ToTgeompoint() (*Temporal, error) {
 	_r0, _err := functions.TcbufferToTgeompoint(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -182,8 +182,17 @@ func (x *TCbuffer) ToTgeompoint() (*Temporal, error) {
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
+// ToTgeogpoint is MEOS tcbuffer_to_tgeogpoint.
+func (x *TCBuffer) ToTgeogpoint() (*Temporal, error) {
+	_r0, _err := functions.TcbufferToTgeogpoint(functions.TemporalFromPointer(x.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
 // Expand is MEOS tcbuffer_expand.
-func (x *TCbuffer) Expand(dist float64) (*Temporal, error) {
+func (x *TCBuffer) Expand(dist float64) (*Temporal, error) {
 	_r0, _err := functions.TcbufferExpand(functions.TemporalFromPointer(x.Pointer()), dist)
 	if _err != nil {
 		return nil, _err
@@ -192,7 +201,7 @@ func (x *TCbuffer) Expand(dist float64) (*Temporal, error) {
 }
 
 // Rotate is MEOS tcbuffer_rotate.
-func (x *TCbuffer) Rotate(angle float64, x0 float64, y0 float64) (*Temporal, error) {
+func (x *TCBuffer) Rotate(angle float64, x0 float64, y0 float64) (*Temporal, error) {
 	_r0, _err := functions.TcbufferRotate(functions.TemporalFromPointer(x.Pointer()), angle, x0, y0)
 	if _err != nil {
 		return nil, _err
@@ -201,7 +210,7 @@ func (x *TCbuffer) Rotate(angle float64, x0 float64, y0 float64) (*Temporal, err
 }
 
 // RotateZ is MEOS tcbuffer_rotate_z.
-func (x *TCbuffer) RotateZ(angle float64) (*Temporal, error) {
+func (x *TCBuffer) RotateZ(angle float64) (*Temporal, error) {
 	_r0, _err := functions.TcbufferRotateZ(functions.TemporalFromPointer(x.Pointer()), angle)
 	if _err != nil {
 		return nil, _err
@@ -210,7 +219,7 @@ func (x *TCbuffer) RotateZ(angle float64) (*Temporal, error) {
 }
 
 // Translate is MEOS tcbuffer_translate.
-func (x *TCbuffer) Translate(deltax float64, deltay float64) (*Temporal, error) {
+func (x *TCBuffer) Translate(deltax float64, deltay float64) (*Temporal, error) {
 	_r0, _err := functions.TcbufferTranslate(functions.TemporalFromPointer(x.Pointer()), deltax, deltay)
 	if _err != nil {
 		return nil, _err
@@ -219,7 +228,7 @@ func (x *TCbuffer) Translate(deltax float64, deltay float64) (*Temporal, error) 
 }
 
 // AtCbuffer is MEOS tcbuffer_at_cbuffer.
-func (x *TCbuffer) AtCbuffer(cb *Cbuffer) (*Temporal, error) {
+func (x *TCBuffer) AtCbuffer(cb *CBuffer) (*Temporal, error) {
 	_r0, _err := functions.TcbufferAtCbuffer(functions.TemporalFromPointer(x.Pointer()), functions.CbufferFromPointer(cb.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -228,7 +237,7 @@ func (x *TCbuffer) AtCbuffer(cb *Cbuffer) (*Temporal, error) {
 }
 
 // AtGeom is MEOS tcbuffer_at_geom.
-func (x *TCbuffer) AtGeom(gs *Geo) (*Temporal, error) {
+func (x *TCBuffer) AtGeom(gs *Geo) (*Temporal, error) {
 	_r0, _err := functions.TcbufferAtGeom(functions.TemporalFromPointer(x.Pointer()), functions.GeomFromPointer(gs.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -237,7 +246,7 @@ func (x *TCbuffer) AtGeom(gs *Geo) (*Temporal, error) {
 }
 
 // AtStbox is MEOS tcbuffer_at_stbox.
-func (x *TCbuffer) AtStbox(box *STBox, border_inc bool) (*Temporal, error) {
+func (x *TCBuffer) AtStbox(box *STBox, border_inc bool) (*Temporal, error) {
 	_r0, _err := functions.TcbufferAtSTBOX(functions.TemporalFromPointer(x.Pointer()), functions.STBoxFromPointer(box.Pointer()), border_inc)
 	if _err != nil {
 		return nil, _err
@@ -246,7 +255,7 @@ func (x *TCbuffer) AtStbox(box *STBox, border_inc bool) (*Temporal, error) {
 }
 
 // MinusCbuffer is MEOS tcbuffer_minus_cbuffer.
-func (x *TCbuffer) MinusCbuffer(cb *Cbuffer) (*Temporal, error) {
+func (x *TCBuffer) MinusCbuffer(cb *CBuffer) (*Temporal, error) {
 	_r0, _err := functions.TcbufferMinusCbuffer(functions.TemporalFromPointer(x.Pointer()), functions.CbufferFromPointer(cb.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -255,7 +264,7 @@ func (x *TCbuffer) MinusCbuffer(cb *Cbuffer) (*Temporal, error) {
 }
 
 // MinusGeom is MEOS tcbuffer_minus_geom.
-func (x *TCbuffer) MinusGeom(gs *Geo) (*Temporal, error) {
+func (x *TCBuffer) MinusGeom(gs *Geo) (*Temporal, error) {
 	_r0, _err := functions.TcbufferMinusGeom(functions.TemporalFromPointer(x.Pointer()), functions.GeomFromPointer(gs.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -264,7 +273,7 @@ func (x *TCbuffer) MinusGeom(gs *Geo) (*Temporal, error) {
 }
 
 // MinusStbox is MEOS tcbuffer_minus_stbox.
-func (x *TCbuffer) MinusStbox(box *STBox, border_inc bool) (*Temporal, error) {
+func (x *TCBuffer) MinusStbox(box *STBox, border_inc bool) (*Temporal, error) {
 	_r0, _err := functions.TcbufferMinusSTBOX(functions.TemporalFromPointer(x.Pointer()), functions.STBoxFromPointer(box.Pointer()), border_inc)
 	if _err != nil {
 		return nil, _err
@@ -272,62 +281,62 @@ func (x *TCbuffer) MinusStbox(box *STBox, border_inc bool) (*Temporal, error) {
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
-// TCbufferFromEWKB is the portable fromEWKB of MEOS temporal_from_wkb.
-func TCbufferFromEWKB(wkb []byte) (*TCbuffer, error) {
+// TCBufferFromEWKB is the portable fromEWKB of MEOS temporal_from_wkb.
+func TCBufferFromEWKB(wkb []byte) (*TCBuffer, error) {
 	r, err := TemporalFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}
-	return TCbufferFromPointer(r.Pointer()), nil
+	return TCBufferFromPointer(r.Pointer()), nil
 }
 
-// TCbufferFromEWKT is the portable fromEWKT of MEOS tcbuffer_in.
-func TCbufferFromEWKT(str string) (*TCbuffer, error) {
-	r, err := TCbufferIn(str)
+// TCBufferFromEWKT is the portable fromEWKT of MEOS tcbuffer_in.
+func TCBufferFromEWKT(str string) (*TCBuffer, error) {
+	r, err := TCBufferIn(str)
 	if err != nil || r == nil {
 		return nil, err
 	}
-	return TCbufferFromPointer(r.Pointer()), nil
+	return TCBufferFromPointer(r.Pointer()), nil
 }
 
-// TCbufferFromHexEWKB is the portable fromHexEWKB of MEOS temporal_from_hexwkb.
-func TCbufferFromHexEWKB(hexwkb string) (*TCbuffer, error) {
+// TCBufferFromHexEWKB is the portable fromHexEWKB of MEOS temporal_from_hexwkb.
+func TCBufferFromHexEWKB(hexwkb string) (*TCBuffer, error) {
 	r, err := TemporalFromHexWKB(hexwkb)
 	if err != nil || r == nil {
 		return nil, err
 	}
-	return TCbufferFromPointer(r.Pointer()), nil
+	return TCBufferFromPointer(r.Pointer()), nil
 }
 
-// TCbufferFromHexWKB is the portable fromHexWKB of MEOS temporal_from_hexwkb.
-func TCbufferFromHexWKB(hexwkb string) (*TCbuffer, error) {
+// TCBufferFromHexWKB is the portable fromHexWKB of MEOS temporal_from_hexwkb.
+func TCBufferFromHexWKB(hexwkb string) (*TCBuffer, error) {
 	r, err := TemporalFromHexWKB(hexwkb)
 	if err != nil || r == nil {
 		return nil, err
 	}
-	return TCbufferFromPointer(r.Pointer()), nil
+	return TCBufferFromPointer(r.Pointer()), nil
 }
 
-// TCbufferFromText is the portable fromText of MEOS tcbuffer_in.
-func TCbufferFromText(str string) (*TCbuffer, error) {
-	r, err := TCbufferIn(str)
+// TCBufferFromText is the portable fromText of MEOS tcbuffer_in.
+func TCBufferFromText(str string) (*TCBuffer, error) {
+	r, err := TCBufferIn(str)
 	if err != nil || r == nil {
 		return nil, err
 	}
-	return TCbufferFromPointer(r.Pointer()), nil
+	return TCBufferFromPointer(r.Pointer()), nil
 }
 
-// TCbufferFromWKB is the portable fromWKB of MEOS temporal_from_wkb.
-func TCbufferFromWKB(wkb []byte) (*TCbuffer, error) {
+// TCBufferFromWKB is the portable fromWKB of MEOS temporal_from_wkb.
+func TCBufferFromWKB(wkb []byte) (*TCBuffer, error) {
 	r, err := TemporalFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}
-	return TCbufferFromPointer(r.Pointer()), nil
+	return TCBufferFromPointer(r.Pointer()), nil
 }
 
 // String is the text MEOS writes this value as, MEOS tspatial_as_text.
-func (x *TCbuffer) String() string {
+func (x *TCBuffer) String() string {
 	s, err := x.AsText(15)
 	if err != nil {
 		return "%!s(MEOS error: " + err.Error() + ")"

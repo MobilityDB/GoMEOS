@@ -35,12 +35,12 @@ func TPointFromBaseTemp(gs *Geo, temp *Temporal) (*Temporal, error) {
 }
 
 // AsMVTGeom is MEOS tpoint_as_mvtgeom.
-func (x *TPoint) AsMVTGeom(bounds *STBox, extent int32, buffer int32, clip_geom bool, gsarr unsafe.Pointer, timesarr unsafe.Pointer, count unsafe.Pointer) (bool, error) {
-	_r0, _err := functions.TpointAsMvtgeom(functions.TemporalFromPointer(x.Pointer()), functions.STBoxFromPointer(bounds.Pointer()), extent, buffer, clip_geom, gsarr, timesarr, count)
+func (x *TPoint) AsMVTGeom(bounds *STBox, extent int32, buffer int32, clip_geom bool, timesarr unsafe.Pointer, count unsafe.Pointer) (*Geo, error) {
+	_r0, _err := functions.TpointAsMvtgeom(functions.TemporalFromPointer(x.Pointer()), functions.STBoxFromPointer(bounds.Pointer()), extent, buffer, clip_geom, timesarr, count)
 	if _err != nil {
-		return false, _err
+		return nil, _err
 	}
-	return _r0, nil
+	return GeoFromPointer(_r0.Pointer()), nil
 }
 
 // TfloatToGeomeas is MEOS tpoint_tfloat_to_geomeas.
@@ -193,24 +193,6 @@ func (x *TPoint) AtElevation(s *Span) (*Temporal, error) {
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
-// AtGeom is MEOS tpoint_at_geom.
-func (x *TPoint) AtGeom(gs *Geo) (*Temporal, error) {
-	_r0, _err := functions.TpointAtGeom(functions.TemporalFromPointer(x.Pointer()), functions.GeomFromPointer(gs.Pointer()))
-	if _err != nil {
-		return nil, _err
-	}
-	return TemporalFromPointer(_r0.Pointer()), nil
-}
-
-// AtValue is MEOS tpoint_at_value.
-func (x *TPoint) AtValue(gs *Geo) (*Temporal, error) {
-	_r0, _err := functions.TpointAtValue(functions.TemporalFromPointer(x.Pointer()), functions.GeomFromPointer(gs.Pointer()))
-	if _err != nil {
-		return nil, _err
-	}
-	return TemporalFromPointer(_r0.Pointer()), nil
-}
-
 // MinusElevation is MEOS tpoint_minus_elevation.
 func (x *TPoint) MinusElevation(s *Span) (*Temporal, error) {
 	_r0, _err := functions.TpointMinusElevation(functions.TemporalFromPointer(x.Pointer()), functions.SpanFromPointer(s.Pointer()))
@@ -220,18 +202,9 @@ func (x *TPoint) MinusElevation(s *Span) (*Temporal, error) {
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
-// MinusGeom is MEOS tpoint_minus_geom.
-func (x *TPoint) MinusGeom(gs *Geo) (*Temporal, error) {
-	_r0, _err := functions.TpointMinusGeom(functions.TemporalFromPointer(x.Pointer()), functions.GeomFromPointer(gs.Pointer()))
-	if _err != nil {
-		return nil, _err
-	}
-	return TemporalFromPointer(_r0.Pointer()), nil
-}
-
-// MinusValue is MEOS tpoint_minus_value.
-func (x *TPoint) MinusValue(gs *Geo) (*Temporal, error) {
-	_r0, _err := functions.TpointMinusValue(functions.TemporalFromPointer(x.Pointer()), functions.GeomFromPointer(gs.Pointer()))
+// TPointFromGeomeas is MEOS geomeas_to_tpoint.
+func TPointFromGeomeas(gs *Geo) (*Temporal, error) {
+	_r0, _err := functions.GeomeasToTpoint(functions.GeomFromPointer(gs.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}

@@ -8,23 +8,23 @@ import (
 	"github.com/MobilityDB/GoMEOS/functions"
 )
 
-type TCbufferSeq struct {
-	TCbuffer
+type TCBufferSeq struct {
+	TCBuffer
 }
 
-// TCbufferSeqFromPointer wraps a MEOS pointer, answering nil for nil so an
+// TCBufferSeqFromPointer wraps a MEOS pointer, answering nil for nil so an
 // absent MEOS result stays absent rather than becoming a live handle.
-func TCbufferSeqFromPointer(p unsafe.Pointer) *TCbufferSeq {
+func TCBufferSeqFromPointer(p unsafe.Pointer) *TCBufferSeq {
 	if p == nil {
 		return nil
 	}
-	v := &TCbufferSeq{}
+	v := &TCBufferSeq{}
 	v.ptr = p
 	return v
 }
 
-// TCbufferSeqFromBaseTstzset is MEOS tcbufferseq_from_base_tstzset.
-func TCbufferSeqFromBaseTstzset(cb *Cbuffer, s *Set) (*Temporal, error) {
+// TCBufferSeqFromBaseTstzset is MEOS tcbufferseq_from_base_tstzset.
+func TCBufferSeqFromBaseTstzset(cb *CBuffer, s *Set) (*Temporal, error) {
 	_r0, _err := functions.TcbufferseqFromBaseTstzset(functions.CbufferFromPointer(cb.Pointer()), functions.SetFromPointer(s.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -32,8 +32,8 @@ func TCbufferSeqFromBaseTstzset(cb *Cbuffer, s *Set) (*Temporal, error) {
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
-// TCbufferSeqFromBaseTstzspan is MEOS tcbufferseq_from_base_tstzspan.
-func TCbufferSeqFromBaseTstzspan(cb *Cbuffer, s *Span, interp functions.Interpolation) (*Temporal, error) {
+// TCBufferSeqFromBaseTstzspan is MEOS tcbufferseq_from_base_tstzspan.
+func TCBufferSeqFromBaseTstzspan(cb *CBuffer, s *Span, interp functions.Interpolation) (*Temporal, error) {
 	_r0, _err := functions.TcbufferseqFromBaseTstzspan(functions.CbufferFromPointer(cb.Pointer()), functions.SpanFromPointer(s.Pointer()), interp)
 	if _err != nil {
 		return nil, _err

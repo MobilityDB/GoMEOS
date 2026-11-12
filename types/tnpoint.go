@@ -8,23 +8,23 @@ import (
 	"github.com/MobilityDB/GoMEOS/functions"
 )
 
-type TNpoint struct {
+type TNPoint struct {
 	TSpatial
 }
 
-// TNpointFromPointer wraps a MEOS pointer, answering nil for nil so an
+// TNPointFromPointer wraps a MEOS pointer, answering nil for nil so an
 // absent MEOS result stays absent rather than becoming a live handle.
-func TNpointFromPointer(p unsafe.Pointer) *TNpoint {
+func TNPointFromPointer(p unsafe.Pointer) *TNPoint {
 	if p == nil {
 		return nil
 	}
-	v := &TNpoint{}
+	v := &TNPoint{}
 	v.ptr = p
 	return v
 }
 
-// TNpointIn is MEOS tnpoint_in.
-func TNpointIn(str string) (*Temporal, error) {
+// TNPointIn is MEOS tnpoint_in.
+func TNPointIn(str string) (*Temporal, error) {
 	_r0, _err := functions.TnpointIn(str)
 	if _err != nil {
 		return nil, _err
@@ -32,8 +32,8 @@ func TNpointIn(str string) (*Temporal, error) {
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
-// TNpointFromMFJSON is MEOS tnpoint_from_mfjson.
-func TNpointFromMFJSON(mfjson string) (*Temporal, error) {
+// TNPointFromMFJSON is MEOS tnpoint_from_mfjson.
+func TNPointFromMFJSON(mfjson string) (*Temporal, error) {
 	_r0, _err := functions.TnpointFromMFJSON(mfjson)
 	if _err != nil {
 		return nil, _err
@@ -41,17 +41,8 @@ func TNpointFromMFJSON(mfjson string) (*Temporal, error) {
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
-// Out is MEOS tnpoint_out.
-func (x *TNpoint) Out(maxdd int) (string, error) {
-	_r0, _err := functions.TnpointOut(functions.TemporalFromPointer(x.Pointer()), maxdd)
-	if _err != nil {
-		return "", _err
-	}
-	return _r0, nil
-}
-
-// TNpointFromBaseTemp is MEOS tnpoint_from_base_temp.
-func TNpointFromBaseTemp(np *Npoint, temp *Temporal) (*Temporal, error) {
+// TNPointFromBaseTemp is MEOS tnpoint_from_base_temp.
+func TNPointFromBaseTemp(np *NPoint, temp *Temporal) (*Temporal, error) {
 	_r0, _err := functions.TnpointFromBaseTemp(functions.NpointFromPointer(np.Pointer()), functions.TemporalFromPointer(temp.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -60,7 +51,7 @@ func TNpointFromBaseTemp(np *Npoint, temp *Temporal) (*Temporal, error) {
 }
 
 // ToTgeompoint is MEOS tnpoint_to_tgeompoint.
-func (x *TNpoint) ToTgeompoint() (*Temporal, error) {
+func (x *TNPoint) ToTgeompoint() (*Temporal, error) {
 	_r0, _err := functions.TnpointToTgeompoint(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -68,8 +59,17 @@ func (x *TNpoint) ToTgeompoint() (*Temporal, error) {
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
+// ToTgeogpoint is MEOS tnpoint_to_tgeogpoint.
+func (x *TNPoint) ToTgeogpoint() (*Temporal, error) {
+	_r0, _err := functions.TnpointToTgeogpoint(functions.TemporalFromPointer(x.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
 // CumulativeLength is MEOS tnpoint_cumulative_length.
-func (x *TNpoint) CumulativeLength() (*Temporal, error) {
+func (x *TNPoint) CumulativeLength() (*Temporal, error) {
 	_r0, _err := functions.TnpointCumulativeLength(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -78,16 +78,16 @@ func (x *TNpoint) CumulativeLength() (*Temporal, error) {
 }
 
 // EndValue is MEOS tnpoint_end_value.
-func (x *TNpoint) EndValue() (*Npoint, error) {
+func (x *TNPoint) EndValue() (*NPoint, error) {
 	_r0, _err := functions.TnpointEndValue(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return NpointFromPointer(_r0.Pointer()), nil
+	return NPointFromPointer(_r0.Pointer()), nil
 }
 
 // Length is MEOS tnpoint_length.
-func (x *TNpoint) Length() (float64, error) {
+func (x *TNPoint) Length() (float64, error) {
 	_r0, _err := functions.TnpointLength(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return 0, _err
@@ -96,7 +96,7 @@ func (x *TNpoint) Length() (float64, error) {
 }
 
 // Positions is MEOS tnpoint_positions.
-func (x *TNpoint) Positions(count unsafe.Pointer) (unsafe.Pointer, error) {
+func (x *TNPoint) Positions(count unsafe.Pointer) (unsafe.Pointer, error) {
 	_r0, _err := functions.TnpointPositions(functions.TemporalFromPointer(x.Pointer()), count)
 	if _err != nil {
 		return nil, _err
@@ -105,7 +105,7 @@ func (x *TNpoint) Positions(count unsafe.Pointer) (unsafe.Pointer, error) {
 }
 
 // Route is MEOS tnpoint_route.
-func (x *TNpoint) Route() (int64, error) {
+func (x *TNPoint) Route() (int64, error) {
 	_r0, _err := functions.TnpointRoute(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return 0, _err
@@ -114,7 +114,7 @@ func (x *TNpoint) Route() (int64, error) {
 }
 
 // Routes is MEOS tnpoint_routes.
-func (x *TNpoint) Routes() (*Set, error) {
+func (x *TNPoint) Routes() (*Set, error) {
 	_r0, _err := functions.TnpointRoutes(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -123,7 +123,7 @@ func (x *TNpoint) Routes() (*Set, error) {
 }
 
 // Speed is MEOS tnpoint_speed.
-func (x *TNpoint) Speed() (*Temporal, error) {
+func (x *TNPoint) Speed() (*Temporal, error) {
 	_r0, _err := functions.TnpointSpeed(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -132,16 +132,16 @@ func (x *TNpoint) Speed() (*Temporal, error) {
 }
 
 // StartValue is MEOS tnpoint_start_value.
-func (x *TNpoint) StartValue() (*Npoint, error) {
+func (x *TNPoint) StartValue() (*NPoint, error) {
 	_r0, _err := functions.TnpointStartValue(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return NpointFromPointer(_r0.Pointer()), nil
+	return NPointFromPointer(_r0.Pointer()), nil
 }
 
 // Trajectory is MEOS tnpoint_trajectory.
-func (x *TNpoint) Trajectory() (*Geo, error) {
+func (x *TNPoint) Trajectory() (*Geo, error) {
 	_r0, _err := functions.TnpointTrajectory(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -150,16 +150,16 @@ func (x *TNpoint) Trajectory() (*Geo, error) {
 }
 
 // Value is MEOS tnpoint_value.
-func (x *TNpoint) Value() (*Npoint, error) {
+func (x *TNPoint) Value() (*NPoint, error) {
 	_r0, _err := functions.TnpointValue(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return NpointFromPointer(_r0.Pointer()), nil
+	return NPointFromPointer(_r0.Pointer()), nil
 }
 
 // ValueAtTimestamptz is MEOS tnpoint_value_at_timestamptz.
-func (x *TNpoint) ValueAtTimestamptz(t int64, strict bool) (*Npoint, bool, error) {
+func (x *TNPoint) ValueAtTimestamptz(t int64, strict bool) (*NPoint, bool, error) {
 	_found, _value, _err := functions.TnpointValueAtTimestamptz(functions.TemporalFromPointer(x.Pointer()), t, strict)
 	if _err != nil {
 		return nil, false, _err
@@ -167,11 +167,11 @@ func (x *TNpoint) ValueAtTimestamptz(t int64, strict bool) (*Npoint, bool, error
 	if !_found {
 		return nil, false, nil
 	}
-	return NpointFromPointer(_value.Pointer()), true, nil
+	return NPointFromPointer(_value.Pointer()), true, nil
 }
 
 // ValueN is MEOS tnpoint_value_n.
-func (x *TNpoint) ValueN(n int) (*Npoint, bool, error) {
+func (x *TNPoint) ValueN(n int) (*NPoint, bool, error) {
 	_found, _value, _err := functions.TnpointValueN(functions.TemporalFromPointer(x.Pointer()), n)
 	if _err != nil {
 		return nil, false, _err
@@ -179,11 +179,11 @@ func (x *TNpoint) ValueN(n int) (*Npoint, bool, error) {
 	if !_found {
 		return nil, false, nil
 	}
-	return NpointFromPointer(_value.Pointer()), true, nil
+	return NPointFromPointer(_value.Pointer()), true, nil
 }
 
 // Values is MEOS tnpoint_values.
-func (x *TNpoint) Values(count unsafe.Pointer) (unsafe.Pointer, error) {
+func (x *TNPoint) Values(count unsafe.Pointer) (unsafe.Pointer, error) {
 	_r0, _err := functions.TnpointValues(functions.TemporalFromPointer(x.Pointer()), count)
 	if _err != nil {
 		return nil, _err
@@ -192,7 +192,7 @@ func (x *TNpoint) Values(count unsafe.Pointer) (unsafe.Pointer, error) {
 }
 
 // Unnest is MEOS tnpoint_unnest.
-func (x *TNpoint) Unnest(values unsafe.Pointer, count unsafe.Pointer) (unsafe.Pointer, error) {
+func (x *TNPoint) Unnest(values unsafe.Pointer, count unsafe.Pointer) (unsafe.Pointer, error) {
 	_r0, _err := functions.TnpointUnnest(functions.TemporalFromPointer(x.Pointer()), values, count)
 	if _err != nil {
 		return nil, _err
@@ -201,7 +201,7 @@ func (x *TNpoint) Unnest(values unsafe.Pointer, count unsafe.Pointer) (unsafe.Po
 }
 
 // Twcentroid is MEOS tnpoint_twcentroid.
-func (x *TNpoint) Twcentroid() (*Geo, error) {
+func (x *TNPoint) Twcentroid() (*Geo, error) {
 	_r0, _err := functions.TnpointTwcentroid(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -210,7 +210,7 @@ func (x *TNpoint) Twcentroid() (*Geo, error) {
 }
 
 // AtGeom is MEOS tnpoint_at_geom.
-func (x *TNpoint) AtGeom(gs *Geo) (*Temporal, error) {
+func (x *TNPoint) AtGeom(gs *Geo) (*Temporal, error) {
 	_r0, _err := functions.TnpointAtGeom(functions.TemporalFromPointer(x.Pointer()), functions.GeomFromPointer(gs.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -219,7 +219,7 @@ func (x *TNpoint) AtGeom(gs *Geo) (*Temporal, error) {
 }
 
 // AtNpoint is MEOS tnpoint_at_npoint.
-func (x *TNpoint) AtNpoint(np *Npoint) (*Temporal, error) {
+func (x *TNPoint) AtNpoint(np *NPoint) (*Temporal, error) {
 	_r0, _err := functions.TnpointAtNpoint(functions.TemporalFromPointer(x.Pointer()), functions.NpointFromPointer(np.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -228,7 +228,7 @@ func (x *TNpoint) AtNpoint(np *Npoint) (*Temporal, error) {
 }
 
 // AtNpointset is MEOS tnpoint_at_npointset.
-func (x *TNpoint) AtNpointset(s *Set) (*Temporal, error) {
+func (x *TNPoint) AtNpointset(s *Set) (*Temporal, error) {
 	_r0, _err := functions.TnpointAtNpointset(functions.TemporalFromPointer(x.Pointer()), functions.SetFromPointer(s.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -237,7 +237,7 @@ func (x *TNpoint) AtNpointset(s *Set) (*Temporal, error) {
 }
 
 // AtStbox is MEOS tnpoint_at_stbox.
-func (x *TNpoint) AtStbox(box *STBox, border_inc bool) (*Temporal, error) {
+func (x *TNPoint) AtStbox(box *STBox, border_inc bool) (*Temporal, error) {
 	_r0, _err := functions.TnpointAtSTBOX(functions.TemporalFromPointer(x.Pointer()), functions.STBoxFromPointer(box.Pointer()), border_inc)
 	if _err != nil {
 		return nil, _err
@@ -246,7 +246,7 @@ func (x *TNpoint) AtStbox(box *STBox, border_inc bool) (*Temporal, error) {
 }
 
 // MinusGeom is MEOS tnpoint_minus_geom.
-func (x *TNpoint) MinusGeom(gs *Geo) (*Temporal, error) {
+func (x *TNPoint) MinusGeom(gs *Geo) (*Temporal, error) {
 	_r0, _err := functions.TnpointMinusGeom(functions.TemporalFromPointer(x.Pointer()), functions.GeomFromPointer(gs.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -255,7 +255,7 @@ func (x *TNpoint) MinusGeom(gs *Geo) (*Temporal, error) {
 }
 
 // MinusNpoint is MEOS tnpoint_minus_npoint.
-func (x *TNpoint) MinusNpoint(np *Npoint) (*Temporal, error) {
+func (x *TNPoint) MinusNpoint(np *NPoint) (*Temporal, error) {
 	_r0, _err := functions.TnpointMinusNpoint(functions.TemporalFromPointer(x.Pointer()), functions.NpointFromPointer(np.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -264,7 +264,7 @@ func (x *TNpoint) MinusNpoint(np *Npoint) (*Temporal, error) {
 }
 
 // MinusNpointset is MEOS tnpoint_minus_npointset.
-func (x *TNpoint) MinusNpointset(s *Set) (*Temporal, error) {
+func (x *TNPoint) MinusNpointset(s *Set) (*Temporal, error) {
 	_r0, _err := functions.TnpointMinusNpointset(functions.TemporalFromPointer(x.Pointer()), functions.SetFromPointer(s.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -273,7 +273,7 @@ func (x *TNpoint) MinusNpointset(s *Set) (*Temporal, error) {
 }
 
 // MinusStbox is MEOS tnpoint_minus_stbox.
-func (x *TNpoint) MinusStbox(box *STBox, border_inc bool) (*Temporal, error) {
+func (x *TNPoint) MinusStbox(box *STBox, border_inc bool) (*Temporal, error) {
 	_r0, _err := functions.TnpointMinusSTBOX(functions.TemporalFromPointer(x.Pointer()), functions.STBoxFromPointer(box.Pointer()), border_inc)
 	if _err != nil {
 		return nil, _err
@@ -281,62 +281,62 @@ func (x *TNpoint) MinusStbox(box *STBox, border_inc bool) (*Temporal, error) {
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
-// TNpointFromEWKB is the portable fromEWKB of MEOS temporal_from_wkb.
-func TNpointFromEWKB(wkb []byte) (*TNpoint, error) {
+// TNPointFromEWKB is the portable fromEWKB of MEOS temporal_from_wkb.
+func TNPointFromEWKB(wkb []byte) (*TNPoint, error) {
 	r, err := TemporalFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}
-	return TNpointFromPointer(r.Pointer()), nil
+	return TNPointFromPointer(r.Pointer()), nil
 }
 
-// TNpointFromEWKT is the portable fromEWKT of MEOS tnpoint_in.
-func TNpointFromEWKT(str string) (*TNpoint, error) {
-	r, err := TNpointIn(str)
+// TNPointFromEWKT is the portable fromEWKT of MEOS tnpoint_in.
+func TNPointFromEWKT(str string) (*TNPoint, error) {
+	r, err := TNPointIn(str)
 	if err != nil || r == nil {
 		return nil, err
 	}
-	return TNpointFromPointer(r.Pointer()), nil
+	return TNPointFromPointer(r.Pointer()), nil
 }
 
-// TNpointFromHexEWKB is the portable fromHexEWKB of MEOS temporal_from_hexwkb.
-func TNpointFromHexEWKB(hexwkb string) (*TNpoint, error) {
+// TNPointFromHexEWKB is the portable fromHexEWKB of MEOS temporal_from_hexwkb.
+func TNPointFromHexEWKB(hexwkb string) (*TNPoint, error) {
 	r, err := TemporalFromHexWKB(hexwkb)
 	if err != nil || r == nil {
 		return nil, err
 	}
-	return TNpointFromPointer(r.Pointer()), nil
+	return TNPointFromPointer(r.Pointer()), nil
 }
 
-// TNpointFromHexWKB is the portable fromHexWKB of MEOS temporal_from_hexwkb.
-func TNpointFromHexWKB(hexwkb string) (*TNpoint, error) {
+// TNPointFromHexWKB is the portable fromHexWKB of MEOS temporal_from_hexwkb.
+func TNPointFromHexWKB(hexwkb string) (*TNPoint, error) {
 	r, err := TemporalFromHexWKB(hexwkb)
 	if err != nil || r == nil {
 		return nil, err
 	}
-	return TNpointFromPointer(r.Pointer()), nil
+	return TNPointFromPointer(r.Pointer()), nil
 }
 
-// TNpointFromText is the portable fromText of MEOS tnpoint_in.
-func TNpointFromText(str string) (*TNpoint, error) {
-	r, err := TNpointIn(str)
+// TNPointFromText is the portable fromText of MEOS tnpoint_in.
+func TNPointFromText(str string) (*TNPoint, error) {
+	r, err := TNPointIn(str)
 	if err != nil || r == nil {
 		return nil, err
 	}
-	return TNpointFromPointer(r.Pointer()), nil
+	return TNPointFromPointer(r.Pointer()), nil
 }
 
-// TNpointFromWKB is the portable fromWKB of MEOS temporal_from_wkb.
-func TNpointFromWKB(wkb []byte) (*TNpoint, error) {
+// TNPointFromWKB is the portable fromWKB of MEOS temporal_from_wkb.
+func TNPointFromWKB(wkb []byte) (*TNPoint, error) {
 	r, err := TemporalFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}
-	return TNpointFromPointer(r.Pointer()), nil
+	return TNPointFromPointer(r.Pointer()), nil
 }
 
 // String is the text MEOS writes this value as, MEOS tspatial_as_text.
-func (x *TNpoint) String() string {
+func (x *TNPoint) String() string {
 	s, err := x.AsText(15)
 	if err != nil {
 		return "%!s(MEOS error: " + err.Error() + ")"

@@ -17,7 +17,7 @@ import (
 
 // TPointOut Return a temporal geometry/geography point from its Well-Known Text (WKT) representation
 func TPointOut[TP TPoint](tp TP, maxdd int) string {
-	c_point := C.tspatial_out(tp.Inner(), C.int(maxdd), new(C.size_t))
+	c_point := C.temporal_out(tp.Inner(), C.int(maxdd), new(C.size_t))
 	defer C.free(unsafe.Pointer(c_point))
 	point_out := C.GoString(c_point)
 	return point_out
@@ -173,8 +173,10 @@ func TPointIsSimple[TP TPoint](tp TP) bool {
 
 // BearingTPointPoint Return the temporal bearing between a temporal point and a point
 func BearingTPointPoint[TP TPoint](tp TP, g *Geom, invert bool) Temporal {
-	c_temp := C.bearing_tpoint_point(tp.Inner(), g._inner, C.bool(invert))
-	return CreateTemporal(c_temp)
+	if invert {
+		return CreateTemporal(C.bearing_point_tpoint(g._inner, tp.Inner()))
+	}
+	return CreateTemporal(C.bearing_tpoint_point(tp.Inner(), g._inner))
 }
 
 // BearingTPointTPoint Return the temporal bearing between two temporal points
@@ -229,13 +231,13 @@ func TPointExpandSpace[TP TPoint](tp TP, other float64) *STBox {
 
 // TPointAtValue Return a temporal point restricted to a point
 func TPointAtValue[TP TPoint](tp TP, value *Geom) Temporal {
-	c_temp := C.tpoint_at_value(tp.Inner(), value._inner)
+	c_temp := C.tgeo_at_value(tp.Inner(), value._inner)
 	return CreateTemporal(c_temp)
 }
 
 // TPointAtGeomTime Return a temporal point restricted to a geometry
 func TpointAtGeomTime[T Temporal](temp T, new_temp T, geom *Geom) T {
-	c_temp := C.tpoint_at_geom(temp.Inner(), geom._inner)
+	c_temp := C.tgeo_at_geom(temp.Inner(), geom._inner)
 	new_temp.Init(c_temp)
 	return new_temp
 }
@@ -248,13 +250,13 @@ func TPointAtStbox[TP TPoint](tp TP, stbox *STBox, border_inc bool) Temporal {
 
 // TPointMinusValue Return a temporal point minus a point
 func TPointMinusValue[TP TPoint](tp TP, value *Geom) Temporal {
-	c_temp := C.tpoint_minus_value(tp.Inner(), value._inner)
+	c_temp := C.tgeo_minus_value(tp.Inner(), value._inner)
 	return CreateTemporal(c_temp)
 }
 
 // TPointMinusGeomTime Return a temporal point minus a geometry
 func TpointMinusGeomTime[T Temporal](temp T, new_temp T, geom *Geom) T {
-	c_temp := C.tpoint_minus_geom(temp.Inner(), geom._inner)
+	c_temp := C.tgeo_minus_geom(temp.Inner(), geom._inner)
 	new_temp.Init(c_temp)
 	return new_temp
 }

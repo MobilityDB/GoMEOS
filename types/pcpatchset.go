@@ -8,23 +8,23 @@ import (
 	"github.com/MobilityDB/GoMEOS/functions"
 )
 
-type PcpatchSet struct {
+type PCPatchSet struct {
 	SpatialSet
 }
 
-// PcpatchSetFromPointer wraps a MEOS pointer, answering nil for nil so an
+// PCPatchSetFromPointer wraps a MEOS pointer, answering nil for nil so an
 // absent MEOS result stays absent rather than becoming a live handle.
-func PcpatchSetFromPointer(p unsafe.Pointer) *PcpatchSet {
+func PCPatchSetFromPointer(p unsafe.Pointer) *PCPatchSet {
 	if p == nil {
 		return nil
 	}
-	v := &PcpatchSet{}
+	v := &PCPatchSet{}
 	v.ptr = p
 	return v
 }
 
-// PcpatchSetIn is MEOS pcpatchset_in.
-func PcpatchSetIn(str string) (*Set, error) {
+// PCPatchSetIn is MEOS pcpatchset_in.
+func PCPatchSetIn(str string) (*Set, error) {
 	_r0, _err := functions.PcpatchsetIn(str)
 	if _err != nil {
 		return nil, _err
@@ -32,17 +32,8 @@ func PcpatchSetIn(str string) (*Set, error) {
 	return SetFromPointer(_r0.Pointer()), nil
 }
 
-// Out is MEOS pcpatchset_out.
-func (x *PcpatchSet) Out(maxdd int) (string, error) {
-	_r0, _err := functions.PcpatchsetOut(functions.SetFromPointer(x.Pointer()), maxdd)
-	if _err != nil {
-		return "", _err
-	}
-	return _r0, nil
-}
-
-// PcpatchSetMake is MEOS pcpatchset_make.
-func PcpatchSetMake(values unsafe.Pointer, count int) (*Set, error) {
+// PCPatchSetMake is MEOS pcpatchset_make.
+func PCPatchSetMake(values unsafe.Pointer, count int) (*Set, error) {
 	_r0, _err := functions.PcpatchsetMake(values, count)
 	if _err != nil {
 		return nil, _err
@@ -51,25 +42,25 @@ func PcpatchSetMake(values unsafe.Pointer, count int) (*Set, error) {
 }
 
 // StartValue is MEOS pcpatchset_start_value.
-func (x *PcpatchSet) StartValue() (*Pcpatch, error) {
+func (x *PCPatchSet) StartValue() (*PCPatch, error) {
 	_r0, _err := functions.PcpatchsetStartValue(functions.SetFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return PcpatchFromPointer(_r0.Pointer()), nil
+	return PCPatchFromPointer(_r0.Pointer()), nil
 }
 
 // EndValue is MEOS pcpatchset_end_value.
-func (x *PcpatchSet) EndValue() (*Pcpatch, error) {
+func (x *PCPatchSet) EndValue() (*PCPatch, error) {
 	_r0, _err := functions.PcpatchsetEndValue(functions.SetFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return PcpatchFromPointer(_r0.Pointer()), nil
+	return PCPatchFromPointer(_r0.Pointer()), nil
 }
 
 // ValueN is MEOS pcpatchset_value_n.
-func (x *PcpatchSet) ValueN(n int) (*Pcpatch, bool, error) {
+func (x *PCPatchSet) ValueN(n int) (*PCPatch, bool, error) {
 	_found, _value, _err := functions.PcpatchsetValueN(functions.SetFromPointer(x.Pointer()), n)
 	if _err != nil {
 		return nil, false, _err
@@ -77,11 +68,11 @@ func (x *PcpatchSet) ValueN(n int) (*Pcpatch, bool, error) {
 	if !_found {
 		return nil, false, nil
 	}
-	return PcpatchFromPointer(_value.Pointer()), true, nil
+	return PCPatchFromPointer(_value.Pointer()), true, nil
 }
 
 // Values is MEOS pcpatchset_values.
-func (x *PcpatchSet) Values(count unsafe.Pointer) (unsafe.Pointer, error) {
+func (x *PCPatchSet) Values(count unsafe.Pointer) (unsafe.Pointer, error) {
 	_r0, _err := functions.PcpatchsetValues(functions.SetFromPointer(x.Pointer()), count)
 	if _err != nil {
 		return nil, _err
@@ -89,62 +80,62 @@ func (x *PcpatchSet) Values(count unsafe.Pointer) (unsafe.Pointer, error) {
 	return _r0, nil
 }
 
-// PcpatchSetFromEWKB is the portable fromEWKB of MEOS set_from_wkb.
-func PcpatchSetFromEWKB(wkb []byte) (*PcpatchSet, error) {
+// PCPatchSetFromEWKB is the portable fromEWKB of MEOS set_from_wkb.
+func PCPatchSetFromEWKB(wkb []byte) (*PCPatchSet, error) {
 	r, err := SetFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}
-	return PcpatchSetFromPointer(r.Pointer()), nil
+	return PCPatchSetFromPointer(r.Pointer()), nil
 }
 
-// PcpatchSetFromEWKT is the portable fromEWKT of MEOS pcpatchset_in.
-func PcpatchSetFromEWKT(str string) (*PcpatchSet, error) {
-	r, err := PcpatchSetIn(str)
+// PCPatchSetFromEWKT is the portable fromEWKT of MEOS pcpatchset_in.
+func PCPatchSetFromEWKT(str string) (*PCPatchSet, error) {
+	r, err := PCPatchSetIn(str)
 	if err != nil || r == nil {
 		return nil, err
 	}
-	return PcpatchSetFromPointer(r.Pointer()), nil
+	return PCPatchSetFromPointer(r.Pointer()), nil
 }
 
-// PcpatchSetFromHexEWKB is the portable fromHexEWKB of MEOS set_from_hexwkb.
-func PcpatchSetFromHexEWKB(hexwkb string) (*PcpatchSet, error) {
+// PCPatchSetFromHexEWKB is the portable fromHexEWKB of MEOS set_from_hexwkb.
+func PCPatchSetFromHexEWKB(hexwkb string) (*PCPatchSet, error) {
 	r, err := SetFromHexWKB(hexwkb)
 	if err != nil || r == nil {
 		return nil, err
 	}
-	return PcpatchSetFromPointer(r.Pointer()), nil
+	return PCPatchSetFromPointer(r.Pointer()), nil
 }
 
-// PcpatchSetFromHexWKB is the portable fromHexWKB of MEOS set_from_hexwkb.
-func PcpatchSetFromHexWKB(hexwkb string) (*PcpatchSet, error) {
+// PCPatchSetFromHexWKB is the portable fromHexWKB of MEOS set_from_hexwkb.
+func PCPatchSetFromHexWKB(hexwkb string) (*PCPatchSet, error) {
 	r, err := SetFromHexWKB(hexwkb)
 	if err != nil || r == nil {
 		return nil, err
 	}
-	return PcpatchSetFromPointer(r.Pointer()), nil
+	return PCPatchSetFromPointer(r.Pointer()), nil
 }
 
-// PcpatchSetFromText is the portable fromText of MEOS pcpatchset_in.
-func PcpatchSetFromText(str string) (*PcpatchSet, error) {
-	r, err := PcpatchSetIn(str)
+// PCPatchSetFromText is the portable fromText of MEOS pcpatchset_in.
+func PCPatchSetFromText(str string) (*PCPatchSet, error) {
+	r, err := PCPatchSetIn(str)
 	if err != nil || r == nil {
 		return nil, err
 	}
-	return PcpatchSetFromPointer(r.Pointer()), nil
+	return PCPatchSetFromPointer(r.Pointer()), nil
 }
 
-// PcpatchSetFromWKB is the portable fromWKB of MEOS set_from_wkb.
-func PcpatchSetFromWKB(wkb []byte) (*PcpatchSet, error) {
+// PCPatchSetFromWKB is the portable fromWKB of MEOS set_from_wkb.
+func PCPatchSetFromWKB(wkb []byte) (*PCPatchSet, error) {
 	r, err := SetFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}
-	return PcpatchSetFromPointer(r.Pointer()), nil
+	return PCPatchSetFromPointer(r.Pointer()), nil
 }
 
 // String is the text MEOS writes this value as, MEOS spatialset_as_text.
-func (x *PcpatchSet) String() string {
+func (x *PCPatchSet) String() string {
 	s, err := x.AsText(15)
 	if err != nil {
 		return "%!s(MEOS error: " + err.Error() + ")"

@@ -173,6 +173,15 @@ func PoseChainToPoint(pc unsafe.Pointer) (*Geo, error) {
 	return GeoFromPointer(_r0.Pointer()), nil
 }
 
+// PoseChainToGeog is MEOS posechain_to_geog.
+func PoseChainToGeog(pc unsafe.Pointer) (*Geo, error) {
+	_r0, _err := functions.PosechainToGeog(pc)
+	if _err != nil {
+		return nil, _err
+	}
+	return GeoFromPointer(_r0.Pointer()), nil
+}
+
 // PoseChainToStbox is MEOS posechain_to_stbox.
 func PoseChainToStbox(pc unsafe.Pointer) (*STBox, error) {
 	_r0, _err := functions.PosechainToSTBOX(pc)

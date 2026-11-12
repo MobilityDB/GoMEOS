@@ -25,15 +25,6 @@ func TSpatialFromPointer(p unsafe.Pointer) *TSpatial {
 	return v
 }
 
-// Out is MEOS tspatial_out.
-func (x *TSpatial) Out(maxdd int) (string, error) {
-	_r0, _err := functions.TspatialOut(functions.TemporalFromPointer(x.Pointer()), maxdd)
-	if _err != nil {
-		return "", _err
-	}
-	return _r0, nil
-}
-
 // AsEWKB is MEOS tspatial_as_ewkb.
 func (x *TSpatial) AsEWKB(variant uint8) ([]byte, error) {
 	var _size uint64

@@ -268,9 +268,63 @@ func (x *TBox) XminInc() (bool, bool, error) {
 	return _value, true, nil
 }
 
+// ExpandFloat is MEOS tfloatbox_expand.
+func (x *TBox) ExpandFloat(d float64) (*TBox, error) {
+	_r0, _err := functions.TfloatboxExpand(functions.TBoxFromPointer(x.Pointer()), d)
+	if _err != nil {
+		return nil, _err
+	}
+	return TBoxFromPointer(_r0.Pointer()), nil
+}
+
+// ExpandInt is MEOS tintbox_expand.
+func (x *TBox) ExpandInt(i int) (*TBox, error) {
+	_r0, _err := functions.TintboxExpand(functions.TBoxFromPointer(x.Pointer()), i)
+	if _err != nil {
+		return nil, _err
+	}
+	return TBoxFromPointer(_r0.Pointer()), nil
+}
+
 // Round is MEOS tbox_round.
 func (x *TBox) Round(maxdd int) (*TBox, error) {
 	_r0, _err := functions.TBOXRound(functions.TBoxFromPointer(x.Pointer()), maxdd)
+	if _err != nil {
+		return nil, _err
+	}
+	return TBoxFromPointer(_r0.Pointer()), nil
+}
+
+// ShiftScaleFloat is MEOS tfloatbox_shift_scale.
+func (x *TBox) ShiftScaleFloat(shift float64, width float64, hasshift bool, haswidth bool) (*TBox, error) {
+	_r0, _err := functions.TfloatboxShiftScale(functions.TBoxFromPointer(x.Pointer()), shift, width, hasshift, haswidth)
+	if _err != nil {
+		return nil, _err
+	}
+	return TBoxFromPointer(_r0.Pointer()), nil
+}
+
+// ShiftScaleInt is MEOS tintbox_shift_scale.
+func (x *TBox) ShiftScaleInt(shift int, width int, hasshift bool, haswidth bool) (*TBox, error) {
+	_r0, _err := functions.TintboxShiftScale(functions.TBoxFromPointer(x.Pointer()), shift, width, hasshift, haswidth)
+	if _err != nil {
+		return nil, _err
+	}
+	return TBoxFromPointer(_r0.Pointer()), nil
+}
+
+// ExpandBigint is MEOS tbigintbox_expand.
+func (x *TBox) ExpandBigint(i int64) (*TBox, error) {
+	_r0, _err := functions.TbigintboxExpand(functions.TBoxFromPointer(x.Pointer()), i)
+	if _err != nil {
+		return nil, _err
+	}
+	return TBoxFromPointer(_r0.Pointer()), nil
+}
+
+// ShiftScaleBigint is MEOS tbigintbox_shift_scale.
+func (x *TBox) ShiftScaleBigint(shift int64, width int64, hasshift bool, haswidth bool) (*TBox, error) {
+	_r0, _err := functions.TbigintboxShiftScale(functions.TBoxFromPointer(x.Pointer()), shift, width, hasshift, haswidth)
 	if _err != nil {
 		return nil, _err
 	}
@@ -350,9 +404,144 @@ func (x *TBox) Sortkey() ([]byte, error) {
 	return functions.TakeBytes(_r0, _size), nil
 }
 
+// ValueTilesBigint is MEOS tbigintbox_value_tiles.
+func (x *TBox) ValueTilesBigint(vsize int64, vorigin int64, border_inc bool, count unsafe.Pointer) (*TBox, error) {
+	_r0, _err := functions.TbigintboxValueTiles(functions.TBoxFromPointer(x.Pointer()), vsize, vorigin, border_inc, count)
+	if _err != nil {
+		return nil, _err
+	}
+	return TBoxFromPointer(_r0.Pointer()), nil
+}
+
 // TBoxGetValueTile is MEOS tbox_get_value_tile.
 func TBoxGetValueTile(value float64, vsize float64, vorigin float64) (*TBox, error) {
 	_r0, _err := functions.TBOXGetValueTile(value, vsize, vorigin)
+	if _err != nil {
+		return nil, _err
+	}
+	return TBoxFromPointer(_r0.Pointer()), nil
+}
+
+// ValueTilesFloat is MEOS tfloatbox_value_tiles.
+func (x *TBox) ValueTilesFloat(vsize float64, vorigin float64, border_inc bool, count unsafe.Pointer) (*TBox, error) {
+	_r0, _err := functions.TfloatboxValueTiles(functions.TBoxFromPointer(x.Pointer()), vsize, vorigin, border_inc, count)
+	if _err != nil {
+		return nil, _err
+	}
+	return TBoxFromPointer(_r0.Pointer()), nil
+}
+
+// ValueTilesInt is MEOS tintbox_value_tiles.
+func (x *TBox) ValueTilesInt(vsize int, vorigin int, border_inc bool, count unsafe.Pointer) (*TBox, error) {
+	_r0, _err := functions.TintboxValueTiles(functions.TBoxFromPointer(x.Pointer()), vsize, vorigin, border_inc, count)
+	if _err != nil {
+		return nil, _err
+	}
+	return TBoxFromPointer(_r0.Pointer()), nil
+}
+
+// TBoxFromFloatTimestamptz is MEOS float_timestamptz_to_tbox.
+func TBoxFromFloatTimestamptz(d float64, t int64) (*TBox, error) {
+	_r0, _err := functions.FloatTimestamptzToTBOX(d, t)
+	if _err != nil {
+		return nil, _err
+	}
+	return TBoxFromPointer(_r0.Pointer()), nil
+}
+
+// TBoxFromFloatTstzspan is MEOS float_tstzspan_to_tbox.
+func TBoxFromFloatTstzspan(d float64, s *Span) (*TBox, error) {
+	_r0, _err := functions.FloatTstzspanToTBOX(d, functions.SpanFromPointer(s.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return TBoxFromPointer(_r0.Pointer()), nil
+}
+
+// TBoxFromIntTimestamptz is MEOS int_timestamptz_to_tbox.
+func TBoxFromIntTimestamptz(i int, t int64) (*TBox, error) {
+	_r0, _err := functions.IntTimestamptzToTBOX(i, t)
+	if _err != nil {
+		return nil, _err
+	}
+	return TBoxFromPointer(_r0.Pointer()), nil
+}
+
+// TBoxFromBigintTimestamptz is MEOS bigint_timestamptz_to_tbox.
+func TBoxFromBigintTimestamptz(i int64, t int64) (*TBox, error) {
+	_r0, _err := functions.BigintTimestamptzToTBOX(i, t)
+	if _err != nil {
+		return nil, _err
+	}
+	return TBoxFromPointer(_r0.Pointer()), nil
+}
+
+// TBoxFromIntTstzspan is MEOS int_tstzspan_to_tbox.
+func TBoxFromIntTstzspan(i int, s *Span) (*TBox, error) {
+	_r0, _err := functions.IntTstzspanToTBOX(i, functions.SpanFromPointer(s.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return TBoxFromPointer(_r0.Pointer()), nil
+}
+
+// TBoxFromBigintTstzspan is MEOS bigint_tstzspan_to_tbox.
+func TBoxFromBigintTstzspan(i int64, s *Span) (*TBox, error) {
+	_r0, _err := functions.BigintTstzspanToTBOX(i, functions.SpanFromPointer(s.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return TBoxFromPointer(_r0.Pointer()), nil
+}
+
+// TBoxFromNumspanTstzspan is MEOS numspan_tstzspan_to_tbox.
+func TBoxFromNumspanTstzspan(s *Span, p *Span) (*TBox, error) {
+	_r0, _err := functions.NumspanTstzspanToTBOX(functions.SpanFromPointer(s.Pointer()), functions.SpanFromPointer(p.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return TBoxFromPointer(_r0.Pointer()), nil
+}
+
+// TBoxFromNumspanTimestamptz is MEOS numspan_timestamptz_to_tbox.
+func TBoxFromNumspanTimestamptz(span *Span, t int64) (*TBox, error) {
+	_r0, _err := functions.NumspanTimestamptzToTBOX(functions.SpanFromPointer(span.Pointer()), t)
+	if _err != nil {
+		return nil, _err
+	}
+	return TBoxFromPointer(_r0.Pointer()), nil
+}
+
+// TBoxFromFloat is MEOS float_to_tbox.
+func TBoxFromFloat(d float64) (*TBox, error) {
+	_r0, _err := functions.FloatToTBOX(d)
+	if _err != nil {
+		return nil, _err
+	}
+	return TBoxFromPointer(_r0.Pointer()), nil
+}
+
+// TBoxFromInt is MEOS int_to_tbox.
+func TBoxFromInt(i int) (*TBox, error) {
+	_r0, _err := functions.IntToTBOX(i)
+	if _err != nil {
+		return nil, _err
+	}
+	return TBoxFromPointer(_r0.Pointer()), nil
+}
+
+// TBoxFromBigint is MEOS bigint_to_tbox.
+func TBoxFromBigint(i int64) (*TBox, error) {
+	_r0, _err := functions.BigintToTBOX(i)
+	if _err != nil {
+		return nil, _err
+	}
+	return TBoxFromPointer(_r0.Pointer()), nil
+}
+
+// TBoxFromTimestamptz is MEOS timestamptz_to_tbox.
+func TBoxFromTimestamptz(t int64) (*TBox, error) {
+	_r0, _err := functions.TimestamptzToTBOX(t)
 	if _err != nil {
 		return nil, _err
 	}

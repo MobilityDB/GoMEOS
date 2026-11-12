@@ -12,13 +12,13 @@ import (
 	"github.com/MobilityDB/GoMEOS/functions"
 )
 
-func ExampleTtextOut_size() {
+func ExampleTemporalOut_size() {
 	temp, err := functions.TtextIn(`{"Zürich"@2001-01-01, "Liège"@2001-01-02}`)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
-	text, err := functions.TtextOut(temp)
+	text, err := functions.TemporalOut(temp, 0)
 	fmt.Println(text, err)
 
 	version, err := functions.MeosVersion()

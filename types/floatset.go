@@ -32,15 +32,6 @@ func FloatSetIn(str string) (*Set, error) {
 	return SetFromPointer(_r0.Pointer()), nil
 }
 
-// Out is MEOS floatset_out.
-func (x *FloatSet) Out(maxdd int) (string, error) {
-	_r0, _err := functions.FloatsetOut(functions.SetFromPointer(x.Pointer()), maxdd)
-	if _err != nil {
-		return "", _err
-	}
-	return _r0, nil
-}
-
 // FloatSetMake is MEOS floatset_make.
 func FloatSetMake(values unsafe.Pointer, count int) (*Set, error) {
 	_r0, _err := functions.FloatsetMake(values, count)
@@ -143,6 +134,15 @@ func (x *FloatSet) ShiftScale(shift float64, width float64, hasshift bool, haswi
 	return SetFromPointer(_r0.Pointer()), nil
 }
 
+// FloatSetFromFloat is MEOS float_to_set.
+func FloatSetFromFloat(d float64) (*Set, error) {
+	_r0, _err := functions.FloatToSet(d)
+	if _err != nil {
+		return nil, _err
+	}
+	return SetFromPointer(_r0.Pointer()), nil
+}
+
 // FloatSetFromHexWKB is the portable fromHexWKB of MEOS set_from_hexwkb.
 func FloatSetFromHexWKB(hexwkb string) (*FloatSet, error) {
 	r, err := SetFromHexWKB(hexwkb)
@@ -152,7 +152,7 @@ func FloatSetFromHexWKB(hexwkb string) (*FloatSet, error) {
 	return FloatSetFromPointer(r.Pointer()), nil
 }
 
-// AsText is the portable asText of MEOS floatset_out.
+// AsText is the portable asText of MEOS set_out.
 func (x *FloatSet) AsText(maxdd int) (string, error) {
 	return x.Out(maxdd)
 }
@@ -175,7 +175,7 @@ func FloatSetFromWKB(wkb []byte) (*FloatSet, error) {
 	return FloatSetFromPointer(r.Pointer()), nil
 }
 
-// String is the text MEOS writes this value as, MEOS floatset_out.
+// String is the text MEOS writes this value as, MEOS set_out.
 func (x *FloatSet) String() string {
 	s, err := x.Out(15)
 	if err != nil {

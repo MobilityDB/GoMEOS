@@ -262,6 +262,17 @@ func CbufferToGeom(cb *Cbuffer) (_r0 *Geom, _err error) {
 }
 
 
+// CbufferToGeog wraps MEOS C function cbuffer_to_geog.
+func CbufferToGeog(cb *Cbuffer) (_r0 *Geom, _err error) {
+	C.meos_errno_reset()
+	_cret := C.cbuffer_to_geog(cb._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Geom{_inner: _cret}, nil
+}
+
+
 // CbufferToSTBOX wraps MEOS C function cbuffer_to_stbox.
 func CbufferToSTBOX(cb *Cbuffer) (_r0 *STBox, _err error) {
 	C.meos_errno_reset()
@@ -637,19 +648,6 @@ func CbuffersetIn(str string) (_r0 *Set, _err error) {
 		return
 	}
 	return &Set{_inner: _cret}, nil
-}
-
-
-// CbuffersetOut wraps MEOS C function cbufferset_out.
-func CbuffersetOut(s *Set, maxdd int) (_r0 string, _err error) {
-	var _size C.size_t
-	C.meos_errno_reset()
-	_cret := C.cbufferset_out(s._inner, C.int(maxdd), &_size)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	defer C.free(unsafe.Pointer(_cret))
-	return takeString(_cret, _size), nil
 }
 
 
@@ -1060,6 +1058,17 @@ func TcbufferToTfloat(temp *Temporal) (_r0 *Temporal, _err error) {
 func TcbufferToTgeompoint(temp *Temporal) (_r0 *Temporal, _err error) {
 	C.meos_errno_reset()
 	_cret := C.tcbuffer_to_tgeompoint(temp._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// TcbufferToTgeogpoint wraps MEOS C function tcbuffer_to_tgeogpoint.
+func TcbufferToTgeogpoint(temp *Temporal) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tcbuffer_to_tgeogpoint(temp._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}

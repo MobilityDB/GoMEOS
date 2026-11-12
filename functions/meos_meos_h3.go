@@ -528,36 +528,12 @@ func Th3indexseqsetIn(str string) (_r0 *TSequenceSet, _err error) {
 }
 
 
-// Th3indexOut wraps MEOS C function th3index_out.
-func Th3indexOut(temp *Temporal) (_r0 string, _err error) {
-	var _size C.size_t
-	C.meos_errno_reset()
-	_cret := C.th3index_out(temp._inner, &_size)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	defer C.free(unsafe.Pointer(_cret))
-	return takeString(_cret, _size), nil
-}
-
-
 // Th3indexFromMFJSON wraps MEOS C function th3index_from_mfjson.
 func Th3indexFromMFJSON(mfjson string) (_r0 *Temporal, _err error) {
 	_c_mfjson := C.CString(mfjson)
 	defer C.free(unsafe.Pointer(_c_mfjson))
 	C.meos_errno_reset()
 	_cret := C.th3index_from_mfjson(_c_mfjson)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	return &Temporal{_inner: _cret}, nil
-}
-
-
-// Th3indexMake wraps MEOS C function th3index_make.
-func Th3indexMake(value H3Index, t int64) (_r0 *Temporal, _err error) {
-	C.meos_errno_reset()
-	_cret := C.th3index_make(C.H3Index(value), C.TimestampTz(t))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1138,19 +1114,6 @@ func H3indexsetIn(str string) (_r0 *Set, _err error) {
 		return
 	}
 	return &Set{_inner: _cret}, nil
-}
-
-
-// H3indexsetOut wraps MEOS C function h3indexset_out.
-func H3indexsetOut(s *Set) (_r0 string, _err error) {
-	var _size C.size_t
-	C.meos_errno_reset()
-	_cret := C.h3indexset_out(s._inner, &_size)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	defer C.free(unsafe.Pointer(_cret))
-	return takeString(_cret, _size), nil
 }
 
 

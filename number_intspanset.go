@@ -37,7 +37,7 @@ MEOS Functions:
 	intspanset_out
 */
 func (g_iss *IntSpanSet) IntSpanSetOut() string {
-	c_iss_out := C.intspanset_out(g_iss._inner, new(C.size_t))
+	c_iss_out := C.spanset_out(g_iss._inner, 0, new(C.size_t))
 	defer C.free(unsafe.Pointer(c_iss_out))
 	g_iss_out := C.GoString(c_iss_out)
 	return g_iss_out

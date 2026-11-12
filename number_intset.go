@@ -26,7 +26,7 @@ func NewIntSet(g_is_in string) IntSet {
 }
 
 func (g_is *IntSet) IntSetOut() string {
-	c_is_out := C.intset_out(g_is._inner, new(C.size_t))
+	c_is_out := C.set_out(g_is._inner, 0, new(C.size_t))
 	defer C.free(unsafe.Pointer(c_is_out))
 	g_is_out := C.GoString(c_is_out)
 	return g_is_out

@@ -25,7 +25,7 @@ func NewFloatSet(g_fs_in string) FloatSet {
 }
 
 func (g_fs *FloatSet) FloatSetOut(max_decimal int) string {
-	c_fs_out := C.floatset_out(g_fs._inner, C.int(max_decimal), new(C.size_t))
+	c_fs_out := C.set_out(g_fs._inner, C.int(max_decimal), new(C.size_t))
 	defer C.free(unsafe.Pointer(c_fs_out))
 	g_fs_out := C.GoString(c_fs_out)
 	return g_fs_out

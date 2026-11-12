@@ -64,6 +64,15 @@ func SpanSetFromWKB(wkb []byte) (*SpanSet, error) {
 	return SpanSetFromPointer(_r0.Pointer()), nil
 }
 
+// Out is MEOS spanset_out.
+func (x *SpanSet) Out(maxdd int) (string, error) {
+	_r0, _err := functions.SpansetOut(functions.SpanSetFromPointer(x.Pointer()), maxdd)
+	if _err != nil {
+		return "", _err
+	}
+	return _r0, nil
+}
+
 // Copy is MEOS spanset_copy.
 func (x *SpanSet) Copy() (*SpanSet, error) {
 	_r0, _err := functions.SpansetCopy(functions.SpanSetFromPointer(x.Pointer()))
@@ -288,4 +297,13 @@ func (x *SpanSet) ToTbox() (*TBox, error) {
 		return nil, _err
 	}
 	return TBoxFromPointer(_r0.Pointer()), nil
+}
+
+// String is the text MEOS writes this value as, MEOS spanset_out.
+func (x *SpanSet) String() string {
+	s, err := x.Out(15)
+	if err != nil {
+		return "%!s(MEOS error: " + err.Error() + ")"
+	}
+	return s
 }

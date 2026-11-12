@@ -32,15 +32,6 @@ func PoseSetIn(str string) (*Set, error) {
 	return SetFromPointer(_r0.Pointer()), nil
 }
 
-// Out is MEOS poseset_out.
-func (x *PoseSet) Out(maxdd int) (string, error) {
-	_r0, _err := functions.PosesetOut(functions.SetFromPointer(x.Pointer()), maxdd)
-	if _err != nil {
-		return "", _err
-	}
-	return _r0, nil
-}
-
 // PoseSetMake is MEOS poseset_make.
 func PoseSetMake(values unsafe.Pointer, count int) (*Set, error) {
 	_r0, _err := functions.PosesetMake(values, count)

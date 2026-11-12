@@ -127,6 +127,182 @@ func PointRound(gs *Geom, maxdd int) (_r0 *Geom, _err error) {
 }
 
 
+// GeogCentroid wraps MEOS C function geog_centroid.
+func GeogCentroid(gs *Geom, use_spheroid bool) (_r0 *Geom, _err error) {
+	C.meos_errno_reset()
+	_cret := C.geog_centroid(gs._inner, C.bool(use_spheroid))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Geom{_inner: _cret}, nil
+}
+
+
+// GeogShortestline wraps MEOS C function geog_shortestline.
+func GeogShortestline(gs1 *Geom, gs2 *Geom, use_spheroid bool) (_r0 *Geom, _err error) {
+	C.meos_errno_reset()
+	_cret := C.geog_shortestline(gs1._inner, gs2._inner, C.bool(use_spheroid))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Geom{_inner: _cret}, nil
+}
+
+
+// GeomCentroid wraps MEOS C function geom_centroid.
+func GeomCentroid(gs *Geom) (_r0 *Geom, _err error) {
+	C.meos_errno_reset()
+	_cret := C.geom_centroid(gs._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Geom{_inner: _cret}, nil
+}
+
+
+// GeomShortestline wraps MEOS C function geom_shortestline.
+func GeomShortestline(gs1 *Geom, gs2 *Geom) (_r0 *Geom, _err error) {
+	C.meos_errno_reset()
+	_cret := C.geom_shortestline(gs1._inner, gs2._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Geom{_inner: _cret}, nil
+}
+
+
+// GeomDwithin2d wraps MEOS C function geom_dwithin2d.
+func GeomDwithin2d(gs1 *Geom, gs2 *Geom, dist float64) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.geom_dwithin2d(gs1._inner, gs2._inner, C.double(dist))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// GeomDwithin3d wraps MEOS C function geom_dwithin3d.
+func GeomDwithin3d(gs1 *Geom, gs2 *Geom, dist float64) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.geom_dwithin3d(gs1._inner, gs2._inner, C.double(dist))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// GeomIntersects2d wraps MEOS C function geom_intersects2d.
+func GeomIntersects2d(gs1 *Geom, gs2 *Geom) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.geom_intersects2d(gs1._inner, gs2._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// GeomIntersects3d wraps MEOS C function geom_intersects3d.
+func GeomIntersects3d(gs1 *Geom, gs2 *Geom) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.geom_intersects3d(gs1._inner, gs2._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
+// GeogArea wraps MEOS C function geog_area.
+func GeogArea(gs *Geom, use_spheroid bool) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.geog_area(gs._inner, C.bool(use_spheroid))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// GeogLength wraps MEOS C function geog_length.
+func GeogLength(gs *Geom, use_spheroid bool) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.geog_length(gs._inner, C.bool(use_spheroid))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// GeogPerimeter wraps MEOS C function geog_perimeter.
+func GeogPerimeter(gs *Geom, use_spheroid bool) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.geog_perimeter(gs._inner, C.bool(use_spheroid))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// GeomArea wraps MEOS C function geom_area.
+func GeomArea(gs *Geom) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.geom_area(gs._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// GeomLength wraps MEOS C function geom_length.
+func GeomLength(gs *Geom) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.geom_length(gs._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// GeomMaxDistance2d wraps MEOS C function geom_max_distance2d.
+func GeomMaxDistance2d(gs1 *Geom, gs2 *Geom) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.geom_max_distance2d(gs1._inner, gs2._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// GeomMaxDistance3d wraps MEOS C function geom_max_distance3d.
+func GeomMaxDistance3d(gs1 *Geom, gs2 *Geom) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.geom_max_distance3d(gs1._inner, gs2._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
+// GeomPerimeter wraps MEOS C function geom_perimeter.
+func GeomPerimeter(gs *Geom) (_r0 float64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.geom_perimeter(gs._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return float64(_cret), nil
+}
+
+
 // GeoScaleGeoIntl wraps MEOS C function geo_scale_geo_intl.
 func GeoScaleGeoIntl(gs *Geom, scale *Geom, sorigin *Geom) (_r0 *Geom, _err error) {
 	C.meos_errno_reset()

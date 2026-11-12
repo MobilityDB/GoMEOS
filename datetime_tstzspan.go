@@ -28,7 +28,7 @@ func NewTsTzSpan(g_tts_in string) *TsTzSpan {
 }
 
 func (g_tts *TsTzSpan) TsTzSpanOut() string {
-	c_tts_out := C.tstzspan_out(g_tts._inner, new(C.size_t))
+	c_tts_out := C.span_out(g_tts._inner, 0, new(C.size_t))
 	defer C.free(unsafe.Pointer(c_tts_out))
 	g_tts_out := C.GoString(c_tts_out)
 	return g_tts_out

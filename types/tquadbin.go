@@ -32,27 +32,9 @@ func TQuadbinIn(str string) (*Temporal, error) {
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
-// Out is MEOS tquadbin_out.
-func (x *TQuadbin) Out() (string, error) {
-	_r0, _err := functions.TquadbinOut(functions.TemporalFromPointer(x.Pointer()))
-	if _err != nil {
-		return "", _err
-	}
-	return _r0, nil
-}
-
 // TQuadbinFromMFJSON is MEOS tquadbin_from_mfjson.
 func TQuadbinFromMFJSON(mfjson string) (*Temporal, error) {
 	_r0, _err := functions.TquadbinFromMFJSON(mfjson)
-	if _err != nil {
-		return nil, _err
-	}
-	return TemporalFromPointer(_r0.Pointer()), nil
-}
-
-// TQuadbinMake is MEOS tquadbin_make.
-func TQuadbinMake(value functions.Quadbin, t int64) (*Temporal, error) {
-	_r0, _err := functions.TquadbinMake(value, t)
 	if _err != nil {
 		return nil, _err
 	}
@@ -140,6 +122,15 @@ func (x *TQuadbin) ValueAtTimestamptz(t int64, strict bool) (functions.Quadbin, 
 // ToTbigint is MEOS tquadbin_to_tbigint.
 func (x *TQuadbin) ToTbigint() (*Temporal, error) {
 	_r0, _err := functions.TquadbinToTbigint(functions.TemporalFromPointer(x.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// ToTgeogpoint is MEOS tquadbin_to_tgeogpoint.
+func (x *TQuadbin) ToTgeogpoint() (*Temporal, error) {
+	_r0, _err := functions.TquadbinToTgeogpoint(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
@@ -236,9 +227,9 @@ func TQuadbinFromWKB(wkb []byte) (*TQuadbin, error) {
 	return TQuadbinFromPointer(r.Pointer()), nil
 }
 
-// String is the text MEOS writes this value as, MEOS tquadbin_out.
+// String is the text MEOS writes this value as, MEOS temporal_out.
 func (x *TQuadbin) String() string {
-	s, err := x.Out()
+	s, err := x.Out(15)
 	if err != nil {
 		return "%!s(MEOS error: " + err.Error() + ")"
 	}

@@ -8,23 +8,23 @@ import (
 	"github.com/MobilityDB/GoMEOS/functions"
 )
 
-type Npoint struct {
+type NPoint struct {
 	Value
 }
 
-// NpointFromPointer wraps a MEOS pointer, answering nil for nil so an
+// NPointFromPointer wraps a MEOS pointer, answering nil for nil so an
 // absent MEOS result stays absent rather than becoming a live handle.
-func NpointFromPointer(p unsafe.Pointer) *Npoint {
+func NPointFromPointer(p unsafe.Pointer) *NPoint {
 	if p == nil {
 		return nil
 	}
-	v := &Npoint{}
+	v := &NPoint{}
 	v.ptr = p
 	return v
 }
 
 // AsEWKB is MEOS npoint_as_ewkb.
-func (x *Npoint) AsEWKB(variant uint8) ([]byte, error) {
+func (x *NPoint) AsEWKB(variant uint8) ([]byte, error) {
 	var _size uint64
 	_r0, _err := functions.NpointAsEWKB(functions.NpointFromPointer(x.Pointer()), variant, unsafe.Pointer(&_size))
 	if _err != nil {
@@ -34,7 +34,7 @@ func (x *Npoint) AsEWKB(variant uint8) ([]byte, error) {
 }
 
 // AsEWKT is MEOS npoint_as_ewkt.
-func (x *Npoint) AsEWKT(maxdd int) (string, error) {
+func (x *NPoint) AsEWKT(maxdd int) (string, error) {
 	_r0, _err := functions.NpointAsEWKT(functions.NpointFromPointer(x.Pointer()), maxdd)
 	if _err != nil {
 		return "", _err
@@ -43,7 +43,7 @@ func (x *Npoint) AsEWKT(maxdd int) (string, error) {
 }
 
 // AsHexEWKB is MEOS npoint_as_hexewkb.
-func (x *Npoint) AsHexEWKB(variant uint8) (string, error) {
+func (x *NPoint) AsHexEWKB(variant uint8) (string, error) {
 	_r0, _err := functions.NpointAsHexewkb(functions.NpointFromPointer(x.Pointer()), variant)
 	if _err != nil {
 		return "", _err
@@ -52,7 +52,7 @@ func (x *Npoint) AsHexEWKB(variant uint8) (string, error) {
 }
 
 // AsHexWKB is MEOS npoint_as_hexwkb.
-func (x *Npoint) AsHexWKB(variant uint8) (string, error) {
+func (x *NPoint) AsHexWKB(variant uint8) (string, error) {
 	_r0, _err := functions.NpointAsHexwkb(functions.NpointFromPointer(x.Pointer()), variant)
 	if _err != nil {
 		return "", _err
@@ -61,7 +61,7 @@ func (x *Npoint) AsHexWKB(variant uint8) (string, error) {
 }
 
 // AsText is MEOS npoint_as_text.
-func (x *Npoint) AsText(maxdd int) (string, error) {
+func (x *NPoint) AsText(maxdd int) (string, error) {
 	_r0, _err := functions.NpointAsText(functions.NpointFromPointer(x.Pointer()), maxdd)
 	if _err != nil {
 		return "", _err
@@ -70,7 +70,7 @@ func (x *Npoint) AsText(maxdd int) (string, error) {
 }
 
 // AsWKB is MEOS npoint_as_wkb.
-func (x *Npoint) AsWKB(variant uint8) ([]byte, error) {
+func (x *NPoint) AsWKB(variant uint8) ([]byte, error) {
 	var _size uint64
 	_r0, _err := functions.NpointAsWKB(functions.NpointFromPointer(x.Pointer()), variant, unsafe.Pointer(&_size))
 	if _err != nil {
@@ -79,17 +79,17 @@ func (x *Npoint) AsWKB(variant uint8) ([]byte, error) {
 	return functions.TakeBytes(_r0, _size), nil
 }
 
-// NpointFromHexWKB is MEOS npoint_from_hexwkb.
-func NpointFromHexWKB(hexwkb string) (*Npoint, error) {
+// NPointFromHexWKB is MEOS npoint_from_hexwkb.
+func NPointFromHexWKB(hexwkb string) (*NPoint, error) {
 	_r0, _err := functions.NpointFromHexwkb(hexwkb)
 	if _err != nil {
 		return nil, _err
 	}
-	return NpointFromPointer(_r0.Pointer()), nil
+	return NPointFromPointer(_r0.Pointer()), nil
 }
 
-// NpointFromWKB is MEOS npoint_from_wkb.
-func NpointFromWKB(wkb []byte) (*Npoint, error) {
+// NPointFromWKB is MEOS npoint_from_wkb.
+func NPointFromWKB(wkb []byte) (*NPoint, error) {
 	var _p_wkb unsafe.Pointer
 	if len(wkb) > 0 {
 		_p_wkb = unsafe.Pointer(&wkb[0])
@@ -98,20 +98,20 @@ func NpointFromWKB(wkb []byte) (*Npoint, error) {
 	if _err != nil {
 		return nil, _err
 	}
-	return NpointFromPointer(_r0.Pointer()), nil
+	return NPointFromPointer(_r0.Pointer()), nil
 }
 
-// NpointIn is MEOS npoint_in.
-func NpointIn(str string) (*Npoint, error) {
+// NPointIn is MEOS npoint_in.
+func NPointIn(str string) (*NPoint, error) {
 	_r0, _err := functions.NpointIn(str)
 	if _err != nil {
 		return nil, _err
 	}
-	return NpointFromPointer(_r0.Pointer()), nil
+	return NPointFromPointer(_r0.Pointer()), nil
 }
 
 // Out is MEOS npoint_out.
-func (x *Npoint) Out(maxdd int) (string, error) {
+func (x *NPoint) Out(maxdd int) (string, error) {
 	_r0, _err := functions.NpointOut(functions.NpointFromPointer(x.Pointer()), maxdd)
 	if _err != nil {
 		return "", _err
@@ -120,25 +120,25 @@ func (x *Npoint) Out(maxdd int) (string, error) {
 }
 
 // Copy is MEOS npoint_copy.
-func (x *Npoint) Copy() (*Npoint, error) {
+func (x *NPoint) Copy() (*NPoint, error) {
 	_r0, _err := functions.NpointCopy(functions.NpointFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return NpointFromPointer(_r0.Pointer()), nil
+	return NPointFromPointer(_r0.Pointer()), nil
 }
 
-// NpointMake is MEOS npoint_make.
-func NpointMake(rid int64, pos float64) (*Npoint, error) {
+// NPointMake is MEOS npoint_make.
+func NPointMake(rid int64, pos float64) (*NPoint, error) {
 	_r0, _err := functions.NpointMake(rid, pos)
 	if _err != nil {
 		return nil, _err
 	}
-	return NpointFromPointer(_r0.Pointer()), nil
+	return NPointFromPointer(_r0.Pointer()), nil
 }
 
 // ToGeompoint is MEOS npoint_to_geompoint.
-func (x *Npoint) ToGeompoint() (*Geo, error) {
+func (x *NPoint) ToGeompoint() (*Geo, error) {
 	_r0, _err := functions.NpointToGeompoint(functions.NpointFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -146,17 +146,26 @@ func (x *Npoint) ToGeompoint() (*Geo, error) {
 	return GeoFromPointer(_r0.Pointer()), nil
 }
 
+// ToGeog is MEOS npoint_to_geog.
+func (x *NPoint) ToGeog() (*Geo, error) {
+	_r0, _err := functions.NpointToGeog(functions.NpointFromPointer(x.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return GeoFromPointer(_r0.Pointer()), nil
+}
+
 // ToNsegment is MEOS npoint_to_nsegment.
-func (x *Npoint) ToNsegment() (*Nsegment, error) {
+func (x *NPoint) ToNsegment() (*NSegment, error) {
 	_r0, _err := functions.NpointToNsegment(functions.NpointFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return NsegmentFromPointer(_r0.Pointer()), nil
+	return NSegmentFromPointer(_r0.Pointer()), nil
 }
 
 // ToStbox is MEOS npoint_to_stbox.
-func (x *Npoint) ToStbox() (*STBox, error) {
+func (x *NPoint) ToStbox() (*STBox, error) {
 	_r0, _err := functions.NpointToSTBOX(functions.NpointFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -165,7 +174,7 @@ func (x *Npoint) ToStbox() (*STBox, error) {
 }
 
 // Hash is MEOS npoint_hash.
-func (x *Npoint) Hash() (uint32, error) {
+func (x *NPoint) Hash() (uint32, error) {
 	_r0, _err := functions.NpointHash(functions.NpointFromPointer(x.Pointer()))
 	if _err != nil {
 		return 0, _err
@@ -174,7 +183,7 @@ func (x *Npoint) Hash() (uint32, error) {
 }
 
 // HashExtended is MEOS npoint_hash_extended.
-func (x *Npoint) HashExtended(seed uint64) (uint64, error) {
+func (x *NPoint) HashExtended(seed uint64) (uint64, error) {
 	_r0, _err := functions.NpointHashExtended(functions.NpointFromPointer(x.Pointer()), seed)
 	if _err != nil {
 		return 0, _err
@@ -183,7 +192,7 @@ func (x *Npoint) HashExtended(seed uint64) (uint64, error) {
 }
 
 // Position is MEOS npoint_position.
-func (x *Npoint) Position() (float64, error) {
+func (x *NPoint) Position() (float64, error) {
 	_r0, _err := functions.NpointPosition(functions.NpointFromPointer(x.Pointer()))
 	if _err != nil {
 		return 0, _err
@@ -192,7 +201,7 @@ func (x *Npoint) Position() (float64, error) {
 }
 
 // Route is MEOS npoint_route.
-func (x *Npoint) Route() (int64, error) {
+func (x *NPoint) Route() (int64, error) {
 	_r0, _err := functions.NpointRoute(functions.NpointFromPointer(x.Pointer()))
 	if _err != nil {
 		return 0, _err
@@ -201,16 +210,16 @@ func (x *Npoint) Route() (int64, error) {
 }
 
 // Round is MEOS npoint_round.
-func (x *Npoint) Round(maxdd int) (*Npoint, error) {
+func (x *NPoint) Round(maxdd int) (*NPoint, error) {
 	_r0, _err := functions.NpointRound(functions.NpointFromPointer(x.Pointer()), maxdd)
 	if _err != nil {
 		return nil, _err
 	}
-	return NpointFromPointer(_r0.Pointer()), nil
+	return NPointFromPointer(_r0.Pointer()), nil
 }
 
 // SRID is MEOS npoint_srid.
-func (x *Npoint) SRID() (int32, error) {
+func (x *NPoint) SRID() (int32, error) {
 	_r0, _err := functions.NpointSRID(functions.NpointFromPointer(x.Pointer()))
 	if _err != nil {
 		return 0, _err
@@ -219,7 +228,7 @@ func (x *Npoint) SRID() (int32, error) {
 }
 
 // TimestamptzToStbox is MEOS npoint_timestamptz_to_stbox.
-func (x *Npoint) TimestamptzToStbox(t int64) (*STBox, error) {
+func (x *NPoint) TimestamptzToStbox(t int64) (*STBox, error) {
 	_r0, _err := functions.NpointTimestamptzToSTBOX(functions.NpointFromPointer(x.Pointer()), t)
 	if _err != nil {
 		return nil, _err
@@ -228,7 +237,7 @@ func (x *Npoint) TimestamptzToStbox(t int64) (*STBox, error) {
 }
 
 // TstzspanToStbox is MEOS npoint_tstzspan_to_stbox.
-func (x *Npoint) TstzspanToStbox(s *Span) (*STBox, error) {
+func (x *NPoint) TstzspanToStbox(s *Span) (*STBox, error) {
 	_r0, _err := functions.NpointTstzspanToSTBOX(functions.NpointFromPointer(x.Pointer()), functions.SpanFromPointer(s.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -237,7 +246,7 @@ func (x *Npoint) TstzspanToStbox(s *Span) (*STBox, error) {
 }
 
 // Cmp is MEOS npoint_cmp.
-func (x *Npoint) Cmp(np2 *Npoint) (int, error) {
+func (x *NPoint) Cmp(np2 *NPoint) (int, error) {
 	_r0, _err := functions.NpointCmp(functions.NpointFromPointer(x.Pointer()), functions.NpointFromPointer(np2.Pointer()))
 	if _err != nil {
 		return 0, _err
@@ -246,7 +255,7 @@ func (x *Npoint) Cmp(np2 *Npoint) (int, error) {
 }
 
 // Eq is MEOS npoint_eq.
-func (x *Npoint) Eq(np2 *Npoint) (bool, error) {
+func (x *NPoint) Eq(np2 *NPoint) (bool, error) {
 	_r0, _err := functions.NpointEq(functions.NpointFromPointer(x.Pointer()), functions.NpointFromPointer(np2.Pointer()))
 	if _err != nil {
 		return false, _err
@@ -255,7 +264,7 @@ func (x *Npoint) Eq(np2 *Npoint) (bool, error) {
 }
 
 // Ge is MEOS npoint_ge.
-func (x *Npoint) Ge(np2 *Npoint) (bool, error) {
+func (x *NPoint) Ge(np2 *NPoint) (bool, error) {
 	_r0, _err := functions.NpointGe(functions.NpointFromPointer(x.Pointer()), functions.NpointFromPointer(np2.Pointer()))
 	if _err != nil {
 		return false, _err
@@ -264,7 +273,7 @@ func (x *Npoint) Ge(np2 *Npoint) (bool, error) {
 }
 
 // Gt is MEOS npoint_gt.
-func (x *Npoint) Gt(np2 *Npoint) (bool, error) {
+func (x *NPoint) Gt(np2 *NPoint) (bool, error) {
 	_r0, _err := functions.NpointGt(functions.NpointFromPointer(x.Pointer()), functions.NpointFromPointer(np2.Pointer()))
 	if _err != nil {
 		return false, _err
@@ -273,7 +282,7 @@ func (x *Npoint) Gt(np2 *Npoint) (bool, error) {
 }
 
 // Le is MEOS npoint_le.
-func (x *Npoint) Le(np2 *Npoint) (bool, error) {
+func (x *NPoint) Le(np2 *NPoint) (bool, error) {
 	_r0, _err := functions.NpointLe(functions.NpointFromPointer(x.Pointer()), functions.NpointFromPointer(np2.Pointer()))
 	if _err != nil {
 		return false, _err
@@ -282,7 +291,7 @@ func (x *Npoint) Le(np2 *Npoint) (bool, error) {
 }
 
 // Lt is MEOS npoint_lt.
-func (x *Npoint) Lt(np2 *Npoint) (bool, error) {
+func (x *NPoint) Lt(np2 *NPoint) (bool, error) {
 	_r0, _err := functions.NpointLt(functions.NpointFromPointer(x.Pointer()), functions.NpointFromPointer(np2.Pointer()))
 	if _err != nil {
 		return false, _err
@@ -291,7 +300,7 @@ func (x *Npoint) Lt(np2 *Npoint) (bool, error) {
 }
 
 // Ne is MEOS npoint_ne.
-func (x *Npoint) Ne(np2 *Npoint) (bool, error) {
+func (x *NPoint) Ne(np2 *NPoint) (bool, error) {
 	_r0, _err := functions.NpointNe(functions.NpointFromPointer(x.Pointer()), functions.NpointFromPointer(np2.Pointer()))
 	if _err != nil {
 		return false, _err
@@ -300,7 +309,7 @@ func (x *Npoint) Ne(np2 *Npoint) (bool, error) {
 }
 
 // ToSet is MEOS npoint_to_set.
-func (x *Npoint) ToSet() (*Set, error) {
+func (x *NPoint) ToSet() (*Set, error) {
 	_r0, _err := functions.NpointToSet(functions.NpointFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -308,28 +317,37 @@ func (x *Npoint) ToSet() (*Set, error) {
 	return SetFromPointer(_r0.Pointer()), nil
 }
 
-// NpointFromEWKB is the portable fromEWKB of MEOS npoint_from_wkb.
-func NpointFromEWKB(wkb []byte) (*Npoint, error) {
-	return NpointFromWKB(wkb)
+// NPointFromGeompoint is MEOS geompoint_to_npoint.
+func NPointFromGeompoint(gs *Geo, tolerance float64) (*NPoint, error) {
+	_r0, _err := functions.GeompointToNpoint(functions.GeomFromPointer(gs.Pointer()), tolerance)
+	if _err != nil {
+		return nil, _err
+	}
+	return NPointFromPointer(_r0.Pointer()), nil
 }
 
-// NpointFromEWKT is the portable fromEWKT of MEOS npoint_in.
-func NpointFromEWKT(str string) (*Npoint, error) {
-	return NpointIn(str)
+// NPointFromEWKB is the portable fromEWKB of MEOS npoint_from_wkb.
+func NPointFromEWKB(wkb []byte) (*NPoint, error) {
+	return NPointFromWKB(wkb)
 }
 
-// NpointFromHexEWKB is the portable fromHexEWKB of MEOS npoint_from_hexwkb.
-func NpointFromHexEWKB(hexwkb string) (*Npoint, error) {
-	return NpointFromHexWKB(hexwkb)
+// NPointFromEWKT is the portable fromEWKT of MEOS npoint_in.
+func NPointFromEWKT(str string) (*NPoint, error) {
+	return NPointIn(str)
 }
 
-// NpointFromText is the portable fromText of MEOS npoint_in.
-func NpointFromText(str string) (*Npoint, error) {
-	return NpointIn(str)
+// NPointFromHexEWKB is the portable fromHexEWKB of MEOS npoint_from_hexwkb.
+func NPointFromHexEWKB(hexwkb string) (*NPoint, error) {
+	return NPointFromHexWKB(hexwkb)
+}
+
+// NPointFromText is the portable fromText of MEOS npoint_in.
+func NPointFromText(str string) (*NPoint, error) {
+	return NPointIn(str)
 }
 
 // String is the text MEOS writes this value as, MEOS npoint_as_text.
-func (x *Npoint) String() string {
+func (x *NPoint) String() string {
 	s, err := x.AsText(15)
 	if err != nil {
 		return "%!s(MEOS error: " + err.Error() + ")"

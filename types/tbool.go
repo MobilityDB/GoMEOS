@@ -41,15 +41,6 @@ func TBoolIn(str string) (*Temporal, error) {
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
-// Out is MEOS tbool_out.
-func (x *TBool) Out() (string, error) {
-	_r0, _err := functions.TboolOut(functions.TemporalFromPointer(x.Pointer()))
-	if _err != nil {
-		return "", _err
-	}
-	return _r0, nil
-}
-
 // TBoolFromBaseTemp is MEOS tbool_from_base_temp.
 func TBoolFromBaseTemp(b bool, temp *Temporal) (*Temporal, error) {
 	_r0, _err := functions.TboolFromBaseTemp(b, functions.TemporalFromPointer(temp.Pointer()))
@@ -173,9 +164,9 @@ func TBoolFromHexWKB(hexwkb string) (*TBool, error) {
 	return TBoolFromPointer(r.Pointer()), nil
 }
 
-// AsText is the portable asText of MEOS tbool_out.
-func (x *TBool) AsText() (string, error) {
-	return x.Out()
+// AsText is the portable asText of MEOS temporal_out.
+func (x *TBool) AsText(maxdd int) (string, error) {
+	return x.Out(maxdd)
 }
 
 // TBoolFromText is the portable fromText of MEOS tbool_in.
@@ -196,9 +187,9 @@ func TBoolFromWKB(wkb []byte) (*TBool, error) {
 	return TBoolFromPointer(r.Pointer()), nil
 }
 
-// String is the text MEOS writes this value as, MEOS tbool_out.
+// String is the text MEOS writes this value as, MEOS temporal_out.
 func (x *TBool) String() string {
-	s, err := x.Out()
+	s, err := x.Out(15)
 	if err != nil {
 		return "%!s(MEOS error: " + err.Error() + ")"
 	}

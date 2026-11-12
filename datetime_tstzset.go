@@ -28,7 +28,7 @@ func NewTsTzSet(g_tts_in string) *TsTzSet {
 }
 
 func (g_tts *TsTzSet) TsTzSetOut() string {
-	c_tts_out := C.tstzset_out(g_tts._inner, new(C.size_t))
+	c_tts_out := C.set_out(g_tts._inner, 0, new(C.size_t))
 	defer C.free(unsafe.Pointer(c_tts_out))
 	g_tts_out := C.GoString(c_tts_out)
 	return g_tts_out

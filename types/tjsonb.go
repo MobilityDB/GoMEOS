@@ -41,15 +41,6 @@ func TJsonbIn(str string) (*Temporal, error) {
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
-// Out is MEOS tjsonb_out.
-func (x *TJsonb) Out() (string, error) {
-	_r0, _err := functions.TjsonbOut(functions.TemporalFromPointer(x.Pointer()))
-	if _err != nil {
-		return "", _err
-	}
-	return _r0, nil
-}
-
 // TJsonbFromBaseTemp is MEOS tjsonb_from_base_temp.
 func TJsonbFromBaseTemp(jsonb *Jsonb, temp *Temporal) (*Temporal, error) {
 	_r0, _err := functions.TjsonbFromBaseTemp(functions.JsonbFromPointer(jsonb.Pointer()), functions.TemporalFromPointer(temp.Pointer()))
@@ -461,9 +452,9 @@ func TJsonbFromHexWKB(hexwkb string) (*TJsonb, error) {
 	return TJsonbFromPointer(r.Pointer()), nil
 }
 
-// AsText is the portable asText of MEOS tjsonb_out.
-func (x *TJsonb) AsText() (string, error) {
-	return x.Out()
+// AsText is the portable asText of MEOS temporal_out.
+func (x *TJsonb) AsText(maxdd int) (string, error) {
+	return x.Out(maxdd)
 }
 
 // TJsonbFromText is the portable fromText of MEOS tjsonb_in.
@@ -484,9 +475,9 @@ func TJsonbFromWKB(wkb []byte) (*TJsonb, error) {
 	return TJsonbFromPointer(r.Pointer()), nil
 }
 
-// String is the text MEOS writes this value as, MEOS tjsonb_out.
+// String is the text MEOS writes this value as, MEOS temporal_out.
 func (x *TJsonb) String() string {
-	s, err := x.Out()
+	s, err := x.Out(15)
 	if err != nil {
 		return "%!s(MEOS error: " + err.Error() + ")"
 	}

@@ -695,6 +695,17 @@ func PcpatchToGeom(pa *Pcpatch) (_r0 *Geom, _err error) {
 }
 
 
+// PcpatchToGeog wraps MEOS C function pcpatch_to_geog.
+func PcpatchToGeog(pa *Pcpatch) (_r0 *Geom, _err error) {
+	C.meos_errno_reset()
+	_cret := C.pcpatch_to_geog(pa._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Geom{_inner: _cret}, nil
+}
+
+
 // PcpatchCmp wraps MEOS C function pcpatch_cmp.
 func PcpatchCmp(pa1 *Pcpatch, pa2 *Pcpatch) (_r0 int, _err error) {
 	C.meos_errno_reset()
@@ -782,19 +793,6 @@ func PcpointsetIn(str string) (_r0 *Set, _err error) {
 		return
 	}
 	return &Set{_inner: _cret}, nil
-}
-
-
-// PcpointsetOut wraps MEOS C function pcpointset_out.
-func PcpointsetOut(s *Set, maxdd int) (_r0 string, _err error) {
-	var _size C.size_t
-	C.meos_errno_reset()
-	_cret := C.pcpointset_out(s._inner, C.int(maxdd), &_size)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	defer C.free(unsafe.Pointer(_cret))
-	return takeString(_cret, _size), nil
 }
 
 
@@ -974,19 +972,6 @@ func PcpatchsetIn(str string) (_r0 *Set, _err error) {
 		return
 	}
 	return &Set{_inner: _cret}, nil
-}
-
-
-// PcpatchsetOut wraps MEOS C function pcpatchset_out.
-func PcpatchsetOut(s *Set, maxdd int) (_r0 string, _err error) {
-	var _size C.size_t
-	C.meos_errno_reset()
-	_cret := C.pcpatchset_out(s._inner, C.int(maxdd), &_size)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	defer C.free(unsafe.Pointer(_cret))
-	return takeString(_cret, _size), nil
 }
 
 
@@ -1225,6 +1210,19 @@ func TpcboxFromWKB(wkb unsafe.Pointer, size uint) (_r0 *TPCBox, _err error) {
 		return
 	}
 	return &TPCBox{_inner: _cret}, nil
+}
+
+
+// TpcboxAsText wraps MEOS C function tpcbox_as_text.
+func TpcboxAsText(box *TPCBox, maxdd int) (_r0 string, _err error) {
+	var _size C.size_t
+	C.meos_errno_reset()
+	_cret := C.tpcbox_as_text(box._inner, C.int(maxdd), &_size)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	defer C.free(unsafe.Pointer(_cret))
+	return takeString(_cret, _size), nil
 }
 
 
@@ -1883,19 +1881,6 @@ func TpcpointIn(str string) (_r0 *Temporal, _err error) {
 }
 
 
-// TpcpointOut wraps MEOS C function tpcpoint_out.
-func TpcpointOut(temp *Temporal) (_r0 string, _err error) {
-	var _size C.size_t
-	C.meos_errno_reset()
-	_cret := C.tpcpoint_out(temp._inner, &_size)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	defer C.free(unsafe.Pointer(_cret))
-	return takeString(_cret, _size), nil
-}
-
-
 // TpcpointFromMFJSON wraps MEOS C function tpcpoint_from_mfjson.
 func TpcpointFromMFJSON(mfjson string) (_r0 *Temporal, _err error) {
 	_c_mfjson := C.CString(mfjson)
@@ -1919,19 +1904,6 @@ func TpcpatchIn(str string) (_r0 *Temporal, _err error) {
 		return
 	}
 	return &Temporal{_inner: _cret}, nil
-}
-
-
-// TpcpatchOut wraps MEOS C function tpcpatch_out.
-func TpcpatchOut(temp *Temporal) (_r0 string, _err error) {
-	var _size C.size_t
-	C.meos_errno_reset()
-	_cret := C.tpcpatch_out(temp._inner, &_size)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	defer C.free(unsafe.Pointer(_cret))
-	return takeString(_cret, _size), nil
 }
 
 
@@ -2037,10 +2009,32 @@ func TpcpointToTgeompoint(temp *Temporal) (_r0 *Temporal, _err error) {
 }
 
 
+// TpcpointToTgeogpoint wraps MEOS C function tpcpoint_to_tgeogpoint.
+func TpcpointToTgeogpoint(temp *Temporal) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tpcpoint_to_tgeogpoint(temp._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
 // TpcpatchToTgeometry wraps MEOS C function tpcpatch_to_tgeometry.
 func TpcpatchToTgeometry(temp *Temporal) (_r0 *Temporal, _err error) {
 	C.meos_errno_reset()
 	_cret := C.tpcpatch_to_tgeometry(temp._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// TpcpatchToTgeography wraps MEOS C function tpcpatch_to_tgeography.
+func TpcpatchToTgeography(temp *Temporal) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tpcpatch_to_tgeography(temp._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}

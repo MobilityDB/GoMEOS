@@ -492,10 +492,10 @@ func (x *Jsonb) PathExists(jp *JsonPath, vars *Jsonb, silent bool, tz bool) (int
 }
 
 // PathMatch is MEOS jsonb_path_match.
-func (x *Jsonb) PathMatch(jp *JsonPath, vars *Jsonb, silent bool, tz bool) (bool, error) {
+func (x *Jsonb) PathMatch(jp *JsonPath, vars *Jsonb, silent bool, tz bool) (int, error) {
 	_r0, _err := functions.JsonbPathMatch(functions.JsonbFromPointer(x.Pointer()), functions.JsonPathFromPointer(jp.Pointer()), functions.JsonbFromPointer(vars.Pointer()), silent, tz)
 	if _err != nil {
-		return false, _err
+		return 0, _err
 	}
 	return _r0, nil
 }

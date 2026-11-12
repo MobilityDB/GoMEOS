@@ -8,23 +8,23 @@ import (
 	"github.com/MobilityDB/GoMEOS/functions"
 )
 
-type TCbufferInst struct {
-	TCbuffer
+type TCBufferInst struct {
+	TCBuffer
 }
 
-// TCbufferInstFromPointer wraps a MEOS pointer, answering nil for nil so an
+// TCBufferInstFromPointer wraps a MEOS pointer, answering nil for nil so an
 // absent MEOS result stays absent rather than becoming a live handle.
-func TCbufferInstFromPointer(p unsafe.Pointer) *TCbufferInst {
+func TCBufferInstFromPointer(p unsafe.Pointer) *TCBufferInst {
 	if p == nil {
 		return nil
 	}
-	v := &TCbufferInst{}
+	v := &TCBufferInst{}
 	v.ptr = p
 	return v
 }
 
-// TCbufferInstMake is MEOS tcbufferinst_make.
-func TCbufferInstMake(cb *Cbuffer, t int64) (*Temporal, error) {
+// TCBufferInstMake is MEOS tcbufferinst_make.
+func TCBufferInstMake(cb *CBuffer, t int64) (*Temporal, error) {
 	_r0, _err := functions.TcbufferinstMake(functions.CbufferFromPointer(cb.Pointer()), t)
 	if _err != nil {
 		return nil, _err

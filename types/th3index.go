@@ -32,27 +32,9 @@ func TH3IndexIn(str string) (*Temporal, error) {
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
-// Out is MEOS th3index_out.
-func (x *TH3Index) Out() (string, error) {
-	_r0, _err := functions.Th3indexOut(functions.TemporalFromPointer(x.Pointer()))
-	if _err != nil {
-		return "", _err
-	}
-	return _r0, nil
-}
-
 // TH3IndexFromMFJSON is MEOS th3index_from_mfjson.
 func TH3IndexFromMFJSON(mfjson string) (*Temporal, error) {
 	_r0, _err := functions.Th3indexFromMFJSON(mfjson)
-	if _err != nil {
-		return nil, _err
-	}
-	return TemporalFromPointer(_r0.Pointer()), nil
-}
-
-// TH3IndexMake is MEOS th3index_make.
-func TH3IndexMake(value functions.H3Index, t int64) (*Temporal, error) {
-	_r0, _err := functions.Th3indexMake(value, t)
 	if _err != nil {
 		return nil, _err
 	}
@@ -425,9 +407,9 @@ func TH3IndexFromWKB(wkb []byte) (*TH3Index, error) {
 	return TH3IndexFromPointer(r.Pointer()), nil
 }
 
-// String is the text MEOS writes this value as, MEOS th3index_out.
+// String is the text MEOS writes this value as, MEOS temporal_out.
 func (x *TH3Index) String() string {
-	s, err := x.Out()
+	s, err := x.Out(15)
 	if err != nil {
 		return "%!s(MEOS error: " + err.Error() + ")"
 	}
