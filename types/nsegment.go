@@ -8,23 +8,23 @@ import (
 	"github.com/MobilityDB/GoMEOS/functions"
 )
 
-type Nsegment struct {
+type NSegment struct {
 	Value
 }
 
-// NsegmentFromPointer wraps a MEOS pointer, answering nil for nil so an
+// NSegmentFromPointer wraps a MEOS pointer, answering nil for nil so an
 // absent MEOS result stays absent rather than becoming a live handle.
-func NsegmentFromPointer(p unsafe.Pointer) *Nsegment {
+func NSegmentFromPointer(p unsafe.Pointer) *NSegment {
 	if p == nil {
 		return nil
 	}
-	v := &Nsegment{}
+	v := &NSegment{}
 	v.ptr = p
 	return v
 }
 
 // AsHexEWKB is MEOS nsegment_as_hexewkb.
-func (x *Nsegment) AsHexEWKB(variant uint8) (string, error) {
+func (x *NSegment) AsHexEWKB(variant uint8) (string, error) {
 	_r0, _err := functions.NsegmentAsHexewkb(functions.NsegmentFromPointer(x.Pointer()), variant)
 	if _err != nil {
 		return "", _err
@@ -33,7 +33,7 @@ func (x *Nsegment) AsHexEWKB(variant uint8) (string, error) {
 }
 
 // AsHexWKB is MEOS nsegment_as_hexwkb.
-func (x *Nsegment) AsHexWKB(variant uint8) (string, error) {
+func (x *NSegment) AsHexWKB(variant uint8) (string, error) {
 	_r0, _err := functions.NsegmentAsHexwkb(functions.NsegmentFromPointer(x.Pointer()), variant)
 	if _err != nil {
 		return "", _err
@@ -42,7 +42,7 @@ func (x *Nsegment) AsHexWKB(variant uint8) (string, error) {
 }
 
 // AsWKB is MEOS nsegment_as_wkb.
-func (x *Nsegment) AsWKB(variant uint8) ([]byte, error) {
+func (x *NSegment) AsWKB(variant uint8) ([]byte, error) {
 	var _size uint64
 	_r0, _err := functions.NsegmentAsWKB(functions.NsegmentFromPointer(x.Pointer()), variant, unsafe.Pointer(&_size))
 	if _err != nil {
@@ -51,17 +51,17 @@ func (x *Nsegment) AsWKB(variant uint8) ([]byte, error) {
 	return functions.TakeBytes(_r0, _size), nil
 }
 
-// NsegmentFromHexWKB is MEOS nsegment_from_hexwkb.
-func NsegmentFromHexWKB(hexwkb string) (*Nsegment, error) {
+// NSegmentFromHexWKB is MEOS nsegment_from_hexwkb.
+func NSegmentFromHexWKB(hexwkb string) (*NSegment, error) {
 	_r0, _err := functions.NsegmentFromHexwkb(hexwkb)
 	if _err != nil {
 		return nil, _err
 	}
-	return NsegmentFromPointer(_r0.Pointer()), nil
+	return NSegmentFromPointer(_r0.Pointer()), nil
 }
 
-// NsegmentFromWKB is MEOS nsegment_from_wkb.
-func NsegmentFromWKB(wkb []byte) (*Nsegment, error) {
+// NSegmentFromWKB is MEOS nsegment_from_wkb.
+func NSegmentFromWKB(wkb []byte) (*NSegment, error) {
 	var _p_wkb unsafe.Pointer
 	if len(wkb) > 0 {
 		_p_wkb = unsafe.Pointer(&wkb[0])
@@ -70,20 +70,20 @@ func NsegmentFromWKB(wkb []byte) (*Nsegment, error) {
 	if _err != nil {
 		return nil, _err
 	}
-	return NsegmentFromPointer(_r0.Pointer()), nil
+	return NSegmentFromPointer(_r0.Pointer()), nil
 }
 
-// NsegmentIn is MEOS nsegment_in.
-func NsegmentIn(str string) (*Nsegment, error) {
+// NSegmentIn is MEOS nsegment_in.
+func NSegmentIn(str string) (*NSegment, error) {
 	_r0, _err := functions.NsegmentIn(str)
 	if _err != nil {
 		return nil, _err
 	}
-	return NsegmentFromPointer(_r0.Pointer()), nil
+	return NSegmentFromPointer(_r0.Pointer()), nil
 }
 
 // Out is MEOS nsegment_out.
-func (x *Nsegment) Out(maxdd int) (string, error) {
+func (x *NSegment) Out(maxdd int) (string, error) {
 	_r0, _err := functions.NsegmentOut(functions.NsegmentFromPointer(x.Pointer()), maxdd)
 	if _err != nil {
 		return "", _err
@@ -92,7 +92,7 @@ func (x *Nsegment) Out(maxdd int) (string, error) {
 }
 
 // AsEWKB is MEOS nsegment_as_ewkb.
-func (x *Nsegment) AsEWKB(variant uint8) ([]byte, error) {
+func (x *NSegment) AsEWKB(variant uint8) ([]byte, error) {
 	var _size uint64
 	_r0, _err := functions.NsegmentAsEWKB(functions.NsegmentFromPointer(x.Pointer()), variant, unsafe.Pointer(&_size))
 	if _err != nil {
@@ -102,7 +102,7 @@ func (x *Nsegment) AsEWKB(variant uint8) ([]byte, error) {
 }
 
 // AsEWKT is MEOS nsegment_as_ewkt.
-func (x *Nsegment) AsEWKT(maxdd int) (string, error) {
+func (x *NSegment) AsEWKT(maxdd int) (string, error) {
 	_r0, _err := functions.NsegmentAsEWKT(functions.NsegmentFromPointer(x.Pointer()), maxdd)
 	if _err != nil {
 		return "", _err
@@ -111,7 +111,7 @@ func (x *Nsegment) AsEWKT(maxdd int) (string, error) {
 }
 
 // AsText is MEOS nsegment_as_text.
-func (x *Nsegment) AsText(maxdd int) (string, error) {
+func (x *NSegment) AsText(maxdd int) (string, error) {
 	_r0, _err := functions.NsegmentAsText(functions.NsegmentFromPointer(x.Pointer()), maxdd)
 	if _err != nil {
 		return "", _err
@@ -120,25 +120,25 @@ func (x *Nsegment) AsText(maxdd int) (string, error) {
 }
 
 // Copy is MEOS nsegment_copy.
-func (x *Nsegment) Copy() (*Nsegment, error) {
+func (x *NSegment) Copy() (*NSegment, error) {
 	_r0, _err := functions.NsegmentCopy(functions.NsegmentFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return NsegmentFromPointer(_r0.Pointer()), nil
+	return NSegmentFromPointer(_r0.Pointer()), nil
 }
 
-// NsegmentMake is MEOS nsegment_make.
-func NsegmentMake(rid int64, pos1 float64, pos2 float64) (*Nsegment, error) {
+// NSegmentMake is MEOS nsegment_make.
+func NSegmentMake(rid int64, pos1 float64, pos2 float64) (*NSegment, error) {
 	_r0, _err := functions.NsegmentMake(rid, pos1, pos2)
 	if _err != nil {
 		return nil, _err
 	}
-	return NsegmentFromPointer(_r0.Pointer()), nil
+	return NSegmentFromPointer(_r0.Pointer()), nil
 }
 
 // ToGeom is MEOS nsegment_to_geom.
-func (x *Nsegment) ToGeom() (*Geo, error) {
+func (x *NSegment) ToGeom() (*Geo, error) {
 	_r0, _err := functions.NsegmentToGeom(functions.NsegmentFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -146,8 +146,17 @@ func (x *Nsegment) ToGeom() (*Geo, error) {
 	return GeoFromPointer(_r0.Pointer()), nil
 }
 
+// ToGeog is MEOS nsegment_to_geog.
+func (x *NSegment) ToGeog() (*Geo, error) {
+	_r0, _err := functions.NsegmentToGeog(functions.NsegmentFromPointer(x.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return GeoFromPointer(_r0.Pointer()), nil
+}
+
 // ToStbox is MEOS nsegment_to_stbox.
-func (x *Nsegment) ToStbox() (*STBox, error) {
+func (x *NSegment) ToStbox() (*STBox, error) {
 	_r0, _err := functions.NsegmentToSTBOX(functions.NsegmentFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -156,7 +165,7 @@ func (x *Nsegment) ToStbox() (*STBox, error) {
 }
 
 // EndPosition is MEOS nsegment_end_position.
-func (x *Nsegment) EndPosition() (float64, error) {
+func (x *NSegment) EndPosition() (float64, error) {
 	_r0, _err := functions.NsegmentEndPosition(functions.NsegmentFromPointer(x.Pointer()))
 	if _err != nil {
 		return 0, _err
@@ -165,7 +174,7 @@ func (x *Nsegment) EndPosition() (float64, error) {
 }
 
 // Route is MEOS nsegment_route.
-func (x *Nsegment) Route() (int64, error) {
+func (x *NSegment) Route() (int64, error) {
 	_r0, _err := functions.NsegmentRoute(functions.NsegmentFromPointer(x.Pointer()))
 	if _err != nil {
 		return 0, _err
@@ -174,7 +183,7 @@ func (x *Nsegment) Route() (int64, error) {
 }
 
 // StartPosition is MEOS nsegment_start_position.
-func (x *Nsegment) StartPosition() (float64, error) {
+func (x *NSegment) StartPosition() (float64, error) {
 	_r0, _err := functions.NsegmentStartPosition(functions.NsegmentFromPointer(x.Pointer()))
 	if _err != nil {
 		return 0, _err
@@ -183,16 +192,16 @@ func (x *Nsegment) StartPosition() (float64, error) {
 }
 
 // Round is MEOS nsegment_round.
-func (x *Nsegment) Round(maxdd int) (*Nsegment, error) {
+func (x *NSegment) Round(maxdd int) (*NSegment, error) {
 	_r0, _err := functions.NsegmentRound(functions.NsegmentFromPointer(x.Pointer()), maxdd)
 	if _err != nil {
 		return nil, _err
 	}
-	return NsegmentFromPointer(_r0.Pointer()), nil
+	return NSegmentFromPointer(_r0.Pointer()), nil
 }
 
 // SRID is MEOS nsegment_srid.
-func (x *Nsegment) SRID() (int32, error) {
+func (x *NSegment) SRID() (int32, error) {
 	_r0, _err := functions.NsegmentSRID(functions.NsegmentFromPointer(x.Pointer()))
 	if _err != nil {
 		return 0, _err
@@ -201,7 +210,7 @@ func (x *Nsegment) SRID() (int32, error) {
 }
 
 // Cmp is MEOS nsegment_cmp.
-func (x *Nsegment) Cmp(ns2 *Nsegment) (int, error) {
+func (x *NSegment) Cmp(ns2 *NSegment) (int, error) {
 	_r0, _err := functions.NsegmentCmp(functions.NsegmentFromPointer(x.Pointer()), functions.NsegmentFromPointer(ns2.Pointer()))
 	if _err != nil {
 		return 0, _err
@@ -210,7 +219,7 @@ func (x *Nsegment) Cmp(ns2 *Nsegment) (int, error) {
 }
 
 // Eq is MEOS nsegment_eq.
-func (x *Nsegment) Eq(ns2 *Nsegment) (bool, error) {
+func (x *NSegment) Eq(ns2 *NSegment) (bool, error) {
 	_r0, _err := functions.NsegmentEq(functions.NsegmentFromPointer(x.Pointer()), functions.NsegmentFromPointer(ns2.Pointer()))
 	if _err != nil {
 		return false, _err
@@ -219,7 +228,7 @@ func (x *Nsegment) Eq(ns2 *Nsegment) (bool, error) {
 }
 
 // Ge is MEOS nsegment_ge.
-func (x *Nsegment) Ge(ns2 *Nsegment) (bool, error) {
+func (x *NSegment) Ge(ns2 *NSegment) (bool, error) {
 	_r0, _err := functions.NsegmentGe(functions.NsegmentFromPointer(x.Pointer()), functions.NsegmentFromPointer(ns2.Pointer()))
 	if _err != nil {
 		return false, _err
@@ -228,7 +237,7 @@ func (x *Nsegment) Ge(ns2 *Nsegment) (bool, error) {
 }
 
 // Gt is MEOS nsegment_gt.
-func (x *Nsegment) Gt(ns2 *Nsegment) (bool, error) {
+func (x *NSegment) Gt(ns2 *NSegment) (bool, error) {
 	_r0, _err := functions.NsegmentGt(functions.NsegmentFromPointer(x.Pointer()), functions.NsegmentFromPointer(ns2.Pointer()))
 	if _err != nil {
 		return false, _err
@@ -237,7 +246,7 @@ func (x *Nsegment) Gt(ns2 *Nsegment) (bool, error) {
 }
 
 // Le is MEOS nsegment_le.
-func (x *Nsegment) Le(ns2 *Nsegment) (bool, error) {
+func (x *NSegment) Le(ns2 *NSegment) (bool, error) {
 	_r0, _err := functions.NsegmentLe(functions.NsegmentFromPointer(x.Pointer()), functions.NsegmentFromPointer(ns2.Pointer()))
 	if _err != nil {
 		return false, _err
@@ -246,7 +255,7 @@ func (x *Nsegment) Le(ns2 *Nsegment) (bool, error) {
 }
 
 // Lt is MEOS nsegment_lt.
-func (x *Nsegment) Lt(ns2 *Nsegment) (bool, error) {
+func (x *NSegment) Lt(ns2 *NSegment) (bool, error) {
 	_r0, _err := functions.NsegmentLt(functions.NsegmentFromPointer(x.Pointer()), functions.NsegmentFromPointer(ns2.Pointer()))
 	if _err != nil {
 		return false, _err
@@ -255,7 +264,7 @@ func (x *Nsegment) Lt(ns2 *Nsegment) (bool, error) {
 }
 
 // Ne is MEOS nsegment_ne.
-func (x *Nsegment) Ne(ns2 *Nsegment) (bool, error) {
+func (x *NSegment) Ne(ns2 *NSegment) (bool, error) {
 	_r0, _err := functions.NsegmentNe(functions.NsegmentFromPointer(x.Pointer()), functions.NsegmentFromPointer(ns2.Pointer()))
 	if _err != nil {
 		return false, _err
@@ -263,28 +272,28 @@ func (x *Nsegment) Ne(ns2 *Nsegment) (bool, error) {
 	return _r0, nil
 }
 
-// NsegmentFromEWKB is the portable fromEWKB of MEOS nsegment_from_wkb.
-func NsegmentFromEWKB(wkb []byte) (*Nsegment, error) {
-	return NsegmentFromWKB(wkb)
+// NSegmentFromEWKB is the portable fromEWKB of MEOS nsegment_from_wkb.
+func NSegmentFromEWKB(wkb []byte) (*NSegment, error) {
+	return NSegmentFromWKB(wkb)
 }
 
-// NsegmentFromEWKT is the portable fromEWKT of MEOS nsegment_in.
-func NsegmentFromEWKT(str string) (*Nsegment, error) {
-	return NsegmentIn(str)
+// NSegmentFromEWKT is the portable fromEWKT of MEOS nsegment_in.
+func NSegmentFromEWKT(str string) (*NSegment, error) {
+	return NSegmentIn(str)
 }
 
-// NsegmentFromHexEWKB is the portable fromHexEWKB of MEOS nsegment_from_hexwkb.
-func NsegmentFromHexEWKB(hexwkb string) (*Nsegment, error) {
-	return NsegmentFromHexWKB(hexwkb)
+// NSegmentFromHexEWKB is the portable fromHexEWKB of MEOS nsegment_from_hexwkb.
+func NSegmentFromHexEWKB(hexwkb string) (*NSegment, error) {
+	return NSegmentFromHexWKB(hexwkb)
 }
 
-// NsegmentFromText is the portable fromText of MEOS nsegment_in.
-func NsegmentFromText(str string) (*Nsegment, error) {
-	return NsegmentIn(str)
+// NSegmentFromText is the portable fromText of MEOS nsegment_in.
+func NSegmentFromText(str string) (*NSegment, error) {
+	return NSegmentIn(str)
 }
 
 // String is the text MEOS writes this value as, MEOS nsegment_as_text.
-func (x *Nsegment) String() string {
+func (x *NSegment) String() string {
 	s, err := x.AsText(15)
 	if err != nil {
 		return "%!s(MEOS error: " + err.Error() + ")"

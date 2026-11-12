@@ -36,7 +36,7 @@ func (g_fs *FloatSpan) Init(c_span *C.Span) {
 func (g_fs *FloatSpan) IsNumSpan() bool { return true }
 
 func (g_fs FloatSpan) FloatSpanOut(max_decimal int) string {
-	c_fs_out := C.floatspan_out(g_fs._inner, C.int(max_decimal), new(C.size_t))
+	c_fs_out := C.span_out(g_fs._inner, C.int(max_decimal), new(C.size_t))
 	defer C.free(unsafe.Pointer(c_fs_out))
 	g_fs_out := C.GoString(c_fs_out)
 	return g_fs_out

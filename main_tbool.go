@@ -28,7 +28,7 @@ func NewTBoolInst(tgmpi_in string) *TBoolInst {
 }
 
 func (tgmpi *TBoolInst) TBoolOut() string {
-	c_tgmpi_out := C.tbool_out(tgmpi._inner, new(C.size_t))
+	c_tgmpi_out := C.temporal_out(tgmpi._inner, 0, new(C.size_t))
 	defer C.free(unsafe.Pointer(c_tgmpi_out))
 	tgmpi_out := C.GoString(c_tgmpi_out)
 	return tgmpi_out
@@ -67,7 +67,7 @@ func NewTBoolSeq(tgmpi_in string) *TBoolSeq {
 }
 
 func (tgmpi *TBoolSeq) TBoolOut() string {
-	c_tgmpi_out := C.tbool_out(tgmpi._inner, new(C.size_t))
+	c_tgmpi_out := C.temporal_out(tgmpi._inner, 0, new(C.size_t))
 	defer C.free(unsafe.Pointer(c_tgmpi_out))
 	tgmpi_out := C.GoString(c_tgmpi_out)
 	return tgmpi_out
@@ -110,7 +110,7 @@ func NewTBoolSeqSet(tgmpi_in string) *TBoolSeqSet {
 }
 
 func (tgmpi *TBoolSeqSet) TBoolOut() string {
-	c_tgmpi_out := C.tbool_out(tgmpi._inner, new(C.size_t))
+	c_tgmpi_out := C.temporal_out(tgmpi._inner, 0, new(C.size_t))
 	defer C.free(unsafe.Pointer(c_tgmpi_out))
 	tgmpi_out := C.GoString(c_tgmpi_out)
 	return tgmpi_out
@@ -161,7 +161,7 @@ func TBoolFromMFJSON[TB TBool](input string, output TB) TB {
 }
 
 func TBoolOut[TB TBool](tb TB) string {
-	c_bool := C.tbool_out(tb.Inner(), new(C.size_t))
+	c_bool := C.temporal_out(tb.Inner(), 0, new(C.size_t))
 	defer C.free(unsafe.Pointer(c_bool))
 	bool_out := C.GoString(c_bool)
 	return bool_out

@@ -75,6 +75,15 @@ func TemporalFromWKB(wkb []byte) (*Temporal, error) {
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
+// Out is MEOS temporal_out.
+func (x *Temporal) Out(maxdd int) (string, error) {
+	_r0, _err := functions.TemporalOut(functions.TemporalFromPointer(x.Pointer()), maxdd)
+	if _err != nil {
+		return "", _err
+	}
+	return _r0, nil
+}
+
 // Copy is MEOS temporal_copy.
 func (x *Temporal) Copy() (*Temporal, error) {
 	_r0, _err := functions.TemporalCopy(functions.TemporalFromPointer(x.Pointer()))
@@ -727,6 +736,15 @@ func (x *Temporal) Derivative() (*Temporal, error) {
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
+// ToTaggstate is MEOS temporal_to_taggstate.
+func (x *Temporal) ToTaggstate() (*SkipList, error) {
+	_r0, _err := functions.TemporalToTaggstate(functions.TemporalFromPointer(x.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return SkipListFromPointer(_r0.Pointer()), nil
+}
+
 // SimplifyDp is MEOS temporal_simplify_dp.
 func (x *Temporal) SimplifyDp(dist float64, synchronized bool) (*Temporal, error) {
 	_r0, _err := functions.TemporalSimplifyDp(functions.TemporalFromPointer(x.Pointer()), dist, synchronized)
@@ -802,6 +820,15 @@ func (x *Temporal) LcssDistance(temp2 *Temporal, epsilon float64, spheroid bool)
 // ExtKalmanFilter is MEOS temporal_ext_kalman_filter.
 func (x *Temporal) ExtKalmanFilter(gate float64, q float64, variance float64, to_drop bool) (*Temporal, error) {
 	_r0, _err := functions.TemporalExtKalmanFilter(functions.TemporalFromPointer(x.Pointer()), gate, q, variance, to_drop)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// ReachabilityFilter is MEOS temporal_reachability_filter.
+func (x *Temporal) ReachabilityFilter(maxspeed float64) (*Temporal, error) {
+	_r0, _err := functions.TemporalReachabilityFilter(functions.TemporalFromPointer(x.Pointer()), maxspeed)
 	if _err != nil {
 		return nil, _err
 	}

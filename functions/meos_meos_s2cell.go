@@ -647,19 +647,6 @@ func S2cellsetIn(str string) (_r0 *Set, _err error) {
 }
 
 
-// S2cellsetOut wraps MEOS C function s2cellset_out.
-func S2cellsetOut(s *Set) (_r0 string, _err error) {
-	var _size C.size_t
-	C.meos_errno_reset()
-	_cret := C.s2cellset_out(s._inner, &_size)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	defer C.free(unsafe.Pointer(_cret))
-	return takeString(_cret, _size), nil
-}
-
-
 // S2cellsetMake wraps MEOS C function s2cellset_make.
 func S2cellsetMake(values unsafe.Pointer, count int) (_r0 *Set, _err error) {
 	C.meos_errno_reset()
@@ -867,36 +854,12 @@ func Ts2cellseqsetIn(str string) (_r0 *TSequenceSet, _err error) {
 }
 
 
-// Ts2cellOut wraps MEOS C function ts2cell_out.
-func Ts2cellOut(temp *Temporal) (_r0 string, _err error) {
-	var _size C.size_t
-	C.meos_errno_reset()
-	_cret := C.ts2cell_out(temp._inner, &_size)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	defer C.free(unsafe.Pointer(_cret))
-	return takeString(_cret, _size), nil
-}
-
-
 // Ts2cellFromMFJSON wraps MEOS C function ts2cell_from_mfjson.
 func Ts2cellFromMFJSON(mfjson string) (_r0 *Temporal, _err error) {
 	_c_mfjson := C.CString(mfjson)
 	defer C.free(unsafe.Pointer(_c_mfjson))
 	C.meos_errno_reset()
 	_cret := C.ts2cell_from_mfjson(_c_mfjson)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	return &Temporal{_inner: _cret}, nil
-}
-
-
-// Ts2cellMake wraps MEOS C function ts2cell_make.
-func Ts2cellMake(value S2CellId, t int64) (_r0 *Temporal, _err error) {
-	C.meos_errno_reset()
-	_cret := C.ts2cell_make(C.S2CellId(value), C.TimestampTz(t))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1086,6 +1049,17 @@ func TbigintToTs2cell(temp *Temporal) (_r0 *Temporal, _err error) {
 func Ts2cellToTbigint(temp *Temporal) (_r0 *Temporal, _err error) {
 	C.meos_errno_reset()
 	_cret := C.ts2cell_to_tbigint(temp._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// Ts2cellToTgeompoint wraps MEOS C function ts2cell_to_tgeompoint.
+func Ts2cellToTgeompoint(temp *Temporal) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.ts2cell_to_tgeompoint(temp._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}

@@ -23,15 +23,6 @@ func SpatialSetFromPointer(p unsafe.Pointer) *SpatialSet {
 	return v
 }
 
-// Out is MEOS spatialset_out.
-func (x *SpatialSet) Out(maxdd int) (string, error) {
-	_r0, _err := functions.SpatialsetOut(functions.SetFromPointer(x.Pointer()), maxdd)
-	if _err != nil {
-		return "", _err
-	}
-	return _r0, nil
-}
-
 // AsText is MEOS spatialset_as_text.
 func (x *SpatialSet) AsText(maxdd int) (string, error) {
 	_r0, _err := functions.SpatialsetAsText(functions.SetFromPointer(x.Pointer()), maxdd)

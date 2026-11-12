@@ -588,6 +588,17 @@ func PoseMakePoint3dYpr(gs *Geom, yaw float64, pitch float64, roll float64) (_r0
 }
 
 
+// PoseToGeog wraps MEOS C function pose_to_geog.
+func PoseToGeog(pose *Pose) (_r0 *Geom, _err error) {
+	C.meos_errno_reset()
+	_cret := C.pose_to_geog(pose._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Geom{_inner: _cret}, nil
+}
+
+
 // PoseToPoint wraps MEOS C function pose_to_point.
 func PoseToPoint(pose *Pose) (_r0 *Geom, _err error) {
 	C.meos_errno_reset()
@@ -955,19 +966,6 @@ func PosesetIn(str string) (_r0 *Set, _err error) {
 }
 
 
-// PosesetOut wraps MEOS C function poseset_out.
-func PosesetOut(s *Set, maxdd int) (_r0 string, _err error) {
-	var _size C.size_t
-	C.meos_errno_reset()
-	_cret := C.poseset_out(s._inner, C.int(maxdd), &_size)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	defer C.free(unsafe.Pointer(_cret))
-	return takeString(_cret, _size), nil
-}
-
-
 // PosesetMake wraps MEOS C function poseset_make.
 func PosesetMake(values unsafe.Pointer, count int) (_r0 *Set, _err error) {
 	C.meos_errno_reset()
@@ -1241,6 +1239,28 @@ func TposeMake(tpoint *Temporal, ttheta *Temporal) (_r0 *Temporal, _err error) {
 func TposeToTpoint(temp *Temporal) (_r0 *Temporal, _err error) {
 	C.meos_errno_reset()
 	_cret := C.tpose_to_tpoint(temp._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// TposeToTgeompoint wraps MEOS C function tpose_to_tgeompoint.
+func TposeToTgeompoint(temp *Temporal) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tpose_to_tgeompoint(temp._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// TposeToTgeogpoint wraps MEOS C function tpose_to_tgeogpoint.
+func TposeToTgeogpoint(temp *Temporal) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tpose_to_tgeogpoint(temp._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -2012,6 +2032,17 @@ func PosechainToPoint(pc unsafe.Pointer) (_r0 *Geom, _err error) {
 }
 
 
+// PosechainToGeog wraps MEOS C function posechain_to_geog.
+func PosechainToGeog(pc unsafe.Pointer) (_r0 *Geom, _err error) {
+	C.meos_errno_reset()
+	_cret := C.posechain_to_geog((*C.struct_PoseChain)(unsafe.Pointer(pc)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Geom{_inner: _cret}, nil
+}
+
+
 // PosechainToSTBOX wraps MEOS C function posechain_to_stbox.
 func PosechainToSTBOX(pc unsafe.Pointer) (_r0 *STBox, _err error) {
 	C.meos_errno_reset()
@@ -2352,19 +2383,6 @@ func PosechainsetIn(str string) (_r0 *Set, _err error) {
 }
 
 
-// PosechainsetOut wraps MEOS C function posechainset_out.
-func PosechainsetOut(s *Set, maxdd int) (_r0 string, _err error) {
-	var _size C.size_t
-	C.meos_errno_reset()
-	_cret := C.posechainset_out(s._inner, C.int(maxdd), &_size)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	defer C.free(unsafe.Pointer(_cret))
-	return takeString(_cret, _size), nil
-}
-
-
 // PosechainsetMake wraps MEOS C function posechainset_make.
 func PosechainsetMake(values unsafe.Pointer, count int) (_r0 *Set, _err error) {
 	C.meos_errno_reset()
@@ -2619,6 +2637,28 @@ func TposechainseqsetFromBaseTstzspanset(pc unsafe.Pointer, ss *SpanSet, interp 
 func TposechainToTpose(temp *Temporal) (_r0 *Temporal, _err error) {
 	C.meos_errno_reset()
 	_cret := C.tposechain_to_tpose(temp._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// TposechainToTgeompoint wraps MEOS C function tposechain_to_tgeompoint.
+func TposechainToTgeompoint(temp *Temporal) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tposechain_to_tgeompoint(temp._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// TposechainToTgeogpoint wraps MEOS C function tposechain_to_tgeogpoint.
+func TposechainToTgeogpoint(temp *Temporal) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tposechain_to_tgeogpoint(temp._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}

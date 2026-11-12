@@ -8,23 +8,23 @@ import (
 	"github.com/MobilityDB/GoMEOS/functions"
 )
 
-type TNpointSeqSet struct {
-	TNpoint
+type TNPointSeqSet struct {
+	TNPoint
 }
 
-// TNpointSeqSetFromPointer wraps a MEOS pointer, answering nil for nil so an
+// TNPointSeqSetFromPointer wraps a MEOS pointer, answering nil for nil so an
 // absent MEOS result stays absent rather than becoming a live handle.
-func TNpointSeqSetFromPointer(p unsafe.Pointer) *TNpointSeqSet {
+func TNPointSeqSetFromPointer(p unsafe.Pointer) *TNPointSeqSet {
 	if p == nil {
 		return nil
 	}
-	v := &TNpointSeqSet{}
+	v := &TNPointSeqSet{}
 	v.ptr = p
 	return v
 }
 
-// TNpointSeqSetFromBaseTstzspanset is MEOS tnpointseqset_from_base_tstzspanset.
-func TNpointSeqSetFromBaseTstzspanset(np *Npoint, ss *SpanSet, interp functions.Interpolation) (*Temporal, error) {
+// TNPointSeqSetFromBaseTstzspanset is MEOS tnpointseqset_from_base_tstzspanset.
+func TNPointSeqSetFromBaseTstzspanset(np *NPoint, ss *SpanSet, interp functions.Interpolation) (*Temporal, error) {
 	_r0, _err := functions.TnpointseqsetFromBaseTstzspanset(functions.NpointFromPointer(np.Pointer()), functions.SpanSetFromPointer(ss.Pointer()), interp)
 	if _err != nil {
 		return nil, _err

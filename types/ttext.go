@@ -41,15 +41,6 @@ func TTextIn(str string) (*Temporal, error) {
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
-// Out is MEOS ttext_out.
-func (x *TText) Out() (string, error) {
-	_r0, _err := functions.TtextOut(functions.TemporalFromPointer(x.Pointer()))
-	if _err != nil {
-		return "", _err
-	}
-	return _r0, nil
-}
-
 // TTextFromBaseTemp is MEOS ttext_from_base_temp.
 func TTextFromBaseTemp(txt string, temp *Temporal) (*Temporal, error) {
 	_r0, _err := functions.TtextFromBaseTemp(txt, functions.TemporalFromPointer(temp.Pointer()))
@@ -209,9 +200,9 @@ func TTextFromHexWKB(hexwkb string) (*TText, error) {
 	return TTextFromPointer(r.Pointer()), nil
 }
 
-// AsText is the portable asText of MEOS ttext_out.
-func (x *TText) AsText() (string, error) {
-	return x.Out()
+// AsText is the portable asText of MEOS temporal_out.
+func (x *TText) AsText(maxdd int) (string, error) {
+	return x.Out(maxdd)
 }
 
 // TTextFromText is the portable fromText of MEOS ttext_in.
@@ -232,9 +223,9 @@ func TTextFromWKB(wkb []byte) (*TText, error) {
 	return TTextFromPointer(r.Pointer()), nil
 }
 
-// String is the text MEOS writes this value as, MEOS ttext_out.
+// String is the text MEOS writes this value as, MEOS temporal_out.
 func (x *TText) String() string {
-	s, err := x.Out()
+	s, err := x.Out(15)
 	if err != nil {
 		return "%!s(MEOS error: " + err.Error() + ")"
 	}

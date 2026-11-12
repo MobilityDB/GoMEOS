@@ -41,15 +41,6 @@ func TFloatIn(str string) (*Temporal, error) {
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
-// Out is MEOS tfloat_out.
-func (x *TFloat) Out(maxdd int) (string, error) {
-	_r0, _err := functions.TfloatOut(functions.TemporalFromPointer(x.Pointer()), maxdd)
-	if _err != nil {
-		return "", _err
-	}
-	return _r0, nil
-}
-
 // TFloatFromBaseTemp is MEOS tfloat_from_base_temp.
 func TFloatFromBaseTemp(d float64, temp *Temporal) (*Temporal, error) {
 	_r0, _err := functions.TfloatFromBaseTemp(d, functions.TemporalFromPointer(temp.Pointer()))
@@ -335,7 +326,7 @@ func TFloatFromHexWKB(hexwkb string) (*TFloat, error) {
 	return TFloatFromPointer(r.Pointer()), nil
 }
 
-// AsText is the portable asText of MEOS tfloat_out.
+// AsText is the portable asText of MEOS temporal_out.
 func (x *TFloat) AsText(maxdd int) (string, error) {
 	return x.Out(maxdd)
 }
@@ -358,7 +349,7 @@ func TFloatFromWKB(wkb []byte) (*TFloat, error) {
 	return TFloatFromPointer(r.Pointer()), nil
 }
 
-// String is the text MEOS writes this value as, MEOS tfloat_out.
+// String is the text MEOS writes this value as, MEOS temporal_out.
 func (x *TFloat) String() string {
 	s, err := x.Out(15)
 	if err != nil {

@@ -41,15 +41,6 @@ func IntSpanIn(str string) (*Span, error) {
 	return SpanFromPointer(_r0.Pointer()), nil
 }
 
-// Out is MEOS intspan_out.
-func (x *IntSpan) Out() (string, error) {
-	_r0, _err := functions.IntspanOut(functions.SpanFromPointer(x.Pointer()))
-	if _err != nil {
-		return "", _err
-	}
-	return _r0, nil
-}
-
 // IntSpanMake is MEOS intspan_make.
 func IntSpanMake(lower int, upper int, lower_inc bool, upper_inc bool) (*Span, error) {
 	_r0, _err := functions.IntspanMake(lower, upper, lower_inc, upper_inc)
@@ -131,6 +122,15 @@ func IntSpanGetBin(value int, vsize int, vorigin int) (*Span, error) {
 	return SpanFromPointer(_r0.Pointer()), nil
 }
 
+// IntSpanFromInt is MEOS int_to_span.
+func IntSpanFromInt(i int) (*Span, error) {
+	_r0, _err := functions.IntToSpan(i)
+	if _err != nil {
+		return nil, _err
+	}
+	return SpanFromPointer(_r0.Pointer()), nil
+}
+
 // IntSpanFromHexWKB is the portable fromHexWKB of MEOS span_from_hexwkb.
 func IntSpanFromHexWKB(hexwkb string) (*IntSpan, error) {
 	r, err := SpanFromHexWKB(hexwkb)
@@ -140,9 +140,9 @@ func IntSpanFromHexWKB(hexwkb string) (*IntSpan, error) {
 	return IntSpanFromPointer(r.Pointer()), nil
 }
 
-// AsText is the portable asText of MEOS intspan_out.
-func (x *IntSpan) AsText() (string, error) {
-	return x.Out()
+// AsText is the portable asText of MEOS span_out.
+func (x *IntSpan) AsText(maxdd int) (string, error) {
+	return x.Out(maxdd)
 }
 
 // IntSpanFromText is the portable fromText of MEOS intspan_in.
@@ -161,13 +161,4 @@ func IntSpanFromWKB(wkb []byte) (*IntSpan, error) {
 		return nil, err
 	}
 	return IntSpanFromPointer(r.Pointer()), nil
-}
-
-// String is the text MEOS writes this value as, MEOS intspan_out.
-func (x *IntSpan) String() string {
-	s, err := x.Out()
-	if err != nil {
-		return "%!s(MEOS error: " + err.Error() + ")"
-	}
-	return s
 }

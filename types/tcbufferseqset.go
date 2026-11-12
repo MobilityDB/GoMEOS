@@ -8,23 +8,23 @@ import (
 	"github.com/MobilityDB/GoMEOS/functions"
 )
 
-type TCbufferSeqSet struct {
-	TCbuffer
+type TCBufferSeqSet struct {
+	TCBuffer
 }
 
-// TCbufferSeqSetFromPointer wraps a MEOS pointer, answering nil for nil so an
+// TCBufferSeqSetFromPointer wraps a MEOS pointer, answering nil for nil so an
 // absent MEOS result stays absent rather than becoming a live handle.
-func TCbufferSeqSetFromPointer(p unsafe.Pointer) *TCbufferSeqSet {
+func TCBufferSeqSetFromPointer(p unsafe.Pointer) *TCBufferSeqSet {
 	if p == nil {
 		return nil
 	}
-	v := &TCbufferSeqSet{}
+	v := &TCBufferSeqSet{}
 	v.ptr = p
 	return v
 }
 
-// TCbufferSeqSetFromBaseTstzspanset is MEOS tcbufferseqset_from_base_tstzspanset.
-func TCbufferSeqSetFromBaseTstzspanset(cb *Cbuffer, ss *SpanSet, interp functions.Interpolation) (*Temporal, error) {
+// TCBufferSeqSetFromBaseTstzspanset is MEOS tcbufferseqset_from_base_tstzspanset.
+func TCBufferSeqSetFromBaseTstzspanset(cb *CBuffer, ss *SpanSet, interp functions.Interpolation) (*Temporal, error) {
 	_r0, _err := functions.TcbufferseqsetFromBaseTstzspanset(functions.CbufferFromPointer(cb.Pointer()), functions.SpanSetFromPointer(ss.Pointer()), interp)
 	if _err != nil {
 		return nil, _err

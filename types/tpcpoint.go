@@ -8,23 +8,23 @@ import (
 	"github.com/MobilityDB/GoMEOS/functions"
 )
 
-type TPcpoint struct {
+type TPCPoint struct {
 	TSpatial
 }
 
-// TPcpointFromPointer wraps a MEOS pointer, answering nil for nil so an
+// TPCPointFromPointer wraps a MEOS pointer, answering nil for nil so an
 // absent MEOS result stays absent rather than becoming a live handle.
-func TPcpointFromPointer(p unsafe.Pointer) *TPcpoint {
+func TPCPointFromPointer(p unsafe.Pointer) *TPCPoint {
 	if p == nil {
 		return nil
 	}
-	v := &TPcpoint{}
+	v := &TPCPoint{}
 	v.ptr = p
 	return v
 }
 
-// TPcpointIn is MEOS tpcpoint_in.
-func TPcpointIn(str string) (*Temporal, error) {
+// TPCPointIn is MEOS tpcpoint_in.
+func TPCPointIn(str string) (*Temporal, error) {
 	_r0, _err := functions.TpcpointIn(str)
 	if _err != nil {
 		return nil, _err
@@ -32,17 +32,8 @@ func TPcpointIn(str string) (*Temporal, error) {
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
-// Out is MEOS tpcpoint_out.
-func (x *TPcpoint) Out() (string, error) {
-	_r0, _err := functions.TpcpointOut(functions.TemporalFromPointer(x.Pointer()))
-	if _err != nil {
-		return "", _err
-	}
-	return _r0, nil
-}
-
-// TPcpointFromMFJSON is MEOS tpcpoint_from_mfjson.
-func TPcpointFromMFJSON(mfjson string) (*Temporal, error) {
+// TPCPointFromMFJSON is MEOS tpcpoint_from_mfjson.
+func TPCPointFromMFJSON(mfjson string) (*Temporal, error) {
 	_r0, _err := functions.TpcpointFromMFJSON(mfjson)
 	if _err != nil {
 		return nil, _err
@@ -51,7 +42,7 @@ func TPcpointFromMFJSON(mfjson string) (*Temporal, error) {
 }
 
 // ToTgeompoint is MEOS tpcpoint_to_tgeompoint.
-func (x *TPcpoint) ToTgeompoint() (*Temporal, error) {
+func (x *TPCPoint) ToTgeompoint() (*Temporal, error) {
 	_r0, _err := functions.TpcpointToTgeompoint(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -59,8 +50,17 @@ func (x *TPcpoint) ToTgeompoint() (*Temporal, error) {
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
-// TPcpointFromBaseTemp is MEOS tpcpoint_from_base_temp.
-func TPcpointFromBaseTemp(pt *Pcpoint, temp *Temporal) (*Temporal, error) {
+// ToTgeogpoint is MEOS tpcpoint_to_tgeogpoint.
+func (x *TPCPoint) ToTgeogpoint() (*Temporal, error) {
+	_r0, _err := functions.TpcpointToTgeogpoint(functions.TemporalFromPointer(x.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// TPCPointFromBaseTemp is MEOS tpcpoint_from_base_temp.
+func TPCPointFromBaseTemp(pt *PCPoint, temp *Temporal) (*Temporal, error) {
 	_r0, _err := functions.TpcpointFromBaseTemp(functions.PcpointFromPointer(pt.Pointer()), functions.TemporalFromPointer(temp.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -69,34 +69,34 @@ func TPcpointFromBaseTemp(pt *Pcpoint, temp *Temporal) (*Temporal, error) {
 }
 
 // StartValue is MEOS tpcpoint_start_value.
-func (x *TPcpoint) StartValue() (*Pcpoint, error) {
+func (x *TPCPoint) StartValue() (*PCPoint, error) {
 	_r0, _err := functions.TpcpointStartValue(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return PcpointFromPointer(_r0.Pointer()), nil
+	return PCPointFromPointer(_r0.Pointer()), nil
 }
 
 // EndValue is MEOS tpcpoint_end_value.
-func (x *TPcpoint) EndValue() (*Pcpoint, error) {
+func (x *TPCPoint) EndValue() (*PCPoint, error) {
 	_r0, _err := functions.TpcpointEndValue(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return PcpointFromPointer(_r0.Pointer()), nil
+	return PCPointFromPointer(_r0.Pointer()), nil
 }
 
 // Value is MEOS tpcpoint_value.
-func (x *TPcpoint) Value() (*Pcpoint, error) {
+func (x *TPCPoint) Value() (*PCPoint, error) {
 	_r0, _err := functions.TpcpointValue(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return PcpointFromPointer(_r0.Pointer()), nil
+	return PCPointFromPointer(_r0.Pointer()), nil
 }
 
 // ValueN is MEOS tpcpoint_value_n.
-func (x *TPcpoint) ValueN(n int) (*Pcpoint, bool, error) {
+func (x *TPCPoint) ValueN(n int) (*PCPoint, bool, error) {
 	_found, _value, _err := functions.TpcpointValueN(functions.TemporalFromPointer(x.Pointer()), n)
 	if _err != nil {
 		return nil, false, _err
@@ -104,11 +104,11 @@ func (x *TPcpoint) ValueN(n int) (*Pcpoint, bool, error) {
 	if !_found {
 		return nil, false, nil
 	}
-	return PcpointFromPointer(_value.Pointer()), true, nil
+	return PCPointFromPointer(_value.Pointer()), true, nil
 }
 
 // Values is MEOS tpcpoint_values.
-func (x *TPcpoint) Values(count unsafe.Pointer) (unsafe.Pointer, error) {
+func (x *TPCPoint) Values(count unsafe.Pointer) (unsafe.Pointer, error) {
 	_r0, _err := functions.TpcpointValues(functions.TemporalFromPointer(x.Pointer()), count)
 	if _err != nil {
 		return nil, _err
@@ -117,7 +117,7 @@ func (x *TPcpoint) Values(count unsafe.Pointer) (unsafe.Pointer, error) {
 }
 
 // Unnest is MEOS tpcpoint_unnest.
-func (x *TPcpoint) Unnest(values unsafe.Pointer, count unsafe.Pointer) (unsafe.Pointer, error) {
+func (x *TPCPoint) Unnest(values unsafe.Pointer, count unsafe.Pointer) (unsafe.Pointer, error) {
 	_r0, _err := functions.TpcpointUnnest(functions.TemporalFromPointer(x.Pointer()), values, count)
 	if _err != nil {
 		return nil, _err
@@ -126,7 +126,7 @@ func (x *TPcpoint) Unnest(values unsafe.Pointer, count unsafe.Pointer) (unsafe.P
 }
 
 // ValueAtTimestamptz is MEOS tpcpoint_value_at_timestamptz.
-func (x *TPcpoint) ValueAtTimestamptz(t int64, strict bool) (*Pcpoint, bool, error) {
+func (x *TPCPoint) ValueAtTimestamptz(t int64, strict bool) (*PCPoint, bool, error) {
 	_found, _value, _err := functions.TpcpointValueAtTimestamptz(functions.TemporalFromPointer(x.Pointer()), t, strict)
 	if _err != nil {
 		return nil, false, _err
@@ -134,11 +134,11 @@ func (x *TPcpoint) ValueAtTimestamptz(t int64, strict bool) (*Pcpoint, bool, err
 	if !_found {
 		return nil, false, nil
 	}
-	return PcpointFromPointer(_value.Pointer()), true, nil
+	return PCPointFromPointer(_value.Pointer()), true, nil
 }
 
 // AtValue is MEOS tpcpoint_at_value.
-func (x *TPcpoint) AtValue(pt *Pcpoint) (*Temporal, error) {
+func (x *TPCPoint) AtValue(pt *PCPoint) (*Temporal, error) {
 	_r0, _err := functions.TpcpointAtValue(functions.TemporalFromPointer(x.Pointer()), functions.PcpointFromPointer(pt.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -147,7 +147,7 @@ func (x *TPcpoint) AtValue(pt *Pcpoint) (*Temporal, error) {
 }
 
 // MinusValue is MEOS tpcpoint_minus_value.
-func (x *TPcpoint) MinusValue(pt *Pcpoint) (*Temporal, error) {
+func (x *TPCPoint) MinusValue(pt *PCPoint) (*Temporal, error) {
 	_r0, _err := functions.TpcpointMinusValue(functions.TemporalFromPointer(x.Pointer()), functions.PcpointFromPointer(pt.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -156,7 +156,7 @@ func (x *TPcpoint) MinusValue(pt *Pcpoint) (*Temporal, error) {
 }
 
 // Pcid is MEOS tpcpoint_pcid.
-func (x *TPcpoint) Pcid() (uint32, error) {
+func (x *TPCPoint) Pcid() (uint32, error) {
 	_r0, _err := functions.TpcpointPcid(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return 0, _err
@@ -164,63 +164,63 @@ func (x *TPcpoint) Pcid() (uint32, error) {
 	return _r0, nil
 }
 
-// TPcpointFromEWKB is the portable fromEWKB of MEOS temporal_from_wkb.
-func TPcpointFromEWKB(wkb []byte) (*TPcpoint, error) {
+// TPCPointFromEWKB is the portable fromEWKB of MEOS temporal_from_wkb.
+func TPCPointFromEWKB(wkb []byte) (*TPCPoint, error) {
 	r, err := TemporalFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}
-	return TPcpointFromPointer(r.Pointer()), nil
+	return TPCPointFromPointer(r.Pointer()), nil
 }
 
-// TPcpointFromEWKT is the portable fromEWKT of MEOS tpcpoint_in.
-func TPcpointFromEWKT(str string) (*TPcpoint, error) {
-	r, err := TPcpointIn(str)
+// TPCPointFromEWKT is the portable fromEWKT of MEOS tpcpoint_in.
+func TPCPointFromEWKT(str string) (*TPCPoint, error) {
+	r, err := TPCPointIn(str)
 	if err != nil || r == nil {
 		return nil, err
 	}
-	return TPcpointFromPointer(r.Pointer()), nil
+	return TPCPointFromPointer(r.Pointer()), nil
 }
 
-// TPcpointFromHexEWKB is the portable fromHexEWKB of MEOS temporal_from_hexwkb.
-func TPcpointFromHexEWKB(hexwkb string) (*TPcpoint, error) {
+// TPCPointFromHexEWKB is the portable fromHexEWKB of MEOS temporal_from_hexwkb.
+func TPCPointFromHexEWKB(hexwkb string) (*TPCPoint, error) {
 	r, err := TemporalFromHexWKB(hexwkb)
 	if err != nil || r == nil {
 		return nil, err
 	}
-	return TPcpointFromPointer(r.Pointer()), nil
+	return TPCPointFromPointer(r.Pointer()), nil
 }
 
-// TPcpointFromHexWKB is the portable fromHexWKB of MEOS temporal_from_hexwkb.
-func TPcpointFromHexWKB(hexwkb string) (*TPcpoint, error) {
+// TPCPointFromHexWKB is the portable fromHexWKB of MEOS temporal_from_hexwkb.
+func TPCPointFromHexWKB(hexwkb string) (*TPCPoint, error) {
 	r, err := TemporalFromHexWKB(hexwkb)
 	if err != nil || r == nil {
 		return nil, err
 	}
-	return TPcpointFromPointer(r.Pointer()), nil
+	return TPCPointFromPointer(r.Pointer()), nil
 }
 
-// TPcpointFromText is the portable fromText of MEOS tpcpoint_in.
-func TPcpointFromText(str string) (*TPcpoint, error) {
-	r, err := TPcpointIn(str)
+// TPCPointFromText is the portable fromText of MEOS tpcpoint_in.
+func TPCPointFromText(str string) (*TPCPoint, error) {
+	r, err := TPCPointIn(str)
 	if err != nil || r == nil {
 		return nil, err
 	}
-	return TPcpointFromPointer(r.Pointer()), nil
+	return TPCPointFromPointer(r.Pointer()), nil
 }
 
-// TPcpointFromWKB is the portable fromWKB of MEOS temporal_from_wkb.
-func TPcpointFromWKB(wkb []byte) (*TPcpoint, error) {
+// TPCPointFromWKB is the portable fromWKB of MEOS temporal_from_wkb.
+func TPCPointFromWKB(wkb []byte) (*TPCPoint, error) {
 	r, err := TemporalFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}
-	return TPcpointFromPointer(r.Pointer()), nil
+	return TPCPointFromPointer(r.Pointer()), nil
 }
 
-// String is the text MEOS writes this value as, MEOS tpcpoint_out.
-func (x *TPcpoint) String() string {
-	s, err := x.Out()
+// String is the text MEOS writes this value as, MEOS temporal_out.
+func (x *TPCPoint) String() string {
+	s, err := x.Out(15)
 	if err != nil {
 		return "%!s(MEOS error: " + err.Error() + ")"
 	}

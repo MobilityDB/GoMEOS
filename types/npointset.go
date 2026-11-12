@@ -8,23 +8,23 @@ import (
 	"github.com/MobilityDB/GoMEOS/functions"
 )
 
-type NpointSet struct {
+type NPointSet struct {
 	SpatialSet
 }
 
-// NpointSetFromPointer wraps a MEOS pointer, answering nil for nil so an
+// NPointSetFromPointer wraps a MEOS pointer, answering nil for nil so an
 // absent MEOS result stays absent rather than becoming a live handle.
-func NpointSetFromPointer(p unsafe.Pointer) *NpointSet {
+func NPointSetFromPointer(p unsafe.Pointer) *NPointSet {
 	if p == nil {
 		return nil
 	}
-	v := &NpointSet{}
+	v := &NPointSet{}
 	v.ptr = p
 	return v
 }
 
-// NpointSetIn is MEOS npointset_in.
-func NpointSetIn(str string) (*Set, error) {
+// NPointSetIn is MEOS npointset_in.
+func NPointSetIn(str string) (*Set, error) {
 	_r0, _err := functions.NpointsetIn(str)
 	if _err != nil {
 		return nil, _err
@@ -32,17 +32,8 @@ func NpointSetIn(str string) (*Set, error) {
 	return SetFromPointer(_r0.Pointer()), nil
 }
 
-// Out is MEOS npointset_out.
-func (x *NpointSet) Out(maxdd int) (string, error) {
-	_r0, _err := functions.NpointsetOut(functions.SetFromPointer(x.Pointer()), maxdd)
-	if _err != nil {
-		return "", _err
-	}
-	return _r0, nil
-}
-
-// NpointSetMake is MEOS npointset_make.
-func NpointSetMake(values *Npoint, count int) (*Set, error) {
+// NPointSetMake is MEOS npointset_make.
+func NPointSetMake(values *NPoint, count int) (*Set, error) {
 	_r0, _err := functions.NpointsetMake(functions.NpointFromPointer(values.Pointer()), count)
 	if _err != nil {
 		return nil, _err
@@ -51,16 +42,16 @@ func NpointSetMake(values *Npoint, count int) (*Set, error) {
 }
 
 // EndValue is MEOS npointset_end_value.
-func (x *NpointSet) EndValue() (*Npoint, error) {
+func (x *NPointSet) EndValue() (*NPoint, error) {
 	_r0, _err := functions.NpointsetEndValue(functions.SetFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return NpointFromPointer(_r0.Pointer()), nil
+	return NPointFromPointer(_r0.Pointer()), nil
 }
 
 // Routes is MEOS npointset_routes.
-func (x *NpointSet) Routes() (*Set, error) {
+func (x *NPointSet) Routes() (*Set, error) {
 	_r0, _err := functions.NpointsetRoutes(functions.SetFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -69,16 +60,16 @@ func (x *NpointSet) Routes() (*Set, error) {
 }
 
 // StartValue is MEOS npointset_start_value.
-func (x *NpointSet) StartValue() (*Npoint, error) {
+func (x *NPointSet) StartValue() (*NPoint, error) {
 	_r0, _err := functions.NpointsetStartValue(functions.SetFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return NpointFromPointer(_r0.Pointer()), nil
+	return NPointFromPointer(_r0.Pointer()), nil
 }
 
 // ValueN is MEOS npointset_value_n.
-func (x *NpointSet) ValueN(n int) (*Npoint, bool, error) {
+func (x *NPointSet) ValueN(n int) (*NPoint, bool, error) {
 	_found, _value, _err := functions.NpointsetValueN(functions.SetFromPointer(x.Pointer()), n)
 	if _err != nil {
 		return nil, false, _err
@@ -86,11 +77,11 @@ func (x *NpointSet) ValueN(n int) (*Npoint, bool, error) {
 	if !_found {
 		return nil, false, nil
 	}
-	return NpointFromPointer(_value.Pointer()), true, nil
+	return NPointFromPointer(_value.Pointer()), true, nil
 }
 
 // Values is MEOS npointset_values.
-func (x *NpointSet) Values(count unsafe.Pointer) (unsafe.Pointer, error) {
+func (x *NPointSet) Values(count unsafe.Pointer) (unsafe.Pointer, error) {
 	_r0, _err := functions.NpointsetValues(functions.SetFromPointer(x.Pointer()), count)
 	if _err != nil {
 		return nil, _err
@@ -98,62 +89,62 @@ func (x *NpointSet) Values(count unsafe.Pointer) (unsafe.Pointer, error) {
 	return _r0, nil
 }
 
-// NpointSetFromEWKB is the portable fromEWKB of MEOS set_from_wkb.
-func NpointSetFromEWKB(wkb []byte) (*NpointSet, error) {
+// NPointSetFromEWKB is the portable fromEWKB of MEOS set_from_wkb.
+func NPointSetFromEWKB(wkb []byte) (*NPointSet, error) {
 	r, err := SetFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}
-	return NpointSetFromPointer(r.Pointer()), nil
+	return NPointSetFromPointer(r.Pointer()), nil
 }
 
-// NpointSetFromEWKT is the portable fromEWKT of MEOS npointset_in.
-func NpointSetFromEWKT(str string) (*NpointSet, error) {
-	r, err := NpointSetIn(str)
+// NPointSetFromEWKT is the portable fromEWKT of MEOS npointset_in.
+func NPointSetFromEWKT(str string) (*NPointSet, error) {
+	r, err := NPointSetIn(str)
 	if err != nil || r == nil {
 		return nil, err
 	}
-	return NpointSetFromPointer(r.Pointer()), nil
+	return NPointSetFromPointer(r.Pointer()), nil
 }
 
-// NpointSetFromHexEWKB is the portable fromHexEWKB of MEOS set_from_hexwkb.
-func NpointSetFromHexEWKB(hexwkb string) (*NpointSet, error) {
+// NPointSetFromHexEWKB is the portable fromHexEWKB of MEOS set_from_hexwkb.
+func NPointSetFromHexEWKB(hexwkb string) (*NPointSet, error) {
 	r, err := SetFromHexWKB(hexwkb)
 	if err != nil || r == nil {
 		return nil, err
 	}
-	return NpointSetFromPointer(r.Pointer()), nil
+	return NPointSetFromPointer(r.Pointer()), nil
 }
 
-// NpointSetFromHexWKB is the portable fromHexWKB of MEOS set_from_hexwkb.
-func NpointSetFromHexWKB(hexwkb string) (*NpointSet, error) {
+// NPointSetFromHexWKB is the portable fromHexWKB of MEOS set_from_hexwkb.
+func NPointSetFromHexWKB(hexwkb string) (*NPointSet, error) {
 	r, err := SetFromHexWKB(hexwkb)
 	if err != nil || r == nil {
 		return nil, err
 	}
-	return NpointSetFromPointer(r.Pointer()), nil
+	return NPointSetFromPointer(r.Pointer()), nil
 }
 
-// NpointSetFromText is the portable fromText of MEOS npointset_in.
-func NpointSetFromText(str string) (*NpointSet, error) {
-	r, err := NpointSetIn(str)
+// NPointSetFromText is the portable fromText of MEOS npointset_in.
+func NPointSetFromText(str string) (*NPointSet, error) {
+	r, err := NPointSetIn(str)
 	if err != nil || r == nil {
 		return nil, err
 	}
-	return NpointSetFromPointer(r.Pointer()), nil
+	return NPointSetFromPointer(r.Pointer()), nil
 }
 
-// NpointSetFromWKB is the portable fromWKB of MEOS set_from_wkb.
-func NpointSetFromWKB(wkb []byte) (*NpointSet, error) {
+// NPointSetFromWKB is the portable fromWKB of MEOS set_from_wkb.
+func NPointSetFromWKB(wkb []byte) (*NPointSet, error) {
 	r, err := SetFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}
-	return NpointSetFromPointer(r.Pointer()), nil
+	return NPointSetFromPointer(r.Pointer()), nil
 }
 
 // String is the text MEOS writes this value as, MEOS spatialset_as_text.
-func (x *NpointSet) String() string {
+func (x *NPointSet) String() string {
 	s, err := x.AsText(15)
 	if err != nil {
 		return "%!s(MEOS error: " + err.Error() + ")"

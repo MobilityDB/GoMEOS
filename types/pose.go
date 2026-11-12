@@ -218,6 +218,15 @@ func PoseMakePoint3dYpr(gs *Geo, yaw float64, pitch float64, roll float64) (*Pos
 	return PoseFromPointer(_r0.Pointer()), nil
 }
 
+// ToGeog is MEOS pose_to_geog.
+func (x *Pose) ToGeog() (*Geo, error) {
+	_r0, _err := functions.PoseToGeog(functions.PoseFromPointer(x.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return GeoFromPointer(_r0.Pointer()), nil
+}
+
 // ToPoint is MEOS pose_to_point.
 func (x *Pose) ToPoint() (*Geo, error) {
 	_r0, _err := functions.PoseToPoint(functions.PoseFromPointer(x.Pointer()))

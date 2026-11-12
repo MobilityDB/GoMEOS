@@ -86,6 +86,15 @@ func (x *TRGeometry) ToTgeompoint() (*Temporal, error) {
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
+// ToTgeogpoint is MEOS trgeometry_to_tgeogpoint.
+func (x *TRGeometry) ToTgeogpoint() (*Temporal, error) {
+	_r0, _err := functions.TrgeometryToTgeogpoint(functions.TemporalFromPointer(x.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
 // ToTgeometry is MEOS trgeometry_to_tgeometry.
 func (x *TRGeometry) ToTgeometry() (*Temporal, error) {
 	_r0, _err := functions.TrgeometryToTgeometry(functions.TemporalFromPointer(x.Pointer()))
@@ -95,18 +104,9 @@ func (x *TRGeometry) ToTgeometry() (*Temporal, error) {
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
-// EndInstant is MEOS trgeometry_end_instant.
-func (x *TRGeometry) EndInstant() (*Temporal, error) {
-	_r0, _err := functions.TrgeometryEndInstant(functions.TemporalFromPointer(x.Pointer()))
-	if _err != nil {
-		return nil, _err
-	}
-	return TemporalFromPointer(_r0.Pointer()), nil
-}
-
-// EndSequence is MEOS trgeometry_end_sequence.
-func (x *TRGeometry) EndSequence() (*Temporal, error) {
-	_r0, _err := functions.TrgeometryEndSequence(functions.TemporalFromPointer(x.Pointer()))
+// ToTgeography is MEOS trgeometry_to_tgeography.
+func (x *TRGeometry) ToTgeography() (*Temporal, error) {
+	_r0, _err := functions.TrgeometryToTgeography(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
@@ -129,24 +129,6 @@ func (x *TRGeometry) Geom() (*Geo, error) {
 		return nil, _err
 	}
 	return GeoFromPointer(_r0.Pointer()), nil
-}
-
-// InstantN is MEOS trgeometry_instant_n.
-func (x *TRGeometry) InstantN(n int) (*Temporal, error) {
-	_r0, _err := functions.TrgeometryInstantN(functions.TemporalFromPointer(x.Pointer()), n)
-	if _err != nil {
-		return nil, _err
-	}
-	return TemporalFromPointer(_r0.Pointer()), nil
-}
-
-// Instants is MEOS trgeometry_instants.
-func (x *TRGeometry) Instants(count unsafe.Pointer) (unsafe.Pointer, error) {
-	_r0, _err := functions.TrgeometryInstants(functions.TemporalFromPointer(x.Pointer()), count)
-	if _err != nil {
-		return nil, _err
-	}
-	return _r0, nil
 }
 
 // Points is MEOS trgeometry_points.
@@ -179,51 +161,6 @@ func (x *TRGeometry) Pitch() (*Temporal, error) {
 // Roll is MEOS trgeometry_roll.
 func (x *TRGeometry) Roll() (*Temporal, error) {
 	_r0, _err := functions.TrgeometryRoll(functions.TemporalFromPointer(x.Pointer()))
-	if _err != nil {
-		return nil, _err
-	}
-	return TemporalFromPointer(_r0.Pointer()), nil
-}
-
-// Segments is MEOS trgeometry_segments.
-func (x *TRGeometry) Segments(count unsafe.Pointer) (unsafe.Pointer, error) {
-	_r0, _err := functions.TrgeometrySegments(functions.TemporalFromPointer(x.Pointer()), count)
-	if _err != nil {
-		return nil, _err
-	}
-	return _r0, nil
-}
-
-// SequenceN is MEOS trgeometry_sequence_n.
-func (x *TRGeometry) SequenceN(i int) (*Temporal, error) {
-	_r0, _err := functions.TrgeometrySequenceN(functions.TemporalFromPointer(x.Pointer()), i)
-	if _err != nil {
-		return nil, _err
-	}
-	return TemporalFromPointer(_r0.Pointer()), nil
-}
-
-// Sequences is MEOS trgeometry_sequences.
-func (x *TRGeometry) Sequences(count unsafe.Pointer) (unsafe.Pointer, error) {
-	_r0, _err := functions.TrgeometrySequences(functions.TemporalFromPointer(x.Pointer()), count)
-	if _err != nil {
-		return nil, _err
-	}
-	return _r0, nil
-}
-
-// StartInstant is MEOS trgeometry_start_instant.
-func (x *TRGeometry) StartInstant() (*Temporal, error) {
-	_r0, _err := functions.TrgeometryStartInstant(functions.TemporalFromPointer(x.Pointer()))
-	if _err != nil {
-		return nil, _err
-	}
-	return TemporalFromPointer(_r0.Pointer()), nil
-}
-
-// StartSequence is MEOS trgeometry_start_sequence.
-func (x *TRGeometry) StartSequence() (*Temporal, error) {
-	_r0, _err := functions.TrgeometryStartSequence(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
@@ -407,81 +344,9 @@ func (x *TRGeometry) Twcentroid() (*Geo, error) {
 	return GeoFromPointer(_r0.Pointer()), nil
 }
 
-// AppendTsequence is MEOS trgeometry_append_tsequence.
-func (x *TRGeometry) AppendTsequence(seq *Temporal, expand bool) (*Temporal, error) {
-	_r0, _err := functions.TrgeometryAppendTsequence(functions.TemporalFromPointer(x.Pointer()), functions.TSequenceFromPointer(seq.Pointer()), expand)
-	if _err != nil {
-		return nil, _err
-	}
-	return TemporalFromPointer(_r0.Pointer()), nil
-}
-
-// DeleteTimestamptz is MEOS trgeometry_delete_timestamptz.
-func (x *TRGeometry) DeleteTimestamptz(t int64, connect bool) (*Temporal, error) {
-	_r0, _err := functions.TrgeometryDeleteTimestamptz(functions.TemporalFromPointer(x.Pointer()), t, connect)
-	if _err != nil {
-		return nil, _err
-	}
-	return TemporalFromPointer(_r0.Pointer()), nil
-}
-
-// DeleteTstzset is MEOS trgeometry_delete_tstzset.
-func (x *TRGeometry) DeleteTstzset(s *Set, connect bool) (*Temporal, error) {
-	_r0, _err := functions.TrgeometryDeleteTstzset(functions.TemporalFromPointer(x.Pointer()), functions.SetFromPointer(s.Pointer()), connect)
-	if _err != nil {
-		return nil, _err
-	}
-	return TemporalFromPointer(_r0.Pointer()), nil
-}
-
-// DeleteTstzspan is MEOS trgeometry_delete_tstzspan.
-func (x *TRGeometry) DeleteTstzspan(s *Span, connect bool) (*Temporal, error) {
-	_r0, _err := functions.TrgeometryDeleteTstzspan(functions.TemporalFromPointer(x.Pointer()), functions.SpanFromPointer(s.Pointer()), connect)
-	if _err != nil {
-		return nil, _err
-	}
-	return TemporalFromPointer(_r0.Pointer()), nil
-}
-
-// DeleteTstzspanset is MEOS trgeometry_delete_tstzspanset.
-func (x *TRGeometry) DeleteTstzspanset(ss *SpanSet, connect bool) (*Temporal, error) {
-	_r0, _err := functions.TrgeometryDeleteTstzspanset(functions.TemporalFromPointer(x.Pointer()), functions.SpanSetFromPointer(ss.Pointer()), connect)
-	if _err != nil {
-		return nil, _err
-	}
-	return TemporalFromPointer(_r0.Pointer()), nil
-}
-
 // Force2d is MEOS trgeometry_force2d.
 func (x *TRGeometry) Force2d() (*Temporal, error) {
 	_r0, _err := functions.TrgeometryForce2d(functions.TemporalFromPointer(x.Pointer()))
-	if _err != nil {
-		return nil, _err
-	}
-	return TemporalFromPointer(_r0.Pointer()), nil
-}
-
-// Merge is MEOS trgeometry_merge.
-func (x *TRGeometry) Merge(temp2 *Temporal) (*Temporal, error) {
-	_r0, _err := functions.TrgeometryMerge(functions.TemporalFromPointer(x.Pointer()), functions.TemporalFromPointer(temp2.Pointer()))
-	if _err != nil {
-		return nil, _err
-	}
-	return TemporalFromPointer(_r0.Pointer()), nil
-}
-
-// TRGeometryMergeArray is MEOS trgeometry_merge_array.
-func TRGeometryMergeArray(temparr unsafe.Pointer, count int) (*Temporal, error) {
-	_r0, _err := functions.TrgeometryMergeArray(temparr, count)
-	if _err != nil {
-		return nil, _err
-	}
-	return TemporalFromPointer(_r0.Pointer()), nil
-}
-
-// Round is MEOS trgeometry_round.
-func (x *TRGeometry) Round(maxdd int) (*Temporal, error) {
-	_r0, _err := functions.TrgeometryRound(functions.TemporalFromPointer(x.Pointer()), maxdd)
 	if _err != nil {
 		return nil, _err
 	}
@@ -524,15 +389,6 @@ func (x *TRGeometry) RotateZ(angle float64) (*Temporal, error) {
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
-// SetInterp is MEOS trgeometry_set_interp.
-func (x *TRGeometry) SetInterp(interp functions.Interpolation) (*Temporal, error) {
-	_r0, _err := functions.TrgeometrySetInterp(functions.TemporalFromPointer(x.Pointer()), interp)
-	if _err != nil {
-		return nil, _err
-	}
-	return TemporalFromPointer(_r0.Pointer()), nil
-}
-
 // Translate is MEOS trgeometry_translate.
 func (x *TRGeometry) Translate(deltax float64, deltay float64, deltaz float64) (*Temporal, error) {
 	_r0, _err := functions.TrgeometryTranslate(functions.TemporalFromPointer(x.Pointer()), deltax, deltay, deltaz)
@@ -552,8 +408,8 @@ func (x *TRGeometry) AsTinstant() (*Temporal, error) {
 }
 
 // AsTsequence is MEOS trgeometry_as_tsequence.
-func (x *TRGeometry) AsTsequence(interp_str *string) (*Temporal, error) {
-	_r0, _err := functions.TrgeometryAsTsequence(functions.TemporalFromPointer(x.Pointer()), interp_str)
+func (x *TRGeometry) AsTsequence(interp functions.Interpolation) (*Temporal, error) {
+	_r0, _err := functions.TrgeometryAsTsequence(functions.TemporalFromPointer(x.Pointer()), interp)
 	if _err != nil {
 		return nil, _err
 	}
@@ -561,26 +417,8 @@ func (x *TRGeometry) AsTsequence(interp_str *string) (*Temporal, error) {
 }
 
 // AsTsequenceset is MEOS trgeometry_as_tsequenceset.
-func (x *TRGeometry) AsTsequenceset(interp_str *string) (*Temporal, error) {
-	_r0, _err := functions.TrgeometryAsTsequenceset(functions.TemporalFromPointer(x.Pointer()), interp_str)
-	if _err != nil {
-		return nil, _err
-	}
-	return TemporalFromPointer(_r0.Pointer()), nil
-}
-
-// AfterTimestamptz is MEOS trgeometry_after_timestamptz.
-func (x *TRGeometry) AfterTimestamptz(t int64, strict bool) (*Temporal, error) {
-	_r0, _err := functions.TrgeometryAfterTimestamptz(functions.TemporalFromPointer(x.Pointer()), t, strict)
-	if _err != nil {
-		return nil, _err
-	}
-	return TemporalFromPointer(_r0.Pointer()), nil
-}
-
-// BeforeTimestamptz is MEOS trgeometry_before_timestamptz.
-func (x *TRGeometry) BeforeTimestamptz(t int64, strict bool) (*Temporal, error) {
-	_r0, _err := functions.TrgeometryBeforeTimestamptz(functions.TemporalFromPointer(x.Pointer()), t, strict)
+func (x *TRGeometry) AsTsequenceset(interp functions.Interpolation) (*Temporal, error) {
+	_r0, _err := functions.TrgeometryAsTsequenceset(functions.TemporalFromPointer(x.Pointer()), interp)
 	if _err != nil {
 		return nil, _err
 	}
@@ -635,96 +473,6 @@ func (x *TRGeometry) AtValue(pose *Pose) (*Temporal, error) {
 // MinusValue is MEOS trgeometry_minus_value.
 func (x *TRGeometry) MinusValue(pose *Pose) (*Temporal, error) {
 	_r0, _err := functions.TrgeometryMinusValue(functions.TemporalFromPointer(x.Pointer()), functions.PoseFromPointer(pose.Pointer()))
-	if _err != nil {
-		return nil, _err
-	}
-	return TemporalFromPointer(_r0.Pointer()), nil
-}
-
-// AtValues is MEOS trgeometry_at_values.
-func (x *TRGeometry) AtValues(s *Set) (*Temporal, error) {
-	_r0, _err := functions.TrgeometryAtValues(functions.TemporalFromPointer(x.Pointer()), functions.SetFromPointer(s.Pointer()))
-	if _err != nil {
-		return nil, _err
-	}
-	return TemporalFromPointer(_r0.Pointer()), nil
-}
-
-// MinusValues is MEOS trgeometry_minus_values.
-func (x *TRGeometry) MinusValues(s *Set) (*Temporal, error) {
-	_r0, _err := functions.TrgeometryMinusValues(functions.TemporalFromPointer(x.Pointer()), functions.SetFromPointer(s.Pointer()))
-	if _err != nil {
-		return nil, _err
-	}
-	return TemporalFromPointer(_r0.Pointer()), nil
-}
-
-// AtTimestamptz is MEOS trgeometry_at_timestamptz.
-func (x *TRGeometry) AtTimestamptz(t int64) (*Temporal, error) {
-	_r0, _err := functions.TrgeometryAtTimestamptz(functions.TemporalFromPointer(x.Pointer()), t)
-	if _err != nil {
-		return nil, _err
-	}
-	return TemporalFromPointer(_r0.Pointer()), nil
-}
-
-// MinusTimestamptz is MEOS trgeometry_minus_timestamptz.
-func (x *TRGeometry) MinusTimestamptz(t int64) (*Temporal, error) {
-	_r0, _err := functions.TrgeometryMinusTimestamptz(functions.TemporalFromPointer(x.Pointer()), t)
-	if _err != nil {
-		return nil, _err
-	}
-	return TemporalFromPointer(_r0.Pointer()), nil
-}
-
-// AtTstzset is MEOS trgeometry_at_tstzset.
-func (x *TRGeometry) AtTstzset(s *Set) (*Temporal, error) {
-	_r0, _err := functions.TrgeometryAtTstzset(functions.TemporalFromPointer(x.Pointer()), functions.SetFromPointer(s.Pointer()))
-	if _err != nil {
-		return nil, _err
-	}
-	return TemporalFromPointer(_r0.Pointer()), nil
-}
-
-// MinusTstzset is MEOS trgeometry_minus_tstzset.
-func (x *TRGeometry) MinusTstzset(s *Set) (*Temporal, error) {
-	_r0, _err := functions.TrgeometryMinusTstzset(functions.TemporalFromPointer(x.Pointer()), functions.SetFromPointer(s.Pointer()))
-	if _err != nil {
-		return nil, _err
-	}
-	return TemporalFromPointer(_r0.Pointer()), nil
-}
-
-// AtTstzspan is MEOS trgeometry_at_tstzspan.
-func (x *TRGeometry) AtTstzspan(s *Span) (*Temporal, error) {
-	_r0, _err := functions.TrgeometryAtTstzspan(functions.TemporalFromPointer(x.Pointer()), functions.SpanFromPointer(s.Pointer()))
-	if _err != nil {
-		return nil, _err
-	}
-	return TemporalFromPointer(_r0.Pointer()), nil
-}
-
-// MinusTstzspan is MEOS trgeometry_minus_tstzspan.
-func (x *TRGeometry) MinusTstzspan(s *Span) (*Temporal, error) {
-	_r0, _err := functions.TrgeometryMinusTstzspan(functions.TemporalFromPointer(x.Pointer()), functions.SpanFromPointer(s.Pointer()))
-	if _err != nil {
-		return nil, _err
-	}
-	return TemporalFromPointer(_r0.Pointer()), nil
-}
-
-// AtTstzspanset is MEOS trgeometry_at_tstzspanset.
-func (x *TRGeometry) AtTstzspanset(ss *SpanSet) (*Temporal, error) {
-	_r0, _err := functions.TrgeometryAtTstzspanset(functions.TemporalFromPointer(x.Pointer()), functions.SpanSetFromPointer(ss.Pointer()))
-	if _err != nil {
-		return nil, _err
-	}
-	return TemporalFromPointer(_r0.Pointer()), nil
-}
-
-// MinusTstzspanset is MEOS trgeometry_minus_tstzspanset.
-func (x *TRGeometry) MinusTstzspanset(ss *SpanSet) (*Temporal, error) {
-	_r0, _err := functions.TrgeometryMinusTstzspanset(functions.TemporalFromPointer(x.Pointer()), functions.SpanSetFromPointer(ss.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}

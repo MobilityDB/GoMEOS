@@ -51,6 +51,15 @@ func (x *STBox) AsHexWKB(variant uint8) (string, error) {
 	return _r0, nil
 }
 
+// AsText is MEOS stbox_as_text.
+func (x *STBox) AsText(maxdd int) (string, error) {
+	_r0, _err := functions.STBOXAsText(functions.STBoxFromPointer(x.Pointer()), maxdd)
+	if _err != nil {
+		return "", _err
+	}
+	return _r0, nil
+}
+
 // AsWKB is MEOS stbox_as_wkb.
 func (x *STBox) AsWKB(variant uint8) ([]byte, error) {
 	var _size uint64
@@ -122,6 +131,24 @@ func STBoxMake(hasx bool, hasz bool, geodetic bool, srid int32, xmin float64, xm
 // ToGeo is MEOS stbox_to_geo.
 func (x *STBox) ToGeo() (*Geo, error) {
 	_r0, _err := functions.STBOXToGeo(functions.STBoxFromPointer(x.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return GeoFromPointer(_r0.Pointer()), nil
+}
+
+// ToGeom is MEOS stbox_to_geom.
+func (x *STBox) ToGeom() (*Geo, error) {
+	_r0, _err := functions.STBOXToGeom(functions.STBoxFromPointer(x.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return GeoFromPointer(_r0.Pointer()), nil
+}
+
+// ToGeog is MEOS stbox_to_geog.
+func (x *STBox) ToGeog() (*Geo, error) {
+	_r0, _err := functions.STBOXToGeog(functions.STBoxFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
@@ -510,9 +537,109 @@ func (x *STBox) SpaceTiles(xsize float64, ysize float64, zsize float64, sorigin 
 	return STBoxFromPointer(_r0.Pointer()), nil
 }
 
+// STBoxFromTimestamptz is MEOS timestamptz_to_stbox.
+func STBoxFromTimestamptz(t int64) (*STBox, error) {
+	_r0, _err := functions.TimestamptzToSTBOX(t)
+	if _err != nil {
+		return nil, _err
+	}
+	return STBoxFromPointer(_r0.Pointer()), nil
+}
+
+// STBoxFromH3index is MEOS h3index_to_stbox.
+func STBoxFromH3index(cell functions.H3Index) (*STBox, error) {
+	_r0, _err := functions.H3indexToSTBOX(cell)
+	if _err != nil {
+		return nil, _err
+	}
+	return STBoxFromPointer(_r0.Pointer()), nil
+}
+
+// STBoxFromH3indexTimestamptz is MEOS h3index_timestamptz_to_stbox.
+func STBoxFromH3indexTimestamptz(cell functions.H3Index, t int64) (*STBox, error) {
+	_r0, _err := functions.H3indexTimestamptzToSTBOX(cell, t)
+	if _err != nil {
+		return nil, _err
+	}
+	return STBoxFromPointer(_r0.Pointer()), nil
+}
+
+// STBoxFromH3indexTstzspan is MEOS h3index_tstzspan_to_stbox.
+func STBoxFromH3indexTstzspan(cell functions.H3Index, s *Span) (*STBox, error) {
+	_r0, _err := functions.H3indexTstzspanToSTBOX(cell, functions.SpanFromPointer(s.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return STBoxFromPointer(_r0.Pointer()), nil
+}
+
+// STBoxFromQuadbin is MEOS quadbin_to_stbox.
+func STBoxFromQuadbin(cell functions.Quadbin) (*STBox, error) {
+	_r0, _err := functions.QuadbinToSTBOX(cell)
+	if _err != nil {
+		return nil, _err
+	}
+	return STBoxFromPointer(_r0.Pointer()), nil
+}
+
+// STBoxFromQuadbinTimestamptz is MEOS quadbin_timestamptz_to_stbox.
+func STBoxFromQuadbinTimestamptz(cell functions.Quadbin, t int64) (*STBox, error) {
+	_r0, _err := functions.QuadbinTimestamptzToSTBOX(cell, t)
+	if _err != nil {
+		return nil, _err
+	}
+	return STBoxFromPointer(_r0.Pointer()), nil
+}
+
+// STBoxFromQuadbinTstzspan is MEOS quadbin_tstzspan_to_stbox.
+func STBoxFromQuadbinTstzspan(cell functions.Quadbin, s *Span) (*STBox, error) {
+	_r0, _err := functions.QuadbinTstzspanToSTBOX(cell, functions.SpanFromPointer(s.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return STBoxFromPointer(_r0.Pointer()), nil
+}
+
+// STBoxFromS2cell is MEOS s2cell_to_stbox.
+func STBoxFromS2cell(cell functions.S2CellId) (*STBox, error) {
+	_r0, _err := functions.S2cellToSTBOX(cell)
+	if _err != nil {
+		return nil, _err
+	}
+	return STBoxFromPointer(_r0.Pointer()), nil
+}
+
+// STBoxFromS2cellTimestamptz is MEOS s2cell_timestamptz_to_stbox.
+func STBoxFromS2cellTimestamptz(cell functions.S2CellId, t int64) (*STBox, error) {
+	_r0, _err := functions.S2cellTimestamptzToSTBOX(cell, t)
+	if _err != nil {
+		return nil, _err
+	}
+	return STBoxFromPointer(_r0.Pointer()), nil
+}
+
+// STBoxFromS2cellTstzspan is MEOS s2cell_tstzspan_to_stbox.
+func STBoxFromS2cellTstzspan(cell functions.S2CellId, s *Span) (*STBox, error) {
+	_r0, _err := functions.S2cellTstzspanToSTBOX(cell, functions.SpanFromPointer(s.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return STBoxFromPointer(_r0.Pointer()), nil
+}
+
 // STBoxFromEWKB is the portable fromEWKB of MEOS stbox_from_wkb.
 func STBoxFromEWKB(wkb []byte) (*STBox, error) {
 	return STBoxFromWKB(wkb)
+}
+
+// AsEWKT is the portable asEWKT of MEOS stbox_out.
+func (x *STBox) AsEWKT(maxdd int) (string, error) {
+	return x.Out(maxdd)
+}
+
+// STBoxFromEWKT is the portable fromEWKT of MEOS stbox_in.
+func STBoxFromEWKT(str string) (*STBox, error) {
+	return STBoxIn(str)
 }
 
 // STBoxFromHexEWKB is the portable fromHexEWKB of MEOS stbox_from_hexwkb.
@@ -520,19 +647,14 @@ func STBoxFromHexEWKB(hexwkb string) (*STBox, error) {
 	return STBoxFromHexWKB(hexwkb)
 }
 
-// AsText is the portable asText of MEOS stbox_out.
-func (x *STBox) AsText(maxdd int) (string, error) {
-	return x.Out(maxdd)
-}
-
 // STBoxFromText is the portable fromText of MEOS stbox_in.
 func STBoxFromText(str string) (*STBox, error) {
 	return STBoxIn(str)
 }
 
-// String is the text MEOS writes this value as, MEOS stbox_out.
+// String is the text MEOS writes this value as, MEOS stbox_as_text.
 func (x *STBox) String() string {
-	s, err := x.Out(15)
+	s, err := x.AsText(15)
 	if err != nil {
 		return "%!s(MEOS error: " + err.Error() + ")"
 	}

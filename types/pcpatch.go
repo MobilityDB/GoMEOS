@@ -8,32 +8,32 @@ import (
 	"github.com/MobilityDB/GoMEOS/functions"
 )
 
-type Pcpatch struct {
+type PCPatch struct {
 	Value
 }
 
-// PcpatchFromPointer wraps a MEOS pointer, answering nil for nil so an
+// PCPatchFromPointer wraps a MEOS pointer, answering nil for nil so an
 // absent MEOS result stays absent rather than becoming a live handle.
-func PcpatchFromPointer(p unsafe.Pointer) *Pcpatch {
+func PCPatchFromPointer(p unsafe.Pointer) *PCPatch {
 	if p == nil {
 		return nil
 	}
-	v := &Pcpatch{}
+	v := &PCPatch{}
 	v.ptr = p
 	return v
 }
 
-// PcpatchHexIn is MEOS pcpatch_hex_in.
-func PcpatchHexIn(str string) (*Pcpatch, error) {
+// PCPatchHexIn is MEOS pcpatch_hex_in.
+func PCPatchHexIn(str string) (*PCPatch, error) {
 	_r0, _err := functions.PcpatchHexIn(str)
 	if _err != nil {
 		return nil, _err
 	}
-	return PcpatchFromPointer(_r0.Pointer()), nil
+	return PCPatchFromPointer(_r0.Pointer()), nil
 }
 
 // HexOut is MEOS pcpatch_hex_out.
-func (x *Pcpatch) HexOut(maxdd int) (string, error) {
+func (x *PCPatch) HexOut(maxdd int) (string, error) {
 	_r0, _err := functions.PcpatchHexOut(functions.PcpatchFromPointer(x.Pointer()), maxdd)
 	if _err != nil {
 		return "", _err
@@ -41,17 +41,17 @@ func (x *Pcpatch) HexOut(maxdd int) (string, error) {
 	return _r0, nil
 }
 
-// PcpatchFromHexWKB is MEOS pcpatch_from_hexwkb.
-func PcpatchFromHexWKB(hexwkb string) (*Pcpatch, error) {
+// PCPatchFromHexWKB is MEOS pcpatch_from_hexwkb.
+func PCPatchFromHexWKB(hexwkb string) (*PCPatch, error) {
 	_r0, _err := functions.PcpatchFromHexwkb(hexwkb)
 	if _err != nil {
 		return nil, _err
 	}
-	return PcpatchFromPointer(_r0.Pointer()), nil
+	return PCPatchFromPointer(_r0.Pointer()), nil
 }
 
 // AsHexWKB is MEOS pcpatch_as_hexwkb.
-func (x *Pcpatch) AsHexWKB() (string, error) {
+func (x *PCPatch) AsHexWKB() (string, error) {
 	_r0, _err := functions.PcpatchAsHexwkb(functions.PcpatchFromPointer(x.Pointer()))
 	if _err != nil {
 		return "", _err
@@ -59,35 +59,35 @@ func (x *Pcpatch) AsHexWKB() (string, error) {
 	return _r0, nil
 }
 
-// PcpatchMake is MEOS pcpatch_make.
-func PcpatchMake(points unsafe.Pointer, count int) (*Pcpatch, error) {
+// PCPatchMake is MEOS pcpatch_make.
+func PCPatchMake(points unsafe.Pointer, count int) (*PCPatch, error) {
 	_r0, _err := functions.PcpatchMake(points, count)
 	if _err != nil {
 		return nil, _err
 	}
-	return PcpatchFromPointer(_r0.Pointer()), nil
+	return PCPatchFromPointer(_r0.Pointer()), nil
 }
 
-// PcpatchMakeCoords is MEOS pcpatch_make_coords.
-func PcpatchMakeCoords(pcid uint32, values unsafe.Pointer, count int) (*Pcpatch, error) {
+// PCPatchMakeCoords is MEOS pcpatch_make_coords.
+func PCPatchMakeCoords(pcid uint32, values unsafe.Pointer, count int) (*PCPatch, error) {
 	_r0, _err := functions.PcpatchMakeCoords(pcid, values, count)
 	if _err != nil {
 		return nil, _err
 	}
-	return PcpatchFromPointer(_r0.Pointer()), nil
+	return PCPatchFromPointer(_r0.Pointer()), nil
 }
 
 // Copy is MEOS pcpatch_copy.
-func (x *Pcpatch) Copy() (*Pcpatch, error) {
+func (x *PCPatch) Copy() (*PCPatch, error) {
 	_r0, _err := functions.PcpatchCopy(functions.PcpatchFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return PcpatchFromPointer(_r0.Pointer()), nil
+	return PCPatchFromPointer(_r0.Pointer()), nil
 }
 
 // GetPcid is MEOS pcpatch_get_pcid.
-func (x *Pcpatch) GetPcid() (uint32, error) {
+func (x *PCPatch) GetPcid() (uint32, error) {
 	_r0, _err := functions.PcpatchGetPcid(functions.PcpatchFromPointer(x.Pointer()))
 	if _err != nil {
 		return 0, _err
@@ -96,7 +96,7 @@ func (x *Pcpatch) GetPcid() (uint32, error) {
 }
 
 // Npoints is MEOS pcpatch_npoints.
-func (x *Pcpatch) Npoints() (uint32, error) {
+func (x *PCPatch) Npoints() (uint32, error) {
 	_r0, _err := functions.PcpatchNpoints(functions.PcpatchFromPointer(x.Pointer()))
 	if _err != nil {
 		return 0, _err
@@ -105,16 +105,16 @@ func (x *Pcpatch) Npoints() (uint32, error) {
 }
 
 // PointN is MEOS pcpatch_point_n.
-func (x *Pcpatch) PointN(n int) (*Pcpoint, error) {
+func (x *PCPatch) PointN(n int) (*PCPoint, error) {
 	_r0, _err := functions.PcpatchPointN(functions.PcpatchFromPointer(x.Pointer()), n)
 	if _err != nil {
 		return nil, _err
 	}
-	return PcpointFromPointer(_r0.Pointer()), nil
+	return PCPointFromPointer(_r0.Pointer()), nil
 }
 
 // Points is MEOS pcpatch_points.
-func (x *Pcpatch) Points(count unsafe.Pointer) (unsafe.Pointer, error) {
+func (x *PCPatch) Points(count unsafe.Pointer) (unsafe.Pointer, error) {
 	_r0, _err := functions.PcpatchPoints(functions.PcpatchFromPointer(x.Pointer()), count)
 	if _err != nil {
 		return nil, _err
@@ -123,7 +123,7 @@ func (x *Pcpatch) Points(count unsafe.Pointer) (unsafe.Pointer, error) {
 }
 
 // Hash is MEOS pcpatch_hash.
-func (x *Pcpatch) Hash() (uint32, error) {
+func (x *PCPatch) Hash() (uint32, error) {
 	_r0, _err := functions.PcpatchHash(functions.PcpatchFromPointer(x.Pointer()))
 	if _err != nil {
 		return 0, _err
@@ -132,7 +132,7 @@ func (x *Pcpatch) Hash() (uint32, error) {
 }
 
 // HashExtended is MEOS pcpatch_hash_extended.
-func (x *Pcpatch) HashExtended(seed uint64) (uint64, error) {
+func (x *PCPatch) HashExtended(seed uint64) (uint64, error) {
 	_r0, _err := functions.PcpatchHashExtended(functions.PcpatchFromPointer(x.Pointer()), seed)
 	if _err != nil {
 		return 0, _err
@@ -141,7 +141,7 @@ func (x *Pcpatch) HashExtended(seed uint64) (uint64, error) {
 }
 
 // MemSize is MEOS pcpatch_mem_size.
-func (x *Pcpatch) MemSize() (int, error) {
+func (x *PCPatch) MemSize() (int, error) {
 	_r0, _err := functions.PcpatchMemSize(functions.PcpatchFromPointer(x.Pointer()))
 	if _err != nil {
 		return 0, _err
@@ -150,7 +150,7 @@ func (x *Pcpatch) MemSize() (int, error) {
 }
 
 // ToGeom is MEOS pcpatch_to_geom.
-func (x *Pcpatch) ToGeom() (*Geo, error) {
+func (x *PCPatch) ToGeom() (*Geo, error) {
 	_r0, _err := functions.PcpatchToGeom(functions.PcpatchFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -158,8 +158,17 @@ func (x *Pcpatch) ToGeom() (*Geo, error) {
 	return GeoFromPointer(_r0.Pointer()), nil
 }
 
+// ToGeog is MEOS pcpatch_to_geog.
+func (x *PCPatch) ToGeog() (*Geo, error) {
+	_r0, _err := functions.PcpatchToGeog(functions.PcpatchFromPointer(x.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return GeoFromPointer(_r0.Pointer()), nil
+}
+
 // Cmp is MEOS pcpatch_cmp.
-func (x *Pcpatch) Cmp(pa2 *Pcpatch) (int, error) {
+func (x *PCPatch) Cmp(pa2 *PCPatch) (int, error) {
 	_r0, _err := functions.PcpatchCmp(functions.PcpatchFromPointer(x.Pointer()), functions.PcpatchFromPointer(pa2.Pointer()))
 	if _err != nil {
 		return 0, _err
@@ -168,7 +177,7 @@ func (x *Pcpatch) Cmp(pa2 *Pcpatch) (int, error) {
 }
 
 // Eq is MEOS pcpatch_eq.
-func (x *Pcpatch) Eq(pa2 *Pcpatch) (bool, error) {
+func (x *PCPatch) Eq(pa2 *PCPatch) (bool, error) {
 	_r0, _err := functions.PcpatchEq(functions.PcpatchFromPointer(x.Pointer()), functions.PcpatchFromPointer(pa2.Pointer()))
 	if _err != nil {
 		return false, _err
@@ -177,7 +186,7 @@ func (x *Pcpatch) Eq(pa2 *Pcpatch) (bool, error) {
 }
 
 // Ne is MEOS pcpatch_ne.
-func (x *Pcpatch) Ne(pa2 *Pcpatch) (bool, error) {
+func (x *PCPatch) Ne(pa2 *PCPatch) (bool, error) {
 	_r0, _err := functions.PcpatchNe(functions.PcpatchFromPointer(x.Pointer()), functions.PcpatchFromPointer(pa2.Pointer()))
 	if _err != nil {
 		return false, _err
@@ -186,7 +195,7 @@ func (x *Pcpatch) Ne(pa2 *Pcpatch) (bool, error) {
 }
 
 // Lt is MEOS pcpatch_lt.
-func (x *Pcpatch) Lt(pa2 *Pcpatch) (bool, error) {
+func (x *PCPatch) Lt(pa2 *PCPatch) (bool, error) {
 	_r0, _err := functions.PcpatchLt(functions.PcpatchFromPointer(x.Pointer()), functions.PcpatchFromPointer(pa2.Pointer()))
 	if _err != nil {
 		return false, _err
@@ -195,7 +204,7 @@ func (x *Pcpatch) Lt(pa2 *Pcpatch) (bool, error) {
 }
 
 // Le is MEOS pcpatch_le.
-func (x *Pcpatch) Le(pa2 *Pcpatch) (bool, error) {
+func (x *PCPatch) Le(pa2 *PCPatch) (bool, error) {
 	_r0, _err := functions.PcpatchLe(functions.PcpatchFromPointer(x.Pointer()), functions.PcpatchFromPointer(pa2.Pointer()))
 	if _err != nil {
 		return false, _err
@@ -204,7 +213,7 @@ func (x *Pcpatch) Le(pa2 *Pcpatch) (bool, error) {
 }
 
 // Gt is MEOS pcpatch_gt.
-func (x *Pcpatch) Gt(pa2 *Pcpatch) (bool, error) {
+func (x *PCPatch) Gt(pa2 *PCPatch) (bool, error) {
 	_r0, _err := functions.PcpatchGt(functions.PcpatchFromPointer(x.Pointer()), functions.PcpatchFromPointer(pa2.Pointer()))
 	if _err != nil {
 		return false, _err
@@ -213,7 +222,7 @@ func (x *Pcpatch) Gt(pa2 *Pcpatch) (bool, error) {
 }
 
 // Ge is MEOS pcpatch_ge.
-func (x *Pcpatch) Ge(pa2 *Pcpatch) (bool, error) {
+func (x *PCPatch) Ge(pa2 *PCPatch) (bool, error) {
 	_r0, _err := functions.PcpatchGe(functions.PcpatchFromPointer(x.Pointer()), functions.PcpatchFromPointer(pa2.Pointer()))
 	if _err != nil {
 		return false, _err
@@ -222,7 +231,7 @@ func (x *Pcpatch) Ge(pa2 *Pcpatch) (bool, error) {
 }
 
 // ToSet is MEOS pcpatch_to_set.
-func (x *Pcpatch) ToSet() (*Set, error) {
+func (x *PCPatch) ToSet() (*Set, error) {
 	_r0, _err := functions.PcpatchToSet(functions.PcpatchFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -231,7 +240,7 @@ func (x *Pcpatch) ToSet() (*Set, error) {
 }
 
 // ToTpcbox is MEOS pcpatch_to_tpcbox.
-func (x *Pcpatch) ToTpcbox() (*TPCBox, error) {
+func (x *PCPatch) ToTpcbox() (*TPCBox, error) {
 	_r0, _err := functions.PcpatchToTpcbox(functions.PcpatchFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -240,17 +249,17 @@ func (x *Pcpatch) ToTpcbox() (*TPCBox, error) {
 }
 
 // AsText is the portable asText of MEOS pcpatch_hex_out.
-func (x *Pcpatch) AsText(maxdd int) (string, error) {
+func (x *PCPatch) AsText(maxdd int) (string, error) {
 	return x.HexOut(maxdd)
 }
 
-// PcpatchFromText is the portable fromText of MEOS pcpatch_hex_in.
-func PcpatchFromText(str string) (*Pcpatch, error) {
-	return PcpatchHexIn(str)
+// PCPatchFromText is the portable fromText of MEOS pcpatch_hex_in.
+func PCPatchFromText(str string) (*PCPatch, error) {
+	return PCPatchHexIn(str)
 }
 
 // String is the text MEOS writes this value as, MEOS pcpatch_hex_out.
-func (x *Pcpatch) String() string {
+func (x *PCPatch) String() string {
 	s, err := x.HexOut(15)
 	if err != nil {
 		return "%!s(MEOS error: " + err.Error() + ")"

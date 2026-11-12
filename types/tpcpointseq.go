@@ -8,23 +8,23 @@ import (
 	"github.com/MobilityDB/GoMEOS/functions"
 )
 
-type TPcpointSeq struct {
-	TPcpoint
+type TPCPointSeq struct {
+	TPCPoint
 }
 
-// TPcpointSeqFromPointer wraps a MEOS pointer, answering nil for nil so an
+// TPCPointSeqFromPointer wraps a MEOS pointer, answering nil for nil so an
 // absent MEOS result stays absent rather than becoming a live handle.
-func TPcpointSeqFromPointer(p unsafe.Pointer) *TPcpointSeq {
+func TPCPointSeqFromPointer(p unsafe.Pointer) *TPCPointSeq {
 	if p == nil {
 		return nil
 	}
-	v := &TPcpointSeq{}
+	v := &TPCPointSeq{}
 	v.ptr = p
 	return v
 }
 
-// TPcpointSeqFromBaseTstzset is MEOS tpcpointseq_from_base_tstzset.
-func TPcpointSeqFromBaseTstzset(pt *Pcpoint, s *Set) (*Temporal, error) {
+// TPCPointSeqFromBaseTstzset is MEOS tpcpointseq_from_base_tstzset.
+func TPCPointSeqFromBaseTstzset(pt *PCPoint, s *Set) (*Temporal, error) {
 	_r0, _err := functions.TpcpointseqFromBaseTstzset(functions.PcpointFromPointer(pt.Pointer()), functions.SetFromPointer(s.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -32,8 +32,8 @@ func TPcpointSeqFromBaseTstzset(pt *Pcpoint, s *Set) (*Temporal, error) {
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
-// TPcpointSeqFromBaseTstzspan is MEOS tpcpointseq_from_base_tstzspan.
-func TPcpointSeqFromBaseTstzspan(pt *Pcpoint, sp *Span) (*Temporal, error) {
+// TPCPointSeqFromBaseTstzspan is MEOS tpcpointseq_from_base_tstzspan.
+func TPCPointSeqFromBaseTstzspan(pt *PCPoint, sp *Span) (*Temporal, error) {
 	_r0, _err := functions.TpcpointseqFromBaseTstzspan(functions.PcpointFromPointer(pt.Pointer()), functions.SpanFromPointer(sp.Pointer()))
 	if _err != nil {
 		return nil, _err

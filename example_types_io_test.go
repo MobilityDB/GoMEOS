@@ -52,7 +52,7 @@ func Example_sequenceAtGeometry() {
 }
 
 func Example_cbufferString() {
-	cbuffer, _ := types.CbufferFromText("Cbuffer(Point(1 1),0.5)")
+	cbuffer, _ := types.CBufferFromText("Cbuffer(Point(1 1),0.5)")
 	fmt.Println(cbuffer)
 	// Output:
 	// Cbuffer(POINT(1 1),0.5)

@@ -203,6 +203,24 @@ func (x *TPose) ToTpoint() (*Temporal, error) {
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
+// ToTgeompoint is MEOS tpose_to_tgeompoint.
+func (x *TPose) ToTgeompoint() (*Temporal, error) {
+	_r0, _err := functions.TposeToTgeompoint(functions.TemporalFromPointer(x.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// ToTgeogpoint is MEOS tpose_to_tgeogpoint.
+func (x *TPose) ToTgeogpoint() (*Temporal, error) {
+	_r0, _err := functions.TposeToTgeogpoint(functions.TemporalFromPointer(x.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
 // EndValue is MEOS tpose_end_value.
 func (x *TPose) EndValue() (*Pose, error) {
 	_r0, _err := functions.TposeEndValue(functions.TemporalFromPointer(x.Pointer()))

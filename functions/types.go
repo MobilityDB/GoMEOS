@@ -332,6 +332,8 @@ const (
 	MeosOper_ALWAYSGE_OP MeosOper = 42
 	MeosOper_TEMPCONTAINS_OP MeosOper = 43
 	MeosOper_TEMPCONTAINED_OP MeosOper = 44
+	MeosOper_EVEROVERLAPS_OP MeosOper = 45
+	MeosOper_ALWAYSOVERLAPS_OP MeosOper = 46
 )
 type SkipListType C.SkipListType
 const (

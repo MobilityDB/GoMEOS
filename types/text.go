@@ -94,3 +94,21 @@ func TextHashExtended(txt string, seed uint64, collid uint32) (uint64, error) {
 	}
 	return _r0, nil
 }
+
+// TextFromCstring is MEOS cstring_to_text.
+func TextFromCstring(str string) (string, error) {
+	_r0, _err := functions.CstringToText(str)
+	if _err != nil {
+		return "", _err
+	}
+	return _r0, nil
+}
+
+// TextFromBool is MEOS bool_to_text.
+func TextFromBool(b bool) (string, error) {
+	_r0, _err := functions.BoolToText(b)
+	if _err != nil {
+		return "", _err
+	}
+	return _r0, nil
+}

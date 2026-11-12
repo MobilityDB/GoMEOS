@@ -8,23 +8,23 @@ import (
 	"github.com/MobilityDB/GoMEOS/functions"
 )
 
-type CbufferSet struct {
+type CBufferSet struct {
 	SpatialSet
 }
 
-// CbufferSetFromPointer wraps a MEOS pointer, answering nil for nil so an
+// CBufferSetFromPointer wraps a MEOS pointer, answering nil for nil so an
 // absent MEOS result stays absent rather than becoming a live handle.
-func CbufferSetFromPointer(p unsafe.Pointer) *CbufferSet {
+func CBufferSetFromPointer(p unsafe.Pointer) *CBufferSet {
 	if p == nil {
 		return nil
 	}
-	v := &CbufferSet{}
+	v := &CBufferSet{}
 	v.ptr = p
 	return v
 }
 
-// CbufferSetIn is MEOS cbufferset_in.
-func CbufferSetIn(str string) (*Set, error) {
+// CBufferSetIn is MEOS cbufferset_in.
+func CBufferSetIn(str string) (*Set, error) {
 	_r0, _err := functions.CbuffersetIn(str)
 	if _err != nil {
 		return nil, _err
@@ -32,17 +32,8 @@ func CbufferSetIn(str string) (*Set, error) {
 	return SetFromPointer(_r0.Pointer()), nil
 }
 
-// Out is MEOS cbufferset_out.
-func (x *CbufferSet) Out(maxdd int) (string, error) {
-	_r0, _err := functions.CbuffersetOut(functions.SetFromPointer(x.Pointer()), maxdd)
-	if _err != nil {
-		return "", _err
-	}
-	return _r0, nil
-}
-
-// CbufferSetMake is MEOS cbufferset_make.
-func CbufferSetMake(values *Cbuffer, count int) (*Set, error) {
+// CBufferSetMake is MEOS cbufferset_make.
+func CBufferSetMake(values *CBuffer, count int) (*Set, error) {
 	_r0, _err := functions.CbuffersetMake(functions.CbufferFromPointer(values.Pointer()), count)
 	if _err != nil {
 		return nil, _err
@@ -51,25 +42,25 @@ func CbufferSetMake(values *Cbuffer, count int) (*Set, error) {
 }
 
 // EndValue is MEOS cbufferset_end_value.
-func (x *CbufferSet) EndValue() (*Cbuffer, error) {
+func (x *CBufferSet) EndValue() (*CBuffer, error) {
 	_r0, _err := functions.CbuffersetEndValue(functions.SetFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return CbufferFromPointer(_r0.Pointer()), nil
+	return CBufferFromPointer(_r0.Pointer()), nil
 }
 
 // StartValue is MEOS cbufferset_start_value.
-func (x *CbufferSet) StartValue() (*Cbuffer, error) {
+func (x *CBufferSet) StartValue() (*CBuffer, error) {
 	_r0, _err := functions.CbuffersetStartValue(functions.SetFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return CbufferFromPointer(_r0.Pointer()), nil
+	return CBufferFromPointer(_r0.Pointer()), nil
 }
 
 // ValueN is MEOS cbufferset_value_n.
-func (x *CbufferSet) ValueN(n int) (*Cbuffer, bool, error) {
+func (x *CBufferSet) ValueN(n int) (*CBuffer, bool, error) {
 	_found, _value, _err := functions.CbuffersetValueN(functions.SetFromPointer(x.Pointer()), n)
 	if _err != nil {
 		return nil, false, _err
@@ -77,11 +68,11 @@ func (x *CbufferSet) ValueN(n int) (*Cbuffer, bool, error) {
 	if !_found {
 		return nil, false, nil
 	}
-	return CbufferFromPointer(_value.Pointer()), true, nil
+	return CBufferFromPointer(_value.Pointer()), true, nil
 }
 
 // Values is MEOS cbufferset_values.
-func (x *CbufferSet) Values(count unsafe.Pointer) (unsafe.Pointer, error) {
+func (x *CBufferSet) Values(count unsafe.Pointer) (unsafe.Pointer, error) {
 	_r0, _err := functions.CbuffersetValues(functions.SetFromPointer(x.Pointer()), count)
 	if _err != nil {
 		return nil, _err
@@ -89,62 +80,62 @@ func (x *CbufferSet) Values(count unsafe.Pointer) (unsafe.Pointer, error) {
 	return _r0, nil
 }
 
-// CbufferSetFromEWKB is the portable fromEWKB of MEOS set_from_wkb.
-func CbufferSetFromEWKB(wkb []byte) (*CbufferSet, error) {
+// CBufferSetFromEWKB is the portable fromEWKB of MEOS set_from_wkb.
+func CBufferSetFromEWKB(wkb []byte) (*CBufferSet, error) {
 	r, err := SetFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}
-	return CbufferSetFromPointer(r.Pointer()), nil
+	return CBufferSetFromPointer(r.Pointer()), nil
 }
 
-// CbufferSetFromEWKT is the portable fromEWKT of MEOS cbufferset_in.
-func CbufferSetFromEWKT(str string) (*CbufferSet, error) {
-	r, err := CbufferSetIn(str)
+// CBufferSetFromEWKT is the portable fromEWKT of MEOS cbufferset_in.
+func CBufferSetFromEWKT(str string) (*CBufferSet, error) {
+	r, err := CBufferSetIn(str)
 	if err != nil || r == nil {
 		return nil, err
 	}
-	return CbufferSetFromPointer(r.Pointer()), nil
+	return CBufferSetFromPointer(r.Pointer()), nil
 }
 
-// CbufferSetFromHexEWKB is the portable fromHexEWKB of MEOS set_from_hexwkb.
-func CbufferSetFromHexEWKB(hexwkb string) (*CbufferSet, error) {
+// CBufferSetFromHexEWKB is the portable fromHexEWKB of MEOS set_from_hexwkb.
+func CBufferSetFromHexEWKB(hexwkb string) (*CBufferSet, error) {
 	r, err := SetFromHexWKB(hexwkb)
 	if err != nil || r == nil {
 		return nil, err
 	}
-	return CbufferSetFromPointer(r.Pointer()), nil
+	return CBufferSetFromPointer(r.Pointer()), nil
 }
 
-// CbufferSetFromHexWKB is the portable fromHexWKB of MEOS set_from_hexwkb.
-func CbufferSetFromHexWKB(hexwkb string) (*CbufferSet, error) {
+// CBufferSetFromHexWKB is the portable fromHexWKB of MEOS set_from_hexwkb.
+func CBufferSetFromHexWKB(hexwkb string) (*CBufferSet, error) {
 	r, err := SetFromHexWKB(hexwkb)
 	if err != nil || r == nil {
 		return nil, err
 	}
-	return CbufferSetFromPointer(r.Pointer()), nil
+	return CBufferSetFromPointer(r.Pointer()), nil
 }
 
-// CbufferSetFromText is the portable fromText of MEOS cbufferset_in.
-func CbufferSetFromText(str string) (*CbufferSet, error) {
-	r, err := CbufferSetIn(str)
+// CBufferSetFromText is the portable fromText of MEOS cbufferset_in.
+func CBufferSetFromText(str string) (*CBufferSet, error) {
+	r, err := CBufferSetIn(str)
 	if err != nil || r == nil {
 		return nil, err
 	}
-	return CbufferSetFromPointer(r.Pointer()), nil
+	return CBufferSetFromPointer(r.Pointer()), nil
 }
 
-// CbufferSetFromWKB is the portable fromWKB of MEOS set_from_wkb.
-func CbufferSetFromWKB(wkb []byte) (*CbufferSet, error) {
+// CBufferSetFromWKB is the portable fromWKB of MEOS set_from_wkb.
+func CBufferSetFromWKB(wkb []byte) (*CBufferSet, error) {
 	r, err := SetFromWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}
-	return CbufferSetFromPointer(r.Pointer()), nil
+	return CBufferSetFromPointer(r.Pointer()), nil
 }
 
 // String is the text MEOS writes this value as, MEOS spatialset_as_text.
-func (x *CbufferSet) String() string {
+func (x *CBufferSet) String() string {
 	s, err := x.AsText(15)
 	if err != nil {
 		return "%!s(MEOS error: " + err.Error() + ")"

@@ -8,23 +8,23 @@ import (
 	"github.com/MobilityDB/GoMEOS/functions"
 )
 
-type TPcpatchSeq struct {
-	TPcpatch
+type TPCPatchSeq struct {
+	TPCPatch
 }
 
-// TPcpatchSeqFromPointer wraps a MEOS pointer, answering nil for nil so an
+// TPCPatchSeqFromPointer wraps a MEOS pointer, answering nil for nil so an
 // absent MEOS result stays absent rather than becoming a live handle.
-func TPcpatchSeqFromPointer(p unsafe.Pointer) *TPcpatchSeq {
+func TPCPatchSeqFromPointer(p unsafe.Pointer) *TPCPatchSeq {
 	if p == nil {
 		return nil
 	}
-	v := &TPcpatchSeq{}
+	v := &TPCPatchSeq{}
 	v.ptr = p
 	return v
 }
 
-// TPcpatchSeqFromBaseTstzset is MEOS tpcpatchseq_from_base_tstzset.
-func TPcpatchSeqFromBaseTstzset(pa *Pcpatch, s *Set) (*Temporal, error) {
+// TPCPatchSeqFromBaseTstzset is MEOS tpcpatchseq_from_base_tstzset.
+func TPCPatchSeqFromBaseTstzset(pa *PCPatch, s *Set) (*Temporal, error) {
 	_r0, _err := functions.TpcpatchseqFromBaseTstzset(functions.PcpatchFromPointer(pa.Pointer()), functions.SetFromPointer(s.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -32,8 +32,8 @@ func TPcpatchSeqFromBaseTstzset(pa *Pcpatch, s *Set) (*Temporal, error) {
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
-// TPcpatchSeqFromBaseTstzspan is MEOS tpcpatchseq_from_base_tstzspan.
-func TPcpatchSeqFromBaseTstzspan(pa *Pcpatch, sp *Span) (*Temporal, error) {
+// TPCPatchSeqFromBaseTstzspan is MEOS tpcpatchseq_from_base_tstzspan.
+func TPCPatchSeqFromBaseTstzspan(pa *PCPatch, sp *Span) (*Temporal, error) {
 	_r0, _err := functions.TpcpatchseqFromBaseTstzspan(functions.PcpatchFromPointer(pa.Pointer()), functions.SpanFromPointer(sp.Pointer()))
 	if _err != nil {
 		return nil, _err

@@ -32,15 +32,6 @@ func DateSetIn(str string) (*Set, error) {
 	return SetFromPointer(_r0.Pointer()), nil
 }
 
-// Out is MEOS dateset_out.
-func (x *DateSet) Out() (string, error) {
-	_r0, _err := functions.DatesetOut(functions.SetFromPointer(x.Pointer()))
-	if _err != nil {
-		return "", _err
-	}
-	return _r0, nil
-}
-
 // DateSetMake is MEOS dateset_make.
 func DateSetMake(values unsafe.Pointer, count int) (*Set, error) {
 	_r0, _err := functions.DatesetMake(values, count)
@@ -107,6 +98,15 @@ func (x *DateSet) ShiftScale(shift int, width int, hasshift bool, haswidth bool)
 	return SetFromPointer(_r0.Pointer()), nil
 }
 
+// DateSetFromDate is MEOS date_to_set.
+func DateSetFromDate(d int32) (*Set, error) {
+	_r0, _err := functions.DateToSet(d)
+	if _err != nil {
+		return nil, _err
+	}
+	return SetFromPointer(_r0.Pointer()), nil
+}
+
 // DateSetFromHexWKB is the portable fromHexWKB of MEOS set_from_hexwkb.
 func DateSetFromHexWKB(hexwkb string) (*DateSet, error) {
 	r, err := SetFromHexWKB(hexwkb)
@@ -116,9 +116,9 @@ func DateSetFromHexWKB(hexwkb string) (*DateSet, error) {
 	return DateSetFromPointer(r.Pointer()), nil
 }
 
-// AsText is the portable asText of MEOS dateset_out.
-func (x *DateSet) AsText() (string, error) {
-	return x.Out()
+// AsText is the portable asText of MEOS set_out.
+func (x *DateSet) AsText(maxdd int) (string, error) {
+	return x.Out(maxdd)
 }
 
 // DateSetFromText is the portable fromText of MEOS dateset_in.
@@ -139,9 +139,9 @@ func DateSetFromWKB(wkb []byte) (*DateSet, error) {
 	return DateSetFromPointer(r.Pointer()), nil
 }
 
-// String is the text MEOS writes this value as, MEOS dateset_out.
+// String is the text MEOS writes this value as, MEOS set_out.
 func (x *DateSet) String() string {
-	s, err := x.Out()
+	s, err := x.Out(15)
 	if err != nil {
 		return "%!s(MEOS error: " + err.Error() + ")"
 	}

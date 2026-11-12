@@ -8,23 +8,23 @@ import (
 	"github.com/MobilityDB/GoMEOS/functions"
 )
 
-type TBigintInst struct {
-	TBigint
+type TBigIntInst struct {
+	TBigInt
 }
 
-// TBigintInstFromPointer wraps a MEOS pointer, answering nil for nil so an
+// TBigIntInstFromPointer wraps a MEOS pointer, answering nil for nil so an
 // absent MEOS result stays absent rather than becoming a live handle.
-func TBigintInstFromPointer(p unsafe.Pointer) *TBigintInst {
+func TBigIntInstFromPointer(p unsafe.Pointer) *TBigIntInst {
 	if p == nil {
 		return nil
 	}
-	v := &TBigintInst{}
+	v := &TBigIntInst{}
 	v.ptr = p
 	return v
 }
 
-// TBigintInstMake is MEOS tbigintinst_make.
-func TBigintInstMake(i int64, t int64) (*Temporal, error) {
+// TBigIntInstMake is MEOS tbigintinst_make.
+func TBigIntInstMake(i int64, t int64) (*Temporal, error) {
 	_r0, _err := functions.TbigintinstMake(i, t)
 	if _err != nil {
 		return nil, _err

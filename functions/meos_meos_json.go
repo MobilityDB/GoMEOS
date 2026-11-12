@@ -932,13 +932,13 @@ func JsonbPathExists(jb *Jsonb, jp *JsonPath, vars *Jsonb, silent bool, tz bool)
 
 
 // JsonbPathMatch wraps MEOS C function jsonb_path_match.
-func JsonbPathMatch(jb *Jsonb, jp *JsonPath, vars *Jsonb, silent bool, tz bool) (_r0 bool, _err error) {
+func JsonbPathMatch(jb *Jsonb, jp *JsonPath, vars *Jsonb, silent bool, tz bool) (_r0 int, _err error) {
 	C.meos_errno_reset()
 	_cret := C.jsonb_path_match(jb._inner, jp._inner, vars._inner, C.bool(silent), C.bool(tz))
 	if _err = meosError(); _err != nil {
 		return
 	}
-	return bool(_cret), nil
+	return int(_cret), nil
 }
 
 
@@ -1036,19 +1036,6 @@ func JsonbsetIn(str string) (_r0 *Set, _err error) {
 }
 
 
-// JsonbsetOut wraps MEOS C function jsonbset_out.
-func JsonbsetOut(s *Set) (_r0 string, _err error) {
-	var _size C.size_t
-	C.meos_errno_reset()
-	_cret := C.jsonbset_out(s._inner, &_size)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	defer C.free(unsafe.Pointer(_cret))
-	return takeString(_cret, _size), nil
-}
-
-
 // JsonbsetMake wraps MEOS C function jsonbset_make.
 func JsonbsetMake(values unsafe.Pointer, count int) (_r0 *Set, _err error) {
 	C.meos_errno_reset()
@@ -1138,10 +1125,21 @@ func JsonbsetValues(s *Set, count unsafe.Pointer) (_r0 unsafe.Pointer, _err erro
 }
 
 
-// ConcatJsonbsetJsonb wraps MEOS C function concat_jsonbset_jsonb.
-func ConcatJsonbsetJsonb(s *Set, jb *Jsonb, invert bool) (_r0 *Set, _err error) {
+// ConcatJsonbJsonbset wraps MEOS C function concat_jsonb_jsonbset.
+func ConcatJsonbJsonbset(jb *Jsonb, s *Set) (_r0 *Set, _err error) {
 	C.meos_errno_reset()
-	_cret := C.concat_jsonbset_jsonb(s._inner, jb._inner, C.bool(invert))
+	_cret := C.concat_jsonb_jsonbset(jb._inner, s._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Set{_inner: _cret}, nil
+}
+
+
+// ConcatJsonbsetJsonb wraps MEOS C function concat_jsonbset_jsonb.
+func ConcatJsonbsetJsonb(s *Set, jb *Jsonb) (_r0 *Set, _err error) {
+	C.meos_errno_reset()
+	_cret := C.concat_jsonbset_jsonb(s._inner, jb._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1661,19 +1659,6 @@ func TjsonbIn(str string) (_r0 *Temporal, _err error) {
 }
 
 
-// TjsonbOut wraps MEOS C function tjsonb_out.
-func TjsonbOut(temp *Temporal) (_r0 string, _err error) {
-	var _size C.size_t
-	C.meos_errno_reset()
-	_cret := C.tjsonb_out(temp._inner, &_size)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	defer C.free(unsafe.Pointer(_cret))
-	return takeString(_cret, _size), nil
-}
-
-
 // TjsonbinstIn wraps MEOS C function tjsonbinst_in.
 func TjsonbinstIn(str string) (_r0 *TInstant, _err error) {
 	_c_str := C.CString(str)
@@ -1869,10 +1854,21 @@ func TjsonbUnnest(temp *Temporal, values unsafe.Pointer, count unsafe.Pointer) (
 }
 
 
-// ConcatTjsonbJsonb wraps MEOS C function concat_tjsonb_jsonb.
-func ConcatTjsonbJsonb(temp *Temporal, jb *Jsonb, invert bool) (_r0 *Temporal, _err error) {
+// ConcatJsonbTjsonb wraps MEOS C function concat_jsonb_tjsonb.
+func ConcatJsonbTjsonb(jb *Jsonb, temp *Temporal) (_r0 *Temporal, _err error) {
 	C.meos_errno_reset()
-	_cret := C.concat_tjsonb_jsonb(temp._inner, jb._inner, C.bool(invert))
+	_cret := C.concat_jsonb_tjsonb(jb._inner, temp._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// ConcatTjsonbJsonb wraps MEOS C function concat_tjsonb_jsonb.
+func ConcatTjsonbJsonb(temp *Temporal, jb *Jsonb) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.concat_tjsonb_jsonb(temp._inner, jb._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1891,10 +1887,54 @@ func ConcatTjsonbTjsonb(temp1 *Temporal, temp2 *Temporal) (_r0 *Temporal, _err e
 }
 
 
-// ContainsTjsonbJsonb wraps MEOS C function contains_tjsonb_jsonb.
-func ContainsTjsonbJsonb(temp *Temporal, jb *Jsonb, invert bool) (_r0 *Temporal, _err error) {
+// ContainedJsonbTjsonb wraps MEOS C function contained_jsonb_tjsonb.
+func ContainedJsonbTjsonb(jb *Jsonb, temp *Temporal) (_r0 *Temporal, _err error) {
 	C.meos_errno_reset()
-	_cret := C.contains_tjsonb_jsonb(temp._inner, jb._inner, C.bool(invert))
+	_cret := C.contained_jsonb_tjsonb(jb._inner, temp._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// ContainedTjsonbJsonb wraps MEOS C function contained_tjsonb_jsonb.
+func ContainedTjsonbJsonb(temp *Temporal, jb *Jsonb) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.contained_tjsonb_jsonb(temp._inner, jb._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// ContainedTjsonbTjsonb wraps MEOS C function contained_tjsonb_tjsonb.
+func ContainedTjsonbTjsonb(temp1 *Temporal, temp2 *Temporal) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.contained_tjsonb_tjsonb(temp1._inner, temp2._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// ContainsJsonbTjsonb wraps MEOS C function contains_jsonb_tjsonb.
+func ContainsJsonbTjsonb(jb *Jsonb, temp *Temporal) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.contains_jsonb_tjsonb(jb._inner, temp._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// ContainsTjsonbJsonb wraps MEOS C function contains_tjsonb_jsonb.
+func ContainsTjsonbJsonb(temp *Temporal, jb *Jsonb) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.contains_tjsonb_jsonb(temp._inner, jb._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1913,12 +1953,23 @@ func ContainsTjsonbTjsonb(temp1 *Temporal, temp2 *Temporal) (_r0 *Temporal, _err
 }
 
 
-// NullHandleTypeFromString wraps MEOS C function null_handle_type_from_string.
-func NullHandleTypeFromString(str string) (_r0 NullHandleType, _err error) {
+// NullhandletypeName wraps MEOS C function nullhandletype_name.
+func NullhandletypeName(type_ NullHandleType) (_r0 string, _err error) {
+	C.meos_errno_reset()
+	_cret := C.nullhandletype_name(C.nullHandleType(type_))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return C.GoString(_cret), nil
+}
+
+
+// NullhandletypeFromString wraps MEOS C function nullhandletype_from_string.
+func NullhandletypeFromString(str string) (_r0 NullHandleType, _err error) {
 	_c_str := C.CString(str)
 	defer C.free(unsafe.Pointer(_c_str))
 	C.meos_errno_reset()
-	_cret := C.null_handle_type_from_string(_c_str)
+	_cret := C.nullhandletype_from_string(_c_str)
 	if _err = meosError(); _err != nil {
 		return
 	}

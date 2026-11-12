@@ -32,15 +32,6 @@ func JsonbSetIn(str string) (*Set, error) {
 	return SetFromPointer(_r0.Pointer()), nil
 }
 
-// Out is MEOS jsonbset_out.
-func (x *JsonbSet) Out() (string, error) {
-	_r0, _err := functions.JsonbsetOut(functions.SetFromPointer(x.Pointer()))
-	if _err != nil {
-		return "", _err
-	}
-	return _r0, nil
-}
-
 // JsonbSetMake is MEOS jsonbset_make.
 func JsonbSetMake(values unsafe.Pointer, count int) (*Set, error) {
 	_r0, _err := functions.JsonbsetMake(values, count)
@@ -350,9 +341,9 @@ func JsonbSetFromHexWKB(hexwkb string) (*JsonbSet, error) {
 	return JsonbSetFromPointer(r.Pointer()), nil
 }
 
-// AsText is the portable asText of MEOS jsonbset_out.
-func (x *JsonbSet) AsText() (string, error) {
-	return x.Out()
+// AsText is the portable asText of MEOS set_out.
+func (x *JsonbSet) AsText(maxdd int) (string, error) {
+	return x.Out(maxdd)
 }
 
 // JsonbSetFromText is the portable fromText of MEOS jsonbset_in.
@@ -373,9 +364,9 @@ func JsonbSetFromWKB(wkb []byte) (*JsonbSet, error) {
 	return JsonbSetFromPointer(r.Pointer()), nil
 }
 
-// String is the text MEOS writes this value as, MEOS jsonbset_out.
+// String is the text MEOS writes this value as, MEOS set_out.
 func (x *JsonbSet) String() string {
-	s, err := x.Out()
+	s, err := x.Out(15)
 	if err != nil {
 		return "%!s(MEOS error: " + err.Error() + ")"
 	}

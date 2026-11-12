@@ -175,17 +175,6 @@ func MeosoperFromString(name string) (_r0 MeosOper, _err error) {
 }
 
 
-// InterptypeName wraps MEOS C function interptype_name.
-func InterptypeName(interp Interpolation) (_r0 string, _err error) {
-	C.meos_errno_reset()
-	_cret := C.interptype_name(C.interpType(interp))
-	if _err = meosError(); _err != nil {
-		return
-	}
-	return C.GoString(_cret), nil
-}
-
-
 // MeosTypeofHexwkb wraps MEOS C function meos_typeof_hexwkb.
 func MeosTypeofHexwkb(hexwkb string) (_r0 MeosType, _err error) {
 	_c_hexwkb := C.CString(hexwkb)
@@ -203,6 +192,17 @@ func MeosTypeofHexwkb(hexwkb string) (_r0 MeosType, _err error) {
 func MeostypeName(type_ MeosType) (_r0 string, _err error) {
 	C.meos_errno_reset()
 	_cret := C.meostype_name(C.MeosType(type_))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return C.GoString(_cret), nil
+}
+
+
+// MeostypeCamelName wraps MEOS C function meostype_camel_name.
+func MeostypeCamelName(type_ MeosType) (_r0 string, _err error) {
+	C.meos_errno_reset()
+	_cret := C.meostype_camel_name(C.MeosType(type_))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -803,6 +803,17 @@ func MeostypeLength(type_ MeosType) (_r0 int16, _err error) {
 		return
 	}
 	return int16(_cret), nil
+}
+
+
+// WKBHeaderStatesType wraps MEOS C function wkb_header_states_type.
+func WKBHeaderStatesType(type_ MeosType) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.wkb_header_states_type(C.MeosType(type_))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
 }
 
 

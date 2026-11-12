@@ -640,19 +640,6 @@ func QuadbinsetIn(str string) (_r0 *Set, _err error) {
 }
 
 
-// QuadbinsetOut wraps MEOS C function quadbinset_out.
-func QuadbinsetOut(s *Set) (_r0 string, _err error) {
-	var _size C.size_t
-	C.meos_errno_reset()
-	_cret := C.quadbinset_out(s._inner, &_size)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	defer C.free(unsafe.Pointer(_cret))
-	return takeString(_cret, _size), nil
-}
-
-
 // QuadbinsetMake wraps MEOS C function quadbinset_make.
 func QuadbinsetMake(values unsafe.Pointer, count int) (_r0 *Set, _err error) {
 	C.meos_errno_reset()
@@ -860,36 +847,12 @@ func TquadbinseqsetIn(str string) (_r0 *TSequenceSet, _err error) {
 }
 
 
-// TquadbinOut wraps MEOS C function tquadbin_out.
-func TquadbinOut(temp *Temporal) (_r0 string, _err error) {
-	var _size C.size_t
-	C.meos_errno_reset()
-	_cret := C.tquadbin_out(temp._inner, &_size)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	defer C.free(unsafe.Pointer(_cret))
-	return takeString(_cret, _size), nil
-}
-
-
 // TquadbinFromMFJSON wraps MEOS C function tquadbin_from_mfjson.
 func TquadbinFromMFJSON(mfjson string) (_r0 *Temporal, _err error) {
 	_c_mfjson := C.CString(mfjson)
 	defer C.free(unsafe.Pointer(_c_mfjson))
 	C.meos_errno_reset()
 	_cret := C.tquadbin_from_mfjson(_c_mfjson)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	return &Temporal{_inner: _cret}, nil
-}
-
-
-// TquadbinMake wraps MEOS C function tquadbin_make.
-func TquadbinMake(value Quadbin, t int64) (_r0 *Temporal, _err error) {
-	C.meos_errno_reset()
-	_cret := C.tquadbin_make(C.Quadbin(value), C.TimestampTz(t))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1079,6 +1042,17 @@ func TbigintToTquadbin(temp *Temporal) (_r0 *Temporal, _err error) {
 func TquadbinToTbigint(temp *Temporal) (_r0 *Temporal, _err error) {
 	C.meos_errno_reset()
 	_cret := C.tquadbin_to_tbigint(temp._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// TquadbinToTgeogpoint wraps MEOS C function tquadbin_to_tgeogpoint.
+func TquadbinToTgeogpoint(temp *Temporal) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tquadbin_to_tgeogpoint(temp._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}

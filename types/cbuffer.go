@@ -8,23 +8,23 @@ import (
 	"github.com/MobilityDB/GoMEOS/functions"
 )
 
-type Cbuffer struct {
+type CBuffer struct {
 	Value
 }
 
-// CbufferFromPointer wraps a MEOS pointer, answering nil for nil so an
+// CBufferFromPointer wraps a MEOS pointer, answering nil for nil so an
 // absent MEOS result stays absent rather than becoming a live handle.
-func CbufferFromPointer(p unsafe.Pointer) *Cbuffer {
+func CBufferFromPointer(p unsafe.Pointer) *CBuffer {
 	if p == nil {
 		return nil
 	}
-	v := &Cbuffer{}
+	v := &CBuffer{}
 	v.ptr = p
 	return v
 }
 
 // AsEWKB is MEOS cbuffer_as_ewkb.
-func (x *Cbuffer) AsEWKB(variant uint8) ([]byte, error) {
+func (x *CBuffer) AsEWKB(variant uint8) ([]byte, error) {
 	var _size uint64
 	_r0, _err := functions.CbufferAsEWKB(functions.CbufferFromPointer(x.Pointer()), variant, unsafe.Pointer(&_size))
 	if _err != nil {
@@ -34,7 +34,7 @@ func (x *Cbuffer) AsEWKB(variant uint8) ([]byte, error) {
 }
 
 // AsEWKT is MEOS cbuffer_as_ewkt.
-func (x *Cbuffer) AsEWKT(maxdd int) (string, error) {
+func (x *CBuffer) AsEWKT(maxdd int) (string, error) {
 	_r0, _err := functions.CbufferAsEWKT(functions.CbufferFromPointer(x.Pointer()), maxdd)
 	if _err != nil {
 		return "", _err
@@ -43,7 +43,7 @@ func (x *Cbuffer) AsEWKT(maxdd int) (string, error) {
 }
 
 // AsHexEWKB is MEOS cbuffer_as_hexewkb.
-func (x *Cbuffer) AsHexEWKB(variant uint8) (string, error) {
+func (x *CBuffer) AsHexEWKB(variant uint8) (string, error) {
 	_r0, _err := functions.CbufferAsHexewkb(functions.CbufferFromPointer(x.Pointer()), variant)
 	if _err != nil {
 		return "", _err
@@ -52,7 +52,7 @@ func (x *Cbuffer) AsHexEWKB(variant uint8) (string, error) {
 }
 
 // AsHexWKB is MEOS cbuffer_as_hexwkb.
-func (x *Cbuffer) AsHexWKB(variant uint8) (string, error) {
+func (x *CBuffer) AsHexWKB(variant uint8) (string, error) {
 	_r0, _err := functions.CbufferAsHexwkb(functions.CbufferFromPointer(x.Pointer()), variant)
 	if _err != nil {
 		return "", _err
@@ -61,7 +61,7 @@ func (x *Cbuffer) AsHexWKB(variant uint8) (string, error) {
 }
 
 // AsText is MEOS cbuffer_as_text.
-func (x *Cbuffer) AsText(maxdd int) (string, error) {
+func (x *CBuffer) AsText(maxdd int) (string, error) {
 	_r0, _err := functions.CbufferAsText(functions.CbufferFromPointer(x.Pointer()), maxdd)
 	if _err != nil {
 		return "", _err
@@ -70,7 +70,7 @@ func (x *Cbuffer) AsText(maxdd int) (string, error) {
 }
 
 // AsWKB is MEOS cbuffer_as_wkb.
-func (x *Cbuffer) AsWKB(variant uint8) ([]byte, error) {
+func (x *CBuffer) AsWKB(variant uint8) ([]byte, error) {
 	var _size uint64
 	_r0, _err := functions.CbufferAsWKB(functions.CbufferFromPointer(x.Pointer()), variant, unsafe.Pointer(&_size))
 	if _err != nil {
@@ -79,17 +79,17 @@ func (x *Cbuffer) AsWKB(variant uint8) ([]byte, error) {
 	return functions.TakeBytes(_r0, _size), nil
 }
 
-// CbufferFromHexWKB is MEOS cbuffer_from_hexwkb.
-func CbufferFromHexWKB(hexwkb string) (*Cbuffer, error) {
+// CBufferFromHexWKB is MEOS cbuffer_from_hexwkb.
+func CBufferFromHexWKB(hexwkb string) (*CBuffer, error) {
 	_r0, _err := functions.CbufferFromHexwkb(hexwkb)
 	if _err != nil {
 		return nil, _err
 	}
-	return CbufferFromPointer(_r0.Pointer()), nil
+	return CBufferFromPointer(_r0.Pointer()), nil
 }
 
-// CbufferFromWKB is MEOS cbuffer_from_wkb.
-func CbufferFromWKB(wkb []byte) (*Cbuffer, error) {
+// CBufferFromWKB is MEOS cbuffer_from_wkb.
+func CBufferFromWKB(wkb []byte) (*CBuffer, error) {
 	var _p_wkb unsafe.Pointer
 	if len(wkb) > 0 {
 		_p_wkb = unsafe.Pointer(&wkb[0])
@@ -98,20 +98,20 @@ func CbufferFromWKB(wkb []byte) (*Cbuffer, error) {
 	if _err != nil {
 		return nil, _err
 	}
-	return CbufferFromPointer(_r0.Pointer()), nil
+	return CBufferFromPointer(_r0.Pointer()), nil
 }
 
-// CbufferIn is MEOS cbuffer_in.
-func CbufferIn(str string) (*Cbuffer, error) {
+// CBufferIn is MEOS cbuffer_in.
+func CBufferIn(str string) (*CBuffer, error) {
 	_r0, _err := functions.CbufferIn(str)
 	if _err != nil {
 		return nil, _err
 	}
-	return CbufferFromPointer(_r0.Pointer()), nil
+	return CBufferFromPointer(_r0.Pointer()), nil
 }
 
 // Out is MEOS cbuffer_out.
-func (x *Cbuffer) Out(maxdd int) (string, error) {
+func (x *CBuffer) Out(maxdd int) (string, error) {
 	_r0, _err := functions.CbufferOut(functions.CbufferFromPointer(x.Pointer()), maxdd)
 	if _err != nil {
 		return "", _err
@@ -120,25 +120,25 @@ func (x *Cbuffer) Out(maxdd int) (string, error) {
 }
 
 // Copy is MEOS cbuffer_copy.
-func (x *Cbuffer) Copy() (*Cbuffer, error) {
+func (x *CBuffer) Copy() (*CBuffer, error) {
 	_r0, _err := functions.CbufferCopy(functions.CbufferFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return CbufferFromPointer(_r0.Pointer()), nil
+	return CBufferFromPointer(_r0.Pointer()), nil
 }
 
-// CbufferMake is MEOS cbuffer_make.
-func CbufferMake(point *Geo, radius float64) (*Cbuffer, error) {
+// CBufferMake is MEOS cbuffer_make.
+func CBufferMake(point *Geo, radius float64) (*CBuffer, error) {
 	_r0, _err := functions.CbufferMake(functions.GeomFromPointer(point.Pointer()), radius)
 	if _err != nil {
 		return nil, _err
 	}
-	return CbufferFromPointer(_r0.Pointer()), nil
+	return CBufferFromPointer(_r0.Pointer()), nil
 }
 
 // ToGeom is MEOS cbuffer_to_geom.
-func (x *Cbuffer) ToGeom() (*Geo, error) {
+func (x *CBuffer) ToGeom() (*Geo, error) {
 	_r0, _err := functions.CbufferToGeom(functions.CbufferFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -146,8 +146,17 @@ func (x *Cbuffer) ToGeom() (*Geo, error) {
 	return GeoFromPointer(_r0.Pointer()), nil
 }
 
+// ToGeog is MEOS cbuffer_to_geog.
+func (x *CBuffer) ToGeog() (*Geo, error) {
+	_r0, _err := functions.CbufferToGeog(functions.CbufferFromPointer(x.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return GeoFromPointer(_r0.Pointer()), nil
+}
+
 // ToStbox is MEOS cbuffer_to_stbox.
-func (x *Cbuffer) ToStbox() (*STBox, error) {
+func (x *CBuffer) ToStbox() (*STBox, error) {
 	_r0, _err := functions.CbufferToSTBOX(functions.CbufferFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -156,7 +165,7 @@ func (x *Cbuffer) ToStbox() (*STBox, error) {
 }
 
 // Hash is MEOS cbuffer_hash.
-func (x *Cbuffer) Hash() (uint32, error) {
+func (x *CBuffer) Hash() (uint32, error) {
 	_r0, _err := functions.CbufferHash(functions.CbufferFromPointer(x.Pointer()))
 	if _err != nil {
 		return 0, _err
@@ -165,7 +174,7 @@ func (x *Cbuffer) Hash() (uint32, error) {
 }
 
 // HashExtended is MEOS cbuffer_hash_extended.
-func (x *Cbuffer) HashExtended(seed uint64) (uint64, error) {
+func (x *CBuffer) HashExtended(seed uint64) (uint64, error) {
 	_r0, _err := functions.CbufferHashExtended(functions.CbufferFromPointer(x.Pointer()), seed)
 	if _err != nil {
 		return 0, _err
@@ -174,7 +183,7 @@ func (x *Cbuffer) HashExtended(seed uint64) (uint64, error) {
 }
 
 // MemSize is MEOS cbuffer_mem_size.
-func (x *Cbuffer) MemSize() (int, error) {
+func (x *CBuffer) MemSize() (int, error) {
 	_r0, _err := functions.CbufferMemSize(functions.CbufferFromPointer(x.Pointer()))
 	if _err != nil {
 		return 0, _err
@@ -183,7 +192,7 @@ func (x *Cbuffer) MemSize() (int, error) {
 }
 
 // Point is MEOS cbuffer_point.
-func (x *Cbuffer) Point() (*Geo, error) {
+func (x *CBuffer) Point() (*Geo, error) {
 	_r0, _err := functions.CbufferPoint(functions.CbufferFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -192,7 +201,7 @@ func (x *Cbuffer) Point() (*Geo, error) {
 }
 
 // Radius is MEOS cbuffer_radius.
-func (x *Cbuffer) Radius() (float64, error) {
+func (x *CBuffer) Radius() (float64, error) {
 	_r0, _err := functions.CbufferRadius(functions.CbufferFromPointer(x.Pointer()))
 	if _err != nil {
 		return 0, _err
@@ -201,25 +210,25 @@ func (x *Cbuffer) Radius() (float64, error) {
 }
 
 // Round is MEOS cbuffer_round.
-func (x *Cbuffer) Round(maxdd int) (*Cbuffer, error) {
+func (x *CBuffer) Round(maxdd int) (*CBuffer, error) {
 	_r0, _err := functions.CbufferRound(functions.CbufferFromPointer(x.Pointer()), maxdd)
 	if _err != nil {
 		return nil, _err
 	}
-	return CbufferFromPointer(_r0.Pointer()), nil
+	return CBufferFromPointer(_r0.Pointer()), nil
 }
 
 // SetSRID is MEOS cbuffer_set_srid.
-func (x *Cbuffer) SetSRID(srid int32) (*Cbuffer, error) {
+func (x *CBuffer) SetSRID(srid int32) (*CBuffer, error) {
 	_r0, _err := functions.CbufferSetSRID(functions.CbufferFromPointer(x.Pointer()), srid)
 	if _err != nil {
 		return nil, _err
 	}
-	return CbufferFromPointer(_r0.Pointer()), nil
+	return CBufferFromPointer(_r0.Pointer()), nil
 }
 
 // SRID is MEOS cbuffer_srid.
-func (x *Cbuffer) SRID() (int32, error) {
+func (x *CBuffer) SRID() (int32, error) {
 	_r0, _err := functions.CbufferSRID(functions.CbufferFromPointer(x.Pointer()))
 	if _err != nil {
 		return 0, _err
@@ -228,25 +237,25 @@ func (x *Cbuffer) SRID() (int32, error) {
 }
 
 // Transform is MEOS cbuffer_transform.
-func (x *Cbuffer) Transform(srid int32) (*Cbuffer, error) {
+func (x *CBuffer) Transform(srid int32) (*CBuffer, error) {
 	_r0, _err := functions.CbufferTransform(functions.CbufferFromPointer(x.Pointer()), srid)
 	if _err != nil {
 		return nil, _err
 	}
-	return CbufferFromPointer(_r0.Pointer()), nil
+	return CBufferFromPointer(_r0.Pointer()), nil
 }
 
 // TransformPipeline is MEOS cbuffer_transform_pipeline.
-func (x *Cbuffer) TransformPipeline(pipelinestr string, srid int32, is_forward bool) (*Cbuffer, error) {
+func (x *CBuffer) TransformPipeline(pipelinestr string, srid int32, is_forward bool) (*CBuffer, error) {
 	_r0, _err := functions.CbufferTransformPipeline(functions.CbufferFromPointer(x.Pointer()), pipelinestr, srid, is_forward)
 	if _err != nil {
 		return nil, _err
 	}
-	return CbufferFromPointer(_r0.Pointer()), nil
+	return CBufferFromPointer(_r0.Pointer()), nil
 }
 
 // TstzspanToStbox is MEOS cbuffer_tstzspan_to_stbox.
-func (x *Cbuffer) TstzspanToStbox(s *Span) (*STBox, error) {
+func (x *CBuffer) TstzspanToStbox(s *Span) (*STBox, error) {
 	_r0, _err := functions.CbufferTstzspanToSTBOX(functions.CbufferFromPointer(x.Pointer()), functions.SpanFromPointer(s.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -255,7 +264,7 @@ func (x *Cbuffer) TstzspanToStbox(s *Span) (*STBox, error) {
 }
 
 // TimestamptzToStbox is MEOS cbuffer_timestamptz_to_stbox.
-func (x *Cbuffer) TimestamptzToStbox(t int64) (*STBox, error) {
+func (x *CBuffer) TimestamptzToStbox(t int64) (*STBox, error) {
 	_r0, _err := functions.CbufferTimestamptzToSTBOX(functions.CbufferFromPointer(x.Pointer()), t)
 	if _err != nil {
 		return nil, _err
@@ -264,7 +273,7 @@ func (x *Cbuffer) TimestamptzToStbox(t int64) (*STBox, error) {
 }
 
 // Cmp is MEOS cbuffer_cmp.
-func (x *Cbuffer) Cmp(cb2 *Cbuffer) (int, error) {
+func (x *CBuffer) Cmp(cb2 *CBuffer) (int, error) {
 	_r0, _err := functions.CbufferCmp(functions.CbufferFromPointer(x.Pointer()), functions.CbufferFromPointer(cb2.Pointer()))
 	if _err != nil {
 		return 0, _err
@@ -273,7 +282,7 @@ func (x *Cbuffer) Cmp(cb2 *Cbuffer) (int, error) {
 }
 
 // Eq is MEOS cbuffer_eq.
-func (x *Cbuffer) Eq(cb2 *Cbuffer) (bool, error) {
+func (x *CBuffer) Eq(cb2 *CBuffer) (bool, error) {
 	_r0, _err := functions.CbufferEq(functions.CbufferFromPointer(x.Pointer()), functions.CbufferFromPointer(cb2.Pointer()))
 	if _err != nil {
 		return false, _err
@@ -282,7 +291,7 @@ func (x *Cbuffer) Eq(cb2 *Cbuffer) (bool, error) {
 }
 
 // Ge is MEOS cbuffer_ge.
-func (x *Cbuffer) Ge(cb2 *Cbuffer) (bool, error) {
+func (x *CBuffer) Ge(cb2 *CBuffer) (bool, error) {
 	_r0, _err := functions.CbufferGe(functions.CbufferFromPointer(x.Pointer()), functions.CbufferFromPointer(cb2.Pointer()))
 	if _err != nil {
 		return false, _err
@@ -291,7 +300,7 @@ func (x *Cbuffer) Ge(cb2 *Cbuffer) (bool, error) {
 }
 
 // Gt is MEOS cbuffer_gt.
-func (x *Cbuffer) Gt(cb2 *Cbuffer) (bool, error) {
+func (x *CBuffer) Gt(cb2 *CBuffer) (bool, error) {
 	_r0, _err := functions.CbufferGt(functions.CbufferFromPointer(x.Pointer()), functions.CbufferFromPointer(cb2.Pointer()))
 	if _err != nil {
 		return false, _err
@@ -300,7 +309,7 @@ func (x *Cbuffer) Gt(cb2 *Cbuffer) (bool, error) {
 }
 
 // Le is MEOS cbuffer_le.
-func (x *Cbuffer) Le(cb2 *Cbuffer) (bool, error) {
+func (x *CBuffer) Le(cb2 *CBuffer) (bool, error) {
 	_r0, _err := functions.CbufferLe(functions.CbufferFromPointer(x.Pointer()), functions.CbufferFromPointer(cb2.Pointer()))
 	if _err != nil {
 		return false, _err
@@ -309,7 +318,7 @@ func (x *Cbuffer) Le(cb2 *Cbuffer) (bool, error) {
 }
 
 // Lt is MEOS cbuffer_lt.
-func (x *Cbuffer) Lt(cb2 *Cbuffer) (bool, error) {
+func (x *CBuffer) Lt(cb2 *CBuffer) (bool, error) {
 	_r0, _err := functions.CbufferLt(functions.CbufferFromPointer(x.Pointer()), functions.CbufferFromPointer(cb2.Pointer()))
 	if _err != nil {
 		return false, _err
@@ -318,7 +327,7 @@ func (x *Cbuffer) Lt(cb2 *Cbuffer) (bool, error) {
 }
 
 // Ne is MEOS cbuffer_ne.
-func (x *Cbuffer) Ne(cb2 *Cbuffer) (bool, error) {
+func (x *CBuffer) Ne(cb2 *CBuffer) (bool, error) {
 	_r0, _err := functions.CbufferNe(functions.CbufferFromPointer(x.Pointer()), functions.CbufferFromPointer(cb2.Pointer()))
 	if _err != nil {
 		return false, _err
@@ -327,7 +336,7 @@ func (x *Cbuffer) Ne(cb2 *Cbuffer) (bool, error) {
 }
 
 // ToSet is MEOS cbuffer_to_set.
-func (x *Cbuffer) ToSet() (*Set, error) {
+func (x *CBuffer) ToSet() (*Set, error) {
 	_r0, _err := functions.CbufferToSet(functions.CbufferFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
@@ -335,28 +344,28 @@ func (x *Cbuffer) ToSet() (*Set, error) {
 	return SetFromPointer(_r0.Pointer()), nil
 }
 
-// CbufferFromEWKB is the portable fromEWKB of MEOS cbuffer_from_wkb.
-func CbufferFromEWKB(wkb []byte) (*Cbuffer, error) {
-	return CbufferFromWKB(wkb)
+// CBufferFromEWKB is the portable fromEWKB of MEOS cbuffer_from_wkb.
+func CBufferFromEWKB(wkb []byte) (*CBuffer, error) {
+	return CBufferFromWKB(wkb)
 }
 
-// CbufferFromEWKT is the portable fromEWKT of MEOS cbuffer_in.
-func CbufferFromEWKT(str string) (*Cbuffer, error) {
-	return CbufferIn(str)
+// CBufferFromEWKT is the portable fromEWKT of MEOS cbuffer_in.
+func CBufferFromEWKT(str string) (*CBuffer, error) {
+	return CBufferIn(str)
 }
 
-// CbufferFromHexEWKB is the portable fromHexEWKB of MEOS cbuffer_from_hexwkb.
-func CbufferFromHexEWKB(hexwkb string) (*Cbuffer, error) {
-	return CbufferFromHexWKB(hexwkb)
+// CBufferFromHexEWKB is the portable fromHexEWKB of MEOS cbuffer_from_hexwkb.
+func CBufferFromHexEWKB(hexwkb string) (*CBuffer, error) {
+	return CBufferFromHexWKB(hexwkb)
 }
 
-// CbufferFromText is the portable fromText of MEOS cbuffer_in.
-func CbufferFromText(str string) (*Cbuffer, error) {
-	return CbufferIn(str)
+// CBufferFromText is the portable fromText of MEOS cbuffer_in.
+func CBufferFromText(str string) (*CBuffer, error) {
+	return CBufferIn(str)
 }
 
 // String is the text MEOS writes this value as, MEOS cbuffer_as_text.
-func (x *Cbuffer) String() string {
+func (x *CBuffer) String() string {
 	s, err := x.AsText(15)
 	if err != nil {
 		return "%!s(MEOS error: " + err.Error() + ")"

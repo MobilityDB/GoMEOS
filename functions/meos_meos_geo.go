@@ -524,50 +524,6 @@ func GeoTypename(type_ int) (_r0 string, _err error) {
 }
 
 
-// GeogArea wraps MEOS C function geog_area.
-func GeogArea(gs *Geom, use_spheroid bool) (_r0 float64, _err error) {
-	C.meos_errno_reset()
-	_cret := C.geog_area(gs._inner, C.bool(use_spheroid))
-	if _err = meosError(); _err != nil {
-		return
-	}
-	return float64(_cret), nil
-}
-
-
-// GeogCentroid wraps MEOS C function geog_centroid.
-func GeogCentroid(gs *Geom, use_spheroid bool) (_r0 *Geom, _err error) {
-	C.meos_errno_reset()
-	_cret := C.geog_centroid(gs._inner, C.bool(use_spheroid))
-	if _err = meosError(); _err != nil {
-		return
-	}
-	return &Geom{_inner: _cret}, nil
-}
-
-
-// GeogLength wraps MEOS C function geog_length.
-func GeogLength(gs *Geom, use_spheroid bool) (_r0 float64, _err error) {
-	C.meos_errno_reset()
-	_cret := C.geog_length(gs._inner, C.bool(use_spheroid))
-	if _err = meosError(); _err != nil {
-		return
-	}
-	return float64(_cret), nil
-}
-
-
-// GeogPerimeter wraps MEOS C function geog_perimeter.
-func GeogPerimeter(gs *Geom, use_spheroid bool) (_r0 float64, _err error) {
-	C.meos_errno_reset()
-	_cret := C.geog_perimeter(gs._inner, C.bool(use_spheroid))
-	if _err = meosError(); _err != nil {
-		return
-	}
-	return float64(_cret), nil
-}
-
-
 // GeomAzimuth wraps MEOS C function geom_azimuth.
 func GeomAzimuth(gs1 *Geom, gs2 *Geom) (_r0 bool, _r1 float64, _err error) {
 	var _out_result C.double
@@ -577,39 +533,6 @@ func GeomAzimuth(gs1 *Geom, gs2 *Geom) (_r0 bool, _r1 float64, _err error) {
 		return
 	}
 	return bool(_cret), float64(_out_result), nil
-}
-
-
-// GeomArea wraps MEOS C function geom_area.
-func GeomArea(gs *Geom) (_r0 float64, _err error) {
-	C.meos_errno_reset()
-	_cret := C.geom_area(gs._inner)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	return float64(_cret), nil
-}
-
-
-// GeomLength wraps MEOS C function geom_length.
-func GeomLength(gs *Geom) (_r0 float64, _err error) {
-	C.meos_errno_reset()
-	_cret := C.geom_length(gs._inner)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	return float64(_cret), nil
-}
-
-
-// GeomPerimeter wraps MEOS C function geom_perimeter.
-func GeomPerimeter(gs *Geom) (_r0 float64, _err error) {
-	C.meos_errno_reset()
-	_cret := C.geom_perimeter(gs._inner)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	return float64(_cret), nil
 }
 
 
@@ -958,17 +881,6 @@ func GeomBuffer(gs *Geom, size float64, params string) (_r0 *Geom, _err error) {
 }
 
 
-// GeomCentroid wraps MEOS C function geom_centroid.
-func GeomCentroid(gs *Geom) (_r0 *Geom, _err error) {
-	C.meos_errno_reset()
-	_cret := C.geom_centroid(gs._inner)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	return &Geom{_inner: _cret}, nil
-}
-
-
 // GeomConvexHull wraps MEOS C function geom_convex_hull.
 func GeomConvexHull(gs *Geom) (_r0 *Geom, _err error) {
 	C.meos_errno_reset()
@@ -1039,17 +951,6 @@ func GeomMinimumBoundingRadius(geom *Geom, radius unsafe.Pointer) (_r0 *Geom, _e
 func GeomOrientedEnvelope(gs *Geom) (_r0 *Geom, _err error) {
 	C.meos_errno_reset()
 	_cret := C.geom_oriented_envelope(gs._inner)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	return &Geom{_inner: _cret}, nil
-}
-
-
-// GeomShortestline wraps MEOS C function geom_shortestline.
-func GeomShortestline(gs1 *Geom, gs2 *Geom) (_r0 *Geom, _err error) {
-	C.meos_errno_reset()
-	_cret := C.geom_shortestline(gs1._inner, gs2._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1233,54 +1134,10 @@ func GeomDwithin(gs1 *Geom, gs2 *Geom, dist float64) (_r0 bool, _err error) {
 }
 
 
-// GeomDwithin2d wraps MEOS C function geom_dwithin2d.
-func GeomDwithin2d(gs1 *Geom, gs2 *Geom, dist float64) (_r0 bool, _err error) {
-	C.meos_errno_reset()
-	_cret := C.geom_dwithin2d(gs1._inner, gs2._inner, C.double(dist))
-	if _err = meosError(); _err != nil {
-		return
-	}
-	return bool(_cret), nil
-}
-
-
-// GeomDwithin3d wraps MEOS C function geom_dwithin3d.
-func GeomDwithin3d(gs1 *Geom, gs2 *Geom, dist float64) (_r0 bool, _err error) {
-	C.meos_errno_reset()
-	_cret := C.geom_dwithin3d(gs1._inner, gs2._inner, C.double(dist))
-	if _err = meosError(); _err != nil {
-		return
-	}
-	return bool(_cret), nil
-}
-
-
 // GeomIntersects wraps MEOS C function geom_intersects.
 func GeomIntersects(gs1 *Geom, gs2 *Geom) (_r0 bool, _err error) {
 	C.meos_errno_reset()
 	_cret := C.geom_intersects(gs1._inner, gs2._inner)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	return bool(_cret), nil
-}
-
-
-// GeomIntersects2d wraps MEOS C function geom_intersects2d.
-func GeomIntersects2d(gs1 *Geom, gs2 *Geom) (_r0 bool, _err error) {
-	C.meos_errno_reset()
-	_cret := C.geom_intersects2d(gs1._inner, gs2._inner)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	return bool(_cret), nil
-}
-
-
-// GeomIntersects3d wraps MEOS C function geom_intersects3d.
-func GeomIntersects3d(gs1 *Geom, gs2 *Geom) (_r0 bool, _err error) {
-	C.meos_errno_reset()
-	_cret := C.geom_intersects3d(gs1._inner, gs2._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1391,17 +1248,6 @@ func GeogDistance(g1 *Geom, g2 *Geom, use_spheroid bool) (_r0 float64, _err erro
 }
 
 
-// GeogShortestline wraps MEOS C function geog_shortestline.
-func GeogShortestline(gs1 *Geom, gs2 *Geom, use_spheroid bool) (_r0 *Geom, _err error) {
-	C.meos_errno_reset()
-	_cret := C.geog_shortestline(gs1._inner, gs2._inner, C.bool(use_spheroid))
-	if _err = meosError(); _err != nil {
-		return
-	}
-	return &Geom{_inner: _cret}, nil
-}
-
-
 // GeomDistance wraps MEOS C function geom_distance.
 func GeomDistance(gs1 *Geom, gs2 *Geom) (_r0 float64, _err error) {
 	C.meos_errno_reset()
@@ -1428,28 +1274,6 @@ func GeomDistance2d(gs1 *Geom, gs2 *Geom) (_r0 float64, _err error) {
 func GeomMaxDistance(gs1 *Geom, gs2 *Geom) (_r0 float64, _err error) {
 	C.meos_errno_reset()
 	_cret := C.geom_max_distance(gs1._inner, gs2._inner)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	return float64(_cret), nil
-}
-
-
-// GeomMaxDistance2d wraps MEOS C function geom_max_distance2d.
-func GeomMaxDistance2d(gs1 *Geom, gs2 *Geom) (_r0 float64, _err error) {
-	C.meos_errno_reset()
-	_cret := C.geom_max_distance2d(gs1._inner, gs2._inner)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	return float64(_cret), nil
-}
-
-
-// GeomMaxDistance3d wraps MEOS C function geom_max_distance3d.
-func GeomMaxDistance3d(gs1 *Geom, gs2 *Geom) (_r0 float64, _err error) {
-	C.meos_errno_reset()
-	_cret := C.geom_max_distance3d(gs1._inner, gs2._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1513,19 +1337,6 @@ func GeomsetIn(str string) (_r0 *Set, _err error) {
 		return
 	}
 	return &Set{_inner: _cret}, nil
-}
-
-
-// SpatialsetOut wraps MEOS C function spatialset_out.
-func SpatialsetOut(s *Set, maxdd int) (_r0 string, _err error) {
-	var _size C.size_t
-	C.meos_errno_reset()
-	_cret := C.spatialset_out(s._inner, C.int(maxdd), &_size)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	defer C.free(unsafe.Pointer(_cret))
-	return takeString(_cret, _size), nil
 }
 
 
@@ -1609,6 +1420,28 @@ func GeosetToGeo(s *Set) (_r0 *Geom, _err error) {
 		return
 	}
 	return &Geom{_inner: _cret}, nil
+}
+
+
+// GeomsetToGeogset wraps MEOS C function geomset_to_geogset.
+func GeomsetToGeogset(s *Set) (_r0 *Set, _err error) {
+	C.meos_errno_reset()
+	_cret := C.geomset_to_geogset(s._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Set{_inner: _cret}, nil
+}
+
+
+// GeogsetToGeomset wraps MEOS C function geogset_to_geomset.
+func GeogsetToGeomset(s *Set) (_r0 *Set, _err error) {
+	C.meos_errno_reset()
+	_cret := C.geogset_to_geomset(s._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Set{_inner: _cret}, nil
 }
 
 
@@ -1861,6 +1694,19 @@ func STBOXAsHexwkb(box *STBox, variant uint8) (_r0 string, _err error) {
 }
 
 
+// STBOXAsText wraps MEOS C function stbox_as_text.
+func STBOXAsText(box *STBox, maxdd int) (_r0 string, _err error) {
+	var _size C.size_t
+	C.meos_errno_reset()
+	_cret := C.stbox_as_text(box._inner, C.int(maxdd), &_size)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	defer C.free(unsafe.Pointer(_cret))
+	return takeString(_cret, _size), nil
+}
+
+
 // STBOXAsWKB wraps MEOS C function stbox_as_wkb.
 func STBOXAsWKB(box *STBox, variant uint8, size_out unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
 	C.meos_errno_reset()
@@ -2014,6 +1860,28 @@ func STBOXToGbox(box *STBox) (_r0 *GBox, _err error) {
 func STBOXToGeo(box *STBox) (_r0 *Geom, _err error) {
 	C.meos_errno_reset()
 	_cret := C.stbox_to_geo(box._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Geom{_inner: _cret}, nil
+}
+
+
+// STBOXToGeom wraps MEOS C function stbox_to_geom.
+func STBOXToGeom(box *STBox) (_r0 *Geom, _err error) {
+	C.meos_errno_reset()
+	_cret := C.stbox_to_geom(box._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Geom{_inner: _cret}, nil
+}
+
+
+// STBOXToGeog wraps MEOS C function stbox_to_geog.
+func STBOXToGeog(box *STBox) (_r0 *Geom, _err error) {
+	C.meos_errno_reset()
+	_cret := C.stbox_to_geog(box._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -2781,19 +2649,6 @@ func STBOXSortkey(box *STBox, size unsafe.Pointer) (_r0 unsafe.Pointer, _err err
 }
 
 
-// TspatialOut wraps MEOS C function tspatial_out.
-func TspatialOut(temp *Temporal, maxdd int) (_r0 string, _err error) {
-	var _size C.size_t
-	C.meos_errno_reset()
-	_cret := C.tspatial_out(temp._inner, C.int(maxdd), &_size)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	defer C.free(unsafe.Pointer(_cret))
-	return takeString(_cret, _size), nil
-}
-
-
 // TgeogpointFromMFJSON wraps MEOS C function tgeogpoint_from_mfjson.
 func TgeogpointFromMFJSON(str string) (_r0 *Temporal, _err error) {
 	_c_str := C.CString(str)
@@ -3191,13 +3046,13 @@ func TgeompointToTgeometry(temp *Temporal) (_r0 *Temporal, _err error) {
 
 
 // TpointAsMvtgeom wraps MEOS C function tpoint_as_mvtgeom.
-func TpointAsMvtgeom(temp *Temporal, bounds *STBox, extent int32, buffer int32, clip_geom bool, gsarr unsafe.Pointer, timesarr unsafe.Pointer, count unsafe.Pointer) (_r0 bool, _err error) {
+func TpointAsMvtgeom(temp *Temporal, bounds *STBox, extent int32, buffer int32, clip_geom bool, timesarr unsafe.Pointer, count unsafe.Pointer) (_r0 *Geom, _err error) {
 	C.meos_errno_reset()
-	_cret := C.tpoint_as_mvtgeom(temp._inner, bounds._inner, C.int32_t(extent), C.int32_t(buffer), C.bool(clip_geom), (**C.GSERIALIZED)(unsafe.Pointer(gsarr)), (**C.int64_t)(unsafe.Pointer(timesarr)), (*C.int)(unsafe.Pointer(count)))
+	_cret := C.tpoint_as_mvtgeom(temp._inner, bounds._inner, C.int32_t(extent), C.int32_t(buffer), C.bool(clip_geom), (**C.int64_t)(unsafe.Pointer(timesarr)), (*C.int)(unsafe.Pointer(count)))
 	if _err = meosError(); _err != nil {
 		return
 	}
-	return bool(_cret), nil
+	return &Geom{_inner: _cret}, nil
 }
 
 
@@ -3247,10 +3102,21 @@ func BearingPointPoint(gs1 *Geom, gs2 *Geom) (_r0 bool, _r1 float64, _err error)
 }
 
 
-// BearingTpointPoint wraps MEOS C function bearing_tpoint_point.
-func BearingTpointPoint(temp *Temporal, gs *Geom, invert bool) (_r0 *Temporal, _err error) {
+// BearingPointTpoint wraps MEOS C function bearing_point_tpoint.
+func BearingPointTpoint(gs *Geom, temp *Temporal) (_r0 *Temporal, _err error) {
 	C.meos_errno_reset()
-	_cret := C.bearing_tpoint_point(temp._inner, gs._inner, C.bool(invert))
+	_cret := C.bearing_point_tpoint(gs._inner, temp._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// BearingTpointPoint wraps MEOS C function bearing_tpoint_point.
+func BearingTpointPoint(temp *Temporal, gs *Geom) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.bearing_tpoint_point(temp._inner, gs._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -3791,54 +3657,10 @@ func TpointAtElevation(temp *Temporal, s *Span) (_r0 *Temporal, _err error) {
 }
 
 
-// TpointAtGeom wraps MEOS C function tpoint_at_geom.
-func TpointAtGeom(temp *Temporal, gs *Geom) (_r0 *Temporal, _err error) {
-	C.meos_errno_reset()
-	_cret := C.tpoint_at_geom(temp._inner, gs._inner)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	return &Temporal{_inner: _cret}, nil
-}
-
-
-// TpointAtValue wraps MEOS C function tpoint_at_value.
-func TpointAtValue(temp *Temporal, gs *Geom) (_r0 *Temporal, _err error) {
-	C.meos_errno_reset()
-	_cret := C.tpoint_at_value(temp._inner, gs._inner)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	return &Temporal{_inner: _cret}, nil
-}
-
-
 // TpointMinusElevation wraps MEOS C function tpoint_minus_elevation.
 func TpointMinusElevation(temp *Temporal, s *Span) (_r0 *Temporal, _err error) {
 	C.meos_errno_reset()
 	_cret := C.tpoint_minus_elevation(temp._inner, s._inner)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	return &Temporal{_inner: _cret}, nil
-}
-
-
-// TpointMinusGeom wraps MEOS C function tpoint_minus_geom.
-func TpointMinusGeom(temp *Temporal, gs *Geom) (_r0 *Temporal, _err error) {
-	C.meos_errno_reset()
-	_cret := C.tpoint_minus_geom(temp._inner, gs._inner)
-	if _err = meosError(); _err != nil {
-		return
-	}
-	return &Temporal{_inner: _cret}, nil
-}
-
-
-// TpointMinusValue wraps MEOS C function tpoint_minus_value.
-func TpointMinusValue(temp *Temporal, gs *Geom) (_r0 *Temporal, _err error) {
-	C.meos_errno_reset()
-	_cret := C.tpoint_minus_value(temp._inner, gs._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -3912,6 +3734,39 @@ func AlwaysNeTgeoTgeo(temp1 *Temporal, temp2 *Temporal) (_r0 int, _err error) {
 }
 
 
+// AlwaysOverlapsSTBOXTgeo wraps MEOS C function always_overlaps_stbox_tgeo.
+func AlwaysOverlapsSTBOXTgeo(box *STBox, temp *Temporal) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.always_overlaps_stbox_tgeo(box._inner, temp._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
+// AlwaysOverlapsTgeoSTBOX wraps MEOS C function always_overlaps_tgeo_stbox.
+func AlwaysOverlapsTgeoSTBOX(temp *Temporal, box *STBox) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.always_overlaps_tgeo_stbox(temp._inner, box._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
+// AlwaysOverlapsTgeoTgeo wraps MEOS C function always_overlaps_tgeo_tgeo.
+func AlwaysOverlapsTgeoTgeo(temp1 *Temporal, temp2 *Temporal) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.always_overlaps_tgeo_tgeo(temp1._inner, temp2._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
 // EverEqGeoTgeo wraps MEOS C function ever_eq_geo_tgeo.
 func EverEqGeoTgeo(gs *Geom, temp *Temporal) (_r0 int, _err error) {
 	C.meos_errno_reset()
@@ -3971,6 +3826,39 @@ func EverNeTgeoGeo(temp *Temporal, gs *Geom) (_r0 int, _err error) {
 func EverNeTgeoTgeo(temp1 *Temporal, temp2 *Temporal) (_r0 int, _err error) {
 	C.meos_errno_reset()
 	_cret := C.ever_ne_tgeo_tgeo(temp1._inner, temp2._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
+// EverOverlapsSTBOXTgeo wraps MEOS C function ever_overlaps_stbox_tgeo.
+func EverOverlapsSTBOXTgeo(box *STBox, temp *Temporal) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.ever_overlaps_stbox_tgeo(box._inner, temp._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
+// EverOverlapsTgeoSTBOX wraps MEOS C function ever_overlaps_tgeo_stbox.
+func EverOverlapsTgeoSTBOX(temp *Temporal, box *STBox) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.ever_overlaps_tgeo_stbox(temp._inner, box._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
+// EverOverlapsTgeoTgeo wraps MEOS C function ever_overlaps_tgeo_tgeo.
+func EverOverlapsTgeoTgeo(temp1 *Temporal, temp2 *Temporal) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.ever_overlaps_tgeo_tgeo(temp1._inner, temp2._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -5485,6 +5373,50 @@ func AtouchesTgeoarrTgeoarr(arr1 unsafe.Pointer, count1 int, arr2 unsafe.Pointer
 }
 
 
+// EcontainsTgeoarrTgeoarr wraps MEOS C function econtains_tgeoarr_tgeoarr.
+func EcontainsTgeoarrTgeoarr(arr1 unsafe.Pointer, count1 int, arr2 unsafe.Pointer, count2 int, count unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
+	C.meos_errno_reset()
+	_cret := C.econtains_tgeoarr_tgeoarr((**C.Temporal)(unsafe.Pointer(arr1)), C.int(count1), (**C.Temporal)(unsafe.Pointer(arr2)), C.int(count2), (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
+}
+
+
+// AcontainsTgeoarrTgeoarr wraps MEOS C function acontains_tgeoarr_tgeoarr.
+func AcontainsTgeoarrTgeoarr(arr1 unsafe.Pointer, count1 int, arr2 unsafe.Pointer, count2 int, count unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
+	C.meos_errno_reset()
+	_cret := C.acontains_tgeoarr_tgeoarr((**C.Temporal)(unsafe.Pointer(arr1)), C.int(count1), (**C.Temporal)(unsafe.Pointer(arr2)), C.int(count2), (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
+}
+
+
+// EcoversTgeoarrTgeoarr wraps MEOS C function ecovers_tgeoarr_tgeoarr.
+func EcoversTgeoarrTgeoarr(arr1 unsafe.Pointer, count1 int, arr2 unsafe.Pointer, count2 int, count unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
+	C.meos_errno_reset()
+	_cret := C.ecovers_tgeoarr_tgeoarr((**C.Temporal)(unsafe.Pointer(arr1)), C.int(count1), (**C.Temporal)(unsafe.Pointer(arr2)), C.int(count2), (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
+}
+
+
+// AcoversTgeoarrTgeoarr wraps MEOS C function acovers_tgeoarr_tgeoarr.
+func AcoversTgeoarrTgeoarr(arr1 unsafe.Pointer, count1 int, arr2 unsafe.Pointer, count2 int, count unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
+	C.meos_errno_reset()
+	_cret := C.acovers_tgeoarr_tgeoarr((**C.Temporal)(unsafe.Pointer(arr1)), C.int(count1), (**C.Temporal)(unsafe.Pointer(arr2)), C.int(count2), (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
+}
+
+
 // EdisjointTgeoarrTgeoarr wraps MEOS C function edisjoint_tgeoarr_tgeoarr.
 func EdisjointTgeoarrTgeoarr(arr1 unsafe.Pointer, count1 int, arr2 unsafe.Pointer, count2 int, count unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
 	C.meos_errno_reset()
@@ -5533,6 +5465,28 @@ func TintersectsTgeoarrTgeoarr(arr1 unsafe.Pointer, count1 int, arr2 unsafe.Poin
 func TtouchesTgeoarrTgeoarr(arr1 unsafe.Pointer, count1 int, arr2 unsafe.Pointer, count2 int, count unsafe.Pointer, periods unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
 	C.meos_errno_reset()
 	_cret := C.ttouches_tgeoarr_tgeoarr((**C.Temporal)(unsafe.Pointer(arr1)), C.int(count1), (**C.Temporal)(unsafe.Pointer(arr2)), C.int(count2), (*C.int)(unsafe.Pointer(count)), (***C.SpanSet)(unsafe.Pointer(periods)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
+}
+
+
+// TcontainsTgeoarrTgeoarr wraps MEOS C function tcontains_tgeoarr_tgeoarr.
+func TcontainsTgeoarrTgeoarr(arr1 unsafe.Pointer, count1 int, arr2 unsafe.Pointer, count2 int, count unsafe.Pointer, periods unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tcontains_tgeoarr_tgeoarr((**C.Temporal)(unsafe.Pointer(arr1)), C.int(count1), (**C.Temporal)(unsafe.Pointer(arr2)), C.int(count2), (*C.int)(unsafe.Pointer(count)), (***C.SpanSet)(unsafe.Pointer(periods)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
+}
+
+
+// TcoversTgeoarrTgeoarr wraps MEOS C function tcovers_tgeoarr_tgeoarr.
+func TcoversTgeoarrTgeoarr(arr1 unsafe.Pointer, count1 int, arr2 unsafe.Pointer, count2 int, count unsafe.Pointer, periods unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tcovers_tgeoarr_tgeoarr((**C.Temporal)(unsafe.Pointer(arr1)), C.int(count1), (**C.Temporal)(unsafe.Pointer(arr2)), C.int(count2), (*C.int)(unsafe.Pointer(count)), (***C.SpanSet)(unsafe.Pointer(periods)))
 	if _err = meosError(); _err != nil {
 		return
 	}
