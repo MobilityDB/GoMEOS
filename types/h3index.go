@@ -11,8 +11,8 @@ import (
 // H3Index is a value MEOS passes by value, of C type H3Index.
 type H3Index functions.H3Index
 
-// H3IndexIn is MEOS h3index_in.
-func H3IndexIn(str string) (H3Index, error) {
+// H3IndexFromText is the portable fromText of MEOS h3index_in.
+func H3IndexFromText(str string) (H3Index, error) {
 	_r0, _err := functions.H3indexIn(str)
 	if _err != nil {
 		return 0, _err
@@ -20,8 +20,8 @@ func H3IndexIn(str string) (H3Index, error) {
 	return H3Index(_r0), nil
 }
 
-// Out is MEOS h3index_out.
-func (x H3Index) Out() (string, error) {
+// AsText is the portable asText of MEOS h3index_out.
+func (x H3Index) AsText() (string, error) {
 	_r0, _err := functions.H3indexOut(functions.H3Index(x))
 	if _err != nil {
 		return "", _err
@@ -241,19 +241,9 @@ func (x H3Index) TstzspanToStbox(s *Span) (*STBox, error) {
 	return STBoxFromPointer(_r0.Pointer()), nil
 }
 
-// AsText is the portable asText of MEOS h3index_out.
-func (x H3Index) AsText() (string, error) {
-	return x.Out()
-}
-
-// H3IndexFromText is the portable fromText of MEOS h3index_in.
-func H3IndexFromText(str string) (H3Index, error) {
-	return H3IndexIn(str)
-}
-
 // String is the text MEOS writes this value as, MEOS h3index_out.
 func (x H3Index) String() string {
-	s, err := x.Out()
+	s, err := x.AsText()
 	if err != nil {
 		return "%!s(MEOS error: " + err.Error() + ")"
 	}

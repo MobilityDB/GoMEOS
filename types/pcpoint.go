@@ -23,8 +23,8 @@ func PCPointFromPointer(p unsafe.Pointer) *PCPoint {
 	return v
 }
 
-// PCPointHexIn is MEOS pcpoint_hex_in.
-func PCPointHexIn(str string) (*PCPoint, error) {
+// PCPointFromText is the portable fromText of MEOS pcpoint_hex_in.
+func PCPointFromText(str string) (*PCPoint, error) {
 	_r0, _err := functions.PcpointHexIn(str)
 	if _err != nil {
 		return nil, _err
@@ -32,8 +32,8 @@ func PCPointHexIn(str string) (*PCPoint, error) {
 	return PCPointFromPointer(_r0.Pointer()), nil
 }
 
-// HexOut is MEOS pcpoint_hex_out.
-func (x *PCPoint) HexOut(maxdd int) (string, error) {
+// AsText is the portable asText of MEOS pcpoint_hex_out.
+func (x *PCPoint) AsText(maxdd int) (string, error) {
 	_r0, _err := functions.PcpointHexOut(functions.PcpointFromPointer(x.Pointer()), maxdd)
 	if _err != nil {
 		return "", _err
@@ -230,19 +230,9 @@ func (x *PCPoint) ToSet() (*Set, error) {
 	return SetFromPointer(_r0.Pointer()), nil
 }
 
-// AsText is the portable asText of MEOS pcpoint_hex_out.
-func (x *PCPoint) AsText(maxdd int) (string, error) {
-	return x.HexOut(maxdd)
-}
-
-// PCPointFromText is the portable fromText of MEOS pcpoint_hex_in.
-func PCPointFromText(str string) (*PCPoint, error) {
-	return PCPointHexIn(str)
-}
-
 // String is the text MEOS writes this value as, MEOS pcpoint_hex_out.
 func (x *PCPoint) String() string {
-	s, err := x.HexOut(15)
+	s, err := x.AsText(15)
 	if err != nil {
 		return "%!s(MEOS error: " + err.Error() + ")"
 	}

@@ -32,17 +32,8 @@ func JsonbFromText(txt string, unique_keys bool) (*Jsonb, error) {
 	return JsonbFromPointer(_r0.Pointer()), nil
 }
 
-// JsonbIn is MEOS jsonb_in.
-func JsonbIn(str string) (*Jsonb, error) {
-	_r0, _err := functions.JsonbIn(str)
-	if _err != nil {
-		return nil, _err
-	}
-	return JsonbFromPointer(_r0.Pointer()), nil
-}
-
-// Out is MEOS jsonb_out.
-func (x *Jsonb) Out() (string, error) {
+// AsText is the portable asText of MEOS jsonb_out.
+func (x *Jsonb) AsText() (string, error) {
 	_r0, _err := functions.JsonbOut(functions.JsonbFromPointer(x.Pointer()))
 	if _err != nil {
 		return "", _err
@@ -536,14 +527,9 @@ func (x *Jsonb) ToSet() (*Set, error) {
 	return SetFromPointer(_r0.Pointer()), nil
 }
 
-// AsText is the portable asText of MEOS jsonb_out.
-func (x *Jsonb) AsText() (string, error) {
-	return x.Out()
-}
-
 // String is the text MEOS writes this value as, MEOS jsonb_out.
 func (x *Jsonb) String() string {
-	s, err := x.Out()
+	s, err := x.AsText()
 	if err != nil {
 		return "%!s(MEOS error: " + err.Error() + ")"
 	}

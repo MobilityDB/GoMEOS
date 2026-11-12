@@ -499,49 +499,71 @@ class Generator:
                     return verb, spelling
         return None
 
-    def type_support(self, entry: dict) -> bool:
-        """Whether an own method the object model calls by its role (ooName `in`
-        or `out`) is a type support function: one whose function the catalog
-        gives an SQL signature marked typeSupport, the input or output function
-        a CREATE TYPE binds."""
-        return entry["ooName"] in ("in", "out") and any(
-            s.get("typeSupport") for s in
-            self.m.functions.get(entry["function"], {}).get("sqlSignatures") or [])
+    # The ooNames the object model gives a function by its role, the reader or
+    # writer of a type, never by what it reads or writes: the input and output
+    # functions (`in`, `out`) and the hex ones of the point cloud types
+    # (`hexIn`, `hexOut`).
+    ROLE_NAMES = ("in", "out", "hexIn", "hexOut")
+
+    def role_named(self, entry: dict) -> bool:
+        """Whether the object model calls an own method by its role (#ROLE_NAMES),
+        whoever owns the type it reads or writes."""
+        return entry["ooName"] in self.ROLE_NAMES
 
     def plumbing(self, entry: dict) -> bool:
-        """Whether a type support function serves no portable format
+        """Whether a method called by its role serves no portable format
         (#portable_format), so the object layer leaves it out, as the dialect
-        never names it: its text is the PostgreSQL wire form, which the
-        portable reader of the text reads (pose_out writes POSE (<hex>, 0.5),
-        which poseFromText reads), and its function stays in the flat layer.
-        One serving a portable format takes its name (#take_portable_names)."""
-        return self.type_support(entry) and self.portable_format(entry["function"]) is None
+        never names it, and its function stays in the flat layer: pose_out
+        writes the PostgreSQL wire form, POSE (<hex>, 0.5), which poseFromText
+        reads, and geo_out writes the hex EWKB of a geometry, whose text
+        geo_as_text writes. One serving a portable format takes its name
+        (#take_portable_names)."""
+        return self.role_named(entry) and self.portable_format(entry["function"]) is None
 
     def take_portable_names(self, cls: str, methods: list, own: list,
                             entries: list, functions: dict) -> None:
-        """Emit each type support function of the class under the portable name
-        of the format it serves (#portable_format), never under its C name: an
-        own method the object model calls by its role (ooName `in` or `out`)
-        whose function the catalog names a type support function of (an SQL
-        signature marked typeSupport, the input or output function a CREATE
-        TYPE binds), TGeomPointIn for tgeompoint_in. A function serving no
-        portable format keeps its name."""
+        """Emit each method the object model calls by its role (#role_named)
+        under the portable name of the format it serves (#portable_format),
+        never under its role: TGeomPointFromText for tgeompoint_in, AsText for
+        jsonpath_out, PCPointFromText for pcpoint_hex_in. A method whose
+        portable name the class already has is dropped, its function staying
+        in the flat layer: jsonb_in beside JsonbFromText, the method of
+        jsonb_from_text."""
         taken = {e.name for e in functions.values()} | {e.name for e in own}
-        for target, entry in zip(own, entries):
-            if not self.type_support(entry):
+        for target, entry in list(zip(own, entries)):
+            if not self.role_named(entry):
                 continue
             verb, spelling = self.portable_format(target.function)
             name = verb + spelling if target.instance else cls + verb + spelling
             if (verb == "As") != target.instance or name in taken \
                     or (not target.instance and name in self.package_names):
+                self.drop_method(cls, methods, own, entries, functions, target)
                 continue
             self.take_portable_name(cls, methods, target, verb, spelling, name)
             taken.add(name)
 
+    def drop_method(self, cls: str, methods: list, own: list, entries: list,
+                    functions: dict, target: Emitted) -> None:
+        """Leave a method out of the object layer, its function staying in the
+        flat layer."""
+        head = (f"func ({self.receiver(cls)}) {target.name}(" if target.instance else
+                f"func {target.name}(")
+        i = next(i for i, m in enumerate(methods) if m.split("\n")[1].startswith(head))
+        del methods[i]
+        j = own.index(target)
+        del own[j]
+        del entries[j]
+        if target.instance:
+            functions.pop(target.function, None)
+        else:
+            self.static_functions.pop(target.function, None)
+            self.package_names.discard(target.name)
+        self.emitted -= 1
+
     def take_portable_name(self, cls: str, methods: list, target: Emitted, verb: str,
                            spelling: str, name: str) -> None:
-        """Give a type support function of the class the portable name of the
-        format it reads or writes, its method keeping its body: a reader
+        """Give a method the object model calls by its role the portable name of
+        the format it reads or writes, its method keeping its body: a reader
         answers the class it reads, as a portable reader of an ancestor's
         function does, so TGeomPointFromText answers a *TGeomPoint."""
         head = (f"func ({self.receiver(cls)}) {target.name}(" if target.instance else

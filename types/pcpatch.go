@@ -23,8 +23,8 @@ func PCPatchFromPointer(p unsafe.Pointer) *PCPatch {
 	return v
 }
 
-// PCPatchHexIn is MEOS pcpatch_hex_in.
-func PCPatchHexIn(str string) (*PCPatch, error) {
+// PCPatchFromText is the portable fromText of MEOS pcpatch_hex_in.
+func PCPatchFromText(str string) (*PCPatch, error) {
 	_r0, _err := functions.PcpatchHexIn(str)
 	if _err != nil {
 		return nil, _err
@@ -32,8 +32,8 @@ func PCPatchHexIn(str string) (*PCPatch, error) {
 	return PCPatchFromPointer(_r0.Pointer()), nil
 }
 
-// HexOut is MEOS pcpatch_hex_out.
-func (x *PCPatch) HexOut(maxdd int) (string, error) {
+// AsText is the portable asText of MEOS pcpatch_hex_out.
+func (x *PCPatch) AsText(maxdd int) (string, error) {
 	_r0, _err := functions.PcpatchHexOut(functions.PcpatchFromPointer(x.Pointer()), maxdd)
 	if _err != nil {
 		return "", _err
@@ -248,19 +248,9 @@ func (x *PCPatch) ToTpcbox() (*TPCBox, error) {
 	return TPCBoxFromPointer(_r0.Pointer()), nil
 }
 
-// AsText is the portable asText of MEOS pcpatch_hex_out.
-func (x *PCPatch) AsText(maxdd int) (string, error) {
-	return x.HexOut(maxdd)
-}
-
-// PCPatchFromText is the portable fromText of MEOS pcpatch_hex_in.
-func PCPatchFromText(str string) (*PCPatch, error) {
-	return PCPatchHexIn(str)
-}
-
 // String is the text MEOS writes this value as, MEOS pcpatch_hex_out.
 func (x *PCPatch) String() string {
-	s, err := x.HexOut(15)
+	s, err := x.AsText(15)
 	if err != nil {
 		return "%!s(MEOS error: " + err.Error() + ")"
 	}

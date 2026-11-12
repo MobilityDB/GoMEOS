@@ -23,8 +23,8 @@ func JsonPathFromPointer(p unsafe.Pointer) *JsonPath {
 	return v
 }
 
-// JsonPathIn is MEOS jsonpath_in.
-func JsonPathIn(str string) (*JsonPath, error) {
+// JsonPathFromText is the portable fromText of MEOS jsonpath_in.
+func JsonPathFromText(str string) (*JsonPath, error) {
 	_r0, _err := functions.JsonpathIn(str)
 	if _err != nil {
 		return nil, _err
@@ -50,8 +50,8 @@ func (x *JsonPath) MemSize() (int, error) {
 	return _r0, nil
 }
 
-// Out is MEOS jsonpath_out.
-func (x *JsonPath) Out() (string, error) {
+// AsText is the portable asText of MEOS jsonpath_out.
+func (x *JsonPath) AsText() (string, error) {
 	_r0, _err := functions.JsonpathOut(functions.JsonPathFromPointer(x.Pointer()))
 	if _err != nil {
 		return "", _err
@@ -59,19 +59,9 @@ func (x *JsonPath) Out() (string, error) {
 	return _r0, nil
 }
 
-// AsText is the portable asText of MEOS jsonpath_out.
-func (x *JsonPath) AsText() (string, error) {
-	return x.Out()
-}
-
-// JsonPathFromText is the portable fromText of MEOS jsonpath_in.
-func JsonPathFromText(str string) (*JsonPath, error) {
-	return JsonPathIn(str)
-}
-
 // String is the text MEOS writes this value as, MEOS jsonpath_out.
 func (x *JsonPath) String() string {
-	s, err := x.Out()
+	s, err := x.AsText()
 	if err != nil {
 		return "%!s(MEOS error: " + err.Error() + ")"
 	}
