@@ -101,8 +101,8 @@ func NPointFromWKB(wkb []byte) (*NPoint, error) {
 	return NPointFromPointer(_r0.Pointer()), nil
 }
 
-// NPointIn is MEOS npoint_in.
-func NPointIn(str string) (*NPoint, error) {
+// NPointFromText is the portable fromText of MEOS npoint_in.
+func NPointFromText(str string) (*NPoint, error) {
 	_r0, _err := functions.NpointIn(str)
 	if _err != nil {
 		return nil, _err
@@ -333,17 +333,12 @@ func NPointFromEWKB(wkb []byte) (*NPoint, error) {
 
 // NPointFromEWKT is the portable fromEWKT of MEOS npoint_in.
 func NPointFromEWKT(str string) (*NPoint, error) {
-	return NPointIn(str)
+	return NPointFromText(str)
 }
 
 // NPointFromHexEWKB is the portable fromHexEWKB of MEOS npoint_from_hexwkb.
 func NPointFromHexEWKB(hexwkb string) (*NPoint, error) {
 	return NPointFromHexWKB(hexwkb)
-}
-
-// NPointFromText is the portable fromText of MEOS npoint_in.
-func NPointFromText(str string) (*NPoint, error) {
-	return NPointIn(str)
 }
 
 // String is the text MEOS writes this value as, MEOS npoint_as_text.

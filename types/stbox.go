@@ -92,8 +92,8 @@ func STBoxFromWKB(wkb []byte) (*STBox, error) {
 	return STBoxFromPointer(_r0.Pointer()), nil
 }
 
-// STBoxIn is MEOS stbox_in.
-func STBoxIn(str string) (*STBox, error) {
+// STBoxFromText is the portable fromText of MEOS stbox_in.
+func STBoxFromText(str string) (*STBox, error) {
 	_r0, _err := functions.STBOXIn(str)
 	if _err != nil {
 		return nil, _err
@@ -101,8 +101,8 @@ func STBoxIn(str string) (*STBox, error) {
 	return STBoxFromPointer(_r0.Pointer()), nil
 }
 
-// Out is MEOS stbox_out.
-func (x *STBox) Out(maxdd int) (string, error) {
+// AsEWKT is the portable asEWKT of MEOS stbox_out.
+func (x *STBox) AsEWKT(maxdd int) (string, error) {
 	_r0, _err := functions.STBOXOut(functions.STBoxFromPointer(x.Pointer()), maxdd)
 	if _err != nil {
 		return "", _err
@@ -632,24 +632,14 @@ func STBoxFromEWKB(wkb []byte) (*STBox, error) {
 	return STBoxFromWKB(wkb)
 }
 
-// AsEWKT is the portable asEWKT of MEOS stbox_out.
-func (x *STBox) AsEWKT(maxdd int) (string, error) {
-	return x.Out(maxdd)
-}
-
 // STBoxFromEWKT is the portable fromEWKT of MEOS stbox_in.
 func STBoxFromEWKT(str string) (*STBox, error) {
-	return STBoxIn(str)
+	return STBoxFromText(str)
 }
 
 // STBoxFromHexEWKB is the portable fromHexEWKB of MEOS stbox_from_hexwkb.
 func STBoxFromHexEWKB(hexwkb string) (*STBox, error) {
 	return STBoxFromHexWKB(hexwkb)
-}
-
-// STBoxFromText is the portable fromText of MEOS stbox_in.
-func STBoxFromText(str string) (*STBox, error) {
-	return STBoxIn(str)
 }
 
 // String is the text MEOS writes this value as, MEOS stbox_as_text.

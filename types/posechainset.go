@@ -23,13 +23,13 @@ func PoseChainSetFromPointer(p unsafe.Pointer) *PoseChainSet {
 	return v
 }
 
-// PoseChainSetIn is MEOS posechainset_in.
-func PoseChainSetIn(str string) (*Set, error) {
+// PoseChainSetFromText is the portable fromText of MEOS posechainset_in.
+func PoseChainSetFromText(str string) (*PoseChainSet, error) {
 	_r0, _err := functions.PosechainsetIn(str)
 	if _err != nil {
 		return nil, _err
 	}
-	return SetFromPointer(_r0.Pointer()), nil
+	return PoseChainSetFromPointer(_r0.Pointer()), nil
 }
 
 // PoseChainSetMake is MEOS posechainset_make.
@@ -79,11 +79,7 @@ func PoseChainSetFromEWKB(wkb []byte) (*PoseChainSet, error) {
 
 // PoseChainSetFromEWKT is the portable fromEWKT of MEOS posechainset_in.
 func PoseChainSetFromEWKT(str string) (*PoseChainSet, error) {
-	r, err := PoseChainSetIn(str)
-	if err != nil || r == nil {
-		return nil, err
-	}
-	return PoseChainSetFromPointer(r.Pointer()), nil
+	return PoseChainSetFromText(str)
 }
 
 // PoseChainSetFromHexEWKB is the portable fromHexEWKB of MEOS set_from_hexwkb.
@@ -98,15 +94,6 @@ func PoseChainSetFromHexEWKB(hexwkb string) (*PoseChainSet, error) {
 // PoseChainSetFromHexWKB is the portable fromHexWKB of MEOS set_from_hexwkb.
 func PoseChainSetFromHexWKB(hexwkb string) (*PoseChainSet, error) {
 	r, err := SetFromHexWKB(hexwkb)
-	if err != nil || r == nil {
-		return nil, err
-	}
-	return PoseChainSetFromPointer(r.Pointer()), nil
-}
-
-// PoseChainSetFromText is the portable fromText of MEOS posechainset_in.
-func PoseChainSetFromText(str string) (*PoseChainSet, error) {
-	r, err := PoseChainSetIn(str)
 	if err != nil || r == nil {
 		return nil, err
 	}

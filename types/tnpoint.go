@@ -23,13 +23,13 @@ func TNPointFromPointer(p unsafe.Pointer) *TNPoint {
 	return v
 }
 
-// TNPointIn is MEOS tnpoint_in.
-func TNPointIn(str string) (*Temporal, error) {
+// TNPointFromText is the portable fromText of MEOS tnpoint_in.
+func TNPointFromText(str string) (*TNPoint, error) {
 	_r0, _err := functions.TnpointIn(str)
 	if _err != nil {
 		return nil, _err
 	}
-	return TemporalFromPointer(_r0.Pointer()), nil
+	return TNPointFromPointer(_r0.Pointer()), nil
 }
 
 // TNPointFromMFJSON is MEOS tnpoint_from_mfjson.
@@ -292,11 +292,7 @@ func TNPointFromEWKB(wkb []byte) (*TNPoint, error) {
 
 // TNPointFromEWKT is the portable fromEWKT of MEOS tnpoint_in.
 func TNPointFromEWKT(str string) (*TNPoint, error) {
-	r, err := TNPointIn(str)
-	if err != nil || r == nil {
-		return nil, err
-	}
-	return TNPointFromPointer(r.Pointer()), nil
+	return TNPointFromText(str)
 }
 
 // TNPointFromHexEWKB is the portable fromHexEWKB of MEOS temporal_from_hexwkb.
@@ -311,15 +307,6 @@ func TNPointFromHexEWKB(hexwkb string) (*TNPoint, error) {
 // TNPointFromHexWKB is the portable fromHexWKB of MEOS temporal_from_hexwkb.
 func TNPointFromHexWKB(hexwkb string) (*TNPoint, error) {
 	r, err := TemporalFromHexWKB(hexwkb)
-	if err != nil || r == nil {
-		return nil, err
-	}
-	return TNPointFromPointer(r.Pointer()), nil
-}
-
-// TNPointFromText is the portable fromText of MEOS tnpoint_in.
-func TNPointFromText(str string) (*TNPoint, error) {
-	r, err := TNPointIn(str)
 	if err != nil || r == nil {
 		return nil, err
 	}

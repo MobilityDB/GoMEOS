@@ -23,13 +23,13 @@ func BigIntSetFromPointer(p unsafe.Pointer) *BigIntSet {
 	return v
 }
 
-// BigIntSetIn is MEOS bigintset_in.
-func BigIntSetIn(str string) (*Set, error) {
+// BigIntSetFromText is the portable fromText of MEOS bigintset_in.
+func BigIntSetFromText(str string) (*BigIntSet, error) {
 	_r0, _err := functions.BigintsetIn(str)
 	if _err != nil {
 		return nil, _err
 	}
-	return SetFromPointer(_r0.Pointer()), nil
+	return BigIntSetFromPointer(_r0.Pointer()), nil
 }
 
 // BigIntSetMake is MEOS bigintset_make.
@@ -107,20 +107,6 @@ func BigIntSetFromHexWKB(hexwkb string) (*BigIntSet, error) {
 	return BigIntSetFromPointer(r.Pointer()), nil
 }
 
-// AsText is the portable asText of MEOS set_out.
-func (x *BigIntSet) AsText(maxdd int) (string, error) {
-	return x.Out(maxdd)
-}
-
-// BigIntSetFromText is the portable fromText of MEOS bigintset_in.
-func BigIntSetFromText(str string) (*BigIntSet, error) {
-	r, err := BigIntSetIn(str)
-	if err != nil || r == nil {
-		return nil, err
-	}
-	return BigIntSetFromPointer(r.Pointer()), nil
-}
-
 // BigIntSetFromWKB is the portable fromWKB of MEOS set_from_wkb.
 func BigIntSetFromWKB(wkb []byte) (*BigIntSet, error) {
 	r, err := SetFromWKB(wkb)
@@ -132,7 +118,7 @@ func BigIntSetFromWKB(wkb []byte) (*BigIntSet, error) {
 
 // String is the text MEOS writes this value as, MEOS set_out.
 func (x *BigIntSet) String() string {
-	s, err := x.Out(15)
+	s, err := x.AsText(15)
 	if err != nil {
 		return "%!s(MEOS error: " + err.Error() + ")"
 	}

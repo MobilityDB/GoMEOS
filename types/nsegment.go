@@ -73,8 +73,8 @@ func NSegmentFromWKB(wkb []byte) (*NSegment, error) {
 	return NSegmentFromPointer(_r0.Pointer()), nil
 }
 
-// NSegmentIn is MEOS nsegment_in.
-func NSegmentIn(str string) (*NSegment, error) {
+// NSegmentFromText is the portable fromText of MEOS nsegment_in.
+func NSegmentFromText(str string) (*NSegment, error) {
 	_r0, _err := functions.NsegmentIn(str)
 	if _err != nil {
 		return nil, _err
@@ -279,17 +279,12 @@ func NSegmentFromEWKB(wkb []byte) (*NSegment, error) {
 
 // NSegmentFromEWKT is the portable fromEWKT of MEOS nsegment_in.
 func NSegmentFromEWKT(str string) (*NSegment, error) {
-	return NSegmentIn(str)
+	return NSegmentFromText(str)
 }
 
 // NSegmentFromHexEWKB is the portable fromHexEWKB of MEOS nsegment_from_hexwkb.
 func NSegmentFromHexEWKB(hexwkb string) (*NSegment, error) {
 	return NSegmentFromHexWKB(hexwkb)
-}
-
-// NSegmentFromText is the portable fromText of MEOS nsegment_in.
-func NSegmentFromText(str string) (*NSegment, error) {
-	return NSegmentIn(str)
 }
 
 // String is the text MEOS writes this value as, MEOS nsegment_as_text.

@@ -454,6 +454,79 @@ class Generator:
         mt = self.m.meostype.get(cls)
         return enc, (mt[2:].lower() if mt else None)
 
+    def portable_format(self, function: str) -> tuple[str, str] | None:
+        """The verb and spelling of the first format, in #FORMAT_SPELLING's
+        order, that typeEncodings reads or writes with the function, for any
+        type: ("From", "Text") for tgeompoint_in, which reads the text and the
+        EWKT of tgeompoint, and ("As", "Text") for set_out, the text writer of
+        every set type."""
+        found = set()
+        for enc in self.m.idl.get("typeEncodings", {}).values():
+            for verb, by_type, by_class in (("As", "writers", "encoders"),
+                                            ("From", "readers", "decoders")):
+                for e, per_type in (enc.get(by_type) or {}).items():
+                    if function in per_type.values():
+                        found.add((verb, e))
+                for e, fn in (enc.get(by_class) or {}).items():
+                    if fn == function:
+                        found.add((verb, e))
+        for e, spelling in self.FORMAT_SPELLING.items():
+            for verb in ("As", "From"):
+                if (verb, e) in found:
+                    return verb, spelling
+        return None
+
+    def take_portable_names(self, cls: str, methods: list, own: list,
+                            entries: list, functions: dict) -> None:
+        """Emit each type support function of the class under the portable name
+        of the format it serves (#portable_format), never under its C name: an
+        own method the object model calls by its role (ooName `in` or `out`)
+        whose function the catalog names a type support function of (an SQL
+        signature marked typeSupport, the input or output function a CREATE
+        TYPE binds), TGeomPointIn for tgeompoint_in. A function serving no
+        portable format keeps its name."""
+        taken = {e.name for e in functions.values()} | {e.name for e in own}
+        for target, entry in zip(own, entries):
+            if entry["ooName"] not in ("in", "out") or not any(
+                    s.get("typeSupport") for s in
+                    self.m.functions.get(target.function, {}).get("sqlSignatures") or []):
+                continue
+            fmt = self.portable_format(target.function)
+            if fmt is None:
+                continue
+            verb, spelling = fmt
+            name = verb + spelling if target.instance else cls + verb + spelling
+            if (verb == "As") != target.instance or name in taken \
+                    or (not target.instance and name in self.package_names):
+                continue
+            self.take_portable_name(cls, methods, target, verb, spelling, name)
+            taken.add(name)
+
+    def take_portable_name(self, cls: str, methods: list, target: Emitted, verb: str,
+                           spelling: str, name: str) -> None:
+        """Give a type support function of the class the portable name of the
+        format it reads or writes, its method keeping its body: a reader
+        answers the class it reads, as a portable reader of an ancestor's
+        function does, so TGeomPointFromText answers a *TGeomPoint."""
+        head = (f"func (x *{cls}) {target.name}(" if target.instance else
+                f"func {target.name}(")
+        i = next(i for i, m in enumerate(methods) if m.split("\n")[1].startswith(head))
+        code = methods[i].split("\n", 1)[1].replace(
+            head, head.replace(f" {target.name}(", f" {name}("), 1)
+        answered = (target.result[2:].split(",", 1)[0]
+                    if target.result.startswith("(*") else None)
+        if (verb == "From" and answered and answered != cls
+                and answered in self.m.ancestors(cls)):
+            code = (code.replace(f") {target.result} {{", f") (*{cls}, error) {{", 1)
+                    .replace(f"\treturn {answered}FromPointer(", f"\treturn {cls}FromPointer("))
+            target.result = f"(*{cls}, error)"
+        methods[i] = (f"// {name} is the portable {verb.lower()}{spelling} of "
+                      f"MEOS {target.function}.\n{code}")
+        if not target.instance:
+            self.package_names.discard(target.name)
+            self.package_names.add(name)
+        target.name = name
+
     def portable_methods(self, cls: str, own: list, functions: dict) -> list[str]:
         """The portable reader and writer of every encoding typeEncodings gives the
         class's type, as #portable_methods of MEOS.NET's tools/objectgen.py emits
@@ -569,7 +642,7 @@ class Generator:
         spec = self.m.om["classes"].get(cls) or {"methods": []}
         parent = self.m.parent.get(cls)
 
-        methods, seen, own = [], set(), []
+        methods, seen, own, entries = [], set(), [], []
         for entry in spec["methods"]:
             if entry.get("ooExclude"):
                 continue
@@ -582,12 +655,14 @@ class Generator:
             seen.add(head)
             methods.append(code)
             own.append(self.last)
+            entries.append(entry)
 
         functions = dict(self.class_functions.get(parent, {}))
         functions.update({e.function: e for e in own if e.instance})
         self.class_functions[cls] = functions
         self.static_functions.update({e.function: e for e in own if not e.instance})
         self.package_names |= {e.name for e in own if not e.instance}
+        self.take_portable_names(cls, methods, own, entries, functions)
         methods += self.portable_methods(cls, own, functions)
         methods += self.string_method(cls, functions)
 

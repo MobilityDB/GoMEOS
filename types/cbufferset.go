@@ -23,13 +23,13 @@ func CBufferSetFromPointer(p unsafe.Pointer) *CBufferSet {
 	return v
 }
 
-// CBufferSetIn is MEOS cbufferset_in.
-func CBufferSetIn(str string) (*Set, error) {
+// CBufferSetFromText is the portable fromText of MEOS cbufferset_in.
+func CBufferSetFromText(str string) (*CBufferSet, error) {
 	_r0, _err := functions.CbuffersetIn(str)
 	if _err != nil {
 		return nil, _err
 	}
-	return SetFromPointer(_r0.Pointer()), nil
+	return CBufferSetFromPointer(_r0.Pointer()), nil
 }
 
 // CBufferSetMake is MEOS cbufferset_make.
@@ -91,11 +91,7 @@ func CBufferSetFromEWKB(wkb []byte) (*CBufferSet, error) {
 
 // CBufferSetFromEWKT is the portable fromEWKT of MEOS cbufferset_in.
 func CBufferSetFromEWKT(str string) (*CBufferSet, error) {
-	r, err := CBufferSetIn(str)
-	if err != nil || r == nil {
-		return nil, err
-	}
-	return CBufferSetFromPointer(r.Pointer()), nil
+	return CBufferSetFromText(str)
 }
 
 // CBufferSetFromHexEWKB is the portable fromHexEWKB of MEOS set_from_hexwkb.
@@ -110,15 +106,6 @@ func CBufferSetFromHexEWKB(hexwkb string) (*CBufferSet, error) {
 // CBufferSetFromHexWKB is the portable fromHexWKB of MEOS set_from_hexwkb.
 func CBufferSetFromHexWKB(hexwkb string) (*CBufferSet, error) {
 	r, err := SetFromHexWKB(hexwkb)
-	if err != nil || r == nil {
-		return nil, err
-	}
-	return CBufferSetFromPointer(r.Pointer()), nil
-}
-
-// CBufferSetFromText is the portable fromText of MEOS cbufferset_in.
-func CBufferSetFromText(str string) (*CBufferSet, error) {
-	r, err := CBufferSetIn(str)
 	if err != nil || r == nil {
 		return nil, err
 	}

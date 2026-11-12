@@ -64,8 +64,8 @@ func SpanSetFromWKB(wkb []byte) (*SpanSet, error) {
 	return SpanSetFromPointer(_r0.Pointer()), nil
 }
 
-// Out is MEOS spanset_out.
-func (x *SpanSet) Out(maxdd int) (string, error) {
+// AsText is the portable asText of MEOS spanset_out.
+func (x *SpanSet) AsText(maxdd int) (string, error) {
 	_r0, _err := functions.SpansetOut(functions.SpanSetFromPointer(x.Pointer()), maxdd)
 	if _err != nil {
 		return "", _err
@@ -301,7 +301,7 @@ func (x *SpanSet) ToTbox() (*TBox, error) {
 
 // String is the text MEOS writes this value as, MEOS spanset_out.
 func (x *SpanSet) String() string {
-	s, err := x.Out(15)
+	s, err := x.AsText(15)
 	if err != nil {
 		return "%!s(MEOS error: " + err.Error() + ")"
 	}

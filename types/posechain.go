@@ -23,8 +23,8 @@ func PoseChainFromPointer(p unsafe.Pointer) *PoseChain {
 	return v
 }
 
-// PoseChainIn is MEOS posechain_in.
-func PoseChainIn(str string) (unsafe.Pointer, error) {
+// PoseChainFromText is the portable fromText of MEOS posechain_in.
+func PoseChainFromText(str string) (unsafe.Pointer, error) {
 	_r0, _err := functions.PosechainIn(str)
 	if _err != nil {
 		return nil, _err
@@ -405,15 +405,10 @@ func PoseChainFromEWKB(wkb []byte) (unsafe.Pointer, error) {
 
 // PoseChainFromEWKT is the portable fromEWKT of MEOS posechain_in.
 func PoseChainFromEWKT(str string) (unsafe.Pointer, error) {
-	return PoseChainIn(str)
+	return PoseChainFromText(str)
 }
 
 // PoseChainFromHexEWKB is the portable fromHexEWKB of MEOS posechain_from_hexwkb.
 func PoseChainFromHexEWKB(hexwkb string) (unsafe.Pointer, error) {
 	return PoseChainFromHexWKB(hexwkb)
-}
-
-// PoseChainFromText is the portable fromText of MEOS posechain_in.
-func PoseChainFromText(str string) (unsafe.Pointer, error) {
-	return PoseChainIn(str)
 }

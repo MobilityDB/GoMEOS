@@ -23,13 +23,13 @@ func BigIntSpanSetFromPointer(p unsafe.Pointer) *BigIntSpanSet {
 	return v
 }
 
-// BigIntSpanSetIn is MEOS bigintspanset_in.
-func BigIntSpanSetIn(str string) (*SpanSet, error) {
+// BigIntSpanSetFromText is the portable fromText of MEOS bigintspanset_in.
+func BigIntSpanSetFromText(str string) (*BigIntSpanSet, error) {
 	_r0, _err := functions.BigintspansetIn(str)
 	if _err != nil {
 		return nil, _err
 	}
-	return SpanSetFromPointer(_r0.Pointer()), nil
+	return BigIntSpanSetFromPointer(_r0.Pointer()), nil
 }
 
 // Lower is MEOS bigintspanset_lower.
@@ -89,20 +89,6 @@ func BigIntSpanSetFromBigint(i int64) (*SpanSet, error) {
 // BigIntSpanSetFromHexWKB is the portable fromHexWKB of MEOS spanset_from_hexwkb.
 func BigIntSpanSetFromHexWKB(hexwkb string) (*BigIntSpanSet, error) {
 	r, err := SpanSetFromHexWKB(hexwkb)
-	if err != nil || r == nil {
-		return nil, err
-	}
-	return BigIntSpanSetFromPointer(r.Pointer()), nil
-}
-
-// AsText is the portable asText of MEOS spanset_out.
-func (x *BigIntSpanSet) AsText(maxdd int) (string, error) {
-	return x.Out(maxdd)
-}
-
-// BigIntSpanSetFromText is the portable fromText of MEOS bigintspanset_in.
-func BigIntSpanSetFromText(str string) (*BigIntSpanSet, error) {
-	r, err := BigIntSpanSetIn(str)
 	if err != nil || r == nil {
 		return nil, err
 	}

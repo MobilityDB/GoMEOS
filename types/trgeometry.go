@@ -23,13 +23,13 @@ func TRGeometryFromPointer(p unsafe.Pointer) *TRGeometry {
 	return v
 }
 
-// TRGeometryIn is MEOS trgeometry_in.
-func TRGeometryIn(str string) (*Temporal, error) {
+// TRGeometryFromText is the portable fromText of MEOS trgeometry_in.
+func TRGeometryFromText(str string) (*TRGeometry, error) {
 	_r0, _err := functions.TrgeometryIn(str)
 	if _err != nil {
 		return nil, _err
 	}
-	return TemporalFromPointer(_r0.Pointer()), nil
+	return TRGeometryFromPointer(_r0.Pointer()), nil
 }
 
 // TRGeometryFromMFJSON is MEOS trgeometry_from_mfjson.
@@ -490,11 +490,7 @@ func TRGeometryFromEWKB(wkb []byte) (*TRGeometry, error) {
 
 // TRGeometryFromEWKT is the portable fromEWKT of MEOS trgeometry_in.
 func TRGeometryFromEWKT(str string) (*TRGeometry, error) {
-	r, err := TRGeometryIn(str)
-	if err != nil || r == nil {
-		return nil, err
-	}
-	return TRGeometryFromPointer(r.Pointer()), nil
+	return TRGeometryFromText(str)
 }
 
 // TRGeometryFromHexEWKB is the portable fromHexEWKB of MEOS temporal_from_hexwkb.
@@ -509,15 +505,6 @@ func TRGeometryFromHexEWKB(hexwkb string) (*TRGeometry, error) {
 // TRGeometryFromHexWKB is the portable fromHexWKB of MEOS temporal_from_hexwkb.
 func TRGeometryFromHexWKB(hexwkb string) (*TRGeometry, error) {
 	r, err := TemporalFromHexWKB(hexwkb)
-	if err != nil || r == nil {
-		return nil, err
-	}
-	return TRGeometryFromPointer(r.Pointer()), nil
-}
-
-// TRGeometryFromText is the portable fromText of MEOS trgeometry_in.
-func TRGeometryFromText(str string) (*TRGeometry, error) {
-	r, err := TRGeometryIn(str)
 	if err != nil || r == nil {
 		return nil, err
 	}

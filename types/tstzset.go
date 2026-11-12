@@ -23,13 +23,13 @@ func TsTzSetFromPointer(p unsafe.Pointer) *TsTzSet {
 	return v
 }
 
-// TsTzSetIn is MEOS tstzset_in.
-func TsTzSetIn(str string) (*Set, error) {
+// TsTzSetFromText is the portable fromText of MEOS tstzset_in.
+func TsTzSetFromText(str string) (*TsTzSet, error) {
 	_r0, _err := functions.TstzsetIn(str)
 	if _err != nil {
 		return nil, _err
 	}
-	return SetFromPointer(_r0.Pointer()), nil
+	return TsTzSetFromPointer(_r0.Pointer()), nil
 }
 
 // TsTzSetMake is MEOS tstzset_make.
@@ -116,20 +116,6 @@ func TsTzSetFromHexWKB(hexwkb string) (*TsTzSet, error) {
 	return TsTzSetFromPointer(r.Pointer()), nil
 }
 
-// AsText is the portable asText of MEOS set_out.
-func (x *TsTzSet) AsText(maxdd int) (string, error) {
-	return x.Out(maxdd)
-}
-
-// TsTzSetFromText is the portable fromText of MEOS tstzset_in.
-func TsTzSetFromText(str string) (*TsTzSet, error) {
-	r, err := TsTzSetIn(str)
-	if err != nil || r == nil {
-		return nil, err
-	}
-	return TsTzSetFromPointer(r.Pointer()), nil
-}
-
 // TsTzSetFromWKB is the portable fromWKB of MEOS set_from_wkb.
 func TsTzSetFromWKB(wkb []byte) (*TsTzSet, error) {
 	r, err := SetFromWKB(wkb)
@@ -141,7 +127,7 @@ func TsTzSetFromWKB(wkb []byte) (*TsTzSet, error) {
 
 // String is the text MEOS writes this value as, MEOS set_out.
 func (x *TsTzSet) String() string {
-	s, err := x.Out(15)
+	s, err := x.AsText(15)
 	if err != nil {
 		return "%!s(MEOS error: " + err.Error() + ")"
 	}

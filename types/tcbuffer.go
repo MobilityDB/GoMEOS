@@ -23,13 +23,13 @@ func TCBufferFromPointer(p unsafe.Pointer) *TCBuffer {
 	return v
 }
 
-// TCBufferIn is MEOS tcbuffer_in.
-func TCBufferIn(str string) (*Temporal, error) {
+// TCBufferFromText is the portable fromText of MEOS tcbuffer_in.
+func TCBufferFromText(str string) (*TCBuffer, error) {
 	_r0, _err := functions.TcbufferIn(str)
 	if _err != nil {
 		return nil, _err
 	}
-	return TemporalFromPointer(_r0.Pointer()), nil
+	return TCBufferFromPointer(_r0.Pointer()), nil
 }
 
 // TCBufferFromMFJSON is MEOS tcbuffer_from_mfjson.
@@ -292,11 +292,7 @@ func TCBufferFromEWKB(wkb []byte) (*TCBuffer, error) {
 
 // TCBufferFromEWKT is the portable fromEWKT of MEOS tcbuffer_in.
 func TCBufferFromEWKT(str string) (*TCBuffer, error) {
-	r, err := TCBufferIn(str)
-	if err != nil || r == nil {
-		return nil, err
-	}
-	return TCBufferFromPointer(r.Pointer()), nil
+	return TCBufferFromText(str)
 }
 
 // TCBufferFromHexEWKB is the portable fromHexEWKB of MEOS temporal_from_hexwkb.
@@ -311,15 +307,6 @@ func TCBufferFromHexEWKB(hexwkb string) (*TCBuffer, error) {
 // TCBufferFromHexWKB is the portable fromHexWKB of MEOS temporal_from_hexwkb.
 func TCBufferFromHexWKB(hexwkb string) (*TCBuffer, error) {
 	r, err := TemporalFromHexWKB(hexwkb)
-	if err != nil || r == nil {
-		return nil, err
-	}
-	return TCBufferFromPointer(r.Pointer()), nil
-}
-
-// TCBufferFromText is the portable fromText of MEOS tcbuffer_in.
-func TCBufferFromText(str string) (*TCBuffer, error) {
-	r, err := TCBufferIn(str)
 	if err != nil || r == nil {
 		return nil, err
 	}

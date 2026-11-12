@@ -23,13 +23,13 @@ func PCPatchSetFromPointer(p unsafe.Pointer) *PCPatchSet {
 	return v
 }
 
-// PCPatchSetIn is MEOS pcpatchset_in.
-func PCPatchSetIn(str string) (*Set, error) {
+// PCPatchSetFromText is the portable fromText of MEOS pcpatchset_in.
+func PCPatchSetFromText(str string) (*PCPatchSet, error) {
 	_r0, _err := functions.PcpatchsetIn(str)
 	if _err != nil {
 		return nil, _err
 	}
-	return SetFromPointer(_r0.Pointer()), nil
+	return PCPatchSetFromPointer(_r0.Pointer()), nil
 }
 
 // PCPatchSetMake is MEOS pcpatchset_make.
@@ -91,11 +91,7 @@ func PCPatchSetFromEWKB(wkb []byte) (*PCPatchSet, error) {
 
 // PCPatchSetFromEWKT is the portable fromEWKT of MEOS pcpatchset_in.
 func PCPatchSetFromEWKT(str string) (*PCPatchSet, error) {
-	r, err := PCPatchSetIn(str)
-	if err != nil || r == nil {
-		return nil, err
-	}
-	return PCPatchSetFromPointer(r.Pointer()), nil
+	return PCPatchSetFromText(str)
 }
 
 // PCPatchSetFromHexEWKB is the portable fromHexEWKB of MEOS set_from_hexwkb.
@@ -110,15 +106,6 @@ func PCPatchSetFromHexEWKB(hexwkb string) (*PCPatchSet, error) {
 // PCPatchSetFromHexWKB is the portable fromHexWKB of MEOS set_from_hexwkb.
 func PCPatchSetFromHexWKB(hexwkb string) (*PCPatchSet, error) {
 	r, err := SetFromHexWKB(hexwkb)
-	if err != nil || r == nil {
-		return nil, err
-	}
-	return PCPatchSetFromPointer(r.Pointer()), nil
-}
-
-// PCPatchSetFromText is the portable fromText of MEOS pcpatchset_in.
-func PCPatchSetFromText(str string) (*PCPatchSet, error) {
-	r, err := PCPatchSetIn(str)
 	if err != nil || r == nil {
 		return nil, err
 	}

@@ -32,13 +32,13 @@ func TGeogPointFromMFJSON(str string) (*Temporal, error) {
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
-// TGeogPointIn is MEOS tgeogpoint_in.
-func TGeogPointIn(str string) (*Temporal, error) {
+// TGeogPointFromText is the portable fromText of MEOS tgeogpoint_in.
+func TGeogPointFromText(str string) (*TGeogPoint, error) {
 	_r0, _err := functions.TgeogpointIn(str)
 	if _err != nil {
 		return nil, _err
 	}
-	return TemporalFromPointer(_r0.Pointer()), nil
+	return TGeogPointFromPointer(_r0.Pointer()), nil
 }
 
 // ToTgeography is MEOS tgeogpoint_to_tgeography.
@@ -133,11 +133,7 @@ func TGeogPointFromEWKB(wkb []byte) (*TGeogPoint, error) {
 
 // TGeogPointFromEWKT is the portable fromEWKT of MEOS tgeogpoint_in.
 func TGeogPointFromEWKT(str string) (*TGeogPoint, error) {
-	r, err := TGeogPointIn(str)
-	if err != nil || r == nil {
-		return nil, err
-	}
-	return TGeogPointFromPointer(r.Pointer()), nil
+	return TGeogPointFromText(str)
 }
 
 // TGeogPointFromHexEWKB is the portable fromHexEWKB of MEOS temporal_from_hexwkb.
@@ -152,15 +148,6 @@ func TGeogPointFromHexEWKB(hexwkb string) (*TGeogPoint, error) {
 // TGeogPointFromHexWKB is the portable fromHexWKB of MEOS temporal_from_hexwkb.
 func TGeogPointFromHexWKB(hexwkb string) (*TGeogPoint, error) {
 	r, err := TemporalFromHexWKB(hexwkb)
-	if err != nil || r == nil {
-		return nil, err
-	}
-	return TGeogPointFromPointer(r.Pointer()), nil
-}
-
-// TGeogPointFromText is the portable fromText of MEOS tgeogpoint_in.
-func TGeogPointFromText(str string) (*TGeogPoint, error) {
-	r, err := TGeogPointIn(str)
 	if err != nil || r == nil {
 		return nil, err
 	}

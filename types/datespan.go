@@ -23,13 +23,13 @@ func DateSpanFromPointer(p unsafe.Pointer) *DateSpan {
 	return v
 }
 
-// DateSpanIn is MEOS datespan_in.
-func DateSpanIn(str string) (*Span, error) {
+// DateSpanFromText is the portable fromText of MEOS datespan_in.
+func DateSpanFromText(str string) (*DateSpan, error) {
 	_r0, _err := functions.DatespanIn(str)
 	if _err != nil {
 		return nil, _err
 	}
-	return SpanFromPointer(_r0.Pointer()), nil
+	return DateSpanFromPointer(_r0.Pointer()), nil
 }
 
 // DateSpanMake is MEOS datespan_make.
@@ -89,20 +89,6 @@ func DateSpanFromDate(d int32) (*Span, error) {
 // DateSpanFromHexWKB is the portable fromHexWKB of MEOS span_from_hexwkb.
 func DateSpanFromHexWKB(hexwkb string) (*DateSpan, error) {
 	r, err := SpanFromHexWKB(hexwkb)
-	if err != nil || r == nil {
-		return nil, err
-	}
-	return DateSpanFromPointer(r.Pointer()), nil
-}
-
-// AsText is the portable asText of MEOS span_out.
-func (x *DateSpan) AsText(maxdd int) (string, error) {
-	return x.Out(maxdd)
-}
-
-// DateSpanFromText is the portable fromText of MEOS datespan_in.
-func DateSpanFromText(str string) (*DateSpan, error) {
-	r, err := DateSpanIn(str)
 	if err != nil || r == nil {
 		return nil, err
 	}

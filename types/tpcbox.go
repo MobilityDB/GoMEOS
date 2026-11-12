@@ -92,8 +92,8 @@ func (x *TPCBox) AsText(maxdd int) (string, error) {
 	return _r0, nil
 }
 
-// TPCBoxIn is MEOS tpcbox_in.
-func TPCBoxIn(str string) (*TPCBox, error) {
+// TPCBoxFromText is the portable fromText of MEOS tpcbox_in.
+func TPCBoxFromText(str string) (*TPCBox, error) {
 	_r0, _err := functions.TpcboxIn(str)
 	if _err != nil {
 		return nil, _err
@@ -101,8 +101,8 @@ func TPCBoxIn(str string) (*TPCBox, error) {
 	return TPCBoxFromPointer(_r0.Pointer()), nil
 }
 
-// Out is MEOS tpcbox_out.
-func (x *TPCBox) Out(maxdd int) (string, error) {
+// AsEWKT is the portable asEWKT of MEOS tpcbox_out.
+func (x *TPCBox) AsEWKT(maxdd int) (string, error) {
 	_r0, _err := functions.TpcboxOut(functions.TPCBoxFromPointer(x.Pointer()), maxdd)
 	if _err != nil {
 		return "", _err
@@ -416,24 +416,14 @@ func TPCBoxFromEWKB(wkb []byte) (*TPCBox, error) {
 	return TPCBoxFromWKB(wkb)
 }
 
-// AsEWKT is the portable asEWKT of MEOS tpcbox_out.
-func (x *TPCBox) AsEWKT(maxdd int) (string, error) {
-	return x.Out(maxdd)
-}
-
 // TPCBoxFromEWKT is the portable fromEWKT of MEOS tpcbox_in.
 func TPCBoxFromEWKT(str string) (*TPCBox, error) {
-	return TPCBoxIn(str)
+	return TPCBoxFromText(str)
 }
 
 // TPCBoxFromHexEWKB is the portable fromHexEWKB of MEOS tpcbox_from_hexwkb.
 func TPCBoxFromHexEWKB(hexwkb string) (*TPCBox, error) {
 	return TPCBoxFromHexWKB(hexwkb)
-}
-
-// TPCBoxFromText is the portable fromText of MEOS tpcbox_in.
-func TPCBoxFromText(str string) (*TPCBox, error) {
-	return TPCBoxIn(str)
 }
 
 // String is the text MEOS writes this value as, MEOS tpcbox_as_text.
