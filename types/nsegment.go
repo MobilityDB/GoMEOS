@@ -82,15 +82,6 @@ func NSegmentFromText(str string) (*NSegment, error) {
 	return NSegmentFromPointer(_r0.Pointer()), nil
 }
 
-// Out is MEOS nsegment_out.
-func (x *NSegment) Out(maxdd int) (string, error) {
-	_r0, _err := functions.NsegmentOut(functions.NsegmentFromPointer(x.Pointer()), maxdd)
-	if _err != nil {
-		return "", _err
-	}
-	return _r0, nil
-}
-
 // AsEWKB is MEOS nsegment_as_ewkb.
 func (x *NSegment) AsEWKB(variant uint8) ([]byte, error) {
 	var _size uint64

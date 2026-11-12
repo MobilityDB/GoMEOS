@@ -110,15 +110,6 @@ func CBufferFromText(str string) (*CBuffer, error) {
 	return CBufferFromPointer(_r0.Pointer()), nil
 }
 
-// Out is MEOS cbuffer_out.
-func (x *CBuffer) Out(maxdd int) (string, error) {
-	_r0, _err := functions.CbufferOut(functions.CbufferFromPointer(x.Pointer()), maxdd)
-	if _err != nil {
-		return "", _err
-	}
-	return _r0, nil
-}
-
 // Copy is MEOS cbuffer_copy.
 func (x *CBuffer) Copy() (*CBuffer, error) {
 	_r0, _err := functions.CbufferCopy(functions.CbufferFromPointer(x.Pointer()))

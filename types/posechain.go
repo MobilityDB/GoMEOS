@@ -32,15 +32,6 @@ func PoseChainFromText(str string) (unsafe.Pointer, error) {
 	return _r0, nil
 }
 
-// PoseChainOut is MEOS posechain_out.
-func PoseChainOut(pc unsafe.Pointer, maxdd int) (string, error) {
-	_r0, _err := functions.PosechainOut(pc, maxdd)
-	if _err != nil {
-		return "", _err
-	}
-	return _r0, nil
-}
-
 // PoseChainAsText is MEOS posechain_as_text.
 func PoseChainAsText(pc unsafe.Pointer, maxdd int) (string, error) {
 	_r0, _err := functions.PosechainAsText(pc, maxdd)
