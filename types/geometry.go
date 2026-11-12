@@ -32,15 +32,6 @@ func GeometryFromHexEWKB(hexwkb string) (*Geo, error) {
 	return GeoFromPointer(_r0.Pointer()), nil
 }
 
-// GeometryIn is MEOS geom_in.
-func GeometryIn(str string, typmod int32) (*Geo, error) {
-	_r0, _err := functions.GeomIn(str, typmod)
-	if _err != nil {
-		return nil, _err
-	}
-	return GeoFromPointer(_r0.Pointer()), nil
-}
-
 // ToGeog is MEOS geom_to_geog.
 func (x *Geometry) ToGeog() (*Geo, error) {
 	_r0, _err := functions.GeomToGeog(functions.GeomFromPointer(x.Pointer()))

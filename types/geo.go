@@ -100,15 +100,6 @@ func GeoFromText(wkt string, srid int32) (*Geo, error) {
 	return GeoFromPointer(_r0.Pointer()), nil
 }
 
-// Out is MEOS geo_out.
-func (x *Geo) Out() (string, error) {
-	_r0, _err := functions.GeoOut(functions.GeomFromPointer(x.Pointer()))
-	if _err != nil {
-		return "", _err
-	}
-	return _r0, nil
-}
-
 // Copy is MEOS geo_copy.
 func (x *Geo) Copy() (*Geo, error) {
 	_r0, _err := functions.GeoCopy(functions.GeomFromPointer(x.Pointer()))

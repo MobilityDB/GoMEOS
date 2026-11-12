@@ -23,24 +23,6 @@ func TextFromPointer(p unsafe.Pointer) *Text {
 	return v
 }
 
-// TextIn is MEOS text_in.
-func TextIn(str string) (string, error) {
-	_r0, _err := functions.TextIn(str)
-	if _err != nil {
-		return "", _err
-	}
-	return _r0, nil
-}
-
-// TextOut is MEOS text_out.
-func TextOut(txt string) (string, error) {
-	_r0, _err := functions.TextOut(txt)
-	if _err != nil {
-		return "", _err
-	}
-	return _r0, nil
-}
-
 // TextInitcap is MEOS text_initcap.
 func TextInitcap(txt string) (string, error) {
 	_r0, _err := functions.TextInitcap(txt)
