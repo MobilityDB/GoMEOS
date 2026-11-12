@@ -24,8 +24,8 @@ func TQuadbinInstFromPointer(p unsafe.Pointer) *TQuadbinInst {
 }
 
 // TQuadbinInstMake is MEOS tquadbininst_make.
-func TQuadbinInstMake(value functions.Quadbin, t int64) (*Temporal, error) {
-	_r0, _err := functions.TquadbininstMake(value, t)
+func TQuadbinInstMake(value Quadbin, t int64) (*Temporal, error) {
+	_r0, _err := functions.TquadbininstMake(functions.Quadbin(value), t)
 	if _err != nil {
 		return nil, _err
 	}

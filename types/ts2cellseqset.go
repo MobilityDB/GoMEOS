@@ -24,8 +24,8 @@ func TS2CellSeqSetFromPointer(p unsafe.Pointer) *TS2CellSeqSet {
 }
 
 // TS2CellSeqSetFromBaseTstzspanset is MEOS ts2cellseqset_from_base_tstzspanset.
-func TS2CellSeqSetFromBaseTstzspanset(value functions.S2CellId, ss *SpanSet) (*Temporal, error) {
-	_r0, _err := functions.Ts2cellseqsetFromBaseTstzspanset(value, functions.SpanSetFromPointer(ss.Pointer()))
+func TS2CellSeqSetFromBaseTstzspanset(value S2Cell, ss *SpanSet) (*Temporal, error) {
+	_r0, _err := functions.Ts2cellseqsetFromBaseTstzspanset(functions.S2CellId(value), functions.SpanSetFromPointer(ss.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}

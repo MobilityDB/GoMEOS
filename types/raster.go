@@ -478,12 +478,12 @@ func RasterMinusValueGdal(traj *Temporal, path string, band int, vspan *Span) (*
 }
 
 // RasterTileValueQuadbin is MEOS raster_tile_value_quadbin.
-func RasterTileValueQuadbin(traj *Temporal, pixels []byte, width int32, height int32, quadbin functions.Quadbin, pixtype functions.MeosPixType, nodata float64, has_nodata bool) (*Temporal, error) {
+func RasterTileValueQuadbin(traj *Temporal, pixels []byte, width int32, height int32, quadbin Quadbin, pixtype functions.MeosPixType, nodata float64, has_nodata bool) (*Temporal, error) {
 	var _p_pixels unsafe.Pointer
 	if len(pixels) > 0 {
 		_p_pixels = unsafe.Pointer(&pixels[0])
 	}
-	_r0, _err := functions.RasterTileValueQuadbin(functions.TemporalFromPointer(traj.Pointer()), _p_pixels, uint(len(pixels)), width, height, quadbin, pixtype, nodata, has_nodata)
+	_r0, _err := functions.RasterTileValueQuadbin(functions.TemporalFromPointer(traj.Pointer()), _p_pixels, uint(len(pixels)), width, height, functions.Quadbin(quadbin), pixtype, nodata, has_nodata)
 	if _err != nil {
 		return nil, _err
 	}

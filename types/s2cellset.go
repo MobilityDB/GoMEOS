@@ -69,25 +69,25 @@ func S2CellSetMake(values unsafe.Pointer, count int) (*Set, error) {
 }
 
 // EndValue is MEOS s2cellset_end_value.
-func (x *S2CellSet) EndValue() (functions.S2CellId, error) {
+func (x *S2CellSet) EndValue() (S2Cell, error) {
 	_r0, _err := functions.S2cellsetEndValue(functions.SetFromPointer(x.Pointer()))
 	if _err != nil {
 		return 0, _err
 	}
-	return _r0, nil
+	return S2Cell(_r0), nil
 }
 
 // StartValue is MEOS s2cellset_start_value.
-func (x *S2CellSet) StartValue() (functions.S2CellId, error) {
+func (x *S2CellSet) StartValue() (S2Cell, error) {
 	_r0, _err := functions.S2cellsetStartValue(functions.SetFromPointer(x.Pointer()))
 	if _err != nil {
 		return 0, _err
 	}
-	return _r0, nil
+	return S2Cell(_r0), nil
 }
 
 // ValueN is MEOS s2cellset_value_n.
-func (x *S2CellSet) ValueN(n int) (functions.S2CellId, bool, error) {
+func (x *S2CellSet) ValueN(n int) (S2Cell, bool, error) {
 	_found, _value, _err := functions.S2cellsetValueN(functions.SetFromPointer(x.Pointer()), n)
 	if _err != nil {
 		return 0, false, _err
@@ -95,7 +95,7 @@ func (x *S2CellSet) ValueN(n int) (functions.S2CellId, bool, error) {
 	if !_found {
 		return 0, false, nil
 	}
-	return _value, true, nil
+	return S2Cell(_value), true, nil
 }
 
 // Values is MEOS s2cellset_values.
@@ -105,15 +105,6 @@ func (x *S2CellSet) Values(count unsafe.Pointer) (unsafe.Pointer, error) {
 		return nil, _err
 	}
 	return _r0, nil
-}
-
-// S2CellSetFromS2cell is MEOS s2cell_to_set.
-func S2CellSetFromS2cell(cell functions.S2CellId) (*Set, error) {
-	_r0, _err := functions.S2cellToSet(cell)
-	if _err != nil {
-		return nil, _err
-	}
-	return SetFromPointer(_r0.Pointer()), nil
 }
 
 // S2CellSetFromEWKB is the portable fromEWKB of MEOS set_from_wkb.
