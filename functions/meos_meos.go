@@ -1992,6 +1992,17 @@ func DateToSpanset(d int32) (_r0 *SpanSet, _err error) {
 }
 
 
+// DateToUnixDays wraps MEOS C function date_to_unix_days.
+func DateToUnixDays(d int32) (_r0 int32, _err error) {
+	C.meos_errno_reset()
+	_cret := C.date_to_unix_days(C.DateADT(d))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int32(_cret), nil
+}
+
+
 // DatesetToTstzset wraps MEOS C function dateset_to_tstzset.
 func DatesetToTstzset(s *Set) (_r0 *Set, _err error) {
 	C.meos_errno_reset()
@@ -2201,6 +2212,28 @@ func IntspansetToFloatspanset(ss *SpanSet) (_r0 *SpanSet, _err error) {
 }
 
 
+// IntervalFromParts wraps MEOS C function interval_from_parts.
+func IntervalFromParts(months int32, days int32, us int64) (_r0 *Interval, _err error) {
+	C.meos_errno_reset()
+	_cret := C.interval_from_parts(C.int32_t(months), C.int32_t(days), C.int64_t(us))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Interval{_inner: _cret}, nil
+}
+
+
+// IntervalToParts wraps MEOS C function interval_to_parts.
+func IntervalToParts(interv *Interval, months unsafe.Pointer, days unsafe.Pointer, us unsafe.Pointer) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.interval_to_parts(interv._inner, (*C.int32_t)(unsafe.Pointer(months)), (*C.int32_t)(unsafe.Pointer(days)), (*C.int64_t)(unsafe.Pointer(us)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
+}
+
+
 // SetToSpan wraps MEOS C function set_to_span.
 func SetToSpan(s *Set) (_r0 *Span, _err error) {
 	C.meos_errno_reset()
@@ -2244,6 +2277,17 @@ func TextToSet(txt string) (_r0 *Set, _err error) {
 		return
 	}
 	return &Set{_inner: _cret}, nil
+}
+
+
+// TimestampToUnixUs wraps MEOS C function timestamp_to_unix_us.
+func TimestampToUnixUs(ts int64) (_r0 int64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.timestamp_to_unix_us(C.Timestamp(ts))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int64(_cret), nil
 }
 
 
@@ -2321,6 +2365,28 @@ func TstzspansetToDatespanset(ss *SpanSet) (_r0 *SpanSet, _err error) {
 		return
 	}
 	return &SpanSet{_inner: _cret}, nil
+}
+
+
+// UnixDaysToDate wraps MEOS C function unix_days_to_date.
+func UnixDaysToDate(days int32) (_r0 int32, _err error) {
+	C.meos_errno_reset()
+	_cret := C.unix_days_to_date(C.int32_t(days))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int32(_cret), nil
+}
+
+
+// UnixUsToTimestamp wraps MEOS C function unix_us_to_timestamp.
+func UnixUsToTimestamp(us int64) (_r0 int64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.unix_us_to_timestamp(C.int64_t(us))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int64(_cret), nil
 }
 
 

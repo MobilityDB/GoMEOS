@@ -217,6 +217,17 @@ func TimeExtract(time int64, units string) (_r0 unsafe.Pointer, _err error) {
 }
 
 
+// TimeFromParts wraps MEOS C function time_from_parts.
+func TimeFromParts(us int64) (_r0 int64, _err error) {
+	C.meos_errno_reset()
+	_cret := C.time_from_parts(C.int64_t(us))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int64(_cret), nil
+}
+
+
 // TimeGe wraps MEOS C function time_ge.
 func TimeGe(time1 int64, time2 int64) (_r0 bool, _err error) {
 	C.meos_errno_reset()
@@ -370,6 +381,17 @@ func TimeToInterval(time int64) (_r0 *Interval, _err error) {
 		return
 	}
 	return &Interval{_inner: _cret}, nil
+}
+
+
+// TimeToParts wraps MEOS C function time_to_parts.
+func TimeToParts(time int64, us unsafe.Pointer) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.time_to_parts(C.TimeADT(time), (*C.int64_t)(unsafe.Pointer(us)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
 }
 
 
@@ -586,6 +608,17 @@ func TimetzCopy(timetz unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
 }
 
 
+// TimetzFromParts wraps MEOS C function timetz_from_parts.
+func TimetzFromParts(us int64, offset int32) (_r0 unsafe.Pointer, _err error) {
+	C.meos_errno_reset()
+	_cret := C.timetz_from_parts(C.int64_t(us), C.int32_t(offset))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
+}
+
+
 // TimetzOut wraps MEOS C function timetz_out.
 func TimetzOut(timetz unsafe.Pointer) (_r0 string, _err error) {
 	var _size C.size_t
@@ -642,6 +675,17 @@ func TimetzSmaller(timetz1 unsafe.Pointer, timetz2 unsafe.Pointer) (_r0 unsafe.P
 		return
 	}
 	return unsafe.Pointer(_cret), nil
+}
+
+
+// TimetzToParts wraps MEOS C function timetz_to_parts.
+func TimetzToParts(timetz unsafe.Pointer, us unsafe.Pointer, offset unsafe.Pointer) (_r0 bool, _err error) {
+	C.meos_errno_reset()
+	_cret := C.timetz_to_parts((*C.TimeTzADT)(unsafe.Pointer(timetz)), (*C.int64_t)(unsafe.Pointer(us)), (*C.int32_t)(unsafe.Pointer(offset)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return bool(_cret), nil
 }
 
 

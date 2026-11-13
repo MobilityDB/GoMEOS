@@ -2409,6 +2409,28 @@ func TpcpatchMinusTpcbox(temp *Temporal, box *TPCBox, border_inc bool) (_r0 *Tem
 }
 
 
+// TpcpatchAtTpcboxFine wraps MEOS C function tpcpatch_at_tpcbox_fine.
+func TpcpatchAtTpcboxFine(temp *Temporal, box *TPCBox, border_inc bool) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tpcpatch_at_tpcbox_fine(temp._inner, box._inner, C.bool(border_inc))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// TpcpatchMinusTpcboxFine wraps MEOS C function tpcpatch_minus_tpcbox_fine.
+func TpcpatchMinusTpcboxFine(temp *Temporal, box *TPCBox, border_inc bool) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tpcpatch_minus_tpcbox_fine(temp._inner, box._inner, C.bool(border_inc))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
 // TpcpatchPcid wraps MEOS C function tpcpatch_pcid.
 func TpcpatchPcid(temp *Temporal) (_r0 uint32, _err error) {
 	C.meos_errno_reset()
@@ -2596,6 +2618,50 @@ func AlwaysNeTpcpointTpcpoint(temp1 *Temporal, temp2 *Temporal) (_r0 int, _err e
 }
 
 
+// EverOverlapsTpcboxTpcpoint wraps MEOS C function ever_overlaps_tpcbox_tpcpoint.
+func EverOverlapsTpcboxTpcpoint(box *TPCBox, temp *Temporal) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.ever_overlaps_tpcbox_tpcpoint(box._inner, temp._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
+// EverOverlapsTpcpointTpcbox wraps MEOS C function ever_overlaps_tpcpoint_tpcbox.
+func EverOverlapsTpcpointTpcbox(temp *Temporal, box *TPCBox) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.ever_overlaps_tpcpoint_tpcbox(temp._inner, box._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
+// AlwaysOverlapsTpcboxTpcpoint wraps MEOS C function always_overlaps_tpcbox_tpcpoint.
+func AlwaysOverlapsTpcboxTpcpoint(box *TPCBox, temp *Temporal) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.always_overlaps_tpcbox_tpcpoint(box._inner, temp._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
+// AlwaysOverlapsTpcpointTpcbox wraps MEOS C function always_overlaps_tpcpoint_tpcbox.
+func AlwaysOverlapsTpcpointTpcbox(temp *Temporal, box *TPCBox) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.always_overlaps_tpcpoint_tpcbox(temp._inner, box._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
 // EverEqPcpatchTpcpatch wraps MEOS C function ever_eq_pcpatch_tpcpatch.
 func EverEqPcpatchTpcpatch(pa *Pcpatch, temp *Temporal) (_r0 int, _err error) {
 	C.meos_errno_reset()
@@ -2721,6 +2787,50 @@ func AlwaysNeTpcpatchPcpatch(temp *Temporal, pa *Pcpatch) (_r0 int, _err error) 
 func AlwaysNeTpcpatchTpcpatch(temp1 *Temporal, temp2 *Temporal) (_r0 int, _err error) {
 	C.meos_errno_reset()
 	_cret := C.always_ne_tpcpatch_tpcpatch(temp1._inner, temp2._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
+// EverOverlapsTpcboxTpcpatch wraps MEOS C function ever_overlaps_tpcbox_tpcpatch.
+func EverOverlapsTpcboxTpcpatch(box *TPCBox, temp *Temporal) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.ever_overlaps_tpcbox_tpcpatch(box._inner, temp._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
+// EverOverlapsTpcpatchTpcbox wraps MEOS C function ever_overlaps_tpcpatch_tpcbox.
+func EverOverlapsTpcpatchTpcbox(temp *Temporal, box *TPCBox) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.ever_overlaps_tpcpatch_tpcbox(temp._inner, box._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
+// AlwaysOverlapsTpcboxTpcpatch wraps MEOS C function always_overlaps_tpcbox_tpcpatch.
+func AlwaysOverlapsTpcboxTpcpatch(box *TPCBox, temp *Temporal) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.always_overlaps_tpcbox_tpcpatch(box._inner, temp._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
+// AlwaysOverlapsTpcpatchTpcbox wraps MEOS C function always_overlaps_tpcpatch_tpcbox.
+func AlwaysOverlapsTpcpatchTpcbox(temp *Temporal, box *TPCBox) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.always_overlaps_tpcpatch_tpcbox(temp._inner, box._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}

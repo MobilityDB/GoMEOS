@@ -194,9 +194,27 @@ func (x *TPoseChain) Translate(deltax float64, deltay float64, deltaz float64) (
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
+// AtStbox is MEOS tposechain_at_stbox.
+func (x *TPoseChain) AtStbox(box *STBox, border_inc bool) (*Temporal, error) {
+	_r0, _err := functions.TposechainAtSTBOX(functions.TemporalFromPointer(x.Pointer()), functions.STBoxFromPointer(box.Pointer()), border_inc)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
 // AtValue is MEOS tposechain_at_value.
 func (x *TPoseChain) AtValue(pc unsafe.Pointer) (*Temporal, error) {
 	_r0, _err := functions.TposechainAtValue(functions.TemporalFromPointer(x.Pointer()), pc)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// MinusStbox is MEOS tposechain_minus_stbox.
+func (x *TPoseChain) MinusStbox(box *STBox, border_inc bool) (*Temporal, error) {
+	_r0, _err := functions.TposechainMinusSTBOX(functions.TemporalFromPointer(x.Pointer()), functions.STBoxFromPointer(box.Pointer()), border_inc)
 	if _err != nil {
 		return nil, _err
 	}

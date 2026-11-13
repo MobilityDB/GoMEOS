@@ -132,10 +132,10 @@ func TrgeometryFromMFJSON(mfjson string) (_r0 *Temporal, _err error) {
 
 
 // TrgeometryOut wraps MEOS C function trgeometry_out.
-func TrgeometryOut(temp *Temporal) (_r0 string, _err error) {
+func TrgeometryOut(temp *Temporal, maxdd int) (_r0 string, _err error) {
 	var _size C.size_t
 	C.meos_errno_reset()
-	_cret := C.trgeometry_out(temp._inner, &_size)
+	_cret := C.trgeometry_out(temp._inner, C.int(maxdd), &_size)
 	if _err = meosError(); _err != nil {
 		return
 	}
