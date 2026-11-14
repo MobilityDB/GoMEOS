@@ -173,6 +173,24 @@ func (x *TPCPatch) MinusTpcbox(box *TPCBox, border_inc bool) (*Temporal, error) 
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
+// AtTpcboxFine is MEOS tpcpatch_at_tpcbox_fine.
+func (x *TPCPatch) AtTpcboxFine(box *TPCBox, border_inc bool) (*Temporal, error) {
+	_r0, _err := functions.TpcpatchAtTpcboxFine(functions.TemporalFromPointer(x.Pointer()), functions.TPCBoxFromPointer(box.Pointer()), border_inc)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// MinusTpcboxFine is MEOS tpcpatch_minus_tpcbox_fine.
+func (x *TPCPatch) MinusTpcboxFine(box *TPCBox, border_inc bool) (*Temporal, error) {
+	_r0, _err := functions.TpcpatchMinusTpcboxFine(functions.TemporalFromPointer(x.Pointer()), functions.TPCBoxFromPointer(box.Pointer()), border_inc)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
 // Pcid is MEOS tpcpatch_pcid.
 func (x *TPCPatch) Pcid() (uint32, error) {
 	_r0, _err := functions.TpcpatchPcid(functions.TemporalFromPointer(x.Pointer()))

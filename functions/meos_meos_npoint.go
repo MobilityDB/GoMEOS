@@ -1649,6 +1649,17 @@ func AlwaysOverlapsTnpointSTBOX(temp *Temporal, box *STBox) (_r0 int, _err error
 }
 
 
+// AlwaysOverlapsTnpointTnpoint wraps MEOS C function always_overlaps_tnpoint_tnpoint.
+func AlwaysOverlapsTnpointTnpoint(temp1 *Temporal, temp2 *Temporal) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.always_overlaps_tnpoint_tnpoint(temp1._inner, temp2._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
 // EverEqNpointTnpoint wraps MEOS C function ever_eq_npoint_tnpoint.
 func EverEqNpointTnpoint(np *Npoint, temp *Temporal) (_r0 int, _err error) {
 	C.meos_errno_reset()
@@ -1730,6 +1741,17 @@ func EverOverlapsSTBOXTnpoint(box *STBox, temp *Temporal) (_r0 int, _err error) 
 func EverOverlapsTnpointSTBOX(temp *Temporal, box *STBox) (_r0 int, _err error) {
 	C.meos_errno_reset()
 	_cret := C.ever_overlaps_tnpoint_stbox(temp._inner, box._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
+// EverOverlapsTnpointTnpoint wraps MEOS C function ever_overlaps_tnpoint_tnpoint.
+func EverOverlapsTnpointTnpoint(temp1 *Temporal, temp2 *Temporal) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.ever_overlaps_tnpoint_tnpoint(temp1._inner, temp2._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}

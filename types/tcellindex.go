@@ -78,3 +78,21 @@ func (x *TCellIndex) CellArea() (*Temporal, error) {
 	}
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
+
+// AtStbox is MEOS tcellindex_at_stbox.
+func (x *TCellIndex) AtStbox(box *STBox, border_inc bool) (*Temporal, error) {
+	_r0, _err := functions.TcellindexAtSTBOX(functions.TemporalFromPointer(x.Pointer()), functions.STBoxFromPointer(box.Pointer()), border_inc)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// MinusStbox is MEOS tcellindex_minus_stbox.
+func (x *TCellIndex) MinusStbox(box *STBox, border_inc bool) (*Temporal, error) {
+	_r0, _err := functions.TcellindexMinusSTBOX(functions.TemporalFromPointer(x.Pointer()), functions.STBoxFromPointer(box.Pointer()), border_inc)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}

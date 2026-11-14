@@ -1450,6 +1450,17 @@ func AlwaysOverlapsTcbufferSTBOX(temp *Temporal, box *STBox) (_r0 int, _err erro
 }
 
 
+// AlwaysOverlapsTcbufferTcbuffer wraps MEOS C function always_overlaps_tcbuffer_tcbuffer.
+func AlwaysOverlapsTcbufferTcbuffer(temp1 *Temporal, temp2 *Temporal) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.always_overlaps_tcbuffer_tcbuffer(temp1._inner, temp2._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
 // EverEqCbufferTcbuffer wraps MEOS C function ever_eq_cbuffer_tcbuffer.
 func EverEqCbufferTcbuffer(cb *Cbuffer, temp *Temporal) (_r0 int, _err error) {
 	C.meos_errno_reset()
@@ -1531,6 +1542,17 @@ func EverOverlapsSTBOXTcbuffer(box *STBox, temp *Temporal) (_r0 int, _err error)
 func EverOverlapsTcbufferSTBOX(temp *Temporal, box *STBox) (_r0 int, _err error) {
 	C.meos_errno_reset()
 	_cret := C.ever_overlaps_tcbuffer_stbox(temp._inner, box._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
+// EverOverlapsTcbufferTcbuffer wraps MEOS C function ever_overlaps_tcbuffer_tcbuffer.
+func EverOverlapsTcbufferTcbuffer(temp1 *Temporal, temp2 *Temporal) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.ever_overlaps_tcbuffer_tcbuffer(temp1._inner, temp2._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}

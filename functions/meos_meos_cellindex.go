@@ -170,3 +170,69 @@ func TcellindexCellArea(temp *Temporal) (_r0 *Temporal, _err error) {
 	return &Temporal{_inner: _cret}, nil
 }
 
+
+// TcellindexAtSTBOX wraps MEOS C function tcellindex_at_stbox.
+func TcellindexAtSTBOX(temp *Temporal, box *STBox, border_inc bool) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tcellindex_at_stbox(temp._inner, box._inner, C.bool(border_inc))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// TcellindexMinusSTBOX wraps MEOS C function tcellindex_minus_stbox.
+func TcellindexMinusSTBOX(temp *Temporal, box *STBox, border_inc bool) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tcellindex_minus_stbox(temp._inner, box._inner, C.bool(border_inc))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// EverOverlapsTcellindexSTBOX wraps MEOS C function ever_overlaps_tcellindex_stbox.
+func EverOverlapsTcellindexSTBOX(temp *Temporal, box *STBox) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.ever_overlaps_tcellindex_stbox(temp._inner, box._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
+// AlwaysOverlapsTcellindexSTBOX wraps MEOS C function always_overlaps_tcellindex_stbox.
+func AlwaysOverlapsTcellindexSTBOX(temp *Temporal, box *STBox) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.always_overlaps_tcellindex_stbox(temp._inner, box._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
+// EverOverlapsSTBOXTcellindex wraps MEOS C function ever_overlaps_stbox_tcellindex.
+func EverOverlapsSTBOXTcellindex(box *STBox, temp *Temporal) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.ever_overlaps_stbox_tcellindex(box._inner, temp._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
+// AlwaysOverlapsSTBOXTcellindex wraps MEOS C function always_overlaps_stbox_tcellindex.
+func AlwaysOverlapsSTBOXTcellindex(box *STBox, temp *Temporal) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.always_overlaps_stbox_tcellindex(box._inner, temp._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+

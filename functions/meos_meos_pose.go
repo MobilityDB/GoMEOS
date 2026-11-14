@@ -2861,10 +2861,32 @@ func TposechainTranslate(temp *Temporal, deltax float64, deltay float64, deltaz 
 }
 
 
+// TposechainAtSTBOX wraps MEOS C function tposechain_at_stbox.
+func TposechainAtSTBOX(temp *Temporal, box *STBox, border_inc bool) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tposechain_at_stbox(temp._inner, box._inner, C.bool(border_inc))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
 // TposechainAtValue wraps MEOS C function tposechain_at_value.
 func TposechainAtValue(temp *Temporal, pc unsafe.Pointer) (_r0 *Temporal, _err error) {
 	C.meos_errno_reset()
 	_cret := C.tposechain_at_value(temp._inner, (*C.struct_PoseChain)(unsafe.Pointer(pc)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// TposechainMinusSTBOX wraps MEOS C function tposechain_minus_stbox.
+func TposechainMinusSTBOX(temp *Temporal, box *STBox, border_inc bool) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tposechain_minus_stbox(temp._inner, box._inner, C.bool(border_inc))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -3092,6 +3114,28 @@ func AlwaysNeTposechainTposechain(temp1 *Temporal, temp2 *Temporal) (_r0 int, _e
 }
 
 
+// AlwaysOverlapsSTBOXTposechain wraps MEOS C function always_overlaps_stbox_tposechain.
+func AlwaysOverlapsSTBOXTposechain(box *STBox, temp *Temporal) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.always_overlaps_stbox_tposechain(box._inner, temp._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
+// AlwaysOverlapsTposechainSTBOX wraps MEOS C function always_overlaps_tposechain_stbox.
+func AlwaysOverlapsTposechainSTBOX(temp *Temporal, box *STBox) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.always_overlaps_tposechain_stbox(temp._inner, box._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
 // EverEqPosechainTposechain wraps MEOS C function ever_eq_posechain_tposechain.
 func EverEqPosechainTposechain(posechain unsafe.Pointer, temp *Temporal) (_r0 int, _err error) {
 	C.meos_errno_reset()
@@ -3151,6 +3195,28 @@ func EverNeTposechainPosechain(temp *Temporal, posechain unsafe.Pointer) (_r0 in
 func EverNeTposechainTposechain(temp1 *Temporal, temp2 *Temporal) (_r0 int, _err error) {
 	C.meos_errno_reset()
 	_cret := C.ever_ne_tposechain_tposechain(temp1._inner, temp2._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
+// EverOverlapsSTBOXTposechain wraps MEOS C function ever_overlaps_stbox_tposechain.
+func EverOverlapsSTBOXTposechain(box *STBox, temp *Temporal) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.ever_overlaps_stbox_tposechain(box._inner, temp._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
+// EverOverlapsTposechainSTBOX wraps MEOS C function ever_overlaps_tposechain_stbox.
+func EverOverlapsTposechainSTBOX(temp *Temporal, box *STBox) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.ever_overlaps_tposechain_stbox(temp._inner, box._inner)
 	if _err = meosError(); _err != nil {
 		return
 	}
