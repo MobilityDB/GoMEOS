@@ -1446,6 +1446,12 @@ def generate(idl_path: Path, out_dir: Path) -> dict:
     # generated wrappers; Go's cgo machinery merges directives across files.
     (out_dir / "cgo.go").write_text(_CGO_FILE.replace("@INCLUDES@", include_block))
 
+    # The casts of the time types of Go through the wrappers of the MEOS
+    # conversions, copied verbatim beside them (as PyMEOS-CFFI copies
+    # builder/templates/functions.py ahead of its generated wrappers).
+    (out_dir / "casts.go").write_text(
+        (Path(__file__).parent / "templates" / "casts.go.tmpl").read_text())
+
     # The type layer (opaque handle structs + enums) the wrappers depend on,
     # restricted to the types the emitted wrappers actually reference.
     (out_dir / "types.go").write_text(
