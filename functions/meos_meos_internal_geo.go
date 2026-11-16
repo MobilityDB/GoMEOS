@@ -1364,6 +1364,17 @@ func TpointseqLinearTrajectory(seq *TSequence, unary_union bool) (_r0 *Geom, _er
 }
 
 
+// TgeoinstStboxes wraps MEOS C function tgeoinst_stboxes.
+func TgeoinstStboxes(inst *TInstant) (_r0 *STBox, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tgeoinst_stboxes(inst._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &STBox{_inner: _cret}, nil
+}
+
+
 // TgeoseqStboxes wraps MEOS C function tgeoseq_stboxes.
 func TgeoseqStboxes(seq *TSequence, count unsafe.Pointer) (_r0 *STBox, _err error) {
 	C.meos_errno_reset()
@@ -1379,6 +1390,17 @@ func TgeoseqStboxes(seq *TSequence, count unsafe.Pointer) (_r0 *STBox, _err erro
 func TgeoseqSplitNStboxes(seq *TSequence, max_count int, count unsafe.Pointer) (_r0 *STBox, _err error) {
 	C.meos_errno_reset()
 	_cret := C.tgeoseq_split_n_stboxes(seq._inner, C.int(max_count), (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &STBox{_inner: _cret}, nil
+}
+
+
+// TgeoseqSplitEachNStboxes wraps MEOS C function tgeoseq_split_each_n_stboxes.
+func TgeoseqSplitEachNStboxes(seq *TSequence, elem_count int, count unsafe.Pointer) (_r0 *STBox, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tgeoseq_split_each_n_stboxes(seq._inner, C.int(elem_count), (*C.int)(unsafe.Pointer(count)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1445,6 +1467,17 @@ func TgeoseqsetStboxes(ss *TSequenceSet, count unsafe.Pointer) (_r0 *STBox, _err
 func TgeoseqsetSplitNStboxes(ss *TSequenceSet, max_count int, count unsafe.Pointer) (_r0 *STBox, _err error) {
 	C.meos_errno_reset()
 	_cret := C.tgeoseqset_split_n_stboxes(ss._inner, C.int(max_count), (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &STBox{_inner: _cret}, nil
+}
+
+
+// TgeoseqsetSplitEachNStboxes wraps MEOS C function tgeoseqset_split_each_n_stboxes.
+func TgeoseqsetSplitEachNStboxes(ss *TSequenceSet, elem_count int, count unsafe.Pointer) (_r0 *STBox, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tgeoseqset_split_each_n_stboxes(ss._inner, C.int(elem_count), (*C.int)(unsafe.Pointer(count)))
 	if _err = meosError(); _err != nil {
 		return
 	}

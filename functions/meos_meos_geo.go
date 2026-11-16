@@ -1193,6 +1193,28 @@ func GeoStboxes(gs *Geom, count unsafe.Pointer) (_r0 *STBox, _err error) {
 }
 
 
+// GeoMergeEachNStboxes wraps MEOS C function geo_merge_each_n_stboxes.
+func GeoMergeEachNStboxes(gs *Geom, elem_count int, count unsafe.Pointer) (_r0 *STBox, _err error) {
+	C.meos_errno_reset()
+	_cret := C.geo_merge_each_n_stboxes(gs._inner, C.int(elem_count), (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &STBox{_inner: _cret}, nil
+}
+
+
+// GeoMergeNStboxes wraps MEOS C function geo_merge_n_stboxes.
+func GeoMergeNStboxes(gs *Geom, box_count int, count unsafe.Pointer) (_r0 *STBox, _err error) {
+	C.meos_errno_reset()
+	_cret := C.geo_merge_n_stboxes(gs._inner, C.int(box_count), (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &STBox{_inner: _cret}, nil
+}
+
+
 // GeoSplitEachNStboxes wraps MEOS C function geo_split_each_n_stboxes.
 func GeoSplitEachNStboxes(gs *Geom, elem_count int, count unsafe.Pointer) (_r0 *STBox, _err error) {
 	C.meos_errno_reset()
@@ -3947,6 +3969,28 @@ func TgeoTimeBoxes(temp *Temporal, duration *Interval, torigin int64, bitmatrix 
 func TgeoSpaceTimeBoxes(temp *Temporal, xsize float64, ysize float64, zsize float64, duration *Interval, sorigin *Geom, torigin int64, bitmatrix bool, border_inc bool, count unsafe.Pointer) (_r0 *STBox, _err error) {
 	C.meos_errno_reset()
 	_cret := C.tgeo_space_time_boxes(temp._inner, C.double(xsize), C.double(ysize), C.double(zsize), duration._inner, sorigin._inner, C.TimestampTz(torigin), C.bool(bitmatrix), C.bool(border_inc), (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &STBox{_inner: _cret}, nil
+}
+
+
+// TgeoMergeEachNStboxes wraps MEOS C function tgeo_merge_each_n_stboxes.
+func TgeoMergeEachNStboxes(temp *Temporal, elem_count int, count unsafe.Pointer) (_r0 *STBox, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tgeo_merge_each_n_stboxes(temp._inner, C.int(elem_count), (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &STBox{_inner: _cret}, nil
+}
+
+
+// TgeoMergeNStboxes wraps MEOS C function tgeo_merge_n_stboxes.
+func TgeoMergeNStboxes(temp *Temporal, box_count int, count unsafe.Pointer) (_r0 *STBox, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tgeo_merge_n_stboxes(temp._inner, C.int(box_count), (*C.int)(unsafe.Pointer(count)))
 	if _err = meosError(); _err != nil {
 		return
 	}

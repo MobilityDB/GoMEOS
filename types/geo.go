@@ -415,6 +415,24 @@ func (x *Geo) Stboxes(count unsafe.Pointer) (*STBox, error) {
 	return STBoxFromPointer(_r0.Pointer()), nil
 }
 
+// MergeEachNStboxes is MEOS geo_merge_each_n_stboxes.
+func (x *Geo) MergeEachNStboxes(elem_count int, count unsafe.Pointer) (*STBox, error) {
+	_r0, _err := functions.GeoMergeEachNStboxes(functions.GeomFromPointer(x.Pointer()), elem_count, count)
+	if _err != nil {
+		return nil, _err
+	}
+	return STBoxFromPointer(_r0.Pointer()), nil
+}
+
+// MergeNStboxes is MEOS geo_merge_n_stboxes.
+func (x *Geo) MergeNStboxes(box_count int, count unsafe.Pointer) (*STBox, error) {
+	_r0, _err := functions.GeoMergeNStboxes(functions.GeomFromPointer(x.Pointer()), box_count, count)
+	if _err != nil {
+		return nil, _err
+	}
+	return STBoxFromPointer(_r0.Pointer()), nil
+}
+
 // SplitEachNStboxes is MEOS geo_split_each_n_stboxes.
 func (x *Geo) SplitEachNStboxes(elem_count int, count unsafe.Pointer) (*STBox, error) {
 	_r0, _err := functions.GeoSplitEachNStboxes(functions.GeomFromPointer(x.Pointer()), elem_count, count)

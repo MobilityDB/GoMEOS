@@ -131,15 +131,6 @@ func (x *Jsonb) ToInt64() (int64, error) {
 	return _r0, nil
 }
 
-// ToNumeric is MEOS jsonb_to_numeric.
-func (x *Jsonb) ToNumeric() (unsafe.Pointer, error) {
-	_r0, _err := functions.JsonbToNumeric(functions.JsonbFromPointer(x.Pointer()))
-	if _err != nil {
-		return nil, _err
-	}
-	return _r0, nil
-}
-
 // ToText is MEOS jsonb_to_text.
 func (x *Jsonb) ToText() (string, error) {
 	_r0, _err := functions.JsonbToText(functions.JsonbFromPointer(x.Pointer()))
