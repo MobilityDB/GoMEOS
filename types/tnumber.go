@@ -133,6 +133,24 @@ func (x *TNumber) MinusTbox(box *TBox) (*Temporal, error) {
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
+// MergeEachNTboxes is MEOS tnumber_merge_each_n_tboxes.
+func (x *TNumber) MergeEachNTboxes(elem_count int, count unsafe.Pointer) (*TBox, error) {
+	_r0, _err := functions.TnumberMergeEachNTboxes(functions.TemporalFromPointer(x.Pointer()), elem_count, count)
+	if _err != nil {
+		return nil, _err
+	}
+	return TBoxFromPointer(_r0.Pointer()), nil
+}
+
+// MergeNTboxes is MEOS tnumber_merge_n_tboxes.
+func (x *TNumber) MergeNTboxes(box_count int, count unsafe.Pointer) (*TBox, error) {
+	_r0, _err := functions.TnumberMergeNTboxes(functions.TemporalFromPointer(x.Pointer()), box_count, count)
+	if _err != nil {
+		return nil, _err
+	}
+	return TBoxFromPointer(_r0.Pointer()), nil
+}
+
 // SplitEachNTboxes is MEOS tnumber_split_each_n_tboxes.
 func (x *TNumber) SplitEachNTboxes(elem_count int, count unsafe.Pointer) (*TBox, error) {
 	_r0, _err := functions.TnumberSplitEachNTboxes(functions.TemporalFromPointer(x.Pointer()), elem_count, count)

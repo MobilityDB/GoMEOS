@@ -105,6 +105,17 @@ import (
 
 var _ = unsafe.Pointer(nil)
 
+// MeosArrayAddIntl wraps MEOS C function meos_array_add_intl.
+func MeosArrayAddIntl(array *MeosArray, value unsafe.Pointer) (_err error) {
+	C.meos_errno_reset()
+	C.meos_array_add_intl(array._inner, unsafe.Pointer(value))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return nil
+}
+
+
 // MeosArrayGetIntl wraps MEOS C function meos_array_get_intl.
 func MeosArrayGetIntl(array *MeosArray, n int) (_r0 unsafe.Pointer, _err error) {
 	C.meos_errno_reset()
@@ -113,6 +124,17 @@ func MeosArrayGetIntl(array *MeosArray, n int) (_r0 unsafe.Pointer, _err error) 
 		return
 	}
 	return unsafe.Pointer(_cret), nil
+}
+
+
+// MeosArrayCountIntl wraps MEOS C function meos_array_count_intl.
+func MeosArrayCountIntl(array *MeosArray) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.meos_array_count_intl(array._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
 }
 
 
@@ -1684,6 +1706,160 @@ func TsequencesetSetTstzspan(ss *TSequenceSet, s *Span) (_err error) {
 		return
 	}
 	return nil
+}
+
+
+// TinstantSpans wraps MEOS C function tinstant_spans.
+func TinstantSpans(inst *TInstant) (_r0 *Span, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tinstant_spans(inst._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Span{_inner: _cret}, nil
+}
+
+
+// TsequenceSpans wraps MEOS C function tsequence_spans.
+func TsequenceSpans(seq *TSequence, count unsafe.Pointer) (_r0 *Span, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tsequence_spans(seq._inner, (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Span{_inner: _cret}, nil
+}
+
+
+// TsequencesetSpans wraps MEOS C function tsequenceset_spans.
+func TsequencesetSpans(ss *TSequenceSet, count unsafe.Pointer) (_r0 *Span, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tsequenceset_spans(ss._inner, (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Span{_inner: _cret}, nil
+}
+
+
+// TsequenceSplitNSpans wraps MEOS C function tsequence_split_n_spans.
+func TsequenceSplitNSpans(seq *TSequence, span_count int, count unsafe.Pointer) (_r0 *Span, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tsequence_split_n_spans(seq._inner, C.int(span_count), (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Span{_inner: _cret}, nil
+}
+
+
+// TsequencesetSplitNSpans wraps MEOS C function tsequenceset_split_n_spans.
+func TsequencesetSplitNSpans(ss *TSequenceSet, span_count int, count unsafe.Pointer) (_r0 *Span, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tsequenceset_split_n_spans(ss._inner, C.int(span_count), (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Span{_inner: _cret}, nil
+}
+
+
+// TsequenceSplitEachNSpans wraps MEOS C function tsequence_split_each_n_spans.
+func TsequenceSplitEachNSpans(seq *TSequence, elem_count int, count unsafe.Pointer) (_r0 *Span, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tsequence_split_each_n_spans(seq._inner, C.int(elem_count), (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Span{_inner: _cret}, nil
+}
+
+
+// TsequencesetSplitEachNSpans wraps MEOS C function tsequenceset_split_each_n_spans.
+func TsequencesetSplitEachNSpans(ss *TSequenceSet, elem_count int, count unsafe.Pointer) (_r0 *Span, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tsequenceset_split_each_n_spans(ss._inner, C.int(elem_count), (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Span{_inner: _cret}, nil
+}
+
+
+// TnumberinstTboxes wraps MEOS C function tnumberinst_tboxes.
+func TnumberinstTboxes(inst *TInstant) (_r0 *TBox, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tnumberinst_tboxes(inst._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &TBox{_inner: _cret}, nil
+}
+
+
+// TnumberseqTboxes wraps MEOS C function tnumberseq_tboxes.
+func TnumberseqTboxes(seq *TSequence, count unsafe.Pointer) (_r0 *TBox, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tnumberseq_tboxes(seq._inner, (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &TBox{_inner: _cret}, nil
+}
+
+
+// TnumberseqsetTboxes wraps MEOS C function tnumberseqset_tboxes.
+func TnumberseqsetTboxes(ss *TSequenceSet, count unsafe.Pointer) (_r0 *TBox, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tnumberseqset_tboxes(ss._inner, (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &TBox{_inner: _cret}, nil
+}
+
+
+// TnumberseqSplitNTboxes wraps MEOS C function tnumberseq_split_n_tboxes.
+func TnumberseqSplitNTboxes(seq *TSequence, box_count int, count unsafe.Pointer) (_r0 *TBox, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tnumberseq_split_n_tboxes(seq._inner, C.int(box_count), (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &TBox{_inner: _cret}, nil
+}
+
+
+// TnumberseqsetSplitNTboxes wraps MEOS C function tnumberseqset_split_n_tboxes.
+func TnumberseqsetSplitNTboxes(ss *TSequenceSet, box_count int, count unsafe.Pointer) (_r0 *TBox, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tnumberseqset_split_n_tboxes(ss._inner, C.int(box_count), (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &TBox{_inner: _cret}, nil
+}
+
+
+// TnumberseqSplitEachNTboxes wraps MEOS C function tnumberseq_split_each_n_tboxes.
+func TnumberseqSplitEachNTboxes(seq *TSequence, elem_count int, count unsafe.Pointer) (_r0 *TBox, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tnumberseq_split_each_n_tboxes(seq._inner, C.int(elem_count), (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &TBox{_inner: _cret}, nil
+}
+
+
+// TnumberseqsetSplitEachNTboxes wraps MEOS C function tnumberseqset_split_each_n_tboxes.
+func TnumberseqsetSplitEachNTboxes(ss *TSequenceSet, elem_count int, count unsafe.Pointer) (_r0 *TBox, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tnumberseqset_split_each_n_tboxes(ss._inner, C.int(elem_count), (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &TBox{_inner: _cret}, nil
 }
 
 

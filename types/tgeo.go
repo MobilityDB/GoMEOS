@@ -319,6 +319,24 @@ func (x *TGeo) SpaceBoxes(xsize float64, ysize float64, zsize float64, sorigin *
 	return STBoxFromPointer(_r0.Pointer()), nil
 }
 
+// MergeEachNStboxes is MEOS tgeo_merge_each_n_stboxes.
+func (x *TGeo) MergeEachNStboxes(elem_count int, count unsafe.Pointer) (*STBox, error) {
+	_r0, _err := functions.TgeoMergeEachNStboxes(functions.TemporalFromPointer(x.Pointer()), elem_count, count)
+	if _err != nil {
+		return nil, _err
+	}
+	return STBoxFromPointer(_r0.Pointer()), nil
+}
+
+// MergeNStboxes is MEOS tgeo_merge_n_stboxes.
+func (x *TGeo) MergeNStboxes(box_count int, count unsafe.Pointer) (*STBox, error) {
+	_r0, _err := functions.TgeoMergeNStboxes(functions.TemporalFromPointer(x.Pointer()), box_count, count)
+	if _err != nil {
+		return nil, _err
+	}
+	return STBoxFromPointer(_r0.Pointer()), nil
+}
+
 // SplitEachNStboxes is MEOS tgeo_split_each_n_stboxes.
 func (x *TGeo) SplitEachNStboxes(elem_count int, count unsafe.Pointer) (*STBox, error) {
 	_r0, _err := functions.TgeoSplitEachNStboxes(functions.TemporalFromPointer(x.Pointer()), elem_count, count)

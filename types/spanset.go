@@ -272,6 +272,24 @@ func (x *SpanSet) Spans(count unsafe.Pointer) (*Span, error) {
 	return SpanFromPointer(_r0.Pointer()), nil
 }
 
+// MergeEachNSpans is MEOS spanset_merge_each_n_spans.
+func (x *SpanSet) MergeEachNSpans(elems_per_span int, count unsafe.Pointer) (*Span, error) {
+	_r0, _err := functions.SpansetMergeEachNSpans(functions.SpanSetFromPointer(x.Pointer()), elems_per_span, count)
+	if _err != nil {
+		return nil, _err
+	}
+	return SpanFromPointer(_r0.Pointer()), nil
+}
+
+// MergeNSpans is MEOS spanset_merge_n_spans.
+func (x *SpanSet) MergeNSpans(span_count int, count unsafe.Pointer) (*Span, error) {
+	_r0, _err := functions.SpansetMergeNSpans(functions.SpanSetFromPointer(x.Pointer()), span_count, count)
+	if _err != nil {
+		return nil, _err
+	}
+	return SpanFromPointer(_r0.Pointer()), nil
+}
+
 // SplitEachNSpans is MEOS spanset_split_each_n_spans.
 func (x *SpanSet) SplitEachNSpans(elems_per_span int, count unsafe.Pointer) (*Span, error) {
 	_r0, _err := functions.SpansetSplitEachNSpans(functions.SpanSetFromPointer(x.Pointer()), elems_per_span, count)

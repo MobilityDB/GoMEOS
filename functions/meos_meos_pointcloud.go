@@ -1296,6 +1296,61 @@ func TpointcloudToTpcbox(temp *Temporal) (_r0 *TPCBox, _err error) {
 }
 
 
+// TpointcloudTpcboxes wraps MEOS C function tpointcloud_tpcboxes.
+func TpointcloudTpcboxes(temp *Temporal, count unsafe.Pointer) (_r0 *TPCBox, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tpointcloud_tpcboxes(temp._inner, (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &TPCBox{_inner: _cret}, nil
+}
+
+
+// TpointcloudSplitNTpcboxes wraps MEOS C function tpointcloud_split_n_tpcboxes.
+func TpointcloudSplitNTpcboxes(temp *Temporal, box_count int, count unsafe.Pointer) (_r0 *TPCBox, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tpointcloud_split_n_tpcboxes(temp._inner, C.int(box_count), (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &TPCBox{_inner: _cret}, nil
+}
+
+
+// TpointcloudSplitEachNTpcboxes wraps MEOS C function tpointcloud_split_each_n_tpcboxes.
+func TpointcloudSplitEachNTpcboxes(temp *Temporal, elem_count int, count unsafe.Pointer) (_r0 *TPCBox, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tpointcloud_split_each_n_tpcboxes(temp._inner, C.int(elem_count), (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &TPCBox{_inner: _cret}, nil
+}
+
+
+// TpointcloudMergeNTpcboxes wraps MEOS C function tpointcloud_merge_n_tpcboxes.
+func TpointcloudMergeNTpcboxes(temp *Temporal, box_count int, count unsafe.Pointer) (_r0 *TPCBox, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tpointcloud_merge_n_tpcboxes(temp._inner, C.int(box_count), (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &TPCBox{_inner: _cret}, nil
+}
+
+
+// TpointcloudMergeEachNTpcboxes wraps MEOS C function tpointcloud_merge_each_n_tpcboxes.
+func TpointcloudMergeEachNTpcboxes(temp *Temporal, elem_count int, count unsafe.Pointer) (_r0 *TPCBox, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tpointcloud_merge_each_n_tpcboxes(temp._inner, C.int(elem_count), (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &TPCBox{_inner: _cret}, nil
+}
+
+
 // TpcboxHasx wraps MEOS C function tpcbox_hasx.
 func TpcboxHasx(box *TPCBox) (_r0 bool, _err error) {
 	C.meos_errno_reset()

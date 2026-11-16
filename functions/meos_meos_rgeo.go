@@ -513,6 +513,28 @@ func TrgeometrySplitNStboxes(temp *Temporal, box_count int, count unsafe.Pointer
 }
 
 
+// TrgeometryMergeEachNStboxes wraps MEOS C function trgeometry_merge_each_n_stboxes.
+func TrgeometryMergeEachNStboxes(temp *Temporal, elem_count int, count unsafe.Pointer) (_r0 *STBox, _err error) {
+	C.meos_errno_reset()
+	_cret := C.trgeometry_merge_each_n_stboxes(temp._inner, C.int(elem_count), (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &STBox{_inner: _cret}, nil
+}
+
+
+// TrgeometryMergeNStboxes wraps MEOS C function trgeometry_merge_n_stboxes.
+func TrgeometryMergeNStboxes(temp *Temporal, box_count int, count unsafe.Pointer) (_r0 *STBox, _err error) {
+	C.meos_errno_reset()
+	_cret := C.trgeometry_merge_n_stboxes(temp._inner, C.int(box_count), (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &STBox{_inner: _cret}, nil
+}
+
+
 // TrgeometrySplitEachNStboxes wraps MEOS C function trgeometry_split_each_n_stboxes.
 func TrgeometrySplitEachNStboxes(temp *Temporal, elem_count int, count unsafe.Pointer) (_r0 *STBox, _err error) {
 	C.meos_errno_reset()
