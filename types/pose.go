@@ -684,3 +684,20 @@ func (x *Pose) op_union_pose_set(s *Set) (*Set, error) {
 func (x *Pose) Union(s *Set) (*Set, error) {
 	return x.op_union_pose_set(s)
 }
+
+// PoseSetUnionAgg is the aggregate setUnionAgg: MEOS pose_union_transfn over the values, then set_union_finalfn.
+func PoseSetUnionAgg(values []*Pose) (*Set, error) {
+	var _state *functions.Set
+	for _, _v := range values {
+		_s, _err := functions.PoseUnionTransfn(_state, functions.PoseFromPointer(_v.Pointer()))
+		if _err != nil {
+			return nil, _err
+		}
+		_state = _s
+	}
+	_r0, _err := functions.SetUnionFinalfn(_state)
+	if _err != nil {
+		return nil, _err
+	}
+	return SetFromPointer(_r0.Pointer()), nil
+}

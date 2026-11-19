@@ -941,3 +941,54 @@ func (x *Raster) Sub(other any) (*Raster, error) {
 	}
 	return nil, fmt.Errorf("Sub of Raster takes no %T", other)
 }
+
+// RasterSameAlignmentAgg is the aggregate sameAlignmentAgg: MEOS raster_same_alignment_transfn over the values, then raster_same_alignment_finalfn.
+func RasterSameAlignmentAgg(values []*Raster) (bool, error) {
+	var _state unsafe.Pointer
+	for _, _v := range values {
+		_s, _err := functions.RasterSameAlignmentTransfn(_state, _v.Pointer())
+		if _err != nil {
+			return false, _err
+		}
+		_state = _s
+	}
+	_r0, _err := functions.RasterSameAlignmentFinalfn(_state)
+	if _err != nil {
+		return false, _err
+	}
+	return _r0, nil
+}
+
+// RasterRasterUnion is the aggregate rasterUnion: MEOS raster_union_transfn over the values, then raster_union_finalfn.
+func RasterRasterUnion(values []*Raster, band int, uniontype *string) (*Raster, error) {
+	var _state unsafe.Pointer
+	for _, _v := range values {
+		_s, _err := functions.RasterUnionTransfn(_state, _v.Pointer(), band, uniontype)
+		if _err != nil {
+			return nil, _err
+		}
+		_state = _s
+	}
+	_r0, _err := functions.RasterUnionFinalfn(_state)
+	if _err != nil {
+		return nil, _err
+	}
+	return RasterFromPointer(_r0), nil
+}
+
+// RasterSummaryStatsAgg is the aggregate summaryStatsAgg: MEOS raster_summary_stats_transfn over the values, then raster_summary_stats_finalfn.
+func RasterSummaryStatsAgg(values []*Raster, band int, exclude_nodata bool) (*BandStats, error) {
+	var _state unsafe.Pointer
+	for _, _v := range values {
+		_s, _err := functions.RasterSummaryStatsTransfn(_state, _v.Pointer(), band, exclude_nodata)
+		if _err != nil {
+			return nil, _err
+		}
+		_state = _s
+	}
+	_r0, _err := functions.RasterSummaryStatsFinalfn(_state)
+	if _err != nil {
+		return nil, _err
+	}
+	return BandStatsFromPointer(_r0), nil
+}

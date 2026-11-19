@@ -834,6 +834,99 @@ class Generator:
                                   ) - set(cases_of_cls) - set(inherited)
         return out
 
+    def aggregate_methods(self, cls: str) -> list[str]:
+        """The aggregates over the values of a class, one function of the class
+        each, built beside #method_for, whose #map_param and #map_return it calls
+        for the transition's arguments and the final function's result, as
+        #aggregateMethods of MEOS.js's codegen/ObjectGenerator.ts builds them:
+        the catalog's `aggregates` whose transition takes the class's C type
+        after its state, named as an engine holding one function per name calls
+        them, the aggregate's `altSqlName` or else its `sqlName`, after the class
+        as #method_for names every function of a class. The function threads the
+        transition over the values from a NULL state, as MEOS's C callers do, and
+        answers the final function's result; the final function frees the state.
+        An aggregate two transitions serve under one name over this class has no
+        function of its own: its overloads take the same values and nothing
+        tells them apart."""
+        by_name: dict[str, list[tuple[str, str]]] = {}
+        for agg in self.m.idl.get("aggregates") or []:
+            transition = (agg.get("transition") or {}).get("meos")
+            final = (agg.get("final") or {}).get("meos")
+            f = transition and self.m.functions.get(transition)
+            if not f or not final or len(f.get("params", [])) < 2:
+                continue
+            item = (f["params"][1].get("canonical") or f["params"][1]["cType"])
+            item = item.replace("const ", "").replace("struct ", "").strip()
+            if not item.endswith("*") or self.m.class_for_ctype(item[:-1].strip()) != cls:
+                continue
+            name = agg.get("altSqlName") or agg["sqlName"]
+            seen = by_name.setdefault(name, [])
+            if (transition, final) not in seen:
+                seen.append((transition, final))
+        out = []
+        for name, overloads in by_name.items():
+            if len({t for t, _f in overloads}) > 1:
+                self.deferred[cls].append(
+                    f"{name}: aggregate served by several transitions "
+                    + ", ".join(t for t, _f in overloads))
+                continue
+            transition, final = overloads[0]
+            tsig, fsig = codegen.SIGNATURES.get(transition), codegen.SIGNATURES.get(final)
+            # The state crosses as the one type the flat layer gives it in all
+            # three slots, a handle it declares (*SkipList, *Set) or a bare
+            # unsafe.Pointer, whose zero value is MEOS's NULL state.
+            state = tsig.params[0][1] if tsig and tsig.params else None
+            if (not tsig or not fsig or len(tsig.params) < 2
+                    or not (state == "unsafe.Pointer" or state.startswith("*"))
+                    or tsig.returns != [state] or len(fsig.params) != 1
+                    or fsig.params[0][1] != state or len(fsig.returns) != 1):
+                self.deferred[cls].append(
+                    f"{name}: aggregate state not threadable, {transition} / {final}")
+                continue
+            f, ff = self.m.functions[transition], self.m.functions.get(final) or {}
+            c_of = {codegen._go_param_name(p["name"]): p.get("canonical") or p.get("cType")
+                    for p in f.get("params", [])}
+            item = self.map_param(tsig.params[1][1], "_v", c_of.get(tsig.params[1][0]))
+            decl, args, ok = [], ["_state", item[1] if item else ""], item is not None
+            for pname, ptype in tsig.params[2:]:
+                mapped = self.map_param(ptype, ident(pname), c_of.get(pname))
+                if mapped is None:
+                    ok = False
+                    break
+                decl.append(f"{ident(pname)} {mapped[0]}")
+                args.append(mapped[1])
+            ret_c = (ff.get("returnType") or {}).get("canonical") or \
+                (ff.get("returnType") or {}).get("c")
+            ret = self.map_return(fsig.returns[0], "_r0", ret_c) if ok else None
+            if not ok or ret is None:
+                self.deferred[cls].append(
+                    f"{name}: aggregate argument or result needs marshalling, "
+                    f"{transition} / {final}")
+                continue
+            fname = cls + pascal(name)
+            if fname in self.package_names:
+                self.deferred[cls].append(f"{name}: {fname} is taken in the package")
+                continue
+            self.package_names.add(fname)
+            gotype, expr = ret
+            body = [
+                f"\tvar _state {self.qualify(state)}",
+                "\tfor _, _v := range values {",
+                f"\t\t_s, _err := functions.{tsig.go_name}({', '.join(args)})",
+                f"\t\tif _err != nil {{\n\t\t\treturn {zero(gotype)}, _err\n\t\t}}",
+                "\t\t_state = _s",
+                "\t}",
+                f"\t_r0, _err := functions.{fsig.go_name}(_state)",
+                f"\tif _err != nil {{\n\t\treturn {zero(gotype)}, _err\n\t}}",
+                f"\treturn {expr}, nil",
+            ]
+            head = (f"func {fname}({', '.join([f'values []{item[0]}'] + decl)}) "
+                    f"({gotype}, error) {{")
+            self.emitted += 1
+            out.append(f"// {fname} is the aggregate {name}: MEOS {transition} over "
+                       f"the values, then {final}.\n{head}\n" + "\n".join(body) + "\n}\n")
+        return out
+
     def emit_class(self, cls: str) -> str:
         spec = self.m.om["classes"].get(cls) or {"methods": []}
         parent = self.m.parent.get(cls)
@@ -862,6 +955,7 @@ class Generator:
         methods += self.portable_methods(cls, own, functions)
         methods += self.string_method(cls, functions)
         methods += self.operator_methods(cls, methods)
+        methods += self.aggregate_methods(cls)
 
         byvalue = cls in self.byvalue
         uses_functions = byvalue or any("functions." in m for m in methods)
