@@ -158,8 +158,8 @@ func (x *Pose) Copy() (*Pose, error) {
 }
 
 // PoseMake2d is MEOS pose_make_2d.
-func PoseMake2d(x float64, y float64, theta float64, geodetic bool, srid int32) (*Pose, error) {
-	_r0, _err := functions.PoseMake2d(x, y, theta, geodetic, srid)
+func PoseMake2d(x_ float64, y float64, theta float64, geodetic bool, srid int32) (*Pose, error) {
+	_r0, _err := functions.PoseMake2d(x_, y, theta, geodetic, srid)
 	if _err != nil {
 		return nil, _err
 	}
@@ -167,8 +167,8 @@ func PoseMake2d(x float64, y float64, theta float64, geodetic bool, srid int32) 
 }
 
 // PoseMake3d is MEOS pose_make_3d.
-func PoseMake3d(x float64, y float64, z float64, W float64, X float64, Y float64, Z float64, geodetic bool, srid int32) (*Pose, error) {
-	_r0, _err := functions.PoseMake3d(x, y, z, W, X, Y, Z, geodetic, srid)
+func PoseMake3d(x_ float64, y float64, z float64, W float64, X float64, Y float64, Z float64, geodetic bool, srid int32) (*Pose, error) {
+	_r0, _err := functions.PoseMake3d(x_, y, z, W, X, Y, Z, geodetic, srid)
 	if _err != nil {
 		return nil, _err
 	}
@@ -473,12 +473,12 @@ func (x *Pose) ToSet() (*Set, error) {
 }
 
 // ToPosechain is MEOS pose_to_posechain.
-func (x *Pose) ToPosechain() (unsafe.Pointer, error) {
+func (x *Pose) ToPosechain() (*PoseChain, error) {
 	_r0, _err := functions.PoseToPosechain(functions.PoseFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return _r0, nil
+	return PoseChainFromPointer(_r0), nil
 }
 
 // PoseFromEWKB is the portable fromEWKB of MEOS pose_from_wkb.

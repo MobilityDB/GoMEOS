@@ -44,21 +44,21 @@ func PoseChainSetMake(values unsafe.Pointer, count int) (*Set, error) {
 }
 
 // EndValue is MEOS posechainset_end_value.
-func (x *PoseChainSet) EndValue() (unsafe.Pointer, error) {
+func (x *PoseChainSet) EndValue() (*PoseChain, error) {
 	_r0, _err := functions.PosechainsetEndValue(functions.SetFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return _r0, nil
+	return PoseChainFromPointer(_r0), nil
 }
 
 // StartValue is MEOS posechainset_start_value.
-func (x *PoseChainSet) StartValue() (unsafe.Pointer, error) {
+func (x *PoseChainSet) StartValue() (*PoseChain, error) {
 	_r0, _err := functions.PosechainsetStartValue(functions.SetFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return _r0, nil
+	return PoseChainFromPointer(_r0), nil
 }
 
 // Values is MEOS posechainset_values.
@@ -121,8 +121,8 @@ func (x *PoseChainSet) String() string {
 }
 
 // op_contains_set_posechain is MEOS contains_set_posechain.
-func (x *PoseChainSet) op_contains_set_posechain(pc unsafe.Pointer) (bool, error) {
-	_r0, _err := functions.ContainsSetPosechain(functions.SetFromPointer(x.Pointer()), pc)
+func (x *PoseChainSet) op_contains_set_posechain(pc *PoseChain) (bool, error) {
+	_r0, _err := functions.ContainsSetPosechain(functions.SetFromPointer(x.Pointer()), pc.Pointer())
 	if _err != nil {
 		return false, _err
 	}
@@ -132,10 +132,10 @@ func (x *PoseChainSet) op_contains_set_posechain(pc unsafe.Pointer) (bool, error
 // Contains is the operator contains of PoseChainSet: it calls the MEOS function whose second operand has the type of other.
 func (x *PoseChainSet) Contains(other any) (bool, error) {
 	switch v := other.(type) {
+	case *PoseChain:
+		return x.op_contains_set_posechain(v)
 	case *Set:
 		return x.op_contains_set_set(v)
-	case unsafe.Pointer:
-		return x.op_contains_set_posechain(v)
 	}
 	return false, fmt.Errorf("Contains of PoseChainSet takes no %T", other)
 }
@@ -155,8 +155,8 @@ func (x *PoseChainSet) Distance(s2 *Set) (float64, error) {
 }
 
 // op_intersection_set_posechain is MEOS intersection_set_posechain.
-func (x *PoseChainSet) op_intersection_set_posechain(pc unsafe.Pointer) (*Set, error) {
-	_r0, _err := functions.IntersectionSetPosechain(functions.SetFromPointer(x.Pointer()), pc)
+func (x *PoseChainSet) op_intersection_set_posechain(pc *PoseChain) (*Set, error) {
+	_r0, _err := functions.IntersectionSetPosechain(functions.SetFromPointer(x.Pointer()), pc.Pointer())
 	if _err != nil {
 		return nil, _err
 	}
@@ -166,17 +166,17 @@ func (x *PoseChainSet) op_intersection_set_posechain(pc unsafe.Pointer) (*Set, e
 // Intersection is the operator intersection of PoseChainSet: it calls the MEOS function whose second operand has the type of other.
 func (x *PoseChainSet) Intersection(other any) (*Set, error) {
 	switch v := other.(type) {
+	case *PoseChain:
+		return x.op_intersection_set_posechain(v)
 	case *Set:
 		return x.op_intersection_set_set(v)
-	case unsafe.Pointer:
-		return x.op_intersection_set_posechain(v)
 	}
 	return nil, fmt.Errorf("Intersection of PoseChainSet takes no %T", other)
 }
 
 // op_minus_set_posechain is MEOS minus_set_posechain.
-func (x *PoseChainSet) op_minus_set_posechain(pc unsafe.Pointer) (*Set, error) {
-	_r0, _err := functions.MinusSetPosechain(functions.SetFromPointer(x.Pointer()), pc)
+func (x *PoseChainSet) op_minus_set_posechain(pc *PoseChain) (*Set, error) {
+	_r0, _err := functions.MinusSetPosechain(functions.SetFromPointer(x.Pointer()), pc.Pointer())
 	if _err != nil {
 		return nil, _err
 	}
@@ -186,17 +186,17 @@ func (x *PoseChainSet) op_minus_set_posechain(pc unsafe.Pointer) (*Set, error) {
 // Minus is the operator minus of PoseChainSet: it calls the MEOS function whose second operand has the type of other.
 func (x *PoseChainSet) Minus(other any) (*Set, error) {
 	switch v := other.(type) {
+	case *PoseChain:
+		return x.op_minus_set_posechain(v)
 	case *Set:
 		return x.op_minus_set_set(v)
-	case unsafe.Pointer:
-		return x.op_minus_set_posechain(v)
 	}
 	return nil, fmt.Errorf("Minus of PoseChainSet takes no %T", other)
 }
 
 // op_union_set_posechain is MEOS union_set_posechain.
-func (x *PoseChainSet) op_union_set_posechain(pc unsafe.Pointer) (*Set, error) {
-	_r0, _err := functions.UnionSetPosechain(functions.SetFromPointer(x.Pointer()), pc)
+func (x *PoseChainSet) op_union_set_posechain(pc *PoseChain) (*Set, error) {
+	_r0, _err := functions.UnionSetPosechain(functions.SetFromPointer(x.Pointer()), pc.Pointer())
 	if _err != nil {
 		return nil, _err
 	}
@@ -206,10 +206,10 @@ func (x *PoseChainSet) op_union_set_posechain(pc unsafe.Pointer) (*Set, error) {
 // Union is the operator union of PoseChainSet: it calls the MEOS function whose second operand has the type of other.
 func (x *PoseChainSet) Union(other any) (*Set, error) {
 	switch v := other.(type) {
+	case *PoseChain:
+		return x.op_union_set_posechain(v)
 	case *Set:
 		return x.op_union_set_set(v)
-	case unsafe.Pointer:
-		return x.op_union_set_posechain(v)
 	}
 	return nil, fmt.Errorf("Union of PoseChainSet takes no %T", other)
 }

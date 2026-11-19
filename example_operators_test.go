@@ -7,6 +7,7 @@ package gomeos
 // parent class through its embedded handle.
 
 import (
+	"bytes"
 	"fmt"
 
 	"github.com/MobilityDB/GoMEOS/types"
@@ -50,4 +51,37 @@ func Example_tfloatAddReachesItsAncestor() {
 	// true <nil>
 	// false
 	// Add of TFloat takes no int
+}
+
+// As #Example_spanContainsByOperand, for a class whose functions the flat layer
+// passes as a bare pointer: a raster's map algebra is its methods, a float or
+// another raster added to it and a float it is subtracted from. Each result's
+// pixels are compared with those of a band holding the expected value, a band of
+// 64-bit floats, the pixel type MEOS answers map algebra in.
+func Example_rasterMapAlgebra() {
+	empty, _ := types.RasterMakeEmpty(2, 2, 0, 2, 1, -1, 0, 0, 3857)
+	band := func(r *types.Raster, v float64) *types.Raster {
+		b, _ := r.AddBand(1, "64BF", v, 0, false)
+		return b
+	}
+	pixels := func(r *types.Raster) []byte {
+		p, _ := r.BandPixels(1)
+		return p
+	}
+	r := band(empty, 7)
+	plus, err := r.Add(1.5)
+	fmt.Println(bytes.Equal(pixels(plus), pixels(band(empty, 8.5))), err)
+	twice, err := r.Add(r)
+	fmt.Println(bytes.Equal(pixels(twice), pixels(band(empty, 14))), err)
+	from, err := r.Rsub(10)
+	fmt.Println(bytes.Equal(pixels(from), pixels(band(empty, 3))), err)
+	fmt.Println(bytes.Equal(pixels(from), pixels(band(empty, -3))))
+	_, err = r.Add("1.5")
+	fmt.Println(err)
+	// Output:
+	// true <nil>
+	// true <nil>
+	// true <nil>
+	// false
+	// Add of Raster takes no string
 }

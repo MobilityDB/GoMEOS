@@ -24,8 +24,8 @@ func TPoseChainSeqSetFromPointer(p unsafe.Pointer) *TPoseChainSeqSet {
 }
 
 // TPoseChainSeqSetFromBaseTstzspanset is MEOS tposechainseqset_from_base_tstzspanset.
-func TPoseChainSeqSetFromBaseTstzspanset(pc unsafe.Pointer, ss *SpanSet, interp functions.Interpolation) (*Temporal, error) {
-	_r0, _err := functions.TposechainseqsetFromBaseTstzspanset(pc, functions.SpanSetFromPointer(ss.Pointer()), interp)
+func TPoseChainSeqSetFromBaseTstzspanset(pc *PoseChain, ss *SpanSet, interp functions.Interpolation) (*Temporal, error) {
+	_r0, _err := functions.TposechainseqsetFromBaseTstzspanset(pc.Pointer(), functions.SpanSetFromPointer(ss.Pointer()), interp)
 	if _err != nil {
 		return nil, _err
 	}

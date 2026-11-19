@@ -87,8 +87,9 @@ def pascal(name: str) -> str:
 
 
 def ident(name: str) -> str:
-    """A Go parameter name, kept clear of the keywords."""
-    return name + "_" if name in GO_KEYWORDS else name
+    """A Go parameter name, kept clear of the keywords and of `x`, the receiver of
+    every method #Generator.receiver declares (raster_set_values names a column x)."""
+    return name + "_" if name in GO_KEYWORDS or name == "x" else name
 
 
 def zero(go_type: str) -> str:
@@ -294,8 +295,27 @@ class Generator:
             return f"{prefix}functions.{base}"
         return go_type
 
-    def map_param(self, go_type: str, name: str) -> tuple[str, str] | None:
-        """``(go type in this layer, the expression handed to the wrapper)``."""
+    def class_of_pointer(self, go_type: str, ctype: str | None) -> str | None:
+        """The model class a slot the flat layer types as ``unsafe.Pointer`` holds,
+        read from the slot's catalog C type, a single pointer to the structure the
+        class's `cType` names, as #class_for_ctype reads a wrapper's struct: the
+        flat layer passes every structure #WRAPPER_TYPES of tools/codegen.py names
+        no handle for as a bare pointer, as MEOS.NET's flat layer passes every one
+        as an IntPtr, and the class wraps it all the same, as its object layer
+        does (`Raster.Add(Raster rast2)`)."""
+        if go_type != "unsafe.Pointer" or not ctype:
+            return None
+        base = ctype.replace("const ", "").replace("struct ", "").strip()
+        if not base.endswith("*") or base.endswith("**"):
+            return None
+        return self.m.class_for_ctype(base[:-1].strip())
+
+    def map_param(self, go_type: str, name: str, ctype: str | None = None) -> tuple[str, str] | None:
+        """``(go type in this layer, the expression handed to the wrapper)``;
+        `ctype` is the slot's catalog C type (#class_of_pointer)."""
+        held = self.class_of_pointer(go_type, ctype)
+        if held:
+            return (f"*{held}", f"{name}.Pointer()")
         cls = self.class_of_handle(go_type)
         if cls:
             # THE DECLARED TYPE AND THE HANDLE ARE NOT THE SAME QUESTION. The surface
@@ -314,8 +334,12 @@ class Generator:
             return (self.qualify(go_type), name)
         return None
 
-    def map_return(self, go_type: str, expr: str) -> tuple[str, str] | None:
-        """``(go type in this layer, the expression producing it)``."""
+    def map_return(self, go_type: str, expr: str, ctype: str | None = None) -> tuple[str, str] | None:
+        """``(go type in this layer, the expression producing it)``; `ctype` is the
+        result's catalog C type (#class_of_pointer)."""
+        held = self.class_of_pointer(go_type, ctype)
+        if held:
+            return (f"*{held}", f"{held}FromPointer({expr})")
         cls = self.class_of_handle(go_type)
         if cls:
             return (f"*{cls}", f"{cls}FromPointer({expr}.Pointer())")
@@ -350,9 +374,16 @@ class Generator:
         # class, which is how Go spells a static.
         family = {cls, *self.m.ancestors(cls)}
         params = list(sig.params)
+        # The catalog C type of each slot, by the Go name the flat layer gives it,
+        # which #class_of_pointer reads for a slot the flat layer leaves bare
+        c_of = {codegen._go_param_name(p["name"]): p.get("canonical") or p.get("cType")
+                for p in f.get("params", [])}
+        ret_c = (f.get("returnType") or {}).get("canonical") or (f.get("returnType") or {}).get("c")
         recv, recv_at = None, 0
         at = 1 if receiver == "right" else 0
         if len(params) > at and (self.class_of_handle(params[at][1]) in family
+                                 or self.class_of_pointer(params[at][1],
+                                                          c_of.get(params[at][0])) in family
                                  or self.value_of.get(params[at][1]) == cls):
             recv, recv_at = params.pop(at), at
 
@@ -392,7 +423,7 @@ class Generator:
             if pname in length_of:
                 args.append(f"{self.qualify(ptype)}(len({ident(length_of[pname])}))")
                 continue
-            mapped = self.map_param(ptype, ident(pname))
+            mapped = self.map_param(ptype, ident(pname), c_of.get(pname))
             if mapped is None:
                 self.deferred[cls].append(f"{oo}: parameter {pname} is {ptype}")
                 return None
@@ -404,10 +435,14 @@ class Generator:
             args.insert(recv_at, f"functions.{recv[1]}(x)")
         elif recv is not None:
             handle = self.handle_of.get(self.struct_of.get(recv[1], ""))
-            if handle is None:
+            if recv[1] == "unsafe.Pointer":
+                # A structure the flat layer passes bare (#class_of_pointer)
+                args.insert(recv_at, "x.Pointer()")
+            elif handle is None:
                 self.deferred[cls].append(f"{oo}: receiver {recv[1]} has no handle")
                 return None
-            args.insert(recv_at, f"functions.{handle}FromPointer(x.Pointer())")
+            else:
+                args.insert(recv_at, f"functions.{handle}FromPointer(x.Pointer())")
 
         name = pascal(oo) if recv is not None else cls + pascal(oo)
         # A method may not share the name of the struct its class embeds, the
@@ -453,7 +488,7 @@ class Generator:
             names = [f"_r{i}" for i in range(len(sig.returns))]
             outs = []
             for i, rt in enumerate(sig.returns):
-                mapped = self.map_return(rt, names[i])
+                mapped = self.map_return(rt, names[i], ret_c if i == 0 else None)
                 if mapped is None:
                     self.deferred[cls].append(f"{oo}: result {rt}")
                     return None

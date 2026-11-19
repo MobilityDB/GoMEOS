@@ -62,8 +62,8 @@ func TPoseChainFromMFJSON(mfjson string) (*Temporal, error) {
 }
 
 // TPoseChainFromBaseTemp is MEOS tposechain_from_base_temp.
-func TPoseChainFromBaseTemp(pc unsafe.Pointer, temp *Temporal) (*Temporal, error) {
-	_r0, _err := functions.TposechainFromBaseTemp(pc, functions.TemporalFromPointer(temp.Pointer()))
+func TPoseChainFromBaseTemp(pc *PoseChain, temp *Temporal) (*Temporal, error) {
+	_r0, _err := functions.TposechainFromBaseTemp(pc.Pointer(), functions.TemporalFromPointer(temp.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
@@ -98,12 +98,12 @@ func (x *TPoseChain) ToTgeogpoint() (*Temporal, error) {
 }
 
 // EndValue is MEOS tposechain_end_value.
-func (x *TPoseChain) EndValue() (unsafe.Pointer, error) {
+func (x *TPoseChain) EndValue() (*PoseChain, error) {
 	_r0, _err := functions.TposechainEndValue(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return _r0, nil
+	return PoseChainFromPointer(_r0), nil
 }
 
 // NumPoses is MEOS tposechain_num_poses.
@@ -116,21 +116,21 @@ func (x *TPoseChain) NumPoses() (int, error) {
 }
 
 // StartValue is MEOS tposechain_start_value.
-func (x *TPoseChain) StartValue() (unsafe.Pointer, error) {
+func (x *TPoseChain) StartValue() (*PoseChain, error) {
 	_r0, _err := functions.TposechainStartValue(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return _r0, nil
+	return PoseChainFromPointer(_r0), nil
 }
 
 // Value is MEOS tposechain_value.
-func (x *TPoseChain) Value() (unsafe.Pointer, error) {
+func (x *TPoseChain) Value() (*PoseChain, error) {
 	_r0, _err := functions.TposechainValue(functions.TemporalFromPointer(x.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
-	return _r0, nil
+	return PoseChainFromPointer(_r0), nil
 }
 
 // Values is MEOS tposechain_values.
@@ -206,8 +206,8 @@ func (x *TPoseChain) AtStbox(box *STBox, border_inc bool) (*Temporal, error) {
 }
 
 // AtValue is MEOS tposechain_at_value.
-func (x *TPoseChain) AtValue(pc unsafe.Pointer) (*Temporal, error) {
-	_r0, _err := functions.TposechainAtValue(functions.TemporalFromPointer(x.Pointer()), pc)
+func (x *TPoseChain) AtValue(pc *PoseChain) (*Temporal, error) {
+	_r0, _err := functions.TposechainAtValue(functions.TemporalFromPointer(x.Pointer()), pc.Pointer())
 	if _err != nil {
 		return nil, _err
 	}
@@ -224,8 +224,8 @@ func (x *TPoseChain) MinusStbox(box *STBox, border_inc bool) (*Temporal, error) 
 }
 
 // MinusValue is MEOS tposechain_minus_value.
-func (x *TPoseChain) MinusValue(pc unsafe.Pointer) (*Temporal, error) {
-	_r0, _err := functions.TposechainMinusValue(functions.TemporalFromPointer(x.Pointer()), pc)
+func (x *TPoseChain) MinusValue(pc *PoseChain) (*Temporal, error) {
+	_r0, _err := functions.TposechainMinusValue(functions.TemporalFromPointer(x.Pointer()), pc.Pointer())
 	if _err != nil {
 		return nil, _err
 	}
@@ -283,8 +283,8 @@ func (x *TPoseChain) String() string {
 }
 
 // op_always_eq_tposechain_posechain is MEOS always_eq_tposechain_posechain.
-func (x *TPoseChain) op_always_eq_tposechain_posechain(posechain unsafe.Pointer) (int, error) {
-	_r0, _err := functions.AlwaysEqTposechainPosechain(functions.TemporalFromPointer(x.Pointer()), posechain)
+func (x *TPoseChain) op_always_eq_tposechain_posechain(posechain *PoseChain) (int, error) {
+	_r0, _err := functions.AlwaysEqTposechainPosechain(functions.TemporalFromPointer(x.Pointer()), posechain.Pointer())
 	if _err != nil {
 		return 0, _err
 	}
@@ -303,17 +303,17 @@ func (x *TPoseChain) op_always_eq_tposechain_tposechain(temp2 *Temporal) (int, e
 // AlwaysEq is the operator alwaysEq of TPoseChain: it calls the MEOS function whose second operand has the type of other.
 func (x *TPoseChain) AlwaysEq(other any) (int, error) {
 	switch v := other.(type) {
+	case *PoseChain:
+		return x.op_always_eq_tposechain_posechain(v)
 	case *Temporal:
 		return x.op_always_eq_tposechain_tposechain(v)
-	case unsafe.Pointer:
-		return x.op_always_eq_tposechain_posechain(v)
 	}
 	return 0, fmt.Errorf("AlwaysEq of TPoseChain takes no %T", other)
 }
 
 // op_always_ne_tposechain_posechain is MEOS always_ne_tposechain_posechain.
-func (x *TPoseChain) op_always_ne_tposechain_posechain(posechain unsafe.Pointer) (int, error) {
-	_r0, _err := functions.AlwaysNeTposechainPosechain(functions.TemporalFromPointer(x.Pointer()), posechain)
+func (x *TPoseChain) op_always_ne_tposechain_posechain(posechain *PoseChain) (int, error) {
+	_r0, _err := functions.AlwaysNeTposechainPosechain(functions.TemporalFromPointer(x.Pointer()), posechain.Pointer())
 	if _err != nil {
 		return 0, _err
 	}
@@ -332,10 +332,10 @@ func (x *TPoseChain) op_always_ne_tposechain_tposechain(temp2 *Temporal) (int, e
 // AlwaysNe is the operator alwaysNe of TPoseChain: it calls the MEOS function whose second operand has the type of other.
 func (x *TPoseChain) AlwaysNe(other any) (int, error) {
 	switch v := other.(type) {
+	case *PoseChain:
+		return x.op_always_ne_tposechain_posechain(v)
 	case *Temporal:
 		return x.op_always_ne_tposechain_tposechain(v)
-	case unsafe.Pointer:
-		return x.op_always_ne_tposechain_posechain(v)
 	}
 	return 0, fmt.Errorf("AlwaysNe of TPoseChain takes no %T", other)
 }
@@ -361,8 +361,8 @@ func (x *TPoseChain) AlwaysOverlaps(other any) (int, error) {
 }
 
 // op_ever_eq_tposechain_posechain is MEOS ever_eq_tposechain_posechain.
-func (x *TPoseChain) op_ever_eq_tposechain_posechain(posechain unsafe.Pointer) (int, error) {
-	_r0, _err := functions.EverEqTposechainPosechain(functions.TemporalFromPointer(x.Pointer()), posechain)
+func (x *TPoseChain) op_ever_eq_tposechain_posechain(posechain *PoseChain) (int, error) {
+	_r0, _err := functions.EverEqTposechainPosechain(functions.TemporalFromPointer(x.Pointer()), posechain.Pointer())
 	if _err != nil {
 		return 0, _err
 	}
@@ -381,17 +381,17 @@ func (x *TPoseChain) op_ever_eq_tposechain_tposechain(temp2 *Temporal) (int, err
 // EverEq is the operator everEq of TPoseChain: it calls the MEOS function whose second operand has the type of other.
 func (x *TPoseChain) EverEq(other any) (int, error) {
 	switch v := other.(type) {
+	case *PoseChain:
+		return x.op_ever_eq_tposechain_posechain(v)
 	case *Temporal:
 		return x.op_ever_eq_tposechain_tposechain(v)
-	case unsafe.Pointer:
-		return x.op_ever_eq_tposechain_posechain(v)
 	}
 	return 0, fmt.Errorf("EverEq of TPoseChain takes no %T", other)
 }
 
 // op_ever_ne_tposechain_posechain is MEOS ever_ne_tposechain_posechain.
-func (x *TPoseChain) op_ever_ne_tposechain_posechain(posechain unsafe.Pointer) (int, error) {
-	_r0, _err := functions.EverNeTposechainPosechain(functions.TemporalFromPointer(x.Pointer()), posechain)
+func (x *TPoseChain) op_ever_ne_tposechain_posechain(posechain *PoseChain) (int, error) {
+	_r0, _err := functions.EverNeTposechainPosechain(functions.TemporalFromPointer(x.Pointer()), posechain.Pointer())
 	if _err != nil {
 		return 0, _err
 	}
@@ -410,10 +410,10 @@ func (x *TPoseChain) op_ever_ne_tposechain_tposechain(temp2 *Temporal) (int, err
 // EverNe is the operator everNe of TPoseChain: it calls the MEOS function whose second operand has the type of other.
 func (x *TPoseChain) EverNe(other any) (int, error) {
 	switch v := other.(type) {
+	case *PoseChain:
+		return x.op_ever_ne_tposechain_posechain(v)
 	case *Temporal:
 		return x.op_ever_ne_tposechain_tposechain(v)
-	case unsafe.Pointer:
-		return x.op_ever_ne_tposechain_posechain(v)
 	}
 	return 0, fmt.Errorf("EverNe of TPoseChain takes no %T", other)
 }
@@ -448,8 +448,8 @@ func (x *TPoseChain) op_nad_tposechain_geo(gs *Geo) (float64, error) {
 }
 
 // op_nad_tposechain_posechain is MEOS nad_tposechain_posechain.
-func (x *TPoseChain) op_nad_tposechain_posechain(pc unsafe.Pointer) (float64, error) {
-	_r0, _err := functions.NadTposechainPosechain(functions.TemporalFromPointer(x.Pointer()), pc)
+func (x *TPoseChain) op_nad_tposechain_posechain(pc *PoseChain) (float64, error) {
+	_r0, _err := functions.NadTposechainPosechain(functions.TemporalFromPointer(x.Pointer()), pc.Pointer())
 	if _err != nil {
 		return 0, _err
 	}
@@ -479,12 +479,12 @@ func (x *TPoseChain) Nad(other any) (float64, error) {
 	switch v := other.(type) {
 	case *Geo:
 		return x.op_nad_tposechain_geo(v)
+	case *PoseChain:
+		return x.op_nad_tposechain_posechain(v)
 	case *STBox:
 		return x.op_nad_tposechain_stbox(v)
 	case *Temporal:
 		return x.op_nad_tposechain_tposechain(v)
-	case unsafe.Pointer:
-		return x.op_nad_tposechain_posechain(v)
 	}
 	return 0, fmt.Errorf("Nad of TPoseChain takes no %T", other)
 }
@@ -499,8 +499,8 @@ func (x *TPoseChain) op_nai_tposechain_geo(gs *Geo) (*Temporal, error) {
 }
 
 // op_nai_tposechain_posechain is MEOS nai_tposechain_posechain.
-func (x *TPoseChain) op_nai_tposechain_posechain(pc unsafe.Pointer) (*Temporal, error) {
-	_r0, _err := functions.NaiTposechainPosechain(functions.TemporalFromPointer(x.Pointer()), pc)
+func (x *TPoseChain) op_nai_tposechain_posechain(pc *PoseChain) (*Temporal, error) {
+	_r0, _err := functions.NaiTposechainPosechain(functions.TemporalFromPointer(x.Pointer()), pc.Pointer())
 	if _err != nil {
 		return nil, _err
 	}
@@ -521,10 +521,10 @@ func (x *TPoseChain) Nai(other any) (*Temporal, error) {
 	switch v := other.(type) {
 	case *Geo:
 		return x.op_nai_tposechain_geo(v)
+	case *PoseChain:
+		return x.op_nai_tposechain_posechain(v)
 	case *Temporal:
 		return x.op_nai_tposechain_tposechain(v)
-	case unsafe.Pointer:
-		return x.op_nai_tposechain_posechain(v)
 	}
 	return nil, fmt.Errorf("Nai of TPoseChain takes no %T", other)
 }
@@ -539,8 +539,8 @@ func (x *TPoseChain) op_shortestline_tposechain_geo(gs *Geo) (*Geo, error) {
 }
 
 // op_shortestline_tposechain_posechain is MEOS shortestline_tposechain_posechain.
-func (x *TPoseChain) op_shortestline_tposechain_posechain(pc unsafe.Pointer) (*Geo, error) {
-	_r0, _err := functions.ShortestlineTposechainPosechain(functions.TemporalFromPointer(x.Pointer()), pc)
+func (x *TPoseChain) op_shortestline_tposechain_posechain(pc *PoseChain) (*Geo, error) {
+	_r0, _err := functions.ShortestlineTposechainPosechain(functions.TemporalFromPointer(x.Pointer()), pc.Pointer())
 	if _err != nil {
 		return nil, _err
 	}
@@ -561,10 +561,10 @@ func (x *TPoseChain) Shortestline(other any) (*Geo, error) {
 	switch v := other.(type) {
 	case *Geo:
 		return x.op_shortestline_tposechain_geo(v)
+	case *PoseChain:
+		return x.op_shortestline_tposechain_posechain(v)
 	case *Temporal:
 		return x.op_shortestline_tposechain_tposechain(v)
-	case unsafe.Pointer:
-		return x.op_shortestline_tposechain_posechain(v)
 	}
 	return nil, fmt.Errorf("Shortestline of TPoseChain takes no %T", other)
 }
@@ -579,8 +579,8 @@ func (x *TPoseChain) op_tdistance_tposechain_geo(gs *Geo) (*Temporal, error) {
 }
 
 // op_tdistance_tposechain_posechain is MEOS tdistance_tposechain_posechain.
-func (x *TPoseChain) op_tdistance_tposechain_posechain(pc unsafe.Pointer) (*Temporal, error) {
-	_r0, _err := functions.TdistanceTposechainPosechain(functions.TemporalFromPointer(x.Pointer()), pc)
+func (x *TPoseChain) op_tdistance_tposechain_posechain(pc *PoseChain) (*Temporal, error) {
+	_r0, _err := functions.TdistanceTposechainPosechain(functions.TemporalFromPointer(x.Pointer()), pc.Pointer())
 	if _err != nil {
 		return nil, _err
 	}
@@ -601,17 +601,17 @@ func (x *TPoseChain) Tdistance(other any) (*Temporal, error) {
 	switch v := other.(type) {
 	case *Geo:
 		return x.op_tdistance_tposechain_geo(v)
+	case *PoseChain:
+		return x.op_tdistance_tposechain_posechain(v)
 	case *Temporal:
 		return x.op_tdistance_tposechain_tposechain(v)
-	case unsafe.Pointer:
-		return x.op_tdistance_tposechain_posechain(v)
 	}
 	return nil, fmt.Errorf("Tdistance of TPoseChain takes no %T", other)
 }
 
 // op_teq_tposechain_posechain is MEOS teq_tposechain_posechain.
-func (x *TPoseChain) op_teq_tposechain_posechain(posechain unsafe.Pointer) (*Temporal, error) {
-	_r0, _err := functions.TeqTposechainPosechain(functions.TemporalFromPointer(x.Pointer()), posechain)
+func (x *TPoseChain) op_teq_tposechain_posechain(posechain *PoseChain) (*Temporal, error) {
+	_r0, _err := functions.TeqTposechainPosechain(functions.TemporalFromPointer(x.Pointer()), posechain.Pointer())
 	if _err != nil {
 		return nil, _err
 	}
@@ -621,17 +621,17 @@ func (x *TPoseChain) op_teq_tposechain_posechain(posechain unsafe.Pointer) (*Tem
 // Teq is the operator teq of TPoseChain: it calls the MEOS function whose second operand has the type of other.
 func (x *TPoseChain) Teq(other any) (*Temporal, error) {
 	switch v := other.(type) {
+	case *PoseChain:
+		return x.op_teq_tposechain_posechain(v)
 	case *Temporal:
 		return x.op_teq_temporal_temporal(v)
-	case unsafe.Pointer:
-		return x.op_teq_tposechain_posechain(v)
 	}
 	return nil, fmt.Errorf("Teq of TPoseChain takes no %T", other)
 }
 
 // op_tne_tposechain_posechain is MEOS tne_tposechain_posechain.
-func (x *TPoseChain) op_tne_tposechain_posechain(posechain unsafe.Pointer) (*Temporal, error) {
-	_r0, _err := functions.TneTposechainPosechain(functions.TemporalFromPointer(x.Pointer()), posechain)
+func (x *TPoseChain) op_tne_tposechain_posechain(posechain *PoseChain) (*Temporal, error) {
+	_r0, _err := functions.TneTposechainPosechain(functions.TemporalFromPointer(x.Pointer()), posechain.Pointer())
 	if _err != nil {
 		return nil, _err
 	}
@@ -641,10 +641,10 @@ func (x *TPoseChain) op_tne_tposechain_posechain(posechain unsafe.Pointer) (*Tem
 // Tne is the operator tne of TPoseChain: it calls the MEOS function whose second operand has the type of other.
 func (x *TPoseChain) Tne(other any) (*Temporal, error) {
 	switch v := other.(type) {
+	case *PoseChain:
+		return x.op_tne_tposechain_posechain(v)
 	case *Temporal:
 		return x.op_tne_temporal_temporal(v)
-	case unsafe.Pointer:
-		return x.op_tne_tposechain_posechain(v)
 	}
 	return nil, fmt.Errorf("Tne of TPoseChain takes no %T", other)
 }

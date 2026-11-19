@@ -24,24 +24,24 @@ func RTreeNNCursorFromPointer(p unsafe.Pointer) *RTreeNNCursor {
 }
 
 // RTreeNNCursorOpen is MEOS rtree_nn_cursor_open.
-func RTreeNNCursorOpen(rtree *RTree, query unsafe.Pointer) (unsafe.Pointer, error) {
+func RTreeNNCursorOpen(rtree *RTree, query unsafe.Pointer) (*RTreeNNCursor, error) {
 	_r0, _err := functions.RtreeNnCursorOpen(functions.RTreeFromPointer(rtree.Pointer()), query)
 	if _err != nil {
 		return nil, _err
 	}
-	return _r0, nil
+	return RTreeNNCursorFromPointer(_r0), nil
 }
 
-// RTreeNNCursorNext is MEOS rtree_nn_cursor_next.
-func RTreeNNCursorNext(cursor unsafe.Pointer, id_out unsafe.Pointer, dist_out unsafe.Pointer) (bool, error) {
-	_r0, _err := functions.RtreeNnCursorNext(cursor, id_out, dist_out)
+// Next is MEOS rtree_nn_cursor_next.
+func (x *RTreeNNCursor) Next(id_out unsafe.Pointer, dist_out unsafe.Pointer) (bool, error) {
+	_r0, _err := functions.RtreeNnCursorNext(x.Pointer(), id_out, dist_out)
 	if _err != nil {
 		return false, _err
 	}
 	return _r0, nil
 }
 
-// RTreeNNCursorClose is MEOS rtree_nn_cursor_close.
-func RTreeNNCursorClose(cursor unsafe.Pointer) error {
-	return functions.RtreeNnCursorClose(cursor)
+// Close is MEOS rtree_nn_cursor_close.
+func (x *RTreeNNCursor) Close() error {
+	return functions.RtreeNnCursorClose(x.Pointer())
 }
