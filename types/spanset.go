@@ -290,6 +290,15 @@ func (x *SpanSet) MergeNSpans(span_count int, count unsafe.Pointer) (*Span, erro
 	return SpanFromPointer(_r0.Pointer()), nil
 }
 
+// MergeQuerySpans is MEOS spanset_merge_query_spans.
+func (x *SpanSet) MergeQuerySpans(query *Span, count unsafe.Pointer) (*Span, error) {
+	_r0, _err := functions.SpansetMergeQuerySpans(functions.SpanSetFromPointer(x.Pointer()), functions.SpanFromPointer(query.Pointer()), count)
+	if _err != nil {
+		return nil, _err
+	}
+	return SpanFromPointer(_r0.Pointer()), nil
+}
+
 // SplitEachNSpans is MEOS spanset_split_each_n_spans.
 func (x *SpanSet) SplitEachNSpans(elems_per_span int, count unsafe.Pointer) (*Span, error) {
 	_r0, _err := functions.SpansetSplitEachNSpans(functions.SpanSetFromPointer(x.Pointer()), elems_per_span, count)

@@ -36,6 +36,68 @@ func RasterFromWKB(wkb []byte) (unsafe.Pointer, error) {
 	return _r0, nil
 }
 
+// RasterAsCoveragejson is MEOS raster_as_coveragejson.
+func RasterAsCoveragejson(rast unsafe.Pointer) (string, error) {
+	_r0, _err := functions.RasterAsCoveragejson(rast)
+	if _err != nil {
+		return "", _err
+	}
+	return _r0, nil
+}
+
+// RasterAsGdal is MEOS raster_as_gdal.
+func RasterAsGdal(rast unsafe.Pointer, format string, options unsafe.Pointer, count int, srid int32) ([]byte, error) {
+	var _size uint64
+	_r0, _err := functions.RasterAsGdal(rast, format, options, count, srid, unsafe.Pointer(&_size))
+	if _err != nil {
+		return nil, _err
+	}
+	return functions.TakeBytes(_r0, _size), nil
+}
+
+// RasterAsTiff is MEOS raster_as_tiff.
+func RasterAsTiff(rast unsafe.Pointer, options unsafe.Pointer, count int, srid int32) ([]byte, error) {
+	var _size uint64
+	_r0, _err := functions.RasterAsTiff(rast, options, count, srid, unsafe.Pointer(&_size))
+	if _err != nil {
+		return nil, _err
+	}
+	return functions.TakeBytes(_r0, _size), nil
+}
+
+// RasterAsPng is MEOS raster_as_png.
+func RasterAsPng(rast unsafe.Pointer, options unsafe.Pointer, count int) ([]byte, error) {
+	var _size uint64
+	_r0, _err := functions.RasterAsPng(rast, options, count, unsafe.Pointer(&_size))
+	if _err != nil {
+		return nil, _err
+	}
+	return functions.TakeBytes(_r0, _size), nil
+}
+
+// RasterAsJpeg is MEOS raster_as_jpeg.
+func RasterAsJpeg(rast unsafe.Pointer, options unsafe.Pointer, count int) ([]byte, error) {
+	var _size uint64
+	_r0, _err := functions.RasterAsJpeg(rast, options, count, unsafe.Pointer(&_size))
+	if _err != nil {
+		return nil, _err
+	}
+	return functions.TakeBytes(_r0, _size), nil
+}
+
+// RasterFromGdal is MEOS raster_from_gdal.
+func RasterFromGdal(data []byte, srid int32) (unsafe.Pointer, error) {
+	var _p_data unsafe.Pointer
+	if len(data) > 0 {
+		_p_data = unsafe.Pointer(&data[0])
+	}
+	_r0, _err := functions.RasterFromGdal(_p_data, uint(len(data)), srid)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
 // RasterFromHexWKB is MEOS raster_from_hexwkb.
 func RasterFromHexWKB(hexwkb string) (unsafe.Pointer, error) {
 	_r0, _err := functions.RasterFromHexwkb(hexwkb)
@@ -502,6 +564,96 @@ func RasterTileValue(traj *Temporal, rq unsafe.Pointer) (*Temporal, error) {
 // RasterTileValueArray is MEOS raster_tile_value_array.
 func RasterTileValueArray(traj *Temporal, rqarr unsafe.Pointer, count int) (*Temporal, error) {
 	_r0, _err := functions.RasterTileValueArray(functions.TemporalFromPointer(traj.Pointer()), rqarr, count)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// RasterTileAtValue is MEOS raster_tile_at_value.
+func RasterTileAtValue(traj *Temporal, rq unsafe.Pointer, vspan *Span) (*Temporal, error) {
+	_r0, _err := functions.RasterTileAtValue(functions.TemporalFromPointer(traj.Pointer()), rq, functions.SpanFromPointer(vspan.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// RasterTileMinusValue is MEOS raster_tile_minus_value.
+func RasterTileMinusValue(traj *Temporal, rq unsafe.Pointer, vspan *Span) (*Temporal, error) {
+	_r0, _err := functions.RasterTileMinusValue(functions.TemporalFromPointer(traj.Pointer()), rq, functions.SpanFromPointer(vspan.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// RasterTileAtValueArray is MEOS raster_tile_at_value_array.
+func RasterTileAtValueArray(traj *Temporal, rqarr unsafe.Pointer, count int, vspan *Span) (*Temporal, error) {
+	_r0, _err := functions.RasterTileAtValueArray(functions.TemporalFromPointer(traj.Pointer()), rqarr, count, functions.SpanFromPointer(vspan.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// RasterTileMinusValueArray is MEOS raster_tile_minus_value_array.
+func RasterTileMinusValueArray(traj *Temporal, rqarr unsafe.Pointer, count int, vspan *Span) (*Temporal, error) {
+	_r0, _err := functions.RasterTileMinusValueArray(functions.TemporalFromPointer(traj.Pointer()), rqarr, count, functions.SpanFromPointer(vspan.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// RasterValueSeries is MEOS raster_value_series.
+func RasterValueSeries(traj *Temporal, rasts unsafe.Pointer, spans *Span, count int, band int) (*Temporal, error) {
+	_r0, _err := functions.RasterValueSeries(functions.TemporalFromPointer(traj.Pointer()), rasts, functions.SpanFromPointer(spans.Pointer()), count, band)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// RasterAtValueSeries is MEOS raster_at_value_series.
+func RasterAtValueSeries(traj *Temporal, rasts unsafe.Pointer, spans *Span, count int, band int, vspan *Span) (*Temporal, error) {
+	_r0, _err := functions.RasterAtValueSeries(functions.TemporalFromPointer(traj.Pointer()), rasts, functions.SpanFromPointer(spans.Pointer()), count, band, functions.SpanFromPointer(vspan.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// RasterMinusValueSeries is MEOS raster_minus_value_series.
+func RasterMinusValueSeries(traj *Temporal, rasts unsafe.Pointer, spans *Span, count int, band int, vspan *Span) (*Temporal, error) {
+	_r0, _err := functions.RasterMinusValueSeries(functions.TemporalFromPointer(traj.Pointer()), rasts, functions.SpanFromPointer(spans.Pointer()), count, band, functions.SpanFromPointer(vspan.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// RasterTileValueSeries is MEOS raster_tile_value_series.
+func RasterTileValueSeries(traj *Temporal, rqarr unsafe.Pointer, spans *Span, count int) (*Temporal, error) {
+	_r0, _err := functions.RasterTileValueSeries(functions.TemporalFromPointer(traj.Pointer()), rqarr, functions.SpanFromPointer(spans.Pointer()), count)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// RasterTileAtValueSeries is MEOS raster_tile_at_value_series.
+func RasterTileAtValueSeries(traj *Temporal, rqarr unsafe.Pointer, spans *Span, count int, vspan *Span) (*Temporal, error) {
+	_r0, _err := functions.RasterTileAtValueSeries(functions.TemporalFromPointer(traj.Pointer()), rqarr, functions.SpanFromPointer(spans.Pointer()), count, functions.SpanFromPointer(vspan.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// RasterTileMinusValueSeries is MEOS raster_tile_minus_value_series.
+func RasterTileMinusValueSeries(traj *Temporal, rqarr unsafe.Pointer, spans *Span, count int, vspan *Span) (*Temporal, error) {
+	_r0, _err := functions.RasterTileMinusValueSeries(functions.TemporalFromPointer(traj.Pointer()), rqarr, functions.SpanFromPointer(spans.Pointer()), count, functions.SpanFromPointer(vspan.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}

@@ -23,6 +23,37 @@ func GeographyFromPointer(p unsafe.Pointer) *Geography {
 	return v
 }
 
+// GeographyFromEWKB is MEOS geog_from_ewkb.
+func GeographyFromEWKB(wkb []byte) (*Geo, error) {
+	var _p_wkb unsafe.Pointer
+	if len(wkb) > 0 {
+		_p_wkb = unsafe.Pointer(&wkb[0])
+	}
+	_r0, _err := functions.GeogFromEWKB(_p_wkb, uint(len(wkb)))
+	if _err != nil {
+		return nil, _err
+	}
+	return GeoFromPointer(_r0.Pointer()), nil
+}
+
+// GeographyFromEWKT is MEOS geog_from_ewkt.
+func GeographyFromEWKT(ewkt string) (*Geo, error) {
+	_r0, _err := functions.GeogFromEWKT(ewkt)
+	if _err != nil {
+		return nil, _err
+	}
+	return GeoFromPointer(_r0.Pointer()), nil
+}
+
+// GeographyFromGeoJSON is MEOS geog_from_geojson.
+func GeographyFromGeoJSON(geojson string) (*Geo, error) {
+	_r0, _err := functions.GeogFromGeojson(geojson)
+	if _err != nil {
+		return nil, _err
+	}
+	return GeoFromPointer(_r0.Pointer()), nil
+}
+
 // GeographyFromHexEWKB is MEOS geog_from_hexewkb.
 func GeographyFromHexEWKB(hexwkb string) (*Geo, error) {
 	_r0, _err := functions.GeogFromHexewkb(hexwkb)
@@ -86,9 +117,9 @@ func (x *Geography) Distance(g2 *Geo, use_spheroid bool) (float64, error) {
 	return _r0, nil
 }
 
-// GeographyFromEWKB is the portable fromEWKB of MEOS geo_from_ewkb.
-func GeographyFromEWKB(wkb []byte, srid int32) (*Geography, error) {
-	r, err := GeoFromEWKB(wkb, srid)
+// GeographyFromHexWKB is the portable fromHexWKB of MEOS geog_from_hexewkb.
+func GeographyFromHexWKB(hexwkb string) (*Geography, error) {
+	r, err := GeographyFromHexEWKB(hexwkb)
 	if err != nil || r == nil {
 		return nil, err
 	}
@@ -100,18 +131,27 @@ func (x *Geography) AsMFJSON(option int, precision int, srs *string) (string, er
 	return x.AsGeoJSON(option, precision, srs)
 }
 
-// GeographyFromMFJSON is the portable fromMFJSON of MEOS geo_from_geojson.
+// GeographyFromMFJSON is the portable fromMFJSON of MEOS geog_from_geojson.
 func GeographyFromMFJSON(geojson string) (*Geography, error) {
-	r, err := GeoFromGeoJSON(geojson)
+	r, err := GeographyFromGeoJSON(geojson)
 	if err != nil || r == nil {
 		return nil, err
 	}
 	return GeographyFromPointer(r.Pointer()), nil
 }
 
-// GeographyFromText is the portable fromText of MEOS geo_from_text.
-func GeographyFromText(wkt string, srid int32) (*Geography, error) {
-	r, err := GeoFromText(wkt, srid)
+// GeographyFromText is the portable fromText of MEOS geog_from_ewkt.
+func GeographyFromText(ewkt string) (*Geography, error) {
+	r, err := GeographyFromEWKT(ewkt)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return GeographyFromPointer(r.Pointer()), nil
+}
+
+// GeographyFromWKB is the portable fromWKB of MEOS geog_from_ewkb.
+func GeographyFromWKB(wkb []byte) (*Geography, error) {
+	r, err := GeographyFromEWKB(wkb)
 	if err != nil || r == nil {
 		return nil, err
 	}

@@ -41,6 +41,25 @@ func (x *PCPatch) AsText(maxdd int) (string, error) {
 	return _r0, nil
 }
 
+// AsHexWKB is MEOS pcpatch_as_hexwkb.
+func (x *PCPatch) AsHexWKB(variant uint8) (string, error) {
+	_r0, _err := functions.PcpatchAsHexwkb(functions.PcpatchFromPointer(x.Pointer()), variant)
+	if _err != nil {
+		return "", _err
+	}
+	return _r0, nil
+}
+
+// AsWKB is MEOS pcpatch_as_wkb.
+func (x *PCPatch) AsWKB(variant uint8) ([]byte, error) {
+	var _size uint64
+	_r0, _err := functions.PcpatchAsWKB(functions.PcpatchFromPointer(x.Pointer()), variant, unsafe.Pointer(&_size))
+	if _err != nil {
+		return nil, _err
+	}
+	return functions.TakeBytes(_r0, _size), nil
+}
+
 // PCPatchFromHexWKB is MEOS pcpatch_from_hexwkb.
 func PCPatchFromHexWKB(hexwkb string) (*PCPatch, error) {
 	_r0, _err := functions.PcpatchFromHexwkb(hexwkb)
@@ -50,13 +69,17 @@ func PCPatchFromHexWKB(hexwkb string) (*PCPatch, error) {
 	return PCPatchFromPointer(_r0.Pointer()), nil
 }
 
-// AsHexWKB is MEOS pcpatch_as_hexwkb.
-func (x *PCPatch) AsHexWKB() (string, error) {
-	_r0, _err := functions.PcpatchAsHexwkb(functions.PcpatchFromPointer(x.Pointer()))
-	if _err != nil {
-		return "", _err
+// PCPatchFromWKB is MEOS pcpatch_from_wkb.
+func PCPatchFromWKB(wkb []byte) (*PCPatch, error) {
+	var _p_wkb unsafe.Pointer
+	if len(wkb) > 0 {
+		_p_wkb = unsafe.Pointer(&wkb[0])
 	}
-	return _r0, nil
+	_r0, _err := functions.PcpatchFromWKB(_p_wkb, uint(len(wkb)))
+	if _err != nil {
+		return nil, _err
+	}
+	return PCPatchFromPointer(_r0.Pointer()), nil
 }
 
 // PCPatchMake is MEOS pcpatch_make.

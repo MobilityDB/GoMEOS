@@ -151,6 +151,15 @@ func (x *TNumber) MergeNTboxes(box_count int, count unsafe.Pointer) (*TBox, erro
 	return TBoxFromPointer(_r0.Pointer()), nil
 }
 
+// MergeQueryTboxes is MEOS tnumber_merge_query_tboxes.
+func (x *TNumber) MergeQueryTboxes(query *TBox, count unsafe.Pointer) (*TBox, error) {
+	_r0, _err := functions.TnumberMergeQueryTboxes(functions.TemporalFromPointer(x.Pointer()), functions.TBoxFromPointer(query.Pointer()), count)
+	if _err != nil {
+		return nil, _err
+	}
+	return TBoxFromPointer(_r0.Pointer()), nil
+}
+
 // SplitEachNTboxes is MEOS tnumber_split_each_n_tboxes.
 func (x *TNumber) SplitEachNTboxes(elem_count int, count unsafe.Pointer) (*TBox, error) {
 	_r0, _err := functions.TnumberSplitEachNTboxes(functions.TemporalFromPointer(x.Pointer()), elem_count, count)

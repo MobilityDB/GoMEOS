@@ -337,6 +337,15 @@ func (x *TGeo) MergeNStboxes(box_count int, count unsafe.Pointer) (*STBox, error
 	return STBoxFromPointer(_r0.Pointer()), nil
 }
 
+// MergeQueryStboxes is MEOS tgeo_merge_query_stboxes.
+func (x *TGeo) MergeQueryStboxes(query *STBox, count unsafe.Pointer) (*STBox, error) {
+	_r0, _err := functions.TgeoMergeQueryStboxes(functions.TemporalFromPointer(x.Pointer()), functions.STBoxFromPointer(query.Pointer()), count)
+	if _err != nil {
+		return nil, _err
+	}
+	return STBoxFromPointer(_r0.Pointer()), nil
+}
+
 // SplitEachNStboxes is MEOS tgeo_split_each_n_stboxes.
 func (x *TGeo) SplitEachNStboxes(elem_count int, count unsafe.Pointer) (*STBox, error) {
 	_r0, _err := functions.TgeoSplitEachNStboxes(functions.TemporalFromPointer(x.Pointer()), elem_count, count)

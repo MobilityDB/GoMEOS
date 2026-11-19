@@ -60,6 +60,15 @@ func (x *Geo) AsHexEWKB(endian *string) (string, error) {
 	return _r0, nil
 }
 
+// AsHexWKB is MEOS geo_as_hexwkb.
+func (x *Geo) AsHexWKB(endian *string) (string, error) {
+	_r0, _err := functions.GeoAsHexwkb(functions.GeomFromPointer(x.Pointer()), endian)
+	if _err != nil {
+		return "", _err
+	}
+	return _r0, nil
+}
+
 // AsText is MEOS geo_as_text.
 func (x *Geo) AsText(precision int) (string, error) {
 	_r0, _err := functions.GeoAsText(functions.GeomFromPointer(x.Pointer()), precision)
@@ -67,6 +76,16 @@ func (x *Geo) AsText(precision int) (string, error) {
 		return "", _err
 	}
 	return _r0, nil
+}
+
+// AsWKB is MEOS geo_as_wkb.
+func (x *Geo) AsWKB(endian *string) ([]byte, error) {
+	var _size uint64
+	_r0, _err := functions.GeoAsWKB(functions.GeomFromPointer(x.Pointer()), endian, unsafe.Pointer(&_size))
+	if _err != nil {
+		return nil, _err
+	}
+	return functions.TakeBytes(_r0, _size), nil
 }
 
 // GeoFromEWKB is MEOS geo_from_ewkb.
@@ -427,6 +446,15 @@ func (x *Geo) MergeEachNStboxes(elem_count int, count unsafe.Pointer) (*STBox, e
 // MergeNStboxes is MEOS geo_merge_n_stboxes.
 func (x *Geo) MergeNStboxes(box_count int, count unsafe.Pointer) (*STBox, error) {
 	_r0, _err := functions.GeoMergeNStboxes(functions.GeomFromPointer(x.Pointer()), box_count, count)
+	if _err != nil {
+		return nil, _err
+	}
+	return STBoxFromPointer(_r0.Pointer()), nil
+}
+
+// MergeQueryStboxes is MEOS geo_merge_query_stboxes.
+func (x *Geo) MergeQueryStboxes(query *STBox, count unsafe.Pointer) (*STBox, error) {
+	_r0, _err := functions.GeoMergeQueryStboxes(functions.GeomFromPointer(x.Pointer()), functions.STBoxFromPointer(query.Pointer()), count)
 	if _err != nil {
 		return nil, _err
 	}

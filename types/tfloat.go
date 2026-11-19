@@ -317,6 +317,15 @@ func (x *TFloat) ValueSplit(vsize float64, vorigin float64, border_inc bool, bin
 	return _r0, nil
 }
 
+// AsCoveragejson is MEOS tfloat_as_coveragejson.
+func (x *TFloat) AsCoveragejson(traj *Temporal) (string, error) {
+	_r0, _err := functions.TfloatAsCoveragejson(functions.TemporalFromPointer(x.Pointer()), functions.TemporalFromPointer(traj.Pointer()))
+	if _err != nil {
+		return "", _err
+	}
+	return _r0, nil
+}
+
 // TFloatFromHexWKB is the portable fromHexWKB of MEOS temporal_from_hexwkb.
 func TFloatFromHexWKB(hexwkb string) (*TFloat, error) {
 	r, err := TemporalFromHexWKB(hexwkb)

@@ -131,6 +131,30 @@ func PcpointHexOut(pt *Pcpoint, maxdd int) (_r0 string, _err error) {
 }
 
 
+// PcpointAsHexwkb wraps MEOS C function pcpoint_as_hexwkb.
+func PcpointAsHexwkb(pt *Pcpoint, variant uint8) (_r0 string, _err error) {
+	var _size C.size_t
+	C.meos_errno_reset()
+	_cret := C.pcpoint_as_hexwkb(pt._inner, C.uint8_t(variant), &_size)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	defer C.free(unsafe.Pointer(_cret))
+	return takeString(_cret, _size), nil
+}
+
+
+// PcpointAsWKB wraps MEOS C function pcpoint_as_wkb.
+func PcpointAsWKB(pt *Pcpoint, variant uint8, size_out unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
+	C.meos_errno_reset()
+	_cret := C.pcpoint_as_wkb(pt._inner, C.uint8_t(variant), (*C.size_t)(unsafe.Pointer(size_out)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
+}
+
+
 // PcpointFromHexwkb wraps MEOS C function pcpoint_from_hexwkb.
 func PcpointFromHexwkb(hexwkb string) (_r0 *Pcpoint, _err error) {
 	_c_hexwkb := C.CString(hexwkb)
@@ -144,16 +168,14 @@ func PcpointFromHexwkb(hexwkb string) (_r0 *Pcpoint, _err error) {
 }
 
 
-// PcpointAsHexwkb wraps MEOS C function pcpoint_as_hexwkb.
-func PcpointAsHexwkb(pt *Pcpoint) (_r0 string, _err error) {
-	var _size C.size_t
+// PcpointFromWKB wraps MEOS C function pcpoint_from_wkb.
+func PcpointFromWKB(wkb unsafe.Pointer, size uint) (_r0 *Pcpoint, _err error) {
 	C.meos_errno_reset()
-	_cret := C.pcpoint_as_hexwkb(pt._inner, &_size)
+	_cret := C.pcpoint_from_wkb((*C.uint8_t)(unsafe.Pointer(wkb)), C.size_t(size))
 	if _err = meosError(); _err != nil {
 		return
 	}
-	defer C.free(unsafe.Pointer(_cret))
-	return takeString(_cret, _size), nil
+	return &Pcpoint{_inner: _cret}, nil
 }
 
 
@@ -548,6 +570,30 @@ func PcpatchHexOut(pa *Pcpatch, maxdd int) (_r0 string, _err error) {
 }
 
 
+// PcpatchAsHexwkb wraps MEOS C function pcpatch_as_hexwkb.
+func PcpatchAsHexwkb(pa *Pcpatch, variant uint8) (_r0 string, _err error) {
+	var _size C.size_t
+	C.meos_errno_reset()
+	_cret := C.pcpatch_as_hexwkb(pa._inner, C.uint8_t(variant), &_size)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	defer C.free(unsafe.Pointer(_cret))
+	return takeString(_cret, _size), nil
+}
+
+
+// PcpatchAsWKB wraps MEOS C function pcpatch_as_wkb.
+func PcpatchAsWKB(pa *Pcpatch, variant uint8, size_out unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
+	C.meos_errno_reset()
+	_cret := C.pcpatch_as_wkb(pa._inner, C.uint8_t(variant), (*C.size_t)(unsafe.Pointer(size_out)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
+}
+
+
 // PcpatchFromHexwkb wraps MEOS C function pcpatch_from_hexwkb.
 func PcpatchFromHexwkb(hexwkb string) (_r0 *Pcpatch, _err error) {
 	_c_hexwkb := C.CString(hexwkb)
@@ -561,16 +607,14 @@ func PcpatchFromHexwkb(hexwkb string) (_r0 *Pcpatch, _err error) {
 }
 
 
-// PcpatchAsHexwkb wraps MEOS C function pcpatch_as_hexwkb.
-func PcpatchAsHexwkb(pa *Pcpatch) (_r0 string, _err error) {
-	var _size C.size_t
+// PcpatchFromWKB wraps MEOS C function pcpatch_from_wkb.
+func PcpatchFromWKB(wkb unsafe.Pointer, size uint) (_r0 *Pcpatch, _err error) {
 	C.meos_errno_reset()
-	_cret := C.pcpatch_as_hexwkb(pa._inner, &_size)
+	_cret := C.pcpatch_from_wkb((*C.uint8_t)(unsafe.Pointer(wkb)), C.size_t(size))
 	if _err = meosError(); _err != nil {
 		return
 	}
-	defer C.free(unsafe.Pointer(_cret))
-	return takeString(_cret, _size), nil
+	return &Pcpatch{_inner: _cret}, nil
 }
 
 
@@ -1333,6 +1377,17 @@ func TpointcloudSplitEachNTpcboxes(temp *Temporal, elem_count int, count unsafe.
 func TpointcloudMergeNTpcboxes(temp *Temporal, box_count int, count unsafe.Pointer) (_r0 *TPCBox, _err error) {
 	C.meos_errno_reset()
 	_cret := C.tpointcloud_merge_n_tpcboxes(temp._inner, C.int(box_count), (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &TPCBox{_inner: _cret}, nil
+}
+
+
+// TpointcloudMergeQueryTpcboxes wraps MEOS C function tpointcloud_merge_query_tpcboxes.
+func TpointcloudMergeQueryTpcboxes(temp *Temporal, query *TPCBox, count unsafe.Pointer) (_r0 *TPCBox, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tpointcloud_merge_query_tpcboxes(temp._inner, query._inner, (*C.int)(unsafe.Pointer(count)))
 	if _err = meosError(); _err != nil {
 		return
 	}

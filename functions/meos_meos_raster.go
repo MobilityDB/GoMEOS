@@ -214,6 +214,19 @@ func RaquetAsHexwkb(rq unsafe.Pointer, variant uint8) (_r0 string, _err error) {
 }
 
 
+// RaquetAsCoveragejson wraps MEOS C function raquet_as_coveragejson.
+func RaquetAsCoveragejson(rq unsafe.Pointer) (_r0 string, _err error) {
+	var _size C.size_t
+	C.meos_errno_reset()
+	_cret := C.raquet_as_coveragejson((*C.struct_Raquet)(unsafe.Pointer(rq)), &_size)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	defer C.free(unsafe.Pointer(_cret))
+	return takeString(_cret, _size), nil
+}
+
+
 // RaquetMake wraps MEOS C function raquet_make.
 func RaquetMake(quadbin Quadbin, width int32, height int32, pixtype MeosPixType, nodata float64, has_nodata bool, pixels unsafe.Pointer, pixels_size uint) (_r0 unsafe.Pointer, _err error) {
 	C.meos_errno_reset()
@@ -253,6 +266,19 @@ func RaquetRead(path string, quadbin Quadbin) (_r0 unsafe.Pointer, _err error) {
 func RaquetReadBytes(data unsafe.Pointer, size uint, quadbin Quadbin) (_r0 unsafe.Pointer, _err error) {
 	C.meos_errno_reset()
 	_cret := C.raquet_read_bytes((*C.uint8_t)(unsafe.Pointer(data)), C.size_t(size), C.Quadbin(quadbin))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
+}
+
+
+// RaquetFromRow wraps MEOS C function raquet_from_row.
+func RaquetFromRow(block Quadbin, data unsafe.Pointer, size uint, metadata string, band int) (_r0 unsafe.Pointer, _err error) {
+	_c_metadata := C.CString(metadata)
+	defer C.free(unsafe.Pointer(_c_metadata))
+	C.meos_errno_reset()
+	_cret := C.raquet_from_row(C.Quadbin(block), (*C.uint8_t)(unsafe.Pointer(data)), C.size_t(size), _c_metadata, C.int(band))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -377,6 +403,76 @@ func RaquetMemSize(rq unsafe.Pointer) (_r0 int, _err error) {
 func RasterFromWKB(wkb unsafe.Pointer, size uint) (_r0 unsafe.Pointer, _err error) {
 	C.meos_errno_reset()
 	_cret := C.raster_from_wkb((*C.uint8_t)(unsafe.Pointer(wkb)), C.size_t(size))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
+}
+
+
+// RasterAsCoveragejson wraps MEOS C function raster_as_coveragejson.
+func RasterAsCoveragejson(rast unsafe.Pointer) (_r0 string, _err error) {
+	var _size C.size_t
+	C.meos_errno_reset()
+	_cret := C.raster_as_coveragejson((*C.struct_Raster)(unsafe.Pointer(rast)), &_size)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	defer C.free(unsafe.Pointer(_cret))
+	return takeString(_cret, _size), nil
+}
+
+
+// RasterAsGdal wraps MEOS C function raster_as_gdal.
+func RasterAsGdal(rast unsafe.Pointer, format string, options unsafe.Pointer, count int, srid int32, size_out unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
+	_c_format := C.CString(format)
+	defer C.free(unsafe.Pointer(_c_format))
+	C.meos_errno_reset()
+	_cret := C.raster_as_gdal((*C.struct_Raster)(unsafe.Pointer(rast)), _c_format, (**C.text)(unsafe.Pointer(options)), C.int(count), C.int32_t(srid), (*C.size_t)(unsafe.Pointer(size_out)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
+}
+
+
+// RasterAsTiff wraps MEOS C function raster_as_tiff.
+func RasterAsTiff(rast unsafe.Pointer, options unsafe.Pointer, count int, srid int32, size_out unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
+	C.meos_errno_reset()
+	_cret := C.raster_as_tiff((*C.struct_Raster)(unsafe.Pointer(rast)), (**C.text)(unsafe.Pointer(options)), C.int(count), C.int32_t(srid), (*C.size_t)(unsafe.Pointer(size_out)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
+}
+
+
+// RasterAsPng wraps MEOS C function raster_as_png.
+func RasterAsPng(rast unsafe.Pointer, options unsafe.Pointer, count int, size_out unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
+	C.meos_errno_reset()
+	_cret := C.raster_as_png((*C.struct_Raster)(unsafe.Pointer(rast)), (**C.text)(unsafe.Pointer(options)), C.int(count), (*C.size_t)(unsafe.Pointer(size_out)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
+}
+
+
+// RasterAsJpeg wraps MEOS C function raster_as_jpeg.
+func RasterAsJpeg(rast unsafe.Pointer, options unsafe.Pointer, count int, size_out unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
+	C.meos_errno_reset()
+	_cret := C.raster_as_jpeg((*C.struct_Raster)(unsafe.Pointer(rast)), (**C.text)(unsafe.Pointer(options)), C.int(count), (*C.size_t)(unsafe.Pointer(size_out)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
+}
+
+
+// RasterFromGdal wraps MEOS C function raster_from_gdal.
+func RasterFromGdal(data unsafe.Pointer, size uint, srid int32) (_r0 unsafe.Pointer, _err error) {
+	C.meos_errno_reset()
+	_cret := C.raster_from_gdal((*C.uint8_t)(unsafe.Pointer(data)), C.size_t(size), C.int32_t(srid))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1509,6 +1605,19 @@ func RasterTileValueQuadbin(traj *Temporal, pixels unsafe.Pointer, pixels_size u
 }
 
 
+// TfloatAsCoveragejson wraps MEOS C function tfloat_as_coveragejson.
+func TfloatAsCoveragejson(temp *Temporal, traj *Temporal) (_r0 string, _err error) {
+	var _size C.size_t
+	C.meos_errno_reset()
+	_cret := C.tfloat_as_coveragejson(temp._inner, traj._inner, &_size)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	defer C.free(unsafe.Pointer(_cret))
+	return takeString(_cret, _size), nil
+}
+
+
 // RasterTileValue wraps MEOS C function raster_tile_value.
 func RasterTileValue(traj *Temporal, rq unsafe.Pointer) (_r0 *Temporal, _err error) {
 	C.meos_errno_reset()
@@ -1528,5 +1637,203 @@ func RasterTileValueArray(traj *Temporal, rqarr unsafe.Pointer, count int) (_r0 
 		return
 	}
 	return &Temporal{_inner: _cret}, nil
+}
+
+
+// RasterTileAtValue wraps MEOS C function raster_tile_at_value.
+func RasterTileAtValue(traj *Temporal, rq unsafe.Pointer, vspan *Span) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.raster_tile_at_value(traj._inner, (*C.struct_Raquet)(unsafe.Pointer(rq)), vspan._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// RasterTileMinusValue wraps MEOS C function raster_tile_minus_value.
+func RasterTileMinusValue(traj *Temporal, rq unsafe.Pointer, vspan *Span) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.raster_tile_minus_value(traj._inner, (*C.struct_Raquet)(unsafe.Pointer(rq)), vspan._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// ErasterTileValue wraps MEOS C function eraster_tile_value.
+func ErasterTileValue(traj *Temporal, rq unsafe.Pointer, vspan *Span) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.eraster_tile_value(traj._inner, (*C.struct_Raquet)(unsafe.Pointer(rq)), vspan._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
+// ArasterTileValue wraps MEOS C function araster_tile_value.
+func ArasterTileValue(traj *Temporal, rq unsafe.Pointer, vspan *Span) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.araster_tile_value(traj._inner, (*C.struct_Raquet)(unsafe.Pointer(rq)), vspan._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
+// RasterTileAtValueArray wraps MEOS C function raster_tile_at_value_array.
+func RasterTileAtValueArray(traj *Temporal, rqarr unsafe.Pointer, count int, vspan *Span) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.raster_tile_at_value_array(traj._inner, (**C.struct_Raquet)(unsafe.Pointer(rqarr)), C.int(count), vspan._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// RasterTileMinusValueArray wraps MEOS C function raster_tile_minus_value_array.
+func RasterTileMinusValueArray(traj *Temporal, rqarr unsafe.Pointer, count int, vspan *Span) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.raster_tile_minus_value_array(traj._inner, (**C.struct_Raquet)(unsafe.Pointer(rqarr)), C.int(count), vspan._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// ErasterTileValueArray wraps MEOS C function eraster_tile_value_array.
+func ErasterTileValueArray(traj *Temporal, rqarr unsafe.Pointer, count int, vspan *Span) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.eraster_tile_value_array(traj._inner, (**C.struct_Raquet)(unsafe.Pointer(rqarr)), C.int(count), vspan._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
+// ArasterTileValueArray wraps MEOS C function araster_tile_value_array.
+func ArasterTileValueArray(traj *Temporal, rqarr unsafe.Pointer, count int, vspan *Span) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.araster_tile_value_array(traj._inner, (**C.struct_Raquet)(unsafe.Pointer(rqarr)), C.int(count), vspan._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
+// RasterValueSeries wraps MEOS C function raster_value_series.
+func RasterValueSeries(traj *Temporal, rasts unsafe.Pointer, spans *Span, count int, band int) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.raster_value_series(traj._inner, (**C.struct_Raster)(unsafe.Pointer(rasts)), spans._inner, C.int(count), C.int(band))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// RasterAtValueSeries wraps MEOS C function raster_at_value_series.
+func RasterAtValueSeries(traj *Temporal, rasts unsafe.Pointer, spans *Span, count int, band int, vspan *Span) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.raster_at_value_series(traj._inner, (**C.struct_Raster)(unsafe.Pointer(rasts)), spans._inner, C.int(count), C.int(band), vspan._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// RasterMinusValueSeries wraps MEOS C function raster_minus_value_series.
+func RasterMinusValueSeries(traj *Temporal, rasts unsafe.Pointer, spans *Span, count int, band int, vspan *Span) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.raster_minus_value_series(traj._inner, (**C.struct_Raster)(unsafe.Pointer(rasts)), spans._inner, C.int(count), C.int(band), vspan._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// ErasterValueSeries wraps MEOS C function eraster_value_series.
+func ErasterValueSeries(traj *Temporal, rasts unsafe.Pointer, spans *Span, count int, band int, vspan *Span) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.eraster_value_series(traj._inner, (**C.struct_Raster)(unsafe.Pointer(rasts)), spans._inner, C.int(count), C.int(band), vspan._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
+// ArasterValueSeries wraps MEOS C function araster_value_series.
+func ArasterValueSeries(traj *Temporal, rasts unsafe.Pointer, spans *Span, count int, band int, vspan *Span) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.araster_value_series(traj._inner, (**C.struct_Raster)(unsafe.Pointer(rasts)), spans._inner, C.int(count), C.int(band), vspan._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
+// RasterTileValueSeries wraps MEOS C function raster_tile_value_series.
+func RasterTileValueSeries(traj *Temporal, rqarr unsafe.Pointer, spans *Span, count int) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.raster_tile_value_series(traj._inner, (**C.struct_Raquet)(unsafe.Pointer(rqarr)), spans._inner, C.int(count))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// RasterTileAtValueSeries wraps MEOS C function raster_tile_at_value_series.
+func RasterTileAtValueSeries(traj *Temporal, rqarr unsafe.Pointer, spans *Span, count int, vspan *Span) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.raster_tile_at_value_series(traj._inner, (**C.struct_Raquet)(unsafe.Pointer(rqarr)), spans._inner, C.int(count), vspan._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// RasterTileMinusValueSeries wraps MEOS C function raster_tile_minus_value_series.
+func RasterTileMinusValueSeries(traj *Temporal, rqarr unsafe.Pointer, spans *Span, count int, vspan *Span) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.raster_tile_minus_value_series(traj._inner, (**C.struct_Raquet)(unsafe.Pointer(rqarr)), spans._inner, C.int(count), vspan._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
+}
+
+
+// ErasterTileValueSeries wraps MEOS C function eraster_tile_value_series.
+func ErasterTileValueSeries(traj *Temporal, rqarr unsafe.Pointer, spans *Span, count int, vspan *Span) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.eraster_tile_value_series(traj._inner, (**C.struct_Raquet)(unsafe.Pointer(rqarr)), spans._inner, C.int(count), vspan._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
+}
+
+
+// ArasterTileValueSeries wraps MEOS C function araster_tile_value_series.
+func ArasterTileValueSeries(traj *Temporal, rqarr unsafe.Pointer, spans *Span, count int, vspan *Span) (_r0 int, _err error) {
+	C.meos_errno_reset()
+	_cret := C.araster_tile_value_series(traj._inner, (**C.struct_Raquet)(unsafe.Pointer(rqarr)), spans._inner, C.int(count), vspan._inner)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return int(_cret), nil
 }
 

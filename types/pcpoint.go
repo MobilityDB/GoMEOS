@@ -41,6 +41,25 @@ func (x *PCPoint) AsText(maxdd int) (string, error) {
 	return _r0, nil
 }
 
+// AsHexWKB is MEOS pcpoint_as_hexwkb.
+func (x *PCPoint) AsHexWKB(variant uint8) (string, error) {
+	_r0, _err := functions.PcpointAsHexwkb(functions.PcpointFromPointer(x.Pointer()), variant)
+	if _err != nil {
+		return "", _err
+	}
+	return _r0, nil
+}
+
+// AsWKB is MEOS pcpoint_as_wkb.
+func (x *PCPoint) AsWKB(variant uint8) ([]byte, error) {
+	var _size uint64
+	_r0, _err := functions.PcpointAsWKB(functions.PcpointFromPointer(x.Pointer()), variant, unsafe.Pointer(&_size))
+	if _err != nil {
+		return nil, _err
+	}
+	return functions.TakeBytes(_r0, _size), nil
+}
+
 // PCPointFromHexWKB is MEOS pcpoint_from_hexwkb.
 func PCPointFromHexWKB(hexwkb string) (*PCPoint, error) {
 	_r0, _err := functions.PcpointFromHexwkb(hexwkb)
@@ -50,13 +69,17 @@ func PCPointFromHexWKB(hexwkb string) (*PCPoint, error) {
 	return PCPointFromPointer(_r0.Pointer()), nil
 }
 
-// AsHexWKB is MEOS pcpoint_as_hexwkb.
-func (x *PCPoint) AsHexWKB() (string, error) {
-	_r0, _err := functions.PcpointAsHexwkb(functions.PcpointFromPointer(x.Pointer()))
-	if _err != nil {
-		return "", _err
+// PCPointFromWKB is MEOS pcpoint_from_wkb.
+func PCPointFromWKB(wkb []byte) (*PCPoint, error) {
+	var _p_wkb unsafe.Pointer
+	if len(wkb) > 0 {
+		_p_wkb = unsafe.Pointer(&wkb[0])
 	}
-	return _r0, nil
+	_r0, _err := functions.PcpointFromWKB(_p_wkb, uint(len(wkb)))
+	if _err != nil {
+		return nil, _err
+	}
+	return PCPointFromPointer(_r0.Pointer()), nil
 }
 
 // PCPointMake is MEOS pcpoint_make.

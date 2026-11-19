@@ -299,6 +299,15 @@ func (x *TRGeometry) MergeNStboxes(box_count int, count unsafe.Pointer) (*STBox,
 	return STBoxFromPointer(_r0.Pointer()), nil
 }
 
+// MergeQueryStboxes is MEOS trgeometry_merge_query_stboxes.
+func (x *TRGeometry) MergeQueryStboxes(query *STBox, count unsafe.Pointer) (*STBox, error) {
+	_r0, _err := functions.TrgeometryMergeQueryStboxes(functions.TemporalFromPointer(x.Pointer()), functions.STBoxFromPointer(query.Pointer()), count)
+	if _err != nil {
+		return nil, _err
+	}
+	return STBoxFromPointer(_r0.Pointer()), nil
+}
+
 // SplitEachNStboxes is MEOS trgeometry_split_each_n_stboxes.
 func (x *TRGeometry) SplitEachNStboxes(elem_count int, count unsafe.Pointer) (*STBox, error) {
 	_r0, _err := functions.TrgeometrySplitEachNStboxes(functions.TemporalFromPointer(x.Pointer()), elem_count, count)

@@ -727,6 +727,15 @@ func (x *Temporal) MergeNSpans(span_count int, count unsafe.Pointer) (*Span, err
 	return SpanFromPointer(_r0.Pointer()), nil
 }
 
+// MergeQuerySpans is MEOS temporal_merge_query_spans.
+func (x *Temporal) MergeQuerySpans(query *Span, count unsafe.Pointer) (*Span, error) {
+	_r0, _err := functions.TemporalMergeQuerySpans(functions.TemporalFromPointer(x.Pointer()), functions.SpanFromPointer(query.Pointer()), count)
+	if _err != nil {
+		return nil, _err
+	}
+	return SpanFromPointer(_r0.Pointer()), nil
+}
+
 // SplitEachNSpans is MEOS temporal_split_each_n_spans.
 func (x *Temporal) SplitEachNSpans(elem_count int, count unsafe.Pointer) (*Span, error) {
 	_r0, _err := functions.TemporalSplitEachNSpans(functions.TemporalFromPointer(x.Pointer()), elem_count, count)

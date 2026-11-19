@@ -23,6 +23,15 @@ func GeometryFromPointer(p unsafe.Pointer) *Geometry {
 	return v
 }
 
+// GeometryFromEWKT is MEOS geom_from_ewkt.
+func GeometryFromEWKT(ewkt string) (*Geo, error) {
+	_r0, _err := functions.GeomFromEWKT(ewkt)
+	if _err != nil {
+		return nil, _err
+	}
+	return GeoFromPointer(_r0.Pointer()), nil
+}
+
 // GeometryFromHexEWKB is MEOS geom_from_hexewkb.
 func GeometryFromHexEWKB(hexwkb string) (*Geo, error) {
 	_r0, _err := functions.GeomFromHexewkb(hexwkb)
@@ -350,6 +359,15 @@ func GeometryFromEWKB(wkb []byte, srid int32) (*Geometry, error) {
 	return GeometryFromPointer(r.Pointer()), nil
 }
 
+// GeometryFromHexWKB is the portable fromHexWKB of MEOS geom_from_hexewkb.
+func GeometryFromHexWKB(hexwkb string) (*Geometry, error) {
+	r, err := GeometryFromHexEWKB(hexwkb)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return GeometryFromPointer(r.Pointer()), nil
+}
+
 // AsMFJSON is the portable asMFJSON of MEOS geo_as_geojson.
 func (x *Geometry) AsMFJSON(option int, precision int, srs *string) (string, error) {
 	return x.AsGeoJSON(option, precision, srs)
@@ -364,9 +382,18 @@ func GeometryFromMFJSON(geojson string) (*Geometry, error) {
 	return GeometryFromPointer(r.Pointer()), nil
 }
 
-// GeometryFromText is the portable fromText of MEOS geo_from_text.
-func GeometryFromText(wkt string, srid int32) (*Geometry, error) {
-	r, err := GeoFromText(wkt, srid)
+// GeometryFromText is the portable fromText of MEOS geom_from_ewkt.
+func GeometryFromText(ewkt string) (*Geometry, error) {
+	r, err := GeometryFromEWKT(ewkt)
+	if err != nil || r == nil {
+		return nil, err
+	}
+	return GeometryFromPointer(r.Pointer()), nil
+}
+
+// GeometryFromWKB is the portable fromWKB of MEOS geo_from_ewkb.
+func GeometryFromWKB(wkb []byte, srid int32) (*Geometry, error) {
+	r, err := GeoFromEWKB(wkb, srid)
 	if err != nil || r == nil {
 		return nil, err
 	}

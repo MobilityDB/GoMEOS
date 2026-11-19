@@ -4129,6 +4129,17 @@ func SetMergeNSpans(s *Set, span_count int, count unsafe.Pointer) (_r0 *Span, _e
 }
 
 
+// SetMergeQuerySpans wraps MEOS C function set_merge_query_spans.
+func SetMergeQuerySpans(s *Set, query *Span, count unsafe.Pointer) (_r0 *Span, _err error) {
+	C.meos_errno_reset()
+	_cret := C.set_merge_query_spans(s._inner, query._inner, (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Span{_inner: _cret}, nil
+}
+
+
 // SetSplitEachNSpans wraps MEOS C function set_split_each_n_spans.
 func SetSplitEachNSpans(s *Set, elems_per_span int, count unsafe.Pointer) (_r0 *Span, _err error) {
 	C.meos_errno_reset()
@@ -4177,6 +4188,17 @@ func SpansetMergeEachNSpans(ss *SpanSet, elems_per_span int, count unsafe.Pointe
 func SpansetMergeNSpans(ss *SpanSet, span_count int, count unsafe.Pointer) (_r0 *Span, _err error) {
 	C.meos_errno_reset()
 	_cret := C.spanset_merge_n_spans(ss._inner, C.int(span_count), (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Span{_inner: _cret}, nil
+}
+
+
+// SpansetMergeQuerySpans wraps MEOS C function spanset_merge_query_spans.
+func SpansetMergeQuerySpans(ss *SpanSet, query *Span, count unsafe.Pointer) (_r0 *Span, _err error) {
+	C.meos_errno_reset()
+	_cret := C.spanset_merge_query_spans(ss._inner, query._inner, (*C.int)(unsafe.Pointer(count)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -14563,6 +14585,17 @@ func TemporalMergeNSpans(temp *Temporal, span_count int, count unsafe.Pointer) (
 }
 
 
+// TemporalMergeQuerySpans wraps MEOS C function temporal_merge_query_spans.
+func TemporalMergeQuerySpans(temp *Temporal, query *Span, count unsafe.Pointer) (_r0 *Span, _err error) {
+	C.meos_errno_reset()
+	_cret := C.temporal_merge_query_spans(temp._inner, query._inner, (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Span{_inner: _cret}, nil
+}
+
+
 // TemporalSplitEachNSpans wraps MEOS C function temporal_split_each_n_spans.
 func TemporalSplitEachNSpans(temp *Temporal, elem_count int, count unsafe.Pointer) (_r0 *Span, _err error) {
 	C.meos_errno_reset()
@@ -14600,6 +14633,17 @@ func TnumberMergeEachNTboxes(temp *Temporal, elem_count int, count unsafe.Pointe
 func TnumberMergeNTboxes(temp *Temporal, box_count int, count unsafe.Pointer) (_r0 *TBox, _err error) {
 	C.meos_errno_reset()
 	_cret := C.tnumber_merge_n_tboxes(temp._inner, C.int(box_count), (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &TBox{_inner: _cret}, nil
+}
+
+
+// TnumberMergeQueryTboxes wraps MEOS C function tnumber_merge_query_tboxes.
+func TnumberMergeQueryTboxes(temp *Temporal, query *TBox, count unsafe.Pointer) (_r0 *TBox, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tnumber_merge_query_tboxes(temp._inner, query._inner, (*C.int)(unsafe.Pointer(count)))
 	if _err = meosError(); _err != nil {
 		return
 	}

@@ -73,6 +73,15 @@ func RaQuetAsHexWKB(rq unsafe.Pointer, variant uint8) (string, error) {
 	return _r0, nil
 }
 
+// RaQuetAsCoveragejson is MEOS raquet_as_coveragejson.
+func RaQuetAsCoveragejson(rq unsafe.Pointer) (string, error) {
+	_r0, _err := functions.RaquetAsCoveragejson(rq)
+	if _err != nil {
+		return "", _err
+	}
+	return _r0, nil
+}
+
 // RaQuetMake is MEOS raquet_make.
 func RaQuetMake(quadbin Quadbin, width int32, height int32, pixtype functions.MeosPixType, nodata float64, has_nodata bool, pixels []byte) (unsafe.Pointer, error) {
 	var _p_pixels unsafe.Pointer
@@ -111,6 +120,19 @@ func RaQuetReadBytes(data []byte, quadbin Quadbin) (unsafe.Pointer, error) {
 		_p_data = unsafe.Pointer(&data[0])
 	}
 	_r0, _err := functions.RaquetReadBytes(_p_data, uint(len(data)), functions.Quadbin(quadbin))
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
+// RaQuetFromRow is MEOS raquet_from_row.
+func RaQuetFromRow(block Quadbin, data []byte, metadata string, band int) (unsafe.Pointer, error) {
+	var _p_data unsafe.Pointer
+	if len(data) > 0 {
+		_p_data = unsafe.Pointer(&data[0])
+	}
+	_r0, _err := functions.RaquetFromRow(functions.Quadbin(block), _p_data, uint(len(data)), metadata, band)
 	if _err != nil {
 		return nil, _err
 	}
