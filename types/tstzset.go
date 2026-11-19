@@ -91,6 +91,42 @@ func (x *TsTzSet) Values(count unsafe.Pointer) (unsafe.Pointer, error) {
 	return _r0, nil
 }
 
+// Scale is MEOS tstzset_scale.
+func (x *TsTzSet) Scale(duration *functions.Interval) (*Set, error) {
+	_r0, _err := functions.TstzsetScale(functions.SetFromPointer(x.Pointer()), duration)
+	if _err != nil {
+		return nil, _err
+	}
+	return SetFromPointer(_r0.Pointer()), nil
+}
+
+// Shift is MEOS tstzset_shift.
+func (x *TsTzSet) Shift(shift *functions.Interval) (*Set, error) {
+	_r0, _err := functions.TstzsetShift(functions.SetFromPointer(x.Pointer()), shift)
+	if _err != nil {
+		return nil, _err
+	}
+	return SetFromPointer(_r0.Pointer()), nil
+}
+
+// ShiftScale is MEOS tstzset_shift_scale.
+func (x *TsTzSet) ShiftScale(shift *functions.Interval, duration *functions.Interval) (*Set, error) {
+	_r0, _err := functions.TstzsetShiftScale(functions.SetFromPointer(x.Pointer()), shift, duration)
+	if _err != nil {
+		return nil, _err
+	}
+	return SetFromPointer(_r0.Pointer()), nil
+}
+
+// Tprecision is MEOS tstzset_tprecision.
+func (x *TsTzSet) Tprecision(duration *functions.Interval, torigin int64) (*Set, error) {
+	_r0, _err := functions.TstzsetTprecision(functions.SetFromPointer(x.Pointer()), duration, torigin)
+	if _err != nil {
+		return nil, _err
+	}
+	return SetFromPointer(_r0.Pointer()), nil
+}
+
 // ToStbox is MEOS tstzset_to_stbox.
 func (x *TsTzSet) ToStbox() (*STBox, error) {
 	_r0, _err := functions.TstzsetToSTBOX(functions.SetFromPointer(x.Pointer()))
@@ -182,6 +218,35 @@ func (x *TsTzSet) Contains(other any) (bool, error) {
 		return x.op_contains_set_timestamptz(v)
 	}
 	return false, fmt.Errorf("Contains of TsTzSet takes no %T", other)
+}
+
+// op_distance_set_timestamptz is MEOS distance_set_timestamptz.
+func (x *TsTzSet) op_distance_set_timestamptz(t int64) (*functions.Interval, error) {
+	_r0, _err := functions.DistanceSetTimestamptz(functions.SetFromPointer(x.Pointer()), t)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
+// op_distance_tstzset_tstzset is MEOS distance_tstzset_tstzset.
+func (x *TsTzSet) op_distance_tstzset_tstzset(s2 *Set) (*functions.Interval, error) {
+	_r0, _err := functions.DistanceTstzsetTstzset(functions.SetFromPointer(x.Pointer()), functions.SetFromPointer(s2.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
+// Distance is the operator distance of TsTzSet: it calls the MEOS function whose second operand has the type of other.
+func (x *TsTzSet) Distance(other any) (*functions.Interval, error) {
+	switch v := other.(type) {
+	case *Set:
+		return x.op_distance_tstzset_tstzset(v)
+	case int64:
+		return x.op_distance_set_timestamptz(v)
+	}
+	return nil, fmt.Errorf("Distance of TsTzSet takes no %T", other)
 }
 
 // op_intersection_set_timestamptz is MEOS intersection_set_timestamptz.

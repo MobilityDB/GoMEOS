@@ -288,6 +288,15 @@ func (x *TBox) ExpandInt(i int) (*TBox, error) {
 	return TBoxFromPointer(_r0.Pointer()), nil
 }
 
+// ExpandTime is MEOS tbox_expand_time.
+func (x *TBox) ExpandTime(interv *functions.Interval) (*TBox, error) {
+	_r0, _err := functions.TBOXExpandTime(functions.TBoxFromPointer(x.Pointer()), interv)
+	if _err != nil {
+		return nil, _err
+	}
+	return TBoxFromPointer(_r0.Pointer()), nil
+}
+
 // Round is MEOS tbox_round.
 func (x *TBox) Round(maxdd int) (*TBox, error) {
 	_r0, _err := functions.TBOXRound(functions.TBoxFromPointer(x.Pointer()), maxdd)
@@ -309,6 +318,33 @@ func (x *TBox) ShiftScaleFloat(shift float64, width float64, hasshift bool, hasw
 // ShiftScaleInt is MEOS tintbox_shift_scale.
 func (x *TBox) ShiftScaleInt(shift int, width int, hasshift bool, haswidth bool) (*TBox, error) {
 	_r0, _err := functions.TintboxShiftScale(functions.TBoxFromPointer(x.Pointer()), shift, width, hasshift, haswidth)
+	if _err != nil {
+		return nil, _err
+	}
+	return TBoxFromPointer(_r0.Pointer()), nil
+}
+
+// ScaleTime is MEOS tbox_scale_time.
+func (x *TBox) ScaleTime(duration *functions.Interval) (*TBox, error) {
+	_r0, _err := functions.TBOXScaleTime(functions.TBoxFromPointer(x.Pointer()), duration)
+	if _err != nil {
+		return nil, _err
+	}
+	return TBoxFromPointer(_r0.Pointer()), nil
+}
+
+// ShiftScaleTime is MEOS tbox_shift_scale_time.
+func (x *TBox) ShiftScaleTime(shift *functions.Interval, duration *functions.Interval) (*TBox, error) {
+	_r0, _err := functions.TBOXShiftScaleTime(functions.TBoxFromPointer(x.Pointer()), shift, duration)
+	if _err != nil {
+		return nil, _err
+	}
+	return TBoxFromPointer(_r0.Pointer()), nil
+}
+
+// ShiftTime is MEOS tbox_shift_time.
+func (x *TBox) ShiftTime(shift *functions.Interval) (*TBox, error) {
+	_r0, _err := functions.TBOXShiftTime(functions.TBoxFromPointer(x.Pointer()), shift)
 	if _err != nil {
 		return nil, _err
 	}
@@ -406,9 +442,36 @@ func (x *TBox) Sortkey() ([]byte, error) {
 	return functions.TakeBytes(_r0, _size), nil
 }
 
+// TimeTilesBigint is MEOS tbigintbox_time_tiles.
+func (x *TBox) TimeTilesBigint(duration *functions.Interval, torigin int64, border_inc bool, count unsafe.Pointer) (*TBox, error) {
+	_r0, _err := functions.TbigintboxTimeTiles(functions.TBoxFromPointer(x.Pointer()), duration, torigin, border_inc, count)
+	if _err != nil {
+		return nil, _err
+	}
+	return TBoxFromPointer(_r0.Pointer()), nil
+}
+
 // ValueTilesBigint is MEOS tbigintbox_value_tiles.
 func (x *TBox) ValueTilesBigint(vsize int64, vorigin int64, border_inc bool, count unsafe.Pointer) (*TBox, error) {
 	_r0, _err := functions.TbigintboxValueTiles(functions.TBoxFromPointer(x.Pointer()), vsize, vorigin, border_inc, count)
+	if _err != nil {
+		return nil, _err
+	}
+	return TBoxFromPointer(_r0.Pointer()), nil
+}
+
+// ValueTimeTilesBigint is MEOS tbigintbox_value_time_tiles.
+func (x *TBox) ValueTimeTilesBigint(vsize int64, duration *functions.Interval, vorigin int64, torigin int64, border_inc bool, count unsafe.Pointer) (*TBox, error) {
+	_r0, _err := functions.TbigintboxValueTimeTiles(functions.TBoxFromPointer(x.Pointer()), vsize, duration, vorigin, torigin, border_inc, count)
+	if _err != nil {
+		return nil, _err
+	}
+	return TBoxFromPointer(_r0.Pointer()), nil
+}
+
+// TBoxGetTimeTile is MEOS tbox_get_time_tile.
+func TBoxGetTimeTile(t int64, duration *functions.Interval, torigin int64) (*TBox, error) {
+	_r0, _err := functions.TBOXGetTimeTile(t, duration, torigin)
 	if _err != nil {
 		return nil, _err
 	}
@@ -424,6 +487,33 @@ func TBoxGetValueTile(value float64, vsize float64, vorigin float64) (*TBox, err
 	return TBoxFromPointer(_r0.Pointer()), nil
 }
 
+// TBoxGetValueTimeTile is MEOS tbox_get_value_time_tile.
+func TBoxGetValueTimeTile(value float64, t int64, vsize float64, duration *functions.Interval, vorigin float64, torigin int64) (*TBox, error) {
+	_r0, _err := functions.TBOXGetValueTimeTile(value, t, vsize, duration, vorigin, torigin)
+	if _err != nil {
+		return nil, _err
+	}
+	return TBoxFromPointer(_r0.Pointer()), nil
+}
+
+// TimeTiles is MEOS tbox_time_tiles.
+func (x *TBox) TimeTiles(duration *functions.Interval, torigin int64, border_inc bool, count unsafe.Pointer) (*TBox, error) {
+	_r0, _err := functions.TBOXTimeTiles(functions.TBoxFromPointer(x.Pointer()), duration, torigin, border_inc, count)
+	if _err != nil {
+		return nil, _err
+	}
+	return TBoxFromPointer(_r0.Pointer()), nil
+}
+
+// TimeTilesFloat is MEOS tfloatbox_time_tiles.
+func (x *TBox) TimeTilesFloat(duration *functions.Interval, torigin int64, border_inc bool, count unsafe.Pointer) (*TBox, error) {
+	_r0, _err := functions.TfloatboxTimeTiles(functions.TBoxFromPointer(x.Pointer()), duration, torigin, border_inc, count)
+	if _err != nil {
+		return nil, _err
+	}
+	return TBoxFromPointer(_r0.Pointer()), nil
+}
+
 // ValueTilesFloat is MEOS tfloatbox_value_tiles.
 func (x *TBox) ValueTilesFloat(vsize float64, vorigin float64, border_inc bool, count unsafe.Pointer) (*TBox, error) {
 	_r0, _err := functions.TfloatboxValueTiles(functions.TBoxFromPointer(x.Pointer()), vsize, vorigin, border_inc, count)
@@ -433,9 +523,36 @@ func (x *TBox) ValueTilesFloat(vsize float64, vorigin float64, border_inc bool, 
 	return TBoxFromPointer(_r0.Pointer()), nil
 }
 
+// ValueTimeTilesFloat is MEOS tfloatbox_value_time_tiles.
+func (x *TBox) ValueTimeTilesFloat(vsize float64, duration *functions.Interval, vorigin float64, torigin int64, border_inc bool, count unsafe.Pointer) (*TBox, error) {
+	_r0, _err := functions.TfloatboxValueTimeTiles(functions.TBoxFromPointer(x.Pointer()), vsize, duration, vorigin, torigin, border_inc, count)
+	if _err != nil {
+		return nil, _err
+	}
+	return TBoxFromPointer(_r0.Pointer()), nil
+}
+
+// TimeTilesInt is MEOS tintbox_time_tiles.
+func (x *TBox) TimeTilesInt(duration *functions.Interval, torigin int64, border_inc bool, count unsafe.Pointer) (*TBox, error) {
+	_r0, _err := functions.TintboxTimeTiles(functions.TBoxFromPointer(x.Pointer()), duration, torigin, border_inc, count)
+	if _err != nil {
+		return nil, _err
+	}
+	return TBoxFromPointer(_r0.Pointer()), nil
+}
+
 // ValueTilesInt is MEOS tintbox_value_tiles.
 func (x *TBox) ValueTilesInt(vsize int, vorigin int, border_inc bool, count unsafe.Pointer) (*TBox, error) {
 	_r0, _err := functions.TintboxValueTiles(functions.TBoxFromPointer(x.Pointer()), vsize, vorigin, border_inc, count)
+	if _err != nil {
+		return nil, _err
+	}
+	return TBoxFromPointer(_r0.Pointer()), nil
+}
+
+// ValueTimeTilesInt is MEOS tintbox_value_time_tiles.
+func (x *TBox) ValueTimeTilesInt(vsize int, duration *functions.Interval, vorigin int, torigin int64, border_inc bool, count unsafe.Pointer) (*TBox, error) {
+	_r0, _err := functions.TintboxValueTimeTiles(functions.TBoxFromPointer(x.Pointer()), vsize, duration, vorigin, torigin, border_inc, count)
 	if _err != nil {
 		return nil, _err
 	}

@@ -292,6 +292,15 @@ func (x *TFloat) Tan() (*Temporal, error) {
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
+// TimeBoxes is MEOS tfloat_time_boxes.
+func (x *TFloat) TimeBoxes(duration *functions.Interval, torigin int64, border_inc bool, count unsafe.Pointer) (*TBox, error) {
+	_r0, _err := functions.TfloatTimeBoxes(functions.TemporalFromPointer(x.Pointer()), duration, torigin, border_inc, count)
+	if _err != nil {
+		return nil, _err
+	}
+	return TBoxFromPointer(_r0.Pointer()), nil
+}
+
 // ValueBins is MEOS tfloat_value_bins.
 func (x *TFloat) ValueBins(vsize float64, vorigin float64, border_inc bool, count unsafe.Pointer) (*Span, error) {
 	_r0, _err := functions.TfloatValueBins(functions.TemporalFromPointer(x.Pointer()), vsize, vorigin, border_inc, count)
@@ -313,6 +322,24 @@ func (x *TFloat) ValueBoxes(vsize float64, vorigin float64, border_inc bool, cou
 // ValueSplit is MEOS tfloat_value_split.
 func (x *TFloat) ValueSplit(vsize float64, vorigin float64, border_inc bool, bins unsafe.Pointer, count unsafe.Pointer) (unsafe.Pointer, error) {
 	_r0, _err := functions.TfloatValueSplit(functions.TemporalFromPointer(x.Pointer()), vsize, vorigin, border_inc, bins, count)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
+// ValueTimeBoxes is MEOS tfloat_value_time_boxes.
+func (x *TFloat) ValueTimeBoxes(vsize float64, duration *functions.Interval, vorigin float64, torigin int64, border_inc bool, count unsafe.Pointer) (*TBox, error) {
+	_r0, _err := functions.TfloatValueTimeBoxes(functions.TemporalFromPointer(x.Pointer()), vsize, duration, vorigin, torigin, border_inc, count)
+	if _err != nil {
+		return nil, _err
+	}
+	return TBoxFromPointer(_r0.Pointer()), nil
+}
+
+// ValueTimeSplit is MEOS tfloat_value_time_split.
+func (x *TFloat) ValueTimeSplit(vsize float64, duration *functions.Interval, vorigin float64, torigin int64, border_inc bool, value_bins unsafe.Pointer, time_bins unsafe.Pointer, count unsafe.Pointer) (unsafe.Pointer, error) {
+	_r0, _err := functions.TfloatValueTimeSplit(functions.TemporalFromPointer(x.Pointer()), vsize, duration, vorigin, torigin, border_inc, value_bins, time_bins, count)
 	if _err != nil {
 		return nil, _err
 	}
@@ -1276,6 +1303,23 @@ func TFloatMergeAgg(values []*TFloat) (*Temporal, error) {
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
+// TFloatAppendInstantAgg is the aggregate appendInstantAgg: MEOS temporal_app_tinst_transfn over the values, then temporal_append_finalfn.
+func TFloatAppendInstantAgg(values []*TFloat, interp functions.Interpolation, maxdist float64, maxt *functions.Interval) (*Temporal, error) {
+	_state := &functions.Temporal{}
+	for _, _v := range values {
+		_s, _err := functions.TemporalAppTinstTransfn(_state, functions.TInstantFromPointer(_v.Pointer()), interp, maxdist, maxt)
+		if _err != nil {
+			return nil, _err
+		}
+		_state = _s
+	}
+	_r0, _err := functions.TemporalAppendFinalfn(_state)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
 // TFloatAppendSequenceAgg is the aggregate appendSequenceAgg: MEOS temporal_app_tseq_transfn over the values, then temporal_append_finalfn.
 func TFloatAppendSequenceAgg(values []*TFloat) (*Temporal, error) {
 	_state := &functions.Temporal{}
@@ -1287,6 +1331,91 @@ func TFloatAppendSequenceAgg(values []*TFloat) (*Temporal, error) {
 		_state = _s
 	}
 	_r0, _err := functions.TemporalAppendFinalfn(_state)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// TFloatWMin is the aggregate wMin: MEOS tfloat_wmin_transfn over the values, then temporal_tagg_finalfn.
+func TFloatWMin(values []*TFloat, interv *functions.Interval) (*Temporal, error) {
+	_state := &functions.SkipList{}
+	for _, _v := range values {
+		_s, _err := functions.TfloatWminTransfn(_state, functions.TemporalFromPointer(_v.Pointer()), interv)
+		if _err != nil {
+			return nil, _err
+		}
+		_state = _s
+	}
+	_r0, _err := functions.TemporalTaggFinalfn(_state)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// TFloatWMax is the aggregate wMax: MEOS tfloat_wmax_transfn over the values, then temporal_tagg_finalfn.
+func TFloatWMax(values []*TFloat, interv *functions.Interval) (*Temporal, error) {
+	_state := &functions.SkipList{}
+	for _, _v := range values {
+		_s, _err := functions.TfloatWmaxTransfn(_state, functions.TemporalFromPointer(_v.Pointer()), interv)
+		if _err != nil {
+			return nil, _err
+		}
+		_state = _s
+	}
+	_r0, _err := functions.TemporalTaggFinalfn(_state)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// TFloatWSum is the aggregate wSum: MEOS tfloat_wsum_transfn over the values, then temporal_tagg_finalfn.
+func TFloatWSum(values []*TFloat, interv *functions.Interval) (*Temporal, error) {
+	_state := &functions.SkipList{}
+	for _, _v := range values {
+		_s, _err := functions.TfloatWsumTransfn(_state, functions.TemporalFromPointer(_v.Pointer()), interv)
+		if _err != nil {
+			return nil, _err
+		}
+		_state = _s
+	}
+	_r0, _err := functions.TemporalTaggFinalfn(_state)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// TFloatWCount is the aggregate wCount: MEOS temporal_wcount_transfn over the values, then temporal_tagg_finalfn.
+func TFloatWCount(values []*TFloat, interv *functions.Interval) (*Temporal, error) {
+	_state := &functions.SkipList{}
+	for _, _v := range values {
+		_s, _err := functions.TemporalWcountTransfn(_state, functions.TemporalFromPointer(_v.Pointer()), interv)
+		if _err != nil {
+			return nil, _err
+		}
+		_state = _s
+	}
+	_r0, _err := functions.TemporalTaggFinalfn(_state)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// TFloatWAvgAgg is the aggregate wAvgAgg: MEOS tnumber_wavg_transfn over the values, then tnumber_tavg_finalfn.
+func TFloatWAvgAgg(values []*TFloat, interv *functions.Interval) (*Temporal, error) {
+	_state := &functions.SkipList{}
+	for _, _v := range values {
+		_s, _err := functions.TnumberWavgTransfn(_state, functions.TemporalFromPointer(_v.Pointer()), interv)
+		if _err != nil {
+			return nil, _err
+		}
+		_state = _s
+	}
+	_r0, _err := functions.TnumberTavgFinalfn(_state)
 	if _err != nil {
 		return nil, _err
 	}

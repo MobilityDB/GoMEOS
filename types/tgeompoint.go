@@ -239,6 +239,23 @@ func TGeomPointTCount(values []*TGeomPoint) (*Temporal, error) {
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
+// TGeomPointWCount is the aggregate wCount: MEOS temporal_wcount_transfn over the values, then temporal_tagg_finalfn.
+func TGeomPointWCount(values []*TGeomPoint, interv *functions.Interval) (*Temporal, error) {
+	_state := &functions.SkipList{}
+	for _, _v := range values {
+		_s, _err := functions.TemporalWcountTransfn(_state, functions.TemporalFromPointer(_v.Pointer()), interv)
+		if _err != nil {
+			return nil, _err
+		}
+		_state = _s
+	}
+	_r0, _err := functions.TemporalTaggFinalfn(_state)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
 // TGeomPointTCentroid is the aggregate tCentroid: MEOS tpoint_tcentroid_transfn over the values, then tpoint_tcentroid_finalfn.
 func TGeomPointTCentroid(values []*TGeomPoint) (*Temporal, error) {
 	_state := &functions.SkipList{}
@@ -267,6 +284,23 @@ func TGeomPointMergeAgg(values []*TGeomPoint) (*Temporal, error) {
 		_state = _s
 	}
 	_r0, _err := functions.TemporalTaggFinalfn(_state)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// TGeomPointAppendInstantAgg is the aggregate appendInstantAgg: MEOS temporal_app_tinst_transfn over the values, then temporal_append_finalfn.
+func TGeomPointAppendInstantAgg(values []*TGeomPoint, interp functions.Interpolation, maxdist float64, maxt *functions.Interval) (*Temporal, error) {
+	_state := &functions.Temporal{}
+	for _, _v := range values {
+		_s, _err := functions.TemporalAppTinstTransfn(_state, functions.TInstantFromPointer(_v.Pointer()), interp, maxdist, maxt)
+		if _err != nil {
+			return nil, _err
+		}
+		_state = _s
+	}
+	_r0, _err := functions.TemporalAppendFinalfn(_state)
 	if _err != nil {
 		return nil, _err
 	}

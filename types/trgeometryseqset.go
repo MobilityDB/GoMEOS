@@ -31,3 +31,12 @@ func TRGeometrySeqSetMake(geom *Geo, sequences unsafe.Pointer, count int, normal
 	}
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
+
+// TRGeometrySeqSetMakeGaps is MEOS trgeometryseqset_make_gaps.
+func TRGeometrySeqSetMakeGaps(geom *Geo, instants unsafe.Pointer, count int, interp functions.Interpolation, maxt *functions.Interval, maxdist float64) (*Temporal, error) {
+	_r0, _err := functions.TrgeometryseqsetMakeGaps(functions.GeomFromPointer(geom.Pointer()), instants, count, interp, maxt, maxdist)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}

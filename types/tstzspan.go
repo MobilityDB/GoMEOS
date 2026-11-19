@@ -52,6 +52,15 @@ func (x *TsTzSpan) ToDatespan() (*Span, error) {
 	return SpanFromPointer(_r0.Pointer()), nil
 }
 
+// Duration is MEOS tstzspan_duration.
+func (x *TsTzSpan) Duration() (*functions.Interval, error) {
+	_r0, _err := functions.TstzspanDuration(functions.SpanFromPointer(x.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
 // Lower is MEOS tstzspan_lower.
 func (x *TsTzSpan) Lower() (int64, error) {
 	_r0, _err := functions.TstzspanLower(functions.SpanFromPointer(x.Pointer()))
@@ -68,6 +77,69 @@ func (x *TsTzSpan) Upper() (int64, error) {
 		return 0, _err
 	}
 	return _r0, nil
+}
+
+// Expand is MEOS tstzspan_expand.
+func (x *TsTzSpan) Expand(interv *functions.Interval) (*Span, error) {
+	_r0, _err := functions.TstzspanExpand(functions.SpanFromPointer(x.Pointer()), interv)
+	if _err != nil {
+		return nil, _err
+	}
+	return SpanFromPointer(_r0.Pointer()), nil
+}
+
+// Scale is MEOS tstzspan_scale.
+func (x *TsTzSpan) Scale(duration *functions.Interval) (*Span, error) {
+	_r0, _err := functions.TstzspanScale(functions.SpanFromPointer(x.Pointer()), duration)
+	if _err != nil {
+		return nil, _err
+	}
+	return SpanFromPointer(_r0.Pointer()), nil
+}
+
+// Shift is MEOS tstzspan_shift.
+func (x *TsTzSpan) Shift(shift *functions.Interval) (*Span, error) {
+	_r0, _err := functions.TstzspanShift(functions.SpanFromPointer(x.Pointer()), shift)
+	if _err != nil {
+		return nil, _err
+	}
+	return SpanFromPointer(_r0.Pointer()), nil
+}
+
+// ShiftScale is MEOS tstzspan_shift_scale.
+func (x *TsTzSpan) ShiftScale(shift *functions.Interval, duration *functions.Interval) (*Span, error) {
+	_r0, _err := functions.TstzspanShiftScale(functions.SpanFromPointer(x.Pointer()), shift, duration)
+	if _err != nil {
+		return nil, _err
+	}
+	return SpanFromPointer(_r0.Pointer()), nil
+}
+
+// Tprecision is MEOS tstzspan_tprecision.
+func (x *TsTzSpan) Tprecision(duration *functions.Interval, torigin int64) (*Span, error) {
+	_r0, _err := functions.TstzspanTprecision(functions.SpanFromPointer(x.Pointer()), duration, torigin)
+	if _err != nil {
+		return nil, _err
+	}
+	return SpanFromPointer(_r0.Pointer()), nil
+}
+
+// Bins is MEOS tstzspan_bins.
+func (x *TsTzSpan) Bins(duration *functions.Interval, torigin int64, border_inc bool, count unsafe.Pointer) (*Span, error) {
+	_r0, _err := functions.TstzspanBins(functions.SpanFromPointer(x.Pointer()), duration, torigin, border_inc, count)
+	if _err != nil {
+		return nil, _err
+	}
+	return SpanFromPointer(_r0.Pointer()), nil
+}
+
+// TsTzSpanGetBin is MEOS tstzspan_get_bin.
+func TsTzSpanGetBin(t int64, duration *functions.Interval, torigin int64) (*Span, error) {
+	_r0, _err := functions.TstzspanGetBin(t, duration, torigin)
+	if _err != nil {
+		return nil, _err
+	}
+	return SpanFromPointer(_r0.Pointer()), nil
 }
 
 // ToStbox is MEOS tstzspan_to_stbox.
@@ -319,6 +391,35 @@ func (x *TsTzSpan) Contains(other any) (bool, error) {
 		return x.op_contains_span_timestamptz(v)
 	}
 	return false, fmt.Errorf("Contains of TsTzSpan takes no %T", other)
+}
+
+// op_distance_span_timestamptz is MEOS distance_span_timestamptz.
+func (x *TsTzSpan) op_distance_span_timestamptz(t int64) (*functions.Interval, error) {
+	_r0, _err := functions.DistanceSpanTimestamptz(functions.SpanFromPointer(x.Pointer()), t)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
+// op_distance_tstzspan_tstzspan is MEOS distance_tstzspan_tstzspan.
+func (x *TsTzSpan) op_distance_tstzspan_tstzspan(s2 *Span) (*functions.Interval, error) {
+	_r0, _err := functions.DistanceTstzspanTstzspan(functions.SpanFromPointer(x.Pointer()), functions.SpanFromPointer(s2.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
+// Distance is the operator distance of TsTzSpan: it calls the MEOS function whose second operand has the type of other.
+func (x *TsTzSpan) Distance(other any) (*functions.Interval, error) {
+	switch v := other.(type) {
+	case *Span:
+		return x.op_distance_tstzspan_tstzspan(v)
+	case int64:
+		return x.op_distance_span_timestamptz(v)
+	}
+	return nil, fmt.Errorf("Distance of TsTzSpan takes no %T", other)
 }
 
 // op_ever_overlaps_tstzspan_temporal is MEOS ever_overlaps_tstzspan_temporal.

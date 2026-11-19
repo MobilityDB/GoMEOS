@@ -321,6 +321,24 @@ func (x *TGeo) SpaceBoxes(xsize float64, ysize float64, zsize float64, sorigin *
 	return STBoxFromPointer(_r0.Pointer()), nil
 }
 
+// TimeBoxes is MEOS tgeo_time_boxes.
+func (x *TGeo) TimeBoxes(duration *functions.Interval, torigin int64, bitmatrix bool, border_inc bool, count unsafe.Pointer) (*STBox, error) {
+	_r0, _err := functions.TgeoTimeBoxes(functions.TemporalFromPointer(x.Pointer()), duration, torigin, bitmatrix, border_inc, count)
+	if _err != nil {
+		return nil, _err
+	}
+	return STBoxFromPointer(_r0.Pointer()), nil
+}
+
+// SpaceTimeBoxes is MEOS tgeo_space_time_boxes.
+func (x *TGeo) SpaceTimeBoxes(xsize float64, ysize float64, zsize float64, duration *functions.Interval, sorigin *Geo, torigin int64, bitmatrix bool, border_inc bool, count unsafe.Pointer) (*STBox, error) {
+	_r0, _err := functions.TgeoSpaceTimeBoxes(functions.TemporalFromPointer(x.Pointer()), xsize, ysize, zsize, duration, functions.GeomFromPointer(sorigin.Pointer()), torigin, bitmatrix, border_inc, count)
+	if _err != nil {
+		return nil, _err
+	}
+	return STBoxFromPointer(_r0.Pointer()), nil
+}
+
 // MergeEachNStboxes is MEOS tgeo_merge_each_n_stboxes.
 func (x *TGeo) MergeEachNStboxes(elem_count int, count unsafe.Pointer) (*STBox, error) {
 	_r0, _err := functions.TgeoMergeEachNStboxes(functions.TemporalFromPointer(x.Pointer()), elem_count, count)
@@ -369,6 +387,15 @@ func (x *TGeo) SplitNStboxes(box_count int, count unsafe.Pointer) (*STBox, error
 // SpaceSplit is MEOS tgeo_space_split.
 func (x *TGeo) SpaceSplit(xsize float64, ysize float64, zsize float64, sorigin *Geo, bitmatrix bool, border_inc bool, space_bins unsafe.Pointer, count unsafe.Pointer) (unsafe.Pointer, error) {
 	_r0, _err := functions.TgeoSpaceSplit(functions.TemporalFromPointer(x.Pointer()), xsize, ysize, zsize, functions.GeomFromPointer(sorigin.Pointer()), bitmatrix, border_inc, space_bins, count)
+	if _err != nil {
+		return nil, _err
+	}
+	return _r0, nil
+}
+
+// SpaceTimeSplit is MEOS tgeo_space_time_split.
+func (x *TGeo) SpaceTimeSplit(xsize float64, ysize float64, zsize float64, duration *functions.Interval, sorigin *Geo, torigin int64, bitmatrix bool, border_inc bool, space_bins unsafe.Pointer, time_bins unsafe.Pointer, count unsafe.Pointer) (unsafe.Pointer, error) {
+	_r0, _err := functions.TgeoSpaceTimeSplit(functions.TemporalFromPointer(x.Pointer()), xsize, ysize, zsize, duration, functions.GeomFromPointer(sorigin.Pointer()), torigin, bitmatrix, border_inc, space_bins, time_bins, count)
 	if _err != nil {
 		return nil, _err
 	}
