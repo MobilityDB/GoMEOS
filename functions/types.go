@@ -283,7 +283,8 @@ const (
 	MeosType_T_S2CELL MeosType = 85
 	MeosType_T_S2CELLSET MeosType = 86
 	MeosType_T_TS2CELL MeosType = 87
-	MeosType_NUM_MEOS_TYPES MeosType = 88
+	MeosType_T_RASTER MeosType = 88
+	MeosType_NUM_MEOS_TYPES MeosType = 89
 )
 type MeosOper C.MeosOper
 const (

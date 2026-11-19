@@ -244,6 +244,24 @@ func GeoAsHexewkb(gs *Geom, endian *string) (_r0 string, _err error) {
 }
 
 
+// GeoAsHexwkb wraps MEOS C function geo_as_hexwkb.
+func GeoAsHexwkb(gs *Geom, endian *string) (_r0 string, _err error) {
+	var _c_endian *C.char
+	if endian != nil {
+		_c_endian = C.CString(*endian)
+		defer C.free(unsafe.Pointer(_c_endian))
+	}
+	var _size C.size_t
+	C.meos_errno_reset()
+	_cret := C.geo_as_hexwkb(gs._inner, _c_endian, &_size)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	defer C.free(unsafe.Pointer(_cret))
+	return takeString(_cret, _size), nil
+}
+
+
 // GeoAsText wraps MEOS C function geo_as_text.
 func GeoAsText(gs *Geom, precision int) (_r0 string, _err error) {
 	var _size C.size_t
@@ -254,6 +272,22 @@ func GeoAsText(gs *Geom, precision int) (_r0 string, _err error) {
 	}
 	defer C.free(unsafe.Pointer(_cret))
 	return takeString(_cret, _size), nil
+}
+
+
+// GeoAsWKB wraps MEOS C function geo_as_wkb.
+func GeoAsWKB(gs *Geom, endian *string, size unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
+	var _c_endian *C.char
+	if endian != nil {
+		_c_endian = C.CString(*endian)
+		defer C.free(unsafe.Pointer(_c_endian))
+	}
+	C.meos_errno_reset()
+	_cret := C.geo_as_wkb(gs._inner, _c_endian, (*C.size_t)(unsafe.Pointer(size)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return unsafe.Pointer(_cret), nil
 }
 
 
@@ -307,6 +341,43 @@ func GeoOut(gs *Geom) (_r0 string, _err error) {
 }
 
 
+// GeogFromEWKB wraps MEOS C function geog_from_ewkb.
+func GeogFromEWKB(wkb unsafe.Pointer, wkb_size uint) (_r0 *Geom, _err error) {
+	C.meos_errno_reset()
+	_cret := C.geog_from_ewkb((*C.uint8_t)(unsafe.Pointer(wkb)), C.size_t(wkb_size))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Geom{_inner: _cret}, nil
+}
+
+
+// GeogFromEWKT wraps MEOS C function geog_from_ewkt.
+func GeogFromEWKT(ewkt string) (_r0 *Geom, _err error) {
+	_c_ewkt := C.CString(ewkt)
+	defer C.free(unsafe.Pointer(_c_ewkt))
+	C.meos_errno_reset()
+	_cret := C.geog_from_ewkt(_c_ewkt)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Geom{_inner: _cret}, nil
+}
+
+
+// GeogFromGeojson wraps MEOS C function geog_from_geojson.
+func GeogFromGeojson(geojson string) (_r0 *Geom, _err error) {
+	_c_geojson := C.CString(geojson)
+	defer C.free(unsafe.Pointer(_c_geojson))
+	C.meos_errno_reset()
+	_cret := C.geog_from_geojson(_c_geojson)
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Geom{_inner: _cret}, nil
+}
+
+
 // GeogFromHexewkb wraps MEOS C function geog_from_hexewkb.
 func GeogFromHexewkb(hexwkb string) (_r0 *Geom, _err error) {
 	_c_hexwkb := C.CString(hexwkb)
@@ -326,6 +397,19 @@ func GeogIn(str string, typmod int32) (_r0 *Geom, _err error) {
 	defer C.free(unsafe.Pointer(_c_str))
 	C.meos_errno_reset()
 	_cret := C.geog_in(_c_str, C.int32_t(typmod))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Geom{_inner: _cret}, nil
+}
+
+
+// GeomFromEWKT wraps MEOS C function geom_from_ewkt.
+func GeomFromEWKT(ewkt string) (_r0 *Geom, _err error) {
+	_c_ewkt := C.CString(ewkt)
+	defer C.free(unsafe.Pointer(_c_ewkt))
+	C.meos_errno_reset()
+	_cret := C.geom_from_ewkt(_c_ewkt)
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -1208,6 +1292,17 @@ func GeoMergeEachNStboxes(gs *Geom, elem_count int, count unsafe.Pointer) (_r0 *
 func GeoMergeNStboxes(gs *Geom, box_count int, count unsafe.Pointer) (_r0 *STBox, _err error) {
 	C.meos_errno_reset()
 	_cret := C.geo_merge_n_stboxes(gs._inner, C.int(box_count), (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &STBox{_inner: _cret}, nil
+}
+
+
+// GeoMergeQueryStboxes wraps MEOS C function geo_merge_query_stboxes.
+func GeoMergeQueryStboxes(gs *Geom, query *STBox, count unsafe.Pointer) (_r0 *STBox, _err error) {
+	C.meos_errno_reset()
+	_cret := C.geo_merge_query_stboxes(gs._inner, query._inner, (*C.int)(unsafe.Pointer(count)))
 	if _err = meosError(); _err != nil {
 		return
 	}
@@ -3991,6 +4086,17 @@ func TgeoMergeEachNStboxes(temp *Temporal, elem_count int, count unsafe.Pointer)
 func TgeoMergeNStboxes(temp *Temporal, box_count int, count unsafe.Pointer) (_r0 *STBox, _err error) {
 	C.meos_errno_reset()
 	_cret := C.tgeo_merge_n_stboxes(temp._inner, C.int(box_count), (*C.int)(unsafe.Pointer(count)))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &STBox{_inner: _cret}, nil
+}
+
+
+// TgeoMergeQueryStboxes wraps MEOS C function tgeo_merge_query_stboxes.
+func TgeoMergeQueryStboxes(temp *Temporal, query *STBox, count unsafe.Pointer) (_r0 *STBox, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tgeo_merge_query_stboxes(temp._inner, query._inner, (*C.int)(unsafe.Pointer(count)))
 	if _err = meosError(); _err != nil {
 		return
 	}

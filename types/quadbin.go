@@ -170,8 +170,8 @@ func (x Quadbin) IsValidCell() (bool, error) {
 }
 
 // QuadbinTileToCell is MEOS quadbin_tile_to_cell.
-func QuadbinTileToCell(x uint32, y uint32, z uint32) (Quadbin, error) {
-	_r0, _err := functions.QuadbinTileToCell(x, y, z)
+func QuadbinTileToCell(x_ uint32, y uint32, z uint32) (Quadbin, error) {
+	_r0, _err := functions.QuadbinTileToCell(x_, y, z)
 	if _err != nil {
 		return 0, _err
 	}

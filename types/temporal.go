@@ -727,6 +727,15 @@ func (x *Temporal) MergeNSpans(span_count int, count unsafe.Pointer) (*Span, err
 	return SpanFromPointer(_r0.Pointer()), nil
 }
 
+// MergeQuerySpans is MEOS temporal_merge_query_spans.
+func (x *Temporal) MergeQuerySpans(query *Span, count unsafe.Pointer) (*Span, error) {
+	_r0, _err := functions.TemporalMergeQuerySpans(functions.TemporalFromPointer(x.Pointer()), functions.SpanFromPointer(query.Pointer()), count)
+	if _err != nil {
+		return nil, _err
+	}
+	return SpanFromPointer(_r0.Pointer()), nil
+}
+
 // SplitEachNSpans is MEOS temporal_split_each_n_spans.
 func (x *Temporal) SplitEachNSpans(elem_count int, count unsafe.Pointer) (*Span, error) {
 	_r0, _err := functions.TemporalSplitEachNSpans(functions.TemporalFromPointer(x.Pointer()), elem_count, count)
@@ -851,4 +860,410 @@ func (x *Temporal) ReachabilityFilter(maxspeed float64) (*Temporal, error) {
 		return nil, _err
 	}
 	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// op_adjacent_temporal_tstzspan is MEOS adjacent_temporal_tstzspan.
+func (x *Temporal) op_adjacent_temporal_tstzspan(s *Span) (bool, error) {
+	_r0, _err := functions.AdjacentTemporalTstzspan(functions.TemporalFromPointer(x.Pointer()), functions.SpanFromPointer(s.Pointer()))
+	if _err != nil {
+		return false, _err
+	}
+	return _r0, nil
+}
+
+// Adjacent is the operator adjacent of Temporal, MEOS adjacent_temporal_tstzspan.
+func (x *Temporal) Adjacent(s *Span) (bool, error) {
+	return x.op_adjacent_temporal_tstzspan(s)
+}
+
+// op_after_temporal_tstzspan is MEOS after_temporal_tstzspan.
+func (x *Temporal) op_after_temporal_tstzspan(s *Span) (bool, error) {
+	_r0, _err := functions.AfterTemporalTstzspan(functions.TemporalFromPointer(x.Pointer()), functions.SpanFromPointer(s.Pointer()))
+	if _err != nil {
+		return false, _err
+	}
+	return _r0, nil
+}
+
+// After is the operator after of Temporal, MEOS after_temporal_tstzspan.
+func (x *Temporal) After(s *Span) (bool, error) {
+	return x.op_after_temporal_tstzspan(s)
+}
+
+// op_always_eq_temporal_temporal is MEOS always_eq_temporal_temporal.
+func (x *Temporal) op_always_eq_temporal_temporal(temp2 *Temporal) (int, error) {
+	_r0, _err := functions.AlwaysEqTemporalTemporal(functions.TemporalFromPointer(x.Pointer()), functions.TemporalFromPointer(temp2.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// AlwaysEq is the operator alwaysEq of Temporal, MEOS always_eq_temporal_temporal.
+func (x *Temporal) AlwaysEq(temp2 *Temporal) (int, error) {
+	return x.op_always_eq_temporal_temporal(temp2)
+}
+
+// op_always_ge_temporal_temporal is MEOS always_ge_temporal_temporal.
+func (x *Temporal) op_always_ge_temporal_temporal(temp2 *Temporal) (int, error) {
+	_r0, _err := functions.AlwaysGeTemporalTemporal(functions.TemporalFromPointer(x.Pointer()), functions.TemporalFromPointer(temp2.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// AlwaysGe is the operator alwaysGe of Temporal, MEOS always_ge_temporal_temporal.
+func (x *Temporal) AlwaysGe(temp2 *Temporal) (int, error) {
+	return x.op_always_ge_temporal_temporal(temp2)
+}
+
+// op_always_gt_temporal_temporal is MEOS always_gt_temporal_temporal.
+func (x *Temporal) op_always_gt_temporal_temporal(temp2 *Temporal) (int, error) {
+	_r0, _err := functions.AlwaysGtTemporalTemporal(functions.TemporalFromPointer(x.Pointer()), functions.TemporalFromPointer(temp2.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// AlwaysGt is the operator alwaysGt of Temporal, MEOS always_gt_temporal_temporal.
+func (x *Temporal) AlwaysGt(temp2 *Temporal) (int, error) {
+	return x.op_always_gt_temporal_temporal(temp2)
+}
+
+// op_always_le_temporal_temporal is MEOS always_le_temporal_temporal.
+func (x *Temporal) op_always_le_temporal_temporal(temp2 *Temporal) (int, error) {
+	_r0, _err := functions.AlwaysLeTemporalTemporal(functions.TemporalFromPointer(x.Pointer()), functions.TemporalFromPointer(temp2.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// AlwaysLe is the operator alwaysLe of Temporal, MEOS always_le_temporal_temporal.
+func (x *Temporal) AlwaysLe(temp2 *Temporal) (int, error) {
+	return x.op_always_le_temporal_temporal(temp2)
+}
+
+// op_always_lt_temporal_temporal is MEOS always_lt_temporal_temporal.
+func (x *Temporal) op_always_lt_temporal_temporal(temp2 *Temporal) (int, error) {
+	_r0, _err := functions.AlwaysLtTemporalTemporal(functions.TemporalFromPointer(x.Pointer()), functions.TemporalFromPointer(temp2.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// AlwaysLt is the operator alwaysLt of Temporal, MEOS always_lt_temporal_temporal.
+func (x *Temporal) AlwaysLt(temp2 *Temporal) (int, error) {
+	return x.op_always_lt_temporal_temporal(temp2)
+}
+
+// op_always_ne_temporal_temporal is MEOS always_ne_temporal_temporal.
+func (x *Temporal) op_always_ne_temporal_temporal(temp2 *Temporal) (int, error) {
+	_r0, _err := functions.AlwaysNeTemporalTemporal(functions.TemporalFromPointer(x.Pointer()), functions.TemporalFromPointer(temp2.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// AlwaysNe is the operator alwaysNe of Temporal, MEOS always_ne_temporal_temporal.
+func (x *Temporal) AlwaysNe(temp2 *Temporal) (int, error) {
+	return x.op_always_ne_temporal_temporal(temp2)
+}
+
+// op_always_overlaps_temporal_temporal is MEOS always_overlaps_temporal_temporal.
+func (x *Temporal) op_always_overlaps_temporal_temporal(temp2 *Temporal) (int, error) {
+	_r0, _err := functions.AlwaysOverlapsTemporalTemporal(functions.TemporalFromPointer(x.Pointer()), functions.TemporalFromPointer(temp2.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// AlwaysOverlaps is the operator alwaysOverlaps of Temporal, MEOS always_overlaps_temporal_temporal.
+func (x *Temporal) AlwaysOverlaps(temp2 *Temporal) (int, error) {
+	return x.op_always_overlaps_temporal_temporal(temp2)
+}
+
+// op_before_temporal_tstzspan is MEOS before_temporal_tstzspan.
+func (x *Temporal) op_before_temporal_tstzspan(s *Span) (bool, error) {
+	_r0, _err := functions.BeforeTemporalTstzspan(functions.TemporalFromPointer(x.Pointer()), functions.SpanFromPointer(s.Pointer()))
+	if _err != nil {
+		return false, _err
+	}
+	return _r0, nil
+}
+
+// Before is the operator before of Temporal, MEOS before_temporal_tstzspan.
+func (x *Temporal) Before(s *Span) (bool, error) {
+	return x.op_before_temporal_tstzspan(s)
+}
+
+// op_contained_temporal_tstzspan is MEOS contained_temporal_tstzspan.
+func (x *Temporal) op_contained_temporal_tstzspan(s *Span) (bool, error) {
+	_r0, _err := functions.ContainedTemporalTstzspan(functions.TemporalFromPointer(x.Pointer()), functions.SpanFromPointer(s.Pointer()))
+	if _err != nil {
+		return false, _err
+	}
+	return _r0, nil
+}
+
+// Contained is the operator contained of Temporal, MEOS contained_temporal_tstzspan.
+func (x *Temporal) Contained(s *Span) (bool, error) {
+	return x.op_contained_temporal_tstzspan(s)
+}
+
+// op_contains_temporal_tstzspan is MEOS contains_temporal_tstzspan.
+func (x *Temporal) op_contains_temporal_tstzspan(s *Span) (bool, error) {
+	_r0, _err := functions.ContainsTemporalTstzspan(functions.TemporalFromPointer(x.Pointer()), functions.SpanFromPointer(s.Pointer()))
+	if _err != nil {
+		return false, _err
+	}
+	return _r0, nil
+}
+
+// Contains is the operator contains of Temporal, MEOS contains_temporal_tstzspan.
+func (x *Temporal) Contains(s *Span) (bool, error) {
+	return x.op_contains_temporal_tstzspan(s)
+}
+
+// op_ever_eq_temporal_temporal is MEOS ever_eq_temporal_temporal.
+func (x *Temporal) op_ever_eq_temporal_temporal(temp2 *Temporal) (int, error) {
+	_r0, _err := functions.EverEqTemporalTemporal(functions.TemporalFromPointer(x.Pointer()), functions.TemporalFromPointer(temp2.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// EverEq is the operator everEq of Temporal, MEOS ever_eq_temporal_temporal.
+func (x *Temporal) EverEq(temp2 *Temporal) (int, error) {
+	return x.op_ever_eq_temporal_temporal(temp2)
+}
+
+// op_ever_ge_temporal_temporal is MEOS ever_ge_temporal_temporal.
+func (x *Temporal) op_ever_ge_temporal_temporal(temp2 *Temporal) (int, error) {
+	_r0, _err := functions.EverGeTemporalTemporal(functions.TemporalFromPointer(x.Pointer()), functions.TemporalFromPointer(temp2.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// EverGe is the operator everGe of Temporal, MEOS ever_ge_temporal_temporal.
+func (x *Temporal) EverGe(temp2 *Temporal) (int, error) {
+	return x.op_ever_ge_temporal_temporal(temp2)
+}
+
+// op_ever_gt_temporal_temporal is MEOS ever_gt_temporal_temporal.
+func (x *Temporal) op_ever_gt_temporal_temporal(temp2 *Temporal) (int, error) {
+	_r0, _err := functions.EverGtTemporalTemporal(functions.TemporalFromPointer(x.Pointer()), functions.TemporalFromPointer(temp2.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// EverGt is the operator everGt of Temporal, MEOS ever_gt_temporal_temporal.
+func (x *Temporal) EverGt(temp2 *Temporal) (int, error) {
+	return x.op_ever_gt_temporal_temporal(temp2)
+}
+
+// op_ever_le_temporal_temporal is MEOS ever_le_temporal_temporal.
+func (x *Temporal) op_ever_le_temporal_temporal(temp2 *Temporal) (int, error) {
+	_r0, _err := functions.EverLeTemporalTemporal(functions.TemporalFromPointer(x.Pointer()), functions.TemporalFromPointer(temp2.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// EverLe is the operator everLe of Temporal, MEOS ever_le_temporal_temporal.
+func (x *Temporal) EverLe(temp2 *Temporal) (int, error) {
+	return x.op_ever_le_temporal_temporal(temp2)
+}
+
+// op_ever_lt_temporal_temporal is MEOS ever_lt_temporal_temporal.
+func (x *Temporal) op_ever_lt_temporal_temporal(temp2 *Temporal) (int, error) {
+	_r0, _err := functions.EverLtTemporalTemporal(functions.TemporalFromPointer(x.Pointer()), functions.TemporalFromPointer(temp2.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// EverLt is the operator everLt of Temporal, MEOS ever_lt_temporal_temporal.
+func (x *Temporal) EverLt(temp2 *Temporal) (int, error) {
+	return x.op_ever_lt_temporal_temporal(temp2)
+}
+
+// op_ever_ne_temporal_temporal is MEOS ever_ne_temporal_temporal.
+func (x *Temporal) op_ever_ne_temporal_temporal(temp2 *Temporal) (int, error) {
+	_r0, _err := functions.EverNeTemporalTemporal(functions.TemporalFromPointer(x.Pointer()), functions.TemporalFromPointer(temp2.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// EverNe is the operator everNe of Temporal, MEOS ever_ne_temporal_temporal.
+func (x *Temporal) EverNe(temp2 *Temporal) (int, error) {
+	return x.op_ever_ne_temporal_temporal(temp2)
+}
+
+// op_ever_overlaps_temporal_temporal is MEOS ever_overlaps_temporal_temporal.
+func (x *Temporal) op_ever_overlaps_temporal_temporal(temp2 *Temporal) (int, error) {
+	_r0, _err := functions.EverOverlapsTemporalTemporal(functions.TemporalFromPointer(x.Pointer()), functions.TemporalFromPointer(temp2.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// EverOverlaps is the operator everOverlaps of Temporal, MEOS ever_overlaps_temporal_temporal.
+func (x *Temporal) EverOverlaps(temp2 *Temporal) (int, error) {
+	return x.op_ever_overlaps_temporal_temporal(temp2)
+}
+
+// op_overafter_temporal_tstzspan is MEOS overafter_temporal_tstzspan.
+func (x *Temporal) op_overafter_temporal_tstzspan(s *Span) (bool, error) {
+	_r0, _err := functions.OverafterTemporalTstzspan(functions.TemporalFromPointer(x.Pointer()), functions.SpanFromPointer(s.Pointer()))
+	if _err != nil {
+		return false, _err
+	}
+	return _r0, nil
+}
+
+// Overafter is the operator overafter of Temporal, MEOS overafter_temporal_tstzspan.
+func (x *Temporal) Overafter(s *Span) (bool, error) {
+	return x.op_overafter_temporal_tstzspan(s)
+}
+
+// op_overbefore_temporal_tstzspan is MEOS overbefore_temporal_tstzspan.
+func (x *Temporal) op_overbefore_temporal_tstzspan(s *Span) (bool, error) {
+	_r0, _err := functions.OverbeforeTemporalTstzspan(functions.TemporalFromPointer(x.Pointer()), functions.SpanFromPointer(s.Pointer()))
+	if _err != nil {
+		return false, _err
+	}
+	return _r0, nil
+}
+
+// Overbefore is the operator overbefore of Temporal, MEOS overbefore_temporal_tstzspan.
+func (x *Temporal) Overbefore(s *Span) (bool, error) {
+	return x.op_overbefore_temporal_tstzspan(s)
+}
+
+// op_overlaps_temporal_tstzspan is MEOS overlaps_temporal_tstzspan.
+func (x *Temporal) op_overlaps_temporal_tstzspan(s *Span) (bool, error) {
+	_r0, _err := functions.OverlapsTemporalTstzspan(functions.TemporalFromPointer(x.Pointer()), functions.SpanFromPointer(s.Pointer()))
+	if _err != nil {
+		return false, _err
+	}
+	return _r0, nil
+}
+
+// Overlaps is the operator overlaps of Temporal, MEOS overlaps_temporal_tstzspan.
+func (x *Temporal) Overlaps(s *Span) (bool, error) {
+	return x.op_overlaps_temporal_tstzspan(s)
+}
+
+// op_same_temporal_tstzspan is MEOS same_temporal_tstzspan.
+func (x *Temporal) op_same_temporal_tstzspan(s *Span) (bool, error) {
+	_r0, _err := functions.SameTemporalTstzspan(functions.TemporalFromPointer(x.Pointer()), functions.SpanFromPointer(s.Pointer()))
+	if _err != nil {
+		return false, _err
+	}
+	return _r0, nil
+}
+
+// Same is the operator same of Temporal, MEOS same_temporal_tstzspan.
+func (x *Temporal) Same(s *Span) (bool, error) {
+	return x.op_same_temporal_tstzspan(s)
+}
+
+// op_teq_temporal_temporal is MEOS teq_temporal_temporal.
+func (x *Temporal) op_teq_temporal_temporal(temp2 *Temporal) (*Temporal, error) {
+	_r0, _err := functions.TeqTemporalTemporal(functions.TemporalFromPointer(x.Pointer()), functions.TemporalFromPointer(temp2.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// Teq is the operator teq of Temporal, MEOS teq_temporal_temporal.
+func (x *Temporal) Teq(temp2 *Temporal) (*Temporal, error) {
+	return x.op_teq_temporal_temporal(temp2)
+}
+
+// op_tge_temporal_temporal is MEOS tge_temporal_temporal.
+func (x *Temporal) op_tge_temporal_temporal(temp2 *Temporal) (*Temporal, error) {
+	_r0, _err := functions.TgeTemporalTemporal(functions.TemporalFromPointer(x.Pointer()), functions.TemporalFromPointer(temp2.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// Tge is the operator tge of Temporal, MEOS tge_temporal_temporal.
+func (x *Temporal) Tge(temp2 *Temporal) (*Temporal, error) {
+	return x.op_tge_temporal_temporal(temp2)
+}
+
+// op_tgt_temporal_temporal is MEOS tgt_temporal_temporal.
+func (x *Temporal) op_tgt_temporal_temporal(temp2 *Temporal) (*Temporal, error) {
+	_r0, _err := functions.TgtTemporalTemporal(functions.TemporalFromPointer(x.Pointer()), functions.TemporalFromPointer(temp2.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// Tgt is the operator tgt of Temporal, MEOS tgt_temporal_temporal.
+func (x *Temporal) Tgt(temp2 *Temporal) (*Temporal, error) {
+	return x.op_tgt_temporal_temporal(temp2)
+}
+
+// op_tle_temporal_temporal is MEOS tle_temporal_temporal.
+func (x *Temporal) op_tle_temporal_temporal(temp2 *Temporal) (*Temporal, error) {
+	_r0, _err := functions.TleTemporalTemporal(functions.TemporalFromPointer(x.Pointer()), functions.TemporalFromPointer(temp2.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// Tle is the operator tle of Temporal, MEOS tle_temporal_temporal.
+func (x *Temporal) Tle(temp2 *Temporal) (*Temporal, error) {
+	return x.op_tle_temporal_temporal(temp2)
+}
+
+// op_tlt_temporal_temporal is MEOS tlt_temporal_temporal.
+func (x *Temporal) op_tlt_temporal_temporal(temp2 *Temporal) (*Temporal, error) {
+	_r0, _err := functions.TltTemporalTemporal(functions.TemporalFromPointer(x.Pointer()), functions.TemporalFromPointer(temp2.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// Tlt is the operator tlt of Temporal, MEOS tlt_temporal_temporal.
+func (x *Temporal) Tlt(temp2 *Temporal) (*Temporal, error) {
+	return x.op_tlt_temporal_temporal(temp2)
+}
+
+// op_tne_temporal_temporal is MEOS tne_temporal_temporal.
+func (x *Temporal) op_tne_temporal_temporal(temp2 *Temporal) (*Temporal, error) {
+	_r0, _err := functions.TneTemporalTemporal(functions.TemporalFromPointer(x.Pointer()), functions.TemporalFromPointer(temp2.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// Tne is the operator tne of Temporal, MEOS tne_temporal_temporal.
+func (x *Temporal) Tne(temp2 *Temporal) (*Temporal, error) {
+	return x.op_tne_temporal_temporal(temp2)
 }

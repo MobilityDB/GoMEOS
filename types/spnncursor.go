@@ -24,24 +24,24 @@ func SPNNCursorFromPointer(p unsafe.Pointer) *SPNNCursor {
 }
 
 // SPNNCursorOpen is MEOS sptree_nn_cursor_open.
-func SPNNCursorOpen(sptree unsafe.Pointer, query unsafe.Pointer) (unsafe.Pointer, error) {
-	_r0, _err := functions.SptreeNnCursorOpen(sptree, query)
+func SPNNCursorOpen(sptree *SPTree, query unsafe.Pointer) (*SPNNCursor, error) {
+	_r0, _err := functions.SptreeNnCursorOpen(sptree.Pointer(), query)
 	if _err != nil {
 		return nil, _err
 	}
-	return _r0, nil
+	return SPNNCursorFromPointer(_r0), nil
 }
 
-// SPNNCursorNext is MEOS sptree_nn_cursor_next.
-func SPNNCursorNext(cursor unsafe.Pointer, id_out unsafe.Pointer, dist_out unsafe.Pointer) (bool, error) {
-	_r0, _err := functions.SptreeNnCursorNext(cursor, id_out, dist_out)
+// Next is MEOS sptree_nn_cursor_next.
+func (x *SPNNCursor) Next(id_out unsafe.Pointer, dist_out unsafe.Pointer) (bool, error) {
+	_r0, _err := functions.SptreeNnCursorNext(x.Pointer(), id_out, dist_out)
 	if _err != nil {
 		return false, _err
 	}
 	return _r0, nil
 }
 
-// SPNNCursorClose is MEOS sptree_nn_cursor_close.
-func SPNNCursorClose(cursor unsafe.Pointer) error {
-	return functions.SptreeNnCursorClose(cursor)
+// Close is MEOS sptree_nn_cursor_close.
+func (x *SPNNCursor) Close() error {
+	return functions.SptreeNnCursorClose(x.Pointer())
 }

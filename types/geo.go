@@ -60,6 +60,15 @@ func (x *Geo) AsHexEWKB(endian *string) (string, error) {
 	return _r0, nil
 }
 
+// AsHexWKB is MEOS geo_as_hexwkb.
+func (x *Geo) AsHexWKB(endian *string) (string, error) {
+	_r0, _err := functions.GeoAsHexwkb(functions.GeomFromPointer(x.Pointer()), endian)
+	if _err != nil {
+		return "", _err
+	}
+	return _r0, nil
+}
+
 // AsText is MEOS geo_as_text.
 func (x *Geo) AsText(precision int) (string, error) {
 	_r0, _err := functions.GeoAsText(functions.GeomFromPointer(x.Pointer()), precision)
@@ -67,6 +76,16 @@ func (x *Geo) AsText(precision int) (string, error) {
 		return "", _err
 	}
 	return _r0, nil
+}
+
+// AsWKB is MEOS geo_as_wkb.
+func (x *Geo) AsWKB(endian *string) ([]byte, error) {
+	var _size uint64
+	_r0, _err := functions.GeoAsWKB(functions.GeomFromPointer(x.Pointer()), endian, unsafe.Pointer(&_size))
+	if _err != nil {
+		return nil, _err
+	}
+	return functions.TakeBytes(_r0, _size), nil
 }
 
 // GeoFromEWKB is MEOS geo_from_ewkb.
@@ -433,6 +452,15 @@ func (x *Geo) MergeNStboxes(box_count int, count unsafe.Pointer) (*STBox, error)
 	return STBoxFromPointer(_r0.Pointer()), nil
 }
 
+// MergeQueryStboxes is MEOS geo_merge_query_stboxes.
+func (x *Geo) MergeQueryStboxes(query *STBox, count unsafe.Pointer) (*STBox, error) {
+	_r0, _err := functions.GeoMergeQueryStboxes(functions.GeomFromPointer(x.Pointer()), functions.STBoxFromPointer(query.Pointer()), count)
+	if _err != nil {
+		return nil, _err
+	}
+	return STBoxFromPointer(_r0.Pointer()), nil
+}
+
 // SplitEachNStboxes is MEOS geo_split_each_n_stboxes.
 func (x *Geo) SplitEachNStboxes(elem_count int, count unsafe.Pointer) (*STBox, error) {
 	_r0, _err := functions.GeoSplitEachNStboxes(functions.GeomFromPointer(x.Pointer()), elem_count, count)
@@ -620,4 +648,270 @@ func (x *Geo) String() string {
 		return "%!s(MEOS error: " + err.Error() + ")"
 	}
 	return s
+}
+
+// op_adisjoint_geo_tgeo is MEOS adisjoint_geo_tgeo.
+func (x *Geo) op_adisjoint_geo_tgeo(temp *Temporal) (int, error) {
+	_r0, _err := functions.AdisjointGeoTgeo(functions.GeomFromPointer(x.Pointer()), functions.TemporalFromPointer(temp.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// Adisjoint is the operator adisjoint of Geo, MEOS adisjoint_geo_tgeo.
+func (x *Geo) Adisjoint(temp *Temporal) (int, error) {
+	return x.op_adisjoint_geo_tgeo(temp)
+}
+
+// op_adwithin_geo_tgeo is MEOS adwithin_geo_tgeo.
+func (x *Geo) op_adwithin_geo_tgeo(temp *Temporal, dist float64, spheroid bool) (int, error) {
+	_r0, _err := functions.AdwithinGeoTgeo(functions.GeomFromPointer(x.Pointer()), functions.TemporalFromPointer(temp.Pointer()), dist, spheroid)
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// Adwithin is the operator adwithin of Geo, MEOS adwithin_geo_tgeo.
+func (x *Geo) Adwithin(temp *Temporal, dist float64, spheroid bool) (int, error) {
+	return x.op_adwithin_geo_tgeo(temp, dist, spheroid)
+}
+
+// op_aintersects_geo_tgeo is MEOS aintersects_geo_tgeo.
+func (x *Geo) op_aintersects_geo_tgeo(temp *Temporal) (int, error) {
+	_r0, _err := functions.AintersectsGeoTgeo(functions.GeomFromPointer(x.Pointer()), functions.TemporalFromPointer(temp.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// Aintersects is the operator aintersects of Geo, MEOS aintersects_geo_tgeo.
+func (x *Geo) Aintersects(temp *Temporal) (int, error) {
+	return x.op_aintersects_geo_tgeo(temp)
+}
+
+// op_always_eq_geo_tgeo is MEOS always_eq_geo_tgeo.
+func (x *Geo) op_always_eq_geo_tgeo(temp *Temporal) (int, error) {
+	_r0, _err := functions.AlwaysEqGeoTgeo(functions.GeomFromPointer(x.Pointer()), functions.TemporalFromPointer(temp.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// AlwaysEq is the operator alwaysEq of Geo, MEOS always_eq_geo_tgeo.
+func (x *Geo) AlwaysEq(temp *Temporal) (int, error) {
+	return x.op_always_eq_geo_tgeo(temp)
+}
+
+// op_always_ne_geo_tgeo is MEOS always_ne_geo_tgeo.
+func (x *Geo) op_always_ne_geo_tgeo(temp *Temporal) (int, error) {
+	_r0, _err := functions.AlwaysNeGeoTgeo(functions.GeomFromPointer(x.Pointer()), functions.TemporalFromPointer(temp.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// AlwaysNe is the operator alwaysNe of Geo, MEOS always_ne_geo_tgeo.
+func (x *Geo) AlwaysNe(temp *Temporal) (int, error) {
+	return x.op_always_ne_geo_tgeo(temp)
+}
+
+// op_contained_geo_set is MEOS contained_geo_set.
+func (x *Geo) op_contained_geo_set(s *Set) (bool, error) {
+	_r0, _err := functions.ContainedGeoSet(functions.GeomFromPointer(x.Pointer()), functions.SetFromPointer(s.Pointer()))
+	if _err != nil {
+		return false, _err
+	}
+	return _r0, nil
+}
+
+// Contained is the operator contained of Geo, MEOS contained_geo_set.
+func (x *Geo) Contained(s *Set) (bool, error) {
+	return x.op_contained_geo_set(s)
+}
+
+// op_edisjoint_geo_tgeo is MEOS edisjoint_geo_tgeo.
+func (x *Geo) op_edisjoint_geo_tgeo(temp *Temporal) (int, error) {
+	_r0, _err := functions.EdisjointGeoTgeo(functions.GeomFromPointer(x.Pointer()), functions.TemporalFromPointer(temp.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// Edisjoint is the operator edisjoint of Geo, MEOS edisjoint_geo_tgeo.
+func (x *Geo) Edisjoint(temp *Temporal) (int, error) {
+	return x.op_edisjoint_geo_tgeo(temp)
+}
+
+// op_edwithin_geo_tgeo is MEOS edwithin_geo_tgeo.
+func (x *Geo) op_edwithin_geo_tgeo(temp *Temporal, dist float64, spheroid bool) (int, error) {
+	_r0, _err := functions.EdwithinGeoTgeo(functions.GeomFromPointer(x.Pointer()), functions.TemporalFromPointer(temp.Pointer()), dist, spheroid)
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// Edwithin is the operator edwithin of Geo, MEOS edwithin_geo_tgeo.
+func (x *Geo) Edwithin(temp *Temporal, dist float64, spheroid bool) (int, error) {
+	return x.op_edwithin_geo_tgeo(temp, dist, spheroid)
+}
+
+// op_eintersects_geo_tgeo is MEOS eintersects_geo_tgeo.
+func (x *Geo) op_eintersects_geo_tgeo(temp *Temporal) (int, error) {
+	_r0, _err := functions.EintersectsGeoTgeo(functions.GeomFromPointer(x.Pointer()), functions.TemporalFromPointer(temp.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// Eintersects is the operator eintersects of Geo, MEOS eintersects_geo_tgeo.
+func (x *Geo) Eintersects(temp *Temporal) (int, error) {
+	return x.op_eintersects_geo_tgeo(temp)
+}
+
+// op_ever_eq_geo_tgeo is MEOS ever_eq_geo_tgeo.
+func (x *Geo) op_ever_eq_geo_tgeo(temp *Temporal) (int, error) {
+	_r0, _err := functions.EverEqGeoTgeo(functions.GeomFromPointer(x.Pointer()), functions.TemporalFromPointer(temp.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// EverEq is the operator everEq of Geo, MEOS ever_eq_geo_tgeo.
+func (x *Geo) EverEq(temp *Temporal) (int, error) {
+	return x.op_ever_eq_geo_tgeo(temp)
+}
+
+// op_ever_ne_geo_tgeo is MEOS ever_ne_geo_tgeo.
+func (x *Geo) op_ever_ne_geo_tgeo(temp *Temporal) (int, error) {
+	_r0, _err := functions.EverNeGeoTgeo(functions.GeomFromPointer(x.Pointer()), functions.TemporalFromPointer(temp.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// EverNe is the operator everNe of Geo, MEOS ever_ne_geo_tgeo.
+func (x *Geo) EverNe(temp *Temporal) (int, error) {
+	return x.op_ever_ne_geo_tgeo(temp)
+}
+
+// op_intersection_geo_set is MEOS intersection_geo_set.
+func (x *Geo) op_intersection_geo_set(s *Set) (*Set, error) {
+	_r0, _err := functions.IntersectionGeoSet(functions.GeomFromPointer(x.Pointer()), functions.SetFromPointer(s.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return SetFromPointer(_r0.Pointer()), nil
+}
+
+// Intersection is the operator intersection of Geo, MEOS intersection_geo_set.
+func (x *Geo) Intersection(s *Set) (*Set, error) {
+	return x.op_intersection_geo_set(s)
+}
+
+// op_minus_geo_set is MEOS minus_geo_set.
+func (x *Geo) op_minus_geo_set(s *Set) (*Set, error) {
+	_r0, _err := functions.MinusGeoSet(functions.GeomFromPointer(x.Pointer()), functions.SetFromPointer(s.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return SetFromPointer(_r0.Pointer()), nil
+}
+
+// Minus is the operator minus of Geo, MEOS minus_geo_set.
+func (x *Geo) Minus(s *Set) (*Set, error) {
+	return x.op_minus_geo_set(s)
+}
+
+// op_tdisjoint_geo_tgeo is MEOS tdisjoint_geo_tgeo.
+func (x *Geo) op_tdisjoint_geo_tgeo(temp *Temporal) (*Temporal, error) {
+	_r0, _err := functions.TdisjointGeoTgeo(functions.GeomFromPointer(x.Pointer()), functions.TemporalFromPointer(temp.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// Tdisjoint is the operator tdisjoint of Geo, MEOS tdisjoint_geo_tgeo.
+func (x *Geo) Tdisjoint(temp *Temporal) (*Temporal, error) {
+	return x.op_tdisjoint_geo_tgeo(temp)
+}
+
+// op_tdwithin_geo_tgeo is MEOS tdwithin_geo_tgeo.
+func (x *Geo) op_tdwithin_geo_tgeo(temp *Temporal, dist float64, spheroid bool) (*Temporal, error) {
+	_r0, _err := functions.TdwithinGeoTgeo(functions.GeomFromPointer(x.Pointer()), functions.TemporalFromPointer(temp.Pointer()), dist, spheroid)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// Tdwithin is the operator tdwithin of Geo, MEOS tdwithin_geo_tgeo.
+func (x *Geo) Tdwithin(temp *Temporal, dist float64, spheroid bool) (*Temporal, error) {
+	return x.op_tdwithin_geo_tgeo(temp, dist, spheroid)
+}
+
+// op_teq_geo_tgeo is MEOS teq_geo_tgeo.
+func (x *Geo) op_teq_geo_tgeo(temp *Temporal) (*Temporal, error) {
+	_r0, _err := functions.TeqGeoTgeo(functions.GeomFromPointer(x.Pointer()), functions.TemporalFromPointer(temp.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// Teq is the operator teq of Geo, MEOS teq_geo_tgeo.
+func (x *Geo) Teq(temp *Temporal) (*Temporal, error) {
+	return x.op_teq_geo_tgeo(temp)
+}
+
+// op_tintersects_geo_tgeo is MEOS tintersects_geo_tgeo.
+func (x *Geo) op_tintersects_geo_tgeo(temp *Temporal) (*Temporal, error) {
+	_r0, _err := functions.TintersectsGeoTgeo(functions.GeomFromPointer(x.Pointer()), functions.TemporalFromPointer(temp.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// Tintersects is the operator tintersects of Geo, MEOS tintersects_geo_tgeo.
+func (x *Geo) Tintersects(temp *Temporal) (*Temporal, error) {
+	return x.op_tintersects_geo_tgeo(temp)
+}
+
+// op_tne_geo_tgeo is MEOS tne_geo_tgeo.
+func (x *Geo) op_tne_geo_tgeo(temp *Temporal) (*Temporal, error) {
+	_r0, _err := functions.TneGeoTgeo(functions.GeomFromPointer(x.Pointer()), functions.TemporalFromPointer(temp.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// Tne is the operator tne of Geo, MEOS tne_geo_tgeo.
+func (x *Geo) Tne(temp *Temporal) (*Temporal, error) {
+	return x.op_tne_geo_tgeo(temp)
+}
+
+// op_union_geo_set is MEOS union_geo_set.
+func (x *Geo) op_union_geo_set(s *Set) (*Set, error) {
+	_r0, _err := functions.UnionGeoSet(functions.GeomFromPointer(x.Pointer()), functions.SetFromPointer(s.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return SetFromPointer(_r0.Pointer()), nil
+}
+
+// Union is the operator union of Geo, MEOS union_geo_set.
+func (x *Geo) Union(s *Set) (*Set, error) {
+	return x.op_union_geo_set(s)
 }

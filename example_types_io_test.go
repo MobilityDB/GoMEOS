@@ -44,7 +44,7 @@ func Example_sequenceAtGeometry() {
 	// #ExampleTGeomPointFromText does.
 	temp, _ := types.TGeomPointFromText("[Point(0 0)@2024-12-06, Point(2 0)@2024-12-08]")
 	seq := types.TGeomPointSeqFromPointer(temp.Pointer())
-	box, _ := types.GeometryFromText("Polygon((0 -1,1 -1,1 1,0 1,0 -1))", 0)
+	box, _ := types.GeometryFromText("Polygon((0 -1,1 -1,1 1,0 1,0 -1))")
 	at, err := seq.AtGeom(&box.Geo)
 	fmt.Println(types.TGeomPointFromPointer(at.Pointer()), err)
 	// Output:

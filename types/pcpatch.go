@@ -41,6 +41,25 @@ func (x *PCPatch) AsText(maxdd int) (string, error) {
 	return _r0, nil
 }
 
+// AsHexWKB is MEOS pcpatch_as_hexwkb.
+func (x *PCPatch) AsHexWKB(variant uint8) (string, error) {
+	_r0, _err := functions.PcpatchAsHexwkb(functions.PcpatchFromPointer(x.Pointer()), variant)
+	if _err != nil {
+		return "", _err
+	}
+	return _r0, nil
+}
+
+// AsWKB is MEOS pcpatch_as_wkb.
+func (x *PCPatch) AsWKB(variant uint8) ([]byte, error) {
+	var _size uint64
+	_r0, _err := functions.PcpatchAsWKB(functions.PcpatchFromPointer(x.Pointer()), variant, unsafe.Pointer(&_size))
+	if _err != nil {
+		return nil, _err
+	}
+	return functions.TakeBytes(_r0, _size), nil
+}
+
 // PCPatchFromHexWKB is MEOS pcpatch_from_hexwkb.
 func PCPatchFromHexWKB(hexwkb string) (*PCPatch, error) {
 	_r0, _err := functions.PcpatchFromHexwkb(hexwkb)
@@ -50,13 +69,17 @@ func PCPatchFromHexWKB(hexwkb string) (*PCPatch, error) {
 	return PCPatchFromPointer(_r0.Pointer()), nil
 }
 
-// AsHexWKB is MEOS pcpatch_as_hexwkb.
-func (x *PCPatch) AsHexWKB() (string, error) {
-	_r0, _err := functions.PcpatchAsHexwkb(functions.PcpatchFromPointer(x.Pointer()))
-	if _err != nil {
-		return "", _err
+// PCPatchFromWKB is MEOS pcpatch_from_wkb.
+func PCPatchFromWKB(wkb []byte) (*PCPatch, error) {
+	var _p_wkb unsafe.Pointer
+	if len(wkb) > 0 {
+		_p_wkb = unsafe.Pointer(&wkb[0])
 	}
-	return _r0, nil
+	_r0, _err := functions.PcpatchFromWKB(_p_wkb, uint(len(wkb)))
+	if _err != nil {
+		return nil, _err
+	}
+	return PCPatchFromPointer(_r0.Pointer()), nil
 }
 
 // PCPatchMake is MEOS pcpatch_make.
@@ -255,4 +278,144 @@ func (x *PCPatch) String() string {
 		return "%!s(MEOS error: " + err.Error() + ")"
 	}
 	return s
+}
+
+// op_always_eq_pcpatch_tpcpatch is MEOS always_eq_pcpatch_tpcpatch.
+func (x *PCPatch) op_always_eq_pcpatch_tpcpatch(temp *Temporal) (int, error) {
+	_r0, _err := functions.AlwaysEqPcpatchTpcpatch(functions.PcpatchFromPointer(x.Pointer()), functions.TemporalFromPointer(temp.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// AlwaysEq is the operator alwaysEq of PCPatch, MEOS always_eq_pcpatch_tpcpatch.
+func (x *PCPatch) AlwaysEq(temp *Temporal) (int, error) {
+	return x.op_always_eq_pcpatch_tpcpatch(temp)
+}
+
+// op_always_ne_pcpatch_tpcpatch is MEOS always_ne_pcpatch_tpcpatch.
+func (x *PCPatch) op_always_ne_pcpatch_tpcpatch(temp *Temporal) (int, error) {
+	_r0, _err := functions.AlwaysNePcpatchTpcpatch(functions.PcpatchFromPointer(x.Pointer()), functions.TemporalFromPointer(temp.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// AlwaysNe is the operator alwaysNe of PCPatch, MEOS always_ne_pcpatch_tpcpatch.
+func (x *PCPatch) AlwaysNe(temp *Temporal) (int, error) {
+	return x.op_always_ne_pcpatch_tpcpatch(temp)
+}
+
+// op_contained_pcpatch_set is MEOS contained_pcpatch_set.
+func (x *PCPatch) op_contained_pcpatch_set(s *Set) (bool, error) {
+	_r0, _err := functions.ContainedPcpatchSet(functions.PcpatchFromPointer(x.Pointer()), functions.SetFromPointer(s.Pointer()))
+	if _err != nil {
+		return false, _err
+	}
+	return _r0, nil
+}
+
+// Contained is the operator contained of PCPatch, MEOS contained_pcpatch_set.
+func (x *PCPatch) Contained(s *Set) (bool, error) {
+	return x.op_contained_pcpatch_set(s)
+}
+
+// op_ever_eq_pcpatch_tpcpatch is MEOS ever_eq_pcpatch_tpcpatch.
+func (x *PCPatch) op_ever_eq_pcpatch_tpcpatch(temp *Temporal) (int, error) {
+	_r0, _err := functions.EverEqPcpatchTpcpatch(functions.PcpatchFromPointer(x.Pointer()), functions.TemporalFromPointer(temp.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// EverEq is the operator everEq of PCPatch, MEOS ever_eq_pcpatch_tpcpatch.
+func (x *PCPatch) EverEq(temp *Temporal) (int, error) {
+	return x.op_ever_eq_pcpatch_tpcpatch(temp)
+}
+
+// op_ever_ne_pcpatch_tpcpatch is MEOS ever_ne_pcpatch_tpcpatch.
+func (x *PCPatch) op_ever_ne_pcpatch_tpcpatch(temp *Temporal) (int, error) {
+	_r0, _err := functions.EverNePcpatchTpcpatch(functions.PcpatchFromPointer(x.Pointer()), functions.TemporalFromPointer(temp.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// EverNe is the operator everNe of PCPatch, MEOS ever_ne_pcpatch_tpcpatch.
+func (x *PCPatch) EverNe(temp *Temporal) (int, error) {
+	return x.op_ever_ne_pcpatch_tpcpatch(temp)
+}
+
+// op_intersection_pcpatch_set is MEOS intersection_pcpatch_set.
+func (x *PCPatch) op_intersection_pcpatch_set(s *Set) (*Set, error) {
+	_r0, _err := functions.IntersectionPcpatchSet(functions.PcpatchFromPointer(x.Pointer()), functions.SetFromPointer(s.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return SetFromPointer(_r0.Pointer()), nil
+}
+
+// Intersection is the operator intersection of PCPatch, MEOS intersection_pcpatch_set.
+func (x *PCPatch) Intersection(s *Set) (*Set, error) {
+	return x.op_intersection_pcpatch_set(s)
+}
+
+// op_minus_pcpatch_set is MEOS minus_pcpatch_set.
+func (x *PCPatch) op_minus_pcpatch_set(s *Set) (*Set, error) {
+	_r0, _err := functions.MinusPcpatchSet(functions.PcpatchFromPointer(x.Pointer()), functions.SetFromPointer(s.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return SetFromPointer(_r0.Pointer()), nil
+}
+
+// Minus is the operator minus of PCPatch, MEOS minus_pcpatch_set.
+func (x *PCPatch) Minus(s *Set) (*Set, error) {
+	return x.op_minus_pcpatch_set(s)
+}
+
+// op_teq_pcpatch_tpcpatch is MEOS teq_pcpatch_tpcpatch.
+func (x *PCPatch) op_teq_pcpatch_tpcpatch(temp *Temporal) (*Temporal, error) {
+	_r0, _err := functions.TeqPcpatchTpcpatch(functions.PcpatchFromPointer(x.Pointer()), functions.TemporalFromPointer(temp.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// Teq is the operator teq of PCPatch, MEOS teq_pcpatch_tpcpatch.
+func (x *PCPatch) Teq(temp *Temporal) (*Temporal, error) {
+	return x.op_teq_pcpatch_tpcpatch(temp)
+}
+
+// op_tne_pcpatch_tpcpatch is MEOS tne_pcpatch_tpcpatch.
+func (x *PCPatch) op_tne_pcpatch_tpcpatch(temp *Temporal) (*Temporal, error) {
+	_r0, _err := functions.TnePcpatchTpcpatch(functions.PcpatchFromPointer(x.Pointer()), functions.TemporalFromPointer(temp.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// Tne is the operator tne of PCPatch, MEOS tne_pcpatch_tpcpatch.
+func (x *PCPatch) Tne(temp *Temporal) (*Temporal, error) {
+	return x.op_tne_pcpatch_tpcpatch(temp)
+}
+
+// op_union_pcpatch_set is MEOS union_pcpatch_set.
+func (x *PCPatch) op_union_pcpatch_set(s *Set) (*Set, error) {
+	_r0, _err := functions.UnionPcpatchSet(functions.PcpatchFromPointer(x.Pointer()), functions.SetFromPointer(s.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return SetFromPointer(_r0.Pointer()), nil
+}
+
+// Union is the operator union of PCPatch, MEOS union_pcpatch_set.
+func (x *PCPatch) Union(s *Set) (*Set, error) {
+	return x.op_union_pcpatch_set(s)
 }

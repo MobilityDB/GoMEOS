@@ -24,8 +24,8 @@ func TPoseChainInstFromPointer(p unsafe.Pointer) *TPoseChainInst {
 }
 
 // TPoseChainInstMake is MEOS tposechaininst_make.
-func TPoseChainInstMake(pc unsafe.Pointer, t int64) (*Temporal, error) {
-	_r0, _err := functions.TposechaininstMake(pc, t)
+func TPoseChainInstMake(pc *PoseChain, t int64) (*Temporal, error) {
+	_r0, _err := functions.TposechaininstMake(pc.Pointer(), t)
 	if _err != nil {
 		return nil, _err
 	}

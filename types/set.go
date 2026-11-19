@@ -245,6 +245,15 @@ func (x *Set) MergeNSpans(span_count int, count unsafe.Pointer) (*Span, error) {
 	return SpanFromPointer(_r0.Pointer()), nil
 }
 
+// MergeQuerySpans is MEOS set_merge_query_spans.
+func (x *Set) MergeQuerySpans(query *Span, count unsafe.Pointer) (*Span, error) {
+	_r0, _err := functions.SetMergeQuerySpans(functions.SetFromPointer(x.Pointer()), functions.SpanFromPointer(query.Pointer()), count)
+	if _err != nil {
+		return nil, _err
+	}
+	return SpanFromPointer(_r0.Pointer()), nil
+}
+
 // SplitEachNSpans is MEOS set_split_each_n_spans.
 func (x *Set) SplitEachNSpans(elems_per_span int, count unsafe.Pointer) (*Span, error) {
 	_r0, _err := functions.SetSplitEachNSpans(functions.SetFromPointer(x.Pointer()), elems_per_span, count)
@@ -270,4 +279,144 @@ func (x *Set) ToTbox() (*TBox, error) {
 		return nil, _err
 	}
 	return TBoxFromPointer(_r0.Pointer()), nil
+}
+
+// op_contained_set_set is MEOS contained_set_set.
+func (x *Set) op_contained_set_set(s2 *Set) (bool, error) {
+	_r0, _err := functions.ContainedSetSet(functions.SetFromPointer(x.Pointer()), functions.SetFromPointer(s2.Pointer()))
+	if _err != nil {
+		return false, _err
+	}
+	return _r0, nil
+}
+
+// Contained is the operator contained of Set, MEOS contained_set_set.
+func (x *Set) Contained(s2 *Set) (bool, error) {
+	return x.op_contained_set_set(s2)
+}
+
+// op_contains_set_set is MEOS contains_set_set.
+func (x *Set) op_contains_set_set(s2 *Set) (bool, error) {
+	_r0, _err := functions.ContainsSetSet(functions.SetFromPointer(x.Pointer()), functions.SetFromPointer(s2.Pointer()))
+	if _err != nil {
+		return false, _err
+	}
+	return _r0, nil
+}
+
+// Contains is the operator contains of Set, MEOS contains_set_set.
+func (x *Set) Contains(s2 *Set) (bool, error) {
+	return x.op_contains_set_set(s2)
+}
+
+// op_intersection_set_set is MEOS intersection_set_set.
+func (x *Set) op_intersection_set_set(s2 *Set) (*Set, error) {
+	_r0, _err := functions.IntersectionSetSet(functions.SetFromPointer(x.Pointer()), functions.SetFromPointer(s2.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return SetFromPointer(_r0.Pointer()), nil
+}
+
+// Intersection is the operator intersection of Set, MEOS intersection_set_set.
+func (x *Set) Intersection(s2 *Set) (*Set, error) {
+	return x.op_intersection_set_set(s2)
+}
+
+// op_left_set_set is MEOS left_set_set.
+func (x *Set) op_left_set_set(s2 *Set) (bool, error) {
+	_r0, _err := functions.LeftSetSet(functions.SetFromPointer(x.Pointer()), functions.SetFromPointer(s2.Pointer()))
+	if _err != nil {
+		return false, _err
+	}
+	return _r0, nil
+}
+
+// Left is the operator left of Set, MEOS left_set_set.
+func (x *Set) Left(s2 *Set) (bool, error) {
+	return x.op_left_set_set(s2)
+}
+
+// op_minus_set_set is MEOS minus_set_set.
+func (x *Set) op_minus_set_set(s2 *Set) (*Set, error) {
+	_r0, _err := functions.MinusSetSet(functions.SetFromPointer(x.Pointer()), functions.SetFromPointer(s2.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return SetFromPointer(_r0.Pointer()), nil
+}
+
+// Minus is the operator minus of Set, MEOS minus_set_set.
+func (x *Set) Minus(s2 *Set) (*Set, error) {
+	return x.op_minus_set_set(s2)
+}
+
+// op_overlaps_set_set is MEOS overlaps_set_set.
+func (x *Set) op_overlaps_set_set(s2 *Set) (bool, error) {
+	_r0, _err := functions.OverlapsSetSet(functions.SetFromPointer(x.Pointer()), functions.SetFromPointer(s2.Pointer()))
+	if _err != nil {
+		return false, _err
+	}
+	return _r0, nil
+}
+
+// Overlaps is the operator overlaps of Set, MEOS overlaps_set_set.
+func (x *Set) Overlaps(s2 *Set) (bool, error) {
+	return x.op_overlaps_set_set(s2)
+}
+
+// op_overleft_set_set is MEOS overleft_set_set.
+func (x *Set) op_overleft_set_set(s2 *Set) (bool, error) {
+	_r0, _err := functions.OverleftSetSet(functions.SetFromPointer(x.Pointer()), functions.SetFromPointer(s2.Pointer()))
+	if _err != nil {
+		return false, _err
+	}
+	return _r0, nil
+}
+
+// Overleft is the operator overleft of Set, MEOS overleft_set_set.
+func (x *Set) Overleft(s2 *Set) (bool, error) {
+	return x.op_overleft_set_set(s2)
+}
+
+// op_overright_set_set is MEOS overright_set_set.
+func (x *Set) op_overright_set_set(s2 *Set) (bool, error) {
+	_r0, _err := functions.OverrightSetSet(functions.SetFromPointer(x.Pointer()), functions.SetFromPointer(s2.Pointer()))
+	if _err != nil {
+		return false, _err
+	}
+	return _r0, nil
+}
+
+// Overright is the operator overright of Set, MEOS overright_set_set.
+func (x *Set) Overright(s2 *Set) (bool, error) {
+	return x.op_overright_set_set(s2)
+}
+
+// op_right_set_set is MEOS right_set_set.
+func (x *Set) op_right_set_set(s2 *Set) (bool, error) {
+	_r0, _err := functions.RightSetSet(functions.SetFromPointer(x.Pointer()), functions.SetFromPointer(s2.Pointer()))
+	if _err != nil {
+		return false, _err
+	}
+	return _r0, nil
+}
+
+// Right is the operator right of Set, MEOS right_set_set.
+func (x *Set) Right(s2 *Set) (bool, error) {
+	return x.op_right_set_set(s2)
+}
+
+// op_union_set_set is MEOS union_set_set.
+func (x *Set) op_union_set_set(s2 *Set) (*Set, error) {
+	_r0, _err := functions.UnionSetSet(functions.SetFromPointer(x.Pointer()), functions.SetFromPointer(s2.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return SetFromPointer(_r0.Pointer()), nil
+}
+
+// Union is the operator union of Set, MEOS union_set_set.
+func (x *Set) Union(s2 *Set) (*Set, error) {
+	return x.op_union_set_set(s2)
 }

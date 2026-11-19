@@ -24,8 +24,8 @@ func TPoseChainSeqFromPointer(p unsafe.Pointer) *TPoseChainSeq {
 }
 
 // TPoseChainSeqFromBaseTstzset is MEOS tposechainseq_from_base_tstzset.
-func TPoseChainSeqFromBaseTstzset(pc unsafe.Pointer, s *Set) (*Temporal, error) {
-	_r0, _err := functions.TposechainseqFromBaseTstzset(pc, functions.SetFromPointer(s.Pointer()))
+func TPoseChainSeqFromBaseTstzset(pc *PoseChain, s *Set) (*Temporal, error) {
+	_r0, _err := functions.TposechainseqFromBaseTstzset(pc.Pointer(), functions.SetFromPointer(s.Pointer()))
 	if _err != nil {
 		return nil, _err
 	}
@@ -33,8 +33,8 @@ func TPoseChainSeqFromBaseTstzset(pc unsafe.Pointer, s *Set) (*Temporal, error) 
 }
 
 // TPoseChainSeqFromBaseTstzspan is MEOS tposechainseq_from_base_tstzspan.
-func TPoseChainSeqFromBaseTstzspan(pc unsafe.Pointer, s *Span, interp functions.Interpolation) (*Temporal, error) {
-	_r0, _err := functions.TposechainseqFromBaseTstzspan(pc, functions.SpanFromPointer(s.Pointer()), interp)
+func TPoseChainSeqFromBaseTstzspan(pc *PoseChain, s *Span, interp functions.Interpolation) (*Temporal, error) {
+	_r0, _err := functions.TposechainseqFromBaseTstzspan(pc.Pointer(), functions.SpanFromPointer(s.Pointer()), interp)
 	if _err != nil {
 		return nil, _err
 	}
