@@ -1081,3 +1081,122 @@ func (x *TBigInt) Tne(other any) (*Temporal, error) {
 	}
 	return nil, fmt.Errorf("Tne of TBigInt takes no %T", other)
 }
+
+// TBigIntTCount is the aggregate tCount: MEOS temporal_tcount_transfn over the values, then temporal_tagg_finalfn.
+func TBigIntTCount(values []*TBigInt) (*Temporal, error) {
+	_state := &functions.SkipList{}
+	for _, _v := range values {
+		_s, _err := functions.TemporalTcountTransfn(_state, functions.TemporalFromPointer(_v.Pointer()))
+		if _err != nil {
+			return nil, _err
+		}
+		_state = _s
+	}
+	_r0, _err := functions.TemporalTaggFinalfn(_state)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// TBigIntTMinAgg is the aggregate tMinAgg: MEOS tbigint_tmin_transfn over the values, then temporal_tagg_finalfn.
+func TBigIntTMinAgg(values []*TBigInt) (*Temporal, error) {
+	_state := &functions.SkipList{}
+	for _, _v := range values {
+		_s, _err := functions.TbigintTminTransfn(_state, functions.TemporalFromPointer(_v.Pointer()))
+		if _err != nil {
+			return nil, _err
+		}
+		_state = _s
+	}
+	_r0, _err := functions.TemporalTaggFinalfn(_state)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// TBigIntTMaxAgg is the aggregate tMaxAgg: MEOS tbigint_tmax_transfn over the values, then temporal_tagg_finalfn.
+func TBigIntTMaxAgg(values []*TBigInt) (*Temporal, error) {
+	_state := &functions.SkipList{}
+	for _, _v := range values {
+		_s, _err := functions.TbigintTmaxTransfn(_state, functions.TemporalFromPointer(_v.Pointer()))
+		if _err != nil {
+			return nil, _err
+		}
+		_state = _s
+	}
+	_r0, _err := functions.TemporalTaggFinalfn(_state)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// TBigIntTSum is the aggregate tSum: MEOS tbigint_tsum_transfn over the values, then temporal_tagg_finalfn.
+func TBigIntTSum(values []*TBigInt) (*Temporal, error) {
+	_state := &functions.SkipList{}
+	for _, _v := range values {
+		_s, _err := functions.TbigintTsumTransfn(_state, functions.TemporalFromPointer(_v.Pointer()))
+		if _err != nil {
+			return nil, _err
+		}
+		_state = _s
+	}
+	_r0, _err := functions.TemporalTaggFinalfn(_state)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// TBigIntTAvg is the aggregate tAvg: MEOS tnumber_tavg_transfn over the values, then tnumber_tavg_finalfn.
+func TBigIntTAvg(values []*TBigInt) (*Temporal, error) {
+	_state := &functions.SkipList{}
+	for _, _v := range values {
+		_s, _err := functions.TnumberTavgTransfn(_state, functions.TemporalFromPointer(_v.Pointer()))
+		if _err != nil {
+			return nil, _err
+		}
+		_state = _s
+	}
+	_r0, _err := functions.TnumberTavgFinalfn(_state)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// TBigIntMergeAgg is the aggregate mergeAgg: MEOS temporal_merge_transfn over the values, then temporal_tagg_finalfn.
+func TBigIntMergeAgg(values []*TBigInt) (*Temporal, error) {
+	_state := &functions.SkipList{}
+	for _, _v := range values {
+		_s, _err := functions.TemporalMergeTransfn(_state, functions.TemporalFromPointer(_v.Pointer()))
+		if _err != nil {
+			return nil, _err
+		}
+		_state = _s
+	}
+	_r0, _err := functions.TemporalTaggFinalfn(_state)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// TBigIntAppendSequenceAgg is the aggregate appendSequenceAgg: MEOS temporal_app_tseq_transfn over the values, then temporal_append_finalfn.
+func TBigIntAppendSequenceAgg(values []*TBigInt) (*Temporal, error) {
+	_state := &functions.Temporal{}
+	for _, _v := range values {
+		_s, _err := functions.TemporalAppTseqTransfn(_state, functions.TSequenceFromPointer(_v.Pointer()))
+		if _err != nil {
+			return nil, _err
+		}
+		_state = _s
+	}
+	_r0, _err := functions.TemporalAppendFinalfn(_state)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}

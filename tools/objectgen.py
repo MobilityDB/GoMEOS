@@ -834,13 +834,28 @@ class Generator:
                                   ) - set(cases_of_cls) - set(inherited)
         return out
 
+    def aggregate_class(self, agg: dict, value: dict) -> str | None:
+        """The class of an aggregate, as #aggregateClass of MEOS.js's
+        codegen/ObjectGenerator.ts reads it: the leaf of the lattice whose prefix
+        is the SQL type of its values (`tint` names TInt), as the object model
+        reads a function's class off its prefix, else the class of the C type its
+        transition takes them as."""
+        sql = (agg.get("args") or [None])[0]
+        for name, node in self.m.om["lattice"].items():
+            if node.get("kind") == "leaf" and sql in (node.get("prefixes") or []):
+                return name
+        item = (value.get("canonical") or value["cType"])
+        item = item.replace("const ", "").replace("struct ", "").strip()
+        return self.m.class_for_ctype(item[:-1].strip()) if item.endswith("*") else None
+
     def aggregate_methods(self, cls: str) -> list[str]:
         """The aggregates over the values of a class, one function of the class
         each, built beside #method_for, whose #map_param and #map_return it calls
         for the transition's arguments and the final function's result, as
         #aggregateMethods of MEOS.js's codegen/ObjectGenerator.ts builds them:
-        the catalog's `aggregates` whose transition takes the class's C type
-        after its state, named as an engine holding one function per name calls
+        the catalog's `aggregates` #aggregate_class gives the class, so each
+        transition of tMinAgg is a function of its own class (TIntTMinAgg,
+        TFloatTMinAgg), named as an engine holding one function per name calls
         them, the aggregate's `altSqlName` or else its `sqlName`, after the class
         as #method_for names every function of a class. The function threads the
         transition over the values from a NULL state, as MEOS's C callers do, and
@@ -855,9 +870,7 @@ class Generator:
             f = transition and self.m.functions.get(transition)
             if not f or not final or len(f.get("params", [])) < 2:
                 continue
-            item = (f["params"][1].get("canonical") or f["params"][1]["cType"])
-            item = item.replace("const ", "").replace("struct ", "").strip()
-            if not item.endswith("*") or self.m.class_for_ctype(item[:-1].strip()) != cls:
+            if self.aggregate_class(agg, f["params"][1]) != cls:
                 continue
             name = agg.get("altSqlName") or agg["sqlName"]
             seen = by_name.setdefault(name, [])
@@ -909,8 +922,13 @@ class Generator:
                 continue
             self.package_names.add(fname)
             gotype, expr = ret
+            # MEOS's NULL state: a bare pointer's nil, or a handle the flat layer
+            # declares holding a nil pointer, since its wrapper reads the handle's
+            # own pointer (`state._inner`) and a nil handle has none to read.
+            begin = (f"\tvar _state {self.qualify(state)}" if state == "unsafe.Pointer"
+                     else f"\t_state := &{self.qualify(state)[1:]}{{}}")
             body = [
-                f"\tvar _state {self.qualify(state)}",
+                begin,
                 "\tfor _, _v := range values {",
                 f"\t\t_s, _err := functions.{tsig.go_name}({', '.join(args)})",
                 f"\t\tif _err != nil {{\n\t\t\treturn {zero(gotype)}, _err\n\t\t}}",
@@ -920,7 +938,11 @@ class Generator:
                 f"\tif _err != nil {{\n\t\treturn {zero(gotype)}, _err\n\t}}",
                 f"\treturn {expr}, nil",
             ]
-            head = (f"func {fname}({', '.join([f'values []{item[0]}'] + decl)}) "
+            # A value of an ancestor's C type is taken as this class's own.
+            value = item[0]
+            if value.lstrip("*") in self.m.ancestors(cls):
+                value = f"*{cls}"
+            head = (f"func {fname}({', '.join([f'values []{value}'] + decl)}) "
                     f"({gotype}, error) {{")
             self.emitted += 1
             out.append(f"// {fname} is the aggregate {name}: MEOS {transition} over "

@@ -711,7 +711,7 @@ func (x *Jsonb) Union(s *Set) (*Set, error) {
 
 // JsonbSetUnionAgg is the aggregate setUnionAgg: MEOS jsonb_union_transfn over the values, then set_union_finalfn.
 func JsonbSetUnionAgg(values []*Jsonb) (*Set, error) {
-	var _state *functions.Set
+	_state := &functions.Set{}
 	for _, _v := range values {
 		_s, _err := functions.JsonbUnionTransfn(_state, functions.JsonbFromPointer(_v.Pointer()))
 		if _err != nil {

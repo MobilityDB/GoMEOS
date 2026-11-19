@@ -918,7 +918,7 @@ func (x *Geo) Union(s *Set) (*Set, error) {
 
 // GeoSetUnionAgg is the aggregate setUnionAgg: MEOS geo_union_transfn over the values, then set_union_finalfn.
 func GeoSetUnionAgg(values []*Geo) (*Set, error) {
-	var _state *functions.Set
+	_state := &functions.Set{}
 	for _, _v := range values {
 		_s, _err := functions.GeoUnionTransfn(_state, functions.GeomFromPointer(_v.Pointer()))
 		if _err != nil {

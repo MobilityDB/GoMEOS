@@ -1331,3 +1331,54 @@ func (x *TCBuffer) Ttouches(other any) (*Temporal, error) {
 	}
 	return nil, fmt.Errorf("Ttouches of TCBuffer takes no %T", other)
 }
+
+// TCBufferTCount is the aggregate tCount: MEOS temporal_tcount_transfn over the values, then temporal_tagg_finalfn.
+func TCBufferTCount(values []*TCBuffer) (*Temporal, error) {
+	_state := &functions.SkipList{}
+	for _, _v := range values {
+		_s, _err := functions.TemporalTcountTransfn(_state, functions.TemporalFromPointer(_v.Pointer()))
+		if _err != nil {
+			return nil, _err
+		}
+		_state = _s
+	}
+	_r0, _err := functions.TemporalTaggFinalfn(_state)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// TCBufferMergeAgg is the aggregate mergeAgg: MEOS temporal_merge_transfn over the values, then temporal_tagg_finalfn.
+func TCBufferMergeAgg(values []*TCBuffer) (*Temporal, error) {
+	_state := &functions.SkipList{}
+	for _, _v := range values {
+		_s, _err := functions.TemporalMergeTransfn(_state, functions.TemporalFromPointer(_v.Pointer()))
+		if _err != nil {
+			return nil, _err
+		}
+		_state = _s
+	}
+	_r0, _err := functions.TemporalTaggFinalfn(_state)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// TCBufferAppendSequenceAgg is the aggregate appendSequenceAgg: MEOS temporal_app_tseq_transfn over the values, then temporal_append_finalfn.
+func TCBufferAppendSequenceAgg(values []*TCBuffer) (*Temporal, error) {
+	_state := &functions.Temporal{}
+	for _, _v := range values {
+		_s, _err := functions.TemporalAppTseqTransfn(_state, functions.TSequenceFromPointer(_v.Pointer()))
+		if _err != nil {
+			return nil, _err
+		}
+		_state = _s
+	}
+	_r0, _err := functions.TemporalAppendFinalfn(_state)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}

@@ -714,3 +714,54 @@ func (x *TJsonb) Tne(other any) (*Temporal, error) {
 	}
 	return nil, fmt.Errorf("Tne of TJsonb takes no %T", other)
 }
+
+// TJsonbTCount is the aggregate tCount: MEOS temporal_tcount_transfn over the values, then temporal_tagg_finalfn.
+func TJsonbTCount(values []*TJsonb) (*Temporal, error) {
+	_state := &functions.SkipList{}
+	for _, _v := range values {
+		_s, _err := functions.TemporalTcountTransfn(_state, functions.TemporalFromPointer(_v.Pointer()))
+		if _err != nil {
+			return nil, _err
+		}
+		_state = _s
+	}
+	_r0, _err := functions.TemporalTaggFinalfn(_state)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// TJsonbMergeAgg is the aggregate mergeAgg: MEOS temporal_merge_transfn over the values, then temporal_tagg_finalfn.
+func TJsonbMergeAgg(values []*TJsonb) (*Temporal, error) {
+	_state := &functions.SkipList{}
+	for _, _v := range values {
+		_s, _err := functions.TemporalMergeTransfn(_state, functions.TemporalFromPointer(_v.Pointer()))
+		if _err != nil {
+			return nil, _err
+		}
+		_state = _s
+	}
+	_r0, _err := functions.TemporalTaggFinalfn(_state)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// TJsonbAppendSequenceAgg is the aggregate appendSequenceAgg: MEOS temporal_app_tseq_transfn over the values, then temporal_append_finalfn.
+func TJsonbAppendSequenceAgg(values []*TJsonb) (*Temporal, error) {
+	_state := &functions.Temporal{}
+	for _, _v := range values {
+		_s, _err := functions.TemporalAppTseqTransfn(_state, functions.TSequenceFromPointer(_v.Pointer()))
+		if _err != nil {
+			return nil, _err
+		}
+		_state = _s
+	}
+	_r0, _err := functions.TemporalAppendFinalfn(_state)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}

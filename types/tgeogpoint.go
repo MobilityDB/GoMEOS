@@ -171,3 +171,71 @@ func (x *TGeogPoint) String() string {
 	}
 	return s
 }
+
+// TGeogPointTCount is the aggregate tCount: MEOS temporal_tcount_transfn over the values, then temporal_tagg_finalfn.
+func TGeogPointTCount(values []*TGeogPoint) (*Temporal, error) {
+	_state := &functions.SkipList{}
+	for _, _v := range values {
+		_s, _err := functions.TemporalTcountTransfn(_state, functions.TemporalFromPointer(_v.Pointer()))
+		if _err != nil {
+			return nil, _err
+		}
+		_state = _s
+	}
+	_r0, _err := functions.TemporalTaggFinalfn(_state)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// TGeogPointMergeAgg is the aggregate mergeAgg: MEOS temporal_merge_transfn over the values, then temporal_tagg_finalfn.
+func TGeogPointMergeAgg(values []*TGeogPoint) (*Temporal, error) {
+	_state := &functions.SkipList{}
+	for _, _v := range values {
+		_s, _err := functions.TemporalMergeTransfn(_state, functions.TemporalFromPointer(_v.Pointer()))
+		if _err != nil {
+			return nil, _err
+		}
+		_state = _s
+	}
+	_r0, _err := functions.TemporalTaggFinalfn(_state)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// TGeogPointAppendSequenceAgg is the aggregate appendSequenceAgg: MEOS temporal_app_tseq_transfn over the values, then temporal_append_finalfn.
+func TGeogPointAppendSequenceAgg(values []*TGeogPoint) (*Temporal, error) {
+	_state := &functions.Temporal{}
+	for _, _v := range values {
+		_s, _err := functions.TemporalAppTseqTransfn(_state, functions.TSequenceFromPointer(_v.Pointer()))
+		if _err != nil {
+			return nil, _err
+		}
+		_state = _s
+	}
+	_r0, _err := functions.TemporalAppendFinalfn(_state)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// TGeogPointReachabilityFilterAgg is the aggregate reachabilityFilterAgg: MEOS temporal_reachability_filter_transfn over the values, then temporal_reachability_filter_finalfn.
+func TGeogPointReachabilityFilterAgg(values []*TGeogPoint, maxspeed float64) (*Temporal, error) {
+	var _state unsafe.Pointer
+	for _, _v := range values {
+		_s, _err := functions.TemporalReachabilityFilterTransfn(_state, functions.TInstantFromPointer(_v.Pointer()), maxspeed)
+		if _err != nil {
+			return nil, _err
+		}
+		_state = _s
+	}
+	_r0, _err := functions.TemporalReachabilityFilterFinalfn(_state)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
