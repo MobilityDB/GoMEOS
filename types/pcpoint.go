@@ -261,3 +261,143 @@ func (x *PCPoint) String() string {
 	}
 	return s
 }
+
+// op_always_eq_pcpoint_tpcpoint is MEOS always_eq_pcpoint_tpcpoint.
+func (x *PCPoint) op_always_eq_pcpoint_tpcpoint(temp *Temporal) (int, error) {
+	_r0, _err := functions.AlwaysEqPcpointTpcpoint(functions.PcpointFromPointer(x.Pointer()), functions.TemporalFromPointer(temp.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// AlwaysEq is the operator alwaysEq of PCPoint, MEOS always_eq_pcpoint_tpcpoint.
+func (x *PCPoint) AlwaysEq(temp *Temporal) (int, error) {
+	return x.op_always_eq_pcpoint_tpcpoint(temp)
+}
+
+// op_always_ne_pcpoint_tpcpoint is MEOS always_ne_pcpoint_tpcpoint.
+func (x *PCPoint) op_always_ne_pcpoint_tpcpoint(temp *Temporal) (int, error) {
+	_r0, _err := functions.AlwaysNePcpointTpcpoint(functions.PcpointFromPointer(x.Pointer()), functions.TemporalFromPointer(temp.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// AlwaysNe is the operator alwaysNe of PCPoint, MEOS always_ne_pcpoint_tpcpoint.
+func (x *PCPoint) AlwaysNe(temp *Temporal) (int, error) {
+	return x.op_always_ne_pcpoint_tpcpoint(temp)
+}
+
+// op_contained_pcpoint_set is MEOS contained_pcpoint_set.
+func (x *PCPoint) op_contained_pcpoint_set(s *Set) (bool, error) {
+	_r0, _err := functions.ContainedPcpointSet(functions.PcpointFromPointer(x.Pointer()), functions.SetFromPointer(s.Pointer()))
+	if _err != nil {
+		return false, _err
+	}
+	return _r0, nil
+}
+
+// Contained is the operator contained of PCPoint, MEOS contained_pcpoint_set.
+func (x *PCPoint) Contained(s *Set) (bool, error) {
+	return x.op_contained_pcpoint_set(s)
+}
+
+// op_ever_eq_pcpoint_tpcpoint is MEOS ever_eq_pcpoint_tpcpoint.
+func (x *PCPoint) op_ever_eq_pcpoint_tpcpoint(temp *Temporal) (int, error) {
+	_r0, _err := functions.EverEqPcpointTpcpoint(functions.PcpointFromPointer(x.Pointer()), functions.TemporalFromPointer(temp.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// EverEq is the operator everEq of PCPoint, MEOS ever_eq_pcpoint_tpcpoint.
+func (x *PCPoint) EverEq(temp *Temporal) (int, error) {
+	return x.op_ever_eq_pcpoint_tpcpoint(temp)
+}
+
+// op_ever_ne_pcpoint_tpcpoint is MEOS ever_ne_pcpoint_tpcpoint.
+func (x *PCPoint) op_ever_ne_pcpoint_tpcpoint(temp *Temporal) (int, error) {
+	_r0, _err := functions.EverNePcpointTpcpoint(functions.PcpointFromPointer(x.Pointer()), functions.TemporalFromPointer(temp.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// EverNe is the operator everNe of PCPoint, MEOS ever_ne_pcpoint_tpcpoint.
+func (x *PCPoint) EverNe(temp *Temporal) (int, error) {
+	return x.op_ever_ne_pcpoint_tpcpoint(temp)
+}
+
+// op_intersection_pcpoint_set is MEOS intersection_pcpoint_set.
+func (x *PCPoint) op_intersection_pcpoint_set(s *Set) (*Set, error) {
+	_r0, _err := functions.IntersectionPcpointSet(functions.PcpointFromPointer(x.Pointer()), functions.SetFromPointer(s.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return SetFromPointer(_r0.Pointer()), nil
+}
+
+// Intersection is the operator intersection of PCPoint, MEOS intersection_pcpoint_set.
+func (x *PCPoint) Intersection(s *Set) (*Set, error) {
+	return x.op_intersection_pcpoint_set(s)
+}
+
+// op_minus_pcpoint_set is MEOS minus_pcpoint_set.
+func (x *PCPoint) op_minus_pcpoint_set(s *Set) (*Set, error) {
+	_r0, _err := functions.MinusPcpointSet(functions.PcpointFromPointer(x.Pointer()), functions.SetFromPointer(s.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return SetFromPointer(_r0.Pointer()), nil
+}
+
+// Minus is the operator minus of PCPoint, MEOS minus_pcpoint_set.
+func (x *PCPoint) Minus(s *Set) (*Set, error) {
+	return x.op_minus_pcpoint_set(s)
+}
+
+// op_teq_pcpoint_tpcpoint is MEOS teq_pcpoint_tpcpoint.
+func (x *PCPoint) op_teq_pcpoint_tpcpoint(temp *Temporal) (*Temporal, error) {
+	_r0, _err := functions.TeqPcpointTpcpoint(functions.PcpointFromPointer(x.Pointer()), functions.TemporalFromPointer(temp.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// Teq is the operator teq of PCPoint, MEOS teq_pcpoint_tpcpoint.
+func (x *PCPoint) Teq(temp *Temporal) (*Temporal, error) {
+	return x.op_teq_pcpoint_tpcpoint(temp)
+}
+
+// op_tne_pcpoint_tpcpoint is MEOS tne_pcpoint_tpcpoint.
+func (x *PCPoint) op_tne_pcpoint_tpcpoint(temp *Temporal) (*Temporal, error) {
+	_r0, _err := functions.TnePcpointTpcpoint(functions.PcpointFromPointer(x.Pointer()), functions.TemporalFromPointer(temp.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// Tne is the operator tne of PCPoint, MEOS tne_pcpoint_tpcpoint.
+func (x *PCPoint) Tne(temp *Temporal) (*Temporal, error) {
+	return x.op_tne_pcpoint_tpcpoint(temp)
+}
+
+// op_union_pcpoint_set is MEOS union_pcpoint_set.
+func (x *PCPoint) op_union_pcpoint_set(s *Set) (*Set, error) {
+	_r0, _err := functions.UnionPcpointSet(functions.PcpointFromPointer(x.Pointer()), functions.SetFromPointer(s.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return SetFromPointer(_r0.Pointer()), nil
+}
+
+// Union is the operator union of PCPoint, MEOS union_pcpoint_set.
+func (x *PCPoint) Union(s *Set) (*Set, error) {
+	return x.op_union_pcpoint_set(s)
+}

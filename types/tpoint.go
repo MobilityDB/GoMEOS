@@ -210,3 +210,17 @@ func TPointFromGeomeas(gs *Geo) (*Temporal, error) {
 	}
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
+
+// op_bearing_tpoint_point is MEOS bearing_tpoint_point.
+func (x *TPoint) op_bearing_tpoint_point(gs *Geo) (*Temporal, error) {
+	_r0, _err := functions.BearingTpointPoint(functions.TemporalFromPointer(x.Pointer()), functions.GeomFromPointer(gs.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// Bearing is the operator bearing of TPoint, MEOS bearing_tpoint_point.
+func (x *TPoint) Bearing(gs *Geo) (*Temporal, error) {
+	return x.op_bearing_tpoint_point(gs)
+}

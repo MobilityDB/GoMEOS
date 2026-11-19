@@ -526,3 +526,185 @@ func (x *Jsonb) String() string {
 	}
 	return s
 }
+
+// op_always_eq_jsonb_tjsonb is MEOS always_eq_jsonb_tjsonb.
+func (x *Jsonb) op_always_eq_jsonb_tjsonb(temp *Temporal) (int, error) {
+	_r0, _err := functions.AlwaysEqJsonbTjsonb(functions.JsonbFromPointer(x.Pointer()), functions.TemporalFromPointer(temp.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// AlwaysEq is the operator alwaysEq of Jsonb, MEOS always_eq_jsonb_tjsonb.
+func (x *Jsonb) AlwaysEq(temp *Temporal) (int, error) {
+	return x.op_always_eq_jsonb_tjsonb(temp)
+}
+
+// op_always_ne_jsonb_tjsonb is MEOS always_ne_jsonb_tjsonb.
+func (x *Jsonb) op_always_ne_jsonb_tjsonb(temp *Temporal) (int, error) {
+	_r0, _err := functions.AlwaysNeJsonbTjsonb(functions.JsonbFromPointer(x.Pointer()), functions.TemporalFromPointer(temp.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// AlwaysNe is the operator alwaysNe of Jsonb, MEOS always_ne_jsonb_tjsonb.
+func (x *Jsonb) AlwaysNe(temp *Temporal) (int, error) {
+	return x.op_always_ne_jsonb_tjsonb(temp)
+}
+
+// op_ever_eq_jsonb_tjsonb is MEOS ever_eq_jsonb_tjsonb.
+func (x *Jsonb) op_ever_eq_jsonb_tjsonb(temp *Temporal) (int, error) {
+	_r0, _err := functions.EverEqJsonbTjsonb(functions.JsonbFromPointer(x.Pointer()), functions.TemporalFromPointer(temp.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// EverEq is the operator everEq of Jsonb, MEOS ever_eq_jsonb_tjsonb.
+func (x *Jsonb) EverEq(temp *Temporal) (int, error) {
+	return x.op_ever_eq_jsonb_tjsonb(temp)
+}
+
+// op_ever_ne_jsonb_tjsonb is MEOS ever_ne_jsonb_tjsonb.
+func (x *Jsonb) op_ever_ne_jsonb_tjsonb(temp *Temporal) (int, error) {
+	_r0, _err := functions.EverNeJsonbTjsonb(functions.JsonbFromPointer(x.Pointer()), functions.TemporalFromPointer(temp.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// EverNe is the operator everNe of Jsonb, MEOS ever_ne_jsonb_tjsonb.
+func (x *Jsonb) EverNe(temp *Temporal) (int, error) {
+	return x.op_ever_ne_jsonb_tjsonb(temp)
+}
+
+// op_intersection_jsonb_set is MEOS intersection_jsonb_set.
+func (x *Jsonb) op_intersection_jsonb_set(s *Set) (*Set, error) {
+	_r0, _err := functions.IntersectionJsonbSet(functions.JsonbFromPointer(x.Pointer()), functions.SetFromPointer(s.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return SetFromPointer(_r0.Pointer()), nil
+}
+
+// Intersection is the operator intersection of Jsonb, MEOS intersection_jsonb_set.
+func (x *Jsonb) Intersection(s *Set) (*Set, error) {
+	return x.op_intersection_jsonb_set(s)
+}
+
+// op_minus_jsonb_set is MEOS minus_jsonb_set.
+func (x *Jsonb) op_minus_jsonb_set(s *Set) (*Set, error) {
+	_r0, _err := functions.MinusJsonbSet(functions.JsonbFromPointer(x.Pointer()), functions.SetFromPointer(s.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return SetFromPointer(_r0.Pointer()), nil
+}
+
+// Minus is the operator minus of Jsonb, MEOS minus_jsonb_set.
+func (x *Jsonb) Minus(s *Set) (*Set, error) {
+	return x.op_minus_jsonb_set(s)
+}
+
+// op_concat_jsonb_jsonbset is MEOS concat_jsonb_jsonbset.
+func (x *Jsonb) op_concat_jsonb_jsonbset(s *Set) (*Set, error) {
+	_r0, _err := functions.ConcatJsonbJsonbset(functions.JsonbFromPointer(x.Pointer()), functions.SetFromPointer(s.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return SetFromPointer(_r0.Pointer()), nil
+}
+
+// SetConcat is the operator setConcat of Jsonb, MEOS concat_jsonb_jsonbset.
+func (x *Jsonb) SetConcat(s *Set) (*Set, error) {
+	return x.op_concat_jsonb_jsonbset(s)
+}
+
+// op_concat_jsonb_tjsonb is MEOS concat_jsonb_tjsonb.
+func (x *Jsonb) op_concat_jsonb_tjsonb(temp *Temporal) (*Temporal, error) {
+	_r0, _err := functions.ConcatJsonbTjsonb(functions.JsonbFromPointer(x.Pointer()), functions.TemporalFromPointer(temp.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// TConcat is the operator tConcat of Jsonb, MEOS concat_jsonb_tjsonb.
+func (x *Jsonb) TConcat(temp *Temporal) (*Temporal, error) {
+	return x.op_concat_jsonb_tjsonb(temp)
+}
+
+// op_teq_jsonb_tjsonb is MEOS teq_jsonb_tjsonb.
+func (x *Jsonb) op_teq_jsonb_tjsonb(temp *Temporal) (*Temporal, error) {
+	_r0, _err := functions.TeqJsonbTjsonb(functions.JsonbFromPointer(x.Pointer()), functions.TemporalFromPointer(temp.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// Teq is the operator teq of Jsonb, MEOS teq_jsonb_tjsonb.
+func (x *Jsonb) Teq(temp *Temporal) (*Temporal, error) {
+	return x.op_teq_jsonb_tjsonb(temp)
+}
+
+// op_contained_jsonb_tjsonb is MEOS contained_jsonb_tjsonb.
+func (x *Jsonb) op_contained_jsonb_tjsonb(temp *Temporal) (*Temporal, error) {
+	_r0, _err := functions.ContainedJsonbTjsonb(functions.JsonbFromPointer(x.Pointer()), functions.TemporalFromPointer(temp.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// TjsonbContained is the operator tjsonbContained of Jsonb, MEOS contained_jsonb_tjsonb.
+func (x *Jsonb) TjsonbContained(temp *Temporal) (*Temporal, error) {
+	return x.op_contained_jsonb_tjsonb(temp)
+}
+
+// op_contains_jsonb_tjsonb is MEOS contains_jsonb_tjsonb.
+func (x *Jsonb) op_contains_jsonb_tjsonb(temp *Temporal) (*Temporal, error) {
+	_r0, _err := functions.ContainsJsonbTjsonb(functions.JsonbFromPointer(x.Pointer()), functions.TemporalFromPointer(temp.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// TjsonbContains is the operator tjsonbContains of Jsonb, MEOS contains_jsonb_tjsonb.
+func (x *Jsonb) TjsonbContains(temp *Temporal) (*Temporal, error) {
+	return x.op_contains_jsonb_tjsonb(temp)
+}
+
+// op_tne_jsonb_tjsonb is MEOS tne_jsonb_tjsonb.
+func (x *Jsonb) op_tne_jsonb_tjsonb(temp *Temporal) (*Temporal, error) {
+	_r0, _err := functions.TneJsonbTjsonb(functions.JsonbFromPointer(x.Pointer()), functions.TemporalFromPointer(temp.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// Tne is the operator tne of Jsonb, MEOS tne_jsonb_tjsonb.
+func (x *Jsonb) Tne(temp *Temporal) (*Temporal, error) {
+	return x.op_tne_jsonb_tjsonb(temp)
+}
+
+// op_union_jsonb_set is MEOS union_jsonb_set.
+func (x *Jsonb) op_union_jsonb_set(s *Set) (*Set, error) {
+	_r0, _err := functions.UnionJsonbSet(functions.JsonbFromPointer(x.Pointer()), functions.SetFromPointer(s.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return SetFromPointer(_r0.Pointer()), nil
+}
+
+// Union is the operator union of Jsonb, MEOS union_jsonb_set.
+func (x *Jsonb) Union(s *Set) (*Set, error) {
+	return x.op_union_jsonb_set(s)
+}

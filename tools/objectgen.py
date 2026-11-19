@@ -36,6 +36,7 @@ import argparse
 import json
 import shutil
 import sys
+import re
 from collections import defaultdict
 from dataclasses import dataclass
 from pathlib import Path
@@ -222,6 +223,10 @@ class Generator:
     def __init__(self, model: Model):
         self.m = model
         self.deferred: dict[str, list[str]] = defaultdict(list)
+        # What #operator_methods records per class for its descendants: the names
+        # its methods take, and each dispatching operator's result and cases.
+        self.method_names: dict[str, set] = {}
+        self.operator_cases: dict[str, dict] = {}
         self.emitted = 0
         self.last: Emitted | None = None
         # class -> {C function: instance method}, its ancestors' included, since
@@ -322,7 +327,13 @@ class Generator:
 
     # -- emission ---------------------------------------------------------
 
-    def method_for(self, cls: str, entry: dict) -> str | None:
+    def method_for(self, cls: str, entry: dict, receiver: str | None = None) -> str | None:
+        """The Go method or class function of the catalog function `entry` names,
+        as #method of MEOS.js codegen/ObjectGenerator.ts builds one for a method or
+        an operator. `receiver` is the side of an operator its value stands on, as
+        the object model states it (`receiver` of `classes.<C>.operators`): `right`
+        makes the second parameter the receiver, so `add_float_raster` is the
+        method `radd` of the raster it adds to."""
         oo = entry["ooName"]
         fname = entry["function"]
         sig = codegen.SIGNATURES.get(fname)
@@ -339,10 +350,11 @@ class Generator:
         # class, which is how Go spells a static.
         family = {cls, *self.m.ancestors(cls)}
         params = list(sig.params)
-        recv = None
-        if params and (self.class_of_handle(params[0][1]) in family
-                       or self.value_of.get(params[0][1]) == cls):
-            recv = params.pop(0)
+        recv, recv_at = None, 0
+        at = 1 if receiver == "right" else 0
+        if len(params) > at and (self.class_of_handle(params[at][1]) in family
+                                 or self.value_of.get(params[at][1]) == cls):
+            recv, recv_at = params.pop(at), at
 
         # A byte buffer travels as a []byte, as MEOS.NET's method_for reads the
         # catalog's shape: a `size_t *` the shape lists in `outParams` states the
@@ -389,13 +401,13 @@ class Generator:
             args.append(expr)
 
         if recv is not None and cls in self.byvalue:
-            args.insert(0, f"functions.{recv[1]}(x)")
+            args.insert(recv_at, f"functions.{recv[1]}(x)")
         elif recv is not None:
             handle = self.handle_of.get(self.struct_of.get(recv[1], ""))
             if handle is None:
                 self.deferred[cls].append(f"{oo}: receiver {recv[1]} has no handle")
                 return None
-            args.insert(0, f"functions.{handle}FromPointer(x.Pointer())")
+            args.insert(recv_at, f"functions.{handle}FromPointer(x.Pointer())")
 
         name = pascal(oo) if recv is not None else cls + pascal(oo)
         # A method may not share the name of the struct its class embeds, the
@@ -696,6 +708,97 @@ class Generator:
         return next((m.get("value") for m in self.m.idl.get("macros", [])
                      if m.get("name") == "OUT_DEFAULT_DECIMAL_DIGITS"), None)
 
+    _METHOD_NAME = re.compile(r"^func (?:\([^)]*\) )?(\w+)\(", re.M)
+
+    def operator_methods(self, cls: str, methods: list) -> list:
+        """The operators the object model assigns the class (`classes.<C>.operators`),
+        one method per `ooName`, as #operatorMethods of MEOS.js
+        codegen/ObjectGenerator.ts emits them. A name with one overload is an
+        ordinary method. Go has no overloading, so a name with several is one method
+        taking its argument as `any` and calling, by a type switch, the overload
+        whose parameter has that Go type, each overload an unexported helper
+        (`op_<function>`) built by #method_for. The overloads an ancestor's method of
+        the same name calls stay cases of it: Go promotes the ancestor's helpers to
+        the class, and a class's method of a name shadows its ancestor's.
+        A group is deferred, naming why, when its name is a method the class or an
+        ancestor declares otherwise, when an overload takes other than one argument
+        beside its receiver, when two overloads answer differently, or when two
+        take the same Go type."""
+        groups: dict[str, list] = {}
+        for e in (self.m.om["classes"].get(cls) or {}).get("operators") or []:
+            if not e.get("ooExclude"):
+                groups.setdefault(e["ooName"], []).append(e)
+        taken = set(self._METHOD_NAME.findall("\n".join(methods)))
+        for a in self.m.ancestors(cls):
+            taken |= self.method_names.get(a, set())
+        inherited: dict[str, tuple] = {}
+        for a in reversed(self.m.ancestors(cls)):
+            inherited.update(self.operator_cases.get(a, {}))
+        out, cases_of_cls = [], {}
+        for oo in sorted(groups):
+            name = pascal(oo)
+            if name in taken or name == self.m.parent.get(cls):
+                self.deferred[cls].append(f"{oo}: a method of {cls} or an ancestor is named {name}")
+                continue
+            built = []
+            for e in groups[oo]:
+                code = self.method_for(cls, e, receiver=e.get("receiver"))
+                if code is not None and self.last.instance:
+                    built.append((code, self.last))
+                elif code is not None:
+                    self.deferred[cls].append(f"{oo}: {e['function']} takes no {cls} as its receiver")
+            if not built:
+                continue
+            base = inherited.get(name)
+            if len(built) == 1 and base is None:
+                # One overload: the typed method calls its helper, which a descendant's
+                # operator of the same name dispatches to through promotion, where a
+                # call of the method itself would reach the descendant's own
+                code, em = built[0]
+                helper = "op_" + em.function
+                out.append(code.replace(f"// {em.name} is MEOS", f"// {helper} is MEOS", 1)
+                               .replace(f") {em.name}(", f") {helper}(", 1))
+                call = f"x.{helper}({', '.join(em.args)})"
+                out.append(f"// {name} is the operator {oo} of {cls}, MEOS {em.function}.\n"
+                           f"func ({self.receiver(cls)}) {name}({', '.join(em.decl)}) "
+                           f"{em.result} {{\n\treturn {call}\n}}\n")
+                if len(em.decl) == 1:
+                    cases_of_cls[name] = (em.result, {em.decl[0].split(" ", 1)[1]: helper})
+                continue
+            results = {em.result for _, em in built} | ({base[0]} if base else set())
+            if len(results) > 1 or any(len(em.decl) != 1 for _, em in built):
+                self.deferred[cls].append(
+                    f"{oo}: its overloads take other than one argument or answer differently")
+                continue
+            cases = dict(base[1]) if base else {}
+            own_types = [em.decl[0].split(" ", 1)[1] for _, em in built]
+            if len(set(own_types)) != len(own_types):
+                self.deferred[cls].append(f"{oo}: two overloads take the same Go type")
+                continue
+            for (code, em), gotype in zip(built, own_types):
+                helper = "op_" + em.function
+                out.append(code.replace(f"// {em.name} is MEOS", f"// {helper} is MEOS", 1)
+                               .replace(f") {em.name}(", f") {helper}(", 1))
+                cases[gotype] = helper
+            result = results.pop()
+            rets = ([r.strip() for r in result.strip("()").split(",")][:-1]
+                    if result.startswith("(") else [])
+            fail = ", ".join([zero(r) for r in rets] + [
+                f'fmt.Errorf("{name} of {cls} takes no %T", other)'])
+            lines = [f"// {name} is the operator {oo} of {cls}: it calls the MEOS function "
+                     f"whose second operand has the type of other.",
+                     f"func ({self.receiver(cls)}) {name}(other any) {result} {{",
+                     "\tswitch v := other.(type) {"]
+            for gotype in sorted(cases):
+                lines.append(f"\tcase {gotype}:\n\t\treturn x.{cases[gotype]}(v)")
+            lines += ["\t}", f"\treturn {fail}", "}\n"]
+            out.append("\n".join(lines))
+            cases_of_cls[name] = (result, cases)
+        self.operator_cases[cls] = {**inherited, **cases_of_cls}
+        self.method_names[cls] = (taken | set(self._METHOD_NAME.findall("\n".join(out)))
+                                  ) - set(cases_of_cls) - set(inherited)
+        return out
+
     def emit_class(self, cls: str) -> str:
         spec = self.m.om["classes"].get(cls) or {"methods": []}
         parent = self.m.parent.get(cls)
@@ -723,10 +826,13 @@ class Generator:
         self.take_portable_names(cls, methods, own, entries, functions)
         methods += self.portable_methods(cls, own, functions)
         methods += self.string_method(cls, functions)
+        methods += self.operator_methods(cls, methods)
 
         byvalue = cls in self.byvalue
         uses_functions = byvalue or any("functions." in m for m in methods)
         imports = [] if byvalue and not any("unsafe." in m for m in methods) else ['\t"unsafe"']
+        if any("fmt.Errorf(" in m for m in methods):
+            imports.insert(0, '\t"fmt"')
         if uses_functions:
             imports.append(f'\t"{FUNCTIONS_IMPORT}"')
 

@@ -340,3 +340,143 @@ func (x *NPoint) String() string {
 	}
 	return s
 }
+
+// op_always_eq_npoint_tnpoint is MEOS always_eq_npoint_tnpoint.
+func (x *NPoint) op_always_eq_npoint_tnpoint(temp *Temporal) (int, error) {
+	_r0, _err := functions.AlwaysEqNpointTnpoint(functions.NpointFromPointer(x.Pointer()), functions.TemporalFromPointer(temp.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// AlwaysEq is the operator alwaysEq of NPoint, MEOS always_eq_npoint_tnpoint.
+func (x *NPoint) AlwaysEq(temp *Temporal) (int, error) {
+	return x.op_always_eq_npoint_tnpoint(temp)
+}
+
+// op_always_ne_npoint_tnpoint is MEOS always_ne_npoint_tnpoint.
+func (x *NPoint) op_always_ne_npoint_tnpoint(temp *Temporal) (int, error) {
+	_r0, _err := functions.AlwaysNeNpointTnpoint(functions.NpointFromPointer(x.Pointer()), functions.TemporalFromPointer(temp.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// AlwaysNe is the operator alwaysNe of NPoint, MEOS always_ne_npoint_tnpoint.
+func (x *NPoint) AlwaysNe(temp *Temporal) (int, error) {
+	return x.op_always_ne_npoint_tnpoint(temp)
+}
+
+// op_contained_npoint_set is MEOS contained_npoint_set.
+func (x *NPoint) op_contained_npoint_set(s *Set) (bool, error) {
+	_r0, _err := functions.ContainedNpointSet(functions.NpointFromPointer(x.Pointer()), functions.SetFromPointer(s.Pointer()))
+	if _err != nil {
+		return false, _err
+	}
+	return _r0, nil
+}
+
+// Contained is the operator contained of NPoint, MEOS contained_npoint_set.
+func (x *NPoint) Contained(s *Set) (bool, error) {
+	return x.op_contained_npoint_set(s)
+}
+
+// op_contained_rid_npoint_tnpoint is MEOS contained_rid_npoint_tnpoint.
+func (x *NPoint) op_contained_rid_npoint_tnpoint(temp *Temporal) (bool, error) {
+	_r0, _err := functions.ContainedRidNpointTnpoint(functions.NpointFromPointer(x.Pointer()), functions.TemporalFromPointer(temp.Pointer()))
+	if _err != nil {
+		return false, _err
+	}
+	return _r0, nil
+}
+
+// ContainedRid is the operator containedRid of NPoint, MEOS contained_rid_npoint_tnpoint.
+func (x *NPoint) ContainedRid(temp *Temporal) (bool, error) {
+	return x.op_contained_rid_npoint_tnpoint(temp)
+}
+
+// op_ever_eq_npoint_tnpoint is MEOS ever_eq_npoint_tnpoint.
+func (x *NPoint) op_ever_eq_npoint_tnpoint(temp *Temporal) (int, error) {
+	_r0, _err := functions.EverEqNpointTnpoint(functions.NpointFromPointer(x.Pointer()), functions.TemporalFromPointer(temp.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// EverEq is the operator everEq of NPoint, MEOS ever_eq_npoint_tnpoint.
+func (x *NPoint) EverEq(temp *Temporal) (int, error) {
+	return x.op_ever_eq_npoint_tnpoint(temp)
+}
+
+// op_ever_ne_npoint_tnpoint is MEOS ever_ne_npoint_tnpoint.
+func (x *NPoint) op_ever_ne_npoint_tnpoint(temp *Temporal) (int, error) {
+	_r0, _err := functions.EverNeNpointTnpoint(functions.NpointFromPointer(x.Pointer()), functions.TemporalFromPointer(temp.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// EverNe is the operator everNe of NPoint, MEOS ever_ne_npoint_tnpoint.
+func (x *NPoint) EverNe(temp *Temporal) (int, error) {
+	return x.op_ever_ne_npoint_tnpoint(temp)
+}
+
+// op_intersection_npoint_set is MEOS intersection_npoint_set.
+func (x *NPoint) op_intersection_npoint_set(s *Set) (*Set, error) {
+	_r0, _err := functions.IntersectionNpointSet(functions.NpointFromPointer(x.Pointer()), functions.SetFromPointer(s.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return SetFromPointer(_r0.Pointer()), nil
+}
+
+// Intersection is the operator intersection of NPoint, MEOS intersection_npoint_set.
+func (x *NPoint) Intersection(s *Set) (*Set, error) {
+	return x.op_intersection_npoint_set(s)
+}
+
+// op_minus_npoint_set is MEOS minus_npoint_set.
+func (x *NPoint) op_minus_npoint_set(s *Set) (*Set, error) {
+	_r0, _err := functions.MinusNpointSet(functions.NpointFromPointer(x.Pointer()), functions.SetFromPointer(s.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return SetFromPointer(_r0.Pointer()), nil
+}
+
+// Minus is the operator minus of NPoint, MEOS minus_npoint_set.
+func (x *NPoint) Minus(s *Set) (*Set, error) {
+	return x.op_minus_npoint_set(s)
+}
+
+// op_same_rid_npoint_tnpoint is MEOS same_rid_npoint_tnpoint.
+func (x *NPoint) op_same_rid_npoint_tnpoint(temp *Temporal) (bool, error) {
+	_r0, _err := functions.SameRidNpointTnpoint(functions.NpointFromPointer(x.Pointer()), functions.TemporalFromPointer(temp.Pointer()))
+	if _err != nil {
+		return false, _err
+	}
+	return _r0, nil
+}
+
+// SameRid is the operator sameRid of NPoint, MEOS same_rid_npoint_tnpoint.
+func (x *NPoint) SameRid(temp *Temporal) (bool, error) {
+	return x.op_same_rid_npoint_tnpoint(temp)
+}
+
+// op_union_npoint_set is MEOS union_npoint_set.
+func (x *NPoint) op_union_npoint_set(s *Set) (*Set, error) {
+	_r0, _err := functions.UnionNpointSet(functions.NpointFromPointer(x.Pointer()), functions.SetFromPointer(s.Pointer()))
+	if _err != nil {
+		return nil, _err
+	}
+	return SetFromPointer(_r0.Pointer()), nil
+}
+
+// Union is the operator union of NPoint, MEOS union_npoint_set.
+func (x *NPoint) Union(s *Set) (*Set, error) {
+	return x.op_union_npoint_set(s)
+}
