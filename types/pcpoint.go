@@ -181,6 +181,15 @@ func (x *PCPoint) ToTpcbox() (*TPCBox, error) {
 	return TPCBoxFromPointer(_r0.Pointer()), nil
 }
 
+// Transform is MEOS pcpoint_transform.
+func (x *PCPoint) Transform(pcid uint32) (*PCPoint, error) {
+	_r0, _err := functions.PcpointTransform(functions.PcpointFromPointer(x.Pointer()), pcid)
+	if _err != nil {
+		return nil, _err
+	}
+	return PCPointFromPointer(_r0.Pointer()), nil
+}
+
 // Cmp is MEOS pcpoint_cmp.
 func (x *PCPoint) Cmp(pt2 *PCPoint) (int, error) {
 	_r0, _err := functions.PcpointCmp(functions.PcpointFromPointer(x.Pointer()), functions.PcpointFromPointer(pt2.Pointer()))

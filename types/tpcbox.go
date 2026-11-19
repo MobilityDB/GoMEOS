@@ -322,9 +322,9 @@ func (x *TPCBox) Round(maxdd int) (*TPCBox, error) {
 	return TPCBoxFromPointer(_r0.Pointer()), nil
 }
 
-// SetSRID is MEOS tpcbox_set_srid.
-func (x *TPCBox) SetSRID(srid int32) (*TPCBox, error) {
-	_r0, _err := functions.TpcboxSetSRID(functions.TPCBoxFromPointer(x.Pointer()), srid)
+// Transform is MEOS tpcbox_transform.
+func (x *TPCBox) Transform(pcid uint32) (*TPCBox, error) {
+	_r0, _err := functions.TpcboxTransform(functions.TPCBoxFromPointer(x.Pointer()), pcid)
 	if _err != nil {
 		return nil, _err
 	}

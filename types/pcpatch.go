@@ -190,6 +190,15 @@ func (x *PCPatch) ToGeog() (*Geo, error) {
 	return GeoFromPointer(_r0.Pointer()), nil
 }
 
+// Transform is MEOS pcpatch_transform.
+func (x *PCPatch) Transform(pcid uint32) (*PCPatch, error) {
+	_r0, _err := functions.PcpatchTransform(functions.PcpatchFromPointer(x.Pointer()), pcid)
+	if _err != nil {
+		return nil, _err
+	}
+	return PCPatchFromPointer(_r0.Pointer()), nil
+}
+
 // Cmp is MEOS pcpatch_cmp.
 func (x *PCPatch) Cmp(pa2 *PCPatch) (int, error) {
 	_r0, _err := functions.PcpatchCmp(functions.PcpatchFromPointer(x.Pointer()), functions.PcpatchFromPointer(pa2.Pointer()))
