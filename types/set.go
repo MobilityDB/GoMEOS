@@ -420,3 +420,37 @@ func (x *Set) op_union_set_set(s2 *Set) (*Set, error) {
 func (x *Set) Union(s2 *Set) (*Set, error) {
 	return x.op_union_set_set(s2)
 }
+
+// SetSetUnionAgg is the aggregate setUnionAgg: MEOS set_union_transfn over the values, then set_union_finalfn.
+func SetSetUnionAgg(values []*Set) (*Set, error) {
+	var _state *functions.Set
+	for _, _v := range values {
+		_s, _err := functions.SetUnionTransfn(_state, functions.SetFromPointer(_v.Pointer()))
+		if _err != nil {
+			return nil, _err
+		}
+		_state = _s
+	}
+	_r0, _err := functions.SetUnionFinalfn(_state)
+	if _err != nil {
+		return nil, _err
+	}
+	return SetFromPointer(_r0.Pointer()), nil
+}
+
+// SetTCount is the aggregate tCount: MEOS tstzset_tcount_transfn over the values, then temporal_tagg_finalfn.
+func SetTCount(values []*Set) (*Temporal, error) {
+	var _state *functions.SkipList
+	for _, _v := range values {
+		_s, _err := functions.TstzsetTcountTransfn(_state, functions.SetFromPointer(_v.Pointer()))
+		if _err != nil {
+			return nil, _err
+		}
+		_state = _s
+	}
+	_r0, _err := functions.TemporalTaggFinalfn(_state)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}

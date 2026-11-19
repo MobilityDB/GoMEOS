@@ -523,3 +523,37 @@ func (x *Span) Union(other any) (*SpanSet, error) {
 	}
 	return nil, fmt.Errorf("Union of Span takes no %T", other)
 }
+
+// SpanSpanUnionAgg is the aggregate spanUnionAgg: MEOS span_union_transfn over the values, then spanset_union_finalfn.
+func SpanSpanUnionAgg(values []*Span) (*SpanSet, error) {
+	var _state *functions.SpanSet
+	for _, _v := range values {
+		_s, _err := functions.SpanUnionTransfn(_state, functions.SpanFromPointer(_v.Pointer()))
+		if _err != nil {
+			return nil, _err
+		}
+		_state = _s
+	}
+	_r0, _err := functions.SpansetUnionFinalfn(_state)
+	if _err != nil {
+		return nil, _err
+	}
+	return SpanSetFromPointer(_r0.Pointer()), nil
+}
+
+// SpanTCount is the aggregate tCount: MEOS tstzspan_tcount_transfn over the values, then temporal_tagg_finalfn.
+func SpanTCount(values []*Span) (*Temporal, error) {
+	var _state *functions.SkipList
+	for _, _v := range values {
+		_s, _err := functions.TstzspanTcountTransfn(_state, functions.SpanFromPointer(_v.Pointer()))
+		if _err != nil {
+			return nil, _err
+		}
+		_state = _s
+	}
+	_r0, _err := functions.TemporalTaggFinalfn(_state)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}

@@ -389,12 +389,12 @@ func (x *Raster) PixelAsPoints(band int, exclude_nodata bool, count unsafe.Point
 }
 
 // SummaryStats is MEOS raster_summary_stats.
-func (x *Raster) SummaryStats(band int, exclude_nodata bool) (unsafe.Pointer, error) {
+func (x *Raster) SummaryStats(band int, exclude_nodata bool) (*BandStats, error) {
 	_r0, _err := functions.RasterSummaryStats(x.Pointer(), band, exclude_nodata)
 	if _err != nil {
 		return nil, _err
 	}
-	return _r0, nil
+	return BandStatsFromPointer(_r0), nil
 }
 
 // ValueCount is MEOS raster_value_count.
@@ -514,6 +514,24 @@ func RasterMinusValue(traj *Temporal, rast *Raster, band int, vspan *Span) (*Tem
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
+// RasterEValue is MEOS eraster_value.
+func RasterEValue(traj *Temporal, rast *Raster, band int, vspan *Span) (int, error) {
+	_r0, _err := functions.ErasterValue(functions.TemporalFromPointer(traj.Pointer()), rast.Pointer(), band, functions.SpanFromPointer(vspan.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// RasterAValue is MEOS araster_value.
+func RasterAValue(traj *Temporal, rast *Raster, band int, vspan *Span) (int, error) {
+	_r0, _err := functions.ArasterValue(functions.TemporalFromPointer(traj.Pointer()), rast.Pointer(), band, functions.SpanFromPointer(vspan.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
 // RasterValueGdal is MEOS raster_value_gdal.
 func RasterValueGdal(traj *Temporal, path string, band int) (*Temporal, error) {
 	_r0, _err := functions.RasterValueGdal(functions.TemporalFromPointer(traj.Pointer()), path, band)
@@ -539,6 +557,24 @@ func RasterMinusValueGdal(traj *Temporal, path string, band int, vspan *Span) (*
 		return nil, _err
 	}
 	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// RasterEValueGdal is MEOS eraster_value_gdal.
+func RasterEValueGdal(traj *Temporal, path string, band int, vspan *Span) (int, error) {
+	_r0, _err := functions.ErasterValueGdal(functions.TemporalFromPointer(traj.Pointer()), path, band, functions.SpanFromPointer(vspan.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// RasterAValueGdal is MEOS araster_value_gdal.
+func RasterAValueGdal(traj *Temporal, path string, band int, vspan *Span) (int, error) {
+	_r0, _err := functions.ArasterValueGdal(functions.TemporalFromPointer(traj.Pointer()), path, band, functions.SpanFromPointer(vspan.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
 }
 
 // RasterTileValueQuadbin is MEOS raster_tile_value_quadbin.
@@ -590,6 +626,24 @@ func RasterTileMinusValue(traj *Temporal, rq *RaQuet, vspan *Span) (*Temporal, e
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
+// RasterETileValue is MEOS eraster_tile_value.
+func RasterETileValue(traj *Temporal, rq *RaQuet, vspan *Span) (int, error) {
+	_r0, _err := functions.ErasterTileValue(functions.TemporalFromPointer(traj.Pointer()), rq.Pointer(), functions.SpanFromPointer(vspan.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// RasterATileValue is MEOS araster_tile_value.
+func RasterATileValue(traj *Temporal, rq *RaQuet, vspan *Span) (int, error) {
+	_r0, _err := functions.ArasterTileValue(functions.TemporalFromPointer(traj.Pointer()), rq.Pointer(), functions.SpanFromPointer(vspan.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
 // RasterTileAtValueArray is MEOS raster_tile_at_value_array.
 func RasterTileAtValueArray(traj *Temporal, rqarr unsafe.Pointer, count int, vspan *Span) (*Temporal, error) {
 	_r0, _err := functions.RasterTileAtValueArray(functions.TemporalFromPointer(traj.Pointer()), rqarr, count, functions.SpanFromPointer(vspan.Pointer()))
@@ -606,6 +660,24 @@ func RasterTileMinusValueArray(traj *Temporal, rqarr unsafe.Pointer, count int, 
 		return nil, _err
 	}
 	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// RasterETileValueArray is MEOS eraster_tile_value_array.
+func RasterETileValueArray(traj *Temporal, rqarr unsafe.Pointer, count int, vspan *Span) (int, error) {
+	_r0, _err := functions.ErasterTileValueArray(functions.TemporalFromPointer(traj.Pointer()), rqarr, count, functions.SpanFromPointer(vspan.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// RasterATileValueArray is MEOS araster_tile_value_array.
+func RasterATileValueArray(traj *Temporal, rqarr unsafe.Pointer, count int, vspan *Span) (int, error) {
+	_r0, _err := functions.ArasterTileValueArray(functions.TemporalFromPointer(traj.Pointer()), rqarr, count, functions.SpanFromPointer(vspan.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
 }
 
 // RasterValueSeries is MEOS raster_value_series.
@@ -635,6 +707,24 @@ func RasterMinusValueSeries(traj *Temporal, rasts unsafe.Pointer, spans *Span, c
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
+// RasterEValueSeries is MEOS eraster_value_series.
+func RasterEValueSeries(traj *Temporal, rasts unsafe.Pointer, spans *Span, count int, band int, vspan *Span) (int, error) {
+	_r0, _err := functions.ErasterValueSeries(functions.TemporalFromPointer(traj.Pointer()), rasts, functions.SpanFromPointer(spans.Pointer()), count, band, functions.SpanFromPointer(vspan.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// RasterAValueSeries is MEOS araster_value_series.
+func RasterAValueSeries(traj *Temporal, rasts unsafe.Pointer, spans *Span, count int, band int, vspan *Span) (int, error) {
+	_r0, _err := functions.ArasterValueSeries(functions.TemporalFromPointer(traj.Pointer()), rasts, functions.SpanFromPointer(spans.Pointer()), count, band, functions.SpanFromPointer(vspan.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
 // RasterTileValueSeries is MEOS raster_tile_value_series.
 func RasterTileValueSeries(traj *Temporal, rqarr unsafe.Pointer, spans *Span, count int) (*Temporal, error) {
 	_r0, _err := functions.RasterTileValueSeries(functions.TemporalFromPointer(traj.Pointer()), rqarr, functions.SpanFromPointer(spans.Pointer()), count)
@@ -660,6 +750,24 @@ func RasterTileMinusValueSeries(traj *Temporal, rqarr unsafe.Pointer, spans *Spa
 		return nil, _err
 	}
 	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// RasterETileValueSeries is MEOS eraster_tile_value_series.
+func RasterETileValueSeries(traj *Temporal, rqarr unsafe.Pointer, spans *Span, count int, vspan *Span) (int, error) {
+	_r0, _err := functions.ErasterTileValueSeries(functions.TemporalFromPointer(traj.Pointer()), rqarr, functions.SpanFromPointer(spans.Pointer()), count, functions.SpanFromPointer(vspan.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
+}
+
+// RasterATileValueSeries is MEOS araster_tile_value_series.
+func RasterATileValueSeries(traj *Temporal, rqarr unsafe.Pointer, spans *Span, count int, vspan *Span) (int, error) {
+	_r0, _err := functions.ArasterTileValueSeries(functions.TemporalFromPointer(traj.Pointer()), rqarr, functions.SpanFromPointer(spans.Pointer()), count, functions.SpanFromPointer(vspan.Pointer()))
+	if _err != nil {
+		return 0, _err
+	}
+	return _r0, nil
 }
 
 // op_add_raster_float is MEOS add_raster_float.
@@ -832,4 +940,55 @@ func (x *Raster) Sub(other any) (*Raster, error) {
 		return x.op_sub_raster_float(v)
 	}
 	return nil, fmt.Errorf("Sub of Raster takes no %T", other)
+}
+
+// RasterSameAlignmentAgg is the aggregate sameAlignmentAgg: MEOS raster_same_alignment_transfn over the values, then raster_same_alignment_finalfn.
+func RasterSameAlignmentAgg(values []*Raster) (bool, error) {
+	var _state unsafe.Pointer
+	for _, _v := range values {
+		_s, _err := functions.RasterSameAlignmentTransfn(_state, _v.Pointer())
+		if _err != nil {
+			return false, _err
+		}
+		_state = _s
+	}
+	_r0, _err := functions.RasterSameAlignmentFinalfn(_state)
+	if _err != nil {
+		return false, _err
+	}
+	return _r0, nil
+}
+
+// RasterRasterUnion is the aggregate rasterUnion: MEOS raster_union_transfn over the values, then raster_union_finalfn.
+func RasterRasterUnion(values []*Raster, band int, uniontype *string) (*Raster, error) {
+	var _state unsafe.Pointer
+	for _, _v := range values {
+		_s, _err := functions.RasterUnionTransfn(_state, _v.Pointer(), band, uniontype)
+		if _err != nil {
+			return nil, _err
+		}
+		_state = _s
+	}
+	_r0, _err := functions.RasterUnionFinalfn(_state)
+	if _err != nil {
+		return nil, _err
+	}
+	return RasterFromPointer(_r0), nil
+}
+
+// RasterSummaryStatsAgg is the aggregate summaryStatsAgg: MEOS raster_summary_stats_transfn over the values, then raster_summary_stats_finalfn.
+func RasterSummaryStatsAgg(values []*Raster, band int, exclude_nodata bool) (*BandStats, error) {
+	var _state unsafe.Pointer
+	for _, _v := range values {
+		_s, _err := functions.RasterSummaryStatsTransfn(_state, _v.Pointer(), band, exclude_nodata)
+		if _err != nil {
+			return nil, _err
+		}
+		_state = _s
+	}
+	_r0, _err := functions.RasterSummaryStatsFinalfn(_state)
+	if _err != nil {
+		return nil, _err
+	}
+	return BandStatsFromPointer(_r0), nil
 }

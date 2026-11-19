@@ -480,3 +480,20 @@ func (x *NPoint) op_union_npoint_set(s *Set) (*Set, error) {
 func (x *NPoint) Union(s *Set) (*Set, error) {
 	return x.op_union_npoint_set(s)
 }
+
+// NPointSetUnionAgg is the aggregate setUnionAgg: MEOS npoint_union_transfn over the values, then set_union_finalfn.
+func NPointSetUnionAgg(values []*NPoint) (*Set, error) {
+	var _state *functions.Set
+	for _, _v := range values {
+		_s, _err := functions.NpointUnionTransfn(_state, functions.NpointFromPointer(_v.Pointer()))
+		if _err != nil {
+			return nil, _err
+		}
+		_state = _s
+	}
+	_r0, _err := functions.SetUnionFinalfn(_state)
+	if _err != nil {
+		return nil, _err
+	}
+	return SetFromPointer(_r0.Pointer()), nil
+}

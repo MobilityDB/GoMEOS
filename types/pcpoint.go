@@ -401,3 +401,20 @@ func (x *PCPoint) op_union_pcpoint_set(s *Set) (*Set, error) {
 func (x *PCPoint) Union(s *Set) (*Set, error) {
 	return x.op_union_pcpoint_set(s)
 }
+
+// PCPointSetUnionAgg is the aggregate setUnionAgg: MEOS pcpoint_union_transfn over the values, then set_union_finalfn.
+func PCPointSetUnionAgg(values []*PCPoint) (*Set, error) {
+	var _state *functions.Set
+	for _, _v := range values {
+		_s, _err := functions.PcpointUnionTransfn(_state, functions.PcpointFromPointer(_v.Pointer()))
+		if _err != nil {
+			return nil, _err
+		}
+		_state = _s
+	}
+	_r0, _err := functions.SetUnionFinalfn(_state)
+	if _err != nil {
+		return nil, _err
+	}
+	return SetFromPointer(_r0.Pointer()), nil
+}
