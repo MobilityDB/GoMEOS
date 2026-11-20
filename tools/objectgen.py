@@ -275,8 +275,18 @@ class Generator:
     def passthrough(self, go_type: str) -> bool:
         # A string the flat wrapper takes as *string is one MEOS accepts as NULL, and
         # its nil reaches the wrapper unchanged; #qualify spells it as it stands
-        return go_type in self.scalars or go_type in ("string", "*string", "bool",
-                                                       "unsafe.Pointer")
+        return (go_type in self.scalars or go_type in ("string", "*string", "bool",
+                                                        "unsafe.Pointer")
+                or self.classless_handle(go_type))
+
+    def classless_handle(self, go_type: str) -> bool:
+        """Whether a ``*Handle`` the flat layer declares stands for a structure no
+        model class wraps (an Interval, a SkipList), as #class_of_handle reads the
+        class a handle stands for: the method takes and answers the flat layer's
+        own handle, `*functions.Interval`, built by its readers
+        (`functions.IntervalIn`), as it passes an `unsafe.Pointer` through."""
+        return (go_type.startswith("*") and go_type in self.struct_of
+                and self.class_of_handle(go_type) is None)
 
     def qualify(self, go_type: str) -> str:
         """A passthrough type as this package must spell it.

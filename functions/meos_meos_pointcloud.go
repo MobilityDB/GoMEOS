@@ -302,6 +302,17 @@ func PcpointToTpcbox(pt *Pcpoint) (_r0 *TPCBox, _err error) {
 }
 
 
+// PcpointTransform wraps MEOS C function pcpoint_transform.
+func PcpointTransform(pt *Pcpoint, pcid uint32) (_r0 *Pcpoint, _err error) {
+	C.meos_errno_reset()
+	_cret := C.pcpoint_transform(pt._inner, C.uint32_t(pcid))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Pcpoint{_inner: _cret}, nil
+}
+
+
 // MeosPcSchema wraps MEOS C function meos_pc_schema.
 func MeosPcSchema(pcid uint32) (_r0 *PCSchema, _err error) {
 	C.meos_errno_reset()
@@ -750,6 +761,17 @@ func PcpatchToGeog(pa *Pcpatch) (_r0 *Geom, _err error) {
 }
 
 
+// PcpatchTransform wraps MEOS C function pcpatch_transform.
+func PcpatchTransform(pa *Pcpatch, pcid uint32) (_r0 *Pcpatch, _err error) {
+	C.meos_errno_reset()
+	_cret := C.pcpatch_transform(pa._inner, C.uint32_t(pcid))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Pcpatch{_inner: _cret}, nil
+}
+
+
 // PcpatchCmp wraps MEOS C function pcpatch_cmp.
 func PcpatchCmp(pa1 *Pcpatch, pa2 *Pcpatch) (_r0 int, _err error) {
 	C.meos_errno_reset()
@@ -1185,6 +1207,17 @@ func PcpatchUnionTransfn(state *Set, pa *Pcpatch) (_r0 *Set, _err error) {
 }
 
 
+// PointcloudsetTransform wraps MEOS C function pointcloudset_transform.
+func PointcloudsetTransform(s *Set, pcid uint32) (_r0 *Set, _err error) {
+	C.meos_errno_reset()
+	_cret := C.pointcloudset_transform(s._inner, C.uint32_t(pcid))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Set{_inner: _cret}, nil
+}
+
+
 // TpcboxAsEWKB wraps MEOS C function tpcbox_as_ewkb.
 func TpcboxAsEWKB(box *TPCBox, variant uint8, size_out unsafe.Pointer) (_r0 unsafe.Pointer, _err error) {
 	C.meos_errno_reset()
@@ -1337,6 +1370,17 @@ func TpointcloudToTpcbox(temp *Temporal) (_r0 *TPCBox, _err error) {
 		return
 	}
 	return &TPCBox{_inner: _cret}, nil
+}
+
+
+// TpointcloudTransform wraps MEOS C function tpointcloud_transform.
+func TpointcloudTransform(temp *Temporal, pcid uint32) (_r0 *Temporal, _err error) {
+	C.meos_errno_reset()
+	_cret := C.tpointcloud_transform(temp._inner, C.uint32_t(pcid))
+	if _err = meosError(); _err != nil {
+		return
+	}
+	return &Temporal{_inner: _cret}, nil
 }
 
 
@@ -1614,10 +1658,10 @@ func TpcboxRound(box *TPCBox, maxdd int) (_r0 *TPCBox, _err error) {
 }
 
 
-// TpcboxSetSRID wraps MEOS C function tpcbox_set_srid.
-func TpcboxSetSRID(box *TPCBox, srid int32) (_r0 *TPCBox, _err error) {
+// TpcboxTransform wraps MEOS C function tpcbox_transform.
+func TpcboxTransform(box *TPCBox, pcid uint32) (_r0 *TPCBox, _err error) {
 	C.meos_errno_reset()
-	_cret := C.tpcbox_set_srid(box._inner, C.int32_t(srid))
+	_cret := C.tpcbox_transform(box._inner, C.uint32_t(pcid))
 	if _err = meosError(); _err != nil {
 		return
 	}

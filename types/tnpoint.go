@@ -923,6 +923,23 @@ func TNPointTCount(values []*TNPoint) (*Temporal, error) {
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
+// TNPointWCount is the aggregate wCount: MEOS temporal_wcount_transfn over the values, then temporal_tagg_finalfn.
+func TNPointWCount(values []*TNPoint, interv *functions.Interval) (*Temporal, error) {
+	_state := &functions.SkipList{}
+	for _, _v := range values {
+		_s, _err := functions.TemporalWcountTransfn(_state, functions.TemporalFromPointer(_v.Pointer()), interv)
+		if _err != nil {
+			return nil, _err
+		}
+		_state = _s
+	}
+	_r0, _err := functions.TemporalTaggFinalfn(_state)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
 // TNPointTCentroid is the aggregate tCentroid: MEOS tnpoint_tcentroid_transfn over the values, then tpoint_tcentroid_finalfn.
 func TNPointTCentroid(values []*TNPoint) (*Temporal, error) {
 	_state := &functions.SkipList{}
@@ -951,6 +968,23 @@ func TNPointMergeAgg(values []*TNPoint) (*Temporal, error) {
 		_state = _s
 	}
 	_r0, _err := functions.TemporalTaggFinalfn(_state)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// TNPointAppendInstantAgg is the aggregate appendInstantAgg: MEOS temporal_app_tinst_transfn over the values, then temporal_append_finalfn.
+func TNPointAppendInstantAgg(values []*TNPoint, interp functions.Interpolation, maxdist float64, maxt *functions.Interval) (*Temporal, error) {
+	_state := &functions.Temporal{}
+	for _, _v := range values {
+		_s, _err := functions.TemporalAppTinstTransfn(_state, functions.TInstantFromPointer(_v.Pointer()), interp, maxdist, maxt)
+		if _err != nil {
+			return nil, _err
+		}
+		_state = _s
+	}
+	_r0, _err := functions.TemporalAppendFinalfn(_state)
 	if _err != nil {
 		return nil, _err
 	}

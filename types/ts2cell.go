@@ -511,6 +511,23 @@ func TS2CellTCount(values []*TS2Cell) (*Temporal, error) {
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
+// TS2CellWCount is the aggregate wCount: MEOS temporal_wcount_transfn over the values, then temporal_tagg_finalfn.
+func TS2CellWCount(values []*TS2Cell, interv *functions.Interval) (*Temporal, error) {
+	_state := &functions.SkipList{}
+	for _, _v := range values {
+		_s, _err := functions.TemporalWcountTransfn(_state, functions.TemporalFromPointer(_v.Pointer()), interv)
+		if _err != nil {
+			return nil, _err
+		}
+		_state = _s
+	}
+	_r0, _err := functions.TemporalTaggFinalfn(_state)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
 // TS2CellMergeAgg is the aggregate mergeAgg: MEOS temporal_merge_transfn over the values, then temporal_tagg_finalfn.
 func TS2CellMergeAgg(values []*TS2Cell) (*Temporal, error) {
 	_state := &functions.SkipList{}
@@ -522,6 +539,23 @@ func TS2CellMergeAgg(values []*TS2Cell) (*Temporal, error) {
 		_state = _s
 	}
 	_r0, _err := functions.TemporalTaggFinalfn(_state)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// TS2CellAppendInstantAgg is the aggregate appendInstantAgg: MEOS temporal_app_tinst_transfn over the values, then temporal_append_finalfn.
+func TS2CellAppendInstantAgg(values []*TS2Cell, interp functions.Interpolation, maxdist float64, maxt *functions.Interval) (*Temporal, error) {
+	_state := &functions.Temporal{}
+	for _, _v := range values {
+		_s, _err := functions.TemporalAppTinstTransfn(_state, functions.TInstantFromPointer(_v.Pointer()), interp, maxdist, maxt)
+		if _err != nil {
+			return nil, _err
+		}
+		_state = _s
+	}
+	_r0, _err := functions.TemporalAppendFinalfn(_state)
 	if _err != nil {
 		return nil, _err
 	}

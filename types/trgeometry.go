@@ -265,6 +265,24 @@ func (x *TRGeometry) SpaceBoxes(xsize float64, ysize float64, zsize float64, sor
 	return STBoxFromPointer(_r0.Pointer()), nil
 }
 
+// TimeBoxes is MEOS trgeometry_time_boxes.
+func (x *TRGeometry) TimeBoxes(duration *functions.Interval, torigin int64, bitmatrix bool, border_inc bool, count unsafe.Pointer) (*STBox, error) {
+	_r0, _err := functions.TrgeometryTimeBoxes(functions.TemporalFromPointer(x.Pointer()), duration, torigin, bitmatrix, border_inc, count)
+	if _err != nil {
+		return nil, _err
+	}
+	return STBoxFromPointer(_r0.Pointer()), nil
+}
+
+// SpaceTimeBoxes is MEOS trgeometry_space_time_boxes.
+func (x *TRGeometry) SpaceTimeBoxes(xsize float64, ysize float64, zsize float64, duration *functions.Interval, sorigin *Geo, torigin int64, bitmatrix bool, border_inc bool, count unsafe.Pointer) (*STBox, error) {
+	_r0, _err := functions.TrgeometrySpaceTimeBoxes(functions.TemporalFromPointer(x.Pointer()), xsize, ysize, zsize, duration, functions.GeomFromPointer(sorigin.Pointer()), torigin, bitmatrix, border_inc, count)
+	if _err != nil {
+		return nil, _err
+	}
+	return STBoxFromPointer(_r0.Pointer()), nil
+}
+
 // Stboxes is MEOS trgeometry_stboxes.
 func (x *TRGeometry) Stboxes(count unsafe.Pointer) (*STBox, error) {
 	_r0, _err := functions.TrgeometryStboxes(functions.TemporalFromPointer(x.Pointer()), count)
@@ -992,6 +1010,23 @@ func TRGeometryTCount(values []*TRGeometry) (*Temporal, error) {
 	return TemporalFromPointer(_r0.Pointer()), nil
 }
 
+// TRGeometryWCount is the aggregate wCount: MEOS temporal_wcount_transfn over the values, then temporal_tagg_finalfn.
+func TRGeometryWCount(values []*TRGeometry, interv *functions.Interval) (*Temporal, error) {
+	_state := &functions.SkipList{}
+	for _, _v := range values {
+		_s, _err := functions.TemporalWcountTransfn(_state, functions.TemporalFromPointer(_v.Pointer()), interv)
+		if _err != nil {
+			return nil, _err
+		}
+		_state = _s
+	}
+	_r0, _err := functions.TemporalTaggFinalfn(_state)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
 // TRGeometryMergeAgg is the aggregate mergeAgg: MEOS temporal_merge_transfn over the values, then temporal_tagg_finalfn.
 func TRGeometryMergeAgg(values []*TRGeometry) (*Temporal, error) {
 	_state := &functions.SkipList{}
@@ -1003,6 +1038,23 @@ func TRGeometryMergeAgg(values []*TRGeometry) (*Temporal, error) {
 		_state = _s
 	}
 	_r0, _err := functions.TemporalTaggFinalfn(_state)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// TRGeometryAppendInstantAgg is the aggregate appendInstantAgg: MEOS temporal_app_tinst_transfn over the values, then temporal_append_finalfn.
+func TRGeometryAppendInstantAgg(values []*TRGeometry, interp functions.Interpolation, maxdist float64, maxt *functions.Interval) (*Temporal, error) {
+	_state := &functions.Temporal{}
+	for _, _v := range values {
+		_s, _err := functions.TemporalAppTinstTransfn(_state, functions.TInstantFromPointer(_v.Pointer()), interp, maxdist, maxt)
+		if _err != nil {
+			return nil, _err
+		}
+		_state = _s
+	}
+	_r0, _err := functions.TemporalAppendFinalfn(_state)
 	if _err != nil {
 		return nil, _err
 	}
