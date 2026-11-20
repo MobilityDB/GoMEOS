@@ -474,3 +474,88 @@ func (x *TPCPatch) Tne(other any) (*Temporal, error) {
 	}
 	return nil, fmt.Errorf("Tne of TPCPatch takes no %T", other)
 }
+
+// TPCPatchTCount is the aggregate tCount: MEOS temporal_tcount_transfn over the values, then temporal_tagg_finalfn.
+func TPCPatchTCount(values []*TPCPatch) (*Temporal, error) {
+	_state := &functions.SkipList{}
+	for _, _v := range values {
+		_s, _err := functions.TemporalTcountTransfn(_state, functions.TemporalFromPointer(_v.Pointer()))
+		if _err != nil {
+			return nil, _err
+		}
+		_state = _s
+	}
+	_r0, _err := functions.TemporalTaggFinalfn(_state)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// TPCPatchTnpoints is the aggregate tnpoints: MEOS tpcpatch_tnpoints_transfn over the values, then temporal_tagg_finalfn.
+func TPCPatchTnpoints(values []*TPCPatch) (*Temporal, error) {
+	_state := &functions.SkipList{}
+	for _, _v := range values {
+		_s, _err := functions.TpcpatchTnpointsTransfn(_state, functions.TemporalFromPointer(_v.Pointer()))
+		if _err != nil {
+			return nil, _err
+		}
+		_state = _s
+	}
+	_r0, _err := functions.TemporalTaggFinalfn(_state)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// TPCPatchTdensity is the aggregate tdensity: MEOS tpcpatch_tdensity_transfn over the values, then temporal_tagg_finalfn.
+func TPCPatchTdensity(values []*TPCPatch) (*Temporal, error) {
+	_state := &functions.SkipList{}
+	for _, _v := range values {
+		_s, _err := functions.TpcpatchTdensityTransfn(_state, functions.TemporalFromPointer(_v.Pointer()))
+		if _err != nil {
+			return nil, _err
+		}
+		_state = _s
+	}
+	_r0, _err := functions.TemporalTaggFinalfn(_state)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// TPCPatchMergeAgg is the aggregate mergeAgg: MEOS temporal_merge_transfn over the values, then temporal_tagg_finalfn.
+func TPCPatchMergeAgg(values []*TPCPatch) (*Temporal, error) {
+	_state := &functions.SkipList{}
+	for _, _v := range values {
+		_s, _err := functions.TemporalMergeTransfn(_state, functions.TemporalFromPointer(_v.Pointer()))
+		if _err != nil {
+			return nil, _err
+		}
+		_state = _s
+	}
+	_r0, _err := functions.TemporalTaggFinalfn(_state)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}
+
+// TPCPatchAppendSequenceAgg is the aggregate appendSequenceAgg: MEOS temporal_app_tseq_transfn over the values, then temporal_append_finalfn.
+func TPCPatchAppendSequenceAgg(values []*TPCPatch) (*Temporal, error) {
+	_state := &functions.Temporal{}
+	for _, _v := range values {
+		_s, _err := functions.TemporalAppTseqTransfn(_state, functions.TSequenceFromPointer(_v.Pointer()))
+		if _err != nil {
+			return nil, _err
+		}
+		_state = _s
+	}
+	_r0, _err := functions.TemporalAppendFinalfn(_state)
+	if _err != nil {
+		return nil, _err
+	}
+	return TemporalFromPointer(_r0.Pointer()), nil
+}

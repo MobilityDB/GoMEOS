@@ -893,7 +893,7 @@ func (x *CBuffer) Union(s *Set) (*Set, error) {
 
 // CBufferSetUnionAgg is the aggregate setUnionAgg: MEOS cbuffer_union_transfn over the values, then set_union_finalfn.
 func CBufferSetUnionAgg(values []*CBuffer) (*Set, error) {
-	var _state *functions.Set
+	_state := &functions.Set{}
 	for _, _v := range values {
 		_s, _err := functions.CbufferUnionTransfn(_state, functions.CbufferFromPointer(_v.Pointer()))
 		if _err != nil {

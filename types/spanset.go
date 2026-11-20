@@ -658,7 +658,7 @@ func (x *SpanSet) Union(other any) (*SpanSet, error) {
 
 // SpanSetSpansetUnionAgg is the aggregate spansetUnionAgg: MEOS spanset_union_transfn over the values, then spanset_union_finalfn.
 func SpanSetSpansetUnionAgg(values []*SpanSet) (*SpanSet, error) {
-	var _state *functions.SpanSet
+	_state := &functions.SpanSet{}
 	for _, _v := range values {
 		_s, _err := functions.SpansetUnionTransfn(_state, functions.SpanSetFromPointer(_v.Pointer()))
 		if _err != nil {
@@ -675,7 +675,7 @@ func SpanSetSpansetUnionAgg(values []*SpanSet) (*SpanSet, error) {
 
 // SpanSetTCount is the aggregate tCount: MEOS tstzspanset_tcount_transfn over the values, then temporal_tagg_finalfn.
 func SpanSetTCount(values []*SpanSet) (*Temporal, error) {
-	var _state *functions.SkipList
+	_state := &functions.SkipList{}
 	for _, _v := range values {
 		_s, _err := functions.TstzspansetTcountTransfn(_state, functions.SpanSetFromPointer(_v.Pointer()))
 		if _err != nil {

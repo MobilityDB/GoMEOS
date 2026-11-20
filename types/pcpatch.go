@@ -422,7 +422,7 @@ func (x *PCPatch) Union(s *Set) (*Set, error) {
 
 // PCPatchSetUnionAgg is the aggregate setUnionAgg: MEOS pcpatch_union_transfn over the values, then set_union_finalfn.
 func PCPatchSetUnionAgg(values []*PCPatch) (*Set, error) {
-	var _state *functions.Set
+	_state := &functions.Set{}
 	for _, _v := range values {
 		_s, _err := functions.PcpatchUnionTransfn(_state, functions.PcpatchFromPointer(_v.Pointer()))
 		if _err != nil {
